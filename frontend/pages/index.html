@@ -1,0 +1,143 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../scripts/camera.js"></script>
+    <link rel="stylesheet" href="../styles/output.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="../scripts/get_rstp.js"></script>
+    <script src="https://kit.fontawesome.com/d0423a8529.js" crossorigin="anonymous"></script>
+    <script src="../scripts/material-tailwindcss.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
+    <title>Hennepin County - Camera Vision</title>
+    <script>
+        var camerasData = [];
+    </script>
+</head>
+
+<body class="w-min-screen h-min-screen bg-main-800 flex p-5">
+    <div class="text-white flex flex-col w-full items-center gap-10">
+        <h1 class="text-2xl font-bold">Vision Camera Saver</h1>
+        <div class="flex w-full">
+            <div class="flex flex-col w-1/2 gap-5 mr-5">
+                <form id="camera-stream-form" class="flex flex-col justify-between w-full" action="#">
+                    <div class="flex items-center gap-2.5">
+                        <select id="input-protocol" class="w-2/5">
+                            <option value="rtsp" selected>RTSP</option>
+                            <option value="http">HTTP</option>
+                            <option value="https">HTTPS</option>
+                        </select>
+                        <p class="text-xl">://</p>
+                        <input type="text" id="input-ip" placeholder="Enter IP"
+                            class="w-full p-2 rounded-md bg-main-700 text-white border border-main-600 focus:outline-none focus:ring-2 focus:ring-main-500 shadow-lg active:shadow-none">
+                        <p class="text-xl">/</p>
+                        <input type="text" id="input-channel" placeholder="Enter Channel"
+                            class="w-full p-2 rounded-md bg-main-700 text-white border border-main-600 focus:outline-none focus:ring-2 focus:ring-main-500 shadow-lg active:shadow-none">
+                    </div>
+                </form>
+                <div class="flex justify-between col-span-2 w-full">
+                    <div class="flex gap-5">
+                        <button type="submit" id="submit-camera"
+                            class="bg-main-500 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700">
+                            <i class="fa-solid fa-video"></i>
+                        </button>
+                        
+                    </div>
+                    <div class="flex gap-2.5">
+                        <div class="flex relative w-32">
+                            <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                                </svg>
+                            </div>
+                            <input datepicker id="datepicker" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+                        </div>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
+                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                    <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <input type="time" id="time" class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" min="09:00" max="18:00" value="00:00" required />
+                        </div>
+                        <button type="submit" id="submit-start-recording"
+                            class="bg-red-500 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-red-700">
+                            <i class="fa-solid fa-record-vinyl"></i>
+                        </button>
+                        <button type="submit" id="submit-add-cronjob"
+                            class="bg-yellow-600 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-yellow-700">
+                            <i class="fa-solid fa-clock-rotate-left"></i>
+                        </button>
+                    </div>
+                    <!-- <div class="flex justify-center">
+                        <button type="button" data-toggle="modal" data-target="#exampleModal"
+                            class="inline-flex items-center justify-center border align-middle select-none font-sans font-medium text-center transition-all duration-300 ease-in disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed data-[shape=pill]:rounded-full data-[width=full]:w-full focus:shadow-none text-sm rounded-md py-2 px-4 shadow-sm hover:shadow-md bg-slate-800 border-slate-800 text-slate-50 hover:bg-slate-700 hover:border-slate-700">
+                            Open </button>
+                        <div class="fixed inset-0 bg-slate-950/50 flex justify-center items-center opacity-0 pointer-events-none transition-opacity duration-300 ease-out z-[9999]"
+                            id="exampleModal" aria-hidden="true">
+                        
+
+                        </div>
+                    </div> -->
+                </div>
+                <div class="separator">
+                    Cronjobs
+                </div>
+                <div class="flex flex-col gap-2.5">
+                    <div class="flex justify-between items-center  rounded-lg gap-2.5">
+                        <div class="flex flex-1 justify-between items-center p-2.5 shadow-xl !bg-black">
+                            <p>192.168.1.1</p>
+                            <div class="flex justify-center items-center gap-2.5">
+                                <p>06/12/2025</p>
+                                <p>8:00 AM</p>
+                                
+                            </div>
+                        </div>
+                        <button class="bg-red-600 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-red-700">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+            <div id="video-container" class="w-1/2 relative grid grid-cols-2 gap-1">
+                <div id="no-camera-alert" class="w-full h-full col-span-2 bg-main-700 rounded-lg shadow-lg flex items-center justify-center">
+                    <p class="text-white text-center">No video stream selected</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    $(document).ready(function () {
+        $("#input-ip").on("paste", function (e) {
+            // Wait for paste to complete
+            let input = this;
+            setTimeout(function () {
+                let ip = $(input).val();
+                // Extract only the IP address (IPv4)
+                const match = ip.match(/\b\d{1,3}(?:\.\d{1,3}){3}\b/);
+                if (match) {
+                    $(input).val(match[0]);
+                }
+            }, 0);
+        });
+        const today = new Date();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        const yyyy = today.getFullYear();
+        const formattedToday = `${mm}/${dd}/${yyyy}`;
+        console.log(formattedToday);
+        // Set min attribute for native input
+        const htmlDate = `${yyyy}-${mm}-${dd}`;
+        $("#datepicker").attr("min", htmlDate);
+        // For Flowbite datepicker, set data-date-min-date attribute
+        $("#datepicker").attr("data-date-min-date", htmlDate);
+
+        
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+</html>
