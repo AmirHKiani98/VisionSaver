@@ -8,21 +8,12 @@ const VisionContainer = (props) => {
         child => child.type && child.type.name === 'Vision'
     );
 
-    // Get the first Vision child
-    const firstVisionChild = visionChildren[0];
-
-    // Clone the first child and add/change className
-    const firstVisionWithClass = firstVisionChild
-        ? React.cloneElement(firstVisionChild, {
-            className: (firstVisionChild.props.className || '') + ' your-custom-class'
-        })
-        : null;
 
     return (
-        <div>
+        <div className='flex-1 grid grid-cols-2 grid-rows-2 gap-2.5 p-5'>
             {visionChildren.map((child, idx) =>
                 React.cloneElement(child, {
-                    className: (child.props.className || '') + ' your-custom-class',
+                    className: (child.props.className || ''),
                     key: child.key || idx
                 })
             )}
