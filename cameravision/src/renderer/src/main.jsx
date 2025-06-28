@@ -25,14 +25,16 @@ const theme = createTheme({
 });
 
 import App from './App'
+import Editor from './Editor';
 
 // Assign Tailwind and custom CSS classes to the body
-document.body.className = 'min-h-screen min-w-screen bg-main-600';
+const rootElement = document.getElementById('root');
+rootElement.className = 'min-h-screen min-w-screen bg-main-600';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ThemeProvider theme={theme}>
-      <App />
+      <Editor />
     </ThemeProvider>
   </StrictMode>
 )
