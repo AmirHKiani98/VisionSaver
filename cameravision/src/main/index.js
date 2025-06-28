@@ -2,6 +2,8 @@ import { app, shell, BrowserWindow, ipcMain, Tray, Menu } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import dotenv from 'dotenv';
+dotenv.config({ path: '../../../.env' });
 
 let tray = null
 let win = null

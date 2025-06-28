@@ -1,5 +1,5 @@
 import "./assets/main.css";
-import { useState } from "react";
+import { useState, Fragment } from "react";
 
 // Material Tailwind
 import { Button } from "@material-tailwind/react";
@@ -30,12 +30,15 @@ import {
   IconButton,
   Pagination,
   Link,
-  Tooltip
+  Tooltip,
+  Snackbar
 } from "@mui/material";
 
 import DeleteIcon from '@mui/icons-material/Delete';
+import CloseIcon from '@mui/icons-material/Close';
 import dayjs from 'dayjs';
 import Vision from "./components/Vision"; // Assuming Vision is a component that displays video streams
+import Notification from "./components/Notification";
 const today = dayjs();
 const oneHourFromNow = today.add(1, 'hour');
 
@@ -45,8 +48,43 @@ function App() {
   const [ip, setIp] = useState("");
   const [channel, setChannel] = useState("");
   const [cleared, setCleared] = useState(false);
-  const [visions, setVisions] = useState([]); 
+  const [visions, setVisions] = useState([]);
+  const [severity, setSeverity] = useState("info");
+  const [message, setMessage] = useState("Note archived");
+  const [open, setOpen] = useState(false);
   const streams = [1, 2, 3, 4];
+  const closeNotification = (event, reason) => {
+
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
+  const openNotification = (severity, message) => {
+
+    setSeverity(severity);
+    setMessage(message);
+    setOpen(true);
+  }
+
+  const addStreamHandler = (e) => {
+    e.preventDefault();
+    if (!protocol) {
+      openNotification("error", "Please select a protocol (RTSP, HTTP, or HTTPS).");
+      return;
+    }
+    if (!ip) {
+      openNotification("error", "Please enter a valid IP address.");
+      return;
+    }
+    if (!channel) {
+      openNotification("error", "Please enter a valid channel.");
+      return;
+    }
+  }
+
+  
+  
   return (
     <>
     <div className="min-h-full min-w-full flex p-5">
@@ -77,10 +115,12 @@ function App() {
                 <div className="flex gap-5">
                   <Tooltip title="Add Camera Stream" placement="top">
                     <Button id="submit-camera"
+                      
                       className="bg-main-500 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700">
                       <FontAwesomeIcon icon={faVideo} className="text-white" />
                     </Button>
                   </Tooltip>
+                  
                 </div>
               </div>
               
@@ -201,6 +241,12 @@ function App() {
         </div>
       </div>
       </div>
+      <Notification
+        open={open}
+        severity={severity}
+        message={message}
+        onClose={closeNotification}
+      />
     </>
   )
 }

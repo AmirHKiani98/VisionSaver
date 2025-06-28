@@ -34,13 +34,13 @@ def mjpeg_stream(request):
         return HttpResponse("Bad Request: 'url' query parameter is required", status=400)
 
     def generate():
-        cap = cv2.VideoCapture(url)
+        cap = cv2.VideoCapture(url) # pylint: disable=no-member
         try:
             while True:
                 ret, frame = cap.read()
                 if not ret:
                     continue
-                ret, jpeg = cv2.imencode('.jpg', frame)
+                ret, jpeg = cv2.imencode('.jpg', frame) # pylint: disable=no-member
                 if not ret:
                     continue
                 yield (b'--frame\r\n'

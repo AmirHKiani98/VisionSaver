@@ -48,11 +48,11 @@ class MJPEGStreamViewTest(TestCase):
         # To get the picture (frame), you would need to parse the multipart response.
         # Example: Read the first chunk of the response streaming content.
         # This is a simplified demonstration:
-        first_chunk = next(response.streaming_content, None)
+        first_chunk = next(response.streaming_content, None) #type: ignore
         # Save the first chunk to a file in ./tests/pics
         pics_dir = os.path.join(os.path.dirname(__file__), "pics")
         os.makedirs(pics_dir, exist_ok=True)
         with open(os.path.join(pics_dir, "first_frame.jpg"), "wb") as f:
-            f.write(first_chunk)
+            f.write(first_chunk) #type: ignore
         self.assertIsNotNone(first_chunk)
         # Note: Actual frame content cannot be tested without a real RTSP stream.

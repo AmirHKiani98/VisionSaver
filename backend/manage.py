@@ -2,8 +2,8 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-
-
+import dotenv
+dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), '../.env'))
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'processor.settings')
@@ -15,7 +15,11 @@ def main():
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
         ) from exc
-    execute_from_command_line(sys.argv)
+    if sys.argv[1] == 'runserver':
+        port = os.getenv("BACKEND_SERVER_PORT", "8000")
+        execute_from_command_line(['manage.py', 'runserver', f'localhost:{port}'])
+    else:
+        execute_from_command_line(sys.argv)
 
 
 if __name__ == '__main__':
