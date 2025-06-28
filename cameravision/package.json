@@ -37,7 +37,8 @@
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
     "electron-updater": "^6.3.9",
-    "react-day-picker": "^9.7.0"
+    "react-day-picker": "^9.7.0",
+    "react-router-dom": "^7.6.3"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config": "^2.0.0",

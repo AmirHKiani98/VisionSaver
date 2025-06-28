@@ -28,7 +28,8 @@ import {
   InputLabel,
   FormControl,
   IconButton,
-  Pagination 
+  Pagination,
+  Link
 } from "@mui/material";
 
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -141,12 +142,14 @@ function App() {
                       <DeleteIcon color="secondary" />
                     </IconButton>
                   }>
-                    <ListItemButton >
-                      <div className="flex flex-col">
-                        <Typography className="text-white">192.168.1.{num}</Typography>
-                        <Typography className="text-gray-400">time</Typography>
-                      </div> 
-                    </ListItemButton>
+                    <Link className="w-full h-full" href="/editor">
+                      <ListItemButton >
+                        <div className="flex flex-col">
+                          <Typography className="text-white">192.168.1.{num}</Typography>
+                          <Typography className="text-gray-400">time</Typography>
+                        </div> 
+                      </ListItemButton>
+                    </Link>
                   </ListItem>
                 );
               })}
