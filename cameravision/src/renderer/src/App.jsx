@@ -29,11 +29,13 @@ import {
   FormControl,
   IconButton,
   Pagination,
-  Link
+  Link,
+  Tooltip
 } from "@mui/material";
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import dayjs from 'dayjs';
+import Vision from "./components/Vision"; // Assuming Vision is a component that displays video streams
 const today = dayjs();
 const oneHourFromNow = today.add(1, 'hour');
 
@@ -43,7 +45,7 @@ function App() {
   const [ip, setIp] = useState("");
   const [channel, setChannel] = useState("");
   const [cleared, setCleared] = useState(false);
-
+  const [visions, setVisions] = useState([]); 
   const streams = [1, 2, 3, 4];
   return (
     <>
@@ -53,29 +55,33 @@ function App() {
         <div className="flex w-full gap-10">
           <div className="flex flex-col w-1/2 gap-5">
             <form id="camera-stream-form" className="flex flex-col justify-between w-full" action="#">
-              <div className="flex items-center gap-2.5">
-                <FormControl>  
-                  <InputLabel id="protocol-select-label">
-                    <Typography className="text-white">Protocol</Typography>
-                  </InputLabel>
-                  <Select labelId="protocol-select-label" id="select-protocol" color="primary.white" className="shadow-lg !py-0 w-32 bg-main-400"  value={protocol} sx={{
-                    color: "primary.white"
-                  }} onChange={(e) => setProtocol(e.target.value)}>
-                    <MenuItem value="RTSP">RTSP</MenuItem>
-                    <MenuItem value="HTTP">HTTP</MenuItem>
-                    <MenuItem value="HTTPS">HTTPS</MenuItem>
-                  </Select>
-                </FormControl>
-                <p className="text-xl">://</p>
-                <TextField value={ip} variant="outlined" className="bg-main-400 rounded-md" focused label={<Typography className="text-white">IP</Typography>} onChange={(e) => setIp(e.target.value)}/>
-                <p className="text-xl">/</p>
-                <TextField value={channel} className="bg-main-400 rounded-md w-24" focused label={<Typography className="text-white">Channel</Typography>} variant="outlined" onChange={(e) => setChannel(e.target.value)} />
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1.5">
+                  <FormControl>  
+                    <InputLabel id="protocol-select-label">
+                      <Typography className="text-white">Protocol</Typography>
+                    </InputLabel>
+                    <Select labelId="protocol-select-label" id="select-protocol" color="primary.white" className="shadow-lg !py-0 w-32 bg-main-400"  value={protocol} sx={{
+                      color: "primary.white"
+                    }} onChange={(e) => setProtocol(e.target.value)}>
+                      <MenuItem value="RTSP">RTSP</MenuItem>
+                      <MenuItem value="HTTP">HTTP</MenuItem>
+                      <MenuItem value="HTTPS">HTTPS</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <p className="text-xl">://</p>
+                  <TextField value={ip} variant="outlined" className="bg-main-400 rounded-md" focused label={<Typography className="text-white">IP</Typography>} onChange={(e) => setIp(e.target.value)}/>
+                  <p className="text-xl">/</p>
+                  <TextField value={channel} className="bg-main-400 rounded-md w-24" focused label={<Typography className="text-white">Channel</Typography>} variant="outlined" onChange={(e) => setChannel(e.target.value)} />
+                </div>
                 <div className="flex gap-5">
-                <Button id="submit-camera"
-                  className="bg-main-500 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700">
-                  <FontAwesomeIcon icon={faVideo} className="text-white" />
-                </Button>
-              </div>
+                  <Tooltip title="Add Camera Stream" placement="top">
+                    <Button id="submit-camera"
+                      className="bg-main-500 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700">
+                      <FontAwesomeIcon icon={faVideo} className="text-white" />
+                    </Button>
+                  </Tooltip>
+                </div>
               </div>
               
             </form>
@@ -112,14 +118,18 @@ function App() {
                 
               </div>
               <div className="flex justify-between items-center gap-2.5">
-                  <Button id="submit-start-recording"
-                    className="bg-red-500 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-red-700">
-                    <FontAwesomeIcon icon={faRecordVinyl} />
-                  </Button>
-                  <Button id="submit-add-cronjob"
-                    className="bg-yellow-600 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-yellow-700">
-                    <FontAwesomeIcon icon={faClockRotateLeft} />
-                  </Button>
+                  <Tooltip title="Start Recording Right Away" placement="right">
+                    <Button id="submit-start-recording"
+                      className="bg-red-500 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-red-700">
+                      <FontAwesomeIcon icon={faRecordVinyl} />
+                    </Button>
+                  </Tooltip>
+                  <Tooltip title="Add Cron Job for Recording" placement="top">
+                    <Button id="submit-add-cronjob"
+                      className="bg-yellow-600 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-yellow-700">
+                      <FontAwesomeIcon icon={faClockRotateLeft} />
+                    </Button>
+                  </Tooltip>
                 </div>
             </div>
             <Divider textAlign="left"  sx={{
@@ -127,7 +137,7 @@ function App() {
                   borderColor: "secondary.light",
                 },
               }}>
-              <Chip label="Saved Streams" className="!bg-main-400 !text-white !font-bold" />
+              <Chip label="Cronjobs" className="!bg-main-400 !text-white !font-bold" />
             </Divider>
             <List>
               {streams.map((num, idx) => {
@@ -138,9 +148,11 @@ function App() {
                 if (isLast) roundedClass += " rounded-b-md";
                 return (
                   <ListItem className={`!bg-main-500 hover:!bg-main-700 shadow-xl overflow-hidden${roundedClass}`} key={num} disablePadding secondaryAction={
-                    <IconButton edge="end" aria-label="delete">
-                      <DeleteIcon color="secondary" />
-                    </IconButton>
+                    <Tooltip title="Delete Camera Stream" placement="top">
+                      <IconButton edge="end" aria-label="delete">
+                        <DeleteIcon color="secondary" />
+                      </IconButton>
+                    </Tooltip>
                   }>
                     <Link className="w-full h-full" href="/editor">
                       <ListItemButton >
@@ -176,9 +188,15 @@ function App() {
             
           </div>
           <div id="video-container" className="w-1/2 relative grid grid-cols-2 gap-1">
-            <div id="no-camera-alert" className="w-full h-full col-span-2 bg-main-700 rounded-lg shadow-lg flex items-center justify-center">
+          {visions && visions.length > 0 ? (
+            visions.map((visionProps, idx) => (
+              <Vision key={idx} {...visionProps} />
+            ))
+          ) : (
+            <div id="no-camera-alert" className="w-full h-full col-span-2 bg-main-700 rounded-lg shadow-lg flex items-center justify-center ">
               <p className="text-white text-center">No video stream selected</p>
             </div>
+          )}
           </div>
         </div>
       </div>
