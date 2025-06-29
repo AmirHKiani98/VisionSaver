@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.utils import timezone
+
 # Create your views here.
 
 
@@ -32,9 +33,8 @@ def add_recording_todo(request):
                 status=400
             )
 
-        
-        # For now, we will just return a success message.
 
+        # For now, we will just return a success message.
         return JsonResponse({"message": "Recording todo added successfully."}, status=200)
     except Exception as e:
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)

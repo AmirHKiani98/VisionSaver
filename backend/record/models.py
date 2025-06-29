@@ -13,6 +13,13 @@ class Recording(models.Model):
     )
     duration = models.PositiveIntegerField(help_text="Duration of the recording in seconds.")
     done = models.BooleanField(default=False, help_text="Indicates if the recording is completed.")
+    in_process = models.BooleanField(default=False, help_text="Indicates if the recording is currently in process.")
+    error = models.TextField(
+        blank=True,
+        null=True,
+        help_text="Error message if the recording failed."
+    )
+    
     assigned_to = models.CharField(
         max_length=100,
         blank=True,
