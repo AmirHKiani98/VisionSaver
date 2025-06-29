@@ -140,7 +140,7 @@ function App() {
                     </Select>
                   </FormControl>
                   <p className="text-xl">://</p>
-                  <TextField value={ip} variant="outlined" className="bg-main-400 rounded-md" focused label={<Typography className="text-white">IP</Typography>} onChange={(e) => setIp(e.target.value)}/>
+                  <TextField value={ip} variant="outlined" className="bg-main-400 rounded-md w-40" focused label={<Typography className="text-white">IP</Typography>} onChange={(e) => setIp(e.target.value)}/>
                   <p className="text-xl">/</p>
                   <TextField value={channel} className="bg-main-400 rounded-md w-24" focused label={<Typography className="text-white">Channel</Typography>} variant="outlined" onChange={(e) => setChannel(e.target.value)} />
                 </div>

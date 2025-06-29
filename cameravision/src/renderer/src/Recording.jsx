@@ -9,7 +9,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
-function Editor({ visions }) {
+function Recording({ visions }) {
     return (
         <>
         <div className='w-screen h-screen flex flex-col'>
@@ -19,7 +19,7 @@ function Editor({ visions }) {
                         <FontAwesomeIcon icon={faChevronLeft} className='text-white' />
                     </Button>
                 </Link>
-                <h1 className='text-white text-2xl font-bold'>Camera Vision Editor</h1>
+                <h1 className='text-white text-2xl font-bold'>Camera Vision Recording</h1>
             </div>
             <VisionContainer>
                 {visions && visions.length > 0 ? (
@@ -35,4 +35,4 @@ function Editor({ visions }) {
     );
 }
 
-export default Editor;
+export default Recording;
