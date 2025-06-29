@@ -20,14 +20,14 @@ const Vision = (props) => {
         setLoading(true);
         setError(false);
     }, [src]);
-    
     return (
         <ContextMenu
             menuItems={[
-                { label: 'Delete', action: props.onRemove},
+                { label: 'Delete', action: () => props.onRemove(props.id) },
                 { label: 'Info', action:  props.onInfo || (() => alert(`ID: ${props.id}\nSource: ${src}`)) },
             ]}
             className="relative !bg-main-300 rounded-lg shadow-lg overflow-hidden flex items-center justify-center"
+            contextMenuId={props.id}
         >
             <Button data-key={props.key || ""} className='relative w-full h-full !bg-main-300 rounded-lg shadow-lg overflow-hidden flex items-center justify-center'>
                 <div className='w-full h-full flex items-center justify-center'>

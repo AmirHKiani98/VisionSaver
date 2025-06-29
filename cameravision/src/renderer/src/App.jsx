@@ -72,7 +72,7 @@ function App() {
     setMessage(message);
     setOpen(true);
   }
-
+  
   const addStreamHandler = (e) => {
     e.preventDefault();
     if (!protocol) {
@@ -94,6 +94,7 @@ function App() {
     const newVisionInfo = {
       src: streamUrl,
       id: `camera-${Date.now()}`,
+      onRemove: onRemoveStream,
     };
     setVisions((prev) => [...prev, newVisionInfo]);
     setProtocol("");
@@ -102,7 +103,19 @@ function App() {
     openNotification("success", "Camera stream added.");
   }
 
+  const removeStreamHandler = (id) => {
+    setVisions((prev) => prev.filter(vision => vision.id !== id));
+    openNotification("success", "Camera stream deleted.");
+  }
   
+  const onRemoveStream = (id) => {
+    if (id) {
+      removeStreamHandler(id);
+    } else {
+      openNotification("error", "No camera stream ID found.");
+    }
+
+  }
   
   return (
     <>

@@ -2,8 +2,8 @@ import React, { useState, useRef } from 'react';
 import { Menu, MenuItem } from '@mui/material';
 import PropTypes from 'prop-types';
 
-// Usage: <ContextMenu menuItems={[...]}> <AnyComponent/> </ContextMenu>
-const ContextMenu = React.forwardRef(({ menuItems, children, className }, ref) => {
+// Usage: <ContextMenu menuItems={[...]} contextMenuId="some-id"> <AnyComponent/> </ContextMenu>
+const ContextMenu = React.forwardRef(({ menuItems, children, className, contextMenuId }, ref) => {
     const [menuState, setMenuState] = useState({ open: false, mouseX: null, mouseY: null });
     const containerRef = useRef(null);
 
@@ -26,6 +26,7 @@ const ContextMenu = React.forwardRef(({ menuItems, children, className }, ref) =
             className={className || ""}
             onContextMenu={handleContextMenu}
             style={{ display: 'inline-block', width: '100%' }}
+            data-context-menu-id={contextMenuId || 'context-menu'}
         >
             {children}
             <Menu
@@ -39,7 +40,7 @@ const ContextMenu = React.forwardRef(({ menuItems, children, className }, ref) =
                 }
             >
                 {menuItems && menuItems.map((item, idx) => (
-                    <MenuItem key={idx} onClick={() => { item.onClick && item.onClick(); handleClose(); }}>
+                    <MenuItem key={idx} onClick={() => { item.action && item.action(); handleClose(); }}>
                         {item.label}
                     </MenuItem>
                 ))}
@@ -51,7 +52,8 @@ const ContextMenu = React.forwardRef(({ menuItems, children, className }, ref) =
 /** @type {import('react').ForwardRefExoticComponent<{
     menuItems: Array<{ label: React.ReactNode, onClick?: () => void }>,
     children: React.ReactNode,
-    className?: string
+    className?: string,
+    contextMenuId?: string
 } & React.RefAttributes<HTMLDivElement>>} */
 
 ContextMenu.displayName = 'ContextMenu';
