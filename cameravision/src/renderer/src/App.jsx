@@ -159,7 +159,7 @@ function App() {
       })
       .then(response => response.json())
       .then(data => {
-        if (data.status && data.status === 400) {
+        if (data.status && data.status !== 200) {
           openNotification("error", data.message || "Failed to create cron job.");
           return;
         }

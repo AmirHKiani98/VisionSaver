@@ -1,8 +1,8 @@
+import json
 from django.http import JsonResponse
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
-import json
-
+from record.models import Record
 # Create your views here.
 
 @csrf_exempt
@@ -24,7 +24,6 @@ def store_record_schedule(request):
         camera_url = data.get('camera_url')
         duration = data.get('duration')
         start_time = data.get('start_time')
-        print(f"Received data: {data}")
         if not start_time:
             start_time = timezone.now().isoformat()
 
@@ -38,7 +37,13 @@ def store_record_schedule(request):
                 status=400
             )
 
-        # For now, we will just return a success message.
+        Record.objects.create(
+            camera_url=camera_url,
+            duration=duration,
+            start_time=start_time,
+            in_process=False,
+            done=False
+        )
         return JsonResponse({"message": "Recording todo added successfully."}, status=200)
     except Exception as e:
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
