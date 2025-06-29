@@ -3,7 +3,7 @@ import {
     CircularProgress,
     Button
 } from '@mui/material';
-
+import ContextMenu from './ContextMenu';
 const Vision = (props) => {
     const [src, setSrc] = React.useState(props.src || '');
 
@@ -20,27 +20,35 @@ const Vision = (props) => {
         setLoading(true);
         setError(false);
     }, [src]);
-
+    
     return (
-        <Button data-key={props.key || ""} className='relative !bg-main-300 rounded-lg shadow-lg overflow-hidden flex items-center justify-center'>
-            <div className='w-full h-full flex items-center justify-center'>
-                {loading && !error && (
-                    <CircularProgress color="secondary" />
-                )}
-                {error && (
-                    <div className="text-red-600 text-center p-2">Stream unavailable</div>
-                )}
-                <img
-                    className="w-full h-full"
-                    id={props.id}
-                    src={src}
-                    alt="Vision"
-                    style={{ display: loading || error ? 'none' : 'block' }}
-                    onLoad={() => setLoading(false)}
-                    onError={() => { setLoading(false); setError(true); }}
-                />
-            </div>
-        </Button>
+        <ContextMenu
+            menuItems={[
+                { label: 'Delete', action: props.onRemove},
+                { label: 'Info', action:  props.onInfo || (() => alert(`ID: ${props.id}\nSource: ${src}`)) },
+            ]}
+            className="relative !bg-main-300 rounded-lg shadow-lg overflow-hidden flex items-center justify-center"
+        >
+            <Button data-key={props.key || ""} className='relative w-full h-full !bg-main-300 rounded-lg shadow-lg overflow-hidden flex items-center justify-center'>
+                <div className='w-full h-full flex items-center justify-center'>
+                    {loading && !error && (
+                        <CircularProgress color="secondary" />
+                    )}
+                    {error && (
+                        <div className="text-red-600 text-center p-2">Stream unavailable</div>
+                    )}
+                    <img
+                        className="w-full h-full"
+                        id={props.id}
+                        src={src}
+                        alt="Vision"
+                        style={{ display: loading || error ? 'none' : 'block' }}
+                        onLoad={() => setLoading(false)}
+                        onError={() => { setLoading(false); setError(true); }}
+                    />
+                </div>
+            </Button>
+        </ContextMenu>
     );
 };
 

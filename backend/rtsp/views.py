@@ -39,7 +39,7 @@ def mjpeg_stream(request):
     def generate():
         cap = cv2.VideoCapture(url)  # pylint: disable=no-member
         consecutive_failures = 0
-        max_failures = 30  # e.g., after 30 failed reads, consider stream stopped
+        max_failures = 120  # e.g., after 30 failed reads, consider stream stopped
         try:
             while True:
                 ret, frame = cap.read()
