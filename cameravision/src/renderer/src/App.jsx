@@ -168,7 +168,8 @@ function App() {
                             slotProps={{
                               field: { clearable: true, onClear: () => setCleared(true) },
                             }}
-                            value={today}
+                            minDate={today}
+                            value={time}
                             onChange={(newValue) => {
                               if (newValue) {
                                 setTime(newValue.hour(time.hour()).minute(time.minute()));
