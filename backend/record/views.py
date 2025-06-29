@@ -1,12 +1,20 @@
+import os
 from django.http import JsonResponse
 import cv2
-# Create your views here.
+import dotenv
 
-def start_recording(request):
+# Create your views here.
+from .rtsp_object import RTSPObject
+dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), '../.env'))
+
+def start_record_rtsp(request):
     """
     Start a recording of an RTSP stream.
     This view should be triggered via a POST request with the necessary parameters.
     """
+    cache_dir = os.getenv("CACHE_DIR", ".cache")
+    if not os.path.isdir(cache_dir):
+        os.makedirs(cache_dir)
     if request.method != 'POST':
         return JsonResponse({"error": "Method Not Allowed"}, status=405)
     
@@ -30,17 +38,12 @@ def start_recording(request):
                 {"error": "'duration' must be a positive integer."},
                 status=400
             )
-        # Start the recording process
-        cap = cv2.VideoCapture(url)
-        if not cap.isOpened():
-            return JsonResponse(
-                {"error": f"Could not open RTSP stream at {url}."},
-                status=400
-            )
-        # Here you would implement the logic to record the stream for the specified duration.
-        frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-        frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-        fps = cap.get(cv2.CAP_PROP_FPS)
+        rtsp_obj = RTSPObject(url)
+        try:
+            rtsp_obj.record(duration, f"{cache_dir}/recording_{start_time}_{duration}.avi")
+        except Exception as e:
+            return JsonResponse({"error": f"An error occurred while recording: {str(e)}"}, status=500)
+
         
         # For demonstration, we will just return a success message.
         return JsonResponse(
