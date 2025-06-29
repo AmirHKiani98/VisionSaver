@@ -1,9 +1,11 @@
 from django.http import JsonResponse
 from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 # Create your views here.
 
-
+@csrf_exempt
 def store_record_schedule(request):
     """
     Add a recording to do (should be triggered via cronjob) for the system.
@@ -15,10 +17,14 @@ def store_record_schedule(request):
     if request.method != 'POST':
         return JsonResponse({"error": "Method Not Allowed"}, status=405)
     try:
-        data = request.POST
+        if request.content_type == 'application/json':
+            data = json.loads(request.body.decode('utf-8'))
+        else:
+            data = request.POST
         camera_url = data.get('camera_url')
         duration = data.get('duration')
         start_time = data.get('start_time')
+        print(f"Received data: {data}")
         if not start_time:
             start_time = timezone.now().isoformat()
 
@@ -31,7 +37,6 @@ def store_record_schedule(request):
                 },
                 status=400
             )
-
 
         # For now, we will just return a success message.
         return JsonResponse({"message": "Recording todo added successfully."}, status=200)

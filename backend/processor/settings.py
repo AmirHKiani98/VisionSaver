@@ -132,5 +132,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     f"http://{os.getenv('BACKEND_SERVER_DOMAIN')}:{os.getenv('BACKEND_SERVER_PORT')}"
 ]
-# For development, you can use the following instead (not for production):
-# CORS_ALLOW_ALL_ORIGINS = True
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5173",
+    f"http://{os.getenv('BACKEND_SERVER_DOMAIN')}:{os.getenv('BACKEND_SERVER_PORT')}"
+]

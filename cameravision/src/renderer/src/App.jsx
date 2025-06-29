@@ -159,7 +159,10 @@ function App() {
       })
       .then(response => response.json())
       .then(data => {
-        console.log("Cron job created:", data);
+        if (data.status && data.status === 400) {
+          openNotification("error", data.message || "Failed to create cron job.");
+          return;
+        }
         setVisions([]); // Clear visions after setting cron job
         openNotification("success", "Cron job created successfully.");
       })
