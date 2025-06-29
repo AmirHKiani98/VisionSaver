@@ -134,18 +134,20 @@ function App() {
       openNotification("error", "Duration must be a positive number.");
       return;
     }
+    // Check vision length
+    if (visions.length === 0) {
+      openNotification("error", "No camera streams available to set cron job.");
+      return;
+    }
 
     const startTime = time.format('YYYY-MM-DD HH:mm');
-    const apiLink = `${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_STORE_RECORD_SCHEDULE}`;
+    const apiLink = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_STORE_RECORD_SCHEDULE}`;
     for (const vision of visions) {
-      const endTime = time.add(duration, 'minute').format('YYYY-MM-DD HH:mm');
       const cameraUrl = vision.cameraUrl;
-      const id = vision.id;
       const data = {
         start_time: startTime,
-        duration: endTime,
-        camera_url: cameraUrl,
-        camera_id: id
+        duration: duration,
+        camera_url: cameraUrl
       };
       console.log("Cron job data:", data);
       fetch(apiLink, {
@@ -158,13 +160,15 @@ function App() {
       .then(response => response.json())
       .then(data => {
         console.log("Cron job created:", data);
+        setVisions([]); // Clear visions after setting cron job
+        openNotification("success", "Cron job created successfully.");
       })
       .catch(error => {
         console.error("Error creating cron job:", error);
         openNotification("error", "Failed to create cron job.");
       });
+      
     }
-    openNotification("success", `Cron job set from ${startTime} to ${endTime}`);
   }
   const removeStreamHandler = (id) => {
     setVisions((prev) => prev.filter(vision => vision.id !== id));
@@ -279,7 +283,8 @@ function App() {
                   </Tooltip>
                   <Tooltip title="Add Cron Job for Recording" placement="top">
                     <Button id="submit-add-cronjob"
-                      className="bg-yellow-600 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-yellow-700">
+                      className="bg-yellow-600 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-yellow-700"
+                      onClick={addCronJob}>
                       <FontAwesomeIcon icon={faClockRotateLeft} />
                     </Button>
                   </Tooltip>
