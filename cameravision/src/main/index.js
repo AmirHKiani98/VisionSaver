@@ -1,7 +1,7 @@
 import { app, shell, BrowserWindow, ipcMain, Tray, Menu } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-import icon from '../../resources/icon.png?asset'
+import icon from '../../resources/icon.png'
 import dotenv from 'dotenv';
 // Adjust the path to point to the correct .env location
 dotenv.config({ path: join(__dirname, '../../../.env') });
@@ -11,7 +11,9 @@ console.log("Current directory:", __dirname);
 ipcMain.handle('get-env', () => ({
   BACKEND_SERVER_PORT: process.env.BACKEND_SERVER_PORT,
   BACKEND_SERVER_DOMAIN: process.env.BACKEND_SERVER_DOMAIN,
-  STREAM_FUNCTION_NAME: process.env.STREAM_FUNCTION_NAME
+  STREAM_FUNCTION_NAME: process.env.STREAM_FUNCTION_NAME,
+  RECORD_FUNCTION_NAME: process.env.RECORD_FUNCTION_NAME,
+  API_STORE_RECORD_SCHEDULE: process.env.API_STORE_RECORD_SCHEDULE,
 }));
 
 let tray = null
@@ -23,7 +25,7 @@ function createWindow() {
     height: 720,
     show: false,
     autoHideMenuBar: true,
-    ...(process.platform === 'linux' ? { icon } : {}),
+    icon: icon,
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
@@ -72,7 +74,7 @@ app.whenReady().then(() => {
   createWindow()
 
   // Create tray icon
-  tray = new Tray(join(__dirname, '../../../../frontend/assets/icon.png'))
+  tray = new Tray(join(__dirname, '../../resources/icon.png'))
   const contextMenu = Menu.buildFromTemplate([
     { label: 'Show App', click: () => { win.show() } },
     { label: 'Quit', click: () => {

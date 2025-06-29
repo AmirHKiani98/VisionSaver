@@ -6,7 +6,7 @@ class Record(models.Model):
     """
     Model to represent a Record of an RTSP stream.
     """
-    url = models.URLField(max_length=200, help_text="The URL of the RTSP stream.")
+    camera_url = models.URLField(max_length=200, help_text="The camera_url of the RTSP stream.")
     start_time = models.DateTimeField(
         auto_now_add=True,
         help_text="The time when the Record started."
@@ -28,6 +28,6 @@ class Record(models.Model):
     )
     def __str__(self):
         return (
-            f"Record from {self.url} starting at {self.start_time} "
+            f"Record from {self.camera_url} starting at {self.start_time} "
             f"for {self.duration} seconds"
         )

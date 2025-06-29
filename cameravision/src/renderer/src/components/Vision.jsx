@@ -6,7 +6,7 @@ import {
 import ContextMenu from './ContextMenu';
 const Vision = (props) => {
     const [src, setSrc] = React.useState(props.src || '');
-
+    const [cameraUrl, setCameraUrl] = React.useState(props.cameraUrl || '');
     // Expose setSrc to parent via ref if provided
     React.useImperativeHandle(props.innerRef, () => ({
         setSrc,

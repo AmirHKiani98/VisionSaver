@@ -46,9 +46,10 @@ const oneHourFromNow = today.add(1, 'hour');
 
 function App() {
   const [time, setTime] = useState(oneHourFromNow);
-  const [protocol, setProtocol] = useState("");
-  const [ip, setIp] = useState("");
-  const [channel, setChannel] = useState("");
+  const [protocol, setProtocol] = useState("RTSP");
+  const [ip, setIp] = useState("192.168.");
+  const [channel, setChannel] = useState("quad");
+  const [duration, setDuration] = useState(30); // Duration in minutes
   const [cleared, setCleared] = useState(false);
   const [visions, setVisions] = useState([]);
   const [severity, setSeverity] = useState("info");
@@ -67,12 +68,21 @@ function App() {
     setOpen(false);
   };
   const openNotification = (severity, message) => {
-
     setSeverity(severity);
     setMessage(message);
     setOpen(true);
   }
-  
+  const addStream = (cameraUrl, id) => {
+    const streamUrl = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/rtsp/${env.STREAM_FUNCTION_NAME}/?url=${cameraUrl}`;
+
+    const newVisionInfo = {
+      src: streamUrl,
+      cameraUrl: cameraUrl,
+      id: `camera-${id}`,
+      onRemove: onRemoveStream,
+    };
+    setVisions((prev) => [...prev, newVisionInfo]);
+  }
   const addStreamHandler = (e) => {
     e.preventDefault();
     if (!protocol) {
@@ -88,21 +98,74 @@ function App() {
       return;
     }
     const protocolLower = protocol.toLowerCase();
-    const cameraUrl = `${protocolLower}://${ip}/${channel}`
-    const streamUrl = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/rtsp/${env.STREAM_FUNCTION_NAME}/?url=${cameraUrl}`;
-    console.log("Stream URL:", streamUrl);
-    const newVisionInfo = {
-      src: streamUrl,
-      id: `camera-${Date.now()}`,
-      onRemove: onRemoveStream,
-    };
-    setVisions((prev) => [...prev, newVisionInfo]);
-    setProtocol("");
-    setIp("");
-    setChannel("");
+    if (!ip.match(/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/)) {
+      openNotification("error", "Invalid IP address format. Please use xxx.xxx.xxx.xxx format");
+      return
+    }
+    if (channel === "quad") {
+      // Assuming "quad" means the intersection has four cameras: cam1, cam2, cam3 and cam4
+      for (let i = 1; i <= 4; i++) {
+        const cameraUrl = `${protocolLower}://${ip}/cam${i}`;
+        addStream(cameraUrl, `${ip}-${i}`);
+      }
+    }else{
+      const cameraUrl = `${protocolLower}://${ip}/${channel}`;
+      addStream(cameraUrl, `${ip}-${channel}`);
+    }
+
+    setProtocol("RTSP");
+    setIp("192.168.");
+    setChannel("quad");
     openNotification("success", "Camera stream added.");
   }
 
+  const addCronJob = () => {
+    if (!time || !duration) {
+      openNotification("error", "Please select a start time and duration.");
+      return;
+    }
+    // Check if the time is in the past
+    if (time.isBefore(dayjs())) {
+      openNotification("error", "Start time cannot be in the past.");
+      return;
+    }
+    // Check if the duration is a positive number
+    if (duration <= 0) {
+      openNotification("error", "Duration must be a positive number.");
+      return;
+    }
+
+    const startTime = time.format('YYYY-MM-DD HH:mm');
+    const apiLink = `${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_STORE_RECORD_SCHEDULE}`;
+    for (const vision of visions) {
+      const endTime = time.add(duration, 'minute').format('YYYY-MM-DD HH:mm');
+      const cameraUrl = vision.cameraUrl;
+      const id = vision.id;
+      const data = {
+        start_time: startTime,
+        duration: endTime,
+        camera_url: cameraUrl,
+        camera_id: id
+      };
+      console.log("Cron job data:", data);
+      fetch(apiLink, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log("Cron job created:", data);
+      })
+      .catch(error => {
+        console.error("Error creating cron job:", error);
+        openNotification("error", "Failed to create cron job.");
+      });
+    }
+    openNotification("success", `Cron job set from ${startTime} to ${endTime}`);
+  }
   const removeStreamHandler = (id) => {
     setVisions((prev) => prev.filter(vision => vision.id !== id));
     openNotification("success", "Camera stream deleted.");
@@ -140,9 +203,9 @@ function App() {
                     </Select>
                   </FormControl>
                   <p className="text-xl">://</p>
-                  <TextField value={ip} variant="outlined" className="bg-main-400 rounded-md w-40" focused label={<Typography className="text-white">IP</Typography>} onChange={(e) => setIp(e.target.value)}/>
+                  <TextField value={ip} variant="outlined" className="bg-main-400 rounded-md w-40" label={<Typography className="text-white">IP</Typography>} onChange={(e) => setIp(e.target.value)}/>
                   <p className="text-xl">/</p>
-                  <TextField value={channel} className="bg-main-400 rounded-md w-24" focused label={<Typography className="text-white">Channel</Typography>} variant="outlined" onChange={(e) => setChannel(e.target.value)} />
+                  <TextField value={channel} className="bg-main-400 rounded-md w-24" label={<Typography className="text-white">Channel</Typography>} variant="outlined" onChange={(e) => setChannel(e.target.value)} />
                 </div>
                 <div className="flex gap-5">
                   <Tooltip title="Add Camera Stream" placement="top">
@@ -160,13 +223,13 @@ function App() {
               <div className="flex gap-2.5">
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                           <DatePicker
-                            className="bg-main-400 rounded-md w-1/2"
+                            className="bg-main-400 rounded-md w-1/3"
                             color="primary.white"
                             label={
                               <Typography className="text-white">Start Date</Typography>
                             }
                             slotProps={{
-                              field: { clearable: true, onClear: () => setCleared(true) },
+                              field: { clearable: false, onClear: () => setCleared(true) },
                             }}
                             minDate={today}
                             value={time}
@@ -177,13 +240,33 @@ function App() {
                             }}
                           />
                           <TimePicker
-                            className="bg-main-400 w-1/2 rounded-md"
+                            className="bg-main-400 w-1/3 rounded-md"
                             label={<Typography className="text-white">Start Time</Typography>}
                             
                             value={time}
                             onChange={setTime}
                             disablePast
                           />
+                           <TextField
+                              id="outlined-number"
+                              type="number"
+                              className="bg-main-400 w-1/3 rounded-md"
+                              slotProps={{
+                                inputLabel: {
+                                  shrink: true,
+                                },
+                              }}
+                              value={duration}
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                if (value >= 0) {
+                                  setDuration(value);
+                                } else {
+                                  openNotification("error", "Duration must be a positive number.");
+                                }
+                              }}
+                              label={<Typography className="text-white">Duration (minutes)</Typography>}
+                            />
                         </LocalizationProvider>
                 
               </div>

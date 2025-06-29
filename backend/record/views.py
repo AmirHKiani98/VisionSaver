@@ -19,15 +19,15 @@ def start_record_rtsp(request):
         return JsonResponse({"error": "Method Not Allowed"}, status=405)
     
     try:
-        url = request.POST.get('url')
+        camera_url = request.POST.get('camera_url')
         duration = request.POST.get('duration')
         start_time = request.POST.get('start_time')
-        if not url or not duration or not start_time:
+        if not camera_url or not duration or not start_time:
             return JsonResponse(
                 {
                     "error": (
                         "One or more of the following variables are not defined: "
-                        "'url', 'duration', and 'start_time'"
+                        "'camera_url', 'duration', and 'start_time'"
                     )
                 },
                 status=400
@@ -38,7 +38,7 @@ def start_record_rtsp(request):
                 {"error": "'duration' must be a positive integer."},
                 status=400
             )
-        rtsp_obj = RTSPObject(url)
+        rtsp_obj = RTSPObject(camera_url)
         try:
             rtsp_obj.record(duration, f"{cache_dir}/recording_{start_time}_{duration}.avi")
         except Exception as e:
@@ -47,7 +47,7 @@ def start_record_rtsp(request):
         
         # For demonstration, we will just return a success message.
         return JsonResponse(
-            {"message": f"Recording started for {url} for {duration} seconds."},
+            {"message": f"Recording started for {camera_url} for {duration} seconds."},
             status=200
         )
     except Exception as e:

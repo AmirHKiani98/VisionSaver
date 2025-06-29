@@ -1,33 +1,32 @@
-from django.shortcuts import render
 from django.http import JsonResponse
 from django.utils import timezone
 
 # Create your views here.
 
 
-def add_recording_todo(request):
+def store_record_schedule(request):
     """
     Add a recording to do (should be triggered via cronjob) for the system.
     """
     # The request should be a POST containing the following information:
-    # - url - the URL of the RTSP stream to record
+    # - camera_url - the camera_url of the RTSP stream to record
     # - duration - the duration of the recording in seconds
     # - start_time - the start time of the recording in ISO format (default to now)
     if request.method != 'POST':
         return JsonResponse({"error": "Method Not Allowed"}, status=405)
     try:
         data = request.POST
-        url = data.get('url')
+        camera_url = data.get('camera_url')
         duration = data.get('duration')
         start_time = data.get('start_time')
         if not start_time:
             start_time = timezone.now().isoformat()
 
-        if not url or not duration or not start_time:
+        if not camera_url or not duration or not start_time:
             return JsonResponse(
                 {
                     "error": (
-                        "'url', 'duration', and 'start_time' are required fields."
+                        "'camera_url', 'duration', and 'start_time' are required fields."
                     )
                 },
                 status=400

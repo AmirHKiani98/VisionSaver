@@ -21,7 +21,7 @@ def run_cronjob():
     
     for record in records:
         requests.post(
-            f"http://{os.getenv('BACKEND_SERVER_DOMAIN')}:{os.getenv('BACKEND_SERVER_PORT')}/record/{os.getenv('RECORD_FUNCTION_NAME')}/",
+            f"http://{os.getenv('BACKEND_SERVER_DOMAIN')}:{os.getenv('BACKEND_SERVER_PORT')}/{os.getenv('RECORD_FUNCTION_NAME')}/",
             data={
                 'url': record.url,
                 'duration': record.duration,
