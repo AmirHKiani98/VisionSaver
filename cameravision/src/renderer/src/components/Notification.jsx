@@ -2,16 +2,16 @@ import React from 'react';
 
 import { Snackbar, Alert } from '@mui/material';
 
-const Notification = React.forwardRef(({ open, handleClose, message = '', severity = 'info' }, ref) => {
+const Notification = React.forwardRef(({ open, onClose, message = '', severity = 'info' }, ref) => {
     return (
         <Snackbar
             ref={ref}
             open={open}
-            autoHideDuration={6000}
-            onClose={handleClose}
+            autoHideDuration={3000}
+            onClose={onClose}
             anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         >
-            <Alert onClose={handleClose} severity={severity} sx={{ width: '100%' }}>
+            <Alert onClose={onClose} severity={severity} sx={{ width: '100%' }}>
                 {message}
             </Alert>
         </Snackbar>

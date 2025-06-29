@@ -3,7 +3,16 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import dotenv from 'dotenv';
-dotenv.config({ path: '../../../.env' });
+// Adjust the path to point to the correct .env location
+dotenv.config({ path: join(__dirname, '../../../.env') });
+console.log("Current file path:", __filename);
+console.log("Current directory:", __dirname);
+
+ipcMain.handle('get-env', () => ({
+  BACKEND_SERVER_PORT: process.env.BACKEND_SERVER_PORT,
+  BACKEND_SERVER_DOMAIN: process.env.BACKEND_SERVER_DOMAIN,
+  STREAM_FUNCTION_NAME: process.env.STREAM_FUNCTION_NAME
+}));
 
 let tray = null
 let win = null
@@ -17,7 +26,8 @@ function createWindow() {
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      sandbox: false,
+      webSecurity: false, // Disable web security for development
     }
   })
 

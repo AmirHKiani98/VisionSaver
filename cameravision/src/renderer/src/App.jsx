@@ -1,5 +1,5 @@
 import "./assets/main.css";
-import { useState, Fragment } from "react";
+import { useState, useEffect } from "react";
 
 // Material Tailwind
 import { Button } from "@material-tailwind/react";
@@ -13,6 +13,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
+
 
 // MUI - Core
 import {
@@ -30,14 +31,15 @@ import {
   IconButton,
   Pagination,
   Link,
-  Tooltip,
-  Snackbar
+  Tooltip
 } from "@mui/material";
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
 import dayjs from 'dayjs';
 import Vision from "./components/Vision"; // Assuming Vision is a component that displays video streams
+import VisionContainer from "./components/VisionContainer";
+
 import Notification from "./components/Notification";
 const today = dayjs();
 const oneHourFromNow = today.add(1, 'hour');
@@ -53,8 +55,12 @@ function App() {
   const [message, setMessage] = useState("Note archived");
   const [open, setOpen] = useState(false);
   const streams = [1, 2, 3, 4];
+  const [env, setEnv] = useState({});
+  useEffect(() => {
+    window.env.get().then(setEnv);
+    console.log("Environment variables loaded:", env);
+  }, []);
   const closeNotification = (event, reason) => {
-
     if (reason === 'clickaway') {
       return;
     }
@@ -81,6 +87,19 @@ function App() {
       openNotification("error", "Please enter a valid channel.");
       return;
     }
+    const protocolLower = protocol.toLowerCase();
+    const cameraUrl = `${protocolLower}://${ip}/${channel}`
+    const streamUrl = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/rtsp/${env.STREAM_FUNCTION_NAME}/?url=${cameraUrl}`;
+    console.log("Stream URL:", streamUrl);
+    const newVisionInfo = {
+      src: streamUrl,
+      id: `camera-${Date.now()}`,
+    };
+    setVisions((prev) => [...prev, newVisionInfo]);
+    setProtocol("");
+    setIp("");
+    setChannel("");
+    openNotification("success", "Camera stream added.");
   }
 
   
@@ -115,20 +134,17 @@ function App() {
                 <div className="flex gap-5">
                   <Tooltip title="Add Camera Stream" placement="top">
                     <Button id="submit-camera"
-                      
+                      onClick={addStreamHandler}
                       className="bg-main-500 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700">
                       <FontAwesomeIcon icon={faVideo} className="text-white" />
                     </Button>
                   </Tooltip>
-                  
                 </div>
               </div>
               
             </form>
             <div className="flex flex-col justify-between col-span-2 w-full gap-2.5">
-              
               <div className="flex gap-2.5">
-
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
                           <DatePicker
                             className="bg-main-400 rounded-md w-1/2"
@@ -227,17 +243,17 @@ function App() {
             </div>
             
           </div>
-          <div id="video-container" className="w-1/2 relative grid grid-cols-2 gap-1">
           {visions && visions.length > 0 ? (
-            visions.map((visionProps, idx) => (
-              <Vision key={idx} {...visionProps} />
-            ))
+            <VisionContainer>
+              {visions.map((visionProps, idx) => (
+                <Vision key={idx} {...visionProps} />
+              ))}
+            </VisionContainer>
           ) : (
             <div id="no-camera-alert" className="w-full h-full col-span-2 bg-main-700 rounded-lg shadow-lg flex items-center justify-center ">
               <p className="text-white text-center">No video stream selected</p>
             </div>
           )}
-          </div>
         </div>
       </div>
       </div>

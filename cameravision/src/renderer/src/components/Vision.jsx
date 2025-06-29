@@ -6,33 +6,41 @@ import {
 
 const Vision = (props) => {
     const [src, setSrc] = React.useState(props.src || '');
-    const [status, setStatus] = React.useState(null);
+
+    // Expose setSrc to parent via ref if provided
+    React.useImperativeHandle(props.innerRef, () => ({
+        setSrc,
+    }), [setSrc]);
+
+    // Loading and error state for <img>
+    const [loading, setLoading] = React.useState(true);
+    const [error, setError] = React.useState(false);
 
     React.useEffect(() => {
-        if (!src) return;
-        fetch(src, { method: 'HEAD' })
-            .then(res => setStatus(res.status))
-            .catch(() => setStatus(null));
+        setLoading(true);
+        setError(false);
     }, [src]);
 
     return (
-        
-            <Button data-key={props.key || ""} className='relative !bg-main-300 rounded-lg shadow-lg overflow-hidden flex items-center justify-center'>
-                <div className='w-full h-full flex items-center justify-center'>
-                    {status === 200 ? (
-                        <img
-                            className="w-full h-full object-contain"
-                            id={props.id}
-                            src={src}
-                            alt="Vision"
-                        />
-                    ) : (
-                        <>
-                        <CircularProgress color="secondary"></CircularProgress>
-                        </>
-                    )}
-                </div>
-            </Button>
+        <Button data-key={props.key || ""} className='relative !bg-main-300 rounded-lg shadow-lg overflow-hidden flex items-center justify-center'>
+            <div className='w-full h-full flex items-center justify-center'>
+                {loading && !error && (
+                    <CircularProgress color="secondary" />
+                )}
+                {error && (
+                    <div className="text-red-600 text-center p-2">Stream unavailable</div>
+                )}
+                <img
+                    className="w-full h-full"
+                    id={props.id}
+                    src={src}
+                    alt="Vision"
+                    style={{ display: loading || error ? 'none' : 'block' }}
+                    onLoad={() => setLoading(false)}
+                    onError={() => { setLoading(false); setError(true); }}
+                />
+            </div>
+        </Button>
     );
 };
 

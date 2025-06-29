@@ -16,8 +16,9 @@ def main():
             "forget to activate a virtual environment?"
         ) from exc
     if sys.argv[1] == 'runserver':
-        port = os.getenv("BACKEND_SERVER_PORT", "8000")
-        execute_from_command_line(['manage.py', 'runserver', f'localhost:{port}'])
+        port = os.getenv("BACKEND_SERVER_PORT")
+        domain = os.getenv("BACKEND_SERVER_DOMAIN")
+        execute_from_command_line(['manage.py', 'runserver', f'{domain}:{port}'])
     else:
         execute_from_command_line(sys.argv)
 
