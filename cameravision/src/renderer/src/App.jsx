@@ -172,7 +172,8 @@ function App() {
       return;
     }
 
-    const startTime = time.format('YYYY-MM-DD HH:mm');
+    // Format startTime in ISO 8601 with full timezone info for Django backend
+    const startTime = time.toISOString();
     const apiLink = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_STORE_RECORD_SCHEDULE}`;
     const randomString = Array.from({length: 100}, () => Math.random().toString(36)[2]).join('');
     for (const vision of visions) {

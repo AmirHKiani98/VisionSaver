@@ -2,37 +2,54 @@
 from django.apps import AppConfig
 from django.db import OperationalError, ProgrammingError
 
+from multiprocessing import Pool
 import threading
 import time
 import os
+def record_rtsp_task(record_id, camera_url, duration, output_file):
+        from record.models import Record
+        from record.rtsp_object import RTSPObject
+
+        record = Record.objects.get(id=record_id)
+        record.in_process = True
+        record.save()
+        try:
+            rtsp_obj = RTSPObject(camera_url)
+            rtsp_obj.record(duration, output_file)
+            record.done = True
+            record.error = ""
+        except Exception as e:
+            record.done = True
+            record.error = str(e)
+        record.in_process = False
+        record.save()
 def job_checker():
     from record.models import Record  # <-- move import here!
     from django.utils import timezone
     import os
-    from record.rtsp_object import RTSPObject
-    def record_rtsp_task(camera_url, duration, output_file):
-        rtsp_obj = RTSPObject(camera_url)
-        rtsp_obj.record(duration, output_file)
+    import time
+    from django.db.utils import OperationalError, ProgrammingError
     while True:
-        now = timezone.now()
-        print("what time is now?:", now)
-        records = Record.objects.filter(done=False, in_process=False, start_time__lte=now)
-        
-        for record in records:
-            ip = record.camera_url.split('rtsp://')[1]            
-            ip = ip.replace('.', '_')
-            threading.Thread(
-                target=record_rtsp_task,
-                args=(
-                    record.camera_url,
-                    record.duration,
-                    f"{os.getenv('CACHE_DIR', '.cache')}/recording_{ip}_{record.start_time}_{record.duration}.avi"
-                ),
-                daemon=True
-            ).start()
-            record.in_process = True
-            record.save()
-        time.sleep(10)
+        try:
+            now = timezone.now()
+            records = Record.objects.filter(done=False, in_process=False, start_time__lte=now)
+            for record in records:
+                ip = record.camera_url.split('rtsp://')[1]
+                ip = ip.replace('.', '_')
+                threading.Thread(
+                    target=record_rtsp_task,
+                    args=(
+                        record.id,
+                        record.camera_url,
+                        record.duration,
+                        f"{os.getenv('CACHE_DIR', '.cache')}/recording_{ip}_{record.start_time}_{record.duration}.avi"
+                    ),
+                    daemon=True
+                ).start()
+        except (OperationalError, ProgrammingError):
+            # Table does not exist yet, skip this iteration
+            pass
+        time.sleep(60)
 
 class CronjobConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
@@ -41,12 +58,6 @@ class CronjobConfig(AppConfig):
     def ready(self):
         if os.environ.get('RUN_MAIN', None) != 'true':
             return
-        try:
-            from django.db import connection
-            with connection.cursor() as cursor:
-                cursor.execute("SELECT 1 FROM record_record LIMIT 1;")
-        except (OperationalError, ProgrammingError):
-            # Table does not exist yet, skip starting the thread
-            return
+        # Do not access the database here!
         t = threading.Thread(target=job_checker, daemon=True)
         t.start()

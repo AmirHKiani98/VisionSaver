@@ -81,10 +81,9 @@ def get_record_schedule(request):
         return JsonResponse({"error": "Method Not Allowed"}, status=405)
     try:
         # Helper to extract ip and stream from camera_url
-        raw_records = Record.objects.filter(done=False, in_process=False).values(
-            'camera_url', 'duration', 'start_time', 'in_process', 'done', 'token'
-        )
+        raw_records = Record.objects.all().values()
         df = pd.DataFrame(list(raw_records))
+
         if df.empty:
             return JsonResponse({"records": []}, status=200)
         df['ip'], df['stream'] = zip(*df['camera_url'].apply(parse_camera_url))
@@ -101,6 +100,7 @@ def get_record_schedule(request):
 
         return JsonResponse({"records": list(records)}, status=200)
     except Exception as e:
+        print("Error in get_record_schedule:", str(e))
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
 
 @csrf_exempt
@@ -116,7 +116,7 @@ def delete_record_schedule(request):
         if not token:
             return JsonResponse({"error": "'token' is required."}, status=400)
 
-        record = Record.objects.filter(token=token).first()
+        record = Record.objects.filter(token=token)
         if not record:
             return JsonResponse({"error": "Record not found."}, status=404)
 

@@ -70,7 +70,7 @@ class RTSPObject:
 if __name__ == "__main__":
     # Example usage
     ip = "192.168.29.108"
-    stream = "cam2"
+    stream = "cam1"
     rtsp = RTSPObject(f"rtsp://{ip}/{stream}")
     # Try recording for 10 seconds and save to output.avi
     try:

@@ -6,6 +6,7 @@ class Record(models.Model):
     """
     Model to represent a Record of an RTSP stream.
     """
+    id = models.AutoField(primary_key=True, help_text="Unique identifier for the Record.")
     camera_url = models.URLField(max_length=200, help_text="The camera_url of the RTSP stream.")
     start_time = models.DateTimeField(
         help_text="The time when the Record started."
