@@ -232,6 +232,34 @@ function App() {
 
   }
   
+  const onRemoveRecord = (token) => {
+    if (!token) {
+      openNotification("error", "No record token found.");
+      return;
+    }
+    
+    const apiLink = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_DELETE_RECORD_SCHEDULE}`;
+    fetch(apiLink, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ token })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.status && data.status !== 200) {
+        openNotification("error", data.message || "Failed to delete record.");
+        return;
+      }
+      setRecordLinks((prev) => prev.filter(record => record.token !== token));
+      openNotification("success", "Record deleted successfully.");
+    })
+    .catch(error => {
+      openNotification("error", "Failed to delete record.");
+    });
+  }
+  
   return (
     <>
     <div className="min-h-full min-w-full flex p-5">
@@ -352,7 +380,6 @@ function App() {
                         recordLinks
                         .slice(startRecordLinkIndex, startRecordLinkIndex + recordLinksPerPage)
                         .map((record, idx) => {
-                          console.log("idx:", idx, "startRecordLinkIndex:", startRecordLinkIndex, "recordLinksPerPage:", recordLinksPerPage);
                           const isFirst = idx === 0;
                           const isLast = idx === Math.min(recordLinksPerPage, recordLinks.length - startRecordLinkIndex) - 1;
                           let roundedClass = "";
@@ -365,7 +392,9 @@ function App() {
                             duration={record.duration}
                             key={startRecordLinkIndex + idx}
                             roundedClass={roundedClass}
-                            onRemove={() => removeRecordJob(record.id)}
+                            onRemove={() => onRemoveRecord(record.token)}
+                            inProcess={record.inProcess}
+                            done={record.done}
                           />
                           );
                         })

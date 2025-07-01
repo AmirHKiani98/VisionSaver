@@ -17,4 +17,8 @@ urlpatterns = [
         f"{os.getenv('API_GET_RECORD_SCHEDULE')}",
         views.get_record_schedule,
     ),
+    path(
+        f"{os.getenv('API_DELETE_RECORD_SCHEDULE')}",
+        views.delete_record_schedule,
+    ),
 ]

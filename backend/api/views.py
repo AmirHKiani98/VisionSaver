@@ -69,8 +69,6 @@ def get_record_schedule(request):
         return JsonResponse({"error": "Method Not Allowed"}, status=405)
     try:
         # Helper to extract ip and stream from camera_url
-        
-
         raw_records = Record.objects.filter(done=False, in_process=False).values(
             'camera_url', 'duration', 'start_time', 'in_process', 'done', 'token'
         )
@@ -84,10 +82,33 @@ def get_record_schedule(request):
             start_time=('start_time', 'first'),
             duration=('duration', 'first'),
             in_process=('in_process', 'first'),
-            done=('done', 'first')
+            done=('done', 'first'),
+            token=('token', 'first')
         )
         records = grouped_records.to_dict(orient='records')
 
         return JsonResponse({"records": list(records)}, status=200)
+    except Exception as e:
+        return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
+
+@csrf_exempt
+def delete_record_schedule(request):
+    """
+    Delete a recording schedule by token.
+    """
+    if request.method != 'DELETE':
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+        token = data.get('token')
+        if not token:
+            return JsonResponse({"error": "'token' is required."}, status=400)
+
+        record = Record.objects.filter(token=token).first()
+        if not record:
+            return JsonResponse({"error": "Record not found."}, status=404)
+
+        record.delete()
+        return JsonResponse({"message": "Record deleted successfully."}, status=200)
     except Exception as e:
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)

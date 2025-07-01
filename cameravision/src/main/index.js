@@ -9,12 +9,7 @@ console.log("Current file path:", __filename);
 console.log("Current directory:", __dirname);
 
 ipcMain.handle('get-env', () => ({
-  BACKEND_SERVER_PORT: process.env.BACKEND_SERVER_PORT,
-  BACKEND_SERVER_DOMAIN: process.env.BACKEND_SERVER_DOMAIN,
-  STREAM_FUNCTION_NAME: process.env.STREAM_FUNCTION_NAME,
-  RECORD_FUNCTION_NAME: process.env.RECORD_FUNCTION_NAME,
-  API_STORE_RECORD_SCHEDULE: process.env.API_STORE_RECORD_SCHEDULE,
-  API_GET_RECORD_SCHEDULE: process.env.API_GET_RECORD_SCHEDULE,
+  ...process.env
 }));
 
 let tray = null
