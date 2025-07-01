@@ -8,7 +8,6 @@ class Record(models.Model):
     """
     camera_url = models.URLField(max_length=200, help_text="The camera_url of the RTSP stream.")
     start_time = models.DateTimeField(
-        auto_now_add=True,
         help_text="The time when the Record started."
     )
     duration = models.PositiveIntegerField(help_text="Duration of the Record in seconds.")

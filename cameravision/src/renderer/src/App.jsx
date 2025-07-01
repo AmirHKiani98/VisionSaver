@@ -185,7 +185,6 @@ function App() {
         token: randomString, // Unique token for the cron job
       };
       
-      console.log("Cron job data:", data);
       fetch(apiLink, {
         method: 'POST',
         headers: {
@@ -207,7 +206,9 @@ function App() {
         openNotification("error", "Failed to create cron job.");
         return
       });
-      setRecordLinks((prev) => [
+      
+    }
+    setRecordLinks((prev) => [
         ...prev,
         {
           ip: String(ip), // Copy the current value of ip as a string
@@ -216,7 +217,6 @@ function App() {
           token: randomString,
         }
       ]);
-    }
   }
   const removeStreamHandler = (id) => {
     setVisions((prev) => prev.filter(vision => vision.id !== id));

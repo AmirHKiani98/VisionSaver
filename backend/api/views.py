@@ -6,6 +6,7 @@ from record.models import Record
 from collections import defaultdict
 import re
 import pandas as pd
+from django.utils.dateparse import parse_datetime
 # Create your views here.
 
 @csrf_exempt
@@ -27,9 +28,20 @@ def store_record_schedule(request):
         camera_url = data.get('camera_url')
         duration = data.get('duration')
         start_time = data.get('start_time')
+        print("Start time:", start_time, "type:", type(start_time))
         token = data.get('token')
         if not start_time:
-            start_time = timezone.now().isoformat()
+            start_time = timezone.now()
+        else:
+            dt = parse_datetime(start_time)
+            print(dt)
+            if dt is None:
+                try:
+                    from datetime import datetime
+                    dt = datetime.strptime(start_time, "%Y-%m-%d %H:%M")
+                except Exception:
+                    return JsonResponse({"error": "Invalid start_time format."}, status=400)
+            start_time = dt
 
         if not camera_url or not duration or not start_time:
             return JsonResponse(

@@ -1,10 +1,10 @@
 import os
 from django.http import JsonResponse
-from cronjob.tasks import record_rtsp_task
+import cv2
 import dotenv
 
 # Create your views here.
-
+from .rtsp_object import RTSPObject
 dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), '../.env'))
 
 def start_record_rtsp(request):
@@ -38,11 +38,16 @@ def start_record_rtsp(request):
                 {"error": "'duration' must be a positive integer."},
                 status=400
             )
+        rtsp_obj = RTSPObject(camera_url)
+        try:
+            rtsp_obj.record(duration, f"{cache_dir}/recording_{start_time}_{duration}.avi")
+        except Exception as e:
+            return JsonResponse({"error": f"An error occurred while recording: {str(e)}"}, status=500)
+
         
-        output_file = f"{cache_dir}/recording_{start_time}_{duration}.avi"
-        record_rtsp_task.delay(camera_url, duration, output_file)
+        # For demonstration, we will just return a success message.
         return JsonResponse(
-            {"message": f"Recording scheduled for {camera_url} for {duration} seconds."},
+            {"message": f"Recording started for {camera_url} for {duration} seconds."},
             status=200
         )
     except Exception as e:

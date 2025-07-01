@@ -60,7 +60,7 @@ const RecordLink = (props) => {
                             </IconButton>
                         </Tooltip>
                     ) : (
-                        <Tooltip title="Set" placement="top">
+                        <Tooltip title="Scheduled" placement="top">
                             <IconButton edge="end" aria-label="set">
                                 <AccessAlarmIcon color="disabled" />
                             </IconButton>
