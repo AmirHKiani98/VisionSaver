@@ -25,17 +25,12 @@ import {
   Chip,
   List,
   ListItem,
-  ListItemButton,
   InputLabel,
   FormControl,
-  IconButton,
   Pagination,
-  Link,
   Tooltip
 } from "@mui/material";
 
-import DeleteIcon from '@mui/icons-material/Delete';
-import CloseIcon from '@mui/icons-material/Close';
 import dayjs from 'dayjs';
 import Vision from "./components/Vision"; // Assuming Vision is a component that displays video streams
 import VisionContainer from "./components/VisionContainer";
@@ -46,6 +41,8 @@ const today = dayjs();
 const oneHourFromNow = today.add(1, 'hour');
 
 function App() {
+  const recordLinksPerPage = 4;
+  const [startRecordLinkIndex, setStartRecordLinkIndex] = useState(0);
   const [time, setTime] = useState(oneHourFromNow);
   const [protocol, setProtocol] = useState("RTSP");
   const [ip, setIp] = useState("192.168.");
@@ -56,9 +53,8 @@ function App() {
   const [severity, setSeverity] = useState("info");
   const [message, setMessage] = useState("Note archived");
   const [open, setOpen] = useState(false);
-  const streams = [1, 2, 3, 4];
   const [env, setEnv] = useState({});
-  const [recordLinks, setRecordLinks] = useState([])
+  const [recordLinks, setRecordLinks] = useState([]);
   useEffect(() => {
     window.env.get().then(setEnv);
   }, []);
@@ -78,16 +74,27 @@ function App() {
         .then(res => res.json())
         .then(data => {
           if (Array.isArray(data)) {
+            // camera_url should be changed to cameraUrl
+            data = data.map(record => ({
+              ...record,
+              cameraUrl: record.camera_url || record.cameraUrl, // Ensure cameraUrl is set correctly
+            }));
             setRecordLinks(data);
           } else if (data.records) {
-            setRecordLinks(data.records);
+            const records = data.records.map(record => ({
+              ...record,
+              cameraUrl: record.camera_url || record.cameraUrl, // Ensure cameraUrl is set correctly
+              startTime: record.start_time || record.startTime,
+            }));
+            
+            setRecordLinks(records);
           } else {
             setRecordLinks([]);
           }
         })
-        .catch(() => {
+        .catch((e) => {
           setRecordLinks([]);
-          console.error("Unexpected data format: Failed to fetch record links from API");
+          console.error(e);
     });
     }
   }, [env]);
@@ -98,7 +105,7 @@ function App() {
   }
   const addStream = (cameraUrl, id) => {
     const streamUrl = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/rtsp/${env.STREAM_FUNCTION_NAME}/?url=${cameraUrl}`;
-
+    
     const newVisionInfo = {
       src: streamUrl,
       cameraUrl: cameraUrl,
@@ -128,6 +135,7 @@ function App() {
     }
     if (channel === "quad") {
       // Assuming "quad" means the intersection has four cameras: cam1, cam2, cam3 and cam4
+      
       for (let i = 1; i <= 4; i++) {
         const cameraUrl = `${protocolLower}://${ip}/cam${i}`;
         addStream(cameraUrl, `${ip}-${i}`);
@@ -166,13 +174,17 @@ function App() {
 
     const startTime = time.format('YYYY-MM-DD HH:mm');
     const apiLink = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_STORE_RECORD_SCHEDULE}`;
+    const randomString = Array.from({length: 100}, () => Math.random().toString(36)[2]).join('');
     for (const vision of visions) {
       const cameraUrl = vision.cameraUrl;
+      
       const data = {
         start_time: startTime,
         duration: duration,
-        camera_url: cameraUrl
+        camera_url: cameraUrl,
+        token: randomString, // Unique token for the cron job
       };
+      
       console.log("Cron job data:", data);
       fetch(apiLink, {
         method: 'POST',
@@ -188,13 +200,22 @@ function App() {
           return;
         }
         setVisions([]); // Clear visions after setting cron job
+        
         openNotification("success", "Cron job created successfully.");
       })
       .catch(error => {
-        console.error("Error creating cron job:", error);
         openNotification("error", "Failed to create cron job.");
+        return
       });
-      
+      setRecordLinks((prev) => [
+        ...prev,
+        {
+          ip: String(ip), // Copy the current value of ip as a string
+          startTime: startTime,
+          duration: duration,
+          token: randomString,
+        }
+      ]);
     }
   }
   const removeStreamHandler = (id) => {
@@ -326,25 +347,39 @@ function App() {
                     </Divider>
                     <List>
                       {recordLinks.length === 0 ? (
-                      <ListItem className="!bg-main-700 text-white rounded-lg shadow-lg">No records found</ListItem>
-                      ) : (
-                      recordLinks.map((record, idx) => {
-                        const isFirst = idx === 0;
-                        const isLast = idx === recordLinks.length - 1;
-                        let roundedClass = "";
-                        if (isFirst) roundedClass += " rounded-t-md";
-                        if (isLast) roundedClass += " rounded-b-md";
-                        return (
-                        <RecordLink ip={record.ip} startTime={record.startTime} duration={record.duration} id={record.id} key={record.id} onRemove={() => removeRecordJob(record.id)} roundedClass={roundedClass} />
-                        );
-                      })
-                      )}
+                        <ListItem className="!bg-main-700 text-white rounded-lg shadow-lg">No records found</ListItem>
+                        ) : (
+                        recordLinks
+                        .slice(startRecordLinkIndex, startRecordLinkIndex + recordLinksPerPage)
+                        .map((record, idx) => {
+                          console.log("idx:", idx, "startRecordLinkIndex:", startRecordLinkIndex, "recordLinksPerPage:", recordLinksPerPage);
+                          const isFirst = idx === 0;
+                          const isLast = idx === Math.min(recordLinksPerPage, recordLinks.length - startRecordLinkIndex) - 1;
+                          let roundedClass = "";
+                          if (isFirst) roundedClass += " rounded-t-md";
+                          if (isLast) roundedClass += " rounded-b-md";
+                          return (
+                          <RecordLink
+                            ip={record.ip}
+                            startTime={record.startTime}
+                            duration={record.duration}
+                            key={startRecordLinkIndex + idx}
+                            roundedClass={roundedClass}
+                            onRemove={() => removeRecordJob(record.id)}
+                          />
+                          );
+                        })
+                        )}
                     </List>
                     <div className="flex justify-center p-2.5">
                       <Pagination 
-                      count={10} 
+                      count={Math.ceil(recordLinks.length / recordLinksPerPage)} 
+                      onChange={(event, value) => {
+                        const newIndex = ((value - 1) * recordLinksPerPage);
+                        setStartRecordLinkIndex(newIndex);
+                      }}
                       shape="rounded" 
-                      color="primary" 
+                      color="primary"
                       sx={{
                         '& .MuiPaginationItem-root': {
                         color: '#fff', // Set text color to white
@@ -361,17 +396,19 @@ function App() {
             </div>
             
           </div>
-          {visions && visions.length > 0 ? (
-            <VisionContainer>
-              {visions.map((visionProps, idx) => (
-                <Vision key={idx} {...visionProps} />
-              ))}
-            </VisionContainer>
-          ) : (
-            <div id="no-camera-alert" className="w-full h-full col-span-2 bg-main-700 rounded-lg shadow-lg flex items-center justify-center ">
-              <p className="text-white text-center">No video stream selected</p>
-            </div>
-          )}
+          <div className="flex-1">
+            {visions && visions.length > 0 ? (
+              <VisionContainer>
+                {visions.map((visionProps, idx) => (
+                  <Vision key={idx} {...visionProps} />
+                ))}
+              </VisionContainer>
+            ) : (
+              <div id="no-camera-alert" className="w-full h-96 col-span-2 bg-main-700 rounded-lg shadow-lg flex items-center justify-center ">
+                <p className="text-white text-center">No video stream selected</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
       </div>

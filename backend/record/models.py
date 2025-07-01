@@ -19,6 +19,9 @@ class Record(models.Model):
         null=True,
         help_text="Error message if the Record failed."
     )
+    token = models.CharField(
+        max_length=150, blank=True, null=True,
+        help_text="A unique token for the Record, used for authentication or identification.")
 
     assigned_to = models.CharField(
         max_length=100,

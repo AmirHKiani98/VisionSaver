@@ -3,6 +3,9 @@ from django.http import JsonResponse
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from record.models import Record
+from collections import defaultdict
+import re
+import pandas as pd
 # Create your views here.
 
 @csrf_exempt
@@ -24,6 +27,7 @@ def store_record_schedule(request):
         camera_url = data.get('camera_url')
         duration = data.get('duration')
         start_time = data.get('start_time')
+        token = data.get('token')
         if not start_time:
             start_time = timezone.now().isoformat()
 
@@ -41,6 +45,7 @@ def store_record_schedule(request):
             camera_url=camera_url,
             duration=duration,
             start_time=start_time,
+            token=token,
             in_process=False,
             done=False
         )
@@ -48,7 +53,13 @@ def store_record_schedule(request):
     except Exception as e:
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
 
-
+def parse_camera_url(url):
+            match = re.match(r'rtsp://([^/]+)/(.+)', url)
+            if match:
+                ip = match.group(1)
+                stream = match.group(2)
+                return ip, stream
+            return url, ""
 @csrf_exempt
 def get_record_schedule(request):
     """
@@ -57,9 +68,26 @@ def get_record_schedule(request):
     if request.method != 'GET':
         return JsonResponse({"error": "Method Not Allowed"}, status=405)
     try:
-        records = Record.objects.filter(done=False, in_process=False).values(
-            'camera_url', 'duration', 'start_time', 'in_process', 'done'
+        # Helper to extract ip and stream from camera_url
+        
+
+        raw_records = Record.objects.filter(done=False, in_process=False).values(
+            'camera_url', 'duration', 'start_time', 'in_process', 'done', 'token'
         )
+        df = pd.DataFrame(list(raw_records))
+        if df.empty:
+            return JsonResponse({"records": []}, status=200)
+        df['ip'], df['stream'] = zip(*df['camera_url'].apply(parse_camera_url))
+        # Group by camera_url and aggregate the records
+        grouped_records = df.groupby('token').agg(
+            ip=('ip', 'first'),
+            start_time=('start_time', 'first'),
+            duration=('duration', 'first'),
+            in_process=('in_process', 'first'),
+            done=('done', 'first')
+        )
+        records = grouped_records.to_dict(orient='records')
+
         return JsonResponse({"records": list(records)}, status=200)
     except Exception as e:
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
