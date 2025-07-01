@@ -39,6 +39,7 @@
     "dotenv": "^17.0.0",
     "electron-updater": "^6.3.9",
     "react-day-picker": "^9.7.0",
+    "react-player": "^3.0.0",
     "react-router-dom": "^7.6.3"
   },
   "devDependencies": {

@@ -37,15 +37,28 @@ const Vision = (props) => {
                     {error && (
                         <div className="text-red-600 text-center p-2">Stream unavailable</div>
                     )}
-                    <img
-                        className="w-full h-full"
-                        id={props.id}
-                        src={src}
-                        alt="Vision"
-                        style={{ display: loading || error ? 'none' : 'block' }}
-                        onLoad={() => setLoading(false)}
-                        onError={() => { setLoading(false); setError(true); }}
-                    />
+                    {props.img ? (
+                        <img
+                            className="w-full h-full"
+                            id={props.id}
+                            src={src}
+                            alt="Vision"
+                            style={{ display: loading || error ? 'none' : 'block' }}
+                            onLoad={() => setLoading(false)}
+                            onError={() => { setLoading(false); setError(true); }}
+                        />
+                    ) : props.video ? (
+                        <video
+                            className="w-full h-full"
+                            id={props.id}
+                            src={src}
+                            controls
+                            autoPlay={false}
+                            style={{ display: loading || error ? 'none' : 'block' }}
+                            onLoadedData={() => setLoading(false)}
+                            onError={() => { setLoading(false); setError(true); }}
+                        />
+                    ) : null}
                 </div>
             </Button>
         </ContextMenu>

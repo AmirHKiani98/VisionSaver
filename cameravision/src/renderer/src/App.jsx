@@ -85,6 +85,7 @@ function App() {
               ...record,
               cameraUrl: record.camera_url || record.cameraUrl, // Ensure cameraUrl is set correctly
               startTime: record.start_time || record.startTime,
+              inProcess: record.in_process || record.inProcess,
             }));
             
             setRecordLinks(records);
@@ -94,7 +95,6 @@ function App() {
         })
         .catch((e) => {
           setRecordLinks([]);
-          console.error(e);
     });
     }
   }, [env]);
@@ -390,6 +390,7 @@ function App() {
                           return (
                           <RecordLink
                             ip={record.ip}
+                            token={record.token}
                             startTime={record.startTime}
                             duration={record.duration}
                             key={startRecordLinkIndex + idx}
@@ -431,7 +432,7 @@ function App() {
             {visions && visions.length > 0 ? (
               <VisionContainer>
                 {visions.map((visionProps, idx) => (
-                  <Vision key={idx} {...visionProps} />
+                  <Vision img key={idx} {...visionProps} />
                 ))}
               </VisionContainer>
             ) : (

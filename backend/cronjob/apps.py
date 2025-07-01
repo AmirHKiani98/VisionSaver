@@ -44,14 +44,13 @@ def job_checker():
                 ip = record.camera_url.split('rtsp://')[1]
                 ip = ip.replace('.', '_')
                 # Ensure start_time is formatted as a string safe for filenames
-                start_time_str = record.start_time.strftime("%Y%m%d_%H%M%S") if hasattr(record.start_time, "strftime") else str(record.start_time)
                 threading.Thread(
                     target=record_rtsp_task,
                     args=(
                         record.id,
                         record.camera_url,
                         record.duration,
-                        f"{os.getenv('CACHE_DIR', '.cache')}/recording_{ip}_{start_time_str}_{record.duration}.avi"
+                        f"{os.getenv('CACHE_DIR', '.cache')}/{record.id}.mp4"
                     ),
                     daemon=True
                 ).start()
