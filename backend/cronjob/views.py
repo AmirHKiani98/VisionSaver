@@ -10,7 +10,7 @@ dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), '../.env'))
 import requests
 
 
-def run_cronjob():
+def check_and_start_recordings():
     """
     This function is intended to be run as a cron job.
     """
@@ -23,7 +23,7 @@ def run_cronjob():
         requests.post(
             f"http://{os.getenv('BACKEND_SERVER_DOMAIN')}:{os.getenv('BACKEND_SERVER_PORT')}/{os.getenv('RECORD_FUNCTION_NAME')}/",
             data={
-                'url': record.url,
+                'url': record.camera_url,
                 'duration': record.duration,
                 'start_time': record.start_time.isoformat()
             }

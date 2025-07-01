@@ -41,6 +41,7 @@ import Vision from "./components/Vision"; // Assuming Vision is a component that
 import VisionContainer from "./components/VisionContainer";
 
 import Notification from "./components/Notification";
+import RecordLink from "./components/RecordLink";
 const today = dayjs();
 const oneHourFromNow = today.add(1, 'hour');
 
@@ -57,16 +58,39 @@ function App() {
   const [open, setOpen] = useState(false);
   const streams = [1, 2, 3, 4];
   const [env, setEnv] = useState({});
+  const [recordLinks, setRecordLinks] = useState([])
   useEffect(() => {
     window.env.get().then(setEnv);
-    console.log("Environment variables loaded:", env);
   }, []);
+
   const closeNotification = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
     setOpen(false);
   };
+
+  useEffect(() => {
+
+    if (env.BACKEND_SERVER_DOMAIN && env.BACKEND_SERVER_PORT && env.API_GET_RECORD_SCHEDULE) {
+      const apiLink = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_GET_RECORD_SCHEDULE}`;
+      fetch(apiLink)
+        .then(res => res.json())
+        .then(data => {
+          if (Array.isArray(data)) {
+            setRecordLinks(data);
+          } else if (data.records) {
+            setRecordLinks(data.records);
+          } else {
+            setRecordLinks([]);
+          }
+        })
+        .catch(() => {
+          setRecordLinks([]);
+          console.error("Unexpected data format: Failed to fetch record links from API");
+    });
+    }
+  }, [env]);
   const openNotification = (severity, message) => {
     setSeverity(severity);
     setMessage(message);
@@ -228,123 +252,112 @@ function App() {
             </form>
             <div className="flex flex-col justify-between col-span-2 w-full gap-2.5">
               <div className="flex gap-2.5">
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                          <DatePicker
-                            className="bg-main-400 rounded-md w-1/3"
-                            color="primary.white"
-                            label={
-                              <Typography className="text-white">Start Date</Typography>
-                            }
-                            slotProps={{
-                              field: { clearable: false, onClear: () => setCleared(true) },
-                            }}
-                            minDate={today}
-                            value={time}
-                            onChange={(newValue) => {
-                              if (newValue) {
-                                setTime(newValue.hour(time.hour()).minute(time.minute()));
-                              }
-                            }}
-                          />
-                          <TimePicker
-                            className="bg-main-400 w-1/3 rounded-md"
-                            label={<Typography className="text-white">Start Time</Typography>}
-                            
-                            value={time}
-                            onChange={setTime}
-                            disablePast
-                          />
-                           <TextField
-                              id="outlined-number"
-                              type="number"
-                              className="bg-main-400 w-1/3 rounded-md"
-                              slotProps={{
-                                inputLabel: {
-                                  shrink: true,
-                                },
-                              }}
-                              value={duration}
-                              onChange={(e) => {
-                                const value = e.target.value;
-                                if (value >= 0) {
-                                  setDuration(value);
-                                } else {
-                                  openNotification("error", "Duration must be a positive number.");
-                                }
-                              }}
-                              label={<Typography className="text-white">Duration (minutes)</Typography>}
-                            />
-                        </LocalizationProvider>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    className="bg-main-400 rounded-md w-1/3"
+                    color="primary.white"
+                    label={
+                      <Typography className="text-white">Start Date</Typography>
+                    }
+                    slotProps={{
+                      field: { clearable: false, onClear: () => setCleared(true) },
+                    }}
+                    minDate={today}
+                    value={time}
+                    onChange={(newValue) => {
+                      if (newValue) {
+                        setTime(newValue.hour(time.hour()).minute(time.minute()));
+                      }
+                    }}
+                  />
+                  <TimePicker
+                    className="bg-main-400 w-1/3 rounded-md"
+                    label={<Typography className="text-white">Start Time</Typography>}
+                    
+                    value={time}
+                    onChange={setTime}
+                    disablePast
+                  />
+                    <TextField
+                      id="outlined-number"
+                      type="number"
+                      className="bg-main-400 w-1/3 rounded-md"
+                      slotProps={{
+                        inputLabel: {
+                          shrink: true,
+                        },
+                      }}
+                      value={duration}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (value >= 0) {
+                          setDuration(value);
+                        } else {
+                          openNotification("error", "Duration must be a positive number.");
+                        }
+                        }}
+                        label={<Typography className="text-white">Duration (minutes)</Typography>}
+                      />
+                    </LocalizationProvider>
                 
-              </div>
-              <div className="flex justify-between items-center gap-2.5">
+                </div>
+                <div className="flex justify-between items-center gap-2.5">
                   <Tooltip title="Start Recording Right Away" placement="right">
-                    <Button id="submit-start-recording"
-                      className="bg-red-500 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-red-700">
-                      <FontAwesomeIcon icon={faRecordVinyl} />
-                    </Button>
+                  <Button id="submit-start-recording"
+                    className="bg-red-500 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-red-700">
+                    <FontAwesomeIcon icon={faRecordVinyl} />
+                  </Button>
                   </Tooltip>
                   <Tooltip title="Add Cron Job for Recording" placement="top">
-                    <Button id="submit-add-cronjob"
-                      className="bg-yellow-600 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-yellow-700"
-                      onClick={addCronJob}>
-                      <FontAwesomeIcon icon={faClockRotateLeft} />
-                    </Button>
+                  <Button id="submit-add-cronjob"
+                    className="bg-yellow-600 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-yellow-700"
+                    onClick={addCronJob}>
+                    <FontAwesomeIcon icon={faClockRotateLeft} />
+                  </Button>
                   </Tooltip>
                 </div>
-            </div>
-            <Divider textAlign="left"  sx={{
-                "&::before, &::after": {
-                  borderColor: "secondary.light",
-                },
-              }}>
-              <Chip label="Cronjobs" className="!bg-main-400 !text-white !font-bold" />
-            </Divider>
-            <List>
-              {streams.map((num, idx) => {
-                const isFirst = idx === 0;
-                const isLast = idx === streams.length - 1;
-                let roundedClass = "";
-                if (isFirst) roundedClass += " rounded-t-md";
-                if (isLast) roundedClass += " rounded-b-md";
-                return (
-                  <ListItem className={`!bg-main-500 hover:!bg-main-700 shadow-xl overflow-hidden${roundedClass}`} key={num} disablePadding secondaryAction={
-                    <Tooltip title="Delete Camera Stream" placement="top">
-                      <IconButton edge="end" aria-label="delete">
-                        <DeleteIcon color="secondary" />
-                      </IconButton>
-                    </Tooltip>
-                  }>
-                    <Link className="w-full h-full" href="/editor">
-                      <ListItemButton >
-                        <div className="flex flex-col">
-                          <Typography className="text-white">192.168.1.{num}</Typography>
-                          <Typography className="text-gray-400">time</Typography>
-                        </div> 
-                      </ListItemButton>
-                    </Link>
-                  </ListItem>
-                );
-              })}
-            </List>
-            <div className="flex justify-center p-2.5">
-              <Pagination 
-                count={10} 
-                shape="rounded" 
-                color="primary" 
-                sx={{
-                  '& .MuiPaginationItem-root': {
-                    color: '#fff', // Set text color to white
-                  },
-                  '& .Mui-selected': {
-                    color: '#fff', // Selected page number
-                    backgroundColor: 'primary.main',
-                  },
-                  '& .MuiPaginationItem-ellipsis': {
-                    color: '#fff', // Ellipsis color
-                  },
-                }}
-              />
+                </div>
+                    <Divider textAlign="left"  sx={{
+                      "&::before, &::after": {
+                        borderColor: "secondary.light",
+                      },
+                      }}>
+                      <Chip label="Record Links" className="!bg-main-400 !text-white !font-bold" />
+                    </Divider>
+                    <List>
+                      {recordLinks.length === 0 ? (
+                      <ListItem className="!bg-main-700 text-white rounded-lg shadow-lg">No records found</ListItem>
+                      ) : (
+                      recordLinks.map((record, idx) => {
+                        const isFirst = idx === 0;
+                        const isLast = idx === recordLinks.length - 1;
+                        let roundedClass = "";
+                        if (isFirst) roundedClass += " rounded-t-md";
+                        if (isLast) roundedClass += " rounded-b-md";
+                        return (
+                        <RecordLink ip={record.ip} startTime={record.startTime} duration={record.duration} id={record.id} key={record.id} onRemove={() => removeRecordJob(record.id)} roundedClass={roundedClass} />
+                        );
+                      })
+                      )}
+                    </List>
+                    <div className="flex justify-center p-2.5">
+                      <Pagination 
+                      count={10} 
+                      shape="rounded" 
+                      color="primary" 
+                      sx={{
+                        '& .MuiPaginationItem-root': {
+                        color: '#fff', // Set text color to white
+                          },
+                          '& .Mui-selected': {
+                            color: '#fff', // Selected page number
+                            backgroundColor: 'primary.main',
+                          },
+                          '& .MuiPaginationItem-ellipsis': {
+                            color: '#fff', // Ellipsis color
+                          },
+                        }}
+                      />
             </div>
             
           </div>

@@ -47,3 +47,19 @@ def store_record_schedule(request):
         return JsonResponse({"message": "Recording todo added successfully."}, status=200)
     except Exception as e:
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
+
+
+@csrf_exempt
+def get_record_schedule(request):
+    """
+    Get the recording schedule.
+    """
+    if request.method != 'GET':
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)
+    try:
+        records = Record.objects.filter(done=False, in_process=False).values(
+            'camera_url', 'duration', 'start_time', 'in_process', 'done'
+        )
+        return JsonResponse({"records": list(records)}, status=200)
+    except Exception as e:
+        return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)

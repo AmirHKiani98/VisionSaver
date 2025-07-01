@@ -14,6 +14,7 @@ ipcMain.handle('get-env', () => ({
   STREAM_FUNCTION_NAME: process.env.STREAM_FUNCTION_NAME,
   RECORD_FUNCTION_NAME: process.env.RECORD_FUNCTION_NAME,
   API_STORE_RECORD_SCHEDULE: process.env.API_STORE_RECORD_SCHEDULE,
+  API_GET_RECORD_SCHEDULE: process.env.API_GET_RECORD_SCHEDULE,
 }));
 
 let tray = null
