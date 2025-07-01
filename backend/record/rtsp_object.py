@@ -56,7 +56,7 @@ class RTSPObject:
         out = cv2.VideoWriter(output_file, fourcc, 20.0, (width, height))
         start_time = cv2.getTickCount()
         elapsed_time = 0
-        while elapsed_time <= duration:
+        while elapsed_time <= duration*60: # Duration is in minutes.
             frame = first_frame if elapsed_time == 0 else self.read_frame()
             if frame is None:
                 print("Stream ended or frame not available.")

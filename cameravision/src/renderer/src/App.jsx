@@ -209,10 +209,11 @@ function App() {
       });
       
     }
+    const copyOfIp = ip;
     setRecordLinks((prev) => [
         ...prev,
         {
-          ip: String(ip), // Copy the current value of ip as a string
+          ip: copyOfIp, // Copy the current value of ip as a string
           startTime: startTime,
           duration: duration,
           token: randomString,
