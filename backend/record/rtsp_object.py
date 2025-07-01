@@ -55,7 +55,6 @@ class RTSPObject:
         fourcc = cv2.VideoWriter.fourcc(*'XVID')
         out = cv2.VideoWriter(output_file, fourcc, 20.0, (width, height))
         start_time = cv2.getTickCount()
-        print(f"Recording started for {duration} seconds to {output_file}")
         elapsed_time = 0
         while elapsed_time <= duration:
             frame = first_frame if elapsed_time == 0 else self.read_frame()
@@ -64,7 +63,7 @@ class RTSPObject:
                 break
             out.write(frame)
             elapsed_time = (cv2.getTickCount() - start_time) / cv2.getTickFrequency()
-            print(f"Elapsed time: {elapsed_time:.2f} seconds")
+
         out.release()
 
 # Try
