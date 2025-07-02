@@ -17,7 +17,7 @@ let win = null
 
 function createWindow() {
   win = new BrowserWindow({
-    width: 900,
+    width: 1200,
     height: 720,
     show: false,
     autoHideMenuBar: true,
@@ -30,9 +30,7 @@ function createWindow() {
 
   win.on('ready-to-show', () => {
     win.show()
-    if (is.dev) {
-      win.webContents.openDevTools()
-    }
+    
   })
 
   win.webContents.setWindowOpenHandler((details) => {

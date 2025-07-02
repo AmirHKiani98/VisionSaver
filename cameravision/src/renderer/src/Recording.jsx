@@ -6,12 +6,9 @@ import {
     Button,
     Link
 } from '@mui/material';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { useLocation } from 'react-router-dom';
 import Notification from './components/Notification';
-import RecordVision from './components/RecordVision';
-
+import { useNavigate } from 'react-router-dom';
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
@@ -24,7 +21,10 @@ function Recording() {
     const [severity, setSeverity] = React.useState("info");
     const [message, setMessage] = React.useState("Note archived");
     const [open, setOpen] = React.useState(false);
+    const navigate = useNavigate();
     const token = query.get('token');
+            console.log(`token=${token}`);
+
     if(!token) {
         return (
             <div className='w-screen h-screen flex items-center justify-center'>
@@ -46,7 +46,6 @@ function Recording() {
             .then(response => response.json())
             .then(data => {
                 if (data.urls && data.urls.length > 0) {
-                    console.log(`Fetched visions:`, data.urls);
                     const visionsData = data.urls.map((item) => ({
                         id: item.id,
                         src: `${item.url}`,
@@ -82,19 +81,22 @@ function Recording() {
     };
     return (
         <>
-        <div className='w-screen h-screen flex flex-col'>
+        <div className='relative w-screen h-screen flex flex-col items-center'>
+            <div className="absolute top-5 left-5 z-10">
+                <Button onClick={() =>{
+                    navigate(-1);
+                }}>
+                    Back
+                </Button>
+            </div>
             <div className='flex items-center p-2.5 gap-2.5'>
-                <Link href="/">
-                    <Button className="!bg-main-500 !p-2.5 !w-10">
-                        <FontAwesomeIcon icon={faChevronLeft} className='text-white' />
-                    </Button>
-                </Link>
+                
                 <h1 className='text-white text-2xl font-bold'>Camera Vision Recording</h1>
             </div>
             <VisionContainer>
                 {visions && visions.length > 0 ? (
                     visions.map((visionProps, idx) => (
-                        <Vision video key={idx} {...visionProps} />
+                        <Vision video key={idx} token={token} {...visionProps} />
                 ))
                 ) : (
                     <div className="text-white text-center w-full py-10">No visions available.</div>

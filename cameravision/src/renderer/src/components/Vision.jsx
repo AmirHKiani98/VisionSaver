@@ -68,7 +68,7 @@ const Vision = (props) => {
                         />
                     ) : props.video ? (
                         <div className="relative w-full h-full flex flex-col items-center justify-center">
-                            <Link href={`/record?record_id=${props.id}`}>
+                            <Link href={`/record?record_id=${props.id}?token=${props.token}`}>
                                 <video
                                     className="flex-1"
                                     id={props.id}
