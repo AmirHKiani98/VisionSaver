@@ -19,7 +19,6 @@ dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), '../../.env'))
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
@@ -152,3 +151,8 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(minute='*/5'),  # every 5 minutes
     },
 }
+
+
+
+MEDIA_URL = f'/{os.getenv("CACHE_DIR")}/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

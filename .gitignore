@@ -140,3 +140,6 @@ vite.config.ts.timestamp-*
 
 # Local env files
 .venv
+
+# Local cache directory
+media

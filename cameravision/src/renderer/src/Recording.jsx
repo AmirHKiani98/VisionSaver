@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { useLocation } from 'react-router-dom';
 import Notification from './components/Notification';
-import ReactPlayer from 'react-player'
+import RecordVision from './components/RecordVision';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -95,7 +95,7 @@ function Recording() {
             <VisionContainer>
                 {visions && visions.length > 0 ? (
                     visions.map((visionProps, idx) => (
-                        <Vision video key={idx} {...visionProps} />
+                        <Vision img key={idx} {...visionProps} />
                 ))
                 ) : (
                     <div className="text-white text-center w-full py-10">No visions available.</div>

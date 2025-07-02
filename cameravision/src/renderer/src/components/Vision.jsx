@@ -56,7 +56,7 @@ const Vision = (props) => {
                             autoPlay={false}
                             style={{ display: loading || error ? 'none' : 'block' }}
                             onLoadedData={() => setLoading(false)}
-                            onError={() => { setLoading(false); setError(true); }}
+                            onError={() => { setLoading(false); setError(true); console.error(error); }}
                         />
                     ) : null}
                 </div>
