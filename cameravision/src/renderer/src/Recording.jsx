@@ -96,7 +96,7 @@ function Recording() {
             <VisionContainer>
                 {visions && visions.length > 0 ? (
                     visions.map((visionProps, idx) => (
-                        <Vision img key={idx} {...visionProps} />
+                        <Vision video key={idx} {...visionProps} />
                 ))
                 ) : (
                     <div className="text-white text-center w-full py-10">No visions available.</div>

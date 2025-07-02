@@ -5,6 +5,8 @@ import os
 import cv2
 import dotenv
 import subprocess
+# Import settings from the Django project
+from django.conf import settings
 dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), '../.env'))
 
 class RTSPObject:
@@ -44,8 +46,7 @@ class RTSPObject:
         self.release()
     
     def record(self, duration_seconds: int, output_path: str):
-        ffmpeg_path = os.getenv("FFMPEG_PATH", "ffmpeg")
-        print(f"Recording {duration_seconds}s from {self.url} → {output_path}")
+        ffmpeg_path = settings.BASE_DIR + os.getenv("FFMPEG_PATH")        
         cmd = [
             ffmpeg_path,
             "-y",
@@ -56,6 +57,7 @@ class RTSPObject:
             output_path
         ]
         try:
+            print(f"Running command: {' '.join(cmd)}")
             subprocess.run(cmd, check=True)
             print("Recording complete.")
         except subprocess.CalledProcessError as e:
@@ -70,7 +72,7 @@ if __name__ == "__main__":
     rtsp = RTSPObject(f"rtsp://{ip}/{stream}")
     # Try recording for 1 minute and save to output.mp4
     try:
-        rtsp.record(1, "output.mp4")
-        print("Recording completed successfully.")
+        rtsp.record(10, "output.mp4")
+        print("Recording ompleted successfully.")
     except Exception as e:
         print(f"An error occurred: {e}")
