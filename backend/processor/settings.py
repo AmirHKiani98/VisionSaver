@@ -156,3 +156,6 @@ CELERY_BEAT_SCHEDULE = {
 
 MEDIA_URL = f'/{os.getenv("CACHE_DIR")}/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+ASGI_APPLICATION = 'processor.asgi.application'
