@@ -52,7 +52,7 @@ class RTSPObject:
         if first_frame is None:
             raise RuntimeError("Could not read first frame from RTSP stream.")
         height, width = first_frame.shape[:2]
-        fourcc = cv2.VideoWriter.fourcc(*'XVID')
+        fourcc = cv2.VideoWriter.fourcc(*'mp4v')
         out = cv2.VideoWriter(output_file, fourcc, 20.0, (width, height))
         start_time = cv2.getTickCount()
         elapsed_time = 0
