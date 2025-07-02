@@ -71,9 +71,9 @@ if __name__ == "__main__":
     ip = "192.168.29.108"
     stream = "cam1"
     rtsp = RTSPObject(f"rtsp://{ip}/{stream}")
-    # Try recording for 10 seconds and save to output.mp4
+    # Try recording for 1 minute and save to output.mp4
     try:
-        rtsp.record(10, "output.mp4")
+        rtsp.record(1, "output.mp4")
         print("Recording completed successfully.")
     except Exception as e:
         print(f"An error occurred: {e}")

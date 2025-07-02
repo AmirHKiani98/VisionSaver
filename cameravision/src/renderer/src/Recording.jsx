@@ -48,9 +48,10 @@ function Recording() {
             .then(response => response.json())
             .then(data => {
                 if (data.urls && data.urls.length > 0) {
+                    console.log(`Fetched visions:`, data.urls);
                     const visionsData = data.urls.map((item) => ({
                         id: item.id,
-                        src: `http://localhost:5000/media/24.mp4`,
+                        src: `${item.url}`,
                         cameraUrl: item.url,
                         onRemove: (id) => {
                             // Handle remove action
