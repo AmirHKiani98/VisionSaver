@@ -1,4 +1,5 @@
 import os
+import json
 from urllib import response
 from django.http import JsonResponse, FileResponse
 from django.shortcuts import get_object_or_404
@@ -91,7 +92,6 @@ def get_records_url(request, token):
             url = (
                 f"http://{domain}:{port}/{func_name}/{record_id}"
             )
-            print(f"Generated URL for record {record_id}: {url}")
             urls.append(
                 {
                     "id": record_id,
@@ -106,14 +106,47 @@ def get_records_url(request, token):
 
 
 def stream_video(request, record_id):
+    """
+    Streams video with support for HTTP Range requests (seeking).
+    """
     video_path = os.path.join(settings.MEDIA_ROOT, f'{record_id}.mp4')
     print(f"Streaming video from: {video_path}")
-    if os.path.exists(video_path):
-        response = FileResponse(open(video_path, 'rb'), content_type='video/mp4')
-        response['Content-Disposition'] = 'inline; filename="%s.mp4"' % record_id
+    if not os.path.exists(video_path):
+        return HttpResponseNotFound('Video not found')
+
+    file_size = os.path.getsize(video_path)
+    range_header = request.META.get('HTTP_RANGE', '')
+    content_type = 'video/mp4'
+    if range_header:
+        # Example: "bytes=0-1023"
+        range_match = range_header.strip().lower().replace('bytes=', '').split('-')
+        try:
+            start = int(range_match[0]) if range_match[0] else 0
+            end = int(range_match[1]) if len(range_match) > 1 and range_match[1] else file_size - 1
+        except ValueError:
+            start = 0
+            end = file_size - 1
+        if end >= file_size:
+            end = file_size - 1
+        length = end - start + 1
+        f = open(video_path, 'rb')
+        f.seek(start)
+        response = FileResponse(
+            f,
+            status=206,
+            content_type=content_type
+        )
+        response['Content-Range'] = f'bytes {start}-{end}/{file_size}'
+        response['Content-Length'] = str(length)
+        response['Accept-Ranges'] = 'bytes'
+        response['Content-Disposition'] = f'inline; filename="{record_id}.mp4"'
         return response
     else:
-        return HttpResponseNotFound('Video not found')
+        response = FileResponse(open(video_path, 'rb'), content_type=content_type)
+        response['Content-Length'] = str(file_size)
+        response['Accept-Ranges'] = 'bytes'
+        response['Content-Disposition'] = f'inline; filename="{record_id}.mp4"'
+        return response
 
 
 def get_done_records_id_from_token(token):
@@ -125,3 +158,30 @@ def get_done_records_id_from_token(token):
     if not records:
         return None
     return [record.id for record in records]
+
+
+
+@csrf_exempt
+def get_record_url(request, record_id):
+    """
+    Get record Url by record ID. This is going to be POST.
+    """
+    try:
+        if not record_id:
+            return JsonResponse({"error": "'record_id' is required."}, status=400)
+
+        try:
+            record = Record.objects.get(id=record_id)
+            if not record.done:
+                return JsonResponse({"error": "Record is not done yet."}, status=400)
+            domain = os.getenv('BACKEND_SERVER_DOMAIN')
+            port = os.getenv('BACKEND_SERVER_PORT')
+            func_name = os.getenv('RECORD_STREAM_FUNCTION_NAME')
+            url = (
+                f"http://{domain}:{port}/{func_name}/{record_id}"
+            )
+            return JsonResponse({"url": url}, status=200)
+        except Record.DoesNotExist:
+            return JsonResponse({"error": "Record not found."}, status=404)
+    except Exception as e:
+        return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)

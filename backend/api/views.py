@@ -124,3 +124,6 @@ def delete_record_schedule(request):
         return JsonResponse({"message": "Record deleted successfully."}, status=200)
     except Exception as e:
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
+    
+
+

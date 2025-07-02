@@ -24,4 +24,9 @@ urlpatterns = [
         views.get_records_url,
         name=os.getenv('GET_RECORDS_URL') or 'get_records'
     ),
+    path(
+        f"{os.getenv('GET_RECORD_URL') or 'get_record'}/<int:record_id>/",
+        views.get_record_url,
+        name=os.getenv('GET_RECORD_URL') or 'get_record'
+    )
 ]

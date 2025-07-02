@@ -27,6 +27,7 @@ const theme = createTheme({
 
 import App from './App'
 import Recording from './Recording';
+import RecordEditor from './RecordEditor';
 
 // Assign Tailwind and custom CSS classes to the body
 const rootElement = document.getElementById('root');
@@ -39,6 +40,7 @@ createRoot(document.getElementById('root')).render(
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="/editor" element={<Recording />} />
+          <Route path="/record" element={<RecordEditor />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
