@@ -49,7 +49,6 @@ const Record = (props) => {
             console.error('No record ID provided in query parameters');
             setError(true);
             setLoading(false);
-
         } else {
             setError(true);
             setLoading(false);
@@ -95,7 +94,7 @@ const Record = (props) => {
     };
 
     return (
-        <div className='relative w-full h-full flex flex-col items-center justify-center'>
+        <div className='relative w-full h-full flex flex-col items-center justify-center bg-white/20 p-2.5 '>
             <div className='relative w-full h-full flex items-center justify-center'>
                 {loading && !error && (
                     <div className='absolute w-full h-full flex justify-center items-center'>
@@ -114,7 +113,7 @@ const Record = (props) => {
                         onLoadedData={() => setLoading(false)}
                         onError={() => setError(true)}
                         autoPlay
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-contain"
                     />
                 )}
             </div>

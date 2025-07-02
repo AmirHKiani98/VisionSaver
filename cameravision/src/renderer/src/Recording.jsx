@@ -38,8 +38,6 @@ function Recording() {
 
     React.useEffect(() => {
         // Set the token in localStorage for use in Vision components
-        console.log(`Token: ${token}`);
-        console.log(`Environment Variables:`, env);
         if (env.BACKEND_SERVER_DOMAIN && env.BACKEND_SERVER_PORT && env.GET_RECORDS_URL){
             console.log(`Backend URL: ${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}`);
             const backendUrl = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}`;

@@ -18,6 +18,7 @@ const RecordEditor = (props) => {
     const [env, setEnv] = react.useState(props.env || null);
     const query = useQuery();
     const recordId = query.get('record_id');
+    const token = query.get('token');
     const [open, setOpen] = react.useState(false);
     const [severity, setSeverity] = react.useState('info');
     const [message, setMessage] = react.useState('');
@@ -34,7 +35,7 @@ const RecordEditor = (props) => {
     return (
         <>
             <div className="relative w-screen h-screen flex overflow-hidden">
-                <div className="flex w-3/4 flex-col justify-between bg-blue-600">
+                <div className="flex w-3/4 flex-col justify-between bg-main-600 p-20">
                     <Record id={recordId} recordId={recordId} />
                 </div>
                 <div className="flex-1 flex items-center justify-center bg-gray-100">
