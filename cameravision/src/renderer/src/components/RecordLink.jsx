@@ -83,8 +83,8 @@ const RecordLink = (props) => {
                 >
                     <ListItemButton className="flex flex-row gap-10" disabled={!props.done}>
                         <div className="flex flex-col">
-                            <Typography className="text-white">IP: {props.ip}</Typography>
-                            <Typography className="text-gray-400">At {formatDateTime(props.startTime)}</Typography>
+                            <Typography className="text-white">Start at:</Typography>
+                            <Typography className="text-gray-400">{formatDateTime(props.startTime)}</Typography>
                         </div>
                         <div className="flex flex-col">
                             <Typography className="text-white">Duration</Typography>

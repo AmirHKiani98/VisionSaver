@@ -108,6 +108,7 @@ function App() {
     
     const newVisionInfo = {
       src: streamUrl,
+      ip: ip,
       cameraUrl: cameraUrl,
       id: `camera-${id}`,
       onRemove: onRemoveStream,
@@ -209,11 +210,9 @@ function App() {
       });
       
     }
-    const copyOfIp = ip;
     setRecordLinks((prev) => [
         ...prev,
         {
-          ip: copyOfIp, // Copy the current value of ip as a string
           startTime: startTime,
           duration: duration,
           token: randomString,
@@ -389,7 +388,6 @@ function App() {
                           if (isLast) roundedClass += " rounded-b-md";
                           return (
                           <RecordLink
-                            ip={record.ip}
                             token={record.token}
                             startTime={record.startTime}
                             duration={record.duration}

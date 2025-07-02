@@ -45,8 +45,22 @@ class RTSPObject:
         """
         self.release()
     
-    def record(self, duration_seconds: int, output_path: str):
-        ffmpeg_path = settings.BASE_DIR + os.getenv("FFMPEG_PATH")        
+    def record(self, duration_minutes: int, output_path: str):
+        duration_seconds = duration_minutes * 60
+        ffmpeg_env = os.getenv("FFMPEG_PATH")
+        print(f"FFMPEG_PATH env: {ffmpeg_env}")
+        abs_output_path = os.path.join(str(settings.BASE_DIR), output_path) if not os.path.isabs(output_path) else output_path
+        print(f"Output path: {abs_output_path}")
+        if not os.path.isdir(os.path.dirname(abs_output_path)):
+            print(f"Creating directory: {os.path.dirname(abs_output_path)}")
+            os.makedirs(os.path.dirname(abs_output_path), exist_ok=True)
+        if not ffmpeg_env:
+            raise EnvironmentError("FFMPEG_PATH environment variable is not set.")
+        if os.path.isabs(ffmpeg_env):
+            ffmpeg_path = ffmpeg_env
+        else:
+            ffmpeg_path = os.path.join(str(settings.BASE_DIR), ffmpeg_env)
+        print(f"FFmpeg executable path: {ffmpeg_path}")
         cmd = [
             ffmpeg_path,
             "-y",
@@ -54,14 +68,16 @@ class RTSPObject:
             "-i", self.url,
             "-t", str(duration_seconds),
             "-c", "copy",
-            output_path
+            abs_output_path
         ]
         try:
             print(f"Running command: {' '.join(cmd)}")
             subprocess.run(cmd, check=True)
             print("Recording complete.")
-        except subprocess.CalledProcessError as e:
-            print(f"FFmpeg error: {e}")
+        except Exception as e:
+            print(f"Exception type: {type(e)}")
+            print(f"Exception args: {e.args}")
+            print(f"Command attempted: {cmd}")
             raise
 
 # Try

@@ -24,9 +24,11 @@ def record_rtsp_task(record_id, camera_url, duration, output_file):
         record.error = ""
         logging.info(f"Recording completed for record ID {record_id}")
     except Exception as e:
-        record.done = True
+        record.done = False
         record.error = str(e)
+        record.in_process = False
         logging.error(f"Error during recording for record ID {record_id}: {e}")
+
     record.in_process = False
     record.save()
 
@@ -39,7 +41,12 @@ def job_checker():
     while True:
         try:
             now = timezone.now()
-            records = Record.objects.filter(done=False, in_process=False, start_time__lte=now)
+            records = Record.objects.filter(
+                done=False,
+                in_process=False,
+                start_time__lte=now,
+            )
+            print(records)
             for record in records:
                 ip = record.camera_url.split('rtsp://')[1]
                 ip = ip.replace('.', '_')
