@@ -111,7 +111,7 @@ def stream_video(request, record_id):
     video_path = os.path.join(settings.MEDIA_ROOT, f'{record_id}.mp4')
     print(f"Streaming video from: {video_path}")
     if os.path.exists(video_path):
-        return FileResponse(open(video_path, 'rb'), content_type='video/mp4')
+        return FileResponse(open(video_path, 'rb'), as_attachment=True, filename=f'{record_id}.mp4', content_type='video/mp4')
     else:
         return HttpResponseNotFound('Video not found')
 
