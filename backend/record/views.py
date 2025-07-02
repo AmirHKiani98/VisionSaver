@@ -1,4 +1,5 @@
 import os
+from urllib import response
 from django.http import JsonResponse, FileResponse
 from django.shortcuts import get_object_or_404
 from django.http import StreamingHttpResponse, HttpResponseNotFound
@@ -108,11 +109,9 @@ def stream_video(request, record_id):
     video_path = os.path.join(settings.MEDIA_ROOT, f'{record_id}.mp4')
     print(f"Streaming video from: {video_path}")
     if os.path.exists(video_path):
-        return FileResponse(
-            open(video_path, 'rb'),
-            as_attachment=False,  # 🔴 Must be False for streaming
-            content_type='video/mp4'
-        )
+        response = FileResponse(open(video_path, 'rb'), content_type='video/mp4')
+        response['Content-Disposition'] = 'inline; filename="%s.mp4"' % record_id
+        return response
     else:
         return HttpResponseNotFound('Video not found')
 

@@ -159,3 +159,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 ASGI_APPLICATION = 'processor.asgi.application'
+
+CORS_ALLOW_ALL_ORIGINS = True
