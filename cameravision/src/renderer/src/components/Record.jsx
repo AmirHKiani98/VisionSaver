@@ -1,3 +1,4 @@
+import "../assets/main.css"
 import react from 'react';
 import {
     CircularProgress,
@@ -6,8 +7,11 @@ import {
     InputLabel,
     Typography,
     FormControl,
-    Slider
+    Slider,
+    Button
 } from '@mui/material';
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
+import StopCircleIcon from '@mui/icons-material/StopCircle';
 import { Form } from 'react-router-dom';
 
 const Record = (props) => {
@@ -18,6 +22,7 @@ const Record = (props) => {
     const [playbackRate, setPlaybackRate] = react.useState(1);
     const [currentTime, setCurrentTime] = react.useState(0);
     const [duration, setDuration] = react.useState(0);
+    const [completedPercentage, setCompletedPercentage] = react.useState(0);
     const recordId = props.recordId || null;
     const videoRef = react.useRef(null);
 
@@ -106,6 +111,48 @@ const Record = (props) => {
         setPlaybackRate(Number(e.target.value));
     };
 
+    // State to track if video is playing
+    const [isPlaying, setIsPlaying] = react.useState(true);
+
+    // Play/pause handlers
+    const handlePlayPause = () => {
+        if (!videoRef.current) return;
+        if (isPlaying) {
+            videoRef.current.pause();
+            setIsPlaying(false);
+        } else {
+            videoRef.current.play();
+            setIsPlaying(true);
+        }
+    };
+
+    // Listen for play/pause events to sync state
+    react.useEffect(() => {
+        const video = videoRef.current;
+        if (!video) return;
+        const handlePlay = () => setIsPlaying(true);
+        const handlePause = () => setIsPlaying(false);
+        video.addEventListener('play', handlePlay);
+        video.addEventListener('pause', handlePause);
+        return () => {
+            video.removeEventListener('play', handlePlay);
+            video.removeEventListener('pause', handlePause);
+        };
+    }, [src]);
+    // Set keybinds
+    react.useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.key === ' ') {
+                e.preventDefault(); // Prevent scrolling
+                handlePlayPause();
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [isPlaying]);
+
     return (
         <div
             className="flex flex-col items-center justify-center bg-white/20 p-2.5"
@@ -157,6 +204,9 @@ const Record = (props) => {
                                 height: '8px',
                                 padding: 0,
                                 backgroundColor: 'rgba(250, 250, 250, 1)', // rgba for #122846
+                                '& .MuiSlider-rail': {
+                                    background: `linear-gradient(to right, #ff0000 70%, #0000ff 70%)`
+                                },
                             }}
                         />
                     </div>
@@ -183,8 +233,22 @@ const Record = (props) => {
                                     <MenuItem value={2}>2x</MenuItem>
                                 </Select>
                             </FormControl>
-                            
-                            
+                        </div>
+                        <div>
+                            <Button
+                                onClick={handlePlayPause}
+                                color="primary.light"
+                                size="large"
+                                className='!rounded-full !w-10 !h-16'
+                                
+                                
+                            >
+                                {isPlaying ? (
+                                    <StopCircleIcon className="text-main-300" fontSize="large" />
+                                ) : (
+                                    <PlayCircleIcon fontSize="large" />
+                                )}
+                            </Button>
                         </div>
                         <div>
                             <div className='flex items-center gap-0.5'>

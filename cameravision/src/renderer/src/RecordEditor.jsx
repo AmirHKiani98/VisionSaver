@@ -3,7 +3,9 @@ import react from 'react';
 import {
     CircularProgress,
     Button,
-    Link
+    Link,
+    Divider,
+    Chip,
 } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ContextMenu from './components/ContextMenu';
@@ -46,8 +48,14 @@ const RecordEditor = (props) => {
                 <Button></Button>
                     <Record id={recordId} recordId={recordId} />
                 </div>
-                <div className="flex-1 flex items-center justify-center bg-gray-100">
-
+                <div className="flex-1 justify-center bg-main-300 py-2">
+                    <Divider textAlign="right"  sx={{
+                      "&::before, &::after": {
+                        borderColor: "secondary.light",
+                      },
+                      }}>
+                      <Chip label="History" className="!bg-main-400 !text-white !font-bold" />
+                    </Divider>
                 </div>
             </div>
             <Notification
