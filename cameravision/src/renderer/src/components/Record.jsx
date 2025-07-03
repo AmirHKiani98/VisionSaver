@@ -31,6 +31,10 @@ const Record = (props) => {
     }, []);
 
     react.useEffect(() => {
+        
+    })
+
+    react.useEffect(() => {
         if (!env) {
             // Don't do anything until env is loaded
             return;

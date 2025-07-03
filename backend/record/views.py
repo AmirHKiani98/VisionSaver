@@ -3,11 +3,10 @@ import json
 from urllib import response
 from django.http import JsonResponse, FileResponse
 from django.shortcuts import get_object_or_404
-from django.http import StreamingHttpResponse, HttpResponseNotFound
+from django.http import HttpResponseNotFound
 import dotenv
-from .models import Record
+from .models import Record, RecordLog
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework.response import Response
 
 # Import settings django
 from django.conf import settings
@@ -181,6 +180,23 @@ def get_record_url(request, record_id):
                 f"http://{domain}:{port}/{func_name}/{record_id}"
             )
             return JsonResponse({"url": url}, status=200)
+        except Record.DoesNotExist:
+            return JsonResponse({"error": "Record not found."}, status=404)
+    except Exception as e:
+        return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
+
+@csrf_exempt
+def get_record_info(request, record_id):
+    """
+    Get record info by record ID.
+    """
+    try:
+        if not record_id:
+            return JsonResponse({"error": "'record_id' is required."}, status=400)
+
+        try:
+            record = Record.objects.get(id=record_id)
+            record_log = RecordLog.objects.filter(record=record)
         except Record.DoesNotExist:
             return JsonResponse({"error": "Record not found."}, status=404)
     except Exception as e:

@@ -34,3 +34,21 @@ class Record(models.Model):
             f"Record from {self.camera_url} starting at {self.start_time} "
             f"for {self.duration} seconds"
         )
+
+
+class RecordLog(models.Model):
+    """
+    Model to represent a log entry for a Record.
+    Record: A Record object that this log entry is associated with.
+    time: The time (s) into the record when the log entry was created.
+    """
+
+    record = models.ForeignKey(Record, on_delete=models.CASCADE, related_name='logs')
+    time = models.PositiveIntegerField(
+        help_text="The time in seconds into the record when this log entry was created."
+    )
+    input_key = models.CharField(
+        max_length=100,
+        help_text="The key of the input that triggered this log entry."
+    )
+    
