@@ -70,7 +70,7 @@ const Vision = (props) => {
                         <div className="relative w-full h-full flex flex-col items-center justify-center">
                             <Link href={`/record?record_id=${props.id}?token=${props.token}`}>
                                 <video
-                                    className="flex-1"
+                                    className="w-full h-full object-contain"
                                     id={props.id}
                                     src={src}
                                     ref={videoRef}
@@ -84,7 +84,7 @@ const Vision = (props) => {
                             <div
                                 variant="containd"
                                 size="small"
-                                className={`bg-main-400 p-1 ${loading ? ' invisible' : ''}`}
+                                className={`bg-main-400 p-1 ${loading ? ' invisible' : ''} active:bg-main-500`}
                                 onClick={handlePlayPause}
                                 style={{ position: 'absolute', bottom: 8, left: '50%', transform: 'translateX(-50%)', zIndex: 2 }}
                             >

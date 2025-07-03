@@ -1,7 +1,14 @@
 import react from 'react';
 import {
-    CircularProgress
+    CircularProgress,
+    Select,
+    MenuItem,
+    InputLabel,
+    Typography,
+    FormControl,
+    Slider
 } from '@mui/material';
+import { Form } from 'react-router-dom';
 
 const Record = (props) => {
     const [src, setSrc] = react.useState(props.src || '');
@@ -81,6 +88,12 @@ const Record = (props) => {
         };
     }, [src]);
 
+    const formatSecomds = (seconds) => {
+        const minutes = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+    };
+
     const handleSliderChange = (e) => {
         const value = Number(e.target.value);
         if (videoRef.current) {
@@ -94,53 +107,92 @@ const Record = (props) => {
     };
 
     return (
-        <div className='relative w-full h-full flex flex-col items-center justify-center bg-white/20 p-2.5 '>
-            <div className='relative w-full h-full flex items-center justify-center'>
+        <div
+            className="flex flex-col items-center justify-center bg-white/20 p-2.5"
+            style={{
+                width: '100%',
+                maxWidth: '100%',
+            }}
+        >
+            <div className='relative flex items-center justify-center w-auto max-w-full'>
                 {loading && !error && (
-                    <div className='absolute w-full h-full flex justify-center items-center'>
-                        <CircularProgress className='w-full h-full' color="secondary" />
+                    <div className='absolute inset-0 flex justify-center items-center z-10'>
+                        <CircularProgress color="secondary" />
                     </div>
                 )}
                 {error && (
-                    <div className='absolute w-full h-full flex justify-center items-center'>
+                    <div className='absolute inset-0 flex justify-center items-center z-10'>
                         <div className="text-red-600 text-center p-2">Stream unavailable</div>
                     </div>
                 )}
                 {src && (
-                    <video
-                        ref={videoRef}
-                        src={src}
-                        onLoadedData={() => setLoading(false)}
-                        onError={() => setError(true)}
-                        autoPlay
-                        className="w-full h-full object-contain"
-                    />
+                    <div className='relative inline-block'>
+                        <video
+                            ref={videoRef}
+                            src={src}
+                            onLoadedData={() => setLoading(false)}
+                            onError={() => setError(true)}
+                            autoPlay
+                            className="block max-w-full max-h-[60vh] w-auto h-auto object-contain"
+                            style={{
+                                background: 'black',
+                                display: 'block',
+                                margin: 0,
+                                padding: 0,
+                            }}
+                        />
+                        <Slider
+                            value={currentTime}
+                            min={0}
+                            max={duration}
+                            onChange={handleSliderChange}
+                            className="w-full left-0 scale-x-[1.01] right-0 -bottom-1 m-0 p-0 h-52"
+                            step={0.1}
+                            sx={{
+                                position: 'absolute',
+                                left: 0,
+                                right: 0,
+                                bottom: '-0px',
+                                width: '100%',
+                                height: '8px',
+                                padding: 0,
+                                backgroundColor: 'rgba(250, 250, 250, 1)', // rgba for #122846
+                            }}
+                        />
+                    </div>
                 )}
             </div>
-            {src && !error && (
-                <div className="w-full flex flex-col items-center mt-2">
-                    <input
-                        type="range"
-                        min={0}
-                        max={duration}
-                        value={currentTime}
-                        onChange={handleSliderChange}
-                        className="w-full"
-                        step="0.1"
-                    />
-                    <div className="flex items-center mt-2">
-                        <span className="mr-2 text-sm">
-                            {Math.floor(currentTime)} / {Math.floor(duration)}s
-                        </span>
-                        <label className="ml-2 text-sm">
-                            Speed:
-                            <select value={playbackRate} onChange={handleSpeedChange} className="ml-1">
-                                <option value={0.5}>0.5x</option>
-                                <option value={1}>1x</option>
-                                <option value={1.5}>1.5x</option>
-                                <option value={2}>2x</option>
-                            </select>
-                        </label>
+            {src && !error && !loading && (
+                <div className="w-full flex flex-col items-center mt-5">
+                    <div className="flex w-full items-center justify-between mt-2">
+                        <div className='flex items-center gap-10'>
+                            <FormControl className="">
+                                <InputLabel id="playback-rate-label">Speed</InputLabel>
+                                <Select
+                                    labelId="playback-rate-label"
+                                    value={playbackRate}
+                                    onChange={handleSpeedChange}
+                                    label="Playback Speed"
+                                    color="primary.white" 
+                                    className="shadow-lg !px-0 w-20 bg-main-400"
+                                >
+                                    <MenuItem value={0.25}>0.25x</MenuItem>
+                                    <MenuItem value={0.5}>0.5x</MenuItem>
+                                    <MenuItem value={1}>1x</MenuItem>
+                                    <MenuItem value={1.5}>1.5x</MenuItem>
+                                    <MenuItem value={2}>2x</MenuItem>
+                                </Select>
+                            </FormControl>
+                            
+                            
+                        </div>
+                        <div>
+                            <div className='flex items-center gap-0.5'>
+                                <Typography className="mr-2 text-sm">
+                                    {formatSecomds(Math.floor(currentTime))}/{formatSecomds(Math.floor(duration))}
+                                </Typography>
+                            </div>
+                        </div>
                     </div>
                 </div>
             )}
