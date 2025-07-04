@@ -1,23 +1,18 @@
-import { app, shell, BrowserWindow, ipcMain, Tray, Menu } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, Tray, Menu, nativeImage } from 'electron'
 import { join, resolve } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-
+import appIcon from '../../build/icon.png?asset'; // Use .png for tray icon
 const { exec, execFile } = require('child_process');
 const waitOn = require('wait-on');
 
-import icon from '../../resources/icon.png'
 import dotenv from 'dotenv';
 // Adjust the path to point to the correct .env location
 dotenv.config({ path: join(__dirname, '../../../.env') });
-console.log("Current file path:", __filename);
-console.log("Current directory:", __dirname);
 
 // --- Django startup path fix ---
 const projectRoot = resolve(__dirname, '../../../');
 const pythonPath = join(projectRoot, '.venv', 'Scripts', 'python.exe');
 const managePyPath = join(projectRoot, 'backend', 'manage.py');
-console.log('Resolved Python path:', pythonPath);
-console.log('Resolved manage.py path:', managePyPath);
 
 ipcMain.handle('get-env', () => ({
   ...process.env
@@ -49,24 +44,6 @@ waitOn({ resources: [url] }, (err) => {
     console.error('Django server failed to start:', err);
     process.exit(1);
   }
-  // // Start Vite and Electron app
-  // const viteProcess = exec('vite');
-  // viteProcess.stdout.on('data', (data) => {
-  //   console.log(`Vite: ${data}`);
-  // });
-
-  // viteProcess.stderr.on('data', (data) => {
-  //   console.error(`Vite error: ${data}`);
-  // });
-
-  // const electronProcess = exec('electron .');
-  // electronProcess.stdout.on('data', (data) => {
-  //   console.log(`Electron: ${data}`);
-  // });
-
-  // electronProcess.stderr.on('data', (data) => {
-  //   console.error(`Electron error: ${data}`);
-  // });
 });
 
 djangoProcess.stdout && djangoProcess.stdout.on('data', (data) => {
@@ -77,6 +54,9 @@ djangoProcess.stderr && djangoProcess.stderr.on('data', (data) => {
   console.error(`Django error: ${data}`);
 });
 
+// Use .ico for app icon (Windows), .png for tray
+const iconIco = join(__dirname, '../../resources/icon.ico');
+
 let tray = null
 let win = null
 
@@ -86,7 +66,7 @@ function createWindow() {
     height: 720,
     show: false,
     autoHideMenuBar: true,
-    icon: icon,
+    icon: iconIco, // Use .ico for app icon
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
@@ -133,7 +113,7 @@ app.whenReady().then(() => {
   createWindow()
 
   // Create tray icon
-  tray = new Tray(join(__dirname, '../../resources/icon.png'))
+  tray = new Tray(nativeImage.createFromPath(appIcon)); // Use .png for tray icon
   const contextMenu = Menu.buildFromTemplate([
     { label: 'Show App', click: () => { win.show() } },
     {
@@ -151,6 +131,11 @@ app.whenReady().then(() => {
 })
 
 // Prevent app from quitting when all windows are closed
-app.on('window-all-closed', () => {
-  // Do not quit app when all windows are closed
-})
+app.on('window-all-closed', (event) => {
+  // On Windows, minimize to tray (show hidden icons) instead of quitting
+  event.preventDefault();
+  if (win) {
+    win.hide();
+  }
+  // Do not call app.quit()
+});
