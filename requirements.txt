@@ -11,3 +11,4 @@ djangorestframework==3.16.0
 fastapi==0.115.14
 uvicorn==0.35.0
 Jinja2==3.1.6
+pyinstaller==6.14.1

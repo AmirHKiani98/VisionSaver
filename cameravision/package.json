@@ -47,6 +47,7 @@
     "@electron-toolkit/eslint-config-prettier": "^3.0.0",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.21",
+    "concurrently": "^9.2.0",
     "electron": "^35.1.5",
     "electron-builder": "^25.1.8",
     "electron-vite": "^3.1.0",
@@ -59,6 +60,7 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "tailwindcss": "^3.4.17",
-    "vite": "^6.2.6"
+    "vite": "^6.2.6",
+    "wait-on": "^8.0.3"
   }
 }

@@ -9,6 +9,7 @@ from . import views
 dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), '../.env'))
 
 urlpatterns = [
+    path('', views.health_check, name='health_check'),
     path(
         f"{os.getenv('API_STORE_RECORD_SCHEDULE')}",
         views.store_record_schedule,

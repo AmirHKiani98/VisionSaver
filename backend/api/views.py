@@ -9,6 +9,11 @@ import pandas as pd
 from django.utils.dateparse import parse_datetime
 # Create your views here.
 
+from django.http import HttpResponse
+
+def health_check(request):
+    return HttpResponse("OK", status=200)
+
 @csrf_exempt
 def store_record_schedule(request):
     """
