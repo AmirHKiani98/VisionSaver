@@ -28,5 +28,15 @@ urlpatterns = [
         f"{os.getenv('GET_RECORD_URL') or 'get_record'}/<int:record_id>/",
         views.get_record_url,
         name=os.getenv('GET_RECORD_URL') or 'get_record'
-    )
+    ),
+    path(
+        f"{os.getenv('GET_RECORD_TURN_URL') or 'get_record_turn'}/<int:record_id>/",
+        views.get_record_turn,
+        name=os.getenv('GET_RECORD_TURN_URL') or 'get_record_turn'
+    ),
+    path(
+        f"{os.getenv('ADD_RECORD_TURN_URL') or 'add_record_turn'}",
+        views.add_record_turn,
+        name=os.getenv('ADD_RECORD_TURN_URL') or 'add_record_turn'
+    ),
 ]

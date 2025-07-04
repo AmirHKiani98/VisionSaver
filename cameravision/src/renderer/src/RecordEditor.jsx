@@ -6,29 +6,191 @@ import {
     Link,
     Divider,
     Chip,
+    TextField
 } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ContextMenu from './components/ContextMenu';
 import Notification from './components/Notification';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+
+
 function useQuery() {
     return new URLSearchParams(useLocation().search);
 }
 import Record from './components/Record';
+import { Typography } from "@material-tailwind/react";
 const RecordEditor = (props) => {
     
     const [env, setEnv] = react.useState(props.env || null);
     const query = useQuery();
-    const recordId = query.get('record_id');
+    const recordIdParam = query.get('record_id');
+    const recordId = recordIdParam ? recordIdParam.split('?')[0] : null;
     const token = query.get('token');
     const [open, setOpen] = react.useState(false);
     const [severity, setSeverity] = react.useState('info');
     const [message, setMessage] = react.useState('');
+    const [leftTurns, setLeftTurns] = react.useState(0);
+    const [rightTurns, setRightTurns] = react.useState(0);
+    const [throughTurns, setThroughTurns] = react.useState(0);
+    const [approach, setApproach] = react.useState(0);
+    const leftTurnButtonRef = react.useRef(null);
+    const rightTurnButtonRef = react.useRef(null);
+    const throughButtonRef = react.useRef(null);
+    const approacButtonRef = react.useRef(null);
+    const videoRef = react.useRef(null);
+    const [pendingSeekTime, setPendingSeekTime] = react.useState(null);
+
+
     const navigate = useNavigate();
+    react.useEffect(() => {
+            window.env.get().then(setEnv);
+    }, []);
+
+
+
     const closeNotification = () => {
-        setOpen(false);
-        setSeverity('info');
-        setMessage('');
+        // setOpen(false);
+        // setSeverity('info');
+        // setMessage('');
     }
+    const ajaxKeyDown = (turn) => {
+        const currentTime = videoRef.current?.getCurrentTime?.() ?? 0;
+        fetch(`http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.ADD_RECORD_TURN_URL}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            
+            body: JSON.stringify({
+                record_id: recordId,
+                time: Math.floor(currentTime),
+                turn: turn
+            })
+        }).then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                openNotification('error', data.error);
+            } else {
+                openNotification('success', `${turn.charAt(0).toUpperCase() + turn.slice(1)} incremented successfully.`);
+            }
+        })
+    }
+    react.useEffect(() => {
+        if (!env) return; // Prevent fetch until env is loaded
+        if (!videoRef.current) return; // Prevent fetch until videoRef is set
+        fetch(`http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.GET_RECORD_TURN_URL}/${recordId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                openNotification('error', data.error);
+            } else {
+                let max_time = Number(data.max_time);
+                setPendingSeekTime(max_time)
+                console.log("Current time set to:", videoRef.current.currentTime);
+                for (const key in data.turn_counts) {
+                    if (!(data.turn_counts[key] === null || data.turn_counts[key] === undefined)) {
+                        switch (data.turn_counts[key].turn_movement) {
+                            case 'left':
+                                setLeftTurns(data.turn_counts[key].count);
+                                break;
+                            case 'right':
+                                setRightTurns(data.turn_counts[key].count);
+                                break;
+                            case 'through':
+                                setThroughTurns(data.turn_counts[key].count);
+                                break;
+                            case 'approach':
+                                setApproach(data.turn_counts[key].count);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+        })
+        .catch(error => {
+            openNotification('error', `Error fetching record logs: ${error.message}`);
+        });
+    }, [recordId, env, videoRef]);
+
+    react.useEffect(() => {
+        const handleKeyDown = (event) => {
+        switch (event.key) {
+            case 'ArrowUp':
+            approacButtonRef.current?.click();
+            break;
+            case 'ArrowDown':
+            throughButtonRef.current?.click();
+            break;
+            case 'ArrowLeft':
+            leftTurnButtonRef.current?.click();
+            break;
+            case 'ArrowRight':
+            rightTurnButtonRef.current?.click();
+            break;
+            default:
+            break;
+        }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+
+        // Cleanup event listener on component unmount
+        return () => {
+        window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []);
+
+
+    let lastTime = null;
+
+    const getCurrentTimestamp = () => {
+        return Math.floor(Date.now() / 1000);
+    };
+    lastTime = getCurrentTimestamp();
+    const [currentTime, setCurrentTime] = react.useState(getCurrentTimestamp());
+
+    
+    react.useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentTime((prevTime) => {
+                const newTime = getCurrentTimestamp();
+                if (newTime - lastTime > 3) {
+                    lastTime = newTime;
+                    setOpen(false);
+                    setSeverity('info');
+                    setMessage('');
+                }
+                return newTime;
+            });
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, []);
+
+    const openNotification = (severity, message) => {
+        
+
+        if (open) {
+            setSeverity(severity);
+            setMessage(message);
+        } else {
+            setOpen(true);
+            setSeverity(severity);
+            setMessage(message);
+        }
+    };
+
+
 
 
     
@@ -45,24 +207,172 @@ const RecordEditor = (props) => {
             <div className="absolute w-screen h-screen flex overflow-hidden">
                 
                 <div className="flex w-3/4 flex-col justify-between bg-main-600 p-20">
-                <Button></Button>
-                    <Record id={recordId} recordId={recordId} />
+                    <div></div>
+                    <Record id={recordId} recordId={recordId} ref={videoRef} pendingSeekTime={pendingSeekTime} />
                 </div>
-                <div className="flex-1 justify-center bg-main-300 py-2">
-                    <Divider textAlign="right"  sx={{
-                      "&::before, &::after": {
-                        borderColor: "secondary.light",
-                      },
-                      }}>
-                      <Chip label="History" className="!bg-main-400 !text-white !font-bold" />
-                    </Divider>
+                <div className="flex-1 flex flex-col justify-center bg-main-300 py-2">
+                    <div>
+                        <Divider textAlign="right"  sx={{
+                            "&::before, &::after": {
+                                borderColor: "secondary.light",
+                            },
+                        }}>
+                            <Chip label="Record Logs" className="!bg-main-400 !text-white !font-bold" />
+                        </Divider>
+                    </div>
+                    <div className="flex flex-col items-center justify-between flex-1">
+                        <div className="grid grid-cols-2 grid-rows-2 gap-4 p-5">
+                            <TextField
+                                id="outlined-number"
+                                type="number"
+                                className="bg-main-400 rounded-md"
+                                slotProps={{
+                                    inputLabel: {
+                                    shrink: true,
+                                    },
+                                }}
+                                value={leftTurns}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (value >= 0) {
+                                        setLeftTurns(value);
+                                    } else {
+                                        openNotification("error", "Value must be a positive number.");
+                                    }
+                                    }}
+                                    label={<Typography className="text-white">Left Turns</Typography>}
+                                />
+                                <TextField
+                                    id="outlined-number"
+                                    type="number"
+                                    className="bg-main-400 rounded-md"
+                                    slotProps={{
+                                        inputLabel: {
+                                        shrink: true,
+                                        },
+                                    }}
+                                    value={rightTurns}
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        if (value >= 0) {
+                                            setRightTurns(value);
+                                        } else {
+                                            openNotification("error", "Value must be a positive number.");
+                                        }
+                                        }}
+                                        label={<Typography className="text-white">Right Turns</Typography>}
+                                />
+                                <TextField
+                                    id="outlined-number"
+                                    type="number"
+                                    className="bg-main-400 rounded-md"
+                                    slotProps={{
+                                        inputLabel: {
+                                        shrink: true,
+                                        },
+                                    }}
+                                    value={throughTurns}
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        if (value >= 0) {
+                                            setThroughTurns(value);
+                                        } else {
+                                            openNotification("error", "Value must be a positive number.");
+                                        }
+                                        }}
+                                        label={<Typography className="text-white">Through</Typography>}
+                                />
+                                <TextField
+                                    id="outlined-number"
+                                    type="number"
+                                    className="bg-main-400 rounded-md"
+                                    slotProps={{
+                                        inputLabel: {
+                                        shrink: true,
+                                        },
+                                    }}
+                                    value={approach}
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        if (value >= 0) {
+                                            setApproach(value);
+                                        } else {
+                                            openNotification("error", "Value must be a positive number.");
+                                        }
+                                        }}
+                                        label={<Typography className="text-white">Approach</Typography>}
+                                />
+                        </div>
+                        <div className="flex flex-col items-center gap-2.5 p-5">
+                            <div className="flex justify-center items-center">
+                                <Button 
+                                    className="!bg-main-400 !text-white !font-bold hover:!bg-main-500 active:!bg-main-600 flex flex-col shadow-lg"
+                                    onClick={() => {
+                                        setApproach(approach + 1);
+                                        ajaxKeyDown('approach');
+                                        // openNotification("success", "Approach incremented successfully.");
+                                    }}
+                                    ref={approacButtonRef}
+                                >
+                                    <ArrowDropUpIcon />
+                                    <Typography style={{ fontSize: "7px" }} >
+                                        Approach
+                                    </Typography>
+                                </Button>
+                            </div>
+                            <div className="flex justify-center items-start gap-2.5">
+                                <Button 
+                                    className="!bg-main-400 !text-white !font-bold hover:!bg-main-500 active:!bg-main-600 flex flex-col shadow-lg"
+                                    onClick={() => {
+                                        setLeftTurns(leftTurns + 1);
+                                        ajaxKeyDown('left');
+                                        // openNotification("success", "Left turn incremented successfully.");
+                                    }}
+                                    ref={leftTurnButtonRef}
+                                >
+                                    <ArrowLeftIcon />
+                                    <Typography style={{ fontSize: "7px" }} >
+                                        Left
+                                    </Typography>
+                                </Button>
+                                <Button 
+                                    className="!bg-main-400 !text-white !font-bold hover:!bg-main-500 active:!bg-main-600 flex flex-col shadow-lg"
+                                    onClick={() => {
+                                        setRightTurns(rightTurns + 1);
+                                        ajaxKeyDown('right');
+                                        // openNotification("success", "Right turn incremented successfully.");
+                                    }}
+                                    ref={throughButtonRef}
+                                >
+                                    <ArrowDropDownIcon />
+                                    <Typography style={{ fontSize: "7px" }} >
+                                        Through
+                                    </Typography>
+                                </Button>
+                                <Button 
+                                    className="!bg-main-400 !text-white !font-bold hover:!bg-main-500 active:!bg-main-600 flex flex-col shadow-lg"
+                                    onClick={() => {
+                                        setThroughTurns(throughTurns + 1);
+                                        ajaxKeyDown('through');
+                                        // openNotification("success", "Through incremented successfully.");
+                                    }}
+                                    ref={rightTurnButtonRef}
+                                >
+                                    <ArrowRightIcon />
+                                    <Typography style={{ fontSize: "7px" }} >
+                                        Right
+                                    </Typography>
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
             <Notification
                 open={open}
                 severity={severity}
                 message={message}
-                onClose={closeNotification}
             />
         </div>
 

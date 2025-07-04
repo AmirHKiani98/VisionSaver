@@ -42,13 +42,12 @@ class RecordLog(models.Model):
     Record: A Record object that this log entry is associated with.
     time: The time (s) into the record when the log entry was created.
     """
-
+    id = models.AutoField(primary_key=True, help_text="Unique identifier for the RecordLog.")
     record = models.ForeignKey(Record, on_delete=models.CASCADE, related_name='logs')
     time = models.PositiveIntegerField(
         help_text="The time in seconds into the record when this log entry was created."
     )
-    input_key = models.CharField(
+    turn_movement = models.CharField(
         max_length=100,
         help_text="The key of the input that triggered this log entry."
     )
-    

@@ -5,7 +5,7 @@ from django.http import JsonResponse, FileResponse
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseNotFound
 import dotenv
-from .models import Record, RecordLog
+from .models import Record, RecordLog  # Import models here to avoid circular import issues
 from django.views.decorators.csrf import csrf_exempt
 
 # Import settings django
@@ -14,6 +14,7 @@ from django.conf import settings
 
 # Create your views here.
 from .rtsp_object import RTSPObject
+from django.db.models import Count, Max
 dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), '../.env'))
 
 def start_record_rtsp(request):
@@ -186,18 +187,109 @@ def get_record_url(request, record_id):
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
 
 @csrf_exempt
-def get_record_info(request, record_id):
+def get_record_turn(request, record_id):
     """
     Get record info by record ID.
     """
     try:
-        if not record_id:
-            return JsonResponse({"error": "'record_id' is required."}, status=400)
-
+        
         try:
+            
+            if not record_id:
+                return JsonResponse(
+                    {"error": "'record_id' is required."},
+                    status=400
+                )
+            
+            # Fetch the record and its latest log entry
             record = Record.objects.get(id=record_id)
-            record_log = RecordLog.objects.filter(record=record)
+
+            # Count each possible turn_movement, ensuring all are present
+            turn_types = ['left', 'right', 'through', 'approach']
+            counts = (
+                RecordLog.objects
+                .filter(record=record)
+                .values('turn_movement')
+                .annotate(count=Count('id'))
+            )
+            # Convert queryset to a dict for easy lookup
+            count_dict = {item['turn_movement']: item['count'] for item in counts}
+            turn_counts = [
+                {'turn_movement': t, 'count': count_dict.get(t, 0)}
+                for t in turn_types
+            ]
+            max_time = (
+                RecordLog.objects
+                .filter(record=record)
+                .aggregate(max_time=Max('time'))
+                .get('max_time')
+            )
+
+            result = {
+                "turn_counts": list(turn_counts),
+                "max_time": max_time if max_time is not None else 0,
+            }
+            return JsonResponse(result, status=200)
+            
         except Record.DoesNotExist:
             return JsonResponse({"error": "Record not found."}, status=404)
     except Exception as e:
+        return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
+
+@csrf_exempt
+def add_record_turn(request):
+    """
+    Add a new record entry.
+    This view should be triggered via a POST request with the necessary parameters.
+    """
+    if request.method != 'POST':
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+        turn = data.get('turn')
+        time = data.get('time')
+        record_id = data.get('record_id')
+        print(f"Adding record turn: {turn}, time: {time}, record_id: {record_id}")
+        # Print types
+        print(f"Types - turn: {type(turn)}, time: {type(time)}, record_id: {type(record_id)}")
+        if not record_id or not turn or time is None:
+            return JsonResponse(
+                {"error": "'record_id', 'turn', and 'time' are required."},
+                status=400
+            )
+        record = Record.objects.get(id=record_id)
+        if not record:
+            return JsonResponse({"error": "Record not found."}, status=404)
+        if not record.done:
+            return JsonResponse({"error": "Record is not done yet."}, status=400)
+
+        if not isinstance(turn, str) or not isinstance(time, int):
+            return JsonResponse(
+                {"error": "'turn' must be a string and 'time' must be an integer."},
+                status=400
+            )
+        if time < 0:
+            return JsonResponse(
+                {"error": "'time' must be a non-negative integer."},
+                status=400
+            )
+        # Create a new RecordLog entry
+        record_log = RecordLog.objects.create(
+            record=record,
+            turn_movement=turn,
+            time=time
+        )
+        record_log.save()
+        return JsonResponse(
+            {"message": "Record log entry added successfully.", "log_id": record_log.id},
+            status=201
+        )
+    except Record.DoesNotExist:
+        print(f"Record with ID {record_id} not found.")
+        return JsonResponse({"error": "Record not found."}, status=404)
+    except json.JSONDecodeError:
+        print("Invalid JSON body.")
+        return JsonResponse({"error": "Invalid JSON body."}, status=400)
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)

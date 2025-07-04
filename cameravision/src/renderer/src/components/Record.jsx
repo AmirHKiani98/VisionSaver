@@ -1,5 +1,5 @@
 import "../assets/main.css"
-import react from 'react';
+import react, { forwardRef, useImperativeHandle } from 'react';
 import {
     CircularProgress,
     Select,
@@ -14,7 +14,7 @@ import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import StopCircleIcon from '@mui/icons-material/StopCircle';
 import { Form } from 'react-router-dom';
 
-const Record = (props) => {
+const Record = forwardRef((props, ref) => {
     const [src, setSrc] = react.useState(props.src || '');
     const [loading, setLoading] = react.useState(true);
     const [error, setError] = react.useState(false);
@@ -22,9 +22,25 @@ const Record = (props) => {
     const [playbackRate, setPlaybackRate] = react.useState(1);
     const [currentTime, setCurrentTime] = react.useState(0);
     const [duration, setDuration] = react.useState(0);
+    const [passedPercentage, setPassedPercentage] = react.useState(0);
     const [completedPercentage, setCompletedPercentage] = react.useState(0);
     const recordId = props.recordId || null;
     const videoRef = react.useRef(null);
+    const playButtonRef = react.useRef(null);
+    
+    useImperativeHandle(ref, () => ({
+        getCurrentTime: () => videoRef.current?.currentTime ?? 0,
+        video: videoRef.current
+    }));
+
+
+    react.useEffect(() => {
+        if (props.pendingSeekTime != null && videoRef.current && duration > 0) {
+            videoRef.current.currentTime = props.pendingSeekTime;
+            setPassedPercentage(Math.floor((props.pendingSeekTime / duration) * 100));
+        }
+    }, [props.pendingSeekTime, duration]);
+
 
     react.useEffect(() => {
         window.env.get().then(setEnv);
@@ -100,7 +116,7 @@ const Record = (props) => {
     const formatSecomds = (seconds) => {
         const minutes = Math.floor(seconds / 60);
         const secs = Math.floor(seconds % 60);
-        return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+        return `${minutes< 10 ? '0' : ''}${minutes}:${secs < 10 ? '0' : ''}${secs}`;
     };
 
     const handleSliderChange = (e) => {
@@ -116,7 +132,7 @@ const Record = (props) => {
     };
 
     // State to track if video is playing
-    const [isPlaying, setIsPlaying] = react.useState(true);
+    const [isPlaying, setIsPlaying] = react.useState(false);
 
     // Play/pause handlers
     const handlePlayPause = () => {
@@ -183,7 +199,6 @@ const Record = (props) => {
                             src={src}
                             onLoadedData={() => setLoading(false)}
                             onError={() => setError(true)}
-                            autoPlay
                             className="block max-w-full max-h-[60vh] w-auto h-auto object-contain"
                             style={{
                                 background: 'black',
@@ -209,7 +224,7 @@ const Record = (props) => {
                                 padding: 0,
                                 backgroundColor: 'rgba(250, 250, 250, 1)', // rgba for #122846
                                 '& .MuiSlider-rail': {
-                                    background: `linear-gradient(to right, #ff0000 70%, #0000ff 70%)`
+                                    background: `linear-gradient(to right, green ${passedPercentage}%, #ffffff ${passedPercentage}%)`
                                 },
                             }}
                         />
@@ -221,14 +236,14 @@ const Record = (props) => {
                     <div className="flex w-full items-center justify-between mt-2">
                         <div className='flex items-center gap-10'>
                             <FormControl className="">
-                                <InputLabel id="playback-rate-label">Speed</InputLabel>
+                                <InputLabel id="playback-rate-label !text-white">Speed</InputLabel>
                                 <Select
                                     labelId="playback-rate-label"
                                     value={playbackRate}
                                     onChange={handleSpeedChange}
                                     label="Playback Speed"
                                     color="primary.white" 
-                                    className="shadow-lg !px-0 w-20 bg-main-400"
+                                    className="shadow-lg !px-0 w-24 bg-main-400"
                                 >
                                     <MenuItem value={0.25}>0.25x</MenuItem>
                                     <MenuItem value={0.5}>0.5x</MenuItem>
@@ -240,17 +255,18 @@ const Record = (props) => {
                         </div>
                         <div>
                             <Button
+                                ref={playButtonRef}
                                 onClick={handlePlayPause}
                                 color="primary.light"
                                 size="large"
-                                className='!rounded-full !w-10 !h-16'
+                                className='!rounded-full !w-10 !h-16 !bg-main-400'
                                 
                                 
                             >
                                 {isPlaying ? (
                                     <StopCircleIcon className="text-main-300" fontSize="large" />
                                 ) : (
-                                    <PlayCircleIcon fontSize="large" />
+                                    <PlayCircleIcon className="text-main-300" fontSize="large" />
                                 )}
                             </Button>
                         </div>
@@ -266,6 +282,6 @@ const Record = (props) => {
             )}
         </div>
     );
-}
+})
 
 export default Record;
