@@ -13,9 +13,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 import dotenv
-from celery.schedules import crontab
-# Load environment variables from .env file
-dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), '../../.env'))
+# Load environment variables from .hc_to_app_env file
+dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), '../../.hc_to_app_env'))
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -42,8 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'record',
     'corsheaders',
-    'django_celery_beat',
-    'cronjob'
 ]
 
 MIDDLEWARE = [
@@ -140,17 +137,6 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 
-CELERY_BROKER_URL = f'redis://{os.getenv("CELERY_BROKER_DOMAIN")}:{os.getenv("CELERY_BROKER_PORT")}/0'
-CELERY_RESULT_BACKEND = f'redis://{os.getenv("CELERY_BROKER_DOMAIN")}:{os.getenv("CELERY_BROKER_PORT")}/0'
-CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
-
-
-CELERY_BEAT_SCHEDULE = {
-    'check-and-start-recordings-every-5-minutes': {
-        'task': 'cronjob.tasks.check_and_start_recordings',
-        'schedule': crontab(minute='*/5'),  # every 5 minutes
-    },
-}
 
 
 

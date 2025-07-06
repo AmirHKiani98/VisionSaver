@@ -15,7 +15,7 @@ from django.conf import settings
 # Create your views here.
 from .rtsp_object import RTSPObject
 from django.db.models import Count, Max
-dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), '../.env'))
+dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), '../.hc_to_app_env'))
 
 def start_record_rtsp(request):
     """

@@ -7,7 +7,7 @@ import dotenv
 import subprocess
 # Import settings from the Django project
 from django.conf import settings
-dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), '../.env'))
+dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), '../.hc_to_app_env'))
 
 class RTSPObject:
     def __init__(self, url: str):

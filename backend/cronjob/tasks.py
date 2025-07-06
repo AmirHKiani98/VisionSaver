@@ -1,13 +1,12 @@
 import os
 import requests
-from celery import shared_task
 from django.utils import timezone
 
 from record.rtsp_object import RTSPObject
 from record import models
 
 import dotenv
-dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), '../.env'))
+dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), '../.hc_to_app_env'))
 
 @shared_task
 def record_rtsp_task(camera_url, duration, output_file):

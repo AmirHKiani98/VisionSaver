@@ -7,7 +7,7 @@ const waitOn = require('wait-on');
 
 import dotenv from 'dotenv';
 // Adjust the path to point to the correct .env location
-dotenv.config({ path: join(__dirname, '../../../.env') });
+dotenv.config({ path: join(__dirname, '../../../.hc_to_app_env') });
 
 // --- Django startup path fix ---
 const projectRoot = resolve(__dirname, '../../../');

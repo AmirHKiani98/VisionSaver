@@ -6,7 +6,7 @@ import os
 from django.urls import path
 import dotenv
 from . import views
-dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), '../.env'))
+dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), '../.hc_to_app_env'))
 
 urlpatterns = [
     path(
