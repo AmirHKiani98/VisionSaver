@@ -9,11 +9,17 @@ function Splash() {
       style={{ backgroundImage: `url(${splashBg})`, backgroundSize: 'cover' }}
     >
       <div
-    className="absolute z-10 h-screen w-screen backdrop-blur-sm bg-white/[0.1]"
-    style={{
-        clipPath: 'polygon(100% 0, 100% 50%, 100% 100%, 0 100%, 0 50%, 50% 0)' // edit this to shape the diagonal
-    }}
-    ></div>
+        className="absolute z-10 h-screen w-screen backdrop-blur-sm bg-white/30"
+        style={{
+          clipPath: 'polygon(0 0, 0 90%, 90% 0, 0 0)' // edit this to shape the diagonal
+        }}
+      ></div>
+      <div
+        className="absolute z-10 h-screen w-screen backdrop-blur-sm bg-white/30"
+        style={{
+          clipPath: 'polygon(20% 100%, 100% 100%, 100% 20%, 20% 100%)' // edit this to shape the diagonal
+        }}
+      ></div>
 
       <div className="absolute z-20 bottom-5 left-5">
         <div className="flex flex-row items-center gap-3">
