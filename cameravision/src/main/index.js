@@ -61,7 +61,10 @@ const domain = process.env.BACKEND_SERVER_DOMAIN
 const port = process.env.BACKEND_SERVER_PORT
 const url = `http://${domain}:${port}`
 const apiHealthUrl = `${url}/${process.env.API_HEALTH_CHECK}`
+<<<<<<< HEAD
 console.log(`Django server URL: ${url}`)
+=======
+>>>>>>> 80ea75a44c17a7b9f05beb271c3bd291714762a1
 
 // Ensure Django server is killed when Electron app quits
 app.on('before-quit', () => {
