@@ -12,7 +12,7 @@ if (process.contextIsolated) {
     contextBridge.exposeInMainWorld('api', api)
     contextBridge.exposeInMainWorld('env', {
       get: () => ipcRenderer.invoke('get-env')
-    });
+    })
   } catch (error) {
     console.error(error)
   }

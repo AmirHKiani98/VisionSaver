@@ -2,7 +2,7 @@ import '../assets/output.css'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { ThemeProvider, createTheme } from '@mui/material/styles' // Use @mui/material/styles
-import Splash  from './Splash'
+import Splash from './Splash'
 const theme = createTheme({
   palette: {
     primary: {
