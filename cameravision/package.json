@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "An Electron application with React",
   "main": "./out/main/index.js",
-  "author": "example.com",
+  "author": "amirhkiani98.github.io",
   "homepage": "https://electron-vite.org",
   "scripts": {
     "format": "prettier --write .",
@@ -16,7 +16,10 @@
     "build:win": "npm run build && electron-builder --win",
     "build:mac": "npm run build && electron-builder --mac",
     "build:linux": "npm run build && electron-builder --linux",
-    "build:tailwindcss": "npx tailwindcss -i ./src/renderer/src/assets/main.css -o ./src/renderer/src/assets/output.css --watch"
+    "build:tailwindcss": "npx tailwindcss -i ./src/renderer/src/assets/main.css -o ./src/renderer/src/assets/output.css --watch",
+    "test": "jest",
+    "build:mac:portable": "npm run build && electron-builder --mac --dir",
+    "build:win:portable": "npm run build && electron-builder --win --dir"
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.1",
@@ -62,5 +65,47 @@
     "tailwindcss": "^3.4.17",
     "vite": "^6.2.6",
     "wait-on": "^8.0.3"
+  },
+  "build": {
+    "appId": "com.example.cameravision",
+    "productName": "CameraVision",
+    "directories": {
+      "buildResources": "resources"
+    },
+    "files": [
+      "out",
+      "dist/",
+      "main.js",
+      "preload/**/*",
+      "resources/backend/**",
+      "resources/.hc_to_app_env",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "apps/ffmpeg",
+        "to": "apps/ffmpeg",
+        "filter": ["**/*"]
+      },
+      {
+        "from": "resources/backend",
+        "to": "resources/backend",
+        "filter": ["**/*"]
+      },
+      {
+        "from": "resources/.hc_to_app_env",
+        "to": "resources/.hc_to_app_env"
+      }
+    ],
+    "mac": {
+      "target": "dir"
+    },
+    "win": {
+      "target": "portable",
+      "icon": "resources/icon.ico"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
   }
 }
