@@ -7,7 +7,7 @@ const waitOn = require('wait-on')
 
 import dotenv from 'dotenv'
 // Adjust the path to point to the correct .env location
-dotenv.config({ path: join(__dirname, '../../../.hc_to_app_env') })
+dotenv.config({ path: join(__dirname, '../../resources/.hc_to_app_env') })
 
 // --- Django startup path fix ---
 const frontRoot = resolve(__dirname, '../../')
@@ -16,12 +16,13 @@ const backendBinary = is.dev
   ? join(
       frontRoot,
       'resources',
-      process.platform === 'darwin' ? 'dist_backend_mac' : 'dist_backend_win',
-      'startbackend'
+      'backend',
+      process.platform === 'darwin' ? 'startbackend' : 'startbackend.exe'
     ) // dev mode: local binary
   : join(
       process.resourcesPath,
       'resources',
+      'backend',
       process.platform === 'darwin' ? 'startbackend' : 'startbackend.exe'
     ) // production: in packaged app
 
@@ -44,6 +45,7 @@ console.log(`Django server URL: ${url}`)
 
 // Ensure Django server is killed when Electron app quits
 app.on('before-quit', () => {
+  app.isQuiting = true
   if (djangoProcess && !djangoProcess.killed) {
     console.log('Killing Django server...')
     djangoProcess.kill()
@@ -70,7 +72,7 @@ djangoProcess.stderr &&
   })
 
 // Use .ico for app icon (Windows), .png for tray
-const iconIco = join(__dirname, '../../resources/icon.ico')
+const iconIco = join(__dirname, '../../resources/icon.png')
 
 let tray = null
 let win = null
@@ -103,7 +105,6 @@ function createWindow() {
       event.preventDefault()
       win.hide()
     }
-    return false
   })
 
   // HMR for renderer base on electron-vite cli.
@@ -139,6 +140,7 @@ app.whenReady().then(() => {
       label: 'Quit',
       click: () => {
         app.isQuiting = true
+        win.destroy() // <-- ensure window closes completely
         app.quit()
       }
     }
@@ -152,10 +154,15 @@ app.whenReady().then(() => {
 
 // Prevent app from quitting when all windows are closed
 app.on('window-all-closed', (event) => {
-  // On Windows, minimize to tray (show hidden icons) instead of quitting
-  event.preventDefault()
-  if (win) {
-    win.hide()
+  if (!app.isQuiting) {
+    event.preventDefault()
+    if (win) win.hide()
+  } else {
+    app.quit()
   }
-  // Do not call app.quit()
+})
+app.on('activate', () => {
+  if (win) {
+    win.show()
+  }
 })
