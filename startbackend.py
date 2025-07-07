@@ -36,7 +36,13 @@ if not os.path.exists(env_path):
     sys.exit(1)
 
 dotenv.load_dotenv(dotenv_path=env_path, override=True)
-
+# Check for apps/ffmpeg existence
+ffmpeg_path = resource_path("apps/ffmpeg")
+if os.path.exists(ffmpeg_path):
+    print("✅ apps/ffmpeg exists:", ffmpeg_path)
+else:
+    print("❌ apps/ffmpeg not found at:", ffmpeg_path)
+    
 # Log relevant environment variables
 print("✅ Loaded environment variables:")
 for key in sorted(os.environ.keys()):
