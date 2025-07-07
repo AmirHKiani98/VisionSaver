@@ -5,7 +5,7 @@ import appIcon from '../../resources/icon.icns?asset' // Use .png for tray icon
 const { execFile } = require('child_process')
 const waitOn = require('wait-on')
 let splashWindow = null
-let mainWindow = null
+
 function createSplashWindow() {
   splashWindow = new BrowserWindow({
     width: 700,
@@ -17,7 +17,11 @@ function createSplashWindow() {
     autoHideMenuBar: true
   })
 
-  splashWindow.loadFile(join(__dirname, '../../resources/loading.html'))
+  if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
+    splashWindow.loadURL(`${process.env['ELECTRON_RENDERER_URL']}/loading.html`)
+  } else {
+    splashWindow.loadFile(join(__dirname, '../renderer/loading.html'))
+  }
 }
 
 import dotenv from 'dotenv'
@@ -135,7 +139,7 @@ function createWindow() {
 function waitForHealthPing(url, callback) {
   const interval = setInterval(() => {
     fetch(url)
-      .then(res => {
+      .then((res) => {
         if (res.ok) {
           clearInterval(interval)
           callback()
@@ -158,7 +162,6 @@ app.whenReady().then(() => {
   })
 
   ipcMain.on('ping', () => console.log('pong'))
-
 
   // Create tray icon
   tray = new Tray(nativeImage.createFromPath(appIcon)) // Use .png for tray icon
