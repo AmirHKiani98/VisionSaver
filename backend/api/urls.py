@@ -9,6 +9,10 @@ from . import views
 dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), '../.hc_to_app_env'))
 
 urlpatterns = [
+    # Health check endpoint
+    # This endpoint is used to check if the API is running and healthy.
+    # It returns a simple JSON response with a status message.
+    path('api/health/', views.health_check, name='health_check'),
     path('', views.health_check, name='health_check'),
     path(
         f"{os.getenv('API_STORE_RECORD_SCHEDULE')}",

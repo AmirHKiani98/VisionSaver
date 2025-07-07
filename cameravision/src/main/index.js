@@ -1,9 +1,24 @@
 import { app, shell, BrowserWindow, ipcMain, Tray, Menu, nativeImage } from 'electron'
 import { join, resolve } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-import appIcon from '../../resources/icon.png?asset' // Use .png for tray icon
+import appIcon from '../../resources/icon.icns?asset' // Use .png for tray icon
 const { execFile } = require('child_process')
 const waitOn = require('wait-on')
+let splashWindow = null
+let mainWindow = null
+function createSplashWindow() {
+  splashWindow = new BrowserWindow({
+    width: 700,
+    height: 400,
+    frame: false,
+    resizable: false,
+    alwaysOnTop: true,
+    show: true,
+    autoHideMenuBar: true
+  })
+
+  splashWindow.loadFile(join(__dirname, '../../resources/loading.html'))
+}
 
 import dotenv from 'dotenv'
 // Adjust the path to point to the correct .env location
@@ -72,7 +87,7 @@ djangoProcess.stderr &&
   })
 
 // Use .ico for app icon (Windows), .png for tray
-const iconIco = join(__dirname, '../../resources/icon.png')
+const iconIco = join(__dirname, '../../resources/icon.icns')
 
 let tray = null
 let win = null
@@ -91,6 +106,7 @@ function createWindow() {
   })
 
   win.on('ready-to-show', () => {
+    splashWindow && splashWindow.destroy()
     win.show()
   })
 
@@ -116,8 +132,26 @@ function createWindow() {
   }
 }
 
+function waitForHealthPing(url, callback) {
+  const interval = setInterval(() => {
+    fetch(url)
+      .then(res => {
+        if (res.ok) {
+          clearInterval(interval)
+          callback()
+        }
+      })
+      .catch(() => {}) // Just keep retrying silently
+  }, 500)
+}
+
 app.whenReady().then(() => {
   electronApp.setAppUserModelId('com.electron')
+
+  createSplashWindow()
+  waitForHealthPing(`http://${domain}:${port}/api/health`, () => {
+    createWindow()
+  })
 
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
@@ -125,7 +159,6 @@ app.whenReady().then(() => {
 
   ipcMain.on('ping', () => console.log('pong'))
 
-  createWindow()
 
   // Create tray icon
   tray = new Tray(nativeImage.createFromPath(appIcon)) // Use .png for tray icon
