@@ -6,7 +6,7 @@ import dotenv
 def resource_path(relative_path):
     try:
         # Check if running in a PyInstaller bundled environment
-        base_path = sys._MEIPASS
+        base_path = sys._MEIPASS # type: ignore
     except AttributeError:
         # Fallback to the current working directory
         base_path = os.path.dirname(os.path.abspath(__file__))
@@ -48,7 +48,7 @@ sys.path.insert(0, resource_path("backend"))
 
 # Confirm processor.settings is visible
 try:
-    import processor.settings
+    import processor.settings # type: ignore
     print("✅ processor.settings is importable.")
 except ModuleNotFoundError as e:
     print("❌ ERROR: processor.settings not found")

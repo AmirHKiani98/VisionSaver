@@ -2,7 +2,7 @@ import { app, shell, BrowserWindow, ipcMain, Tray, Menu, nativeImage } from 'ele
 import { join, resolve } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import appIcon from '../../resources/icon.png?asset' // Use .png for tray icon
-const { execFile } = require('child_process')
+const { exec } = require('child_process')
 const waitOn = require('wait-on')
 
 import dotenv from 'dotenv'
@@ -11,16 +11,8 @@ dotenv.config({ path: join(__dirname, '../../../.hc_to_app_env') })
 
 // --- Django startup path fix ---
 const projectRoot = resolve(__dirname, '../../../')
-
-const backendBinary = is.dev
-  ? join(projectRoot, 'dist', 'backend.exe') // dev mode: local binary
-  : join(process.resourcesPath, 'backend', 'backend.exe') // production: in packaged app
-
-const djangoProcess = execFile(backendBinary, (error) => {
-  if (error) {
-    console.error('Django error:', error)
-  }
-})
+const pythonPath = join(projectRoot, '.venv', 'Scripts', 'python.exe')
+const managePyPath = join(projectRoot, 'backend', 'manage.py')
 
 ipcMain.handle('get-env', () => ({
   ...process.env
@@ -30,7 +22,12 @@ const domain = process.env.BACKEND_SERVER_DOMAIN
 const port = process.env.BACKEND_SERVER_PORT
 const url = `http://${domain}:${port}`
 console.log(`Django server URL: ${url}`)
-
+// Start Django server with absolute paths
+const djangoProcess = exec(`"${pythonPath}" "${managePyPath}" runserver`, (error) => {
+  if (error) {
+    console.error('Django error:', error)
+  }
+})
 
 // Ensure Django server is killed when Electron app quits
 app.on('before-quit', () => {
