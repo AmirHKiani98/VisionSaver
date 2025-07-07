@@ -19,6 +19,7 @@ def find_hc_to_app_env_folders(start_path):
             hc_to_app_env_folders.append(os.path.abspath(root))
     return hc_to_app_env_folders
 
+sys.path.insert(0, resource_path("backend"))
 # Locate .hc_to_app_env
 hc_to_app_env_folders = find_hc_to_app_env_folders("..")
 if not hc_to_app_env_folders:
@@ -45,6 +46,11 @@ for key in sorted(os.environ.keys()):
 # Add base path to sys.path to expose backend/processor/settings.py
 sys.path.insert(0, resource_path("."))
 
+print("🧭 Looking for settings at:", resource_path("backend/processor/settings.py"))
+print("📦 Exists:", os.path.exists(resource_path("backend/processor/settings.py")))
+
+print("🧭 Looking for settings at:", resource_path("settings.py"))
+print("📦 Exists:", os.path.exists(resource_path("settings.py")))
 # Validate processor.settings import
 try:
     import processor.settings  # type: ignore

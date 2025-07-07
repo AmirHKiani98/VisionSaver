@@ -1,13 +1,18 @@
 #!/bin/bash
 
-set -e  # Exit on any error
+set -e  # Exit immediately if a command exits with a non-zero status
 
-# Define backend binary output name (PyInstaller default is the .py filename)
+ROOT_BUILD_DIR="dist"
+# Clean previous root-level build directory if it exists
+if [ -d "$ROOT_BUILD_DIR" ]; then
+  echo "🗑️ Removing existing root build directory: $ROOT_BUILD_DIR"
+  rm -rf "$ROOT_BUILD_DIR"
+fi
+
 BINARY_NAME="startbackend"
-
-# Clean up previous build output
+# Clean previous build
 if [ -d "cameravision/resources/backend" ]; then
-  echo "🧹 Removing old backend directory..."
+  echo "🧹 Removing existing backend directory..."
   rm -rf cameravision/resources/backend
 fi
 
@@ -15,43 +20,36 @@ fi
 OS=$(uname)
 echo "🖥️ Detected OS: $OS"
 
-# Set resource paths (absolute if needed)
-FFMPEG_PATH="backend/apps/ffmpeg"
-TEMPLATES_PATH="backend/templates"
-STATIC_PATH="backend/static"
-DB_PATH="backend/db.sqlite3"
-
-# Define PyInstaller args
+# PyInstaller arguments
 PYINSTALLER_ARGS=(
   --noconsole
   --onefile
   --name "$BINARY_NAME"
-  --add-data "${FFMPEG_PATH}:apps/ffmpeg"
-  --add-data "${TEMPLATES_PATH}:templates"
-  --add-data "${STATIC_PATH}:static"
-  --add-data "${DB_PATH}:."
+  --add-data "backend:backend"  # <-- this brings in processor/*
+  --add-data "backend/apps/ffmpeg:apps/ffmpeg"
+  --add-data "backend/templates:templates"
+  --add-data "backend/static:static"
+  --add-data "backend/db.sqlite3:."
   --collect-all cv2
   --collect-all pandas
   --collect-all corsheaders
 )
 
-# Build with PyInstaller
+# Build
 echo "📦 Building with PyInstaller..."
 pyinstaller "${PYINSTALLER_ARGS[@]}" startbackend.py
 
-# Verify build success
-if [ ! -f "dist/$BINARY_NAME" ]; then
-  echo "❌ Build failed: binary not found in dist/"
-  exit 1
-fi
-
-# Move build output
-echo "📂 Moving $BINARY_NAME to cameravision/resources/backend/"
+# Move to resources
+echo "📂 Moving built binary to cameravision/resources/backend..."
 mkdir -p cameravision/resources/backend
 mv "dist/$BINARY_NAME" cameravision/resources/backend/
 
-# Clean up PyInstaller artifacts
-echo "🧼 Cleaning up build artifacts..."
+# Clean build artifacts
+echo "🧼 Cleaning up..."
 rm -rf dist build "$BINARY_NAME.spec"
 
-echo "✅ Backend build complete."
+echo "✅ Done! Backend is ready."
+
+# Run the test script
+echo "🚀 Running backend tests..."
+./test_backend.sh
