@@ -1,7 +1,7 @@
 # -*- mode: python ; coding: utf-8 -*-
 from PyInstaller.utils.hooks import collect_all
 
-datas = [('/Users/kiani014/Documents/Github/VisionSaver/.hc_to_app_env', '.hc_to_app_env'), ('/Users/kiani014/Documents/Github/VisionSaver/backend', 'backend')]
+datas = [('backend/apps/ffmpeg', 'apps/ffmpeg'), ('backend/templates', 'templates'), ('backend/static', 'static'), ('backend/db.sqlite3', '.')]
 binaries = []
 hiddenimports = []
 tmp_ret = collect_all('cv2')

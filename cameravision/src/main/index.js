@@ -10,15 +10,26 @@ import dotenv from 'dotenv'
 dotenv.config({ path: join(__dirname, '../../../.hc_to_app_env') })
 
 // --- Django startup path fix ---
-const projectRoot = resolve(__dirname, '../../../')
+const frontRoot = resolve(__dirname, '../../')
 
 const backendBinary = is.dev
-  ? join(projectRoot, 'dist', 'backend.exe') // dev mode: local binary
-  : join(process.resourcesPath, 'backend', 'backend.exe') // production: in packaged app
+  ? join(
+      frontRoot,
+      'resources',
+      process.platform === 'darwin' ? 'dist_backend_mac' : 'dist_backend_win',
+      'startbackend'
+    ) // dev mode: local binary
+  : join(
+      process.resourcesPath,
+      'resources',
+      process.platform === 'darwin' ? 'startbackend' : 'startbackend.exe'
+    ) // production: in packaged app
 
 const djangoProcess = execFile(backendBinary, (error) => {
   if (error) {
     console.error('Django error:', error)
+  } else {
+    console.log('Django server started successfully.')
   }
 })
 
@@ -30,7 +41,6 @@ const domain = process.env.BACKEND_SERVER_DOMAIN
 const port = process.env.BACKEND_SERVER_PORT
 const url = `http://${domain}:${port}`
 console.log(`Django server URL: ${url}`)
-
 
 // Ensure Django server is killed when Electron app quits
 app.on('before-quit', () => {
@@ -49,13 +59,15 @@ waitOn({ resources: [url] }, (err) => {
   }
 })
 
-djangoProcess.stdout && djangoProcess.stdout.on('data', (data) => {
-  console.log(`Django: ${data}`)
-})
+djangoProcess.stdout &&
+  djangoProcess.stdout.on('data', (data) => {
+    console.log(`Django: ${data}`)
+  })
 
-djangoProcess.stderr && djangoProcess.stderr.on('data', (data) => {
-  console.error(`Django error: ${data}`)
-})
+djangoProcess.stderr &&
+  djangoProcess.stderr.on('data', (data) => {
+    console.error(`Django error: ${data}`)
+  })
 
 // Use .ico for app icon (Windows), .png for tray
 const iconIco = join(__dirname, '../../resources/icon.ico')
@@ -78,7 +90,6 @@ function createWindow() {
 
   win.on('ready-to-show', () => {
     win.show()
-
   })
 
   win.webContents.setWindowOpenHandler((details) => {
@@ -118,9 +129,15 @@ app.whenReady().then(() => {
   // Create tray icon
   tray = new Tray(nativeImage.createFromPath(appIcon)) // Use .png for tray icon
   const contextMenu = Menu.buildFromTemplate([
-    { label: 'Show App', click: () => { win.show() } },
     {
-      label: 'Quit', click: () => {
+      label: 'Show App',
+      click: () => {
+        win.show()
+      }
+    },
+    {
+      label: 'Quit',
+      click: () => {
         app.isQuiting = true
         app.quit()
       }

@@ -5,10 +5,10 @@ import dotenv
 
 def resource_path(relative_path):
     try:
-        # Check if running in a PyInstaller bundled environment
-        base_path = sys._MEIPASS # type: ignore
+        # For PyInstaller bundle
+        base_path = sys._MEIPASS  # type: ignore
     except AttributeError:
-        # Fallback to the current working directory
+        # For normal run
         base_path = os.path.dirname(os.path.abspath(__file__))
     return os.path.join(base_path, relative_path)
 
@@ -18,16 +18,17 @@ def find_hc_to_app_env_folders(start_path):
         if ".hc_to_app_env" in files:
             hc_to_app_env_folders.append(os.path.abspath(root))
     return hc_to_app_env_folders
-hc_to_app_env_folders = find_hc_to_app_env_folders("..")
 
+# Locate .hc_to_app_env
+hc_to_app_env_folders = find_hc_to_app_env_folders("..")
 if not hc_to_app_env_folders:
     print("❌ No .hc_to_app_env folders found.")
     sys.exit(1)
+
 print("✅ Found .hc_to_app_env folders:", hc_to_app_env_folders)
-# DEBUG print
 print("Using base path:", resource_path("."))
 
-# Load .hc_to_app_env from the first found folder
+# Load .env file
 env_path = resource_path(os.path.join(hc_to_app_env_folders[0], ".hc_to_app_env"))
 if not os.path.exists(env_path):
     print(f"❌ .hc_to_app_env file not found at {env_path}")
@@ -35,48 +36,44 @@ if not os.path.exists(env_path):
 
 dotenv.load_dotenv(dotenv_path=env_path, override=True)
 
-# Debugging: Print all loaded environment variables
+# Log relevant environment variables
 print("✅ Loaded environment variables:")
-for key, value in os.environ.items():
+for key in sorted(os.environ.keys()):
     if key.startswith("BACKEND_SERVER_") or key.startswith("STREAM_FUNCTION_") or key.startswith("RECORD_FUNCTION_"):
-        print(f"{key} = {value}")
+        print(f"{key} = {os.environ[key]}")
 
-print("✅ BACKEND_SERVER_DOMAIN =", os.getenv("BACKEND_SERVER_DOMAIN"))
-print("✅ BACKEND_SERVER_PORT =", os.getenv("BACKEND_SERVER_PORT"))
-# Add backend path into sys.path
-sys.path.insert(0, resource_path("backend"))
+# Add base path to sys.path to expose backend/processor/settings.py
+sys.path.insert(0, resource_path("."))
 
-# Confirm processor.settings is visible
+# Validate processor.settings import
 try:
-    import processor.settings # type: ignore
+    import processor.settings  # type: ignore
     print("✅ processor.settings is importable.")
 except ModuleNotFoundError as e:
     print("❌ ERROR: processor.settings not found")
     print(e)
     sys.exit(1)
 
-# Set correct Django settings module
+# Set DJANGO_SETTINGS_MODULE
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "processor.settings")
 
-# Ensure BACKEND_SERVER_DOMAIN and BACKEND_SERVER_PORT are set
-backend_server_domain = os.getenv("BACKEND_SERVER_DOMAIN", "localhost")  # Default to localhost
-backend_server_port = os.getenv("BACKEND_SERVER_PORT", "8000")  # Default to port 8000
+# Read backend host/port from environment or use fallback
+backend_server_domain = os.getenv("BACKEND_SERVER_DOMAIN", "localhost")
+backend_server_port = os.getenv("BACKEND_SERVER_PORT", "8000")
 
-# Validate environment variables
-if backend_server_domain is None or backend_server_domain.strip() == "":
+# Validate domain
+if not backend_server_domain or backend_server_domain.strip() == "":
     print("❌ ERROR: BACKEND_SERVER_DOMAIN is not set or empty")
     sys.exit(1)
 
-if backend_server_port is None or backend_server_port.strip() == "":
-    print("❌ ERROR: BACKEND_SERVER_PORT is not set or empty")
-    sys.exit(1)
-
-if not backend_server_port.isdigit() or not (0 < int(backend_server_port) < 65536):
+# Validate port
+if not backend_server_port or not backend_server_port.isdigit() or not (0 < int(backend_server_port) < 65536):
     print(f"❌ ERROR: Invalid port number '{backend_server_port}'")
     sys.exit(1)
 
-# Ensure sys.argv contains valid arguments
+# Prepare Django command
 sys.argv = ["manage.py", "runserver", "--noreload", f"{backend_server_domain}:{backend_server_port}"]
 
-# Run Django development server
+# Start server
+print(f"🚀 Starting Django server at http://{backend_server_domain}:{backend_server_port}")
 execute_from_command_line(sys.argv)

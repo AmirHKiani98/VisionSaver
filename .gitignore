@@ -141,6 +141,7 @@ vite.config.ts.timestamp-*
 # Local env files
 .venv
 
+cameravision/resources/backend
 # Local cache directory
 media
 
@@ -148,3 +149,6 @@ media
 build
 # Dist
 dist*
+
+# Bash test
+test_*.sh

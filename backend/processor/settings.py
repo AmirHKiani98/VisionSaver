@@ -27,7 +27,11 @@ SECRET_KEY = 'django-insecure-u_mwofv@-lzg+exb%ojkn6#(@wsgwh8a6qkefa+2^2^hp*m$4f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    os.getenv("BACKEND_SERVER_DOMAIN", "localhost")
+]
 
 
 # Application definition
@@ -127,6 +131,8 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Allow frontend dev server for CORS
+CORS_ALLOW_ALL_ORIGINS = False
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     f"http://{os.getenv('BACKEND_SERVER_DOMAIN')}:{os.getenv('BACKEND_SERVER_PORT')}"
@@ -145,5 +151,3 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 ASGI_APPLICATION = 'processor.asgi.application'
-
-CORS_ALLOW_ALL_ORIGINS = True
