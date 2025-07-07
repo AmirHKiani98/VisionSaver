@@ -12,8 +12,10 @@ urlpatterns = [
     # Health check endpoint
     # This endpoint is used to check if the API is running and healthy.
     # It returns a simple JSON response with a status message.
-    path('api/health/', views.health_check, name='health_check'),
-    path('', views.health_check, name='health_check'),
+    path(
+        f"{os.getenv('API_HEALTH_CHECK')}",
+        views.health_check,
+    ),
     path(
         f"{os.getenv('API_STORE_RECORD_SCHEDULE')}",
         views.store_record_schedule,

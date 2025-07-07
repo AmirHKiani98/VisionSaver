@@ -60,6 +60,7 @@ ipcMain.handle('get-env', () => ({
 const domain = process.env.BACKEND_SERVER_DOMAIN
 const port = process.env.BACKEND_SERVER_PORT
 const url = `http://${domain}:${port}`
+const apiHealthUrl = `${url}/${process.env.API_HEALTH_CHECK}`
 console.log(`Django server URL: ${url}`)
 
 // Ensure Django server is killed when Electron app quits
@@ -138,6 +139,7 @@ function createWindow() {
 
 function waitForHealthPing(url, callback) {
   const interval = setInterval(() => {
+    console.log(`Checking health at ${url}...`)
     fetch(url)
       .then((res) => {
         if (res.ok) {
@@ -153,7 +155,7 @@ app.whenReady().then(() => {
   electronApp.setAppUserModelId('com.electron')
 
   createSplashWindow()
-  waitForHealthPing(`http://${domain}:${port}/api/health`, () => {
+  waitForHealthPing(apiHealthUrl, () => {
     createWindow()
   })
 

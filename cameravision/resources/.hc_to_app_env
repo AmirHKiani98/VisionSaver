@@ -11,6 +11,7 @@ ADD_RECORD_TURN_URL=record/add_record_turn
 API_STORE_RECORD_SCHEDULE=api/store_record_schedule/
 API_GET_RECORD_SCHEDULE=api/get_record_schedule/
 API_DELETE_RECORD_SCHEDULE=api/delete_record_schedule/
+API_HEALTH_CHECK=api/health_check
 # Celery variables
 CELERY_BROKER_DOMAIN=localhost
 CELERY_BROKER_PORT=6379
