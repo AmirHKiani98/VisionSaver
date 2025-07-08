@@ -6,6 +6,7 @@ RECORD_STREAM_FUNCTION_NAME=record/stream_record
 GET_RECORDS_URL=record/get_records_url
 GET_RECORD_URL=record/get_record_url
 GET_RECORD_TURN_URL=record/get_record_turn
+GET_RECORD_RESOLVED_URL=record/get_resolved_url
 ADD_RECORD_TURN_URL=record/add_record_turn
 # API variables
 API_STORE_RECORD_SCHEDULE=api/store_record_schedule/

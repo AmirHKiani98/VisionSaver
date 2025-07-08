@@ -117,6 +117,24 @@ function App() {
     }
     setVisions((prev) => [...prev, newVisionInfo])
   }
+
+  const getResolvedUrl = (cameraUrl) => {
+    const apiLink = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.GET_RECORD_RESOLVED_URL}/${cameraUrl}`
+    return fetch(apiLink)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status && data.status !== 200) {
+          openNotification('error', data.message || 'Failed to resolve camera URL.')
+          return null
+        }
+        return data.resolved_url || data.cameraUrl || cameraUrl
+      })
+      .catch((error) => {
+        openNotification('error', 'Failed to resolve camera URL.')
+        return null
+      })
+  }
+
   const addStreamHandler = (e) => {
     e.preventDefault()
     if (!protocol) {
@@ -138,14 +156,16 @@ function App() {
     }
     if (channel === 'quad') {
       // Assuming "quad" means the intersection has four cameras: cam1, cam2, cam3 and cam4
-
+      
       for (let i = 1; i <= 4; i++) {
         const cameraUrl = `${protocolLower}://${ip}/cam${i}`
-        addStream(cameraUrl, `${ip}-${i}`)
+        const resolvedUrl = getResolvedUrl(cameraUrl)
+        addStream(resolvedUrl, `${ip}-${i}`)
       }
     } else {
       const cameraUrl = `${protocolLower}://${ip}/${channel}`
-      addStream(cameraUrl, `${ip}-${channel}`)
+      const resolvedUrl = getResolvedUrl(cameraUrl)
+      addStream(resolvedUrl, `${ip}-${channel}`)
     }
 
     setProtocol('RTSP')
