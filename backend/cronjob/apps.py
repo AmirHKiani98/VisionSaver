@@ -43,6 +43,10 @@ def job_checker():
         try:
             now = timezone.now()
             print(f"Checking for records to process at {now}")
+            cache_dir = os.getenv('CACHE_DIR', '.cache')
+            os.makedirs(cache_dir, exist_ok=True)
+            with open(os.path.join(cache_dir, 'last_run.txt'), 'w') as f:
+                f.write(now.strftime('%Y-%m-%d %H:%M:%S'))
             records = Record.objects.filter(
                 done=False,
                 in_process=False,
@@ -67,15 +71,18 @@ def job_checker():
         except (OperationalError, ProgrammingError):
             # Table does not exist yet, skip this iteration
             pass
-        time.sleep(60)
+        time.sleep(10)
 
 class CronjobConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'cronjob'
 
     def ready(self):
-        if os.environ.get('RUN_MAIN', None) != 'true':
-            return
-        # Do not access the database here!
+        import multiprocessing
+        multiprocessing.set_start_method('spawn', force=True)  # Optional: avoids multiprocessing errors on Windows
+
+        print("🔁 CronjobConfig.ready() running...")
+
         t = threading.Thread(target=job_checker, daemon=True)
         t.start()
+
