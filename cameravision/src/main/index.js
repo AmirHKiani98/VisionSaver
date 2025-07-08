@@ -6,7 +6,11 @@ import dotenv from 'dotenv'
 const { execFile } = require('child_process')
 
 // Load .env early
-dotenv.config({ path: join(__dirname, '../../resources/.hc_to_app_env') })
+if (is.dev){
+  dotenv.config({ path: join(__dirname, '../../resources/.hc_to_app_env') })
+} else {
+  dotenv.config({ path: join(process.resourcesPath, '.hc_to_app_env') })
+}
 
 const domain = process.env.BACKEND_SERVER_DOMAIN
 const port = process.env.BACKEND_SERVER_PORT
@@ -24,12 +28,15 @@ const backendBinary = is.dev
     )
   : join(
       process.resourcesPath,
-      'resources',
       'backend',
       process.platform === 'darwin' ? 'startbackend' : 'startbackend.exe'
     )
 
-const djangoProcess = execFile(backendBinary, (error) => {
+const djangoProcess = execFile(backendBinary, {
+  cwd: is.dev
+    ? join(frontRoot, 'resources', 'backend')
+    : join(process.resourcesPath, 'backend')
+}, (error) => {
   if (error) {
     console.error('Django error:', error)
   } else {
@@ -127,22 +134,24 @@ function waitForHealthPing(url, callback) {
 app.whenReady().then(() => {
   electronApp.setAppUserModelId('com.electron')
 
-  // Load wait-on dynamically and wait for Django
+  // 🟢 Show splash *immediately*
+  createSplashWindow()
+
+  // 🟡 Start waiting for Django
   import('wait-on')
     .then((mod) => {
       const waitOn = mod.default
       console.log('Waiting for Django server to be ready...')
+
       waitOn({ resources: [url], timeout: 15000 }, (err) => {
         if (err) {
           console.error('Django server failed to start:', err)
           console.warn('Opening app anyway in fallback mode...')
-          createSplashWindow()
-          createWindow()
+          createWindow() // fallback
         } else {
           console.log('Django server is ready.')
-          createSplashWindow()
           waitForHealthPing(apiHealthUrl, () => {
-            createWindow()
+            createWindow() // load main app window
           })
         }
       })

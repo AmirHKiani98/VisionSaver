@@ -1,13 +1,12 @@
 {
   "name": "cameravision",
   "version": "1.0.0",
-  "description": "An Electron application with React",
+  "description": "CameraVision App",
   "main": "./out/main/index.js",
   "author": "amirhkiani98.github.io",
   "homepage": "https://electron-vite.org",
   "scripts": {
     "format": "prettier --write .",
-    "lint": "eslint --cache .",
     "start": "electron-vite preview",
     "dev": "electron-vite dev",
     "build": "electron-vite build",
@@ -75,16 +74,15 @@
     "extraResources": [
       {
         "from": "resources/backend",
-        "to": "resources/backend",
+        "to": "backend",
         "filter": ["**/*"]
       },
       {
         "from": "resources/.hc_to_app_env",
-        "to": "resources/.hc_to_app_env"
+        "to": ".hc_to_app_env"
       }
     ],
     "files": [
-      "dist/**",
       "out/**",
       "main.js",
       "preload/**/*",
