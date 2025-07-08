@@ -8,7 +8,7 @@ import threading
 
 logging.basicConfig(level=logging.INFO)
 import os
-def record_rtsp_task(record_id, camera_url, duration, output_file):
+def record_rtsp_task(record_id, camera_url, duration, output_file, record_type):
     from record.models import Record
     from record.rtsp_object import RTSPObject
 
@@ -25,7 +25,7 @@ def record_rtsp_task(record_id, camera_url, duration, output_file):
         logging.info(f"Starting recording for record ID {record_id}")
         print(f"📹 Recording from {camera_url} for {duration} minutes to {output_file}")
         
-        rtsp_obj = RTSPObject(camera_url)
+        rtsp_obj = RTSPObject(camera_url, record_type=record_type)
         rtsp_obj.record(duration, output_file)
         
         # Check if file was created and has reasonable size
@@ -67,7 +67,7 @@ def job_checker():
     while True:
         try:
             now = timezone.now()
-            print(f"🔍 Checking for records to process at {now}")
+            print(f"Checking for records to process at {now}")
             cache_dir = os.getenv('CACHE_DIR', '.cache')
             os.makedirs(cache_dir, exist_ok=True)
             
@@ -99,16 +99,17 @@ def job_checker():
                         record.id,
                         record.camera_url,
                         record.duration,
-                        output_file
+                        output_file,
+                        record.record_type
                     ),
                     daemon=True
                 ).start()
         except (OperationalError, ProgrammingError) as e:
             # Table does not exist yet, skip this iteration
-            print(f"⚠️ Database not ready: {e}")
+            print(f"Database not ready: {e}")
             pass
         except Exception as e:
-            print(f"❌ Error in job_checker: {e}")
+            print(f"Error in job_checker: {e}")
         time.sleep(10)
 
 class CronjobConfig(AppConfig):

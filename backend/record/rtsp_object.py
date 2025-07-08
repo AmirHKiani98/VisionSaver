@@ -11,7 +11,7 @@ from django.conf import settings
 dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), '../.hc_to_app_env'))
 
 class RTSPObject:
-    def __init__(self, url: str):
+    def __init__(self, url: str, record_type: str = 'supervisor'):
         """
         Initialize the RTSPObject with the given URL.
         
@@ -19,6 +19,7 @@ class RTSPObject:
         """
         self.url = url
         self.cap = cv2.VideoCapture(url)
+        self.record_type = record_type
         if not self.cap.isOpened():
             raise ValueError(f"Could not open RTSP stream at {url}")
     
@@ -63,11 +64,9 @@ class RTSPObject:
         ffmpeg_path = ffmpeg_env if os.path.isabs(ffmpeg_env) else os.path.join(str(settings.BASE_DIR), ffmpeg_env)
         print(f"FFmpeg executable path: {ffmpeg_path}")
         
-        parsed = urlparse(self.url)
-        has_auth = parsed.username is not None and parsed.password is not None
 
         # Adjust output extension according to method
-        if has_auth:
+        if self.record_type == 'supervisor':
             abs_output_path = os.path.splitext(abs_output_path)[0] + ".mp4"
         else:
             abs_output_path = os.path.splitext(abs_output_path)[0] + ".mkv"
@@ -76,7 +75,7 @@ class RTSPObject:
         cmd_copy = [
             ffmpeg_path, "-y",
             "-rtsp_transport", "tcp", "-rtsp_flags", "prefer_tcp",
-            "-timeout", "30000000", "-stimeout", "30000000",
+            "-timeout", "30000000",
             "-i", self.url,
             "-t", str(duration_seconds),
             "-c", "copy",
@@ -100,8 +99,8 @@ class RTSPObject:
             abs_output_path
         ]
 
-        preferred_cmd = cmd_encode if has_auth else cmd_copy
-        fallback_cmd = cmd_copy if has_auth else cmd_encode
+        preferred_cmd = cmd_encode if self.record_type == 'supervisor' else cmd_copy
+        fallback_cmd = cmd_copy if self.record_type == 'supervisor' else cmd_encode
 
         # Try preferred
         try:

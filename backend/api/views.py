@@ -64,7 +64,8 @@ def store_record_schedule(request):
             start_time=start_time,
             token=token,
             in_process=False,
-            done=False
+            done=False,
+            record_type='costar' if "admin:admin" in camera_url else 'supervisor'
         )
         return JsonResponse({"message": "Recording todo added successfully."}, status=200)
     except Exception as e:
