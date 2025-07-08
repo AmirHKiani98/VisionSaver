@@ -49,7 +49,3 @@ echo "🧼 Cleaning up..."
 rm -rf dist build "$BINARY_NAME.spec"
 
 echo "✅ Done! Backend is ready."
-
-# Run the test script
-echo "🚀 Running backend tests..."
-./test_backend.sh
