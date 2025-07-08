@@ -71,11 +71,14 @@
   },
   "build": {
     "asar": false,
+    "directories": {
+      "output": "../dist/v${version}"
+    },
     "extraResources": [
       {
         "from": "resources/backend",
         "to": "backend",
-        "filter": ["**/*"]
+        "filter": ["**/*", "!node_modules/**"]
       },
       {
         "from": "resources/.hc_to_app_env",
