@@ -5,6 +5,7 @@ import os
 import cv2
 import dotenv
 import subprocess
+from urllib.parse import urlparse
 # Import settings from the Django project
 from django.conf import settings
 dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), '../.hc_to_app_env'))
@@ -49,84 +50,81 @@ class RTSPObject:
         duration_seconds = duration_minutes * 60
         ffmpeg_env = os.getenv("FFMPEG_PATH")
         print(f"FFMPEG_PATH env: {ffmpeg_env}")
+        
+        # Ensure output path is absolute
         abs_output_path = os.path.join(str(settings.BASE_DIR), output_path) if not os.path.isabs(output_path) else output_path
-        print(f"Output path: {abs_output_path}")
-        if not os.path.isdir(os.path.dirname(abs_output_path)):
-            print(f"Creating directory: {os.path.dirname(abs_output_path)}")
-            os.makedirs(os.path.dirname(abs_output_path), exist_ok=True)
+        output_dir = os.path.dirname(abs_output_path)
+        if not os.path.isdir(output_dir):
+            print(f"Creating directory: {output_dir}")
+            os.makedirs(output_dir, exist_ok=True)
+
         if not ffmpeg_env:
             raise EnvironmentError("FFMPEG_PATH environment variable is not set.")
-        if os.path.isabs(ffmpeg_env):
-            ffmpeg_path = ffmpeg_env
-        else:
-            ffmpeg_path = os.path.join(str(settings.BASE_DIR), ffmpeg_env)
+        ffmpeg_path = ffmpeg_env if os.path.isabs(ffmpeg_env) else os.path.join(str(settings.BASE_DIR), ffmpeg_env)
         print(f"FFmpeg executable path: {ffmpeg_path}")
         
-        # Enhanced FFmpeg command for better compatibility with authenticated RTSP streams
-        cmd = [
-            ffmpeg_path,
-            "-y",  # Overwrite output file
-            "-rtsp_transport", "tcp",  # Use TCP for more reliable transport
-            "-rtsp_flags", "prefer_tcp",  # Prefer TCP transport
-            "-timeout", "30000000",  # 30 second timeout (in microseconds)
-            "-stimeout", "30000000",  # Socket timeout
-            "-i", self.url,
-            "-t", str(duration_seconds),  # Duration
-            "-c:v", "libx264",  # Re-encode video to ensure compatibility
-            "-c:a", "aac",  # Re-encode audio to ensure compatibility
-            "-preset", "fast",  # Fast encoding preset
-            "-crf", "23",  # Good quality constant rate factor
-            "-movflags", "+faststart",  # Optimize for streaming
-            "-f", "mp4",  # Force MP4 format
-            abs_output_path
-        ]
-        
-        # Alternative command for streams that don't work with re-encoding
+        parsed = urlparse(self.url)
+        has_auth = parsed.username is not None and parsed.password is not None
+
+        # Adjust output extension according to method
+        if has_auth:
+            abs_output_path = os.path.splitext(abs_output_path)[0] + ".mp4"
+        else:
+            abs_output_path = os.path.splitext(abs_output_path)[0] + ".mkv"
+
+        # Copy method for simple public RTSP
         cmd_copy = [
-            ffmpeg_path,
-            "-y",  # Overwrite output file
-            "-rtsp_transport", "tcp",  # Use TCP for more reliable transport
-            "-rtsp_flags", "prefer_tcp",  # Prefer TCP transport
-            "-timeout", "30000000",  # 30 second timeout (in microseconds)
-            "-stimeout", "30000000",  # Socket timeout
+            ffmpeg_path, "-y",
+            "-rtsp_transport", "tcp", "-rtsp_flags", "prefer_tcp",
+            "-timeout", "30000000", "-stimeout", "30000000",
             "-i", self.url,
-            "-t", str(duration_seconds),  # Duration
-            "-c", "copy",  # Copy streams without re-encoding
-            "-avoid_negative_ts", "make_zero",  # Fix timestamp issues
-            "-fflags", "+genpts",  # Generate presentation timestamps
+            "-t", str(duration_seconds),
+            "-c", "copy",
+            "-avoid_negative_ts", "make_zero",
+            "-fflags", "+genpts",
+            "-f", "matroska",  # .mkv
             abs_output_path
         ]
-        
+
+        # Re-encoding method for auth-protected streams
+        cmd_encode = [
+            ffmpeg_path, "-y",
+            "-rtsp_transport", "tcp", "-rtsp_flags", "prefer_tcp",
+            "-timeout", "30000000", "-stimeout", "30000000",
+            "-i", self.url,
+            "-t", str(duration_seconds),
+            "-c:v", "libx264", "-c:a", "aac",
+            "-preset", "fast", "-crf", "23",
+            "-movflags", "+faststart",
+            "-f", "mp4",  # .mp4
+            abs_output_path
+        ]
+
+        preferred_cmd = cmd_encode if has_auth else cmd_copy
+        fallback_cmd = cmd_copy if has_auth else cmd_encode
+
+        # Try preferred
         try:
-            print(f"Running command (copy method): {' '.join(cmd_copy)}")
-            result = subprocess.run(cmd_copy, capture_output=True, text=True, check=False)
-            
-            # Check if the file was created and has reasonable size
-            if os.path.exists(abs_output_path) and os.path.getsize(abs_output_path) > 1024:  # More than 1KB
-                print("Recording completed successfully with copy method.")
+            print(f"Running preferred command: {' '.join(preferred_cmd)}")
+            result = subprocess.run(preferred_cmd, capture_output=True, text=True, check=False)
+            if os.path.exists(abs_output_path) and os.path.getsize(abs_output_path) > 1024:
+                print("Recording completed successfully with preferred method.")
                 return
-            else:
-                print("Copy method failed or produced small file. Trying re-encoding...")
-                
+            print("Preferred method failed or produced a small file. Trying fallback...")
         except Exception as e:
-            print(f"Copy method failed: {e}")
+            print(f"Preferred method raised exception: {e}")
             print("Stderr:", result.stderr if 'result' in locals() else "No stderr captured")
-        
+
+        # Try fallback
         try:
-            print(f"Running command (re-encode method): {' '.join(cmd)}")
-            result = subprocess.run(cmd, capture_output=True, text=True, check=True)
-            print("Recording completed successfully with re-encoding method.")
-            
+            print(f"Running fallback command: {' '.join(fallback_cmd)}")
+            result = subprocess.run(fallback_cmd, capture_output=True, text=True, check=True)
+            print("Recording completed successfully with fallback method.")
         except subprocess.CalledProcessError as e:
-            print(f"FFmpeg failed with return code: {e.returncode}")
-            print(f"Stdout: {e.stdout}")
-            print(f"Stderr: {e.stderr}")
-            print(f"Command attempted: {cmd}")
-            raise Exception(f"FFmpeg recording failed: {e.stderr}")
+            print(f"FFmpeg fallback failed: {e.stderr}")
+            raise Exception(f"FFmpeg fallback failed: {e.stderr}")
         except Exception as e:
-            print(f"Exception type: {type(e)}")
-            print(f"Exception args: {e.args}")
-            print(f"Command attempted: {cmd}")
+            print(f"Fallback exception: {e}")
             raise
 
 # Try
