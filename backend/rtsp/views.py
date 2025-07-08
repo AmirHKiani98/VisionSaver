@@ -81,7 +81,6 @@ def mjpeg_stream(request):
     If the stream fails or stops, returns a notification message.
     """
     url = request.GET.get('url')
-    logger.info("hi")
     ip = get_ip_from_url(url) if url else None
     if not url:
         return HttpResponse("Bad Request: 'url' query parameter is required", status=400)
