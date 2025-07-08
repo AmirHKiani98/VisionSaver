@@ -156,3 +156,4 @@ dist/*
 !dist/v*/
 # Any node_modules in dist
 !dist/v*/**/node_modules
+!dist/v*/**/out
