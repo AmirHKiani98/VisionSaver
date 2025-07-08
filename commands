@@ -1,0 +1,1 @@
+./ffmpeg.exe -loglevel debug -rtsp_transport tcp -i "rtsp://admin:admin@192.168.130.110/Stream2" -t 10 -c copy output.mkv
