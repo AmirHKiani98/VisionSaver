@@ -43,10 +43,7 @@ def job_checker():
         try:
             now = timezone.now()
             print(f"Checking for records to process at {now}")
-            cache_dir = os.getenv('CACHE_DIR', '.cache')
-            os.makedirs(cache_dir, exist_ok=True)
-            with open(os.path.join(cache_dir, 'last_run.txt'), 'a+') as f:
-                f.write(now.strftime('%Y-%m-%d %H:%M:%S'))
+            
             records = Record.objects.filter(
                 done=False,
                 in_process=False,
