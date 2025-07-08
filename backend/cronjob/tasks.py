@@ -8,7 +8,6 @@ from record import models
 import dotenv
 dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), '../.hc_to_app_env'))
 
-@shared_task
 def record_rtsp_task(camera_url, duration, output_file):
     rtsp_obj = RTSPObject(camera_url)
     rtsp_obj.record(duration, output_file)

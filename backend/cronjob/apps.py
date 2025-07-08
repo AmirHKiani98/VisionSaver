@@ -18,6 +18,7 @@ def record_rtsp_task(record_id, camera_url, duration, output_file):
     try:
         os.makedirs(os.path.dirname(output_file), exist_ok=True)
         logging.info(f"Starting recording for record ID {record_id}")
+        
         rtsp_obj = RTSPObject(camera_url)
         rtsp_obj.record(duration, output_file)
         record.done = True
@@ -41,12 +42,14 @@ def job_checker():
     while True:
         try:
             now = timezone.now()
+            print(f"Checking for records to process at {now}")
             records = Record.objects.filter(
                 done=False,
                 in_process=False,
                 start_time__lte=now,
             )
             print(records)
+
             for record in records:
                 ip = record.camera_url.split('rtsp://')[1]
                 ip = ip.replace('.', '_')
