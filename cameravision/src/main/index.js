@@ -1,7 +1,6 @@
 import { app, shell, BrowserWindow, ipcMain, Tray, Menu, nativeImage } from 'electron'
 import { join, resolve } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-import appIcon from '../../resources/icon.icns?asset'
 import dotenv from 'dotenv'
 const { execFile } = require('child_process')
 
@@ -52,6 +51,8 @@ app.on('before-quit', () => {
   app.isQuiting = true
   if (djangoProcess && !djangoProcess.killed) {
     console.log('Killing Django server...')
+    djangoProcess.stdout?.destroy()
+    djangoProcess.stderr?.destroy()
     djangoProcess.kill()
   }
 })
@@ -165,7 +166,10 @@ app.whenReady().then(() => {
 
   ipcMain.handle('get-env', () => ({ ...process.env }))
 
-  tray = new Tray(nativeImage.createFromPath(appIcon))
+  const trayIcon = is.dev
+  ? nativeImage.createFromPath(join(__dirname, '../../resources/icon.ico'))
+  : nativeImage.createFromPath(join(process.resourcesPath, 'icon.ico'))
+  tray = new Tray(trayIcon)
   const contextMenu = Menu.buildFromTemplate([
     { label: 'Show App', click: () => win.show() },
     {

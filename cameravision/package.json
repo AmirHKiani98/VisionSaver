@@ -80,6 +80,10 @@
       {
         "from": "resources/.hc_to_app_env",
         "to": ".hc_to_app_env"
+      },
+      {
+        "from": "resources/icon.ico",
+        "to": "icon.ico"
       }
     ],
     "files": [
