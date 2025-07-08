@@ -61,19 +61,68 @@ class RTSPObject:
         else:
             ffmpeg_path = os.path.join(str(settings.BASE_DIR), ffmpeg_env)
         print(f"FFmpeg executable path: {ffmpeg_path}")
+        
+        # Enhanced FFmpeg command for better compatibility with authenticated RTSP streams
         cmd = [
             ffmpeg_path,
-            "-y",
-            "-rtsp_transport", "tcp",
+            "-y",  # Overwrite output file
+            "-rtsp_transport", "tcp",  # Use TCP for more reliable transport
+            "-rtsp_flags", "prefer_tcp",  # Prefer TCP transport
+            "-timeout", "30000000",  # 30 second timeout (in microseconds)
+            "-stimeout", "30000000",  # Socket timeout
             "-i", self.url,
-            "-t", str(duration_seconds),
-            "-c", "copy",
+            "-t", str(duration_seconds),  # Duration
+            "-c:v", "libx264",  # Re-encode video to ensure compatibility
+            "-c:a", "aac",  # Re-encode audio to ensure compatibility
+            "-preset", "fast",  # Fast encoding preset
+            "-crf", "23",  # Good quality constant rate factor
+            "-movflags", "+faststart",  # Optimize for streaming
+            "-f", "mp4",  # Force MP4 format
             abs_output_path
         ]
+        
+        # Alternative command for streams that don't work with re-encoding
+        cmd_copy = [
+            ffmpeg_path,
+            "-y",  # Overwrite output file
+            "-rtsp_transport", "tcp",  # Use TCP for more reliable transport
+            "-rtsp_flags", "prefer_tcp",  # Prefer TCP transport
+            "-timeout", "30000000",  # 30 second timeout (in microseconds)
+            "-stimeout", "30000000",  # Socket timeout
+            "-i", self.url,
+            "-t", str(duration_seconds),  # Duration
+            "-c", "copy",  # Copy streams without re-encoding
+            "-avoid_negative_ts", "make_zero",  # Fix timestamp issues
+            "-fflags", "+genpts",  # Generate presentation timestamps
+            abs_output_path
+        ]
+        
         try:
-            print(f"Running command: {' '.join(cmd)}")
-            subprocess.run(cmd, check=True)
-            print("Recording complete.")
+            print(f"Running command (copy method): {' '.join(cmd_copy)}")
+            result = subprocess.run(cmd_copy, capture_output=True, text=True, check=False)
+            
+            # Check if the file was created and has reasonable size
+            if os.path.exists(abs_output_path) and os.path.getsize(abs_output_path) > 1024:  # More than 1KB
+                print("Recording completed successfully with copy method.")
+                return
+            else:
+                print("Copy method failed or produced small file. Trying re-encoding...")
+                
+        except Exception as e:
+            print(f"Copy method failed: {e}")
+            print("Stderr:", result.stderr if 'result' in locals() else "No stderr captured")
+        
+        try:
+            print(f"Running command (re-encode method): {' '.join(cmd)}")
+            result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+            print("Recording completed successfully with re-encoding method.")
+            
+        except subprocess.CalledProcessError as e:
+            print(f"FFmpeg failed with return code: {e.returncode}")
+            print(f"Stdout: {e.stdout}")
+            print(f"Stderr: {e.stderr}")
+            print(f"Command attempted: {cmd}")
+            raise Exception(f"FFmpeg recording failed: {e.stderr}")
         except Exception as e:
             print(f"Exception type: {type(e)}")
             print(f"Exception args: {e.args}")
