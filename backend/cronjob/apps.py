@@ -45,7 +45,7 @@ def job_checker():
             print(f"Checking for records to process at {now}")
             cache_dir = os.getenv('CACHE_DIR', '.cache')
             os.makedirs(cache_dir, exist_ok=True)
-            with open(os.path.join(cache_dir, 'last_run.txt'), 'w') as f:
+            with open(os.path.join(cache_dir, 'last_run.txt'), 'a+') as f:
                 f.write(now.strftime('%Y-%m-%d %H:%M:%S'))
             records = Record.objects.filter(
                 done=False,
@@ -76,13 +76,13 @@ def job_checker():
 class CronjobConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'cronjob'
-
+    
     def ready(self):
+        print("CronjobConfig.ready() running...")
         import multiprocessing
         multiprocessing.set_start_method('spawn', force=True)  # Optional: avoids multiprocessing errors on Windows
 
-        print("🔁 CronjobConfig.ready() running...")
-
+        print("Starting job_checker thread...")
         t = threading.Thread(target=job_checker, daemon=True)
         t.start()
-
+        print("job_checker thread started successfully")
