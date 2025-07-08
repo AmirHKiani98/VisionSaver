@@ -42,14 +42,12 @@ def job_checker():
     while True:
         try:
             now = timezone.now()
-            print(f"Checking for records to process at {now}")
             
             records = Record.objects.filter(
                 done=False,
                 in_process=False,
                 start_time__lte=now,
             )
-            print(records)
 
             for record in records:
                 ip = record.camera_url.split('rtsp://')[1]
@@ -68,7 +66,7 @@ def job_checker():
         except (OperationalError, ProgrammingError):
             # Table does not exist yet, skip this iteration
             pass
-        time.sleep(10)
+        time.sleep(60)
 
 class CronjobConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
