@@ -33,10 +33,11 @@ def process_stream(request):
         }
     )
 
-def get_record_resolved_url(request, raw_url):
+def get_record_resolved_url(request):
     """
     Get the resolved RTSP URL for a specific IP address.
     """
+    raw_url = request.GET.get('url')
     if not raw_url:
         return JsonResponse({'error': 'Missing url parameter'}, status=400)
     

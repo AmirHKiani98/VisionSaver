@@ -106,7 +106,7 @@ function App() {
     setOpen(true)
   }
   const addStream = (cameraUrl, id) => {
-    const streamUrl = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/rtsp/${env.STREAM_FUNCTION_NAME}/?url=${cameraUrl}`
+    const streamUrl = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.STREAM_FUNCTION_NAME}/?url=${cameraUrl}`
 
     const newVisionInfo = {
       src: streamUrl,
@@ -119,7 +119,7 @@ function App() {
   }
 
   const getResolvedUrl = (cameraUrl) => {
-    const apiLink = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.GET_RECORD_RESOLVED_URL}/${cameraUrl}`
+    const apiLink = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.GET_RECORD_RESOLVED_URL}?url=${cameraUrl}`
     return fetch(apiLink)
       .then((response) => response.json())
       .then((data) => {
@@ -159,13 +159,20 @@ function App() {
       
       for (let i = 1; i <= 4; i++) {
         const cameraUrl = `${protocolLower}://${ip}/cam${i}`
-        const resolvedUrl = getResolvedUrl(cameraUrl)
+        getResolvedUrl(cameraUrl).then((resolvedUrl) => {
+          if (resolvedUrl) {
+            addStream(resolvedUrl, `${ip}-${i}`)
+          }
+        })
         addStream(resolvedUrl, `${ip}-${i}`)
       }
     } else {
       const cameraUrl = `${protocolLower}://${ip}/${channel}`
-      const resolvedUrl = getResolvedUrl(cameraUrl)
-      addStream(resolvedUrl, `${ip}-${channel}`)
+      getResolvedUrl(cameraUrl).then((resolvedUrl) => {
+        if (resolvedUrl) {
+          addStream(resolvedUrl, `${ip}-${channel}`)
+        }
+      })
     }
 
     setProtocol('RTSP')

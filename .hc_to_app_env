@@ -1,0 +1,22 @@
+BACKEND_SERVER_PORT=5050
+BACKEND_SERVER_DOMAIN=localhost
+STREAM_FUNCTION_NAME=mjpeg_stream
+RECORD_FUNCTION_NAME=record/start_record_rtsp
+RECORD_STREAM_FUNCTION_NAME=record/stream_record
+GET_RECORDS_URL=record/get_records_url
+GET_RECORD_URL=record/get_record_url
+GET_RECORD_TURN_URL=record/get_record_turn
+GET_RECORD_RESOLVED_URL=record/get_resolved_url
+ADD_RECORD_TURN_URL=record/add_record_turn
+# API variables
+API_STORE_RECORD_SCHEDULE=api/store_record_schedule/
+API_GET_RECORD_SCHEDULE=api/get_record_schedule/
+API_DELETE_RECORD_SCHEDULE=api/delete_record_schedule/
+API_HEALTH_CHECK=api/health_check
+# Celery variables
+CELERY_BROKER_DOMAIN=localhost
+CELERY_BROKER_PORT=6379
+# Cache variables
+CACHE_DIR=media
+# FFMEPG
+FFMPEG_PATH=apps/ffmpeg/bin/ffmpeg.exe

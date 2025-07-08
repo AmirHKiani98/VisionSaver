@@ -18,6 +18,7 @@ const apiHealthUrl = `${url}/${process.env.API_HEALTH_CHECK}`
 console.log(`Django server URL: ${url}`)
 
 const frontRoot = resolve(__dirname, '../../')
+let djangoProcess = null
 const backendBinary = is.dev
   ? join(
       frontRoot,
@@ -30,18 +31,32 @@ const backendBinary = is.dev
       'backend',
       process.platform === 'darwin' ? 'startbackend' : 'startbackend.exe'
     )
-
-const djangoProcess = execFile(backendBinary, {
-  cwd: is.dev
-    ? join(frontRoot, 'resources', 'backend')
-    : join(process.resourcesPath, 'backend')
-}, (error) => {
-  if (error) {
-    console.error('Django error:', error)
-  } else {
-    console.log('Django server started successfully.')
-  }
-})
+if(!is.dev){
+  djangoProcess = execFile(backendBinary, {
+    cwd: is.dev
+      ? join(frontRoot, 'resources', 'backend')
+      : join(process.resourcesPath, 'backend')
+  }, (error) => {
+    if (error) {
+      console.error('Django error:', error)
+    } else {
+      console.log('Django server started successfully.')
+    }
+  })
+} else {
+  console.log('Running in development mode, Django server will not be started automatically.')
+  // Run django from ../../../backend/manage.py runserver
+  djangoProcess =  execFile('python', ['manage.py', 'runserver'], {
+      cwd: join(__dirname, '../../../backend')
+    }, (error) => {
+      if (error) {
+        console.error('Django error:', error)
+      } else {
+        console.log('Django server started successfully.')
+      }
+    }
+  )
+}
 
 djangoProcess.stdout?.on('data', (data) => console.log(`Django: ${data}`))
 djangoProcess.stderr?.on('data', (data) => console.error(`Django error: ${data}`))
