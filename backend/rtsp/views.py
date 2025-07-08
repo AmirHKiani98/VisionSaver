@@ -7,6 +7,7 @@ from django.http import StreamingHttpResponse, HttpResponse
 import cv2
 import numpy as np
 import requests
+from django.http import JsonResponse
 from .utility import get_stream_type, get_ip_from_url
 
 
@@ -32,6 +33,37 @@ def process_stream(request):
         }
     )
 
+def get_record_resolved_url(request, raw_url):
+    """
+    Get the resolved RTSP URL for a specific IP address.
+    """
+    if not raw_url:
+        return JsonResponse({'error': 'Missing url parameter'}, status=400)
+    
+    ip = get_ip_from_url(raw_url)
+    if not ip:
+        return JsonResponse({'error': 'Invalid RTSP URL'}, status=400)
+    
+    stream_type = get_stream_type(ip)
+    if stream_type == 'costar':
+        for i in range(1, 10):
+            try:
+                response = requests.get(f'http://{ip}/jpegpull/{i}', timeout=5)
+                if response.status_code == 200:
+                    resolved_url = f'rtsp://admin:admin@{ip}/Stream{i}'
+                    return JsonResponse({'resolved_url': resolved_url})
+            except requests.RequestException:
+                continue
+        return JsonResponse({'error': 'Could not resolve costar stream'}, status=500)
+    elif stream_type == 'supervisor':
+        # For supervisor, we assume the raw_url is already in the correct format
+        # and we just return it as the resolved URL.
+        # You might want to add additional logic here if needed.
+        stream_channel = raw_url.split('/')[-1]  # Extract the channel from the URL
+        resolved_url = f'rtsp://{ip}/{stream_channel}'
+        return JsonResponse({'resolved_url': resolved_url})
+    # For 'supervisor' or fallback
+    return JsonResponse({'resolved_url': raw_url})
 
 def generate_video(url):
     cap = cv2.VideoCapture(url)  # pylint: disable=no-member
@@ -81,32 +113,9 @@ def mjpeg_stream(request):
     If the stream fails or stops, returns a notification message.
     """
     url = request.GET.get('url')
-    ip = get_ip_from_url(url) if url else None
-    if not url:
-        return HttpResponse("Bad Request: 'url' query parameter is required", status=400)
-    if not ip:
-        return HttpResponse("Bad Request: Invalid RTSP URL format", status=400)
-    stream_type = get_stream_type(ip)
-    if stream_type not in ['supervisor', 'costar']: # TODO: Might change in the future
-        return HttpResponse(f"Bad Request: Unsupported stream type '{stream_type}'", status=400)
-    if stream_type == 'costar':
-        # get image from http://<ip>/jpegpull/3
-        for i in range(1, 10):  # Adjust the range as needed
-            response = requests.get(f'http://{ip}/jpegpull/{i}', stream=True, timeout=5)
-            if response.status_code == 200:
-                break
-        if response.status_code != 200:
-            return HttpResponse(f"Error: Unable to connect to costar stream at {ip}", status=500)
-        
-        url = f"rtsp://admin:admin@{ip}/Stream{i}"
-        return StreamingHttpResponse(
-            generate_video(url),
-            content_type='multipart/x-mixed-replace; boundary=frame'
-        )
-        
-    else:
+    return StreamingHttpResponse(
+        generate_video(url),
+        content_type='multipart/x-mixed-replace; boundary=frame'
+    )
 
-        return StreamingHttpResponse(
-            generate_video(url),
-            content_type='multipart/x-mixed-replace; boundary=frame'
-        )
+        
