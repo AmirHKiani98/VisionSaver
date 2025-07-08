@@ -2,7 +2,7 @@ import './assets/output.css'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { ThemeProvider, createTheme } from '@mui/material/styles'; // Use @mui/material/styles
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 
 const theme = createTheme({
   palette: {
@@ -36,13 +36,13 @@ rootElement.className = 'min-h-screen min-w-screen bg-main-600';
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ThemeProvider theme={theme}>
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="/editor" element={<Recording />} />
           <Route path="/record" element={<RecordEditor />} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </ThemeProvider>
   </StrictMode>
 )

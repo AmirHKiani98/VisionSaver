@@ -46,11 +46,14 @@
     "react-router-dom": "^7.6.3"
   },
   "devDependencies": {
+    "@babel/runtime": "^7.27.6",
     "@electron-toolkit/eslint-config": "^2.0.0",
     "@electron-toolkit/eslint-config-prettier": "^3.0.0",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.21",
+    "clsx": "^2.1.1",
     "concurrently": "^9.2.0",
+    "csstype": "^3.1.3",
     "electron": "^35.1.5",
     "electron-builder": "^25.1.8",
     "electron-vite": "^3.1.0",
@@ -60,6 +63,7 @@
     "eslint-plugin-react-refresh": "^0.4.19",
     "postcss": "^8.5.6",
     "prettier": "^3.5.3",
+    "prop-types": "^15.8.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "tailwindcss": "^3.4.17",
@@ -67,26 +71,8 @@
     "wait-on": "^8.0.3"
   },
   "build": {
-    "appId": "com.example.cameravision",
-    "productName": "CameraVision",
-    "directories": {
-      "buildResources": "resources"
-    },
-    "files": [
-      "out",
-      "dist/",
-      "main.js",
-      "preload/**/*",
-      "resources/backend/**",
-      "resources/.hc_to_app_env",
-      "package.json"
-    ],
+    "asar": false,
     "extraResources": [
-      {
-        "from": "apps/ffmpeg",
-        "to": "apps/ffmpeg",
-        "filter": ["**/*"]
-      },
       {
         "from": "resources/backend",
         "to": "resources/backend",
@@ -97,12 +83,21 @@
         "to": "resources/.hc_to_app_env"
       }
     ],
+    "files": [
+      "dist/**",
+      "out/**",
+      "main.js",
+      "preload/**/*",
+      "package.json"
+    ],
     "mac": {
-      "target": "dir"
+      "target": "dir",
+      "sign": false
     },
     "win": {
       "target": "portable",
-      "icon": "resources/icon.ico"
+      "icon": "resources/icon.png",
+      "sign": false
     },
     "linux": {
       "target": "AppImage"

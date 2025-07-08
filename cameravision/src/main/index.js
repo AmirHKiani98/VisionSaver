@@ -1,10 +1,58 @@
 import { app, shell, BrowserWindow, ipcMain, Tray, Menu, nativeImage } from 'electron'
 import { join, resolve } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-import appIcon from '../../resources/icon.icns?asset' // Use .png for tray icon
+import appIcon from '../../resources/icon.icns?asset'
+import dotenv from 'dotenv'
 const { execFile } = require('child_process')
-const waitOn = require('wait-on')
+
+// Load .env early
+dotenv.config({ path: join(__dirname, '../../resources/.hc_to_app_env') })
+
+const domain = process.env.BACKEND_SERVER_DOMAIN
+const port = process.env.BACKEND_SERVER_PORT
+const url = `http://${domain}:${port}`
+const apiHealthUrl = `${url}/${process.env.API_HEALTH_CHECK}`
+console.log(`Django server URL: ${url}`)
+
+const frontRoot = resolve(__dirname, '../../')
+const backendBinary = is.dev
+  ? join(
+      frontRoot,
+      'resources',
+      'backend',
+      process.platform === 'darwin' ? 'startbackend' : 'startbackend.exe'
+    )
+  : join(
+      process.resourcesPath,
+      'resources',
+      'backend',
+      process.platform === 'darwin' ? 'startbackend' : 'startbackend.exe'
+    )
+
+const djangoProcess = execFile(backendBinary, (error) => {
+  if (error) {
+    console.error('Django error:', error)
+  } else {
+    console.log('Django server started successfully.')
+  }
+})
+
+djangoProcess.stdout?.on('data', (data) => console.log(`Django: ${data}`))
+djangoProcess.stderr?.on('data', (data) => console.error(`Django error: ${data}`))
+
+// Kill Django on quit
+app.on('before-quit', () => {
+  app.isQuiting = true
+  if (djangoProcess && !djangoProcess.killed) {
+    console.log('Killing Django server...')
+    djangoProcess.kill()
+  }
+})
+
+// Define window globals
 let splashWindow = null
+let tray = null
+let win = null
 
 function createSplashWindow() {
   splashWindow = new BrowserWindow({
@@ -24,86 +72,13 @@ function createSplashWindow() {
   }
 }
 
-import dotenv from 'dotenv'
-// Adjust the path to point to the correct .env location
-dotenv.config({ path: join(__dirname, '../../resources/.hc_to_app_env') })
-
-// --- Django startup path fix ---
-const frontRoot = resolve(__dirname, '../../')
-
-const backendBinary = is.dev
-  ? join(
-      frontRoot,
-      'resources',
-      'backend',
-      process.platform === 'darwin' ? 'startbackend' : 'startbackend.exe'
-    ) // dev mode: local binary
-  : join(
-      process.resourcesPath,
-      'resources',
-      'backend',
-      process.platform === 'darwin' ? 'startbackend' : 'startbackend.exe'
-    ) // production: in packaged app
-
-const djangoProcess = execFile(backendBinary, (error) => {
-  if (error) {
-    console.error('Django error:', error)
-  } else {
-    console.log('Django server started successfully.')
-  }
-})
-
-ipcMain.handle('get-env', () => ({
-  ...process.env
-}))
-
-const domain = process.env.BACKEND_SERVER_DOMAIN
-const port = process.env.BACKEND_SERVER_PORT
-const url = `http://${domain}:${port}`
-const apiHealthUrl = `${url}/${process.env.API_HEALTH_CHECK}`
-console.log(`Django server URL: ${url}`)
-
-// Ensure Django server is killed when Electron app quits
-app.on('before-quit', () => {
-  app.isQuiting = true
-  if (djangoProcess && !djangoProcess.killed) {
-    console.log('Killing Django server...')
-    djangoProcess.kill()
-  }
-})
-
-// Wait for Django server to be ready
-waitOn({ resources: [url] }, (err) => {
-  console.log('Waiting for Django server to be ready...')
-  if (err) {
-    console.error('Django server failed to start:', err)
-    process.exit(1)
-  }
-})
-
-djangoProcess.stdout &&
-  djangoProcess.stdout.on('data', (data) => {
-    console.log(`Django: ${data}`)
-  })
-
-djangoProcess.stderr &&
-  djangoProcess.stderr.on('data', (data) => {
-    console.error(`Django error: ${data}`)
-  })
-
-// Use .ico for app icon (Windows), .png for tray
-const iconIco = join(__dirname, '../../resources/icon.icns')
-
-let tray = null
-let win = null
-
 function createWindow() {
   win = new BrowserWindow({
     width: 1050,
     height: 720,
     show: false,
     autoHideMenuBar: true,
-    icon: iconIco, // Use .ico for app icon
+    icon: join(__dirname, '../../resources/icon.icns'),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
@@ -111,16 +86,10 @@ function createWindow() {
   })
 
   win.on('ready-to-show', () => {
-    splashWindow && splashWindow.destroy()
+    splashWindow?.destroy()
     win.show()
   })
 
-  win.webContents.setWindowOpenHandler((details) => {
-    shell.openExternal(details.url)
-    return { action: 'deny' }
-  })
-
-  // Minimize to tray on close
   win.on('close', (event) => {
     if (!app.isQuiting) {
       event.preventDefault()
@@ -128,8 +97,11 @@ function createWindow() {
     }
   })
 
-  // HMR for renderer base on electron-vite cli.
-  // Load the remote URL for development or the local html file for production.
+  win.webContents.setWindowOpenHandler((details) => {
+    shell.openExternal(details.url)
+    return { action: 'deny' }
+  })
+
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
     win.loadURL(process.env['ELECTRON_RENDERER_URL'])
   } else {
@@ -147,60 +119,73 @@ function waitForHealthPing(url, callback) {
           callback()
         }
       })
-      .catch(() => {}) // Just keep retrying silently
+      .catch(() => {}) // silent retry
   }, 500)
 }
 
+// Initial app startup
 app.whenReady().then(() => {
   electronApp.setAppUserModelId('com.electron')
 
-  createSplashWindow()
-  waitForHealthPing(apiHealthUrl, () => {
-    createWindow()
-  })
-
-  app.on('browser-window-created', (_, window) => {
-    optimizer.watchWindowShortcuts(window)
-  })
+  // Load wait-on dynamically and wait for Django
+  import('wait-on')
+    .then((mod) => {
+      const waitOn = mod.default
+      console.log('Waiting for Django server to be ready...')
+      waitOn({ resources: [url], timeout: 15000 }, (err) => {
+        if (err) {
+          console.error('Django server failed to start:', err)
+          console.warn('Opening app anyway in fallback mode...')
+          createSplashWindow()
+          createWindow()
+        } else {
+          console.log('Django server is ready.')
+          createSplashWindow()
+          waitForHealthPing(apiHealthUrl, () => {
+            createWindow()
+          })
+        }
+      })
+    })
+    .catch((e) => {
+      console.error('Failed to load wait-on:', e)
+      process.exit(1)
+    })
 
   ipcMain.on('ping', () => console.log('pong'))
 
-  // Create tray icon
-  tray = new Tray(nativeImage.createFromPath(appIcon)) // Use .png for tray icon
+  ipcMain.handle('get-env', () => ({ ...process.env }))
+
+  tray = new Tray(nativeImage.createFromPath(appIcon))
   const contextMenu = Menu.buildFromTemplate([
-    {
-      label: 'Show App',
-      click: () => {
-        win.show()
-      }
-    },
+    { label: 'Show App', click: () => win.show() },
     {
       label: 'Quit',
       click: () => {
         app.isQuiting = true
-        win.destroy() // <-- ensure window closes completely
+        win?.destroy()
         app.quit()
       }
     }
   ])
   tray.setToolTip('Camera Vision')
   tray.setContextMenu(contextMenu)
-  tray.on('double-click', () => {
-    win.show()
+  tray.on('double-click', () => win?.show())
+
+  app.on('browser-window-created', (_, window) => {
+    optimizer.watchWindowShortcuts(window)
   })
 })
 
-// Prevent app from quitting when all windows are closed
 app.on('window-all-closed', (event) => {
   if (!app.isQuiting) {
     event.preventDefault()
-    if (win) win.hide()
+    win?.hide()
   } else {
     app.quit()
   }
 })
+
 app.on('activate', () => {
-  if (win) {
-    win.show()
-  }
+  if (win) win.show()
 })
