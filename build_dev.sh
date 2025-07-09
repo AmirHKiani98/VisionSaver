@@ -26,4 +26,4 @@ else
     source .venv/bin/activate
 fi
 
-pip install -r requirements.txt
+pip install -r requirements.txt`
