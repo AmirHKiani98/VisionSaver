@@ -50,19 +50,19 @@ class RTSPObject:
     def record(self, duration_minutes: int, output_path: str):
         duration_seconds = duration_minutes * 60
         ffmpeg_env = os.getenv("FFMPEG_PATH")
-        print(f"FFMPEG_PATH env: {ffmpeg_env}")
+        #print(f"FFMPEG_PATH env: {ffmpeg_env}")
         
         # Ensure output path is absolute
         abs_output_path = os.path.join(str(settings.BASE_DIR), output_path) if not os.path.isabs(output_path) else output_path
         output_dir = os.path.dirname(abs_output_path)
         if not os.path.isdir(output_dir):
-            print(f"Creating directory: {output_dir}")
+            #print(f"Creating directory: {output_dir}")
             os.makedirs(output_dir, exist_ok=True)
 
         if not ffmpeg_env:
             raise EnvironmentError("FFMPEG_PATH environment variable is not set.")
         ffmpeg_path = ffmpeg_env if os.path.isabs(ffmpeg_env) else os.path.join(str(settings.BASE_DIR), ffmpeg_env)
-        print(f"FFmpeg executable path: {ffmpeg_path}")
+        #print(f"FFmpeg executable path: {ffmpeg_path}")
         
 
         # Adjust output extension according to method
@@ -104,26 +104,38 @@ class RTSPObject:
 
         # Try preferred
         try:
-            print(f"Running preferred command: {' '.join(preferred_cmd)}")
+            #print(f"Running preferred command: {' '.join(preferred_cmd)}")
             result = subprocess.run(preferred_cmd, capture_output=True, text=True, check=False)
             if os.path.exists(abs_output_path) and os.path.getsize(abs_output_path) > 1024:
-                print("Recording completed successfully with preferred method.")
-                return
-            print("Preferred method failed or produced a small file. Trying fallback...")
+                #print("Recording completed successfully with preferred method.")
+                return True
+            else:
+                #print("Preferred method failed or produced a small file.")
+                return False
+            #print("Preferred method failed or produced a small file. Trying fallback...")
         except Exception as e:
-            print(f"Preferred method raised exception: {e}")
-            print("Stderr:", result.stderr if 'result' in locals() else "No stderr captured")
+            
+            return False
+            #print(f"Preferred method raised exception: {e}")
+            #print("Stderr:", result.stderr if 'result' in locals() else "No stderr captured")
 
         # Try fallback
         try:
-            print(f"Running fallback command: {' '.join(fallback_cmd)}")
+            #print(f"Running fallback command: {' '.join(fallback_cmd)}")
             result = subprocess.run(fallback_cmd, capture_output=True, text=True, check=True)
-            print("Recording completed successfully with fallback method.")
+            if os.path.exists(abs_output_path) and os.path.getsize(abs_output_path) > 1024:
+                #print("Recording completed successfully with fallback method.")
+                return True
+            else:
+                return False
+            #print("Recording completed successfully with fallback method.")
         except subprocess.CalledProcessError as e:
-            print(f"FFmpeg fallback failed: {e.stderr}")
+            #print(f"FFmpeg fallback failed: {e.stderr}")
+            return False
             raise Exception(f"FFmpeg fallback failed: {e.stderr}")
         except Exception as e:
-            print(f"Fallback exception: {e}")
+            #print(f"Fallback exception: {e}")
+            return False
             raise
 
 # Try
@@ -135,6 +147,7 @@ if __name__ == "__main__":
     # Try recording for 1 minute and save to output.mp4
     try:
         rtsp.record(10, "output.mp4")
-        print("Recording ompleted successfully.")
+        #print("Recording ompleted successfully.")
     except Exception as e:
-        print(f"An error occurred: {e}")
+        pass
+        #print(f"An error occurred: {e}")

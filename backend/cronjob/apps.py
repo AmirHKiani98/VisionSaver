@@ -5,50 +5,41 @@ from django.db import OperationalError, ProgrammingError
 import logging
 from multiprocessing import Pool
 import threading
-
+from django.db.models import F, ExpressionWrapper, DateTimeField, DurationField
 logging.basicConfig(level=logging.INFO)
 import os
 def record_rtsp_task(record_id, camera_url, duration, output_file, record_type):
     from record.models import Record
     from record.rtsp_object import RTSPObject
 
-    print(f"🎬 Starting recording task for record ID {record_id}")
+    print(f"Starting recording task for record ID {record_id}")
     
     try:
         record = Record.objects.get(id=record_id)
         record.in_process = True
         record.save()
-        print(f"✅ Marked record {record_id} as in_process")
+        print(f"Marked record {record_id} as in_process")
         
         # Create output directory
         os.makedirs(os.path.dirname(output_file), exist_ok=True)
         logging.info(f"Starting recording for record ID {record_id}")
-        print(f"📹 Recording from {camera_url} for {duration} minutes to {output_file}")
+        print(f"Recording from {camera_url} for {duration} minutes to {output_file}")
         
         rtsp_obj = RTSPObject(camera_url, record_type=record_type)
-        rtsp_obj.record(duration, output_file)
+        done = rtsp_obj.record(duration, output_file)
         
         # Check if file was created and has reasonable size
-        if os.path.exists(output_file):
-            file_size = os.path.getsize(output_file)
-            print(f"📁 Recording file created: {output_file} ({file_size} bytes)")
-            
-            if file_size > 1024:  # More than 1KB
-                record.done = True
-                record.error = ""
-                print(f"✅ Recording completed successfully for record ID {record_id}")
-                logging.info(f"Recording completed for record ID {record_id}")
-            else:
-                record.done = False
-                record.error = f"Recording file too small: {file_size} bytes"
-                print(f"⚠️ Recording file too small for record ID {record_id}: {file_size} bytes")
+        if done:
+            print(f"Recording file created: {output_file}")
+            record.done = True
+            record.error = ""
         else:
             record.done = False
             record.error = "Recording file was not created"
-            print(f"❌ Recording file was not created for record ID {record_id}")
+            print(f"Recording file was not created for record ID {record_id}")
             
     except Exception as e:
-        print(f"❌ Error during recording for record ID {record_id}: {e}")
+        print(f"Error during recording for record ID {record_id}: {e}")
         record.done = False
         record.error = str(e)
         record.in_process = False
@@ -56,7 +47,7 @@ def record_rtsp_task(record_id, camera_url, duration, output_file, record_type):
 
     record.in_process = False
     record.save()
-    print(f"🏁 Finished recording task for record ID {record_id}")
+    print(f"Finished recording task for record ID {record_id}")
 
 def job_checker():
     from record.models import Record  # <-- move import here!
@@ -72,7 +63,7 @@ def job_checker():
             os.makedirs(cache_dir, exist_ok=True)
             
             # Write heartbeat file
-            with open(os.path.join(cache_dir, 'last_run.txt'), 'w') as f:
+            with open(os.path.join(cache_dir, 'last_run.txt'), 'a+') as f:
                 f.write(now.strftime('%Y-%m-%d %H:%M:%S'))
             
             records = Record.objects.filter(
@@ -80,17 +71,17 @@ def job_checker():
                 in_process=False,
                 start_time__lte=now,
             )
-            print(f"📋 Found {records.count()} records to process: {records}")
+            print(f"Found {records.count()} records to process: {records}")
 
             for record in records:
-                print(f"🎥 Starting recording task for record ID {record.id}")
-                print(f"📹 Camera URL: {record.camera_url}")
-                print(f"⏱️ Duration: {record.duration} minutes")
+                print(f"Starting recording task for record ID {record.id}")
+                print(f"Camera URL: {record.camera_url}")
+                print(f"Duration: {record.duration} minutes")
                 
                 ip = record.camera_url.split('rtsp://')[1]
                 ip = ip.replace('.', '_')
-                output_file = f"{os.getenv('CACHE_DIR', '.cache')}/{record.id}.mp4"
-                print(f"💾 Output file: {output_file}")
+                output_file = f"{os.getenv('CACHE_DIR', '.cache')}/{record.id}"
+                print(f"Output file: {output_file}")
                 
                 # Start recording in separate thread
                 threading.Thread(
@@ -104,6 +95,27 @@ def job_checker():
                     ),
                     daemon=True
                 ).start()
+            
+            # Filter in_process records whose (start_time + duration) < now
+            print("Checking for in_process records to finalize...")
+            records = Record.objects.filter(
+                done=False,
+                in_process=True
+            ).annotate(
+                end_time=ExpressionWrapper(
+                    F('start_time') + 
+                    ExpressionWrapper((F('duration') + 3) * 60, output_field=DurationField()),
+                    output_field=DateTimeField()
+                )
+            ).filter(
+                end_time__lt=now
+            )
+            records.update(
+                in_process=False
+            )
+            
+            
+            print(f"Found {records.count()} in_process records to check: {records}")
         except (OperationalError, ProgrammingError) as e:
             # Table does not exist yet, skip this iteration
             print(f"Database not ready: {e}")
@@ -119,6 +131,7 @@ class CronjobConfig(AppConfig):
     def ready(self):
         print("CronjobConfig.ready() running...")
         import multiprocessing
+
         multiprocessing.set_start_method('spawn', force=True)  # Optional: avoids multiprocessing errors on Windows
 
         print("Starting job_checker thread...")
