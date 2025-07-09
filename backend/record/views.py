@@ -110,10 +110,14 @@ def stream_video(request, record_id):
     Streams video with support for HTTP Range requests (seeking).
     Adds debug output to help diagnose streaming issues.
     """
-    possible_exts = ['.mp4', '.mkv']
     video_path = None
     content_type = None
     debug_info = []
+    should_mp4 = request.GET.get('mp4', 'false').lower() == 'true'
+    if should_mp4:
+        possible_exts = ['.mp4']
+    else:
+        possible_exts = ['.mkv', '.mp4']
     for ext in possible_exts:
         path = os.path.join(settings.MEDIA_ROOT, f'{record_id}{ext}')
         debug_info.append(f"Checking for file: {path}")
@@ -122,16 +126,13 @@ def stream_video(request, record_id):
             content_type = 'video/mp4' if ext == '.mp4' else 'video/x-matroska'
             debug_info.append(f"Found file: {video_path}")
             break
-    print("[DEBUG stream_video]", " | ".join(debug_info))
     if not video_path:
         debug_info.append("No video file found for record_id: {}".format(record_id))
-        print("[DEBUG stream_video]", " | ".join(debug_info))
-        with open("stream_debug.log", "a") as debug_file:
+        with open("stream_debug.log", "a+") as debug_file:
             debug_file.write("[DEBUG stream_video] " + "\n".join(debug_info) + "\n")
-        return HttpResponseNotFound('Video not found')
+        return HttpResponseNotFound(f"No video file found for record_id: {record_id} in {path}")
     else:
-        print("[DEBUG stream_video]", " | ".join(debug_info))
-        with open("stream_debug.log", "a") as debug_file:
+        with open("stream_debug.log", "a+") as debug_file:
             debug_file.write("[DEBUG stream_video] " + "\n".join(debug_info) + "\n")
 
     file_size = os.path.getsize(video_path)

@@ -342,7 +342,7 @@ const RecordEditor = (props) => {
                                         ajaxKeyDown('right');
                                         // openNotification("success", "Right turn incremented successfully.");
                                     }}
-                                    ref={throughButtonRef}
+                                    ref={rightTurnButtonRef}
                                 >
                                     <ArrowDropDownIcon />
                                     <Typography style={{ fontSize: "7px" }} >
@@ -356,7 +356,7 @@ const RecordEditor = (props) => {
                                         ajaxKeyDown('through');
                                         // openNotification("success", "Through incremented successfully.");
                                     }}
-                                    ref={rightTurnButtonRef}
+                                    ref={throughButtonRef}
                                 >
                                     <ArrowRightIcon />
                                     <Typography style={{ fontSize: "7px" }} >

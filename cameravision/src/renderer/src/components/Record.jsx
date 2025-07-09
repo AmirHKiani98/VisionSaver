@@ -208,7 +208,23 @@ const Record = forwardRef((props, ref) => {
               ref={videoRef}
               src={src}
               onLoadedData={() => setLoading(false)}
-              onError={() => setError(true)}
+              onError={(e) => {
+                const videoEl = e.target
+                const error = videoEl.error
+                if (error.code === 4){
+                  setSrc(src + '/?mp4=true') // Attempt to reload with MP4 conversion
+                }
+                else{
+                  setLoading(false)
+                  setError(true)
+                  // Log detailed error info
+                  if (error) {
+                    console.error('Video error:', error, 'code:', error.code, 'src:', src)
+                  } else {
+                    console.error('Unknown video error', e, 'src:', src)
+                  }
+                }
+              }}
               className="block max-w-full max-h-[60vh] w-auto h-auto object-contain"
               style={{
                 background: 'black',

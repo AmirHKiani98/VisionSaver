@@ -53,6 +53,27 @@ class RTSPObject:
         Destructor to ensure the RTSP stream is released when the object is deleted.
         """
         self.release()
+    def transcode_to_mp4(self, input_path):
+        """
+        Transcode a video to browser-friendly MP4 (H.264/AAC).
+        """
+        ffmpeg_env = os.getenv("FFMPEG_PATH")
+        if not ffmpeg_env:
+            raise EnvironmentError("FFMPEG_PATH environment variable is not set.")
+        ffmpeg_path = ffmpeg_env if os.path.isabs(ffmpeg_env) else os.path.join(str(settings.BASE_DIR), ffmpeg_env)
+        output_path = os.path.splitext(input_path)[0] + ".mp4"
+        cmd = [
+            ffmpeg_path, "-y",
+            "-i", input_path,
+            "-c:v", "libx264",
+            "-c:a", "aac",
+            "-movflags", "+faststart",
+            output_path
+        ]
+        result = subprocess.run(cmd, capture_output=True, text=True)
+        if result.returncode != 0:
+            raise RuntimeError(f"Transcoding failed: {result.stderr}")
+        return output_path
     
     def record(self, duration_minutes: int, output_path: str):
         duration_seconds = duration_minutes * 60
@@ -110,9 +131,14 @@ class RTSPObject:
             print(f"[DEBUG] FFmpeg returncode: {result.returncode}")
             print("[DEBUG] FFmpeg stdout:", result.stdout)
             print("[DEBUG] FFmpeg stderr:", result.stderr)
-            if os.path.exists(abs_output_path) and os.path.getsize(abs_output_path) > 1024:
-                print(f"[DEBUG] Output file created: {abs_output_path}, size: {os.path.getsize(abs_output_path)} bytes")
-                return True
+            
+            if os.path.exists(abs_output_path):
+                print(f"[DEBUG] Output file created: {abs_output_path}")
+                output_path = self.transcode_to_mp4(abs_output_path)
+                if os.path.exists(output_path):
+                    return True
+                else:
+                    return False
             else:
                 print(f"[DEBUG] Output file missing or too small: {abs_output_path}")
                 return False
