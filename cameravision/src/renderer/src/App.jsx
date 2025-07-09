@@ -83,12 +83,15 @@ function App() {
             }))
             setRecordLinks(data)
           } else if (data.records) {
-            const records = data.records.map((record) => ({
+            console.log('Fetched records:', data.records)
+            const records = data.records
+              .map((record) => ({
               ...record,
               cameraUrl: record.camera_url || record.cameraUrl, // Ensure cameraUrl is set correctly
               startTime: record.start_time || record.startTime,
               inProcess: record.in_process || record.inProcess
-            }))
+              }))
+              .sort((a, b) => new Date(b.startTime) - new Date(a.startTime))
 
             setRecordLinks(records)
           } else {
@@ -159,12 +162,13 @@ function App() {
       
       for (let i = 1; i <= 4; i++) {
         const cameraUrl = `${protocolLower}://${ip}/cam${i}`
+        
         getResolvedUrl(cameraUrl).then((resolvedUrl) => {
           if (resolvedUrl) {
             addStream(resolvedUrl, `${ip}-${i}`)
           }
         })
-        addStream(resolvedUrl, `${ip}-${i}`)
+        
       }
     } else {
       const cameraUrl = `${protocolLower}://${ip}/${channel}`
@@ -239,12 +243,12 @@ function App() {
         })
     }
     setRecordLinks((prev) => [
-      ...prev,
       {
-        startTime: startTime,
-        duration: duration,
-        token: randomString
-      }
+      startTime: startTime,
+      duration: duration,
+      token: randomString
+      },
+      ...prev
     ])
   }
   const removeStreamHandler = (id) => {
