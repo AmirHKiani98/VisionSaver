@@ -227,19 +227,14 @@ def get_record_turn(request, record_id):
             record = Record.objects.get(id=record_id)
 
             # Count each possible turn_movement, ensuring all are present
-            turn_types = ['left', 'right', 'through', 'approach']
-            counts = (
+            # turn_types = ['left', 'right', 'through', 'approach']
+            turn_movements = (
                 RecordLog.objects
                 .filter(record=record)
-                .values('turn_movement')
-                .annotate(count=Count('id'))
+                .values("time", "turn_movement")
             )
             # Convert queryset to a dict for easy lookup
-            count_dict = {item['turn_movement']: item['count'] for item in counts}
-            turn_counts = [
-                {'turn_movement': t, 'count': count_dict.get(t, 0)}
-                for t in turn_types
-            ]
+            
             max_time = (
                 RecordLog.objects
                 .filter(record=record)
@@ -248,8 +243,9 @@ def get_record_turn(request, record_id):
             )
 
             result = {
-                "turn_counts": list(turn_counts),
-                "max_time": max_time if max_time is not None else 0,
+                "turns": list(turn_movements),
+                "checkpoint": max_time if max_time is not None else 0,
+                "video_duration": record.duration*60,
             }
             return JsonResponse(result, status=200)
             

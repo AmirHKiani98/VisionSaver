@@ -41,6 +41,7 @@ const RecordEditor = (props) => {
     const throughButtonRef = react.useRef(null);
     const approacButtonRef = react.useRef(null);
     const videoRef = react.useRef(null);
+    const [allTurns, setAllTurns] = react.useState([]);
     const [pendingSeekTime, setPendingSeekTime] = react.useState(null);
 
 
@@ -92,27 +93,27 @@ const RecordEditor = (props) => {
             if (data.error) {
                 openNotification('error', data.error);
             } else {
-                let max_time = Number(data.max_time);
-                setPendingSeekTime(max_time)
-                console.log("Current time set to:", videoRef.current.currentTime);
-                for (const key in data.turn_counts) {
-                    if (!(data.turn_counts[key] === null || data.turn_counts[key] === undefined)) {
-                        switch (data.turn_counts[key].turn_movement) {
-                            case 'left':
-                                setLeftTurns(data.turn_counts[key].count);
-                                break;
-                            case 'right':
-                                setRightTurns(data.turn_counts[key].count);
-                                break;
-                            case 'through':
-                                setThroughTurns(data.turn_counts[key].count);
-                                break;
-                            case 'approach':
-                                setApproach(data.turn_counts[key].count);
-                                break;
-                            default:
-                                break;
+                let checkpoint = Number(data.checkpoint);
+                let videoDuration = Number(data.video_duration);
+
+                setPendingSeekTime(checkpoint)
+                console.log("data", data);
+                if (data.turns && data.turns.length > 0) {
+                    for (const turn of data.turns) {
+                        if(turn.turn_movement === "left"){
+                            setLeftTurns(prev => prev + 1);
                         }
+                        else if(turn.turn_movement === "right"){
+                            setRightTurns(prev => prev + 1);
+                        }
+                        else if(turn.turn_movement === "through"){
+                            setThroughTurns(prev => prev + 1);
+                        }
+                        else if(turn.turn_movement === "approach"){
+                            setApproach(prev => prev + 1);
+                        }
+                        setAllTurns(prev => [...prev, turn]);
+                    
                     }
                 }
             }
@@ -231,7 +232,7 @@ const RecordEditor = (props) => {
                                     shrink: true,
                                     },
                                 }}
-                                value={leftTurns}
+                                value={leftTurns ?? 0}
                                 onChange={(e) => {
                                     const value = e.target.value;
                                     if (value >= 0) {
@@ -251,7 +252,7 @@ const RecordEditor = (props) => {
                                         shrink: true,
                                         },
                                     }}
-                                    value={rightTurns}
+                                    value={rightTurns ?? 0}
                                     onChange={(e) => {
                                         const value = e.target.value;
                                         if (value >= 0) {
@@ -271,7 +272,7 @@ const RecordEditor = (props) => {
                                         shrink: true,
                                         },
                                     }}
-                                    value={throughTurns}
+                                    value={throughTurns ?? 0}
                                     onChange={(e) => {
                                         const value = e.target.value;
                                         if (value >= 0) {
@@ -291,7 +292,7 @@ const RecordEditor = (props) => {
                                         shrink: true,
                                         },
                                     }}
-                                    value={approach}
+                                    value={approach ?? 0}
                                     onChange={(e) => {
                                         const value = e.target.value;
                                         if (value >= 0) {
