@@ -12,7 +12,7 @@ import {
 } from '@mui/material'
 import PlayCircleIcon from '@mui/icons-material/PlayCircle'
 import StopCircleIcon from '@mui/icons-material/StopCircle'
-import { Form } from 'react-router-dom'
+import RecordLogIndicator from './RecordLogIndicator.jsx'
 
 const Record = forwardRef((props, ref) => {
   const [src, setSrc] = react.useState(props.src || '')
@@ -232,8 +232,24 @@ const Record = forwardRef((props, ref) => {
                 padding: 0
               }}
             />
-            <div className="absolute bottom-3 left-0 right-0 h-10 w-10 z-50 bg-gray-300">
-            </div>
+            {Array.isArray(props.logs) && props.logs.map((turn, idx) => (
+                  <RecordLogIndicator
+                  key={idx}
+                  percentage={duration > 0 ? (turn.time / duration) * 100 : 0}
+                  color={
+                    turn.type === 'left'
+                    ? 'bg-blue-500'
+                    : turn.type === 'right'
+                    ? 'bg-red-500'
+                    : turn.type === 'approach'
+                    ? 'bg-green-500'
+                    : turn.type === 'through'
+                    ? 'bg-yellow-500'
+                    : 'bg-gray-500'
+                  }
+                  />
+                ))}
+
             <Slider
               value={currentTime}
               min={0}
