@@ -49,19 +49,19 @@ const RecordLink = (props) => {
             {props.inProcess ? (
               <Tooltip title="Rec" placement="top">
                 <IconButton disabled edge="end" aria-label="rec">
-                  <RadioButtonCheckedIcon className={recordingClass} />
+                  <RadioButtonCheckedIcon className="text-red-300" />
                 </IconButton>
               </Tooltip>
             ) : props.done ? (
               <Tooltip title="Done" placement="top">
                 <IconButton edge="end" aria-label="done">
-                  <CheckBoxIcon className="bg-green-600" />
+                  <CheckBoxIcon className="text-green-300" />
                 </IconButton>
               </Tooltip>
             ) : (
               <Tooltip title="Scheduled" placement="top">
                 <IconButton edge="end" aria-label="set">
-                  <AccessAlarmIcon color="disabled" />
+                  <AccessAlarmIcon className="text-yellow-300" />
                 </IconButton>
               </Tooltip>
             )}

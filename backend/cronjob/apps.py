@@ -23,7 +23,7 @@ def record_rtsp_task(record_id, camera_url, duration, output_file, record_type):
         
         rtsp_obj = RTSPObject(camera_url, record_type=record_type)
         done = rtsp_obj.record(duration, output_file)
-        
+        print(f"[DEBUG] Recording done: {done} for record ID {record_id}")
         # Check if file was created and has reasonable size
         if done:
             record.done = True
@@ -67,7 +67,11 @@ def job_checker():
                 ip = record.camera_url.split('rtsp://')[1]
                 ip = ip.replace('.', '_')
                 output_file = f"{os.getenv('CACHE_DIR', '.cache')}/{record.id}"
-                
+
+                # Set in_process=True and save BEFORE starting the thread
+                record.in_process = True
+                record.save()
+
                 # Start recording in separate thread
                 threading.Thread(
                     target=record_rtsp_task,
@@ -81,22 +85,7 @@ def job_checker():
                     daemon=True
                 ).start()
 
-            # Filter in_process records whose (start_time + duration) < now
-            records = Record.objects.filter(
-                done=False,
-                in_process=True
-            ).annotate(
-                end_time=ExpressionWrapper(
-                    F('start_time') + 
-                    ExpressionWrapper((F('duration') + 3) * 60, output_field=DurationField()),
-                    output_field=DateTimeField()
-                )
-            ).filter(
-                end_time__lt=now
-            )
-            records.update(
-                in_process=False
-            )
+            
         except (OperationalError, ProgrammingError) as e:
             pass
         except Exception as e:

@@ -76,6 +76,7 @@ class RTSPObject:
         return output_path
     
     def record(self, duration_minutes: int, output_path: str):
+        print(f"[DEBUG] Starting recording for {duration_minutes} minutes to {output_path}")
         duration_seconds = duration_minutes * 60
         ffmpeg_env = os.getenv("FFMPEG_PATH")
         
@@ -83,6 +84,7 @@ class RTSPObject:
         abs_output_path = os.path.join(str(settings.BASE_DIR), output_path) if not os.path.isabs(output_path) else output_path
         output_dir = os.path.dirname(abs_output_path)
         if not os.path.isdir(output_dir):
+            print(f"[DEBUG] Creating output directory: {output_dir}")
             os.makedirs(output_dir, exist_ok=True)
 
         if not ffmpeg_env:
@@ -90,8 +92,8 @@ class RTSPObject:
         ffmpeg_path = ffmpeg_env if os.path.isabs(ffmpeg_env) else os.path.join(str(settings.BASE_DIR), ffmpeg_env)
         
         # Adjust output extension according to method
-       
         abs_output_path = os.path.splitext(abs_output_path)[0] + ".mkv"
+        print(f"[DEBUG] Absolute output path: {abs_output_path}")
 
         # Copy method for simple public RTSP
         cmd_copy = [
@@ -135,9 +137,12 @@ class RTSPObject:
             if os.path.exists(abs_output_path):
                 print(f"[DEBUG] Output file created: {abs_output_path}")
                 output_path = self.transcode_to_mp4(abs_output_path)
+                print(f"[DEBUG] Transcoded output path: {output_path}")
                 if os.path.exists(output_path):
+                    print("[DEBUG] Recording and transcoding successful.")
                     return True
                 else:
+                    print("[DEBUG] Transcoded file missing.")
                     return False
             else:
                 print(f"[DEBUG] Output file missing or too small: {abs_output_path}")
