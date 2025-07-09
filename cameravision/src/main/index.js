@@ -46,7 +46,7 @@ if(!is.dev){
 } else {
   console.log('Running in development mode, Django server will not be started automatically.')
   // Run django from ../../../backend/manage.py runserver
-  djangoProcess =  execFile('python', ['manage.py', 'runserver',  '--noreload'], {
+  djangoProcess =  execFile('python', ['manage.py', 'runserver'], {
       cwd: join(__dirname, '../../../backend')
     }, (error) => {
       if (error) {

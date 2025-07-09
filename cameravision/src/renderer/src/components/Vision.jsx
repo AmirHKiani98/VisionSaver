@@ -85,7 +85,7 @@ const Vision = (props) => {
                   onError={() => {
                     setLoading(false)
                     setError(true)
-                    console.error(error)
+                    console.log(src)
                   }}
                 />
               </Link>

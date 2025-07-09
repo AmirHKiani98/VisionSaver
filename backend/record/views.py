@@ -78,7 +78,7 @@ def get_records_url(request, token):
         if not record_ids:
             return JsonResponse({"error": "No records found for the provided token."}, status=404)
         records_path = {record_id:
-            os.path.join(settings.MEDIA_ROOT, f'{record_id}.mp4')
+            os.path.join(settings.MEDIA_ROOT, f'{record_id}.mkv')
             for record_id in record_ids
         }
         urls = []
@@ -108,17 +108,38 @@ def get_records_url(request, token):
 def stream_video(request, record_id):
     """
     Streams video with support for HTTP Range requests (seeking).
+    Adds debug output to help diagnose streaming issues.
     """
-    video_path = os.path.join(settings.MEDIA_ROOT, f'{record_id}.mp4')
-    print(f"Streaming video from: {video_path}")
-    if not os.path.exists(video_path):
+    possible_exts = ['.mp4', '.mkv']
+    video_path = None
+    content_type = None
+    debug_info = []
+    for ext in possible_exts:
+        path = os.path.join(settings.MEDIA_ROOT, f'{record_id}{ext}')
+        debug_info.append(f"Checking for file: {path}")
+        if os.path.exists(path):
+            video_path = path
+            content_type = 'video/mp4' if ext == '.mp4' else 'video/x-matroska'
+            debug_info.append(f"Found file: {video_path}")
+            break
+    print("[DEBUG stream_video]", " | ".join(debug_info))
+    if not video_path:
+        debug_info.append("No video file found for record_id: {}".format(record_id))
+        print("[DEBUG stream_video]", " | ".join(debug_info))
+        with open("stream_debug.log", "a") as debug_file:
+            debug_file.write("[DEBUG stream_video] " + "\n".join(debug_info) + "\n")
         return HttpResponseNotFound('Video not found')
+    else:
+        print("[DEBUG stream_video]", " | ".join(debug_info))
+        with open("stream_debug.log", "a") as debug_file:
+            debug_file.write("[DEBUG stream_video] " + "\n".join(debug_info) + "\n")
 
     file_size = os.path.getsize(video_path)
+    debug_info.append(f"File size: {file_size}")
     range_header = request.META.get('HTTP_RANGE', '')
-    content_type = 'video/mp4'
+    debug_info.append(f"HTTP_RANGE: {range_header}")
+    
     if range_header:
-        # Example: "bytes=0-1023"
         range_match = range_header.strip().lower().replace('bytes=', '').split('-')
         try:
             start = int(range_match[0]) if range_match[0] else 0
@@ -139,13 +160,13 @@ def stream_video(request, record_id):
         response['Content-Range'] = f'bytes {start}-{end}/{file_size}'
         response['Content-Length'] = str(length)
         response['Accept-Ranges'] = 'bytes'
-        response['Content-Disposition'] = f'inline; filename="{record_id}.mp4"'
+        response['Content-Disposition'] = f'inline; filename="{record_id}{os.path.splitext(video_path)[1]}"'
         return response
     else:
         response = FileResponse(open(video_path, 'rb'), content_type=content_type)
         response['Content-Length'] = str(file_size)
         response['Accept-Ranges'] = 'bytes'
-        response['Content-Disposition'] = f'inline; filename="{record_id}.mp4"'
+        response['Content-Disposition'] = f'inline; filename="{record_id}{os.path.splitext(video_path)[1]}"'
         return response
 
 

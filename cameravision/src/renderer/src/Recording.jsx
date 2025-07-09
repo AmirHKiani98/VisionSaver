@@ -23,8 +23,8 @@ function Recording() {
     const [open, setOpen] = React.useState(false);
     const navigate = useNavigate();
     const token = query.get('token');
-            console.log(`token=${token}`);
 
+    
     if(!token) {
         return (
             <div className='w-screen h-screen flex items-center justify-center'>
@@ -46,6 +46,7 @@ function Recording() {
             .then(response => response.json())
             .then(data => {
                 if (data.urls && data.urls.length > 0) {
+                    console.log(`Fetched ${data.urls} visions from backend.`);
                     const visionsData = data.urls.map((item) => ({
                         id: item.id,
                         src: `${item.url}`,
