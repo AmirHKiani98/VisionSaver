@@ -209,7 +209,14 @@ const RecordEditor = (props) => {
                 
                 <div className="flex w-3/4 flex-col justify-between bg-main-600 p-20">
                     <div></div>
-                    <Record id={recordId} recordId={recordId} ref={videoRef} pendingSeekTime={pendingSeekTime} />
+                    <Record
+                        id={recordId}
+                        recordId={recordId}
+                        ref={videoRef}
+                        pendingSeekTime={pendingSeekTime}
+                        logs={allTurns}
+                        setLogs={setAllTurns} // Pass setter to allow Record to update allTurns
+                    />
                 </div>
                 <div className="flex-1 flex flex-col justify-center bg-main-300 py-2">
                     <div>

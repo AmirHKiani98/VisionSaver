@@ -23,7 +23,6 @@ const Record = forwardRef((props, ref) => {
   const [currentTime, setCurrentTime] = react.useState(0)
   const [duration, setDuration] = react.useState(0)
   const [passedPercentage, setPassedPercentage] = react.useState(0)
-  const [completedPercentage, setCompletedPercentage] = react.useState(0)
   const recordId = props.recordId || null
   const videoRef = react.useRef(null)
   const playButtonRef = react.useRef(null)
@@ -233,6 +232,8 @@ const Record = forwardRef((props, ref) => {
                 padding: 0
               }}
             />
+            <div className="absolute bottom-3 left-0 right-0 h-10 w-10 z-50 bg-gray-300">
+            </div>
             <Slider
               value={currentTime}
               min={0}
