@@ -33,6 +33,8 @@ const RecordEditor = (props) => {
     const [severity, setSeverity] = react.useState('info');
     const [message, setMessage] = react.useState('');
     const [leftTurns, setLeftTurns] = react.useState(0);
+
+    
     const [rightTurns, setRightTurns] = react.useState(0);
     const [throughTurns, setThroughTurns] = react.useState(0);
     const [approach, setApproach] = react.useState(0);
@@ -43,7 +45,23 @@ const RecordEditor = (props) => {
     const videoRef = react.useRef(null);
     const [allTurns, setAllTurns] = react.useState([]);
     const [pendingSeekTime, setPendingSeekTime] = react.useState(null);
-
+    react.useEffect(() => {
+        if (!allTurns || allTurns.length === 0){
+            setLeftTurns(0);
+            setRightTurns(0);
+            setThroughTurns(0);
+            setApproach(0);
+            return;
+        }
+        const leftCount = allTurns.filter(turn => turn.turn_movement === "left").length;
+        setLeftTurns(leftCount);
+        const rightCount = allTurns.filter(turn => turn.turn_movement === "right").length;
+        setRightTurns(rightCount);
+        const throughCount = allTurns.filter(turn => turn.turn_movement === "through").length
+        setThroughTurns(throughCount);
+        const approachCount = allTurns.filter(turn => turn.turn_movement === "approach").length
+        setApproach(approachCount);
+    }, [allTurns]);
 
     const navigate = useNavigate();
     react.useEffect(() => {
@@ -59,6 +77,7 @@ const RecordEditor = (props) => {
     }
     const ajaxKeyDown = (turn) => {
         const currentTime = videoRef.current?.getCurrentTime?.() ?? 0;
+        const floorCurrentTime = Math.floor(currentTime);
         fetch(`http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.ADD_RECORD_TURN_URL}`, {
             method: 'POST',
             headers: {
@@ -67,14 +86,20 @@ const RecordEditor = (props) => {
             
             body: JSON.stringify({
                 record_id: recordId,
-                time: Math.floor(currentTime),
+                time: floorCurrentTime,
                 turn: turn
             })
         }).then(response => response.json())
         .then(data => {
             if (data.error) {
+                
                 openNotification('error', data.error);
             } else {
+                setAllTurns(prev => [...prev, {
+                    id: data.log_id,
+                    time: floorCurrentTime,
+                    turn_movement: turn
+                }]);
                 openNotification('success', `${turn.charAt(0).toUpperCase() + turn.slice(1)} incremented successfully.`);
             }
         })
@@ -100,20 +125,7 @@ const RecordEditor = (props) => {
                 console.log("data", data);
                 if (data.turns && data.turns.length > 0) {
                     for (const turn of data.turns) {
-                        if(turn.turn_movement === "left"){
-                            setLeftTurns(prev => prev + 1);
-                        }
-                        else if(turn.turn_movement === "right"){
-                            setRightTurns(prev => prev + 1);
-                        }
-                        else if(turn.turn_movement === "through"){
-                            setThroughTurns(prev => prev + 1);
-                        }
-                        else if(turn.turn_movement === "approach"){
-                            setApproach(prev => prev + 1);
-                        }
                         setAllTurns(prev => [...prev, turn]);
-                    
                     }
                 }
             }
@@ -233,6 +245,7 @@ const RecordEditor = (props) => {
                             <TextField
                                 id="outlined-number"
                                 type="number"
+                                disabled
                                 className="bg-main-400 rounded-md"
                                 slotProps={{
                                     inputLabel: {
@@ -253,6 +266,7 @@ const RecordEditor = (props) => {
                                 <TextField
                                     id="outlined-number"
                                     type="number"
+                                    disabled
                                     className="bg-main-400 rounded-md"
                                     slotProps={{
                                         inputLabel: {
@@ -273,6 +287,7 @@ const RecordEditor = (props) => {
                                 <TextField
                                     id="outlined-number"
                                     type="number"
+                                    disabled
                                     className="bg-main-400 rounded-md"
                                     slotProps={{
                                         inputLabel: {
@@ -293,6 +308,7 @@ const RecordEditor = (props) => {
                                 <TextField
                                     id="outlined-number"
                                     type="number"
+                                    disabled
                                     className="bg-main-400 rounded-md"
                                     slotProps={{
                                         inputLabel: {

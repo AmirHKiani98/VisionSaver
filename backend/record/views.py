@@ -231,7 +231,7 @@ def get_record_turn(request, record_id):
             turn_movements = (
                 RecordLog.objects
                 .filter(record=record)
-                .values("time", "turn_movement")
+                .values("id", "time", "turn_movement")
             )
             # Convert queryset to a dict for easy lookup
             
@@ -310,4 +310,24 @@ def add_record_turn(request):
         return JsonResponse({"error": "Invalid JSON body."}, status=400)
     except Exception as e:
         print(f"An error occurred: {str(e)}")
+        return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
+
+@csrf_exempt
+def remove_record_log(request, log_id):
+    """
+    Remove a record log entry by ID.
+    This view should be triggered via a POST request with the ID of the log entry to remove.
+    """
+    if request.method != 'DELETE':
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)
+    try:
+        if not log_id:
+            return JsonResponse({"error": "'log_id' is required."}, status=400)
+        try:
+            record_log = RecordLog.objects.get(id=log_id)
+            record_log.delete()
+            return JsonResponse({"message": "Record log entry removed successfully."}, status=200)
+        except RecordLog.DoesNotExist:
+            return JsonResponse({"error": "Record log entry not found."}, status=404)
+    except Exception as e:
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)

@@ -26,7 +26,7 @@ const Record = forwardRef((props, ref) => {
   const recordId = props.recordId || null
   const videoRef = react.useRef(null)
   const playButtonRef = react.useRef(null)
-
+  
   useImperativeHandle(ref, () => ({
     getCurrentTime: () => videoRef.current?.currentTime ?? 0,
     video: videoRef.current
@@ -44,7 +44,27 @@ const Record = forwardRef((props, ref) => {
   }, [])
 
   react.useEffect(() => {})
-
+  const onRemoveLog = (id) => {
+    const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.REMOVE_RECORD_LOG}/${id}/`
+    fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+      return response.json()
+    }).then((data) => {
+      props.setLogs((prevTurns) =>
+        prevTurns.filter((turn) => turn.id !== id)
+      )
+      console.log('Log removed successfully:', data)
+    }).catch((error) => {
+      console.error('Error removing log:', error)
+    })
+  }
   react.useEffect(() => {
     if (!env) {
       // Don't do anything until env is loaded
@@ -66,7 +86,7 @@ const Record = forwardRef((props, ref) => {
       env.GET_RECORD_URL
     ) {
       fetch(
-        `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.GET_RECORD_URL}/${recordId}`
+        `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.GET_RECORD_URL}/${recordId}/`
       )
         .then((response) => {
           if (!response.ok) {
@@ -235,18 +255,22 @@ const Record = forwardRef((props, ref) => {
             {Array.isArray(props.logs) && props.logs.map((turn, idx) => (
                   <RecordLogIndicator
                   key={idx}
+                  id={turn.id}
                   percentage={duration > 0 ? (turn.time / duration) * 100 : 0}
                   color={
-                    turn.type === 'left'
+                    turn.turn_movement === 'left'
                     ? 'bg-blue-500'
-                    : turn.type === 'right'
+                    : turn.turn_movement === 'right'
                     ? 'bg-red-500'
-                    : turn.type === 'approach'
+                    : turn.turn_movement === 'approach'
                     ? 'bg-green-500'
-                    : turn.type === 'through'
+                    : turn.turn_movement === 'through'
                     ? 'bg-yellow-500'
                     : 'bg-gray-500'
                   }
+                  onRemove={() => onRemoveLog(turn.id)
+                  }
+                  time={turn.time}
                   />
                 ))}
 
@@ -255,7 +279,7 @@ const Record = forwardRef((props, ref) => {
               min={0}
               max={duration}
               onChange={handleSliderChange}
-              className="w-full left-0 scale-x-[1.01] right-0 -bottom-1 m-0 p-0 h-52"
+              className="w-full left-0 scale-x-[1.0] transform translate-y-full m-0 p-0 h-52"
               step={0.1}
               sx={{
                 position: 'absolute',

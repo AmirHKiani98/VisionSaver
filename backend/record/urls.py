@@ -39,4 +39,9 @@ urlpatterns = [
         views.add_record_turn,
         name=os.getenv('ADD_RECORD_TURN_URL') or 'add_record_turn'
     ),
+    path(
+        f"{os.getenv('REMOVE_RECORD_LOG') or 'remove_record_log'}/<int:log_id>/",
+        views.remove_record_log,
+        name=os.getenv('REMOVE_RECORD_LOG') or 'remove_record_log'
+    )
 ]

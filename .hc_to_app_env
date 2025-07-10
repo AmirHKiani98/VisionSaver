@@ -8,6 +8,7 @@ GET_RECORD_URL=record/get_record_url
 GET_RECORD_TURN_URL=record/get_record_turn
 GET_RECORD_RESOLVED_URL=record/get_resolved_url
 ADD_RECORD_TURN_URL=record/add_record_turn
+REMOVE_RECORD_LOG=record/remove_log
 # API variables
 API_STORE_RECORD_SCHEDULE=api/store_record_schedule/
 API_GET_RECORD_SCHEDULE=api/get_record_schedule/
