@@ -142,7 +142,7 @@ const Record = forwardRef((props, ref) => {
     }
   }, [src])
 
-  const formatSecomds = (seconds) => {
+  const formatSeconds = (seconds) => {
     const minutes = Math.floor(seconds / 60)
     const secs = Math.floor(seconds % 60)
     return `${minutes < 10 ? '0' : ''}${minutes}:${secs < 10 ? '0' : ''}${secs}`
@@ -192,14 +192,17 @@ const Record = forwardRef((props, ref) => {
   react.useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === ' ') {
-        e.preventDefault() // Prevent scrolling
-        handlePlayPause()
+        e.preventDefault(); // Prevent scrolling
+        handlePlayPause();
       }
-    }
-    window.addEventListener('keydown', handleKeyDown)
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        e.preventDefault(); // Prevent seeking with arrow keys
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
     return () => {
-      window.removeEventListener('keydown', handleKeyDown)
-    }
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, [isPlaying])
 
   return (
@@ -259,18 +262,18 @@ const Record = forwardRef((props, ref) => {
                   percentage={duration > 0 ? (turn.time / duration) * 100 : 0}
                   color={
                     turn.turn_movement === 'left'
-                    ? 'bg-blue-500'
+                    ? 'bg-blue-400'
                     : turn.turn_movement === 'right'
-                    ? 'bg-red-500'
+                    ? 'bg-red-400'
                     : turn.turn_movement === 'approach'
-                    ? 'bg-green-500'
+                    ? 'bg-green-400'
                     : turn.turn_movement === 'through'
-                    ? 'bg-yellow-500'
-                    : 'bg-gray-500'
+                    ? 'bg-yellow-400'
+                    : 'bg-gray-400'
                   }
                   onRemove={() => onRemoveLog(turn.id)
                   }
-                  time={turn.time}
+                  time={formatSeconds(turn.time)}
                   />
                 ))}
 
@@ -338,7 +341,7 @@ const Record = forwardRef((props, ref) => {
             <div>
               <div className="flex items-center gap-0.5">
                 <Typography className="mr-2 text-sm">
-                  {formatSecomds(Math.floor(currentTime))}/{formatSecomds(Math.floor(duration))}
+                  {formatSeconds(Math.floor(currentTime))}/{formatSeconds(Math.floor(duration))}
                 </Typography>
               </div>
             </div>

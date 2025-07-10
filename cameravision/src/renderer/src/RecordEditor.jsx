@@ -246,7 +246,7 @@ const RecordEditor = (props) => {
                                 id="outlined-number"
                                 type="number"
                                 disabled
-                                className="bg-main-400 rounded-md"
+                                className="bg-blue-400 rounded-md"
                                 slotProps={{
                                     inputLabel: {
                                     shrink: true,
@@ -267,7 +267,7 @@ const RecordEditor = (props) => {
                                     id="outlined-number"
                                     type="number"
                                     disabled
-                                    className="bg-main-400 rounded-md"
+                                    className="bg-red-400 rounded-md"
                                     slotProps={{
                                         inputLabel: {
                                         shrink: true,
@@ -288,7 +288,7 @@ const RecordEditor = (props) => {
                                     id="outlined-number"
                                     type="number"
                                     disabled
-                                    className="bg-main-400 rounded-md"
+                                    className="bg-yellow-400 rounded-md"
                                     slotProps={{
                                         inputLabel: {
                                         shrink: true,
@@ -309,7 +309,7 @@ const RecordEditor = (props) => {
                                     id="outlined-number"
                                     type="number"
                                     disabled
-                                    className="bg-main-400 rounded-md"
+                                    className="bg-green-400 rounded-md"
                                     slotProps={{
                                         inputLabel: {
                                         shrink: true,
@@ -330,7 +330,7 @@ const RecordEditor = (props) => {
                         <div className="flex flex-col items-center gap-2.5 p-5">
                             <div className="flex justify-center items-center">
                                 <Button 
-                                    className="!bg-main-400 !text-white !font-bold hover:!bg-main-500 active:!bg-main-600 flex flex-col shadow-lg"
+                                    className="!bg-green-400 !text-white !font-bold hover:!bg-main-500 active:!bg-main-600 flex flex-col shadow-lg"
                                     onClick={() => {
                                         setApproach(approach + 1);
                                         ajaxKeyDown('approach');
@@ -346,7 +346,7 @@ const RecordEditor = (props) => {
                             </div>
                             <div className="flex justify-center items-start gap-2.5">
                                 <Button 
-                                    className="!bg-main-400 !text-white !font-bold hover:!bg-main-500 active:!bg-main-600 flex flex-col shadow-lg"
+                                    className="!bg-blue-400 !text-white !font-bold hover:!bg-main-500 active:!bg-main-600 flex flex-col shadow-lg"
                                     onClick={() => {
                                         setLeftTurns(leftTurns + 1);
                                         ajaxKeyDown('left');
@@ -360,10 +360,10 @@ const RecordEditor = (props) => {
                                     </Typography>
                                 </Button>
                                 <Button 
-                                    className="!bg-main-400 !text-white !font-bold hover:!bg-main-500 active:!bg-main-600 flex flex-col shadow-lg"
+                                    className="!bg-yellow-400 !text-white !font-bold hover:!bg-main-500 active:!bg-main-600 flex flex-col shadow-lg"
                                     onClick={() => {
                                         setRightTurns(rightTurns + 1);
-                                        ajaxKeyDown('right');
+                                        ajaxKeyDown('through');
                                         // openNotification("success", "Right turn incremented successfully.");
                                     }}
                                     ref={rightTurnButtonRef}
@@ -374,10 +374,10 @@ const RecordEditor = (props) => {
                                     </Typography>
                                 </Button>
                                 <Button 
-                                    className="!bg-main-400 !text-white !font-bold hover:!bg-main-500 active:!bg-main-600 flex flex-col shadow-lg"
+                                    className="!bg-red-400 !text-white !font-bold hover:!bg-main-500 active:!bg-main-600 flex flex-col shadow-lg"
                                     onClick={() => {
                                         setThroughTurns(throughTurns + 1);
-                                        ajaxKeyDown('through');
+                                        ajaxKeyDown('right');
                                         // openNotification("success", "Through incremented successfully.");
                                     }}
                                     ref={throughButtonRef}

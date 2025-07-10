@@ -17,12 +17,11 @@ function RecordLogIndicator({ color, percentage, id, onRemove, time }) {
   ];
   return (
     <ContextMenu className="!absolute" menuItems={menuItems}>
-      <div className={`absolute bottom-3 opacity-10 transform -translate-x-1/2 h-10 w-10 z-50 flex flex-col items-center transition-all duration-300 ease-in-out hover:scale-[1.5] hover:bottom-10 hover:opacity-100`}
+      <div className={`absolute bottom-3 opacity-10 transform -translate-x-1/2 h-10 w-10 z-50 flex flex-col items-center transition-all duration-300 ease-in-out hover:scale-[1.5] hover:bottom-8 hover:opacity-100`}
         style={{
           left: `${percentage}%`,
         }}>
         <div className={`flex flex-row items-center gap-1 ${color} p-2.5 rounded-lg`}>
-          <p className="text-sm">t:</p>
           <p className="text-sm">{time}</p>
         </div>
         <div
