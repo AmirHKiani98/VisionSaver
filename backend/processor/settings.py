@@ -146,10 +146,16 @@ CSRF_TRUSTED_ORIGINS = [
 
 
 
+if os.getenv("CACHE_DIR") is None:
+    raise EnvironmentError("CACHE_DIR environment variable is not set. Please set it to the desired cache directory.")
 
 
-MEDIA_URL = f'/{os.getenv("CACHE_DIR")}/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+cache_dir = os.getenv("CACHE_DIR")
+if not cache_dir:
+    raise ValueError("CACHE_DIR environment variable must be set and non-empty.")
+MEDIA_URL = f'/{cache_dir}/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "..", cache_dir)
 
 
 ASGI_APPLICATION = 'processor.asgi.application'

@@ -151,9 +151,3 @@ build
 # Dist
 !dist/
 dist/*
-
-# Keep versioned dist folders (e.g., dist/v1.0.0)
-!dist/v*/
-# Any node_modules in dist
-!dist/v*/**/node_modules
-!dist/v*/**/out
