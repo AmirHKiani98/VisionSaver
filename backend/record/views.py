@@ -82,6 +82,7 @@ def get_records_url(request, token):
             for record_id in record_ids
         }
         urls = []
+        
         for record_id, record_path in records_path.items():
             
             if not os.path.exists(record_path):

@@ -60,7 +60,7 @@ class RTSPObject:
         ffmpeg_env = os.getenv("FFMPEG_PATH")
         if not ffmpeg_env:
             raise EnvironmentError("FFMPEG_PATH environment variable is not set.")
-        ffmpeg_path = ffmpeg_env if os.path.isabs(ffmpeg_env) else os.path.join(str(settings.BASE_DIR), ffmpeg_env)
+        ffmpeg_path = ffmpeg_env if os.path.isabs(ffmpeg_env) else os.path.join(str(settings.MEDIA_ROOT), ffmpeg_env)
         output_path = os.path.splitext(input_path)[0] + ".mp4"
         cmd = [
             ffmpeg_path, "-y",
@@ -81,7 +81,7 @@ class RTSPObject:
         ffmpeg_env = os.getenv("FFMPEG_PATH")
         
         # Ensure output path is absolute
-        abs_output_path = os.path.join(str(settings.BASE_DIR), output_path) if not os.path.isabs(output_path) else output_path
+        abs_output_path = os.path.join(str(settings.MEDIA_ROOT), output_path) if not os.path.isabs(output_path) else output_path
         output_dir = os.path.dirname(abs_output_path)
         if not os.path.isdir(output_dir):
             print(f"[DEBUG] Creating output directory: {output_dir}")
@@ -130,9 +130,7 @@ class RTSPObject:
         try:
             print("[DEBUG] Running FFmpeg command:", ' '.join(preferred_cmd))
             result = subprocess.run(preferred_cmd, capture_output=True, text=True, check=False)
-            print(f"[DEBUG] FFmpeg returncode: {result.returncode}")
-            print("[DEBUG] FFmpeg stdout:", result.stdout)
-            print("[DEBUG] FFmpeg stderr:", result.stderr)
+            
             
             if os.path.exists(abs_output_path):
                 print(f"[DEBUG] Output file created: {abs_output_path}")
@@ -140,16 +138,16 @@ class RTSPObject:
                 print(f"[DEBUG] Transcoded output path: {output_path}")
                 if os.path.exists(output_path):
                     print("[DEBUG] Recording and transcoding successful.")
-                    return True
+                    return True, "[DEBUG] Recording and transcoding successful."
                 else:
                     print("[DEBUG] Transcoded file missing.")
-                    return False
+                    return False, "[DEBUG] Transcoded file missing."
             else:
                 print(f"[DEBUG] Output file missing or too small: {abs_output_path}")
-                return False
+                return False, "[DEBUG] Output file missing or too small."
         except Exception as e:
             print(f"[DEBUG] Exception running FFmpeg: {e}")
-            return False
+            return False, f"[DEBUG] Exception running FFmpeg: {e}"
 
 # Try
 if __name__ == "__main__":

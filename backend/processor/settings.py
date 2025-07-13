@@ -155,7 +155,7 @@ if not cache_dir:
     raise ValueError("CACHE_DIR environment variable must be set and non-empty.")
 MEDIA_URL = f'/{cache_dir}/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, "..", cache_dir)
+MEDIA_ROOT = os.path.abspath(os.path.join(BASE_DIR, "..", cache_dir))
 
 
 ASGI_APPLICATION = 'processor.asgi.application'

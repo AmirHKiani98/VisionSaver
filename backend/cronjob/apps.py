@@ -1,11 +1,12 @@
 # backend/cronjob/apps.py
 from django.apps import AppConfig
-from django.db import OperationalError, ProgrammingError
 
+# Import settings from django
+from django.conf import settings
 import logging
 from multiprocessing import Pool
 import threading
-from django.db.models import F, ExpressionWrapper, DateTimeField, DurationField
+
 logging.basicConfig(level=logging.INFO)
 import os
 def record_rtsp_task(record_id, camera_url, duration, output_file, record_type):
@@ -22,7 +23,7 @@ def record_rtsp_task(record_id, camera_url, duration, output_file, record_type):
         logging.info(f"Starting recording for record ID {record_id}")
         
         rtsp_obj = RTSPObject(camera_url, record_type=record_type)
-        done = rtsp_obj.record(duration, output_file)
+        done, message = rtsp_obj.record(duration, output_file)
         print(f"[DEBUG] Recording done: {done} for record ID {record_id}")
         # Check if file was created and has reasonable size
         if done:
@@ -30,7 +31,7 @@ def record_rtsp_task(record_id, camera_url, duration, output_file, record_type):
             record.error = ""
         else:
             record.done = False
-            record.error = "Recording file was not created"
+            record.error = message
             
     except Exception as e:
         record.done = False
@@ -50,7 +51,7 @@ def job_checker():
     while True:
         try:
             now = timezone.now()
-            cache_dir = os.getenv('CACHE_DIR', '.cache')
+            cache_dir = settings.MEDIA_ROOT
             os.makedirs(cache_dir, exist_ok=True)
             
             # Write heartbeat file
@@ -66,7 +67,7 @@ def job_checker():
             for record in records:
                 ip = record.camera_url.split('rtsp://')[1]
                 ip = ip.replace('.', '_')
-                output_file = f"{os.getenv('CACHE_DIR', '.cache')}/{record.id}"
+                output_file = f"{settings.MEDIA_ROOT}/{record.id}"
 
                 # Set in_process=True and save BEFORE starting the thread
                 record.in_process = True

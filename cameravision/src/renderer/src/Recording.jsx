@@ -42,6 +42,7 @@ function Recording() {
             console.log(`Backend URL: ${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}`);
             const backendUrl = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}`;
             const streamUrl = `${backendUrl}/${env.GET_RECORDS_URL}/${token}`;
+            console.log("token", token);
             fetch(streamUrl)
             .then(response => response.json())
             .then(data => {
@@ -62,7 +63,7 @@ function Recording() {
                     setVisions(visionsData);
                 } else {
                     setVisions([]);
-                    open
+                    console.log("No visions found.");
                 }
             })
         }
