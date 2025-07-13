@@ -133,3 +133,28 @@ def delete_record_schedule(request):
     
 
 
+def get_record_status(request, token):
+    """
+    Get the status of a recording by token.
+    """
+    if request.method != 'GET':
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)
+    try:
+        record = Record.objects.filter(token=token)
+        if not record:
+            return JsonResponse({"error": "Record not found."}, status=404)
+
+        # if any in process, return in_process=True
+        in_process = record.filter(in_process=True).exists()
+        # if error is not null or empty, return error 
+        error = record.filter(error__isnull=False).exists()
+        # if all records are done, return done=True
+        done = all(r.done for r in record)
+        response_data = {
+            "in_process": in_process,
+            "done": done,
+            "error": error
+        }
+        return JsonResponse(response_data, status=200)
+    except Exception as e:
+        return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)

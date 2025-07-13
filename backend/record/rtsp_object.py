@@ -56,7 +56,10 @@ class RTSPObject:
         if not ffmpeg_env:
             logger.error("FFMPEG_PATH environment variable is not set.")
             raise EnvironmentError("FFMPEG_PATH environment variable is not set.")
-        ffmpeg_path = ffmpeg_env if os.path.isabs(ffmpeg_env) else os.path.join(str(settings.MEDIA_ROOT), ffmpeg_env)
+        ffmpeg_path = ffmpeg_env if os.path.isabs(ffmpeg_env) else os.path.join(str(settings.BASE_DIR), ffmpeg_env)
+        if not os.path.isfile(ffmpeg_path):
+            logger.error(f"FFmpeg executable not found at: {ffmpeg_path}")
+            raise FileNotFoundError(f"FFmpeg executable not found at: {ffmpeg_path}")
         output_path = os.path.splitext(input_path)[0] + ".mp4"
         cmd = [
             ffmpeg_path, "-y",
@@ -148,7 +151,8 @@ class RTSPObject:
                 logger.critical(f"Output file missing or too small: {abs_output_path}")
                 return False
         except Exception as e:
-            logger.critical(f"Exception running FFmpeg: {e}")
+            import traceback
+            logger.critical(f"Exception running FFmpeg: {e}\n{traceback.format_exc()}")
             return False
 
 # Try

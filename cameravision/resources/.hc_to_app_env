@@ -8,12 +8,14 @@ GET_RECORD_URL=record/get_record_url
 GET_RECORD_TURN_URL=record/get_record_turn
 GET_RECORD_RESOLVED_URL=record/get_resolved_url
 ADD_RECORD_TURN_URL=record/add_record_turn
+GET_RECORD_STATUS=record/get_record_status
 REMOVE_RECORD_LOG=record/remove_log
 # API variables
 API_STORE_RECORD_SCHEDULE=api/store_record_schedule/
 API_GET_RECORD_SCHEDULE=api/get_record_schedule/
 API_DELETE_RECORD_SCHEDULE=api/delete_record_schedule/
 API_HEALTH_CHECK=api/health_check
+
 # Celery variables
 CELERY_BROKER_DOMAIN=localhost
 CELERY_BROKER_PORT=6379
@@ -21,3 +23,5 @@ CELERY_BROKER_PORT=6379
 CACHE_DIR=media
 # FFMEPG
 FFMPEG_PATH=apps/ffmpeg/bin/ffmpeg.exe
+# Logger
+LOGGER_DIRECTORY=logs

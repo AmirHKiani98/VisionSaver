@@ -58,6 +58,8 @@ function App() {
   const [open, setOpen] = useState(false)
   const [env, setEnv] = useState({})
   const [recordLinks, setRecordLinks] = useState([])
+  const [counter, setCounter] = useState(0)
+
   useEffect(() => {
     window.env.get().then(setEnv)
   }, [])
@@ -68,6 +70,52 @@ function App() {
     }
     setOpen(false)
   }
+
+  useEffect(() => {
+    // Define the function to be executed every 5 seconds
+    if (!env){
+      return () => {} // Return early if env is not set
+    }
+    const myIntervalFunction = () => {
+      console.log("Checking recording status...")
+      setCounter(prevCounter => prevCounter + 1); // Example: update state
+      const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.GET_RECORD_STATUS}/`
+      const notDoneRecords = recordLinks.filter(record => !record.done)
+      // No console output here since Electron renderer may not show logs in some setups
+      for (const record of notDoneRecords) {
+        fetch(`${url}${record.token}`)
+          .then(response => response.json())
+          .then(data => {
+            if (data.status && data.status !== 200) {
+              // Optionally show notification for error
+              return
+            }
+
+            if (data.done && !record.done) {
+              setRecordLinks(prev => prev.map(r => r.token === record.token ? { ...r, done: true, inProcess: false } : r))
+              openNotification('success', `Recording for ${record.startTime} completed successfully.`)
+            }
+
+            if (data.in_process && !record.inProcess) {
+              setRecordLinks(prev => prev.map(r => r.token === record.token ? { ...r, inProcess: true } : r))
+              openNotification('info', `Recording for ${record.startTime} is in process.`)
+            }
+            
+          })
+          .catch(() => {
+            // Optionally show notification for fetch error
+          })
+      }
+    };
+
+    // Set up the interval
+    const intervalId = setInterval(myIntervalFunction, 5000); // 5000 milliseconds = 5 seconds
+
+    // Clean up the interval when the component unmounts or dependencies change
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [env.BACKEND_SERVER_DOMAIN, env.BACKEND_SERVER_PORT, env.get_record_status, recordLinks]); // Only use stable primitive dependencies
 
   useEffect(() => {
     if (env.BACKEND_SERVER_DOMAIN && env.BACKEND_SERVER_PORT && env.API_GET_RECORD_SCHEDULE) {
@@ -83,7 +131,6 @@ function App() {
             }))
             setRecordLinks(data)
           } else if (data.records) {
-            console.log('Fetched records:', data.records)
             const records = data.records
               .map((record) => ({
               ...record,

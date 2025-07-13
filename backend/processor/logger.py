@@ -29,7 +29,7 @@ class Logger:
     def _setup_logger(self):
         """Set up the logger with appropriate handlers and formatters."""
         # Create logs directory
-        log_dir = os.path.join(settings.BASE_DIR, os.getenv("LOGGER_DIRECTORY", "logs"))
+        log_dir = os.path.abspath(os.path.join(settings.BASE_DIR, "..", os.getenv("LOGGER_DIRECTORY", "logs")))
         os.makedirs(log_dir, exist_ok=True)
         
         # Create logger
