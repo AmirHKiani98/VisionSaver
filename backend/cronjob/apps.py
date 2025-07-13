@@ -3,7 +3,6 @@ from django.apps import AppConfig
 
 # Import settings from django
 from django.conf import settings
-import logging
 from multiprocessing import Pool
 import threading
 
