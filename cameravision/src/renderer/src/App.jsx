@@ -32,7 +32,8 @@ import {
   InputLabel,
   FormControl,
   Pagination,
-  Tooltip
+  Tooltip,
+  Autocomplete
 } from '@mui/material'
 
 import dayjs from 'dayjs'
@@ -380,55 +381,79 @@ function App() {
                 className="flex flex-col justify-between w-full"
                 action="#"
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5">
-                    <FormControl>
-                      <InputLabel id="protocol-select-label">
-                        <Typography className="text-white">Protocol</Typography>
-                      </InputLabel>
-                      <Select
-                        labelId="protocol-select-label"
-                        id="select-protocol"
-                        color="primary.white"
-                        className="shadow-lg !py-0 w-32 bg-main-400"
-                        value={protocol}
-                        sx={{
-                          color: 'primary.white'
-                        }}
-                        onChange={(e) => setProtocol(e.target.value)}
-                      >
-                        <MenuItem value="RTSP">RTSP</MenuItem>
-                        <MenuItem value="HTTP">HTTP</MenuItem>
-                        <MenuItem value="HTTPS">HTTPS</MenuItem>
-                      </Select>
-                    </FormControl>
-                    <p className="text-xl">://</p>
-                    <TextField
-                      value={ip}
-                      variant="outlined"
-                      className="bg-main-400 rounded-md w-40"
-                      label={<Typography className="text-white">IP</Typography>}
-                      onChange={(e) => setIp(e.target.value)}
-                    />
-                    <p className="text-xl">/</p>
-                    <TextField
-                      value={channel}
-                      className="bg-main-400 rounded-md w-24"
-                      label={<Typography className="text-white">Channel</Typography>}
-                      variant="outlined"
-                      onChange={(e) => setChannel(e.target.value)}
-                    />
+                <div className='flex flex-col gap-2.5 rounded-lg'>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-1.5">
+                      <FormControl>
+                        <InputLabel id="protocol-select-label">
+                          <Typography className="text-white">Protocol</Typography>
+                        </InputLabel>
+                        <Select
+                          labelId="protocol-select-label"
+                          id="select-protocol"
+                          color="primary.white"
+                          className="shadow-lg !py-0 w-32 bg-main-400"
+                          value={protocol}
+                          sx={{
+                            color: 'primary.white'
+                          }}
+                          onChange={(e) => setProtocol(e.target.value)}
+                        >
+                          <MenuItem value="RTSP">RTSP</MenuItem>
+                          <MenuItem value="HTTP">HTTP</MenuItem>
+                          <MenuItem value="HTTPS">HTTPS</MenuItem>
+                        </Select>
+                      </FormControl>
+                      <p className="text-xl">://</p>
+                      <TextField
+                        value={ip}
+                        variant="outlined"
+                        className="bg-main-400 rounded-md w-40"
+                        label={<Typography className="text-white">IP</Typography>}
+                        onChange={(e) => setIp(e.target.value)}
+                      />
+                      <p className="text-xl">/</p>
+                      <TextField
+                        value={channel}
+                        className="bg-main-400 rounded-md w-24"
+                        label={<Typography className="text-white">Channel</Typography>}
+                        variant="outlined"
+                        onChange={(e) => setChannel(e.target.value)}
+                      />
+                    </div>
+                    <div className="flex gap-5">
+                      <Tooltip title="Add Camera Stream" placement="top">
+                        <Button
+                          id="submit-camera"
+                          onClick={addStreamHandler}
+                          className="bg-main-500 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700"
+                        >
+                          <FontAwesomeIcon icon={faVideo} className="text-white" />
+                        </Button>
+                      </Tooltip>
+                    </div>
                   </div>
-                  <div className="flex gap-5">
-                    <Tooltip title="Add Camera Stream" placement="top">
-                      <Button
-                        id="submit-camera"
-                        onClick={addStreamHandler}
-                        className="bg-main-500 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700"
-                      >
-                        <FontAwesomeIcon icon={faVideo} className="text-white" />
-                      </Button>
-                    </Tooltip>
+                  <div className='flex items-center justify-center gap-2.5'>  
+                    <Typography className="text-white">
+                      Or
+                    </Typography>
+
+                  </div>
+                  <div className=''>
+                      <Autocomplete
+                        disablePortal
+                        focused
+                        options={[]}
+                        className="bg-main-400 rounded-md w-full"
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label={<Typography className="text-white">Intersection prop</Typography>}
+                            variant="outlined"
+                            className="bg-main-400 rounded-md"
+                          />
+                        )}
+                      />
                   </div>
                 </div>
               </form>
