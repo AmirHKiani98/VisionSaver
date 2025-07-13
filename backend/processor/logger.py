@@ -1,7 +1,6 @@
 import os
 import logging
 import logging.handlers
-from django.conf import settings
 import dotenv
 dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), '../.hc_to_app_env'))
 
@@ -14,22 +13,22 @@ class Logger:
     _instance = None
     _initialized = False
     
-    def __new__(cls):
+    def __new__(cls, *args, **kwargs):
         """Singleton pattern to ensure only one logger instance."""
         if cls._instance is None:
             cls._instance = super(Logger, cls).__new__(cls)
         return cls._instance
     
-    def __init__(self):
+    def __init__(self, base_dir=None):
         """Initialize the logger if not already initialized."""
         if not self._initialized:
-            self._setup_logger()
+            self._setup_logger(base_dir)
             Logger._initialized = True
-    
-    def _setup_logger(self):
+
+    def _setup_logger(self, base_dir):
         """Set up the logger with appropriate handlers and formatters."""
         # Create logs directory
-        log_dir = os.path.abspath(os.path.join(settings.BASE_DIR, "..", os.getenv("LOGGER_DIRECTORY", "logs")))
+        log_dir = os.path.abspath(os.path.join(base_dir, "..", os.getenv("LOGGER_DIRECTORY", "logs")))
         os.makedirs(log_dir, exist_ok=True)
         
         # Create logger

@@ -206,7 +206,7 @@ LOGGING = {
 # Global logger instance 
 from .logger import Logger
 
-APP_LOGGER = Logger()
+APP_LOGGER = Logger(BASE_DIR)
 
 ASGI_APPLICATION = 'processor.asgi.application'
 
