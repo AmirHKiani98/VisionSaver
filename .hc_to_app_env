@@ -21,3 +21,5 @@ CELERY_BROKER_PORT=6379
 CACHE_DIR=media
 # FFMEPG
 FFMPEG_PATH=apps/ffmpeg/bin/ffmpeg.exe
+# Logger
+LOGGER_DIRECTORY=logs

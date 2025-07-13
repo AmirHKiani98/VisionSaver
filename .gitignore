@@ -150,4 +150,7 @@ build
 
 # Dist
 !dist/
-dist/*
+
+#
+dist/*/**/out
+dist/*/**/node_modules
