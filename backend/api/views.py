@@ -197,28 +197,31 @@ def get_ips(request):
         if data.empty:
             return JsonResponse({"ips": []}, status=200)
         
-        # Get the search query from request parameters
-        query = request.GET.get('query', '').lower()
-        
         # Ensure columns are treated as strings to handle various formats
         data['ip'] = data['ip'].astype(str)
         data['controller_id'] = data['controller_id'].astype(str)
         data['corridor_number'] = data['corridor_number'].astype(str)
         data['intersection_name'] = data['intersection_name'].astype(str)
 
-        # Create a list to store matching results
-        matching_ips = []
+        # Get the search query from request parameters
+        query = request.GET.get('query', '').lower()
+        if not query:
+            return JsonResponse({"ips": [], "controller_ids": [], "corridor_numbers": [], "intersection_names": []}, status=200)
+        
+        # Filter the DataFrame based on the query
+        mask = (
+            data['ip'].str.contains(query, case=False, na=False) |
+            data['controller_id'].str.contains(query, case=False, na=False) |
+            data['corridor_number'].str.contains(query, case=False, na=False) |
+            data['intersection_name'].str.contains(query, case=False, na=False)
+        )
+        
+        # Return matching rows as an array of dictionaries
+        matching_data = data[mask].to_dict(orient='records')
+        print(f"Found {len(matching_data)} matching records for query '{query}'")
+        return JsonResponse({"data": matching_data}, status=200)
 
-        # Loop through the rows and check if query matches any column value
-        for _, row in data.iterrows():
-            if any(query in str(value).lower() for value in row[['ip', 'controller_id', 'corridor_number', 'intersection_name']]):
-                matching_ips.append(row['ip'])  # Add corresponding 'ip' to the result list
-        
-        # Remove duplicate IPs
-        unique_ips = list(set(matching_ips))
-        
-        return JsonResponse({"ips": unique_ips}, status=200)
-    
     except Exception as e:
         return JsonResponse({"error": f"Failed to read ips.csv: {str(e)}"}, status=500)
+
     

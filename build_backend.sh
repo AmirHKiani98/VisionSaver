@@ -27,6 +27,7 @@ PYINSTALLER_ARGS=(
   --name "$BINARY_NAME"
   --add-data "backend:backend"  # <-- this brings in processor/*
   --add-data "backend/apps/ffmpeg:apps/ffmpeg"
+  --add-data "backend/addons:addons"
   # --add-data "backend/templates:templates"
   # --add-data "backend/static:static"
   --add-data "backend/db.sqlite3:."

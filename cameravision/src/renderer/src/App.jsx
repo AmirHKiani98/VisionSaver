@@ -75,25 +75,18 @@ function App() {
     setOpen(false)
   }
   useEffect(() => {
-    if (!env || !env.BACKEND_SERVER_DOMAIN || !env.BACKEND_SERVER_PORT) {
-      return // Return early if env is not set
+    if (!env || !env.BACKEND_SERVER_DOMAIN || !env.BACKEND_SERVER_PORT || !env.API_GET_IPS) {
+      return // Return early if env is not set or API endpoint is missing
     }
-
     if (query.length > 2) {
       // Fetch matching data when query length is greater than 2
       fetch(`http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_GET_IPS}?query=${encodeURIComponent(query)}`)
-        .then(response => {
-          if (!response.ok) {
-        throw new Error('Network response was not ok');
-          }
-          return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
-          // Update options with data from the response
-          setOptions(data.ips);
+          // Assuming data is an array of objects with ip, controller_id, corridor_number, and intersection_name
+          setOptions(data.data || []); // Set options to the list of matching rows
         })
         .catch(error => {
-          openNotification('error', 'Failed to fetch options.');
           console.error('Error fetching options:', error);
         });
     } else {
@@ -396,6 +389,15 @@ function App() {
         openNotification('error', 'Failed to delete record.')
       })
   }
+  const handleOptionChange = (_, newValue) => {
+    // When the user selects an option, set the IP value
+    setIp(newValue?.ip || '');
+  };
+
+  const handleInputChange = (_, newInputValue) => {
+    // Update the query when the input changes
+    setQuery(newInputValue);
+  };
 
   return (
     <div className='flex flex-col justify-between min-h-screen min-w-full'>
@@ -468,15 +470,22 @@ function App() {
 
                   </div>
                   <div className=''>
-                      <Autocomplete
-                        value={query || ""}  // Ensure value is always a string (even if empty)
-                        onChange={(_, newValue) => setQuery(newValue)}  // Update query on change
-                        inputValue={query}  // Keep the input value in sync with state
-                        onInputChange={(_, newInputValue) => setQuery(newInputValue)}  // Handle input change
-                        options={options || []}  // Ensure options is always an array
-                        renderInput={(params) => <TextField {...params} label="Search IPs" />}
-                        getOptionLabel={(option) => option || ''}  // Handle empty or null values gracefully
-                      />
+                       <Autocomplete
+                          value={ip} // Always ensure that the value is a valid string
+                          onChange={handleOptionChange}  // Set IP when an option is selected
+                          inputValue={query} // Keep the input value in sync with state
+                          onInputChange={handleInputChange}  // Track input change
+                          options={options}  // The array of options
+                          className="bg-main-400 rounded-md w-full"
+                          getOptionLabel={(option) => option ? `${option.ip}` : ''} // Safely handle option label
+                          focused
+                          renderInput={(params) => <TextField {...params} className='!text-white !font-bold' label="Search IPs" />}
+                          renderOption={(props, option) => (
+                            <li {...props}>
+                              {option.ip}
+                            </li>
+                          )}
+                        />
                   </div>
                 </div>
               </form>
