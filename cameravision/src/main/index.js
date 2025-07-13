@@ -38,7 +38,7 @@ if(!is.dev){
       : join(process.resourcesPath, 'backend')
   }, (error) => {
     if (error) {
-      console.error('Django error:', error)
+      console.error('Django:', error)
     } else {
       console.log('Django server started successfully.')
     }
@@ -59,7 +59,7 @@ if(!is.dev){
 }
 
 djangoProcess.stdout?.on('data', (data) => console.log(`Django: ${data}`))
-djangoProcess.stderr?.on('data', (data) => console.error(`Django error: ${data}`))
+djangoProcess.stderr?.on('data', (data) => console.error(`Django: ${data}`))
 
 // Kill Django on quit
 app.on('before-quit', () => {

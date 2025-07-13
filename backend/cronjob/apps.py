@@ -15,7 +15,7 @@ def record_rtsp_task(record_id, camera_url, duration, output_file):
     from record.models import Record
     from record.rtsp_object import RTSPObject
 
-    print(f"🎬 Starting recording task for record ID {record_id}")
+    print(f"Starting recording task for record ID {record_id}")
     
     try:
         record = Record.objects.get(id=record_id)
@@ -69,7 +69,6 @@ def job_checker():
             now = timezone.now()
             cache_dir = settings.MEDIA_ROOT
             logger.info(f"Checking for records to process at {now}")
-            cache_dir = os.getenv('CACHE_DIR', '.cache')
             os.makedirs(cache_dir, exist_ok=True)
             
             # Write heartbeat file
