@@ -110,5 +110,3 @@ class Logger:
         
         caller_logger.log(level, message)
 
-# Global logger instance
-app_logger = Logger()

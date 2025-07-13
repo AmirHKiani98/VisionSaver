@@ -7,7 +7,9 @@ import logging
 from multiprocessing import Pool
 import threading
 
-from processor.logger import app_logger as logger
+from django.conf import settings
+
+logger = settings.APP_LOGGER
 
 import os
 def record_rtsp_task(record_id, camera_url, duration, output_file):
@@ -20,7 +22,7 @@ def record_rtsp_task(record_id, camera_url, duration, output_file):
         record = Record.objects.get(id=record_id)
         record.in_process = True
         record.save()
-        print(f"✅ Marked record {record_id} as in_process")
+        print(f"Marked record {record_id} as in_process")
         
         # Create output directory
         os.makedirs(os.path.dirname(output_file), exist_ok=True)

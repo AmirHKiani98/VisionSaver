@@ -208,6 +208,9 @@ os.makedirs(os.path.join(BASE_DIR, os.environ.get("LOGGER_DIRECTORY", "logs")), 
 
 # Import and initialize the global logger
 # Global logger instance
+from .logger import Logger
+
+APP_LOGGER = Logger()
 
 ASGI_APPLICATION = 'processor.asgi.application'
 
