@@ -202,10 +202,6 @@ LOGGING = {
     },
 }
 
-
-# Create logs directory
-os.makedirs(os.path.join(BASE_DIR, os.environ.get("LOGGER_DIRECTORY", "logs")), exist_ok=True)
-
 # Import and initialize the global logger
 # Global logger instance
 from .logger import Logger
