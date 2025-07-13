@@ -203,7 +203,7 @@ LOGGING = {
 }
 
 # Import and initialize the global logger
-# Global logger instance
+# Global logger instance 
 from .logger import Logger
 
 APP_LOGGER = Logger()
