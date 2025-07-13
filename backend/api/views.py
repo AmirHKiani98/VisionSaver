@@ -10,7 +10,7 @@ from django.utils.dateparse import parse_datetime
 # Create your views here.
 
 from django.http import HttpResponse
-
+from django.conf import settings
 def health_check(request):
     return HttpResponse("OK", status=200)
 
@@ -180,4 +180,45 @@ def download_db(request):
         return response
     except Exception as e:
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
+
+
+def get_ips(request):
+    """
+    Get all unique IPs from the records, searching across multiple columns.
+    """
+    if request.method != 'GET':
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)
+
+    try:
+        # Read the CSV file
+        data = pd.read_csv(settings.BASE_DIR / "addons" / "all_ips.csv")
+        
+        # Check if the file is empty
+        if data.empty:
+            return JsonResponse({"ips": []}, status=200)
+        
+        # Get the search query from request parameters
+        query = request.GET.get('query', '').lower()
+        
+        # Ensure columns are treated as strings to handle various formats
+        data['ip'] = data['ip'].astype(str)
+        data['controller_id'] = data['controller_id'].astype(str)
+        data['corridor_number'] = data['corridor_number'].astype(str)
+        data['intersection_name'] = data['intersection_name'].astype(str)
+
+        # Create a list to store matching results
+        matching_ips = []
+
+        # Loop through the rows and check if query matches any column value
+        for _, row in data.iterrows():
+            if any(query in str(value).lower() for value in row[['ip', 'controller_id', 'corridor_number', 'intersection_name']]):
+                matching_ips.append(row['ip'])  # Add corresponding 'ip' to the result list
+        
+        # Remove duplicate IPs
+        unique_ips = list(set(matching_ips))
+        
+        return JsonResponse({"ips": unique_ips}, status=200)
+    
+    except Exception as e:
+        return JsonResponse({"error": f"Failed to read ips.csv: {str(e)}"}, status=500)
     

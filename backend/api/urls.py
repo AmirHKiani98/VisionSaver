@@ -35,5 +35,9 @@ urlpatterns = [
     path(
         f"{os.getenv('API_DOWNLOAD_DB')}",
         views.download_db,
+    ),
+    path(
+        f"{os.getenv('API_GET_IPS')}",
+        views.get_ips,
     )
 ]

@@ -61,6 +61,8 @@ function App() {
   const [env, setEnv] = useState({})
   const [recordLinks, setRecordLinks] = useState([])
   const [counter, setCounter] = useState(0)
+  const [options, setOptions] = useState([]);  // To store filtered options
+  const [query, setQuery] = useState('');      // To store current input value
 
   useEffect(() => {
     window.env.get().then(setEnv)
@@ -72,6 +74,32 @@ function App() {
     }
     setOpen(false)
   }
+  useEffect(() => {
+    if (!env || !env.BACKEND_SERVER_DOMAIN || !env.BACKEND_SERVER_PORT) {
+      return // Return early if env is not set
+    }
+
+    if (query.length > 2) {
+      // Fetch matching data when query length is greater than 2
+      fetch(`http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_GET_IPS}?query=${encodeURIComponent(query)}`)
+        .then(response => {
+          if (!response.ok) {
+        throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          // Update options with data from the response
+          setOptions(data.ips);
+        })
+        .catch(error => {
+          openNotification('error', 'Failed to fetch options.');
+          console.error('Error fetching options:', error);
+        });
+    } else {
+      setOptions([]);
+    }
+  }, [query]);
 
   useEffect(() => {
     // Define the function to be executed every 5 seconds
@@ -441,18 +469,13 @@ function App() {
                   </div>
                   <div className=''>
                       <Autocomplete
-                        disablePortal
-                        focused
-                        options={[]}
-                        className="bg-main-400 rounded-md w-full"
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            label={<Typography className="text-white">Intersection prop</Typography>}
-                            variant="outlined"
-                            className="bg-main-400 rounded-md"
-                          />
-                        )}
+                        value={query || ""}  // Ensure value is always a string (even if empty)
+                        onChange={(_, newValue) => setQuery(newValue)}  // Update query on change
+                        inputValue={query}  // Keep the input value in sync with state
+                        onInputChange={(_, newInputValue) => setQuery(newInputValue)}  // Handle input change
+                        options={options || []}  // Ensure options is always an array
+                        renderInput={(params) => <TextField {...params} label="Search IPs" />}
+                        getOptionLabel={(option) => option || ''}  // Handle empty or null values gracefully
                       />
                   </div>
                 </div>
