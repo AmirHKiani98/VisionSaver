@@ -28,31 +28,27 @@ def record_rtsp_task(record_id, camera_url, duration, output_file):
         logger.info(f"Starting recording for record ID {record_id}")
         
         rtsp_obj = RTSPObject(camera_url)
-        rtsp_obj.record(duration, output_file)
+        done = rtsp_obj.record(duration, output_file)
         
         # Check if file was created and has reasonable size
-        if os.path.exists(output_file):
-            file_size = os.path.getsize(output_file)
-            logger.info(f"Recording file created: {output_file} ({file_size} bytes)")
+        if done:
+            
 
-            if file_size > 1024:  # More than 1KB
-                record.done = True
-                record.error = ""
-                logger.info(f"Recording completed successfully for record ID {record_id}")
-            else:
-                record.done = False
-                record.error = f"Recording file too small: {file_size} bytes"
-                logger.error(f"Recording file too small for record ID {record_id}: {file_size} bytes")
+            record.done = True
+            record.error = ""
+            logger.info(f"Recording completed successfully for record ID {record_id}")
+            
         else:
             record.done = False
-            record.error = "Recording file was not created"
-            logger.error(f"Recording file was not created for record ID {record_id}")
+            record.error = f"File doesn't exist at {output_file}"
+            logger.error(f"Recording file doesn't exist for record ID {record_id}: {output_file}")
 
     except Exception as e:
         record.done = False
         record.error = str(e)
         record.in_process = False
-        logger.error(f"Error during recording for record ID {record_id}: {e}")
+        import traceback
+        logger.error(f"Error during recording for record ID{record_id}: {e}\n{traceback.format_exc()}")
 
     record.in_process = False
     record.save()
@@ -68,19 +64,16 @@ def job_checker():
         try:
             now = timezone.now()
             cache_dir = settings.MEDIA_ROOT
-            logger.info(f"Checking for records to process at {now}")
+            # logger.info(f"Checking for records to process at {now}")
             os.makedirs(cache_dir, exist_ok=True)
             
-            # Write heartbeat file
-            with open(os.path.join(cache_dir, 'last_run.txt'), 'w') as f:
-                f.write(now.strftime('%Y-%m-%d %H:%M:%S'))
             
             records = Record.objects.filter(
                 done=False,
                 in_process=False,
                 start_time__lte=now,
             )
-            logger.info(f"Found {records.count()} records to process: {records}")
+            # logger.info(f"Found {records.count()} records to process: {records}")
 
             for record in records:
                 logger.info(f"Starting recording task for record ID {record.id}")
@@ -117,8 +110,11 @@ def job_checker():
 class CronjobConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'cronjob'
-    
+    _job_checker_started = False  # Add this class variable
     def ready(self):
+        if CronjobConfig._job_checker_started:
+            return
+        CronjobConfig._job_checker_started = True
         logger.info("CronjobConfig.ready() running...")
         import multiprocessing
         multiprocessing.set_start_method('spawn', force=True)  # Optional: avoids multiprocessing errors on Windows
