@@ -29,7 +29,7 @@ urlpatterns = [
         views.delete_record_schedule,
     ),
     path(
-        f"{os.getenv('GET_REORD_STATUS')}/<str:token>",
+        f"{os.getenv('GET_RECORD_STATUS')}/<str:token>",
         views.get_record_status,
     )
 ]

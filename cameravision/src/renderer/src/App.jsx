@@ -79,7 +79,7 @@ function App() {
     const myIntervalFunction = () => {
       console.log("Checking recording status...")
       setCounter(prevCounter => prevCounter + 1); // Example: update state
-      const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.get_record_status}/`
+      const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.GET_RECORD_STATUS}/`
       const notDoneRecords = recordLinks.filter(record => !record.done)
       // No console output here since Electron renderer may not show logs in some setups
       for (const record of notDoneRecords) {
@@ -92,7 +92,7 @@ function App() {
             }
 
             if (data.done && !record.done) {
-              setRecordLinks(prev => prev.map(r => r.token === record.token ? { ...r, done: true } : r))
+              setRecordLinks(prev => prev.map(r => r.token === record.token ? { ...r, done: true, inProcess: false } : r))
               openNotification('success', `Recording for ${record.startTime} completed successfully.`)
             }
 
