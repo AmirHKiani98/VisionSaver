@@ -149,12 +149,30 @@ if os.getenv("CACHE_DIR") is None:
     raise EnvironmentError("CACHE_DIR environment variable is not set. Please set it to the desired cache directory.")
 
 
-cache_dir = os.getenv("CACHE_DIR")
+def get_cache_directory():
+    """Get the appropriate cache directory based on runtime environment."""
+    try:
+        # For PyInstaller, create cache relative to the executable location
+        if hasattr(sys, '_MEIPASS'):
+            # Running in PyInstaller bundle - use the directory where the .exe is located
+            exe_dir = os.path.dirname(sys.executable)
+            return os.path.join(exe_dir, os.environ.get("CACHE_DIR", "cache"))
+        else:
+            # Running in development - use the BASE_DIR approach
+            return os.path.abspath(os.path.join(os.path.dirname(__file__), "..", os.environ.get("CACHE_DIR", "cache")))
+    except:
+        # Fallback: use current working directory
+        return os.path.join(os.getcwd(), os.environ.get("CACHE_DIR", "cache"))
+
+# Get cache directory but don't create it yet (let the application create it when first used)
+cache_dir = get_cache_directory()
+
 if not cache_dir:
     raise ValueError("CACHE_DIR environment variable must be set and non-empty.")
-MEDIA_URL = f'/{cache_dir}/'
 
-MEDIA_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", cache_dir))
+MEDIA_URL = f'/{os.path.basename(cache_dir)}/'
+MEDIA_ROOT = cache_dir
+
 # Ensure MEDIA_ROOT exists
 if not os.path.exists(MEDIA_ROOT):
     os.makedirs(MEDIA_ROOT, exist_ok=True)
