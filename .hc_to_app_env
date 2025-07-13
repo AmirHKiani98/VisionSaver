@@ -15,6 +15,7 @@ API_STORE_RECORD_SCHEDULE=api/store_record_schedule/
 API_GET_RECORD_SCHEDULE=api/get_record_schedule/
 API_DELETE_RECORD_SCHEDULE=api/delete_record_schedule/
 API_HEALTH_CHECK=api/health_check
+API_DOWNLOAD_DB=api/download_db
 
 # Celery variables
 CELERY_BROKER_DOMAIN=localhost

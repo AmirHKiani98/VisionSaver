@@ -98,7 +98,7 @@ function createSplashWindow() {
 function createWindow() {
   win = new BrowserWindow({
     width: 1050,
-    height: 720,
+    height: 820,
     show: false,
     autoHideMenuBar: true,
     icon: join(__dirname, '../../resources/icon.icns'),

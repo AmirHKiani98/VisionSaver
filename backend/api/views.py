@@ -2,7 +2,7 @@ import json
 from django.http import JsonResponse
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
-from record.models import Record
+from record.models import Record, RecordLog
 from collections import defaultdict
 import re
 import pandas as pd
@@ -158,3 +158,26 @@ def get_record_status(request, token):
         return JsonResponse(response_data, status=200)
     except Exception as e:
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
+
+
+def download_db(request):
+    """
+    Download the database as a JSON file.
+    """
+    if request.method != 'GET':
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)
+    try:
+        records = Record.objects.all().values()
+        records_logs = RecordLog.objects.all().values()
+        records_list = list(records)
+        records_logs_list = list(records_logs)
+        data = {
+            "records": records_list,
+            "record_logs": records_logs_list
+        }
+        response = JsonResponse(data, safe=False)
+        response['Content-Disposition'] = 'attachment; filename="db.json"'
+        return response
+    except Exception as e:
+        return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
+    

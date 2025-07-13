@@ -31,5 +31,9 @@ urlpatterns = [
     path(
         f"{os.getenv('GET_RECORD_STATUS')}/<str:token>",
         views.get_record_status,
+    ),
+    path(
+        f"{os.getenv('API_DOWNLOAD_DB')}",
+        views.download_db,
     )
 ]

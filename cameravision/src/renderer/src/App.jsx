@@ -9,7 +9,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faVideo,
   faClockRotateLeft,
-  faRecordVinyl
+  faRecordVinyl,
+  faDownload
 } from '@fortawesome/free-solid-svg-icons'
 
 // MUI - Pickers
@@ -232,6 +233,34 @@ function App() {
     openNotification('success', 'Camera stream added.')
   }
 
+  const downloadDB = () => {
+    if (!env.BACKEND_SERVER_DOMAIN || !env.BACKEND_SERVER_PORT || !env.API_DOWNLOAD_DB) {
+      openNotification('error', 'Backend server domain, port, or API endpoint is not set.')
+      return
+    }
+    const apiLink = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_DOWNLOAD_DB}`
+    fetch(apiLink)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok')
+        }
+        return response.blob()
+      })
+      .then((blob) => {
+        const url = window.URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.style.display = 'none'
+        a.href = url
+        a.download = 'db.json'
+        document.body.appendChild(a)
+        a.click()
+        window.URL.revokeObjectURL(url)
+      })
+      .catch((error) => {
+        openNotification('error', 'Failed to download database.')
+      })
+  }
+
   const addCronJob = () => {
     if (!time || !duration) {
       openNotification('error', 'Please select a start time and duration.')
@@ -340,7 +369,7 @@ function App() {
   }
 
   return (
-    <>
+    <div className='flex flex-col justify-between min-h-screen min-w-full'>
       <div className="min-h-full min-w-full flex p-5">
         <div className="text-white flex flex-col w-full items-center gap-7">
           <h1 className="text-2xl font-bold">Vision Camera Saver</h1>
@@ -554,8 +583,13 @@ function App() {
           </div>
         </div>
       </div>
+      <div className="flex flex-row-reverse p-2.5">
+        <Button variant="contained" className='bg-main-400 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700' onClick={downloadDB}>
+          <FontAwesomeIcon icon={faDownload} />
+        </Button>
+      </div>
       <Notification open={open} severity={severity} message={message} onClose={closeNotification} />
-    </>
+    </div>
   )
 }
 
