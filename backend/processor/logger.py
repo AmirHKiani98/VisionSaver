@@ -1,4 +1,5 @@
 import os
+import sys
 import logging
 import logging.handlers
 import dotenv
@@ -21,15 +22,40 @@ class Logger:
     
     def __init__(self, base_dir=None):
         """Initialize the logger if not already initialized."""
-        if not self._initialized:
-            self._setup_logger(base_dir)
-            Logger._initialized = True
 
-    def _setup_logger(self, base_dir):
+        self.base_dir = base_dir or os.path.dirname(os.path.abspath(__file__))
+        if not self._initialized:
+            self._setup_logger()
+            Logger._initialized = True
+    
+    def _get_log_directory(self):
+        # For PyInstaller, create logs relative to the executable location, not the temp extraction path
+        try:
+            # Try to get the executable's directory (for PyInstaller)
+            if hasattr(sys, '_MEIPASS'):
+                # Running in PyInstaller bundle - use the directory where the .exe is located
+                exe_dir = os.path.dirname(sys.executable)
+                log_dir = os.path.join(exe_dir, os.getenv("LOGGER_DIRECTORY", "logs"))
+            else:
+                # Running in development - use the base_dir approach
+                log_dir = os.path.abspath(os.path.join(self.base_dir, "..", os.getenv("LOGGER_DIRECTORY", "logs")))
+        except:
+            # Fallback: use current working directory
+            log_dir = os.path.join(os.getcwd(), os.getenv("LOGGER_DIRECTORY", "logs"))
+        
+        # Create logs directory safely - only when we actually need to write to it
+        try:
+            os.makedirs(log_dir, exist_ok=True)
+        except (OSError, PermissionError) as e:
+            # If we can't create the log directory, fall back to a temp location
+            import tempfile
+            log_dir = tempfile.gettempdir()
+    
+        return log_dir
+
+    def _setup_logger(self):
         """Set up the logger with appropriate handlers and formatters."""
-        # Create logs directory
-        log_dir = os.path.abspath(os.path.join(base_dir, "..", os.getenv("LOGGER_DIRECTORY", "logs")))
-        os.makedirs(log_dir, exist_ok=True)
+        
         
         # Create logger
         self.logger = logging.getLogger('cameravision')
@@ -44,16 +70,21 @@ class Logger:
             '%(asctime)s | %(levelname)-8s | %(name)s | %(funcName)s:%(lineno)d | %(message)s',
             datefmt='%Y-%m-%d %H:%M:%S'
         )
-        
+        log_dir = self._get_log_directory()
         # File handler for all logs (stored in backend.log)
-        file_handler = logging.handlers.RotatingFileHandler(
-            os.path.join(log_dir, 'backend.log'),
-            maxBytes=10*1024*1024,  # 10MB
-            backupCount=5
-        )
-        file_handler.setLevel(logging.DEBUG)  # Will log DEBUG level and above
-        file_handler.setFormatter(formatter)
-        self.logger.addHandler(file_handler)
+        try:
+            file_handler = logging.handlers.RotatingFileHandler(
+                os.path.join(log_dir, 'backend.log'),
+                maxBytes=10*1024*1024,  # 10MB
+                backupCount=5
+            )
+            file_handler.setLevel(logging.DEBUG)  # Will log DEBUG level and above
+            file_handler.setFormatter(formatter)
+            self.logger.addHandler(file_handler)
+        except (OSError, PermissionError):
+            # If file logging fails, just continue without file logging
+            print("Warning: Could not create file logger, continuing with console only")
+            pass
     
     def debug(self, message, app_name=None):
         """Log debug level message."""
@@ -79,7 +110,10 @@ class Logger:
         """Internal method to handle logging."""
         if app_name:
             message = f"[{app_name.upper()}] {message}"
-        
+        log_dir = self._get_log_directory()
+        # Ensure log directory exists
+        if not os.path.exists(log_dir):
+            os.makedirs(log_dir, exist_ok=True)
         # Get caller information safely
         import inspect
         try:

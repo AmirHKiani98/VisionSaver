@@ -154,8 +154,32 @@ if not cache_dir:
     raise ValueError("CACHE_DIR environment variable must be set and non-empty.")
 MEDIA_URL = f'/{cache_dir}/'
 
-MEDIA_ROOT = os.path.abspath(os.path.join(BASE_DIR, "..", cache_dir))
+MEDIA_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", cache_dir))
+# Ensure MEDIA_ROOT exists
+if not os.path.exists(MEDIA_ROOT):
+    os.makedirs(MEDIA_ROOT, exist_ok=True)
 
+# Create log directory - use a safer approach for PyInstaller
+import sys
+
+def get_log_directory():
+    """Get the appropriate log directory based on runtime environment."""
+    try:
+        # For PyInstaller, create logs relative to the executable location
+        if hasattr(sys, '_MEIPASS'):
+            # Running in PyInstaller bundle - use the directory where the .exe is located
+            exe_dir = os.path.dirname(sys.executable)
+            return os.path.join(exe_dir, os.environ.get("LOGGER_DIRECTORY", "logs"))
+        else:
+            # Running in development - use the BASE_DIR approach
+            return os.path.abspath(os.path.join(os.path.dirname(__file__), "..", os.environ.get("LOGGER_DIRECTORY", "logs")))
+    except:
+        # Fallback: use current working directory
+        return os.path.join(os.getcwd(), os.environ.get("LOGGER_DIRECTORY", "logs"))
+
+# Get log directory but don't create it yet (let the logger create it when first used)
+log_dir = get_log_directory()
+django_log_filename = os.path.join(log_dir, 'django.log')
 
 # Logging Configuration
 LOGGING = {
@@ -178,7 +202,7 @@ LOGGING = {
         },
         'file': {
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.abspath(os.path.join(BASE_DIR, "..", os.environ.get("LOGGER_DIRECTORY", "logs"), 'django.log')),
+            'filename': django_log_filename,
             'maxBytes': 1024*1024*15,  # 15MB
             'backupCount': 10,
             'formatter': 'verbose',
