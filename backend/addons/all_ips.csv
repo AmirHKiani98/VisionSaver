@@ -1,0 +1,855 @@
+controller_id,corridor_number,intersection_name,ip
+8008800,158,CSAH 158 (Vernon Ave) at Interlachen Blvd,192.168.131.200
+8008800,158,CSAH 158 (Vernon Ave) at Interlachen Blvd,192.168.131.207
+8008900,66,CSAH 66 (Golden Valley Rd) at Noble Ave,192.168.124.200
+8008900,66,CSAH 66 (Golden Valley Rd) at Noble Ave,192.168.124.207
+8009000,156,CSAH 70 (Medicine Lake Rd) at CSAH 156 (Winnetka Ave) - Master Controller,192.168.24.44
+8009000,156,CSAH 70 (Medicine Lake Rd) at CSAH 156 (Winnetka Ave) - Master Controller,192.168.24.51
+8009200,10,CSAH 10 (Bass Lake Rd) at CSAH 156 (Winnetka Ave),192.168.46.8
+8009200,10,CSAH 10 (Bass Lake Rd) at CSAH 156 (Winnetka Ave),192.168.46.15
+8009500,17,CSAH 17 (France Ave) at 58th St S,192.168.24.203
+8009500,17,CSAH 17 (France Ave) at 58th St S,192.168.24.210
+8009600,17,CSAH 17 (France Ave) at 76th St W,192.168.35.43
+8009600,17,CSAH 17 (France Ave) at 76th St W,192.168.35.50
+8009700,32,CSAH 32 (Penn Ave) at 64th St W / Fire Station,192.168.19.8
+8009700,32,CSAH 32 (Penn Ave) at 64th St W / Fire Station,192.168.19.15
+8009800,35,CSAH 35 (Portland Ave) at 79th St E / American Blvd BACKHAUL,192.168.127.200
+8009800,35,CSAH 35 (Portland Ave) at 79th St E / American Blvd BACKHAUL,192.168.127.207
+8009900,35,CSAH 35 (Portland Ave) at 86th St E (BACKHAUL),192.168.128.8
+8009900,35,CSAH 35 (Portland Ave) at 86th St E (BACKHAUL),192.168.128.15
+8010000,102,CSAH 70 (Medicine Lake Rd) at CSAH 102 (Douglas Dr),192.168.15.104
+8010000,102,CSAH 70 (Medicine Lake Rd) at CSAH 102 (Douglas Dr),192.168.15.111
+8010100,17,CSAH 17 (France Ave) at 90th St W,192.168.35.235
+8010100,17,CSAH 17 (France Ave) at 90th St W,192.168.35.242
+8010200,156,CSAH 156 (Winnetka Ave) at 36th Ave N,192.168.23.235
+8010200,156,CSAH 156 (Winnetka Ave) at 36th Ave N,192.168.23.242
+8010300,103,CSAH 103 (West Broadway) at Candlewood Dr,192.168.135.232
+8010300,103,CSAH 103 (West Broadway) at Candlewood Dr,192.168.135.239
+8011700,17,CSAH 17 (France Ave) at 98th St W,192.168.36.10
+8011700,17,CSAH 17 (France Ave) at 98th St W,192.168.36.17
+8001300,5,CSAH 5 (Minnetonka Blvd) at Lake St / Vernon Ave,192.168.112.200
+8011800,32,CSAH 32 (Penn Ave) at 80th St W / American Blvd BACKHAUL,192.168.19.232
+8011800,32,CSAH 32 (Penn Ave) at 80th St W / American Blvd BACKHAUL,192.168.19.239
+8012000,17,CSAH 17 (France Ave) at 102nd St W - Master Controller,192.168.36.43
+8012000,17,CSAH 17 (France Ave) at 102nd St W - Master Controller,192.168.36.50
+8012100,9,CSAH 9 (Rockford Rd / 42nd Ave) at Boone Ave,192.168.115.72
+8001300,5,CSAH 5 (Minnetonka Blvd) at Lake St / Vernon Ave,192.168.112.207
+8012200,10,CSAH 10 (Bass Lake Rd) at Pennsylvania Ave / Nevada Ave,192.168.46.40
+8012200,10,CSAH 10 (Bass Lake Rd) at Pennsylvania Ave / Nevada Ave,192.168.46.47
+8012600,12,CSAH 12 (Noble Pkwy) at 93rd Ave,192.168.59.8
+8012600,12,CSAH 12 (Noble Pkwy) at 93rd Ave,192.168.59.15
+8012700,32,CSAH 32 (Penn Ave) at 98th St W,192.168.40.168
+8012700,32,CSAH 32 (Penn Ave) at 98th St W,192.168.40.175
+8012800,52,CSAH 52 (Nicollet Ave) at 86th St,192.168.127.40
+8012800,52,CSAH 52 (Nicollet Ave) at 86th St,192.168.127.47
+8012900,1,CSAH 1 (Old Shakopee Rd / 98th St) at CSAH 35 (Portland Ave),192.168.49.8
+8012900,1,CSAH 1 (Old Shakopee Rd / 98th St) at CSAH 35 (Portland Ave),192.168.49.15
+8013000,52,CSAH 52 (Nicollet Ave) at 82nd St ,192.168.126.232
+8001400,5,CSAH 5 (Minnetonka Blvd) at Ottawa Ave,192.168.112.232
+8013000,52,CSAH 52 (Nicollet Ave) at 82nd St ,192.168.126.239
+8013100,10,CSAH 10 (Bass Lake Rd) at Jersey Ave,192.168.46.72
+8013100,10,CSAH 10 (Bass Lake Rd) at Jersey Ave,192.168.46.79
+8013200,15,CSAH 15 (Shoreline Dr) at CSAH 19 (Shadywood Rd),192.168.128.168
+8013200,15,CSAH 15 (Shoreline Dr) at CSAH 19 (Shadywood Rd),192.168.128.175
+8013400,32,CSAH 32 (Penn Ave) at 82nd St W,192.168.40.8
+8013400,32,CSAH 32 (Penn Ave) at 82nd St W,192.168.40.15
+8013500,10,CSAH 10 (Bass Lake Rd) at Shingle Creek Pkwy,192.168.46.232
+8013500,10,CSAH 10 (Bass Lake Rd) at Shingle Creek Pkwy,192.168.46.239
+8013700,34,CSAH 34 (Normandale Blvd) at 84th St W - Master Controller,192.168.123.136
+8013700,34,CSAH 34 (Normandale Blvd) at 84th St W - Master Controller,192.168.123.143
+8014400,3,CSAH 3 (Excelsior Blvd) at Louisiana Ave,192.168.53.136
+8014400,3,CSAH 3 (Excelsior Blvd) at Louisiana Ave,192.168.53.143
+8014700,32,CSAH 32 (Penn Ave) at 86th St W,192.168.40.72
+8014700,32,CSAH 32 (Penn Ave) at 86th St W,192.168.40.79
+8014800,136,CSAH 136 (Silver Lake Rd) at 33rd Ave NE,192.168.137.168
+8014800,136,CSAH 136 (Silver Lake Rd) at 33rd Ave NE,192.168.137.175
+8014900,156,CSAH 156 (Winnetka Ave) at Plymouth Ave,192.168.24.107
+8014900,156,CSAH 156 (Winnetka Ave) at Plymouth Ave,192.168.24.114
+8015400,30,CSAH 30 (97th Ave) at CSAH 116 (Bechtold Rd) BACKHAUL,192.168.24.235
+8015400,30,CSAH 30 (97th Ave) at CSAH 116 (Bechtold Rd) BACKHAUL,192.168.24.242
+8015500,10,CSAH 10 (Bass Lake Rd) at Boone Ave,192.168.45.232
+8015500,10,CSAH 10 (Bass Lake Rd) at Boone Ave,192.168.45.239
+8015600,10,CSAH 10 (Bass Lake Rd) at Northway Dr,192.168.46.200
+8015600,10,CSAH 10 (Bass Lake Rd) at Northway Dr,192.168.46.207
+8015700,10,CSAH 57 (57th Ave N) at Logan Ave N,192.168.47.8
+8015700,10,CSAH 57 (57th Ave N) at Logan Ave N,192.168.47.15
+8001500,8,CSAH 8 (West Broadway) at CSAH 102 (Douglas Dr),192.168.29.210
+8015800,17,CSAH 17 (France Ave) at Parklawn Ave,192.168.35.10
+8015800,17,CSAH 17 (France Ave) at Parklawn Ave,192.168.35.17
+8015900,34,CSAH 34 (Normandale Blvd) at 94th St  W / Poplar Bridge Rd,192.168.123.168
+8015900,34,CSAH 34 (Normandale Blvd) at 94th St  W / Poplar Bridge Rd,192.168.123.175
+8016100,156,CSAH 156 (Winnetka Ave) at Olympia St,192.168.24.75
+8016100,156,CSAH 156 (Winnetka Ave) at Olympia St,192.168.24.82
+8016200,17,CSAH 17 (France Ave) at 80th St W / American Blvd BACKHAUL,192.168.35.171
+8016200,17,CSAH 17 (France Ave) at 80th St W / American Blvd BACKHAUL,192.168.35.178
+8016300,17,CSAH 17 (France Ave) at Hazelton Rd,192.168.34.203
+8016300,17,CSAH 17 (France Ave) at Hazelton Rd,192.168.34.210
+8016500,1,CSAH 1 (Old Shakopee Rd / 98th St) at Garfield Ave,192.168.48.168
+8016500,1,CSAH 1 (Old Shakopee Rd / 98th St) at Garfield Ave,192.168.48.175
+8016600,3,CSAH 3 (Excelsior Blvd) at 5th Ave S,192.168.52.200
+8016600,3,CSAH 3 (Excelsior Blvd) at 5th Ave S,192.168.52.207
+8002000,3,CSAH 3 (Excelsior Blvd) at CSAH 20 (Blake Rd) BACKHAUL,192.168.53.72
+8016700,5,CSAH 5 (Minnetonka Blvd) at Inglewood Ave,192.168.113.8
+8016700,5,CSAH 5 (Minnetonka Blvd) at Inglewood Ave,192.168.113.15
+8016800,109,CSAH 14 (Zane Ave) at CSAH 109 (85th Ave N),192.168.22.107
+8016800,109,CSAH 14 (Zane Ave) at CSAH 109 (85th Ave N),192.168.22.114
+8017000,34,CSAH 34 (Normandale Blvd) at 102nd St W BACKHAUL,192.168.123.232
+8017000,34,CSAH 34 (Normandale Blvd) at 102nd St W BACKHAUL,192.168.123.239
+8017200,15,CSAH 15 (Shoreline Dr) at CSAH 125 (Interlachen Rd) - Master Controller,192.168.128.72
+8017200,15,CSAH 15 (Shoreline Dr) at CSAH 125 (Interlachen Rd) - Master Controller,192.168.128.79
+8017300,70,CSAH 70 (Medicine Lake Rd) at Boone Ave,192.168.28.235
+8017300,70,CSAH 70 (Medicine Lake Rd) at Boone Ave,192.168.28.242
+8017500,3,CSAH 3 (Excelsior Blvd) at CSAH 4 (Beacon Hill Rd),192.168.52.40
+8017500,3,CSAH 3 (Excelsior Blvd) at CSAH 4 (Beacon Hill Rd),192.168.52.47
+8017900,102,CSAH 102 (Douglas Dr) at 47th Ave N,192.168.15.40
+8017900,102,CSAH 102 (Douglas Dr) at 47th Ave N,192.168.15.47
+8018100,156,CSAH 156 (Winnetka Ave) at 49th Ave N - Master Controller BACKHAUL,192.168.23.171
+8018100,156,CSAH 156 (Winnetka Ave) at 49th Ave N - Master Controller BACKHAUL,192.168.23.178
+8018200,3,CSAH 3 (Excelsior Blvd) at CSAH 60 (Baker Rd),192.168.52.72
+8018200,3,CSAH 3 (Excelsior Blvd) at CSAH 60 (Baker Rd),192.168.52.79
+8018400,1,CSAH 1 (Old Shakopee Rd) at CSAH 34 (Normandale Blvd) ,192.168.47.200
+8018400,1,CSAH 1 (Old Shakopee Rd) at CSAH 34 (Normandale Blvd) ,192.168.47.207
+8018600,8,CSAH 8 (West Broadway) at 55th Ave N - Master Controller,192.168.29.171
+8018600,8,CSAH 8 (West Broadway) at 55th Ave N - Master Controller,192.168.29.178
+8018700,8,CSAH 8 (West Broadway) at 62nd Ave N,192.168.29.75
+8018700,8,CSAH 8 (West Broadway) at 62nd Ave N,192.168.29.82
+8018800,32,CSAH 32 (Penn Ave) at 84th St W,192.168.40.40
+8018800,32,CSAH 32 (Penn Ave) at 84th St W,192.168.40.47
+8002100,3,CSAH 3 (Excelsior Blvd) at Brookside Ave / Alabama Ave S BACKHAUL,192.168.53.207
+8018900,52,CSAH 52 (Nicollet Ave) at 79th St / American Blvd,192.168.126.200
+8018900,52,CSAH 52 (Nicollet Ave) at 79th St / American Blvd,192.168.126.207
+8019000,156,CSAH 156 (Winnetka Ave) at 47th Ave N,192.168.23.203
+8019000,156,CSAH 156 (Winnetka Ave) at 47th Ave N,192.168.23.210
+8019100,34,CSAH 34 (Normandale Blvd) at 98th St W,192.168.123.200
+8019100,34,CSAH 34 (Normandale Blvd) at 98th St W,192.168.123.207
+8019200,31,CSAH 31 (York Ave) at 69th St W,192.168.134.104
+8019200,31,CSAH 31 (York Ave) at 69th St W,192.168.134.111
+8019600,9,CSAH 9 (42nd Ave N) at Quebec Ave,192.168.115.168
+8019600,9,CSAH 9 (42nd Ave N) at Quebec Ave,192.168.115.175
+8019700,5,CSAH 5 (Minnetonka Blvd) at Williston Rd,192.168.133.200
+8019700,5,CSAH 5 (Minnetonka Blvd) at Williston Rd,192.168.133.207
+8019800,14,CSAH 14 (Zane Ave) at Brookdale Dr,192.168.22.171
+8019800,14,CSAH 14 (Zane Ave) at Brookdale Dr,192.168.22.178
+8020000,73,CSAH 73 (Hopkins Crossroad) at Cedar Lake Rd,192.168.125.72
+8020000,73,CSAH 73 (Hopkins Crossroad) at Cedar Lake Rd,192.168.125.79
+8020300,3,CSAH 3 (Excelsior Blvd) at Meadowbrook Rd,192.168.53.104
+8020300,3,CSAH 3 (Excelsior Blvd) at Meadowbrook Rd,192.168.53.111
+8020400,32,CSAH 1 (Old Shakopee Rd) at CSAH 32 (Penn Ave),192.168.40.200
+8020400,32,CSAH 1 (Old Shakopee Rd) at CSAH 32 (Penn Ave),192.168.40.207
+8020600,5,CSAH 5 (Minnetonka Blvd) at CSAH 16 (McGinty Rd W),192.168.133.232
+8020600,5,CSAH 5 (Minnetonka Blvd) at CSAH 16 (McGinty Rd W),192.168.133.239
+8020700,61,CSAH 6 (County Road 6) at CSAH 61 (Xenium Ln),192.168.39.10
+8020700,61,CSAH 6 (County Road 6) at CSAH 61 (Xenium Ln),192.168.39.17
+8020800,9,CSAH 9 (42nd Ave N) at Xylon Ave,192.168.115.104
+8020800,9,CSAH 9 (42nd Ave N) at Xylon Ave,192.168.115.111
+8020900,9,CSAH 9 (Rockford Rd) at Zachary Ln,192.168.114.239
+8021000,10,CSAH 10 (Bass Lake Rd) at Regent Ave,192.168.46.136
+8021000,10,CSAH 10 (Bass Lake Rd) at Regent Ave,192.168.46.143
+8021100,17,CSAH 17 (France Ave) at Southdale Exit - Master Location,192.168.34.43
+8021100,17,CSAH 17 (France Ave) at Southdale Exit - Master Location,192.168.34.50
+8021200,17,CSAH 17 (France Ave) at Southdale Entr,192.168.34.75
+8021200,17,CSAH 17 (France Ave) at Southdale Entr,192.168.34.82
+8021300,109,CSAH 109 (85th Ave N) at Jefferson Highway,192.168.16.232
+8021300,109,CSAH 109 (85th Ave N) at Jefferson Highway,192.168.16.239
+8021400,31,CSAH 31 (York Ave) at 70th St W,192.168.134.136
+8021400,31,CSAH 31 (York Ave) at 70th St W,192.168.134.143
+8021500,31,CSAH 31 (York Ave) at Hazelton Rd,192.168.134.168
+8021500,31,CSAH 31 (York Ave) at Hazelton Rd,192.168.134.175
+8021600,31,CSAH 31 (York Ave) at 76th St W,192.168.134.200
+8021600,31,CSAH 31 (York Ave) at 76th St W,192.168.134.207
+8021900,52,CSAH 52 (Nicollet Ave) at 84th St,192.168.127.8
+8021900,52,CSAH 52 (Nicollet Ave) at 84th St,192.168.127.15
+8022000,156,CSAH 156 (Winnetka Ave) at 32nd Ave N,192.168.24.10
+8022000,156,CSAH 156 (Winnetka Ave) at 32nd Ave N,192.168.24.17
+8022300,61,CSAH 61 (Plymouth Rd) at Cartway Dr,192.168.39.139
+8022300,61,CSAH 61 (Plymouth Rd) at Cartway Dr,192.168.39.146
+8022400,1,CSAH 1 (Old Shakopee Rd) at Xerxes Ave S,192.168.47.232
+8022400,1,CSAH 1 (Old Shakopee Rd) at Xerxes Ave S,192.168.47.239
+8023100,3,CSAH 3 (Excelsior Blvd) at 8th Ave S,192.168.52.168
+8023100,3,CSAH 3 (Excelsior Blvd) at 8th Ave S,192.168.52.175
+8023200,14,CSAH 14 (Zane Ave) at Crestview School Driveway,192.168.22.139
+8023200,14,CSAH 14 (Zane Ave) at Crestview School Driveway,192.168.22.146
+8023300,6,CSAH 6 (County Road 6) at Vicksburg Ln,192.168.28.10
+8023300,6,CSAH 6 (County Road 6) at Vicksburg Ln,192.168.28.17
+8023400,66,CSAH 66 (Golden Valley Rd) at Hidden Lakes Pkwy,192.168.124.232
+8023400,66,CSAH 66 (Golden Valley Rd) at Hidden Lakes Pkwy,192.168.124.239
+8023500,1,CSAH 1 (Old Shakopee Rd) at 10th Ave S,192.168.49.40
+8023500,1,CSAH 1 (Old Shakopee Rd) at 10th Ave S,192.168.49.47
+8023600,53,CSAH 53 (66th St) at Lakeshore / Rae Dr,192.168.36.235
+8023600,53,CSAH 53 (66th St) at Lakeshore / Rae Dr,192.168.36.242
+8023700,8,CSAH 8 (West Broadway) at 63rd Ave N BACKHAUL,192.168.29.43
+8023700,8,CSAH 8 (West Broadway) at 63rd Ave N BACKHAUL,192.168.29.50
+8023800,61,CSAH 5 (Minnetonka Blvd) at CSAH 61 W Jct (Plymouth Rd),192.168.41.8
+8023800,61,CSAH 5 (Minnetonka Blvd) at CSAH 61 W Jct (Plymouth Rd),192.168.41.15
+8023900,3,CSAH 3 (Excelsior Blvd) at 17th Ave S,192.168.52.104
+8023900,3,CSAH 3 (Excelsior Blvd) at 17th Ave S,192.168.52.111
+8024000,4,CSAH 4 (Eden Prairie Rd) at Valley View Rd,192.168.133.8
+8024000,4,CSAH 4 (Eden Prairie Rd) at Valley View Rd,192.168.133.15
+8024100,10,CSAH 10 (Bass Lake Rd) at Zachary Ln BACKHAUL,192.168.45.136
+8024100,10,CSAH 10 (Bass Lake Rd) at Zachary Ln BACKHAUL,192.168.45.143
+8024300,61,CSAH 61 (Plymouth Rd) at Ridgedale Dr,192.168.39.171
+8024300,61,CSAH 61 (Plymouth Rd) at Ridgedale Dr,192.168.39.178
+8024400,17,CSAH 17 (France Ave) at Gallagher Dr,192.168.34.235
+8024400,17,CSAH 17 (France Ave) at Gallagher Dr,192.168.34.242
+8024500,152,CSAH 103 (West Broadway) at CSAH 130 / CSAH 152 (Brooklyn Blvd) - Master Controller,192.168.33.171
+8024500,152,CSAH 103 (West Broadway) at CSAH 130 / CSAH 152 (Brooklyn Blvd) - Master Controller,192.168.33.178
+8024600,61,CSAH 61 (Shady Oak Rd) at Bren Rd - Master Controller,192.168.41.136
+8024600,61,CSAH 61 (Shady Oak Rd) at Bren Rd - Master Controller,192.168.41.143
+8024700,61,CSAH 61 (Shady Oak Rd) at Red Circle Dr,192.168.41.168
+8024700,61,CSAH 61 (Shady Oak Rd) at Red Circle Dr,192.168.41.175
+8024800,9,CSAH 9 (Rockford Rd) at Larch Ln BACKHAUL,192.168.114.200
+8024800,9,CSAH 9 (Rockford Rd) at Larch Ln BACKHAUL,192.168.114.207
+8024900,1,CSAH 1 (Old Shakopee Rd) at Bloomington Ferry Rd ,192.168.47.72
+8024900,1,CSAH 1 (Old Shakopee Rd) at Bloomington Ferry Rd ,192.168.47.79
+8025200,9,CSAH 9 (Rockford Rd) at Lancaster Ln / Nathan Ln,192.168.115.8
+8025200,9,CSAH 9 (Rockford Rd) at Lancaster Ln / Nathan Ln,192.168.115.15
+8025300,130,CSAH 130 (West Broadway) at 73rd Ave N,192.168.51.136
+8025300,130,CSAH 130 (West Broadway) at 73rd Ave N,192.168.51.143
+8025400,156,CSAH 156 (Winnetka Ave) at 10th Ave N - Master Controller,192.168.24.139
+8025400,156,CSAH 156 (Winnetka Ave) at 10th Ave N - Master Controller,192.168.24.146
+8025600,152,CSAH 10 (Bass Lake Rd) at CSAH 152 (Brooklyn Blvd) - Master Controller,192.168.23.75
+8025600,152,CSAH 10 (Bass Lake Rd) at CSAH 152 (Brooklyn Blvd) - Master Controller,192.168.23.82
+8025700,152,CSAH 14 (Zane Ave) at CSAH 152 (Brooklyn Blvd) - Master Controller,192.168.18.40
+8025700,152,CSAH 14 (Zane Ave) at CSAH 152 (Brooklyn Blvd) - Master Controller,192.168.18.47
+8025900,152,CSAH 152 (Brooklyn Blvd) at 55th Ave N,192.168.23.107
+8025900,152,CSAH 152 (Brooklyn Blvd) at 55th Ave N,192.168.23.114
+8026000,152,CSAH 152 (Brooklyn Blvd) at 63rd Ave N,192.168.123.104
+8026000,152,CSAH 152 (Brooklyn Blvd) at 63rd Ave N,192.168.123.111
+8026100,152,CSAH 152 (Brooklyn Blvd) at 65th Ave N,192.168.18.136
+8026100,152,CSAH 152 (Brooklyn Blvd) at 65th Ave N,192.168.18.143
+8026400,152,CSAH 130 (69th Ave N) at CSAH 152 (Brooklyn Blvd),192.168.18.72
+8026400,152,CSAH 130 (69th Ave N) at CSAH 152 (Brooklyn Blvd),192.168.18.79
+8026500,152,CSAH 152 (Brooklyn Blvd) at Welcome Ave N,192.168.22.203
+8026500,152,CSAH 152 (Brooklyn Blvd) at Welcome Ave N,192.168.22.210
+8026600,152,CSAH 152 (Brooklyn Blvd) at Noble Ave / 71st Ave,192.168.23.43
+8026600,152,CSAH 152 (Brooklyn Blvd) at Noble Ave / 71st Ave,192.168.23.50
+8026700,152,CSAH 152 (Brooklyn Blvd) at 73rd Ave N / Regent Ave,192.168.23.10
+8026700,152,CSAH 152 (Brooklyn Blvd) at 73rd Ave N / Regent Ave,192.168.23.17
+8026800,152,CSAH 152 (Brooklyn Blvd / Osseo Rd) at 49th Ave N BACKHAUL,192.168.23.139
+8026800,152,CSAH 152 (Brooklyn Blvd / Osseo Rd) at 49th Ave N BACKHAUL,192.168.23.146
+8027000,61,CSAH 9 (Rockford Rd) at CSAH 61 (Northwest Blvd),192.168.38.107
+8027000,61,CSAH 9 (Rockford Rd) at CSAH 61 (Northwest Blvd),192.168.38.114
+8027100,39,CSAH 39 (Valley View Rd) at CSAH 60 (Baker Rd/Mitchell Rd) BACKHAUL,192.168.132.136
+8027100,39,CSAH 39 (Valley View Rd) at CSAH 60 (Baker Rd/Mitchell Rd) BACKHAUL,192.168.132.143
+8027200,130,CSAH 8 (71st Ave) at CSAH 130 (Broadway Ave),192.168.51.168
+8027200,130,CSAH 8 (71st Ave) at CSAH 130 (Broadway Ave),192.168.51.175
+8000300,9,CSAH 9 (Rockford / 42nd) at CSAH 102 (Douglas Dr),192.168.115.239
+8027300,61,CSAH 61 (Plymouth Rd) at I-394 N Frontage Rd,192.168.39.107
+8027300,61,CSAH 61 (Plymouth Rd) at I-394 N Frontage Rd,192.168.39.114
+8027400,158,CSAH 158 (Vernon Ave) at Blake Rd / Olinger Blvd,192.168.131.104
+8027400,158,CSAH 158 (Vernon Ave) at Blake Rd / Olinger Blvd,192.168.131.111
+8027500,158,CSAH 158 (Vernon Ave) at Tracy Ave,192.168.131.136
+8027500,158,CSAH 158 (Vernon Ave) at Tracy Ave,192.168.131.143
+8027600,17,CSAH 17 (France Ave) at I-494 N Ramp / 78th St,192.168.35.107
+8027600,17,CSAH 17 (France Ave) at I-494 N Ramp / 78th St,192.168.35.114
+8027700,17,CSAH 17 (France Ave) at I-494 S Ramp,192.168.35.139
+8027700,17,CSAH 17 (France Ave) at I-494 S Ramp,192.168.35.146
+8027800,32,CSAH 32 (Penn Ave) at 69th St W,192.168.19.40
+8027800,32,CSAH 32 (Penn Ave) at 69th St W,192.168.19.47
+8027900,61,CSAH 61 (Shady Oak Rd) at Dominic Dr / Smetana Rd,192.168.28.139
+8027900,61,CSAH 61 (Shady Oak Rd) at Dominic Dr / Smetana Rd,192.168.28.146
+8028000,6,CSAH 6 (County Road 6) at Fernbrook Ln - Master Controller,192.168.28.75
+8028000,6,CSAH 6 (County Road 6) at Fernbrook Ln - Master Controller,192.168.28.82
+8028100,28,CSAH 28 (E Bush Lake Rd) at 84th St W / Chalet Rd,192.168.132.72
+8028100,28,CSAH 28 (E Bush Lake Rd) at 84th St W / Chalet Rd,192.168.132.79
+8028200,70,CSAH 70 (Medicine Lake Rd) at Hillsboro Ave,192.168.28.203
+8028200,70,CSAH 70 (Medicine Lake Rd) at Hillsboro Ave,192.168.28.210
+8028500,53,CSAH 53 (66th St) at Cub Shopping Ctr,192.168.37.9
+8028500,53,CSAH 53 (66th St) at Cub Shopping Ctr,192.168.37.16
+8028800,61,CSAH 5 (Minnetonka Blvd) at CSAH 61 E Jct (Shady Oak Rd) - Master Controller,192.168.41.40
+8028800,61,CSAH 5 (Minnetonka Blvd) at CSAH 61 E Jct (Shady Oak Rd) - Master Controller,192.168.41.47
+8029100,10,CSAH 10 (Bass Lake Rd) at Sherburne Ave,192.168.46.104
+8029100,10,CSAH 10 (Bass Lake Rd) at Sherburne Ave,192.168.46.111
+8029200,70,CSAH 70 (Medicine Lake Rd) at Nevada Ave,192.168.29.10
+8029200,70,CSAH 70 (Medicine Lake Rd) at Nevada Ave,192.168.29.17
+8029300,6,CSAH 6 (County Road 6) at Dunkirk Ln,192.168.26.235
+8029300,6,CSAH 6 (County Road 6) at Dunkirk Ln,192.168.26.243
+8029400,1,CSAH 1 (Old Shakopee Rd) at CSAH 28 (Bush Lake Rd),192.168.47.104
+8029400,1,CSAH 1 (Old Shakopee Rd) at CSAH 28 (Bush Lake Rd),192.168.47.111
+8029500,1,CSAH 1 (Old Shakopee Rd) at Hampshire Ave,192.168.47.136
+8029500,1,CSAH 1 (Old Shakopee Rd) at Hampshire Ave,192.168.47.143
+8029700,1,CSAH 1 (Old Shakopee Rd) at 98th St W,192.168.48.40
+8029700,1,CSAH 1 (Old Shakopee Rd) at 98th St W,192.168.48.47
+8030000,17,CSAH 17 (France Ave) at Minnesota Dr / W 77th St - Master Controller,192.168.35.75
+8030000,17,CSAH 17 (France Ave) at Minnesota Dr / W 77th St - Master Controller,192.168.35.82
+8030200,109,CSAH 109 (Weaver Lake Rd) at 83rd Way N,192.168.16.40
+8030200,109,CSAH 109 (Weaver Lake Rd) at 83rd Way N,192.168.16.47
+8030600,60,CSAH 60 (Baker Rd) at CSAH 62 (62nd St W),192.168.135.200
+8030600,60,CSAH 60 (Baker Rd) at CSAH 62 (62nd St W),192.168.135.207
+8030700,66,CSAH 66 (Duluth St) at TH 100 W Frontage Rd / Lilac Dr N,192.168.124.168
+8030700,66,CSAH 66 (Duluth St) at TH 100 W Frontage Rd / Lilac Dr N,192.168.124.175
+8030800,28,CSAH 28 (E Bush Lake Rd) at 78th St W ,192.168.132.8
+8030800,28,CSAH 28 (E Bush Lake Rd) at 78th St W ,192.168.132.15
+8030900,32,CSAH 32 (Penn Ave) at 94th St W,192.168.40.136
+8030900,32,CSAH 32 (Penn Ave) at 94th St W,192.168.40.143
+8031000,1,CSAH 1 (Old Shakopee Rd / 98th St) at Grand Ave,192.168.48.200
+8031000,1,CSAH 1 (Old Shakopee Rd / 98th St) at Grand Ave,192.168.48.207
+8031100,61,CSAH 61 (Xenium La) at Carlson Pkwy / 6th Ave N BACKHAUL,192.168.39.43
+8031100,61,CSAH 61 (Xenium La) at Carlson Pkwy / 6th Ave N BACKHAUL,192.168.39.50
+8031200,39,CSAH 39 (Valley View Rd) at Prairie Center Drive,192.168.54.232
+8031200,39,CSAH 39 (Valley View Rd) at Prairie Center Drive,192.168.54.239
+8031500,61,CSAH 61 (Hemlock Lane) at West Eagle Lake Dr,192.168.37.138
+8031500,61,CSAH 61 (Hemlock Lane) at West Eagle Lake Dr,192.168.37.145
+8031600,10,CSAH 10 (Bass Lake Rd) at Sycamore Ln / Prudential Bldg - Master Controller,192.168.45.47
+8031700,15,CSAH 15 (Shoreline Dr) at CSAH 51 (Sunset Dr),192.168.128.104
+8031700,15,CSAH 15 (Shoreline Dr) at CSAH 51 (Sunset Dr),192.168.128.111
+8031800,109,CSAH 12 (Noble Ave / Noble Pkwy) at CSAH 109 (85th Ave N)  BACKHAUL,192.168.17.8
+8031800,109,CSAH 12 (Noble Ave / Noble Pkwy) at CSAH 109 (85th Ave N)  BACKHAUL,192.168.17.15
+8031900,3,CSAH 3 (Excelsior Blvd) at Woodland Rd,192.168.51.232
+8031900,3,CSAH 3 (Excelsior Blvd) at Woodland Rd,192.168.51.239
+8032000,14,CSAH 14 (Zane Ave) at CSAH 30 (93rd Ave N),192.168.22.43
+8032000,14,CSAH 14 (Zane Ave) at CSAH 30 (93rd Ave N),192.168.22.50
+8032100,9,CSAH 9 (Rockford Rd) at Fernbrook Ln,192.168.114.104
+8032100,9,CSAH 9 (Rockford Rd) at Fernbrook Ln,192.168.114.111
+8032200,28,CSAH 28 (E Bush Lake Rd) at Highwood Dr,192.168.132.104
+8032200,28,CSAH 28 (E Bush Lake Rd) at Highwood Dr,192.168.132.111
+8032300,130,CSAH 30 (93rd Ave) at CSAH 130 (Elm Creek Blvd) - BACKHAUL,192.168.31.75
+8032300,130,CSAH 30 (93rd Ave) at CSAH 130 (Elm Creek Blvd) - BACKHAUL,192.168.31.82
+8032400,130,CSAH 109 (Weaver Lake Rd) at CSAH 130 (Elm Creek) - Master Controller,192.168.31.171
+8032400,130,CSAH 109 (Weaver Lake Rd) at CSAH 130 (Elm Creek) - Master Controller,192.168.31.178
+8032700,153,CSAH 153 (Kenzie Ter) at Kenzington Apts,192.168.137.40
+8032700,153,CSAH 153 (Kenzie Ter) at Kenzington Apts,192.168.137.47
+8003900,53,CSAH 53 (66th St) at 12th Ave S,192.168.37.43
+8032900,3,CSAH 3 (Excelsior Blvd) at Quentin Ave,192.168.54.72
+8032900,3,CSAH 3 (Excelsior Blvd) at Quentin Ave,192.168.54.79
+8033000,3,CSAH 3 (Excelsior Blvd) at Monterey Dr / 38th St W,192.168.54.136
+8033000,3,CSAH 3 (Excelsior Blvd) at Monterey Dr / 38th St W,192.168.54.143
+8033100,25,CSAH 25 (County Road 25) at Beltline Blvd / Ottowa Ave S BACKHAUL,192.168.131.232
+8033100,25,CSAH 25 (County Road 25) at Beltline Blvd / Ottowa Ave S BACKHAUL,192.168.131.239
+8033150,25,CSAH 25 at Lynn,192.168.136.232
+8003900,53,CSAH 53 (66th St) at 12th Ave S,192.168.37.50
+8033150,25,CSAH 25 at Lynn,192.168.136.239
+8033200,5,CSAH 5 (Minnetonka Blvd) at CSAH 25 (County Road 25),192.168.113.40
+8033200,5,CSAH 5 (Minnetonka Blvd) at CSAH 25 (County Road 25),192.168.113.47
+8033300,88,CSAH 88 (New Brighton Blvd) at St Anthony Blvd,192.168.137.104
+8033300,88,CSAH 88 (New Brighton Blvd) at St Anthony Blvd,192.168.137.111
+8033400,88,CSAH 88 (New Brighton Blvd) at CSAH 94 (29th Ave NE),192.168.137.136
+8033400,88,CSAH 88 (New Brighton Blvd) at CSAH 94 (29th Ave NE),192.168.137.143
+8033500,136,CSAH 136 (Silver Lake Rd) at St Anthony Blvd,192.168.137.72
+8033500,136,CSAH 136 (Silver Lake Rd) at St Anthony Blvd,192.168.137.79
+8033600,81,CSAH 81 (Broadway Ave) at Abbott Ave N,192.168.27.40
+8033600,81,CSAH 81 (Broadway Ave) at Abbott Ave N,192.168.27.47
+8033700,81,CSAH 81 (Bottineau Blvd) at 36th Ave N,192.168.43.232
+8033700,81,CSAH 81 (Bottineau Blvd) at 36th Ave N,192.168.43.239
+8004000,53,CSAH 53 (66th St) at Bloomington Ave S - Master Controller,192.168.37.75
+8033800,81,CSAH 81 (Bottineau Blvd) at 40th Ave N,192.168.43.200
+8033800,81,CSAH 81 (Bottineau Blvd) at 40th Ave N,192.168.43.207
+8033900,81,CSAH 81 (Bottineau Blvd) at 41st Ave N,192.168.43.168
+8033900,81,CSAH 81 (Bottineau Blvd) at 41st Ave N,192.168.43.175
+8034000,81,CSAH 9 (42nd Ave) at CSAH 81 (Bottineau Blvd),192.168.43.136
+8034000,81,CSAH 9 (42nd Ave) at CSAH 81 (Bottineau Blvd),192.168.43.143
+8034100,81,CSAH 10 (Bass Lake Rd / 56th Ave N) at CSAH 81 (Bottineau Blvd),192.168.43.8
+8004000,53,CSAH 53 (66th St) at Bloomington Ave S - Master Controller,192.168.37.82
+8034100,81,CSAH 10 (Bass Lake Rd / 56th Ave N) at CSAH 81 (Bottineau Blvd),192.168.43.15
+8034200,81,CSAH 81 (Bottineau Blvd) at 63rd Ave N,192.168.42.232
+8034200,81,CSAH 81 (Bottineau Blvd) at 63rd Ave N,192.168.42.239
+8034300,81,CSAH 8 (71st Ave) at CSAH 81 (Bottineau Blvd) BACKHAUL,192.168.42.200
+8034300,81,CSAH 8 (71st Ave) at CSAH 81 (Bottineau Blvd) BACKHAUL,192.168.42.207
+8034400,81,CSAH 81 (Bottineau Blvd) at 73rd Ave N BACKHAUL,192.168.42.168
+8034400,81,CSAH 81 (Bottineau Blvd) at 73rd Ave N BACKHAUL,192.168.42.175
+8034500,130,CSAH 81 (Bottineau Blvd) at CSAH 130 / CSAH 152 (Brooklyn Blvd),192.168.33.43
+8034500,130,CSAH 81 (Bottineau Blvd) at CSAH 130 / CSAH 152 (Brooklyn Blvd),192.168.33.50
+8034700,81,CSAH 81 (Bottineau Blvd) at CSAH 109 (85th Ave N) - Master Controller,192.168.30.235
+8034700,81,CSAH 81 (Bottineau Blvd) at CSAH 109 (85th Ave N) - Master Controller,192.168.30.242
+8004200,52,CSAH 52 (Nicollet Ave) at 70th St,192.168.126.104
+8034800,30,CSAH 30 (93rd Ave) at CSAH 81 (County Road 81),192.168.26.10
+8034800,30,CSAH 30 (93rd Ave) at CSAH 81 (County Road 81),192.168.26.17
+8034900,81,CSAH 81 (Bottineau Blvd) at CSAH 121 (Fernbrook Ln),192.168.30.75
+8034900,81,CSAH 81 (Bottineau Blvd) at CSAH 121 (Fernbrook Ln),192.168.30.82
+8035000,81,CSAH 13 (Brockton Lane) at CSAH 81 (Industrial Blvd) / CSAH 101 (County Road 101),192.168.29.242
+8035100,101,CSAH 101 (Central Ave) at Wayzata Blvd - Master Controller,192.168.130.8
+8004200,52,CSAH 52 (Nicollet Ave) at 70th St,192.168.126.111
+8035100,101,CSAH 101 (Central Ave) at Wayzata Blvd - Master Controller,192.168.130.15
+8035300,6,CSAH 6 (County Road 6) at CSAH 101 (Central Ave),192.168.26.203
+8035300,6,CSAH 6 (County Road 6) at CSAH 101 (Central Ave),192.168.26.210
+8035600,3,CSAH 3 (Excelsior Blvd) at CSAH 17 (France Ave),192.168.54.168
+8035600,3,CSAH 3 (Excelsior Blvd) at CSAH 17 (France Ave),192.168.54.175
+8035700,81,CSAH 81 (Bottineau Blvd) at Corvalis Ave N,192.168.43.72
+8035700,81,CSAH 81 (Bottineau Blvd) at Corvalis Ave N,192.168.43.79
+8035800,9,CSAH 9 (Rockford / 42nd) at Nevada Ave,192.168.115.200
+8035800,9,CSAH 9 (Rockford / 42nd) at Nevada Ave,192.168.115.207
+8036200,10,CSAH 10 (Bass Lake Rd) at Wedgwood Rd / 63RD Ave N,192.168.45.8
+8036200,10,CSAH 10 (Bass Lake Rd) at Wedgwood Rd / 63RD Ave N,192.168.45.15
+8036300,9,CSAH 9 (42nd Ave N) at Gettysburg Ln,192.168.115.40
+8036300,9,CSAH 9 (42nd Ave N) at Gettysburg Ln,192.168.115.47
+8004300,52,CSAH 52 (Nicollet Ave) at 76th St,192.168.126.136
+8036500,61,CSAH 61 (Shady Oak Rd) at City West Pkwy (S Jct) / Bryant Lk Dr,192.168.42.40
+8036500,61,CSAH 61 (Shady Oak Rd) at City West Pkwy (S Jct) / Bryant Lk Dr,192.168.42.47
+8036600,15,CSAH 15 (Lynwood Blvd) at CSAH 110 (Commerce Blvd),192.168.128.136
+8036600,15,CSAH 15 (Lynwood Blvd) at CSAH 110 (Commerce Blvd),192.168.128.143
+8036700,109,CSAH 109 (85th Ave N) at Xylon Ave N,192.168.20.171
+8036700,109,CSAH 109 (85th Ave N) at Xylon Ave N,192.168.20.178
+8036800,101,CSAH 101 (County Rd 101) at Harmony Circle / 1st Ave,192.168.130.104
+8036800,101,CSAH 101 (County Rd 101) at Harmony Circle / 1st Ave,192.168.130.111
+8036900,61,CSAH 61 (Xenium Ln N) at Industrial Park Blvd,192.168.38.235
+8036900,61,CSAH 61 (Xenium Ln N) at Industrial Park Blvd,192.168.38.242
+8037000,152,CSAH 152 (Brooklyn Blvd) at Cub Foods Driveway,192.168.33.139
+8004300,52,CSAH 52 (Nicollet Ave) at 76th St,192.168.126.143
+8037000,152,CSAH 152 (Brooklyn Blvd) at Cub Foods Driveway,192.168.33.146
+8037100,103,CSAH 103 (West Broadway) at Rainbow Foods Driveway,192.168.51.72
+8037100,103,CSAH 103 (West Broadway) at Rainbow Foods Driveway,192.168.51.79
+8037200,1,CSAH 1 (Pioneer Trail) at CSAH 4 W Jct (Eden Prairie Rd),192.168.122.104
+8037200,1,CSAH 1 (Pioneer Trail) at CSAH 4 W Jct (Eden Prairie Rd),192.168.122.111
+8037300,1,CSAH 1 (Pioneer Trail) at Homeward Hills Rd,192.168.122.200
+8037300,1,CSAH 1 (Pioneer Trail) at Homeward Hills Rd,192.168.122.207
+8037400,1,CSAH 1 (Pioneer Trail) at Franlo Rd BACKHAUL,192.168.123.8
+8037400,1,CSAH 1 (Pioneer Trail) at Franlo Rd BACKHAUL,192.168.123.15
+8004400,32,CSAH 32 (Penn Ave) at 76th St W,192.168.19.104
+8037500,61,CSAH 61 (Plymouth Rd) at Sherwood Place / Regency Woods Apartments,192.168.39.203
+8037500,61,CSAH 61 (Plymouth Rd) at Sherwood Place / Regency Woods Apartments,192.168.39.210
+8037600,158,CSAH 158 (Vernon Ave) at Eden Ave / Vernon Terrace,192.168.131.168
+8037600,158,CSAH 158 (Vernon Ave) at Eden Ave / Vernon Terrace,192.168.131.175
+8038000,30,CSAH 30 (93rd Ave) at Fernbrook Ln N,192.168.25.203
+8038000,30,CSAH 30 (93rd Ave) at Fernbrook Ln N,192.168.25.210
+8038100,4,CSAH 4 (Eden Prairie Rd) at Wagner Way,192.168.133.40
+8004400,32,CSAH 32 (Penn Ave) at 76th St W,192.168.19.111
+8038100,4,CSAH 4 (Eden Prairie Rd) at Wagner Way,192.168.133.47
+8038200,30,CSAH 30 (93rd Ave) at Jefferson Hwy / Central Ave,192.168.26.75
+8038200,30,CSAH 30 (93rd Ave) at Jefferson Hwy / Central Ave,192.168.26.82
+8038300,152,CSAH 152 (Brooklyn Blvd) at Unity Ave N,192.168.22.235
+8038300,152,CSAH 152 (Brooklyn Blvd) at Unity Ave N,192.168.22.242
+8038400,6,CSAH 6 (County Road 6) at Niagara Ln,192.168.28.43
+8038400,6,CSAH 6 (County Road 6) at Niagara Ln,192.168.28.50
+8038600,9,CSAH 9 (Rockford Rd) at Vinewood Ln,192.168.114.168
+8038600,9,CSAH 9 (Rockford Rd) at Vinewood Ln,192.168.114.175
+8038700,9,CSAH 9 (Rockford Rd) at Annapolis Ln / Berkshire Ln,192.168.114.136
+8038700,9,CSAH 9 (Rockford Rd) at Annapolis Ln / Berkshire Ln,192.168.114.143
+8038800,10,CSAH 10 (Bass Lake Rd) at Nathan Ln,192.168.45.168
+8038800,10,CSAH 10 (Bass Lake Rd) at Nathan Ln,192.168.45.175
+8004500,1,CSAH 1 (Old Shakopee Rd / 98th St) at Lyndale Ave,192.168.48.136
+8038900,61,CSAH 61 (Hemlock Lane) at 69th Ave N,192.168.37.107
+8038900,61,CSAH 61 (Hemlock Lane) at 69th Ave N,192.168.37.114
+8039000,81,CSAH 81 (County Road 81) at CR 202 (Zachary Lane),192.168.30.171
+8039000,81,CSAH 81 (County Road 81) at CR 202 (Zachary Lane),192.168.30.178
+8039100,19,CSAH 19 (Oak St) at Water St,192.168.128.200
+8039100,19,CSAH 19 (Oak St) at Water St,192.168.128.207
+8039200,61,CSAH 61 (Hemlock Lane) at E Fish Lake Rd,192.168.37.170
+8004500,1,CSAH 1 (Old Shakopee Rd / 98th St) at Lyndale Ave,192.168.48.143
+8039200,61,CSAH 61 (Hemlock Lane) at E Fish Lake Rd,192.168.37.177
+8039300,61,CSAH 61 (Shady Oak Rd) at K-tel Dr BACKHAUL,192.168.28.171
+8039300,61,CSAH 61 (Shady Oak Rd) at K-tel Dr BACKHAUL,192.168.28.178
+8039400,130,CSAH 130 (77th Ave N) at Jefferson Hwy / Kilmer Ln - Master Controller,192.168.32.203
+8039400,130,CSAH 130 (77th Ave N) at Jefferson Hwy / Kilmer Ln - Master Controller,192.168.32.210
+8039500,102,CSAH 102 (Douglas Dr N) at TH 55 (N Frontage Rd),192.168.15.168
+8039500,102,CSAH 102 (Douglas Dr N) at TH 55 (N Frontage Rd),192.168.15.175
+8039600,61,CSAH 61 (Plymouth Rd) at Cedar Lake Rd,192.168.40.232
+8039600,61,CSAH 61 (Plymouth Rd) at Cedar Lake Rd,192.168.40.239
+8039700,81,CSAH 81 (Bottineau Blvd) at Greenhaven Dr / Lakeland Ave,192.168.42.104
+8039700,81,CSAH 81 (Bottineau Blvd) at Greenhaven Dr / Lakeland Ave,192.168.42.111
+8039800,14,CSAH 14 (Douglas Dr) at 109th Ave N - Master Controller,192.168.21.204
+8039800,14,CSAH 14 (Douglas Dr) at 109th Ave N - Master Controller,192.168.21.211
+8004600,32,CSAH 32 (Penn Ave) at 75th St W,192.168.19.72
+8039900,27,CSAH 27 (Stinson Blvd NE) at 37th Ave NE,192.168.137.200
+8039900,27,CSAH 27 (Stinson Blvd NE) at 37th Ave NE,192.168.137.207
+8040000,101,CSAH 101 (Central Ave) at 14th Ave N - Master Controller,192.168.20.75
+8040000,101,CSAH 101 (Central Ave) at 14th Ave N - Master Controller,192.168.20.82
+8040100,109,CSAH 103 (West Broadway) at CSAH 109 (85th Ave N),192.168.20.107
+8040100,109,CSAH 103 (West Broadway) at CSAH 109 (85th Ave N),192.168.20.114
+8040200,109,CSAH 109 (85th Ave N) at NHCC Entrance - Master Controller,192.168.20.203
+8004600,32,CSAH 32 (Penn Ave) at 75th St W,192.168.19.79
+8040200,109,CSAH 109 (85th Ave N) at NHCC Entrance - Master Controller,192.168.20.210
+8040300,10,CSAH 10 (Bass Lake Rd) at Quinwood Ln,192.168.45.72
+8040300,10,CSAH 10 (Bass Lake Rd) at Quinwood Ln,192.168.45.79
+8040400,61,CSAH 61 (Shady Oak Rd) at Main St,192.168.41.72
+8040400,61,CSAH 61 (Shady Oak Rd) at Main St,192.168.41.79
+8040500,62,CSAH 62 (Townline  Rd / 62nd St W) at Glen Lake Blvd,192.168.135.136
+8040500,62,CSAH 62 (Townline  Rd / 62nd St W) at Glen Lake Blvd,192.168.135.143
+8040600,62,CSAH 62 (Townline Rd) at S Frontage Rd / W 62nd St,192.168.135.168
+8040600,62,CSAH 62 (Townline Rd) at S Frontage Rd / W 62nd St,192.168.135.175
+8040800,81,CSAH 81 (Bottineau Blvd) at Wilshire Blvd,192.168.43.40
+8040800,81,CSAH 81 (Bottineau Blvd) at Wilshire Blvd,192.168.43.47
+8041000,130,CSAH 130 (Elm Creek Blvd) at 89th Ave N,192.168.31.107
+8041000,130,CSAH 130 (Elm Creek Blvd) at 89th Ave N,192.168.31.114
+8004700,35,CSAH 35 (Portland Ave) at 70th St E,192.168.127.104
+8041700,61,CSAH 10 (Bass Lake Rd) at CSAH 61 (Northwest Blvd),192.168.37.235
+8041700,61,CSAH 10 (Bass Lake Rd) at CSAH 61 (Northwest Blvd),192.168.37.242
+8041800,103,CSAH 103 (West Broadway) at 84th Ave N (College Entr),192.168.20.139
+8041800,103,CSAH 103 (West Broadway) at 84th Ave N (College Entr),192.168.20.146
+8042100,130,CSAH 130 (Elm Creek Blvd) at Grove Dr,192.168.31.203
+8042100,130,CSAH 130 (Elm Creek Blvd) at Grove Dr,192.168.31.210
+8042200,109,CSAH 109 (85th Ave N) at Regent Ave N,192.168.20.235
+8004700,35,CSAH 35 (Portland Ave) at 70th St E,192.168.127.111
+8042200,109,CSAH 109 (85th Ave N) at Regent Ave N,192.168.20.242
+8042300,109,CSAH 109 (85th Ave N) at Xerxes Ave N,192.168.17.40
+8042300,109,CSAH 109 (85th Ave N) at Xerxes Ave N,192.168.17.47
+8042400,130,CSAH 130 (77th Ave N) at Northland Dr N,192.168.32.235
+8042400,130,CSAH 130 (77th Ave N) at Northland Dr N,192.168.32.242
+8042500,5,CSAH 5 (Minnetonka Blvd) at CSAH 60 (Baker Rd),192.168.134.40
+8042500,5,CSAH 5 (Minnetonka Blvd) at CSAH 60 (Baker Rd),192.168.134.47
+8042600,152,CSAH 152 (Brooklyn Blvd) at Jolly Lane,192.168.33.107
+8042600,152,CSAH 152 (Brooklyn Blvd) at Jolly Lane,192.168.33.114
+8042700,152,CSAH 152 (Brooklyn Blvd) at Kentucky Ave N BACKHAUL,192.168.33.203
+8042700,152,CSAH 152 (Brooklyn Blvd) at Kentucky Ave N BACKHAUL,192.168.33.210
+8042800,61,CSAH 61 (Northwest Blvd) at Campus Dr,192.168.38.170
+8042800,61,CSAH 61 (Northwest Blvd) at Campus Dr,192.168.38.177
+8004800,101,CSAH 5 (Minnetonka Blvd) at CSAH 101 BACKHAUL,192.168.130.136
+8042900,61,CSAH 61 (Shady Oak Rd) at City West Pkwy (N Jct),192.168.42.8
+8042900,61,CSAH 61 (Shady Oak Rd) at City West Pkwy (N Jct),192.168.42.15
+8043200,30,CSAH 30 (93rd Ave) at CR 202 (Zachary Lane) - Master Controller,192.168.26.43
+8043200,30,CSAH 30 (93rd Ave) at CR 202 (Zachary Lane) - Master Controller,192.168.26.50
+8043600,32,CSAH 32 (Penn Ave) at 7900 Driveway,192.168.19.168
+8043600,32,CSAH 32 (Penn Ave) at 7900 Driveway,192.168.19.175
+8043800,10,CSAH 10 (Bass Lake Rd) at International Pkwy / Gettysburg Ave,192.168.45.200
+8004800,101,CSAH 5 (Minnetonka Blvd) at CSAH 101 BACKHAUL,192.168.130.143
+8043800,10,CSAH 10 (Bass Lake Rd) at International Pkwy / Gettysburg Ave,192.168.45.207
+8043900,3,CSAH 3 (Excelsior Blvd) at Williston Rd,192.168.52.8
+8043900,3,CSAH 3 (Excelsior Blvd) at Williston Rd,192.168.52.15
+8044000,4,CSAH 4 (Eden Prairie Rd) at Glen Lake Blvd/ Williams Ln ,192.168.132.200
+8044000,4,CSAH 4 (Eden Prairie Rd) at Glen Lake Blvd/ Williams Ln ,192.168.132.207
+8044200,3,CSAH 3 (Excelsior Blvd) at Park Nicollet Blvd BACKHAUL,192.168.54.40
+8044200,3,CSAH 3 (Excelsior Blvd) at Park Nicollet Blvd BACKHAUL,192.168.54.47
+8044500,52,CSAH 52 (Nicollet Ave) at 77th St,192.168.126.168
+8044500,52,CSAH 52 (Nicollet Ave) at 77th St,192.168.126.175
+8044600,1,CSAH 1 (Old Shakopee Rd) at Nesbitt Ave,192.168.47.168
+8044600,1,CSAH 1 (Old Shakopee Rd) at Nesbitt Ave,192.168.47.175
+8044800,61,CSAH 61 (Xenium Ln N) at 24th Ave N,192.168.38.203
+8044800,61,CSAH 61 (Xenium Ln N) at 24th Ave N,192.168.38.210
+8005200,10,CSAH 10 (Bass Lake Rd) at Xerxes Ave N,192.168.46.168
+8044900,62,CSAH 62 (Townline Rd / 62nd St W) at CSAH 101 (Dell Rd),192.168.135.40
+8044900,62,CSAH 62 (Townline Rd / 62nd St W) at CSAH 101 (Dell Rd),192.168.135.47
+8045000,62,CSAH 62 (Townline Rd/ 62nd St W) at Scenic Hts Dr / Chatham Way,192.168.135.72
+8045000,62,CSAH 62 (Townline Rd/ 62nd St W) at Scenic Hts Dr / Chatham Way,192.168.135.79
+8045100,62,CSAH 62 (Townline Rd / 62nd St W) at Woodland Rd / Ginger Dr,192.168.135.104
+8045100,62,CSAH 62 (Townline Rd / 62nd St W) at Woodland Rd / Ginger Dr,192.168.135.111
+8045200,5,CSAH 5 (Minnetonka Blvd) at I-494 E Ramp,192.168.134.8
+8005200,10,CSAH 10 (Bass Lake Rd) at Xerxes Ave N,192.168.46.175
+8045200,5,CSAH 5 (Minnetonka Blvd) at I-494 E Ramp,192.168.134.15
+8045400,130,CSAH 130 (West Broadway) at 76th Ave N,192.168.51.104
+8045400,130,CSAH 130 (West Broadway) at 76th Ave N,192.168.51.111
+8045500,130,CSAH 130 (69th Ave N) at Zane Ave N,192.168.47.40
+8045500,130,CSAH 130 (69th Ave N) at Zane Ave N,192.168.47.47
+8045600,30,CSAH 30 (93rd Ave) at Winnetka Ave N / Wyoming Ave N,192.168.18.168
+8045600,30,CSAH 30 (93rd Ave) at Winnetka Ave N / Wyoming Ave N,192.168.18.175
+8045700,101,CSAH 101 (Troy Lane) at 89th Ave N,192.168.15.8
+8045700,101,CSAH 101 (Troy Lane) at 89th Ave N,192.168.15.15
+8045900,35,CSAH 35 (Portland Ave) at 77th St E,192.168.127.168
+8045900,35,CSAH 35 (Portland Ave) at 77th St E,192.168.127.175
+8046000,130,CSAH 130 (Elm Creek Blvd) at 80th Circle,192.168.31.235
+8046000,130,CSAH 130 (Elm Creek Blvd) at 80th Circle,192.168.31.242
+8005400,5,CSAH 5 (Minnetonka Blvd) at Hampshire Ave S,192.168.112.136
+8046100,130,CSAH 130 (Elm Creek Blvd) at Vinewood Ln,192.168.32.8
+8046100,130,CSAH 130 (Elm Creek Blvd) at Vinewood Ln,192.168.32.15
+8046500,101,CSAH 16 (McGinty Rd West) at CSAH 101 (Bushway Rd),192.168.130.72
+8046500,101,CSAH 16 (McGinty Rd West) at CSAH 101 (Bushway Rd),192.168.130.79
+8046600,101,CSAH 101 at Lake Street Extension,192.168.130.168
+8046600,101,CSAH 101 at Lake Street Extension,192.168.130.175
+8046900,101,CSAH 15 (Gleason Lake Rd) at 101 (Bushway Rd) / TH 12 EB Ramp,192.168.130.40
+8005400,5,CSAH 5 (Minnetonka Blvd) at Hampshire Ave S,192.168.112.143
+8046900,101,CSAH 15 (Gleason Lake Rd) at 101 (Bushway Rd) / TH 12 EB Ramp,192.168.130.47
+8047000,110,CSAH 110 (Commerce Blvd) at Three Points Blvd,192.168.129.8
+8047000,110,CSAH 110 (Commerce Blvd) at Three Points Blvd,192.168.129.15
+8047100,130,CSAH 130 (Elm Creek Blvd) at Maple Knoll Way,192.168.31.139
+8047100,130,CSAH 130 (Elm Creek Blvd) at Maple Knoll Way,192.168.31.146
+8047200,101,CSAH 101 (Chanhassen Rd) at Hanus Rd / School Entr,192.168.131.40
+8047200,101,CSAH 101 (Chanhassen Rd) at Hanus Rd / School Entr,192.168.131.47
+8047300,109,CSAH 109 (Weaver Lake Rd) at Vinewood Ln BACKHAUL,192.168.16.72
+8047300,109,CSAH 109 (Weaver Lake Rd) at Vinewood Ln BACKHAUL,192.168.16.79
+8047400,109,CSAH 109 (Weaver Lake Rd) at Pineview Ln,192.168.16.104
+8047400,109,CSAH 109 (Weaver Lake Rd) at Pineview Ln,192.168.16.111
+8047600,81,CSAH 81 (Bottineau Blvd) at 79th Ave N,192.168.42.136
+8047600,81,CSAH 81 (Bottineau Blvd) at 79th Ave N,192.168.42.143
+8005600,3,CSAH 3 (Excelsior Blvd) at Hospital Dr ,192.168.53.168
+8047700,31,CSAH 31 (York Ave) at Southdale Exit,192.168.134.72
+8047700,31,CSAH 31 (York Ave) at Southdale Exit,192.168.134.79
+8048100,4,CSAH 4 (Eden Prairie Rd) at Scenic Heights Rd,192.168.133.136
+8048100,4,CSAH 4 (Eden Prairie Rd) at Scenic Heights Rd,192.168.133.143
+8048400,8,CSAH 8 (West Broadway) at 57th Ave N,192.168.29.107
+8048400,8,CSAH 8 (West Broadway) at 57th Ave N,192.168.29.114
+8048500,1,CSAH 1 (Pioneer Trail) at Mitchell Rd,192.168.122.136
+8005600,3,CSAH 3 (Excelsior Blvd) at Hospital Dr ,192.168.53.175
+8048500,1,CSAH 1 (Pioneer Trail) at Mitchell Rd,192.168.122.143
+8048600,6,CSAH 6 (County Road 6) at Annapolis Ln,192.168.28.107
+8048600,6,CSAH 6 (County Road 6) at Annapolis Ln,192.168.28.114
+8048700,109,CSAH 109 (85th Ave N) at Logan Ave N/ Edinbugh Center Dr,192.168.17.104
+8048700,109,CSAH 109 (85th Ave N) at Logan Ave N/ Edinbugh Center Dr,192.168.17.111
+8048800,4,CSAH 4 (Eden Prairie Rd) at Edenwood Dr BACKHAUL,192.168.132.232
+8048800,4,CSAH 4 (Eden Prairie Rd) at Edenwood Dr BACKHAUL,192.168.132.239
+8048900,53,CSAH 53 (66th St) at Southdale Exit,192.168.26.139
+8048900,53,CSAH 53 (66th St) at Southdale Exit,192.168.26.146
+8049000,3,CSAH 3 (Excelsior Blvd) at CSAH 101 (County Rd 101),192.168.51.200
+8049000,3,CSAH 3 (Excelsior Blvd) at CSAH 101 (County Rd 101),192.168.51.207
+8049100,101,CSAH 101 (County Rd 101) at Hutchins Dr,192.168.131.8
+8049100,101,CSAH 101 (County Rd 101) at Hutchins Dr,192.168.131.15
+8005700,17,CSAH 17 (France Ave) at 65th St W,192.168.33.235
+8049200,101,CSAH 101 (County Rd 101) at Seven Hi Drive (Cub Foods),192.168.130.232
+8049200,101,CSAH 101 (County Rd 101) at Seven Hi Drive (Cub Foods),192.168.130.239
+8049300,130,CSAH 61 (Hemlock Lane) at CSAH 130 (Elm Creek Blvd),192.168.33.75
+8049300,130,CSAH 61 (Hemlock Lane) at CSAH 130 (Elm Creek Blvd),192.168.33.82
+8049400,4,CSAH 4 (Eden Paririe Rd) at Timber Lake Dr / Lincoln Ln,192.168.133.104
+8049400,4,CSAH 4 (Eden Paririe Rd) at Timber Lake Dr / Lincoln Ln,192.168.133.111
+8049500,4,CSAH 4 (Eden Prairie Rd) at Candlewood Pkwy,192.168.133.168
+8005700,17,CSAH 17 (France Ave) at 65th St W,192.168.33.242
+8049500,4,CSAH 4 (Eden Prairie Rd) at Candlewood Pkwy,192.168.133.175
+8049700,4,CSAH 4 (Eden Prairie Rd) at Terry Pine Dr,192.168.133.72
+8049700,4,CSAH 4 (Eden Prairie Rd) at Terry Pine Dr,192.168.133.79
+8049800,24,CSAH 24 (County Rd 24) at Shopping Center Entrance (Plymouth Station),192.168.125.232
+8049800,24,CSAH 24 (County Rd 24) at Shopping Center Entrance (Plymouth Station),192.168.125.239
+8049900,121,CSAH 121 (Fernbrook La) at Maple Grove SHS Entr,192.168.17.200
+8049900,121,CSAH 121 (Fernbrook La) at Maple Grove SHS Entr,192.168.17.207
+8050200,61,CO RD 47 (Pineview Lane) at CSAH 61 (Northwest Blvd) BACKHAUL,192.168.38.10
+8050200,61,CO RD 47 (Pineview Lane) at CSAH 61 (Northwest Blvd) BACKHAUL,192.168.38.17
+8050500,35,CSAH 35 (Portland Ave) at 64th St E,192.168.54.200
+8050500,35,CSAH 35 (Portland Ave) at 64th St E,192.168.54.207
+8050600,30,CSAH 30 (93rd Ave) at CSAH 103 (West Broadway),192.168.16.8
+8006000,32,CSAH 32 (Penn Ave) at 90th St W,192.168.40.104
+8050600,30,CSAH 30 (93rd Ave) at CSAH 103 (West Broadway),192.168.16.15
+8050700,109,CSAH 109 (Weaver Lake Rd) at Main St,192.168.16.136
+8050700,109,CSAH 109 (Weaver Lake Rd) at Main St,192.168.16.143
+8050800,130,CSAH 130 (Elm Creek Blvd) at Main St - Master Controller,192.168.32.43
+8050800,130,CSAH 130 (Elm Creek Blvd) at Main St - Master Controller,192.168.32.50
+8050900,40,CSAH 40 (Glenwood Ave) at Xenia Ave S,192.168.132.168
+8050900,40,CSAH 40 (Glenwood Ave) at Xenia Ave S,192.168.132.175
+8006000,32,CSAH 32 (Penn Ave) at 90th St W,192.168.40.111
+8051000,14,CSAH 14 (Zane Ave) at Regent Pkwy / Edinbrook School BACKHAUL,192.168.22.74
+8051000,14,CSAH 14 (Zane Ave) at Regent Pkwy / Edinbrook School BACKHAUL,192.168.22.81
+8051100,9,CSAH 9 (Rockford Rd) at Vicksburg Ln ,192.168.125.168
+8051100,9,CSAH 9 (Rockford Rd) at Vicksburg Ln ,192.168.125.175
+8051300,39,CSAH 39 (Valley View Rd) at Market Place Dr,192.168.112.40
+8051300,39,CSAH 39 (Valley View Rd) at Market Place Dr,192.168.112.47
+8051400,1,CSAH 1 (Pioneer Trail) at Dell Rd,192.168.122.72
+8051400,1,CSAH 1 (Pioneer Trail) at Dell Rd,192.168.122.79
+8051500,24,CSAH 24 (County Rd 24) at Medina Rd BACKHAUL,192.168.39.235
+8051500,24,CSAH 24 (County Rd 24) at Medina Rd BACKHAUL,192.168.39.242
+8051600,61,CSAH 61 (Northwest Blvd) at Schmidt Lake Rd BACKHAUL,192.168.38.43
+8051600,61,CSAH 61 (Northwest Blvd) at Schmidt Lake Rd BACKHAUL,192.168.38.50
+8051700,61,CSAH 61 (Xenium La N) at Sunset Trail,192.168.39.75
+8051700,61,CSAH 61 (Xenium La N) at Sunset Trail,192.168.39.82
+8006100,156,CSAH 156 (Winnetka Ave N) at Golden Valley Rd,192.168.24.171
+8051900,109,CSAH 109 (85th Ave N) at Edinbrook Pkwy N,192.168.17.72
+8051900,109,CSAH 109 (85th Ave N) at Edinbrook Pkwy N,192.168.17.79
+8052000,1,CSAH 1 (Pioneer Trail) at Staring Lake Parkway,192.168.122.168
+8052000,1,CSAH 1 (Pioneer Trail) at Staring Lake Parkway,192.168.122.175
+8052100,1,CSAH 1 (Pioneer Trail) at Benett Place,192.168.122.232
+8052100,1,CSAH 1 (Pioneer Trail) at Benett Place,192.168.122.239
+8052200,30,CSAH 30 (93rd Ave) at Rice Lake Rd,192.168.25.235
+8006100,156,CSAH 156 (Winnetka Ave N) at Golden Valley Rd,192.168.24.178
+8052200,30,CSAH 30 (93rd Ave) at Rice Lake Rd,192.168.25.242
+8052300,110,CSAH 110 (Commerce Blvd) at Sunnyfield Rd E,192.168.129.40
+8052300,110,CSAH 110 (Commerce Blvd) at Sunnyfield Rd E,192.168.129.47
+8052400,61,CSAH 61 (Northwest Blvd) at W Medicine Lake Dr,192.168.38.139
+8052400,61,CSAH 61 (Northwest Blvd) at W Medicine Lake Dr,192.168.38.146
+8052700,10,CSAH 10 (Bass Lake Rd) at Vicksburg Ln,192.168.27.232
+8052700,10,CSAH 10 (Bass Lake Rd) at Vicksburg Ln,192.168.27.239
+8052800,73,CSAH 5 (Minnetonka Blvd) at CSAH 73 (Hopkins Crossroad),192.168.125.104
+8052800,73,CSAH 5 (Minnetonka Blvd) at CSAH 73 (Hopkins Crossroad),192.168.125.111
+8052900,130,CSAH 130 (77th Ave N) at Boone Ave N,192.168.33.10
+8052900,130,CSAH 130 (77th Ave N) at Boone Ave N,192.168.33.17
+8053200,109,CSAH 109 (85th Ave N) at Zachary Ln,192.168.16.168
+8053200,109,CSAH 109 (85th Ave N) at Zachary Ln,192.168.16.175
+8006200,9,CSAH 9 (Rockford Rd / 42nd Ave N) at CSAH 156 (Winnetka Ave),192.168.115.136
+8053300,109,CSAH 109 (85th Ave N) at Valley Forge Lane - Master Controller,192.168.16.200
+8053300,109,CSAH 109 (85th Ave N) at Valley Forge Lane - Master Controller,192.168.16.207
+8053400,10,CSAH 10 (Bass Lake Rd) at Nottingham Ave,192.168.27.200
+8053400,10,CSAH 10 (Bass Lake Rd) at Nottingham Ave,192.168.27.207
+8053500,61,CSAH 61 (Hemlock  Ln) at 62nd Place,192.168.37.203
+8053500,61,CSAH 61 (Hemlock  Ln) at 62nd Place,192.168.37.210
+8053600,152,CSAH 152 (Brooklyn Blvd) at 68th Ave N,192.168.18.104
+8006200,9,CSAH 9 (Rockford Rd / 42nd Ave N) at CSAH 156 (Winnetka Ave),192.168.115.143
+8053600,152,CSAH 152 (Brooklyn Blvd) at 68th Ave N,192.168.18.111
+8053900,130,CSAH 130 (77th Ave N) at Zachary Ln,192.168.32.139
+8053900,130,CSAH 130 (77th Ave N) at Zachary Ln,192.168.32.146
+8054000,130,CSAH 130 (77th Ave N) at Revere Ln,192.168.32.171
+8054000,130,CSAH 130 (77th Ave N) at Revere Ln,192.168.32.178
+8054100,19,CSAH 19 (Manitou Rd) at Smithtown Rd,192.168.128.232
+8054100,19,CSAH 19 (Manitou Rd) at Smithtown Rd,192.168.128.239
+8054400,101,CSAH 24 (County Road 24) at CSAH 101 (County Road 101) - Master Controller,192.168.20.43
+8054400,101,CSAH 24 (County Road 24) at CSAH 101 (County Road 101) - Master Controller,192.168.20.50
+8054500,101,CSAH 101 (County Road 101) at Medina Rd BACKHAUL,192.168.20.10
+8054500,101,CSAH 101 (County Road 101) at Medina Rd BACKHAUL,192.168.20.17
+8054600,73,CSAH 73 (Hopkins Crossroad) at Minnetonka Mills Rd / 5th St N,192.168.125.136
+8054600,73,CSAH 73 (Hopkins Crossroad) at Minnetonka Mills Rd / 5th St N,192.168.125.143
+8006300,9,CSAH 9 (Lake Dr) at Lakeview School (Indiana Ave),192.168.126.8
+8054700,158,CSAH 158 (Gleason Rd) at Vernon Ave S,192.168.131.72
+8054700,158,CSAH 158 (Gleason Rd) at Vernon Ave S,192.168.131.79
+8054800,30,CSAH 30 (93rd Ave) at Upland Ln N,192.168.25.171
+8054800,30,CSAH 30 (93rd Ave) at Upland Ln N,192.168.25.178
+8054900,28,CSAH 28 (E Bush Lake Rd) at American Blvd / Green Valley Dr,192.168.132.40
+8054900,28,CSAH 28 (E Bush Lake Rd) at American Blvd / Green Valley Dr,192.168.132.47
+8055000,32,CSAH 32 (Penn Ave) at 78th / Best Buy Entr,192.168.19.136
+8006300,9,CSAH 9 (Lake Dr) at Lakeview School (Indiana Ave),192.168.126.15
+8055000,32,CSAH 32 (Penn Ave) at 78th / Best Buy Entr,192.168.19.143
+8055100,14,CSAH 14 (Zane Ave) at Oak Grove Pkwy (97th Ave),192.168.22.10
+8055100,14,CSAH 14 (Zane Ave) at Oak Grove Pkwy (97th Ave),192.168.22.17
+8055200,9,CSAH 9 (Rockford Rd) at Polaris Ln N (Old Rockford),192.168.114.72
+8055200,9,CSAH 9 (Rockford Rd) at Polaris Ln N (Old Rockford),192.168.114.79
+8055300,9,CSAH 9 (Rockford Rd) at Dunkirk Ln / 36th Ave N,192.168.125.200
+8055300,9,CSAH 9 (Rockford Rd) at Dunkirk Ln / 36th Ave N,192.168.125.207
+8055700,1,CSAH 1 (Old Shakopee Rd) at Logan Ave S  BACKHAUL,192.168.48.8
+8055700,1,CSAH 1 (Old Shakopee Rd) at Logan Ave S  BACKHAUL,192.168.48.15
+8055800,144,CSAH 144 (141st Ave N) at Rogers High School W Entr,192.168.129.136
+8055800,144,CSAH 144 (141st Ave N) at Rogers High School W Entr,192.168.129.143
+8055850,130,CSAH 130 (Elm Creek Blvd) at Arbor Lakes Access,192.168.32.75
+8055850,130,CSAH 130 (Elm Creek Blvd) at Arbor Lakes Access,192.168.32.82
+8006400,61,CSAH 3 (Excelsior Blvd) at CSAH 61 (Shady Oak Rd) - Master Controller,192.168.41.104
+8055900,30,CSAH 30 (97th Ave) at CSAH 101 (Brockton Ln N),192.168.25.10
+8055900,30,CSAH 30 (97th Ave) at CSAH 101 (Brockton Ln N),192.168.25.17
+8055950,6,CSAH 6 (6th Ave N) at Willow Dr N,192.168.138.8
+8055950,6,CSAH 6 (6th Ave N) at Willow Dr N,192.168.138.15
+8056000,10,CSAH 10 (County Road 10) at CSAH 116 (Fletcher Ln),192.168.27.72
+8056000,10,CSAH 10 (County Road 10) at CSAH 116 (Fletcher Ln),192.168.27.79
+8056050,10,CSAH 10 (Bass Lake Rd) at Lawndale Ln N,192.168.27.168
+8006400,61,CSAH 3 (Excelsior Blvd) at CSAH 61 (Shady Oak Rd) - Master Controller,192.168.41.111
+8056050,10,CSAH 10 (Bass Lake Rd) at Lawndale Ln N,192.168.27.175
+8056150,61,CSAH 61 (Northwest Blvd) at 42nd PL N,192.168.38.75
+8056150,61,CSAH 61 (Northwest Blvd) at 42nd PL N,192.168.38.82
+8056200,3,CSAH 3 (Excelsior Blvd) at Jackson Ave N / Milwaukee St BACKHAUL,192.168.53.40
+8056200,3,CSAH 3 (Excelsior Blvd) at Jackson Ave N / Milwaukee St BACKHAUL,192.168.53.47
+8056300,101,CSAH 101 (County Road 101) at Ridgewood Rd,192.168.130.200
+8056300,101,CSAH 101 (County Road 101) at Ridgewood Rd,192.168.130.207
+8056450,130,CSAH 130 (Elm Creek Blvd) at Fountain Dr-BACKHAUL,192.168.32.107
+8056450,130,CSAH 130 (Elm Creek Blvd) at Fountain Dr-BACKHAUL,192.168.32.114
+8056550,81,CSAH 81 (County Road 81) at Maple Grove Pkwy,192.168.30.43
+8056550,81,CSAH 81 (County Road 81) at Maple Grove Pkwy,192.168.30.50
+8057000,14,CSAH 14 (Douglas Dr) at 114th Ave N,192.168.21.171
+8057000,14,CSAH 14 (Douglas Dr) at 114th Ave N,192.168.21.178
+8006500,17,CSAH 17 (France Ave) at 70th St W,192.168.34.171
+8057050,14,CSAH 12 (Noble Pkwy) at CSAH 14 (Zane Ave),192.168.21.139
+8057050,14,CSAH 12 (Noble Pkwy) at CSAH 14 (Zane Ave),192.168.21.146
+8057100,30,CSAH 30 (93rd Ave) at Troy Ln N,192.168.25.43
+8057100,30,CSAH 30 (93rd Ave) at Troy Ln N,192.168.25.50
+8057130,30,CSAH 30 & Rush Creek Boulevard ,192.168.138.40
+8057130,30,CSAH 30 & Rush Creek Boulevard ,192.168.138.47
+8057150,30,CSAH 30 (93rd Ave) at Lawndale Ln N,192.168.25.74
+8006500,17,CSAH 17 (France Ave) at 70th St W,192.168.34.178
+8057150,30,CSAH 30 (93rd Ave) at Lawndale Ln N,192.168.25.81
+8057200,30,CSAH 30 (93rd Ave) at Garland Ln N - Master Controller,192.168.25.139
+8057200,30,CSAH 30 (93rd Ave) at Garland Ln N - Master Controller,192.168.25.146
+8057250,12,CSAH 12 (Noble Pkwy) at 95th Ave N,192.168.21.75
+8057250,12,CSAH 12 (Noble Pkwy) at 95th Ave N,192.168.21.82
+8057300,61,CSAH 1 (Pioneer Trail) at CSAH 61 (Flying Cloud Dr),192.168.114.40
+8057300,61,CSAH 1 (Pioneer Trail) at CSAH 61 (Flying Cloud Dr),192.168.114.47
+8057350,61,CSAH 61 (Flying Cloud Dr) at College View Dr,192.168.114.8
+8057350,61,CSAH 61 (Flying Cloud Dr) at College View Dr,192.168.114.15
+8057400,61,CSAH 61 (Flying Cloud Dr) at Anderson Lakes Pkwy,192.168.113.232
+8057400,61,CSAH 61 (Flying Cloud Dr) at Anderson Lakes Pkwy,192.168.113.239
+8057450,61,CSAH 61 (Flying Cloud Dr) at Fountain Pl,192.168.113.200
+8057450,61,CSAH 61 (Flying Cloud Dr) at Fountain Pl,192.168.113.207
+8006600,1,CSAH 1 (Old Shakopee Rd / 98th St) at CSAH 52 (Nicollet Ave),192.168.48.232
+8057500,61,CSAH 61 (Flying Cloud Dr) at Prairie Center Dr BACKHAUL,192.168.113.168
+8057500,61,CSAH 61 (Flying Cloud Dr) at Prairie Center Dr BACKHAUL,192.168.113.175
+8057550,61,CSAH 61 (Flying Cloud Dr) at Regional Center Rd,192.168.113.136
+8057550,61,CSAH 61 (Flying Cloud Dr) at Regional Center Rd,192.168.113.143
+8057600,61,CSAH 61 (Flying Cloud Dr) at Singletree Ln,192.168.113.104
+8057600,61,CSAH 61 (Flying Cloud Dr) at Singletree Ln,192.168.113.111
+8057650,61,CSAH 61 (Flying Cloud Dr) at Leona Rd / Eden Rd,192.168.113.72
+8006600,1,CSAH 1 (Old Shakopee Rd / 98th St) at CSAH 52 (Nicollet Ave),192.168.48.239
+8057650,61,CSAH 61 (Flying Cloud Dr) at Leona Rd / Eden Rd,192.168.113.79
+8057700,47,CO RD 47 at CSAH 101 (Brockton Lane),192.168.124.40
+8057700,47,CO RD 47 at CSAH 101 (Brockton Lane),192.168.124.47
+8057750,103,CSAH 103 (Winnetka Ave N) at 109th Ave N,192.168.15.200
+8057750,103,CSAH 103 (Winnetka Ave N) at 109th Ave N,192.168.15.207
+8057800,61,CSAH 61 (Flying Cloud Dr) at Charlson Rd,192.168.135.8
+8057800,61,CSAH 61 (Flying Cloud Dr) at Charlson Rd,192.168.135.15
+8057805,39,CSAH 39 (Valley View Rd) at Plaza Dr,192.168.112.8
+8057805,39,CSAH 39 (Valley View Rd) at Plaza Dr,192.168.112.15
+8057820,10,CSAH 10 (Bass Lake Rd) at CSAH 101 (Troy Ln) - Master Controller,192.168.27.104
+8057820,10,CSAH 10 (Bass Lake Rd) at CSAH 101 (Troy Ln) - Master Controller,192.168.27.111
+8057825,10,CSAH 10 (Bass Lake Rd) at Vagabond Ln,192.168.27.136
+8057825,10,CSAH 10 (Bass Lake Rd) at Vagabond Ln,192.168.27.143
+8006800,3,CSAH 3 (Excelsior Blvd) at 11th Ave S,192.168.52.136
+8057830,101,CSAH 101 (Troy La N) at 70th Pl N,192.168.45.104
+8057830,101,CSAH 101 (Troy La N) at 70th Pl N,192.168.45.111
+8057835,13,CSAH 13 (Brockton Lane) at S Diamond Lake Rd,192.168.18.8
+8057835,13,CSAH 13 (Brockton Lane) at S Diamond Lake Rd,192.168.18.15
+8057845,81,CSAH 81 (Bottineau Blvd) at 83rd Ave N BACKHAUL,192.168.42.72
+8057845,81,CSAH 81 (Bottineau Blvd) at 83rd Ave N BACKHAUL,192.168.42.79
+8057850,112,CSAH 112 (Wayzata Blvd) at Old Crystal Bay Rd N,192.168.123.40
+8006800,3,CSAH 3 (Excelsior Blvd) at 11th Ave S,192.168.52.143
+8057850,112,CSAH 112 (Wayzata Blvd) at Old Crystal Bay Rd N,192.168.123.47
+8057855,112,CSAH 112 (Wayzata Blvd) at Willow Dr N ,192.168.123.72
+8057855,112,CSAH 112 (Wayzata Blvd) at Willow Dr N ,192.168.123.79
+8057860,112,CSAH 112 (Wayzata Blvd) at CSAH 146 (Brown Rd N),192.168.31.10
+8057860,112,CSAH 112 (Wayzata Blvd) at CSAH 146 (Brown Rd N),192.168.31.17
+8057865,112,CSAH 112 (Wayzata Blvd) at Lake St,192.168.31.44
+8057865,112,CSAH 112 (Wayzata Blvd) at Lake St,192.168.31.51
+8057870,81,CSAH 81 (Bottineau Blvd) at 47th Ave N,192.168.43.104
+8057870,81,CSAH 81 (Bottineau Blvd) at 47th Ave N,192.168.43.111
+8057875,116,CO RD 116 (County Road 116) at Hackamore Rd BACKHAUL,192.168.124.8
+8057875,116,CO RD 116 (County Road 116) at Hackamore Rd BACKHAUL,192.168.124.15
+8057880,32,CSAH 32 (Penn Ave) at 81st St W BACKHAUL,192.168.19.200
+8057880,32,CSAH 32 (Penn Ave) at 81st St W BACKHAUL,192.168.19.207
+8007000,9,CSAH 9 (Rockford Rd / 42nd Ave) at Adair Ave,192.168.116.8
+8057890,81,CSAH 81 (Main St) at John Milless Dr / Industrial Blvd,192.168.129.232
+8057890,81,CSAH 81 (Main St) at John Milless Dr / Industrial Blvd,192.168.129.239
+8057895,81,CSAH 81 (Industrial Blvd) at John Deere Ln,192.168.129.200
+8057895,81,CSAH 81 (Industrial Blvd) at John Deere Ln,192.168.129.207
+8057900,81,CSAH 81 (Industrial Blvd) at John Milless Dr / Memorial Dr,192.168.129.168
+8057900,81,CSAH 81 (Industrial Blvd) at John Milless Dr / Memorial Dr,192.168.129.175
+8057905,60,CSAH 60 (Mitchell Rd) at Martin Dr,192.168.134.232
+8007000,9,CSAH 9 (Rockford Rd / 42nd Ave) at Adair Ave,192.168.116.15
+8057905,60,CSAH 60 (Mitchell Rd) at Martin Dr,192.168.134.239
+8057910,3,CSAH 3 (Excelsior Blvd) at Natchez Ave,192.168.54.104
+8057910,3,CSAH 3 (Excelsior Blvd) at Natchez Ave,192.168.54.111
+8057915,12,CSAH 12 (Noble Pkwy) at 97th Ave N,192.168.21.44
+8057915,12,CSAH 12 (Noble Pkwy) at 97th Ave N,192.168.21.51
+8057925,12,CSAH 12 (Noble Pkwy) at Edinbrook Parkway,192.168.21.107
+8057925,12,CSAH 12 (Noble Pkwy) at Edinbrook Parkway,192.168.21.114
+8057940,12,CSAH 12 (Noble Pkwy) at 101st Ave N,192.168.21.10
+8057940,12,CSAH 12 (Noble Pkwy) at 101st Ave N,192.168.21.17
+8057965,144,CSAH 144 (141st Ave N) at Northdale Blvd,192.168.129.72
+8057965,144,CSAH 144 (141st Ave N) at Northdale Blvd,192.168.129.79
+8057970,144,CSAH 144 (141st Ave N) at James Rd/Rogers Dr,192.168.129.104
+8057970,144,CSAH 144 (141st Ave N) at James Rd/Rogers Dr,192.168.129.111
+8007100,17,CSAH 17 (France Ave) at 84th St W BACKHAUL,192.168.35.203
+8057980,13,CSAH 13 (Brockton Lane) at Rogers Drive,192.168.17.232
+8057980,13,CSAH 13 (Brockton Lane) at Rogers Drive,192.168.17.239
+8058000,14,CSAH 14 (Douglas Drive N) at Oxbow Creek Drive N,192.168.21.235
+8058000,14,CSAH 14 (Douglas Drive N) at Oxbow Creek Drive N,192.168.21.242
+8058010,73,CSAH 73 (Hopkins Crossroad) at Wayzata Blvd BACKHAUL,192.168.125.8
+8058010,73,CSAH 73 (Hopkins Crossroad) at Wayzata Blvd BACKHAUL,192.168.125.15
+8058015,73,CSAH 73 (Hopkins Crossroad) at Wayzata,192.168.125.40
+8007100,17,CSAH 17 (France Ave) at 84th St W BACKHAUL,192.168.35.210
+8058015,73,CSAH 73 (Hopkins Crossroad) at Wayzata,192.168.125.47
+8058100,73,CSAH 73 (Hopkins Crossroad) at Fairfield Road BACKHAUL,192.168.137.8
+8058100,73,CSAH 73 (Hopkins Crossroad) at Fairfield Road BACKHAUL,192.168.137.15
+8059010,81,CSAH 81 at 35th Ave/HyVee,192.168.27.8
+8059010,81,CSAH 81 at 35th Ave/HyVee,192.168.27.15
+8059100,101,CR 101 at Dayton Parkway,192.168.136.8
+8059100,101,CR 101 at Dayton Parkway,192.168.136.15
+8061200,61,CSAH 61 (Flying Cloud Dr) at Viking Drive,192.168.59.40
+8061200,61,CSAH 61 (Flying Cloud Dr) at Viking Drive,192.168.59.47
+9010560,81,CSAH 81 (Bottineau Blvd) at Elm Creek Blvd N Ramp BACKHAUL,192.168.30.107
+9010560,81,CSAH 81 (Bottineau Blvd) at Elm Creek Blvd N Ramp BACKHAUL,192.168.30.114
+9010570,81,CSAH 81 (Bottineau Blvd) at Elm Creek Blvd S Ramp - Master Controller,192.168.30.139
+9010570,81,CSAH 81 (Bottineau Blvd) at Elm Creek Blvd S Ramp - Master Controller,192.168.30.146
+8007200,35,CSAH 35 (Portland Ave) at 90th St E,192.168.128.40
+9010580,61,Hemlock Ln at Arbor Lakes Parkway,192.168.136.168
+9010580,61,Hemlock Ln at Arbor Lakes Parkway,192.168.136.175
+9010590,61,Hemlock Ln at 82nd Ave,192.168.136.136
+9010590,61,Hemlock Ln at 82nd Ave,192.168.136.143
+9010660,61,Zachary Ln N at 89th Ave N,192.168.136.200
+9010660,61,Zachary Ln N at 89th Ave N,192.168.136.207
+9010685,121,Maple Grove Pkwy at Upland Ln,192.168.136.104
+8007200,35,CSAH 35 (Portland Ave) at 90th St E,192.168.128.47
+9010685,121,Maple Grove Pkwy at Upland Ln,192.168.136.111
+9010690,121,Maple Grove Pkwy at Hospital Dr,192.168.136.72
+9010690,121,Maple Grove Pkwy at Hospital Dr,192.168.136.79
+9010695,121,Maple Grove Pkwy at 99th Ave / Grove Cir,192.168.136.40
+9010695,121,Maple Grove Pkwy at 99th Ave / Grove Cir,192.168.136.47
+9010705,121,CSAH 121 (Fernbrook Ln) at Champlin Dr / Crossing,192.168.17.168
+9010705,121,CSAH 121 (Fernbrook Ln) at Champlin Dr / Crossing,192.168.17.175
+9010710,121,CSAH 121 (Fernbrook Ln) at Cartway Rd,192.168.17.136
+9010710,121,CSAH 121 (Fernbrook Ln) at Cartway Rd,192.168.17.143
+9010720,30,CSAH 30 (93rd Ave) at CSAH 121 (Dunkirk Ln) BACKHAUL,192.168.25.107
+9010720,30,CSAH 30 (93rd Ave) at CSAH 121 (Dunkirk Ln) BACKHAUL,192.168.25.114
+9010740,61,CSAH 61 (Hemlock Lane) at 73rd Ave N,192.168.137.232
+9010740,61,CSAH 61 (Hemlock Lane) at 73rd Ave N,192.168.137.239
+8007300,102,CSAH 66 (Duluth St) at CSAH 102 (Douglas Dr),192.168.15.136
+9010760,81,CSAH 81 (Bottineau Blvd) at Holly Ln N,192.168.30.10
+9010760,81,CSAH 81 (Bottineau Blvd) at Holly Ln N,192.168.30.17
+9010810,103,CSAH 103 (West Broadway) at Oak Grove Pkwy,192.168.15.232
+9010810,103,CSAH 103 (West Broadway) at Oak Grove Pkwy,192.168.15.239
+9019900,1,CSAH 1 (Old Shakopee Rd) at Old Cedar Ave,192.168.49.72
+9019900,1,CSAH 1 (Old Shakopee Rd) at Old Cedar Ave,192.168.49.79
+8000000,tmc,TMC Test Cabinet,192.168.192.9
+8007300,102,CSAH 66 (Duluth St) at CSAH 102 (Douglas Dr),192.168.15.143
+8007400,52,CSAH 52 (Nicollet Ave) at 90th St,192.168.127.72
+8007400,52,CSAH 52 (Nicollet Ave) at 90th St,192.168.127.79
+8007500,52,CSAH 52 (Nicollet Ave) at 67th St,192.168.126.72
+8007500,52,CSAH 52 (Nicollet Ave) at 67th St,192.168.126.79
+8007600,53,CSAH 53 (66th St) at Sheridan Ave,192.168.36.139
+8007600,53,CSAH 53 (66th St) at Sheridan Ave,192.168.36.146
+8008400,17,CSAH 1 (Old Shakopee Rd) at CSAH 17 (France Ave),192.168.36.75
+8008400,17,CSAH 1 (Old Shakopee Rd) at CSAH 17 (France Ave),192.168.36.82
+8008600,102,CSAH 102 (Douglas Dr) at 36th Ave N,192.168.15.72
+8008600,102,CSAH 102 (Douglas Dr) at 36th Ave N,192.168.15.79
