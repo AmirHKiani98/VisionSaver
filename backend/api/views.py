@@ -196,16 +196,14 @@ def get_ips(request):
         # Check if the file is empty
         if data.empty:
             return JsonResponse({"ips": []}, status=200)
-        
+        data = data[data["working"].str.lower() == "yes"]
         # Ensure columns are treated as strings to handle various formats
         data['ip'] = data['ip'].astype(str)
-        data['controller_id'] = data['controller_id'].astype(str)
-        data['corridor_number'] = data['corridor_number'].astype(str)
-        data['intersection_name'] = data['intersection_name'].astype(str)
-        cont_ip = data[["controller_id", "ip"]].values.tolist()
-        corr_ip = data[["corridor_number", "ip"]].values.tolist()
-        intersection_ip = data[["intersection_name", "ip"]].values.tolist()
-        all_data_ip = cont_ip + corr_ip + intersection_ip
+        data['id'] = data['id'].astype(str)
+        data['intersection'] = data['intersection'].astype(str)
+        id_ip = data[["id", "ip"]].values.tolist()
+        intersection_ip = data[["intersection", "ip"]].values.tolist()
+        all_data_ip = id_ip + intersection_ip
         all_df = pd.DataFrame(all_data_ip, columns=["name", "ip"])
 
         # Get the search query from request parameters
