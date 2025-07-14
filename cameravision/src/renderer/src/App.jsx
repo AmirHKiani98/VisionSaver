@@ -62,8 +62,8 @@ function App() {
   const [recordLinks, setRecordLinks] = useState([])
   const [counter, setCounter] = useState(0)
   const [options, setOptions] = useState([]);  // To store filtered options
-  const [query, setQuery] = useState('');      // To store current input value
-
+  const [query, setQuery] = useState('CSAH');      // To store current input value
+  const [optionId, setOptionId] = useState(0); // To store the ID of the selected option
   useEffect(() => {
     window.env.get().then(setEnv)
   }, [])
@@ -76,15 +76,27 @@ function App() {
   }
   useEffect(() => {
     if (!env || !env.BACKEND_SERVER_DOMAIN || !env.BACKEND_SERVER_PORT || !env.API_GET_IPS) {
-      return // Return early if env is not set or API endpoint is missing
+      return; // Return early if env is not set or API endpoint is missing
     }
+
     if (query.length > 2) {
       // Fetch matching data when query length is greater than 2
       fetch(`http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_GET_IPS}?query=${encodeURIComponent(query)}`)
         .then(response => response.json())
         .then(data => {
-          // Assuming data is an array of objects with ip, controller_id, corridor_number, and intersection_name
-          setOptions(data.data || []); // Set options to the list of matching rows
+          console.log('Fetched data:', data);
+          // Assuming the API response contains arrays of names and corresponding ips
+          
+            const combinedOptions = data.name.map((name, index) => ({
+            id: optionId + index + 1,
+            name,
+            ip: data.ip[index]
+            }));
+            setOptionId(optionId + data.name.length); // Update optionId for next fetch
+        
+
+          setOptions(combinedOptions); // Set options to the list of matching rows
+          console.log('Fetched options:', combinedOptions);
         })
         .catch(error => {
           console.error('Error fetching options:', error);
@@ -92,7 +104,7 @@ function App() {
     } else {
       setOptions([]);
     }
-  }, [query]);
+  }, [query, env]);
 
   useEffect(() => {
     // Define the function to be executed every 5 seconds
@@ -111,6 +123,7 @@ function App() {
           .then(data => {
             if (data.status && data.status !== 200) {
               // Optionally show notification for error
+              console.error(`Error fetching record status for ${record.startTime}:`, data.message || 'Unknown error')
               return
             }
 
@@ -470,22 +483,21 @@ function App() {
 
                   </div>
                   <div className=''>
-                       <Autocomplete
-                          value={ip} // Always ensure that the value is a valid string
-                          onChange={handleOptionChange}  // Set IP when an option is selected
-                          inputValue={query} // Keep the input value in sync with state
-                          onInputChange={handleInputChange}  // Track input change
-                          options={options}  // The array of options
-                          className="bg-main-400 rounded-md w-full"
-                          getOptionLabel={(option) => option ? `${option.ip}` : ''} // Safely handle option label
-                          focused
-                          renderInput={(params) => <TextField {...params} className='!text-white !font-bold' label="Search IPs" />}
-                          renderOption={(props, option) => (
-                            <li {...props}>
-                              {option.ip}
-                            </li>
-                          )}
-                        />
+                    <Autocomplete
+                      value={ip || ''}  // Ensure that ip is always a string, fallback to an empty string if undefined
+                      onChange={(_, newValue) => setIp(newValue?.ip || '')}  // Set ip to the corresponding IP when an option is selected
+                      inputValue={query} // Keep the input value in sync with state
+                      onInputChange={(_, newInputValue) => setQuery(newInputValue)}  // Track input change
+                      options={options || []}  // Ensure options is always an array
+                      className="bg-main-400 rounded-md w-full"
+                      getOptionLabel={(option) => option?.name || ''}  // Show the name in the input field
+                      renderInput={(params) => <TextField {...params} className='!text-white !font-bold' label="Search IPs" />}
+                      renderOption={(props, option) => (
+                        <li {...props} key={option.id}>
+                          {option.name} - {option.ip}
+                        </li>
+                      )}
+                    />
                   </div>
                 </div>
               </form>
@@ -575,25 +587,25 @@ function App() {
                   recordLinks
                     .slice(startRecordLinkIndex, startRecordLinkIndex + recordLinksPerPage)
                     .map((record, idx) => {
-                      const isFirst = idx === 0
+                      const isFirst = idx === 0;
                       const isLast =
-                        idx ===
-                        Math.min(recordLinksPerPage, recordLinks.length - startRecordLinkIndex) - 1
-                      let roundedClass = ''
-                      if (isFirst) roundedClass += ' rounded-t-md'
-                      if (isLast) roundedClass += ' rounded-b-md'
+                        idx === Math.min(recordLinksPerPage, recordLinks.length - startRecordLinkIndex) - 1;
+                      let roundedClass = '';
+                      if (isFirst) roundedClass += ' rounded-t-md';
+                      if (isLast) roundedClass += ' rounded-b-md';
+
                       return (
                         <RecordLink
                           token={record.token}
                           startTime={record.startTime}
                           duration={record.duration}
-                          key={startRecordLinkIndex + idx}
+                          key={record.token} // Use record.token as the unique key
                           roundedClass={roundedClass}
                           onRemove={() => onRemoveRecord(record.token)}
                           inProcess={record.inProcess}
                           done={record.done}
                         />
-                      )
+                      );
                     })
                 )}
               </List>
