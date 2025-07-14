@@ -478,7 +478,6 @@ function App() {
                           options={options}  // The array of options
                           className="bg-main-400 rounded-md w-full"
                           getOptionLabel={(option) => option ? `${option.ip}` : ''} // Safely handle option label
-                          focused
                           renderInput={(params) => <TextField {...params} className='!text-white !font-bold' label="Search IPs" />}
                           renderOption={(props, option) => (
                             <li {...props}>
