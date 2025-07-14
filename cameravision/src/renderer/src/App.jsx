@@ -33,7 +33,8 @@ import {
   FormControl,
   Pagination,
   Tooltip,
-  Autocomplete
+  Autocomplete,
+  CircularProgress
 } from '@mui/material'
 
 import dayjs from 'dayjs'
@@ -64,6 +65,8 @@ function App() {
   const [options, setOptions] = useState([]);  // To store filtered options
   const [query, setQuery] = useState('CSAH');      // To store current input value
   const [optionId, setOptionId] = useState(0); // To store the ID of the selected option
+  const [loadingVideos, setLoadingVideos] = useState(false)
+
   useEffect(() => {
     window.env.get().then(setEnv)
   }, [])
@@ -192,6 +195,7 @@ function App() {
     setOpen(true)
   }
   const addStream = (cameraUrl, id) => {
+    setLoadingVideos(false);
     const streamUrl = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.STREAM_FUNCTION_NAME}/?url=${cameraUrl}`
 
     const newVisionInfo = {
@@ -240,6 +244,7 @@ function App() {
       openNotification('error', 'Invalid IP address format. Please use xxx.xxx.xxx.xxx format')
       return
     }
+    setLoadingVideos(true)
     if (channel === 'quad') {
       // Assuming "quad" means the intersection has four cameras: cam1, cam2, cam3 and cam4
       
@@ -248,6 +253,7 @@ function App() {
         
         getResolvedUrl(cameraUrl).then((resolvedUrl) => {
           if (resolvedUrl) {
+            console.log(`Resolved URL for cam${i}:`, resolvedUrl)
             addStream(resolvedUrl, `${ip}-${i}`)
           }
         })
@@ -641,12 +647,21 @@ function App() {
                   ))}
                 </VisionContainer>
               ) : (
-                <div
-                  id="no-camera-alert"
-                  className="w-full h-96 col-span-2 bg-main-700 rounded-lg shadow-lg flex items-center justify-center "
-                >
-                  <p className="text-white text-center">No video stream selected</p>
-                </div>
+                loadingVideos ? (
+                  <div
+                    id="no-camera-alert"
+                    className="w-full h-96 col-span-2 bg-main-700 rounded-lg shadow-lg flex items-center justify-center "
+                  >
+                    <CircularProgress className="text-white" />
+                  </div>
+                ) : (
+                  <div
+                    id="no-camera-alert"
+                    className="w-full h-96 col-span-2 bg-main-700 rounded-lg shadow-lg flex items-center justify-center "
+                  >
+                    <p className="text-white text-center">No video stream selected</p>
+                  </div>
+                )
               )}
             </div>
           </div>
