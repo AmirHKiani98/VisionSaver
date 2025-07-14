@@ -202,24 +202,24 @@ def get_ips(request):
         data['controller_id'] = data['controller_id'].astype(str)
         data['corridor_number'] = data['corridor_number'].astype(str)
         data['intersection_name'] = data['intersection_name'].astype(str)
+        cont_ip = data[["controller_id", "ip"]].values.tolist()
+        corr_ip = data[["corridor_number", "ip"]].values.tolist()
+        intersection_ip = data[["intersection_name", "ip"]].values.tolist()
+        all_data_ip = cont_ip + corr_ip + intersection_ip
+        all_df = pd.DataFrame(all_data_ip, columns=["name", "ip"])
 
         # Get the search query from request parameters
         query = request.GET.get('query', '').lower()
         if not query:
-            return JsonResponse({"ips": [], "controller_ids": [], "corridor_numbers": [], "intersection_names": []}, status=200)
+            return JsonResponse({"name": [], "ip": []}, status=200)
         
-        # Filter the DataFrame based on the query
-        mask = (
-            data['ip'].str.contains(query, case=False, na=False) |
-            data['controller_id'].str.contains(query, case=False, na=False) |
-            data['corridor_number'].str.contains(query, case=False, na=False) |
-            data['intersection_name'].str.contains(query, case=False, na=False)
-        )
+        # Filter the DataFrame based on exact match of the query
+        mask = all_df["name"].str.contains(rf'\b{re.escape(query)}\b', case=False, na=False)
         
         # Return matching rows as an array of dictionaries
-        matching_data = data[mask].to_dict(orient='records')
-        print(f"Found {len(matching_data)} matching records for query '{query}'")
-        return JsonResponse({"data": matching_data}, status=200)
+        matching_data = all_df[mask]
+
+        return JsonResponse({"name": matching_data["name"].values.tolist(), "ip": matching_data["ip"].values.tolist()}, status=200)
 
     except Exception as e:
         return JsonResponse({"error": f"Failed to read ips.csv: {str(e)}"}, status=500)
