@@ -73,6 +73,7 @@ def job_checker():
                 in_process=False,
                 start_time__lte=now,
             )
+            print(f"Found {records.count()} records to process: {records}")
             # logger.info(f"Found {records.count()} records to process: {records}")
 
             for record in records:
@@ -105,7 +106,7 @@ def job_checker():
             pass
         except Exception as e:
             logger.error(f"Error in job_checker: {e}")
-        time.sleep(10)
+        time.sleep(60)
 
 class CronjobConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'

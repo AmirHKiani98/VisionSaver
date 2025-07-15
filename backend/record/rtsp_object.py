@@ -52,7 +52,7 @@ class RTSPObject:
         """
         Transcode a video to browser-friendly MP4 (H.264/AAC).
         """
-        ffmpeg_env = os.getenv("FFMPEG_PATH")
+        ffmpeg_env = str(settings.FFMPEG_PATH)
         if not ffmpeg_env:
             logger.error("FFMPEG_PATH environment variable is not set.")
             raise EnvironmentError("FFMPEG_PATH environment variable is not set.")
@@ -79,8 +79,8 @@ class RTSPObject:
     def record(self, duration_minutes: int, output_path: str):
         logger.debug(f"Starting recording for {duration_minutes} minutes to {output_path}")
         duration_seconds = duration_minutes * 60
-        ffmpeg_env = os.getenv("FFMPEG_PATH")
-        
+        ffmpeg_env = str(settings.FFMPEG_PATH)
+
         # Ensure output path is absolute
         abs_output_path = os.path.join(str(settings.MEDIA_ROOT), output_path) if not os.path.isabs(output_path) else output_path
         output_dir = os.path.dirname(abs_output_path)

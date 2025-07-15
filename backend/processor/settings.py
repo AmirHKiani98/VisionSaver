@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 import dotenv
+import sys
 # Load environment variables from .hc_to_app_env file
 dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), '../../.hc_to_app_env'))
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -177,9 +178,6 @@ MEDIA_ROOT = cache_dir
 if not os.path.exists(MEDIA_ROOT):
     os.makedirs(MEDIA_ROOT, exist_ok=True)
 
-# Create log directory - use a safer approach for PyInstaller
-import sys
-
 def get_log_directory():
     """Get the appropriate log directory based on runtime environment."""
     try:
@@ -195,6 +193,22 @@ def get_log_directory():
         # Fallback: use current working directory
         return os.path.join(os.getcwd(), os.environ.get("LOGGER_DIRECTORY", "logs"))
 
+def get_ffmpeg_path():
+    """Get the appropriate FFmpeg path based on runtime environment."""
+    try:
+        # For PyInstaller, create logs relative to the executable location
+        if hasattr(sys, '_MEIPASS'):
+            # Running in PyInstaller bundle - use the directory where the .exe is located
+            exe_dir = os.path.dirname(sys.executable)
+            return os.path.join(exe_dir, os.environ.get("FFMPEG_PATH", "apps/ffmpeg/bin/ffmpeg.exe"))
+        else:
+            # Running in development - use the BASE_DIR approach
+            return os.path.abspath(os.path.join(os.path.dirname(__file__), "..", os.environ.get("FFMPEG_PATH", "apps/ffmpeg/bin/ffmpeg.exe")))
+    except:
+        # Fallback: use current working directory
+        return os.path.join(os.getcwd(), os.environ.get("FFMPEG_PATH", "apps/ffmpeg/bin/ffmpeg.exe"))
+
+FFMPEG_PATH = get_ffmpeg_path()
 # Get log directory but don't create it yet (let the logger create it when first used)
 log_dir = get_log_directory()
 django_log_filename = os.path.join(log_dir, 'django.log')

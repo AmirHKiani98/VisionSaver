@@ -85,6 +85,10 @@
         "to": ".hc_to_app_env"
       },
       {
+        "from": "resources/backend/apps",
+        "to": "backend/apps"
+      },
+      {
         "from": "resources/icon.ico",
         "to": "icon.ico"
       }

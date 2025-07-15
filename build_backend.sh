@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e  # Exit immediately if a command exits with a non-zero status
+# set -e  # Exit immediately if a command exits with a non-zero status
 
 ROOT_BUILD_DIR="dist"
 # Clean previous root-level build directory if it exists
@@ -22,18 +22,19 @@ echo "🖥️ Detected OS: $OS"
 
 # PyInstaller arguments
 PYINSTALLER_ARGS=(
-  --noconsole
-  --onefile
+  --onedir
   --name "$BINARY_NAME"
-  --add-data "backend:backend"  # <-- this brings in processor/*
-  --add-data "backend/apps/ffmpeg:apps/ffmpeg"
-  --add-data "backend/addons:addons"
-  # --add-data "backend/templates:templates"
-  # --add-data "backend/static:static"
+  --add-data "backend:backend"
   --add-data "backend/db.sqlite3:."
   --collect-all cv2
   --collect-all pandas
   --collect-all corsheaders
+  --collect-all requests
+  --copy-metadata requests
+  --copy-metadata django
+  --copy-metadata django-cors-headers
+  --copy-metadata pandas
+  --copy-metadata python-dotenv
 )
 
 # Build

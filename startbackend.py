@@ -21,7 +21,7 @@ def find_hc_to_app_env_folders(start_path):
 
 sys.path.insert(0, resource_path("backend"))
 # Locate .hc_to_app_env
-hc_to_app_env_folders = find_hc_to_app_env_folders("..")
+hc_to_app_env_folders = find_hc_to_app_env_folders("../..")
 if not hc_to_app_env_folders:
     print("No .hc_to_app_env folders found.")
     sys.exit(1)
