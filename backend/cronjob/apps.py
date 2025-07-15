@@ -73,7 +73,7 @@ def job_checker():
                 in_process=False,
                 start_time__lte=now,
             )
-            print(f"Found {records.count()} records to process: {records}")
+            logger.info(f"Found {records.count()} records to process: {records}")
             # logger.info(f"Found {records.count()} records to process: {records}")
 
             for record in records:

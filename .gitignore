@@ -149,8 +149,4 @@ media
 build
 
 # Dist
-!dist/
-
-#
-dist/*/**/out
-dist/*/**/node_modules
+dist/

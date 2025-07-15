@@ -29,7 +29,7 @@ const backendBinary = is.dev
   : join(
       process.resourcesPath,
       'backend',
-      process.platform === 'darwin' ? 'startbackend' : 'startbackend.exe'
+      process.platform === 'darwin' ? 'startbackend' : 'startbackend/startbackend.exe' // TODO: fix this for mac packaging as well
     )
 if(!is.dev){
   djangoProcess = execFile(backendBinary, {
