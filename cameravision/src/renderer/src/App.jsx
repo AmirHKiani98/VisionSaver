@@ -422,7 +422,7 @@ function App() {
     <div className='flex flex-col justify-between min-h-screen min-w-full'>
       <div className="min-h-full min-w-full flex p-5">
         <div className="text-white flex flex-col w-full items-center gap-7">
-          <h1 className="text-2xl font-bold">Vision Camera Saver</h1>
+          <h1 className="text-2xl font-bold">CamArchive</h1>
           <div className="flex w-full gap-10">
             <div className="flex flex-col w-1/2 gap-5">
               <form
