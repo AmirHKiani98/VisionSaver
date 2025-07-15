@@ -200,7 +200,7 @@ def get_ffmpeg_path():
         if hasattr(sys, '_MEIPASS'):
             # Running in PyInstaller bundle - use the directory where the .exe is located
             exe_dir = os.path.dirname(sys.executable)
-            return os.path.join(exe_dir, os.environ.get("FFMPEG_PATH", "apps/ffmpeg/bin/ffmpeg.exe"))
+            return os.path.join(exe_dir, "_internal", "backend", os.environ.get("FFMPEG_PATH", "apps/ffmpeg/bin/ffmpeg.exe"))
         else:
             # Running in development - use the BASE_DIR approach
             return os.path.abspath(os.path.join(os.path.dirname(__file__), os.environ.get("FFMPEG_PATH", "apps/ffmpeg/bin/ffmpeg.exe")))

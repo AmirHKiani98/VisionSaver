@@ -61,6 +61,7 @@ class RTSPObject:
             logger.error(f"FFmpeg executable not found at: {ffmpeg_path}")
             raise FileNotFoundError(f"FFmpeg executable not found at: {ffmpeg_path}")
         output_path = os.path.splitext(input_path)[0] + ".mp4"
+        logger.info(f"ffmpeg path: {ffmpeg_path}")
         cmd = [
             ffmpeg_path, "-y",
             "-i", input_path,
