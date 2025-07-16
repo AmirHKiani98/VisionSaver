@@ -197,7 +197,7 @@ function App() {
   }
   const addStream = (cameraUrl, id) => {
     setLoadingVideos(false);
-    const streamUrl = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.STREAM_FUNCTION_NAME}/?url=${cameraUrl}`
+    const streamUrl = `http://${env.STREAM_SERVER_DOMAIN}:${env.STREAM_SERVER_PORT}/${env.MJPEG_STREAM_URL}/?url=${cameraUrl}`
 
     const newVisionInfo = {
       src: streamUrl,
