@@ -159,7 +159,7 @@ app.whenReady().then(() => {
       const waitOn = mod.default
       console.log('Waiting for Django server to be ready...')
 
-      waitOn({ resources: [url], timeout: 30000 }, (err) => {
+      waitOn({ resources: [url], timeout: 7500 }, (err) => {
         if (err) {
           console.error('Django server failed to start:', err)
           console.warn('Opening app anyway in fallback mode...')

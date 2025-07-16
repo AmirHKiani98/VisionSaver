@@ -15,9 +15,9 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 if hasattr(sys, "_MEIPASS"):
-    print(f"🔒 Running in frozen mode. Base path: {sys._MEIPASS}")
+    print(f"Running in frozen mode. Base path: {sys._MEIPASS}")
 else:
-    print(f"💻 Running in dev mode. Base path: {os.path.abspath('.')}")
+    print(f"Running in dev mode. Base path: {os.path.abspath('.')}")
 
 def find_hc_to_app_env_folders(start_path):
     hc_to_app_env_folders = []
@@ -99,5 +99,5 @@ asgi_path = "backend.processor.asgi:application"
 host = backend_server_domain
 port = int(backend_server_port)
 
-print(f"🚀 Starting Uvicorn server at http://{host}:{port}")
+print(f"Starting Uvicorn server at http://{host}:{port}")
 uvicorn.run(asgi_path, host=host, port=port, log_level="info")
