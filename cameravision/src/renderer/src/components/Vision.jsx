@@ -5,6 +5,33 @@ import ContextMenu from './ContextMenu'
 const Vision = (props) => {
   const [src, setSrc] = React.useState(props.src || '')
   // Expose setSrc to parent via ref if provided
+  React.useEffect(() => {
+    if (!props.streamViaWebSocket) return;
+
+    setLoading(true);
+    setError(false);
+
+    const socket = new WebSocket(props.src);
+
+    socket.onmessage = (event) => {
+      // You should be sending base64-encoded JPEG data
+      const base64Image = event.data;
+      setSrc(`data:image/jpeg;base64,${base64Image}`);
+      setLoading(false);
+    };
+
+    socket.onerror = (e) => {
+      console.error("WebSocket error:", e);
+      setError(true);
+    };
+
+    socket.onclose = () => {
+      console.warn("WebSocket closed.");
+      setError(true);
+    };
+
+    return () => socket.close();
+  }, [props.streamViaWebSocket]);
   React.useImperativeHandle(
     props.innerRef,
     () => ({
@@ -86,10 +113,9 @@ const Vision = (props) => {
                     const videoEl = e.target
                     const error = videoEl.error
                     console.log(errorCode)
-                    if (error.code === 4){
+                    if (error.code === 4) {
                       setSrc(src + '/?mp4=true') // Attempt to reload with MP4 conversion
-                    }
-                    else{
+                    } else {
                       setLoading(false)
                       setError(true)
                       // Log detailed error info
