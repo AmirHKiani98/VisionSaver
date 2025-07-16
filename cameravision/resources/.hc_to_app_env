@@ -29,3 +29,4 @@ FFMPEG_PATH=apps/ffmpeg/bin/ffmpeg.exe
 LOGGER_DIRECTORY=logs
 # Websocket
 WEBSOCKET_RECORD_PROGRESS=ws/recording_progress
+WEBSOCKET_STREAM_URL=ws/stream
