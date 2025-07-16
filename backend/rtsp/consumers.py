@@ -22,7 +22,8 @@ class MJPEGConsumer(AsyncWebsocketConsumer):
 
         await self.accept()
         self.running = True
-        self.cap = cv2.VideoCapture(self.rtsp_url)
+        self.cap = cv2.VideoCapture(self.rtsp_url, cv2.CAP_FFMPEG)
+        self.cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
         asyncio.create_task(self.stream_video())  # spawn background task
 
     async def disconnect(self, close_code):
@@ -32,13 +33,19 @@ class MJPEGConsumer(AsyncWebsocketConsumer):
 
     async def stream_video(self):
         while self.running:
-            ret, frame = self.cap.read()
+            ret, frame = await asyncio.to_thread(self.cap.read)
             if not ret:
                 await asyncio.sleep(0.1)
                 continue
 
-            _, jpeg = cv2.imencode('.jpg', frame)
+            # JPEG encode off main loop
+            _, jpeg = await asyncio.to_thread(cv2.imencode, '.jpg', frame)
             b64frame = base64.b64encode(jpeg.tobytes()).decode('utf-8')
-            await self.send(text_data=b64frame)
 
-            await asyncio.sleep(0.05)  # ≈20 FPS (adjust as needed)
+            try:
+                await self.send(text_data=b64frame)
+            except Exception as e:
+                logger.error("WebSocket send failed: %s", e)
+                break
+
+            await asyncio.sleep(0.03)  # ≈30 FPS (tune this if needed)
