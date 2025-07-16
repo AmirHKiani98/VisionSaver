@@ -15,6 +15,7 @@ import re
 progress_re = re.compile(r'time=(\d{2}:\d{2}:\d{2}\.\d{2})')
 # ----------------------------------------------------------------------
 dotenv.load_dotenv(settings.ENV_PATH)
+logger = settings.APP_LOGGER
 
 def broadcast_progress(record_id: str, progress: str):
     channel_layer = get_channel_layer()
@@ -30,7 +31,6 @@ def broadcast_progress(record_id: str, progress: str):
         )
     else:
         logger.warning("Channel layer is not configured; skipping progress notification.")
-logger = settings.APP_LOGGER
 
 class RTSPObject:
     def __init__(self, url: str, record_type: str = 'supervisor'):

@@ -1,5 +1,5 @@
 import './assets/main.css'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useId } from 'react'
 
 // Material Tailwind
 import { Button } from '@material-tailwind/react'
@@ -195,7 +195,7 @@ function App() {
     setMessage(message)
     setOpen(true)
   }
-  const addStream = (cameraUrl, id) => {
+  const addStream = (cameraUrl, id, index) => {
     setLoadingVideos(false);
     const streamUrl = `http://${env.STREAM_SERVER_DOMAIN}:${env.STREAM_SERVER_PORT}/${env.MJPEG_STREAM_URL}/?url=${cameraUrl}`
 
@@ -204,7 +204,8 @@ function App() {
       ip: ip,
       cameraUrl: cameraUrl,
       id: `camera-${id}`,
-      onRemove: onRemoveStream
+      posIndex: visions.length,
+      onRemove: removeStreamHandler
     }
     setVisions((prev) => [...prev, newVisionInfo])
   }
@@ -369,18 +370,13 @@ function App() {
       ...prev
     ])
   }
-  const removeStreamHandler = (id) => {
-    setVisions((prev) => prev.filter((vision) => vision.id !== id))
-    openNotification('success', 'Camera stream deleted.')
+  const removeStreamHandler = (posIndex) => {
+    // Remove the vision at index posIndex
+    setVisions((prev) => prev.filter((_, index) => index !== posIndex))
+    openNotification('success', `Camera stream with id ${id} deleted.`)
   }
 
-  const onRemoveStream = (id) => {
-    if (id) {
-      removeStreamHandler(id)
-    } else {
-      openNotification('error', 'No camera stream ID found.')
-    }
-  }
+
 
   const onRemoveRecord = (token) => {
     if (!token) {
