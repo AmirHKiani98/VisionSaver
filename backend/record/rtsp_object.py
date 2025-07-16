@@ -7,8 +7,30 @@ import dotenv
 import subprocess
 # --- Ensure Django settings are configured before importing settings ---
 from django.conf import settings
+
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+import re
+
+progress_re = re.compile(r'time=(\d{2}:\d{2}:\d{2}\.\d{2})')
 # ----------------------------------------------------------------------
 
+
+
+
+def broadcast_progress(record_id: str, progress: str):
+    channel_layer = get_channel_layer()
+    group_name = f"recording_progress_{record_id}"
+    if channel_layer is not None:
+        async_to_sync(channel_layer.group_send)(
+            group_name,
+            {
+                "type": "send.progress",
+                "progress": progress
+            }
+        )
+    else:
+        logger.warning("Channel layer is not configured; skipping progress notification.")
 dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), '../.hc_to_app_env'))
 logger = settings.APP_LOGGER
 
@@ -48,7 +70,7 @@ class RTSPObject:
         Destructor to ensure the RTSP stream is released when the object is deleted.
         """
         self.release()
-    def transcode_to_mp4(self, input_path):
+    def transcode_to_mp4(self, input_path, record_id):
         """
         Transcode a video to browser-friendly MP4 (H.264/AAC).
         """
@@ -71,13 +93,21 @@ class RTSPObject:
             output_path
         ]
         creation_flags = 0x08000000  # This hides the window in Windows
-        result = subprocess.run(cmd, capture_output=False, text=False, creationflags=creation_flags)
-        if result.returncode != 0:
-            logger.error(f"[ERROR] Transcoding failed: {result.stderr}")
-            raise RuntimeError(f"Transcoding failed: {result.stderr}")
+        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, creationflags=creation_flags)
+        if process.stderr is not None:
+            for line in process.stderr:
+                match = progress_re.search(line)
+                if match:
+                    timestamp = match.group(1)
+                    broadcast_progress(str(record_id), timestamp)
+        else:
+            logger.warning("FFmpeg stderr is None, no progress updates will be sent.")
+        if process.returncode != 0:
+            logger.error(f"[ERROR] Transcoding failed: {process.stderr}")
+            raise RuntimeError(f"Transcoding failed: {process.stderr}")
         return output_path
     
-    def record(self, duration_minutes: int, output_path: str):
+    def record(self, duration_minutes: int, output_path: str, record_id: str):
         logger.debug(f"Starting recording for {duration_minutes} minutes to {output_path}")
         duration_seconds = duration_minutes * 60
         ffmpeg_env = str(settings.FFMPEG_PATH)
@@ -133,14 +163,19 @@ class RTSPObject:
         try:
             logger.debug(f"Running FFmpeg command: {' '.join(preferred_cmd)}")
             creation_flags = 0x08000000  # This hides the window in Windows
-            result = subprocess.run(preferred_cmd, capture_output=False, text=False, check=False, creationflags=creation_flags)
-            logger.debug(f"FFmpeg returncode: {result.returncode}")
-            logger.debug(f"FFmpeg stdout: {result.stdout}")
-            logger.debug(f"FFmpeg stderr: {result.stderr}")
-            
+            process = subprocess.Popen(preferred_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, creationflags=creation_flags)
+            if process.stderr is not None:
+                for line in process.stderr:
+                    match = progress_re.search(line)
+                    if match:
+                        timestamp = match.group(1)
+                        broadcast_progress(str(record_id), timestamp)
+            else:
+                logger.warning("FFmpeg stderr is None, no progress updates will be sent.")
+
             if os.path.exists(abs_output_path):
                 logger.debug(f"Output file created: {abs_output_path}")
-                output_path = self.transcode_to_mp4(abs_output_path)
+                output_path = self.transcode_to_mp4(abs_output_path, record_id)
                 logger.debug(f"Transcoded output path: {output_path}")
                 if os.path.exists(output_path):
                     logger.debug("Recording and transcoding successful.")
@@ -164,7 +199,7 @@ if __name__ == "__main__":
     rtsp = RTSPObject(f"rtsp://{ip}/{stream}")
     # Try recording for 1 minute and save to output.mp4
     try:
-        rtsp.record(1, "output")
+        rtsp.record(1, "output", "1")
     except Exception as e:
         logger.debug(f"Exception during recording: {e}")
         pass

@@ -47,7 +47,17 @@ INSTALLED_APPS = [
     'record',
     'cronjob',
     'corsheaders',
+    'channels'
 ]
+
+ASGI_APPLICATION = 'processor.asgi.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"  # For testing only
+        # For production: use Redis backend
+    }
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
