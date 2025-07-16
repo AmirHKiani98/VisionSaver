@@ -43,12 +43,13 @@ const RecordLink = (props) => {
         `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.WEBSOCKET_RECORD_PROGRESS}/${recordId}/`
       );
       sockets[recordId] = ws;
+      console.log("check")
       ws.onmessage = (event) => {
-
+        console.log("before",event.data);
         const data = JSON.parse(event.data);
-
+        console.log(data);
         if (data.progress !== undefined) {
-
+          
           setProgresses((prev) => ({ ...prev, [recordId]: {
             "progress": data.progress*100,
             "recording": data.recording || false,
@@ -102,11 +103,29 @@ const RecordLink = (props) => {
       title={props.done ? 'Review' : props.inProcess ? 
         <div className='flex flex-col gap-2 w-48'>
             {Array.isArray(recordsId) &&
-              recordsId.map((recordId) => (
-                <div key={recordId}>
-                  <LinearProgressWithLabel value={progresses[recordId]["progress"] || 0} className="bg-main-500" color="success" recording={progresses[recordId]["recording"]} converting={progresses[recordId]["converting"]}/>
-                </div>
-              ))}
+              recordsId.map((recordId) => {
+                const progressObj = progresses[recordId] || {};
+                // Check if all required keys exist
+                const hasAllKeys = (
+                  progressObj.hasOwnProperty('progress') &&
+                  progressObj.hasOwnProperty('recording') &&
+                  progressObj.hasOwnProperty('converting')
+                );
+                return (
+                  <div key={recordId}>                    {hasAllKeys ? (
+                      <LinearProgressWithLabel
+                        value={progressObj.progress || 0}
+                        className="bg-main-500"
+                        color="success"
+                        recording={progressObj.recording || undefined}
+                        converting={progressObj.converting || undefined}
+                      />
+                    ) : (
+                      <div className="text-gray-400 text-xs">Progress unavailable</div>
+                    )}
+                  </div>
+                );
+              })}
         </div>
        : 'Wait for start'}
       placement="top"
