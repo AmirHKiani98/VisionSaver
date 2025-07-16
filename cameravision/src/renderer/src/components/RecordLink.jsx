@@ -20,7 +20,11 @@ const RecordLink = (props) => {
     if (!props.recordsId) return
     const progressDict = {}
     props.recordsId.forEach((recordId) => {
-      progressDict[recordId] = 0 // Initialize progress for each record ID
+      progressDict[recordId] = {
+        progress: 0,
+        recording: false,
+        converting: false
+      } // Initialize progress for each record ID
     })
     setRecordsId(props.recordsId)
     setProgresses(progressDict)
@@ -45,7 +49,11 @@ const RecordLink = (props) => {
 
         if (data.progress !== undefined) {
 
-          setProgresses((prev) => ({ ...prev, [recordId]: data.progress*100 }));
+          setProgresses((prev) => ({ ...prev, [recordId]: {
+            "progress": data.progress*100,
+            "recording": data.recording || false,
+            "converting": data.converting || false 
+        }}));
         }
       };
 
@@ -96,7 +104,7 @@ const RecordLink = (props) => {
             {Array.isArray(recordsId) &&
               recordsId.map((recordId) => (
                 <div key={recordId}>
-                  <LinearProgressWithLabel value={progresses[recordId] || 0} className="bg-main-500" color="success" />
+                  <LinearProgressWithLabel value={progresses[recordId]["progress"] || 0} className="bg-main-500" color="success" recording={progresses[recordId]["recording"]} converting={progresses[recordId]["converting"]}/>
                 </div>
               ))}
         </div>

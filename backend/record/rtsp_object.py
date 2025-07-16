@@ -16,7 +16,7 @@ progress_re = re.compile(r'time=(\d{2}:\d{2}:\d{2}\.\d{2})')
 # ----------------------------------------------------------------------
 dotenv.load_dotenv(settings.ENV_PATH)
 
-def broadcast_progress(record_id: str, progress: str):
+def broadcast_progress(record_id: str, progress: str, recording: bool = True, converting: bool = False):
     channel_layer = get_channel_layer()
     group_name = f"recording_progress_{record_id}"
     if channel_layer is not None:
@@ -24,7 +24,9 @@ def broadcast_progress(record_id: str, progress: str):
             group_name,
             {
                 "type": "send.progress",
-                "progress": progress
+                "progress": progress,
+                "recording": recording,
+                "converting": converting,
             }
         )
     else:
@@ -101,7 +103,7 @@ class RTSPObject:
                     seconds = float(s)
                     timestamps_to_seconds = int(h) * 3600 + int(m) * 60 + seconds
                     percentage = timestamps_to_seconds/(duration_minutes * 60)
-                    broadcast_progress(str(record_id), str(percentage))
+                    broadcast_progress(str(record_id), str(percentage), recording=False, converting=True)
         else:
             logger.warning("FFmpeg stderr is None, no progress updates will be sent.")
         if process.returncode != 0:
@@ -180,7 +182,7 @@ class RTSPObject:
                         seconds = float(s)
                         timestamps_to_seconds = int(h) * 3600 + int(m) * 60 + seconds
                         percentage = timestamps_to_seconds/(duration_minutes * 60)
-                        broadcast_progress(str(record_id), str(percentage))
+                        broadcast_progress(str(record_id), str(percentage), recording=True, converting=False)
             else:
                 logger.warning("FFmpeg stderr is None, no progress updates will be sent.")
 

@@ -117,7 +117,7 @@ stream_server_domain = os.getenv("STREAM_SERVER_DOMAIN", "localhost")
 print(f"Starting Streamer server at http://{stream_server_domain}:{stream_server_port}")
 def run_django():
     print(f"Starting Django at http://{backend_server_domain}:{backend_server_port}")
-    uvicorn.run("backend.processor.asgi:application", host=backend_server_domain, port=backend_server_port, log_level="info", workers=1)
+    uvicorn.run("backend.processor.asgi:application", host=backend_server_domain, port=int(backend_server_port), log_level="info", workers=1)
 
 def run_streamer():
     print(f"Starting Streamer at http://{stream_server_domain}:{stream_server_port}")

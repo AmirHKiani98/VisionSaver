@@ -10,6 +10,10 @@ function LinearProgressWithLabel(props) {
         <Typography variant="body2" className="text-white" >
           {`${Math.round(props.value)}%`}
         </Typography>
+        <Typography variant="body2" className="text-white" >
+          {props.recording ? <Typography variant="caption">Recording</Typography> : null}
+          {props.converting ? <Typography variant="caption">Converting</Typography> : null}
+        </Typography>
       </Box>
     </Box>
   );
