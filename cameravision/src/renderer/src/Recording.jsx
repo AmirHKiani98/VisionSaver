@@ -95,10 +95,9 @@ function Recording() {
                 
                 <h1 className='text-white text-2xl font-bold'>Camera Vision Recording</h1>
             </div>
-            <VisionContainer>
-                {visions && visions.length > 0 ? (
+            <VisionContainer>                {visions && visions.length > 0 ? (
                     visions.map((visionProps, idx) => (
-                        <Vision video key={idx} token={token} {...visionProps} />
+                        <Vision video key={visionProps.id} token={token} {...visionProps} />
                 ))
                 ) : (
                     <div className="text-white text-center w-full py-10">No visions available.</div>
