@@ -19,6 +19,7 @@ dotenv.load_dotenv(settings.ENV_PATH)
 def broadcast_progress(record_id: str, progress: str):
     channel_layer = get_channel_layer()
     group_name = f"recording_progress_{record_id}"
+    logger.debug(f"Broadcasting progress {progress} to group {group_name}")
     if channel_layer is not None:
         async_to_sync(channel_layer.group_send)(
             group_name,
