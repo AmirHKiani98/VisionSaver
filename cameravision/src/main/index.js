@@ -2,8 +2,13 @@ import { app, shell, BrowserWindow, ipcMain, Tray, Menu, nativeImage } from 'ele
 import { join, resolve } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import dotenv from 'dotenv'
-const { execFile, exec } = require('child_process')
 
+const { execFile, exec } = require('child_process')
+const fs = require('fs');
+const { spawn } = require('child_process')
+
+const out = fs.openSync('./cronjob-out.log', 'a');
+const err = fs.openSync('./cronjob-err.log', 'a');
 
 function killPort(port, cb) {
   const killCmd = process.platform === 'win32'
@@ -91,15 +96,10 @@ if(!is.dev){
       }
     })
   })
-  cronJobProcess = execFile('python', ['-m', 'backend.processor.cronjob'], {
-    cwd: join(__dirname, '../../../')
-  }, (error) => {
-    if (error) {
-      console.error('Cronjob error:', error)
-    } else {
-      console.log('Cronjob started successfully.')
-    }
-  })
+  cronJobProcess = spawn('python', ['-m', 'backend.processor.cronjob'], {
+    cwd: join(__dirname, '../../../'),
+    stdio: ['ignore', out, err] // redirect stdout/stderr to files
+  });
 }
 
 djangoProcess.stdout?.on('data', (data) => console.log(`Django: ${data}`))

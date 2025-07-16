@@ -88,8 +88,9 @@ class RTSPObject:
             ffmpeg_path, "-y",
             "-i", input_path,
             "-c:v", "libx264",
+            '-preset', 'ultrafast',
+            '-crf', '23',
             "-c:a", "aac",
-            "-movflags", "+faststart",
             output_path
         ]
         creation_flags = 0x08000000  # This hides the window in Windows
