@@ -166,6 +166,7 @@ function App() {
             // camera_url should be changed to cameraUrl
             data = data.map((record) => ({
               ...record,
+              recordsId: record.records_id || [], // Ensure recordsId is set correctly
               cameraUrl: record.camera_url || record.cameraUrl // Ensure cameraUrl is set correctly
             }))
             setRecordLinks(data)
@@ -609,6 +610,7 @@ function App() {
                           roundedClass={roundedClass}
                           onRemove={() => onRemoveRecord(record.token)}
                           inProcess={record.inProcess}
+                          recordsId={record.reocrdsId}
                           done={record.done}
                         />
                       );

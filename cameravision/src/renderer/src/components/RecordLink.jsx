@@ -12,6 +12,7 @@ const RecordLink = (props) => {
   // Define the onRemove handler, either from props or as a placeholder
   const onRemove = props.onRemove || (() => {})
   const [recordingClass, setRecordingClass] = React.useState('text-white')
+  const [reocrdsId, setRecordsId] = React.useState(props.recordsId || [])
   // TODO: This is too much. It might cause performance issues if there are many records.
   // React.useEffect(() => {
   //     const intervalId = setInterval(() => {
@@ -22,6 +23,7 @@ const RecordLink = (props) => {
   //     return () => clearInterval(intervalId); // Cleanup on unmount
   // }, []);
   // Helper function to format date as mm-dd-yyyy hh:mm:ss
+  
   const formatDateTime = (dateString) => {
     const date = new Date(dateString)
     if (isNaN(date)) return ''

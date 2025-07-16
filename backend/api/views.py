@@ -89,7 +89,7 @@ def get_record_schedule(request):
         # Helper to extract ip and stream from camera_url
         raw_records = Record.objects.all().values()
         df = pd.DataFrame(list(raw_records))
-
+        
         if df.empty:
             return JsonResponse({"records": []}, status=200)
         df['ip'], df['stream'] = zip(*df['camera_url'].apply(parse_camera_url))
@@ -100,8 +100,10 @@ def get_record_schedule(request):
             duration=('duration', 'first'),
             in_process=('in_process', 'first'),
             done=('done', 'first'),
-            token=('token', 'first')
-        )
+            token=('token', 'first'),
+            records_id=('id', lambda x: sorted(list(x)))
+        ).reset_index(drop=True)
+
         records = grouped_records.to_dict(orient='records')
 
         return JsonResponse({"records": list(records)}, status=200)
