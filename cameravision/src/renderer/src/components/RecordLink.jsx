@@ -12,7 +12,45 @@ const RecordLink = (props) => {
   // Define the onRemove handler, either from props or as a placeholder
   const onRemove = props.onRemove || (() => {})
   const [recordingClass, setRecordingClass] = React.useState('text-white')
-  const [reocrdsId, setRecordsId] = React.useState(props.recordsId || [])
+  const [recordsId, setRecordsId] = React.useState(props.recordsId || [])
+  const [progresses, setProgresses] = React.useState({})
+  React.useEffect(()=>{
+    if (!props.recordsId) return
+    progressDict = {}
+    props.recordsId.forEach((recordId) => {
+      progressDict[recordId] = 0 // Initialize progress for each record ID
+    })
+    setRecordsId(props.recordsId)
+
+  }, [props.recordsId])
+  React.useEffect(() => {
+      window.env.get().then(setEnv)
+    }, [])
+
+  React.useEffect(() => {
+    if (props.inProcess) {
+      if (!env || !env.BACKEND_SERVER_DOMAIN || !env.BACKEND_SERVER_PORT || !env.WEBSOCKET_RECORD_PROGRESS) {
+        return; // Return early if env is not set or API endpoint is missing
+      }
+      const intervalId = setInterval(() => {
+        wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.WEBSOCKET_RECORD_PROGRESS}`
+        
+        recordsId.forEach(async (recordId) => {
+          const ws = new WebSocket(
+          `${wsUrl}/${recordId}`
+        )
+        ws.onmessage = (event) => {
+          const data = JSON.parse(event.data)
+          if (data.progress !== undefined) {
+            setProgresses((prev) => ({ ...prev, [recordId]: data.progress }))
+          }
+        }
+      })
+      console.log('WebSocket connection established:', wsUrl)
+    }, 1000)
+    return () => clearInterval(intervalId)
+  }
+  }, [env])
   // TODO: This is too much. It might cause performance issues if there are many records.
   // React.useEffect(() => {
   //     const intervalId = setInterval(() => {
