@@ -3,6 +3,7 @@ import React from 'react'
 
 import { Link } from 'react-router-dom'
 import { ListItem, Tooltip, IconButton, ListItemButton, Typography } from '@mui/material'
+import LinearProgressWithLabel from './LinearProgressWithLabel'
 import DeleteIcon from '@mui/icons-material/Delete'
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked'
 import CheckBoxIcon from '@mui/icons-material/CheckBox'
@@ -22,6 +23,7 @@ const RecordLink = (props) => {
       progressDict[recordId] = 0 // Initialize progress for each record ID
     })
     setRecordsId(props.recordsId)
+    setProgresses(progressDict)
 
   }, [props.recordsId])
   React.useEffect(() => {
@@ -32,19 +34,18 @@ const RecordLink = (props) => {
     if (!env || !env.BACKEND_SERVER_DOMAIN || !env.BACKEND_SERVER_PORT || !env.WEBSOCKET_RECORD_PROGRESS) return;
 
     const sockets = {};
-    console.log('Connecting to WebSocket for record progress updates...');
     recordsId.forEach((recordId) => {
       const ws = new WebSocket(
         `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.WEBSOCKET_RECORD_PROGRESS}/${recordId}/`
       );
-      console.log(`WebSocket URL for recordId ${recordId}:`, ws.url);
       sockets[recordId] = ws;
-      console.log(`WebSocket created for recordId ${recordId}`);
       ws.onmessage = (event) => {
-        console.log(`WebSocket message received for recordId ${recordId}:`, event.data);
+
         const data = JSON.parse(event.data);
+
         if (data.progress !== undefined) {
-          setProgresses((prev) => ({ ...prev, [recordId]: data.progress }));
+
+          setProgresses((prev) => ({ ...prev, [recordId]: data.progress*100 }));
         }
       };
 
@@ -90,7 +91,16 @@ const RecordLink = (props) => {
 
   return (
     <Tooltip
-      title={props.done ? 'Review' : props.inProcess ? 'Recording...' : 'Wait for start'}
+      title={props.done ? 'Review' : props.inProcess ? 
+        <div className='flex flex-col gap-2 w-48'>
+            {Array.isArray(recordsId) &&
+              recordsId.map((recordId) => (
+                <div key={recordId}>
+                  <LinearProgressWithLabel value={progresses[recordId] || 0} className="bg-main-500" color="success" />
+                </div>
+              ))}
+        </div>
+       : 'Wait for start'}
       placement="top"
     >
       <ListItem
