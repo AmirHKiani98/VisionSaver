@@ -101,3 +101,11 @@ port = int(backend_server_port)
 
 print(f"Starting Uvicorn server at http://{host}:{port}")
 uvicorn.run(asgi_path, host=host, port=port, log_level="info")
+
+# Running the streamer server
+stream_server_port = int(os.getenv("STREAM_SERVER_PORT", 2500))
+stream_server_domain = os.getenv("STREAM_SERVER_DOMAIN", "localhost")
+
+streamer_asgi_path = "backend.apps.streamer.asgi_mpeg:app"
+print(f"Starting Streamer server at http://{stream_server_domain}:{stream_server_port}")
+uvicorn.run(streamer_asgi_path, host=stream_server_domain, port=stream_server_port, log_level="info")

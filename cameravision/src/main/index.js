@@ -13,12 +13,19 @@ if (is.dev){
 
 const domain = process.env.BACKEND_SERVER_DOMAIN
 const port = process.env.BACKEND_SERVER_PORT
+const streamerDomain = process.env.STREAM_SERVER_DOMAIN || 'localhost'
+const streamerPort = process.env.STREAM_SERVER_PORT || 2500
+
 const url = `http://${domain}:${port}`
+const streamerUrl = `http://${streamerDomain}:${streamerPort}`
 const apiHealthUrl = `${url}/${process.env.API_HEALTH_CHECK}`
+const streamerHealthUrl = `${streamerUrl}/${process.env.API_HEALTH_CHECK}/`
 console.log(`Django server URL: ${url}`)
+console.log(`Streamer server URL: ${streamerUrl}`)
 
 const frontRoot = resolve(__dirname, '../../')
 let djangoProcess = null
+let streamerProcess = null
 const backendBinary = is.dev
   ? join(
       frontRoot,
@@ -56,6 +63,15 @@ if(!is.dev){
       }
     }
   )
+  streamerProcess = execFile('python', ['-m', 'uvicorn', 'backend.apps.streamer.asgi_mpeg:app', '--host', streamerDomain, '--port', streamerPort], {
+    cwd: join(__dirname, '../../../')
+  }, (error) => {
+    if (error) {
+      console.error('Streamer error:', error)
+    } else {
+      console.log('Streamer server started successfully.')
+    }
+  })
 }
 
 djangoProcess.stdout?.on('data', (data) => console.log(`Django: ${data}`))
@@ -159,20 +175,24 @@ app.whenReady().then(() => {
       const waitOn = mod.default
       console.log('Waiting for Django server to be ready...')
 
-      waitOn({ resources: [url], timeout: 7500 }, (err) => {
+      waitOn({ resources: [url, streamerUrl], timeout: 7500 }, (err) => {
         if (err) {
-          console.error('Django server failed to start:', err)
+          console.error('Django or Streamer server failed to start:', err)
           console.warn('Opening app anyway in fallback mode...')
           // Close app
-            if (splashWindow) splashWindow.destroy()
-            if (win) win.destroy()
-            app.isQuiting = true
-            app.quit()
+          if (splashWindow) splashWindow.destroy()
+          if (win) win.destroy()
+          app.isQuiting = true
+          app.quit()
         } else {
-          console.log('Django server is ready.')
+          console.log('Django and Streamer servers are ready.')
           waitForHealthPing(apiHealthUrl, () => {
-            createWindow() // load main app window
+            waitForHealthPing(streamerHealthUrl, () => {
+              console.log('Both Django and Streamer servers are healthy.')
+              createWindow() // load main app window
+            })
           })
+          
         }
       })
     })
