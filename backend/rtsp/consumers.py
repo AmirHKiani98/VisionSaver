@@ -1,12 +1,20 @@
 import base64
 import cv2
 import numpy as np
-from urllib.parse import unquote
+from urllib.parse import parse_qs
+
 from channels.generic.websocket import AsyncWebsocketConsumer
 
 class MJPEGConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        self.url = unquote(self.scope['url_route']['kwargs']['url'])
+        query_string = self.scope['query_string'].decode()
+        params = parse_qs(query_string)
+        self.rtsp_url = params.get('url', [None])[0]
+
+        if not self.rtsp_url:
+            await self.close()
+            return
+
         await self.accept()
         self.running = True
         await self.stream_video()
@@ -15,7 +23,7 @@ class MJPEGConsumer(AsyncWebsocketConsumer):
         self.running = False
 
     async def stream_video(self):
-        cap = cv2.VideoCapture(self.url)
+        cap = cv2.VideoCapture(self.rtsp_url)  # ✅ Fixed this line
         while self.running:
             ret, frame = cap.read()
             if not ret:

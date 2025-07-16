@@ -4,5 +4,5 @@ import os
 # Load environment variables
 
 websocket_urlpatterns = [
-    re_path(rf'{os.getenv("WEBSOCKET_STREAM_URL", "ws/mjpeg")}/(?P<url>.+)/$', MJPEGConsumer.as_asgi()),
+    re_path(r'ws/stream/$', MJPEGConsumer.as_asgi()),
 ]

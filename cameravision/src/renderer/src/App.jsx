@@ -197,7 +197,7 @@ function App() {
   }
   const addStream = (cameraUrl, id) => {
     setLoadingVideos(false);
-    const streamUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.WEBSOCKET_STREAM_URL}/${cameraUrl}`
+    const streamUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.WEBSOCKET_STREAM_URL}/?url=${cameraUrl}`
 
     const newVisionInfo = {
       src: streamUrl,
