@@ -4,6 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.http import HttpResponse
 
+print("✅ Django backend is running.")  # fixed line
 urlpatterns = [
     path('', lambda request: HttpResponse("✅ Django backend is running.")),  # fixed line
     path('admin/', admin.site.urls),

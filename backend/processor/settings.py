@@ -14,7 +14,23 @@ import os
 import dotenv
 import sys
 # Load environment variables from .hc_to_app_env file
-dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), '../../.hc_to_app_env'))
+def get_env_path():
+    """Get the absolute path to the environment file."""
+    if hasattr(sys, '_MEIPASS'):
+        # Running in PyInstaller bundle - use the directory where the .exe is located
+        env_path = os.path.abspath(os.path.join(os.path.dirname(sys.executable), "..", "..", ".hc_to_app_env"))
+        return env_path
+    else:
+        # Running in development - use the BASE_DIR approach
+        return os.path.abspath(os.path.join(os.path.dirname(__file__), '../../.hc_to_app_env'))
+
+ENV_PATH = get_env_path()
+if not os.path.exists(ENV_PATH):
+    raise FileNotFoundError(f"Environment file not found: {ENV_PATH}")
+else:
+    print(f"Loading environment variables from: {ENV_PATH}")
+
+dotenv.load_dotenv(ENV_PATH)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,9 +41,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-u_mwofv@-lzg+exb%ojkn6#(@wsgwh8a6qkefa+2^2^hp*m$4f'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
+    "0.0.0.0"
     "localhost",
     "127.0.0.1",
     os.getenv("BACKEND_SERVER_DOMAIN", "localhost")
@@ -50,7 +67,7 @@ INSTALLED_APPS = [
     'channels'
 ]
 
-ASGI_APPLICATION = 'processor.asgi.application'
+ASGI_APPLICATION = "backend.processor.asgi.application"
 
 CHANNEL_LAYERS = {
     "default": {
@@ -70,7 +87,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'processor.urls'
+ROOT_URLCONF = 'backend.processor.urls'
 
 TEMPLATES = [
     {

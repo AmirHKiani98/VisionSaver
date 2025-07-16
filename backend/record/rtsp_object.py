@@ -17,9 +17,7 @@ progress_re = re.compile(r'time=(\d{2}:\d{2}:\d{2}\.\d{2})')
 
 
 
-
-
-dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), '../.hc_to_app_env'))
+dotenv.load_dotenv(settings.ENV_PATH)
 
 
 def broadcast_progress(record_id: str, progress: str):

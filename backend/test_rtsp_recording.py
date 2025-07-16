@@ -11,7 +11,7 @@ import dotenv
 dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), '../.hc_to_app_env'))
 
 # Setup Django
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'processor.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.processor.settings')
 django.setup()
 
 from record.rtsp_object import RTSPObject
