@@ -48,4 +48,4 @@ class MJPEGConsumer(AsyncWebsocketConsumer):
                 logger.error("WebSocket send failed: %s", e)
                 break
 
-            await asyncio.sleep(0.03)  # ≈30 FPS (tune this if needed)
+            await asyncio.sleep(0.01)  # ≈30 FPS (tune this if needed)

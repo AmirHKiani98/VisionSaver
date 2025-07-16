@@ -3,13 +3,14 @@ RTSP Stream Processing Views
 """
 
 from django.shortcuts import render
-from django.http import StreamingHttpResponse, HttpResponse
+from django.http import HttpResponse
 import cv2
 import numpy as np
 import requests
 from django.http import JsonResponse
 from .utility import get_stream_type, get_ip_from_url
-
+from starlette.responses import StreamingResponse
+import time
 
 import logging
 
@@ -114,9 +115,13 @@ def mjpeg_stream(request):
     If the stream fails or stops, returns a notification message.
     """
     url = request.GET.get('url')
-    return StreamingHttpResponse(
+    if not url:
+        return HttpResponse("Missing 'url' parameter", status=400)
+    if not url.startswith('rtsp://'):
+        return HttpResponse("Invalid RTSP URL", status=400)
+    return StreamingResponse(
         generate_video(url),
-        content_type='multipart/x-mixed-replace; boundary=frame'
+        media_type='multipart/x-mixed-replace; boundary=frame'
     )
 
         
