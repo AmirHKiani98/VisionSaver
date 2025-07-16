@@ -43,7 +43,7 @@ const RecordLink = (props) => {
         `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.WEBSOCKET_RECORD_PROGRESS}/${recordId}/`
       );
       sockets[recordId] = ws;
-      console.log("check")
+      console.log(`WebSocket created for recordId ${recordId}:`, ws);
       ws.onmessage = (event) => {
         console.log("before",event.data);
         const data = JSON.parse(event.data);
