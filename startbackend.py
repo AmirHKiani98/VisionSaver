@@ -1,16 +1,23 @@
 import os
 import sys
-from django.core.management import execute_from_command_line
 import dotenv
+import uvicorn
 
 def resource_path(relative_path):
-    try:
-        # For PyInstaller bundle
-        base_path = sys._MEIPASS  # type: ignore
-    except AttributeError:
-        # For normal run
-        base_path = os.path.dirname(os.path.abspath(__file__))
+    """
+    Get absolute path to resource, works for dev and PyInstaller.
+    """
+    if hasattr(sys, "_MEIPASS"):
+        base_path = sys._MEIPASS  # Debug: False
+    else:
+        base_path = os.path.abspath(".")
+
     return os.path.join(base_path, relative_path)
+
+if hasattr(sys, "_MEIPASS"):
+    print(f"🔒 Running in frozen mode. Base path: {sys._MEIPASS}")
+else:
+    print(f"💻 Running in dev mode. Base path: {os.path.abspath('.')}")
 
 def find_hc_to_app_env_folders(start_path):
     hc_to_app_env_folders = []
@@ -66,6 +73,10 @@ except ModuleNotFoundError as e:
     print(e)
     sys.exit(1)
 
+internal_backend_path = resource_path("_internal/backend")
+if internal_backend_path not in sys.path:
+    sys.path.insert(0, internal_backend_path)
+
 # Set DJANGO_SETTINGS_MODULE
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "processor.settings")
 
@@ -84,14 +95,9 @@ if not backend_server_port or not backend_server_port.isdigit() or not (0 < int(
     sys.exit(1)
 
 # Prepare Django command
-sys.argv = ["manage.py", "runserver", "--noreload", f"{backend_server_domain}:{backend_server_port}"]
+asgi_path = "backend.processor.asgi:application"
+host = backend_server_domain
+port = int(backend_server_port)
 
-# Ensure sys.stdout and sys.stderr are not None (fix for Django runserver)
-if sys.stdout is None:
-    sys.stdout = open(os.devnull, 'w')
-if sys.stderr is None:
-    sys.stderr = open(os.devnull, 'w')
-
-# Start server
-print(f"Starting Django server at http://{backend_server_domain}:{backend_server_port}")
-execute_from_command_line(sys.argv)
+print(f"🚀 Starting Uvicorn server at http://{host}:{port}")
+uvicorn.run(asgi_path, host=host, port=port, log_level="info")

@@ -23,6 +23,7 @@ echo "🖥️ Detected OS: $OS"
 # PyInstaller arguments
 PYINSTALLER_ARGS=(
   --onedir
+  --noconfirm
   --name "$BINARY_NAME"
   --add-data "backend:backend"
   --add-data "backend/db.sqlite3:."
@@ -30,12 +31,17 @@ PYINSTALLER_ARGS=(
   --collect-all pandas
   --collect-all corsheaders
   --collect-all requests
+  --collect-all uvicorn
+  --collect-all channels
   --copy-metadata requests
   --copy-metadata django
   --copy-metadata django-cors-headers
   --copy-metadata pandas
   --copy-metadata python-dotenv
+  --copy-metadata uvicorn
+  --copy-metadata channels
 )
+
 
 # Build
 echo "📦 Building with PyInstaller..."
