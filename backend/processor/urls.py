@@ -6,7 +6,7 @@ from django.http import HttpResponse
 
 print("✅ Django backend is running.")  # fixed line
 urlpatterns = [
-    path('', lambda request: HttpResponse("✅ Django backend is running.")),  # fixed line
+    path('', lambda request: HttpResponse("Django backend is running.")),  # fixed line
     path('admin/', admin.site.urls),
     path('', include('rtsp.urls')),
     path('', include('record.urls')),

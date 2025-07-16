@@ -47,7 +47,7 @@ if(!is.dev){
   console.log('Running in development mode, Django server will not be started automatically.')
   // Run django from ../../../backend/manage.py runserver
   djangoProcess = execFile('python', ['-m', 'uvicorn', 'backend.processor.asgi:application', '--host', domain, '--port', port], {
-      cwd: join(__dirname, '../../../backend')
+      cwd: join(__dirname, '../../../')
     }, (error) => {
       if (error) {
         console.error('Django error:', error)
@@ -159,11 +159,15 @@ app.whenReady().then(() => {
       const waitOn = mod.default
       console.log('Waiting for Django server to be ready...')
 
-      waitOn({ resources: [url], timeout: 15000 }, (err) => {
+      waitOn({ resources: [url], timeout: 30000 }, (err) => {
         if (err) {
           console.error('Django server failed to start:', err)
           console.warn('Opening app anyway in fallback mode...')
-          createWindow() // fallback
+          // Close app
+            if (splashWindow) splashWindow.destroy()
+            if (win) win.destroy()
+            app.isQuiting = true
+            app.quit()
         } else {
           console.log('Django server is ready.')
           waitForHealthPing(apiHealthUrl, () => {
