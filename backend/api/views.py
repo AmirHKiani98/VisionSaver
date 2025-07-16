@@ -218,7 +218,8 @@ def get_ips(request):
         
         # Return matching rows as an array of dictionaries
         matching_data = all_df[mask]
-
+        # Sort alphabetically by 'name'
+        matching_data = matching_data.sort_values(by='name', ascending=True)
         return JsonResponse({"name": matching_data["name"].values.tolist(), "ip": matching_data["ip"].values.tolist()}, status=200)
 
     except Exception as e:
