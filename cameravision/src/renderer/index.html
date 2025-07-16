@@ -4,12 +4,13 @@
     <meta charset="UTF-8" />
     <title>CamArchive</title>
     <meta http-equiv="Content-Security-Policy"
-          content="
-            default-src 'self';
-            img-src 'self' data:;
-            connect-src 'self' ws: http://localhost:5050;
-            media-src 'self' http://localhost:5050;
-            style-src 'self' 'unsafe-inline';" />
+            content="
+              default-src 'self';
+              img-src 'self' data: blob:;
+              connect-src 'self' ws: http://localhost:5050;
+              media-src 'self' http://localhost:5050;
+              style-src 'self' 'unsafe-inline';
+            ">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="Accept" content="video/webm">
     <link rel="stylesheet" href="./src/assets/output.css">

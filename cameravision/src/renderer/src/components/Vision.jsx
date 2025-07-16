@@ -3,11 +3,11 @@ import { CircularProgress, Button } from '@mui/material'
 import { Link } from 'react-router-dom'
 import ContextMenu from './ContextMenu'
 const Vision = (props) => {
-  const [src, setSrc] = React.useState(props.src || '')
+  const [src, setSrc] = React.useState('')
   // Expose setSrc to parent via ref if provided
   React.useEffect(() => {
     if (!props.streamViaWebSocket || !props.src) return;
-
+    console.log("Connecting to WebSocket for stream:", props.src);
     const socket = new WebSocket(props.src);
     let isMounted = true;
 
@@ -23,7 +23,7 @@ const Vision = (props) => {
     };
 
     socket.onerror = (e) => {
-      console.error("WebSocket error:", e);
+      console.error("WebSocket error:", e.message, e.code);
       if (isMounted) setError(true);
     };
 
