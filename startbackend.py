@@ -2,7 +2,8 @@ import os
 import sys
 import dotenv
 import uvicorn
-
+import threading
+import subprocess
 def resource_path(relative_path):
     """
     Get absolute path to resource, works for dev and PyInstaller.
@@ -18,6 +19,15 @@ if hasattr(sys, "_MEIPASS"):
     print(f"Running in frozen mode. Base path: {sys._MEIPASS}") # type: ignore
 else:
     print(f"Running in dev mode. Base path: {os.path.abspath('.')}")
+
+BASE_DIR = os.path.abspath(".")
+BACKEND_DIR = os.path.join(BASE_DIR, "backend")
+PROCESSOR_DIR = os.path.join(BACKEND_DIR, "processor")
+
+# Ensure 'backend' and 'backend/processor' are in sys.path
+sys.path.insert(0, BASE_DIR)
+sys.path.insert(0, BACKEND_DIR)
+sys.path.insert(0, PROCESSOR_DIR)
 
 def find_hc_to_app_env_folders(start_path):
     hc_to_app_env_folders = []
@@ -99,13 +109,40 @@ asgi_path = "backend.processor.asgi:application"
 host = backend_server_domain
 port = int(backend_server_port)
 
-print(f"Starting Uvicorn server at http://{host}:{port}")
-uvicorn.run(asgi_path, host=host, port=port, log_level="info", workers=1)
 
 # Running the streamer server
 stream_server_port = int(os.getenv("STREAM_SERVER_PORT", 2500))
 stream_server_domain = os.getenv("STREAM_SERVER_DOMAIN", "localhost")
 
-streamer_asgi_path = "backend.apps.streamer.asgi_mpeg:app"
 print(f"Starting Streamer server at http://{stream_server_domain}:{stream_server_port}")
-uvicorn.run(streamer_asgi_path, host=stream_server_domain, port=stream_server_port, log_level="info", workers=1)
+def run_django():
+    print(f"Starting Django at http://{backend_server_domain}:{backend_server_port}")
+    uvicorn.run("backend.processor.asgi:application", host=backend_server_domain, port=backend_server_port, log_level="info", workers=1)
+
+def run_streamer():
+    print(f"Starting Streamer at http://{stream_server_domain}:{stream_server_port}")
+    uvicorn.run("backend.apps.streamer.asgi_mpeg:app", host=stream_server_domain, port=stream_server_port, log_level="info", workers=1)
+
+def run_cronjob():
+    print("Starting Cronjob")
+    try:
+        subprocess.run([sys.executable, "-m", "backend.processor.cronjob"], check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"[CRONJOB ERROR] Exit code {e.returncode}, with error: {e.stderr.decode().strip() if e.stderr else 'No stderr output'}")
+# Use threads to run both servers concurrently
+t1 = threading.Thread(target=run_django, daemon=True)
+t2 = threading.Thread(target=run_streamer, daemon=True)
+t3 = threading.Thread(target=run_cronjob, daemon=True)
+
+t1.start()
+t2.start()
+t3.start()
+
+# Keep the main thread alive
+try:
+    t1.join()
+    t2.join()
+    t3.join()
+except KeyboardInterrupt:
+    print("\n🛑 Shutting down servers.")
+    sys.exit(0)

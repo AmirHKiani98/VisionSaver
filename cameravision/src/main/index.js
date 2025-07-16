@@ -2,7 +2,23 @@ import { app, shell, BrowserWindow, ipcMain, Tray, Menu, nativeImage } from 'ele
 import { join, resolve } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import dotenv from 'dotenv'
-const { execFile } = require('child_process')
+const { execFile, exec } = require('child_process')
+
+
+function killPort(port, cb) {
+  const killCmd = process.platform === 'win32'
+    ? `for /f "tokens=5" %a in ('netstat -nao ^| find ":${port}" ^| find "LISTENING"') do taskkill /f /pid %a`
+    : `lsof -ti :${port} | xargs kill -9`;
+
+  exec(killCmd, (err, stdout, stderr) => {
+    if (err) {
+      console.warn(`Warning: Could not free port ${port}:`, stderr.trim());
+    } else {
+      console.log(`✔ Freed port ${port}`);
+    }
+    cb?.();
+  });
+}
 
 // Load .env early
 if (is.dev){
@@ -26,6 +42,7 @@ console.log(`Streamer server URL: ${streamerUrl}`)
 const frontRoot = resolve(__dirname, '../../')
 let djangoProcess = null
 let streamerProcess = null
+let cronJobProcess = null
 const backendBinary = is.dev
   ? join(
       frontRoot,
@@ -53,7 +70,7 @@ if(!is.dev){
 } else {
   console.log('Running in development mode, Django server will not be started automatically.')
   // Run django from ../../../backend/manage.py runserver
-  djangoProcess = execFile('python', ['-m', 'uvicorn', 'backend.processor.asgi:application', '--host', domain, '--port', port, '--workers', '1'], {
+  djangoProcess = execFile('python', ['-m', 'uvicorn', 'backend.processor.asgi:create_app','--factory', '--host', domain, '--port', port, '--workers', '1'], {
       cwd: join(__dirname, '../../../')
     }, (error) => {
       if (error) {
@@ -63,13 +80,24 @@ if(!is.dev){
       }
     }
   )
-  streamerProcess = execFile('python', ['-m', 'uvicorn', 'backend.apps.streamer.asgi_mpeg:app', '--host', streamerDomain, '--port', streamerPort, '--workers', '1'], {
+  killPort(streamerPort, () => {
+    streamerProcess = execFile('python', ['-m', 'uvicorn', 'backend.apps.streamer.asgi_mpeg:app', '--host', streamerDomain, '--port', streamerPort,], {
+      cwd: join(__dirname, '../../../')
+    }, (error) => {
+      if (error) {
+        console.error('Streamer error:', error)
+      } else {
+        console.log('Streamer server started successfully.')
+      }
+    })
+  })
+  cronJobProcess = execFile('python', ['-m', 'backend.processor.cronjob'], {
     cwd: join(__dirname, '../../../')
   }, (error) => {
     if (error) {
-      console.error('Streamer error:', error)
+      console.error('Cronjob error:', error)
     } else {
-      console.log('Streamer server started successfully.')
+      console.log('Cronjob started successfully.')
     }
   })
 }
@@ -175,7 +203,7 @@ app.whenReady().then(() => {
       const waitOn = mod.default
       console.log('Waiting for Django server to be ready...')
 
-      waitOn({ resources: [url, streamerUrl], timeout: 7500 }, (err) => {
+      waitOn({ resources: [url, streamerUrl], timeout: 12000 }, (err) => {
         if (err) {
           console.error('Django or Streamer server failed to start:', err)
           console.warn('Opening app anyway in fallback mode...')
