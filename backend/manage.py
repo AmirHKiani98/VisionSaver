@@ -3,8 +3,10 @@
 import os
 import sys
 import dotenv
-dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), '../.hc_to_app_env'))
+from django.conf import settings
+# Load environment variables
 
+dotenv.load_dotenv(settings.ENV_PATH)
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.processor.settings')

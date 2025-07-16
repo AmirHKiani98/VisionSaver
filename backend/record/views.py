@@ -14,8 +14,11 @@ from django.conf import settings
 
 # Create your views here.
 from .rtsp_object import RTSPObject
-from django.db.models import Count, Max
-dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), '../.hc_to_app_env'))
+from django.db.models import Max
+from django.conf import settings
+# Load environment variables
+
+dotenv.load_dotenv(settings.ENV_PATH)
 
 def start_record_rtsp(request):
     """
@@ -32,6 +35,7 @@ def start_record_rtsp(request):
         camera_url = request.POST.get('camera_url')
         duration = request.POST.get('duration')
         start_time = request.POST.get('start_time')
+        recorid_id = request.POST.get('record_id')
         if not camera_url or not duration or not start_time:
             return JsonResponse(
                 {
@@ -50,7 +54,7 @@ def start_record_rtsp(request):
             )
         rtsp_obj = RTSPObject(camera_url)
         try:
-            rtsp_obj.record(duration, f"{cache_dir}/recording_{start_time}_{duration}.mp4")
+            rtsp_obj.record(duration, f"{cache_dir}/recording_{start_time}_{duration}.mp4", recorid_id)
         except Exception as e:
             return JsonResponse({"error": f"An error occurred while recording: {str(e)}"}, status=500)
 

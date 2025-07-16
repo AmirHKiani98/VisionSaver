@@ -6,7 +6,10 @@ import os
 from django.urls import path
 import dotenv
 from . import views
-dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), '../.hc_to_app_env'))
+from django.conf import settings
+# Load environment variables
+
+dotenv.load_dotenv(settings.ENV_PATH)
 
 urlpatterns = [
     # Health check endpoint

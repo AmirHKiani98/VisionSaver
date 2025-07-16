@@ -3,7 +3,10 @@ import sys
 import logging
 import logging.handlers
 import dotenv
-dotenv.load_dotenv(os.path.join(os.path.dirname(__file__), '../.hc_to_app_env'))
+from django.conf import settings
+# Load environment variables
+
+dotenv.load_dotenv(settings.ENV_PATH)
 
 class Logger:
     """
