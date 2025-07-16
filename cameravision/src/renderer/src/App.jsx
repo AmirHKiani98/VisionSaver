@@ -645,7 +645,7 @@ function App() {
               {visions && visions.length > 0 ? (
                 <VisionContainer>
                   {visions.map((visionProps, idx) => (
-                    <Vision img key={idx} {...visionProps} streamViaWebSocket />
+                    <Vision img key={idx} {...visionProps} streamViaWebSocket={true} />
                   ))}
                 </VisionContainer>
               ) : (

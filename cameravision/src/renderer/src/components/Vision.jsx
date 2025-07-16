@@ -6,32 +6,39 @@ const Vision = (props) => {
   const [src, setSrc] = React.useState(props.src || '')
   // Expose setSrc to parent via ref if provided
   React.useEffect(() => {
-    if (!props.streamViaWebSocket) return;
+    if (!props.streamViaWebSocket || !props.src) return;
+
+    const socket = new WebSocket(props.src);
+    let isMounted = true;
 
     setLoading(true);
     setError(false);
 
-    const socket = new WebSocket(props.src);
-
     socket.onmessage = (event) => {
-      // You should be sending base64-encoded JPEG data
-      const base64Image = event.data;
-      setSrc(`data:image/jpeg;base64,${base64Image}`);
-      setLoading(false);
+      if (isMounted) {
+        const base64Image = event.data;
+        setSrc(`data:image/jpeg;base64,${base64Image}`);
+        setLoading(false);
+      }
     };
 
     socket.onerror = (e) => {
       console.error("WebSocket error:", e);
-      setError(true);
+      if (isMounted) setError(true);
     };
 
     socket.onclose = () => {
       console.warn("WebSocket closed.");
-      setError(true);
+      if (isMounted) setError(true);
     };
 
-    return () => socket.close();
-  }, [props.streamViaWebSocket]);
+    return () => {
+      isMounted = false;
+      socket.close();
+    };
+  }, [props.streamViaWebSocket, props.src]);
+
+
   React.useImperativeHandle(
     props.innerRef,
     () => ({
