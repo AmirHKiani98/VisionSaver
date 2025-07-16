@@ -28,7 +28,7 @@ def record_rtsp_task(record_id, camera_url, duration, output_file):
         logger.info(f"Starting recording for record ID {record_id}")
         
         rtsp_obj = RTSPObject(camera_url)
-        done = rtsp_obj.record(duration, output_file)
+        done = rtsp_obj.record(duration, output_file, record_id)
         
         # Check if file was created and has reasonable size
         if done:
