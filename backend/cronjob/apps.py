@@ -104,7 +104,7 @@ def job_checker():
             pass
         except Exception as e:
             logger.error(f"Error in job_checker: {e}")
-        time.sleep(60)
+        time.sleep(10)
 
 class CronjobConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'

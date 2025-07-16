@@ -32,16 +32,18 @@ const RecordLink = (props) => {
     if (!env || !env.BACKEND_SERVER_DOMAIN || !env.BACKEND_SERVER_PORT || !env.WEBSOCKET_RECORD_PROGRESS) return;
 
     const sockets = {};
-
+    console.log('Connecting to WebSocket for record progress updates...');
     recordsId.forEach((recordId) => {
       const ws = new WebSocket(
         `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.WEBSOCKET_RECORD_PROGRESS}/${recordId}/`
       );
-
+      console.log(`WebSocket URL for recordId ${recordId}:`, ws.url);
       sockets[recordId] = ws;
-
+      console.log(`WebSocket created for recordId ${recordId}`);
       ws.onmessage = (event) => {
+        console.log(`WebSocket message received for recordId ${recordId}:`, event.data);
         const data = JSON.parse(event.data);
+        console.log(`WebSocket message for recordId ${recordId}:`, data);
         console.log(recordId, 'Received progress data:', data);
         if (data.progress !== undefined) {
           setProgresses((prev) => ({ ...prev, [recordId]: data.progress }));
