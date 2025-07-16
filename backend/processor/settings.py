@@ -213,7 +213,7 @@ def get_ffmpeg_path():
             return os.path.join(exe_dir, "_internal", "backend", os.environ.get("FFMPEG_PATH", "apps/ffmpeg/bin/ffmpeg.exe"))
         else:
             # Running in development - use the BASE_DIR approach
-            return os.path.abspath(os.path.join(os.path.dirname(__file__), os.environ.get("FFMPEG_PATH", "apps/ffmpeg/bin/ffmpeg.exe")))
+            return os.path.abspath(os.path.join(BASE_DIR, os.environ.get("FFMPEG_PATH", "apps/ffmpeg/bin/ffmpeg.exe")))
     except:
         # Fallback: use current working directory
         return os.path.join(os.getcwd(), os.environ.get("FFMPEG_PATH", "apps/ffmpeg/bin/ffmpeg.exe"))

@@ -176,10 +176,10 @@ function App() {
               ...record,
               cameraUrl: record.camera_url || record.cameraUrl, // Ensure cameraUrl is set correctly
               startTime: record.start_time || record.startTime,
-              inProcess: record.in_process || record.inProcess
+              inProcess: record.in_process || record.inProcess,
+              recordsId: record.records_id || [], // Ensure recordsId is set correctly
               }))
               .sort((a, b) => new Date(b.startTime) - new Date(a.startTime))
-
             setRecordLinks(records)
           } else {
             setRecordLinks([])
@@ -610,7 +610,7 @@ function App() {
                           roundedClass={roundedClass}
                           onRemove={() => onRemoveRecord(record.token)}
                           inProcess={record.inProcess}
-                          recordsId={record.reocrdsId}
+                          recordsId={record.recordsId}
                           done={record.done}
                         />
                       );

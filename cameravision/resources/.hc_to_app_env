@@ -27,3 +27,5 @@ CACHE_DIR=media
 FFMPEG_PATH=apps/ffmpeg/bin/ffmpeg.exe
 # Logger
 LOGGER_DIRECTORY=logs
+# Websocket
+WEBSOCKET_RECORD_PROGRESS=ws/recording_progress

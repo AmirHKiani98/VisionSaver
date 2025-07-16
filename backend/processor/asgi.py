@@ -6,3 +6,4 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'processor.settings')
 django.setup()
 application = get_default_application()
 
+from backend.routing import application

@@ -83,8 +83,8 @@ class RTSPObject:
             raise EnvironmentError("FFMPEG_PATH environment variable is not set.")
         ffmpeg_path = ffmpeg_env if os.path.isabs(ffmpeg_env) else os.path.join(str(settings.BASE_DIR), ffmpeg_env)
         if not os.path.isfile(ffmpeg_path):
+
             logger.error(f"FFmpeg executable not found at: {ffmpeg_path}")
-            logger.info(f"Path to BASE_DIR: {str(settings.BASE_DIR)}")
             raise FileNotFoundError(f"FFmpeg executable not found at: {ffmpeg_path}")
         output_path = os.path.splitext(input_path)[0] + ".mp4"
         logger.info(f"ffmpeg path: {ffmpeg_path}")
@@ -129,6 +129,9 @@ class RTSPObject:
         ffmpeg_path = ffmpeg_env if os.path.isabs(ffmpeg_env) else os.path.join(str(settings.BASE_DIR), ffmpeg_env)
         if not os.path.isfile(ffmpeg_path):
             logger.error(f"FFmpeg executable not found at: {ffmpeg_path}")
+            logger.error(f"Path to BASE_DIR: {str(settings.BASE_DIR)}")
+            logger.error(f"FFMPEG Env: {ffmpeg_env}")
+
             raise FileNotFoundError(f"FFmpeg executable not found at: {ffmpeg_path}")
         # Adjust output extension according to method
         abs_output_path = os.path.splitext(abs_output_path)[0] + ".mkv"
