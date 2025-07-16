@@ -105,8 +105,9 @@ class RTSPObject:
         else:
             logger.warning("FFmpeg stderr is None, no progress updates will be sent.")
         if process.returncode != 0:
-            logger.error(f"[ERROR] Transcoding failed: {process.stderr}")
-            raise RuntimeError(f"Transcoding failed: {process.stderr}")
+            stderr_output = process.communicate()[1]
+            logger.error(f"[ERROR] Transcoding failed: {stderr_output}")
+            raise RuntimeError(f"Transcoding failed: {stderr_output}")
         return output_path
     
     def record(self, duration_minutes: int, output_path: str, record_id: str):

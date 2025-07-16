@@ -60,7 +60,7 @@ def job_checker():
                         "output_file": output_file
                     }
 
-                    post_url = f"{os.getenv('RECORD_FUNCTION_NAME')}"
+                    post_url = f"http://{os.getenv('BACKEND_SERVER_DOMAIN')}:{os.getenv('BACKEND_SERVER_PORT')}/{os.getenv('RECORD_FUNCTION_NAME')}/"
                     response = requests.post(post_url, json=post_data)
                     if response.status_code == 200:
                         print(f"Record {record.id} started successfully.")

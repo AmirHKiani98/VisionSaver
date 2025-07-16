@@ -555,6 +555,10 @@ function App() {
                     <Button
                       id="submit-start-recording"
                       className="bg-red-500 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-red-700"
+                      onClick={() => {
+                        setTime(dayjs().add(1, 'minute'))
+                        setTimeout(() => addCronJob(),  1000); // TOdo
+                      }}
                     >
                       <FontAwesomeIcon icon={faRecordVinyl} />
                     </Button>
