@@ -115,7 +115,6 @@ function App() {
       return () => {} // Return early if env is not set
     }
     const myIntervalFunction = () => {
-      console.log("Checking recording status...")
       setCounter(prevCounter => prevCounter + 1); // Example: update state
       const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.GET_RECORD_STATUS}/`
       const notDoneRecords = recordLinks.filter(record => !record.done)
@@ -204,7 +203,6 @@ function App() {
       ip: ip,
       cameraUrl: cameraUrl,
       id: `camera-${id}`,
-      posIndex: visions.length,
       onRemove: removeStreamHandler
     }
     setVisions((prev) => [...prev, newVisionInfo])
@@ -370,10 +368,11 @@ function App() {
       ...prev
     ])
   }
-  const removeStreamHandler = (posIndex) => {
+  const removeStreamHandler = (src) => {
     // Remove the vision at index posIndex
-    setVisions((prev) => prev.filter((_, index) => index !== posIndex))
-    openNotification('success', `Camera stream with id ${id} deleted.`)
+    
+    setVisions((prev) => prev.filter((item, index) => item.src !== src))
+    openNotification('success', `Camera stream with id ${src} deleted.`)
   }
 
 
@@ -637,11 +636,10 @@ function App() {
                 />
               </div>
             </div>
-            <div className="flex-1">
-              {visions && visions.length > 0 ? (
+            <div className="flex-1">              {visions && visions.length > 0 ? (
                 <VisionContainer>
                   {visions.map((visionProps, idx) => (
-                    <Vision img key={idx} {...visionProps} />
+                    <Vision img key={visionProps.id} {...visionProps} />
                   ))}
                 </VisionContainer>
               ) : (

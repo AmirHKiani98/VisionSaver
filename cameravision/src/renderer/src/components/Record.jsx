@@ -254,10 +254,9 @@ const Record = forwardRef((props, ref) => {
                 margin: 0,
                 padding: 0
               }}
-            />
-            {Array.isArray(props.logs) && props.logs.map((turn, idx) => (
+            />            {Array.isArray(props.logs) && props.logs.map((turn, idx) => (
                   <RecordLogIndicator
-                  key={idx}
+                  key={turn.id}
                   id={turn.id}
                   percentage={duration > 0 ? (turn.time / duration) * 100 : 0}
                   color={

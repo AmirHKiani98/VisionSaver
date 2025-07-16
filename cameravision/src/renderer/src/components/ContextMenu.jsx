@@ -37,10 +37,9 @@ const ContextMenu = React.forwardRef(({ menuItems, children, className, contextM
                     menuState.mouseY !== null && menuState.mouseX !== null
                         ? { top: menuState.mouseY, left: menuState.mouseX }
                         : undefined
-                }
-            >
+                }            >
                 {menuItems && menuItems.map((item, idx) => (
-                    <MenuItem key={idx} onClick={() => { item.action && item.action(); handleClose(); }}>
+                    <MenuItem key={item.label || idx} onClick={() => { item.action && item.action(); handleClose(); }}>
                         {item.label}
                     </MenuItem>
                 ))}

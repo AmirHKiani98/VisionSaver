@@ -37,7 +37,7 @@ const Vision = (props) => {
   return (
     <ContextMenu
       menuItems={[
-        { label: 'Delete', action: () => props.onRemove(props.id) },
+        { label: 'Delete', action: () => props.onRemove(props.src) },
         { label: 'Info', action: props.onInfo || (() => alert(`ID: ${props.id}\nSource: ${src}`)) }
       ]}
       className="relative !bg-main-300 rounded-lg shadow-lg overflow-hidden flex items-center justify-center"
