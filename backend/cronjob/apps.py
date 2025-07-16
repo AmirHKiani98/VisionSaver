@@ -32,8 +32,6 @@ def record_rtsp_task(record_id, camera_url, duration, output_file):
         
         # Check if file was created and has reasonable size
         if done:
-            
-
             record.done = True
             record.error = ""
             logger.info(f"Recording completed successfully for record ID {record_id}")

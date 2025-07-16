@@ -14,6 +14,7 @@ const RecordLink = (props) => {
   const [recordingClass, setRecordingClass] = React.useState('text-white')
   const [recordsId, setRecordsId] = React.useState(props.recordsId || [])
   const [progresses, setProgresses] = React.useState({})
+  const [env, setEnv] = React.useState(null)
   React.useEffect(()=>{
     if (!props.recordsId) return
     progressDict = {}
@@ -61,7 +62,7 @@ const RecordLink = (props) => {
   //     return () => clearInterval(intervalId); // Cleanup on unmount
   // }, []);
   // Helper function to format date as mm-dd-yyyy hh:mm:ss
-  
+
   const formatDateTime = (dateString) => {
     const date = new Date(dateString)
     if (isNaN(date)) return ''
