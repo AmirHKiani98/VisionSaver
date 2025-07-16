@@ -7,10 +7,42 @@ from django.http import HttpResponseNotFound
 import dotenv
 from .models import Record, RecordLog  # Import models here to avoid circular import issues
 from django.views.decorators.csrf import csrf_exempt
-
+import threading
 # Import settings django
 from django.conf import settings
+from backend.record.rtsp_object import RTSPObject
 
+logger = settings.APP_LOGGER
+def record_rtsp_task(record_id, camera_url, duration, output_file):
+
+    print(f"Starting recording task for record ID {record_id}")
+    try:
+        record = Record.objects.get(id=record_id)
+        record.in_process = True
+        record.save()
+
+        os.makedirs(os.path.dirname(output_file), exist_ok=True)
+        rtsp_obj = RTSPObject(camera_url)
+        done = rtsp_obj.record(duration, output_file, record_id)
+
+        if done:
+            record.done = True
+            record.error = ""
+        else:
+            record.done = False
+            record.error = f"File doesn't exist at {output_file}"
+            logger.error(f"Recording file doesn't exist: {output_file}")
+
+    except Exception as e:
+        import traceback
+        logger.error(f"Recording error for {record_id}: {e}\n{traceback.format_exc()}")
+        record = Record.objects.get(id=record_id)
+        record.done = False
+        record.error = str(e)
+
+    record.in_process = False
+    record.save()
+    print(f"Finished recording for record ID {record_id}")
 
 # Create your views here.
 from .rtsp_object import RTSPObject
@@ -25,45 +57,37 @@ def start_record_rtsp(request):
     Start a recording of an RTSP stream.
     This view should be triggered via a POST request with the necessary parameters.
     """
-    cache_dir = os.getenv("CACHE_DIR", ".cache")
-    if not os.path.isdir(cache_dir):
-        os.makedirs(cache_dir)
     if request.method != 'POST':
         return JsonResponse({"error": "Method Not Allowed"}, status=405)
-    
     try:
-        camera_url = request.POST.get('camera_url')
-        duration = request.POST.get('duration')
-        start_time = request.POST.get('start_time')
-        recorid_id = request.POST.get('record_id')
-        if not camera_url or not duration or not start_time:
-            return JsonResponse(
-                {
-                    "error": (
-                        "One or more of the following variables are not defined: "
-                        "'camera_url', 'duration', and 'start_time'"
-                    )
-                },
-                status=400
-            )
-        duration = int(duration)
-        if duration <= 0:
-            return JsonResponse(
-                {"error": "'duration' must be a positive integer."},
-                status=400
-            )
-        rtsp_obj = RTSPObject(camera_url)
-        try:
-            rtsp_obj.record(duration, f"{cache_dir}/recording_{start_time}_{duration}.mp4", recorid_id)
-        except Exception as e:
-            return JsonResponse({"error": f"An error occurred while recording: {str(e)}"}, status=500)
+        data = json.loads(request.body.decode('utf-8'))
+        record_id = data.get('record_id')
+        camera_url = data.get('camera_url')
+        duration = data.get('duration', 60)  # Default to 60 seconds if not provided
+        output_file = data.get('output_file', f"{settings.MEDIA_ROOT}/{record_id}.mkv")
 
-        
-        # For demonstration, we will just return a success message.
-        return JsonResponse(
-            {"message": f"Recording started for {camera_url} for {duration} seconds."},
-            status=200
+        if not record_id or not camera_url:
+            return JsonResponse({"error": "'record_id' and 'camera_url' are required."}, status=400)
+
+        # Create a new Record instance
+        record = Record.objects.create(
+            id=record_id,
+            camera_url=camera_url,
+            duration=duration,
+            output_file=output_file
         )
+        record.save()
+
+        # Start the recording in a separate thread
+        threading.Thread(
+            target=record_rtsp_task,
+            args=(record.id, camera_url, duration, output_file)
+        ).start()
+
+        return JsonResponse({"message": "Recording started successfully.", "record_id": record.id}, status=200)
+
+    except json.JSONDecodeError:
+        return JsonResponse({"error": "Invalid JSON body."}, status=400)
     except Exception as e:
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
 
