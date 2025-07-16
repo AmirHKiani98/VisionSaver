@@ -68,7 +68,7 @@ class RTSPObject:
         Destructor to ensure the RTSP stream is released when the object is deleted.
         """
         self.release()
-    def transcode_to_mp4(self, input_path, record_id):
+    def transcode_to_mp4(self, input_path, record_id, duration_minutes):
         """
         Transcode a video to browser-friendly MP4 (H.264/AAC).
         """
@@ -98,7 +98,11 @@ class RTSPObject:
                 match = progress_re.search(line)
                 if match:
                     timestamp = match.group(1)
-                    broadcast_progress(str(record_id), timestamp)
+                    h, m, s = timestamp.split(':')
+                    seconds = float(s)
+                    timestamps_to_seconds = int(h) * 3600 + int(m) * 60 + seconds
+                    percentage = timestamps_to_seconds/(duration_minutes * 60)
+                    broadcast_progress(str(record_id), str(percentage))
         else:
             logger.warning("FFmpeg stderr is None, no progress updates will be sent.")
         if process.returncode != 0:
@@ -173,13 +177,17 @@ class RTSPObject:
                     match = progress_re.search(line)
                     if match:
                         timestamp = match.group(1)
-                        broadcast_progress(str(record_id), timestamp)
+                        h, m, s = timestamp.split(':')
+                        seconds = float(s)
+                        timestamps_to_seconds = int(h) * 3600 + int(m) * 60 + seconds
+                        percentage = timestamps_to_seconds/(duration_minutes * 60)
+                        broadcast_progress(str(record_id), str(percentage))
             else:
                 logger.warning("FFmpeg stderr is None, no progress updates will be sent.")
 
             if os.path.exists(abs_output_path):
                 logger.debug(f"Output file created: {abs_output_path}")
-                output_path = self.transcode_to_mp4(abs_output_path, record_id)
+                output_path = self.transcode_to_mp4(abs_output_path, record_id, duration_minutes)
                 logger.debug(f"Transcoded output path: {output_path}")
                 if os.path.exists(output_path):
                     logger.debug("Recording and transcoding successful.")

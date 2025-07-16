@@ -43,8 +43,6 @@ const RecordLink = (props) => {
       ws.onmessage = (event) => {
         console.log(`WebSocket message received for recordId ${recordId}:`, event.data);
         const data = JSON.parse(event.data);
-        console.log(`WebSocket message for recordId ${recordId}:`, data);
-        console.log(recordId, 'Received progress data:', data);
         if (data.progress !== undefined) {
           setProgresses((prev) => ({ ...prev, [recordId]: data.progress }));
         }
