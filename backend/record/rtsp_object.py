@@ -20,7 +20,7 @@ logger = settings.APP_LOGGER
 def broadcast_progress(record_id: str, progress: str, recording: bool = False, converting: bool = False):
     channel_layer = get_channel_layer()
     group_name = f"recording_progress_{record_id}"
-    logger.info(f"Broadcasting progress {progress} for record {record_id} to group {group_name}")
+    # logger.info(f"Broadcasting progress {progress} for record {record_id} to group {group_name}")
     if channel_layer is not None:
         async_to_sync(channel_layer.group_send)(
             group_name,
