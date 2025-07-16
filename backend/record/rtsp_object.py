@@ -42,8 +42,8 @@ class RTSPObject:
         self.url = url
         self.cap = cv2.VideoCapture(url)
         self.record_type = record_type
-        if not self.cap.isOpened():
-            raise ValueError(f"Could not open RTSP stream at {url}")
+        # if not self.cap.isOpened():
+        #     raise ValueError(f"Could not open RTSP stream at {url}")
     
     def read_frame(self):
         """
@@ -78,7 +78,6 @@ class RTSPObject:
             raise EnvironmentError("FFMPEG_PATH environment variable is not set.")
         ffmpeg_path = ffmpeg_env if os.path.isabs(ffmpeg_env) else os.path.join(str(settings.BASE_DIR), ffmpeg_env)
         if not os.path.isfile(ffmpeg_path):
-
             logger.error(f"FFmpeg executable not found at: {ffmpeg_path}")
             raise FileNotFoundError(f"FFmpeg executable not found at: {ffmpeg_path}")
         output_path = os.path.splitext(input_path)[0] + ".mp4"
