@@ -10,12 +10,12 @@ import AccessAlarmIcon from '@mui/icons-material/AccessAlarm'
 
 const RecordLink = (props) => {
   // Define the onRemove handler, either from props or as a placeholder
-  const onRemove = props.onRemove || (() => {})
+  const onRemove = props.onRemove || (() => { })
   const [recordingClass, setRecordingClass] = React.useState('text-white')
   const [recordsId, setRecordsId] = React.useState(props.recordsId || [])
   const [progresses, setProgresses] = React.useState({})
   const [env, setEnv] = React.useState(null)
-  React.useEffect(()=>{
+  React.useEffect(() => {
     if (!props.recordsId) return
     const progressDict = {}
     props.recordsId.forEach((recordId) => {
@@ -25,34 +25,35 @@ const RecordLink = (props) => {
 
   }, [props.recordsId])
   React.useEffect(() => {
-      window.env.get().then(setEnv)
-    }, [])
+    window.env.get().then(setEnv)
+  }, [])
 
   React.useEffect(() => {
-    
+
     if (props.inProcess) {
       if (!env || !env.BACKEND_SERVER_DOMAIN || !env.BACKEND_SERVER_PORT || !env.WEBSOCKET_RECORD_PROGRESS) {
         return; // Return early if env is not set or API endpoint is missing
       }
       const intervalId = setInterval(() => {
         const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.WEBSOCKET_RECORD_PROGRESS}`
-        console.log(recordsId)
+
         recordsId.forEach(async (recordId) => {
           const ws = new WebSocket(
-          `${wsUrl}/${recordId}/`
-        )
-        
+            `${wsUrl}/${recordId}/`)
 
-        ws.onmessage = (event) => {
-          const data = JSON.parse(event.data)
-          if (data.progress !== undefined) {
-            setProgresses((prev) => ({ ...prev, [recordId]: data.progress }))
+
+          ws.onmessage = (event) => {
+            const data = JSON.parse(event.data)
+            console.log(recordId)
+            console.log('Received (progress data:', data)
+            if (data.progress !== undefined) {
+              setProgresses((prev) => ({ ...prev, [recordId]: data.progress }))
+            }
           }
-        }
-      })
-    }, 1000)
-    return () => clearInterval(intervalId)
-  }
+        })
+      }, 1000)
+      return () => clearInterval(intervalId)
+    }
   }, [env, props.inProcess, recordsId])
   // TODO: This is too much. It might cause performance issues if there are many records.
   // React.useEffect(() => {
