@@ -5,6 +5,7 @@ import cv2
 import os
 import sys
 import dotenv
+import time
 def get_env_path():
     """Get the absolute path to the environment file."""
     if hasattr(sys, '_MEIPASS'):
@@ -23,8 +24,11 @@ def generate_frames(rtsp_url):
     cap = cv2.VideoCapture(rtsp_url)
     if not cap.isOpened():
         raise RuntimeError("Cannot open RTSP stream")
-
+    start_time = time.time()
     while True:
+        if time.time() - start_time > 10:
+            # Stop after 10 seconds to avoid infinite loop
+            break
         success, frame = cap.read()
         if not success:
             break
