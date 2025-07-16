@@ -6,12 +6,14 @@ from urllib.parse import parse_qs
 
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
+import logging
+logger = logging.getLogger(__name__)
 class MJPEGConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         query_string = self.scope['query_string'].decode()
         params = parse_qs(query_string)
         self.rtsp_url = params.get('url', [None])[0]
-        print(f"Connecting to RTSP URL: {self.rtsp_url}")
+        logger.info("Reading frame from: %s", self.rtsp_url)
         if not self.rtsp_url:
             await self.close()
             return
