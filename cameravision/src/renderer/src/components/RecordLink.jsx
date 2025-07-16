@@ -29,32 +29,41 @@ const RecordLink = (props) => {
   }, [])
 
   React.useEffect(() => {
+    if (!env || !env.BACKEND_SERVER_DOMAIN || !env.BACKEND_SERVER_PORT || !env.WEBSOCKET_RECORD_PROGRESS) return;
 
-    if (props.inProcess) {
-      if (!env || !env.BACKEND_SERVER_DOMAIN || !env.BACKEND_SERVER_PORT || !env.WEBSOCKET_RECORD_PROGRESS) {
-        return; // Return early if env is not set or API endpoint is missing
-      }
-      const intervalId = setInterval(() => {
-        const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.WEBSOCKET_RECORD_PROGRESS}`
+    const sockets = {};
 
-        recordsId.forEach(async (recordId) => {
-          const ws = new WebSocket(
-            `${wsUrl}/${recordId}/`)
+    recordsId.forEach((recordId) => {
+      const ws = new WebSocket(
+        `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.WEBSOCKET_RECORD_PROGRESS}/${recordId}/`
+      );
 
+      sockets[recordId] = ws;
 
-          ws.onmessage = (event) => {
-            const data = JSON.parse(event.data)
-            console.log(recordId)
-            console.log('Received (progress data:', data)
-            if (data.progress !== undefined) {
-              setProgresses((prev) => ({ ...prev, [recordId]: data.progress }))
-            }
-          }
-        })
-      }, 1000)
-      return () => clearInterval(intervalId)
-    }
-  }, [env, props.inProcess, recordsId])
+      ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        console.log(recordId, 'Received progress data:', data);
+        if (data.progress !== undefined) {
+          setProgresses((prev) => ({ ...prev, [recordId]: data.progress }));
+        }
+      };
+
+      ws.onerror = (err) => {
+        console.error(`WebSocket error on recordId ${recordId}`, err);
+      };
+
+      ws.onclose = () => {
+        console.log(`WebSocket closed for recordId ${recordId}`);
+      };
+    });
+
+    return () => {
+      // Cleanup
+      Object.values(sockets).forEach((ws) => {
+        if (ws && ws.readyState === WebSocket.OPEN) ws.close();
+      });
+    };
+  }, [env, recordsId]);
   // TODO: This is too much. It might cause performance issues if there are many records.
   // React.useEffect(() => {
   //     const intervalId = setInterval(() => {
