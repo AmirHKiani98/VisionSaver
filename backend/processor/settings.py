@@ -22,7 +22,7 @@ def get_env_path():
         return env_path
     else:
         # Running in development - use the BASE_DIR approach
-        return os.path.abspath(os.path.join(os.path.dirname(__file__), '../../.hc_to_app_env'))
+        return os.path.abspath(os.path.join(os.path.dirname(__file__), '../../cameravision/resources/.hc_to_app_env'))
 
 ENV_PATH = get_env_path()
 if not os.path.exists(ENV_PATH):
