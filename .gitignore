@@ -150,3 +150,6 @@ build
 
 # Dist
 dist/
+
+# Temporary files
+_pycache_

@@ -17,7 +17,6 @@ API_DELETE_RECORD_SCHEDULE=api/delete_record_schedule/
 API_HEALTH_CHECK=api/health_check
 API_DOWNLOAD_DB=api/download_db
 API_GET_IPS=api/get_ips
-
 # Celery variables
 CELERY_BROKER_DOMAIN=localhost
 CELERY_BROKER_PORT=6379
@@ -27,3 +26,5 @@ CACHE_DIR=media
 FFMPEG_PATH=apps/ffmpeg/bin/ffmpeg.exe
 # Logger
 LOGGER_DIRECTORY=logs
+# Websocket
+WEBSOCKET_RECORD_PROGRESS=record_progress
