@@ -53,7 +53,7 @@ if(!is.dev){
 } else {
   console.log('Running in development mode, Django server will not be started automatically.')
   // Run django from ../../../backend/manage.py runserver
-  djangoProcess = execFile('python', ['-m', 'uvicorn', 'backend.processor.asgi:application', '--host', domain, '--port', port], {
+  djangoProcess = execFile('python', ['-m', 'uvicorn', 'backend.processor.asgi:application', '--host', domain, '--port', port, '--workers', '1'], {
       cwd: join(__dirname, '../../../')
     }, (error) => {
       if (error) {
@@ -63,7 +63,7 @@ if(!is.dev){
       }
     }
   )
-  streamerProcess = execFile('python', ['-m', 'uvicorn', 'backend.apps.streamer.asgi_mpeg:app', '--host', streamerDomain, '--port', streamerPort], {
+  streamerProcess = execFile('python', ['-m', 'uvicorn', 'backend.apps.streamer.asgi_mpeg:app', '--host', streamerDomain, '--port', streamerPort, '--workers', '1'], {
     cwd: join(__dirname, '../../../')
   }, (error) => {
     if (error) {

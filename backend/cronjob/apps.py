@@ -3,13 +3,12 @@ from django.apps import AppConfig
 
 # Import settings from django
 from django.conf import settings
-from multiprocessing import Pool
 import threading
 
 from django.conf import settings
 
 logger = settings.APP_LOGGER
-
+logger.info("Initializing CronjobConfig...")
 import os
 def record_rtsp_task(record_id, camera_url, duration, output_file):
     from record.models import Record
@@ -58,6 +57,10 @@ def job_checker():
     import os
     import time
     from django.db.utils import OperationalError, ProgrammingError
+    if (settings.JOB_CHECKER_ENABLED):
+        logger.info("Job checker is already enabled, starting job_checker thread...")
+        return
+    settings.JOB_CHECKER_ENABLED = True
     while True:
         try:
             now = timezone.now()
@@ -109,16 +112,44 @@ def job_checker():
 class CronjobConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'cronjob'
-    _job_checker_started = False  # Add this class variable
-    def ready(self):
-        if CronjobConfig._job_checker_started:
-            return
-        CronjobConfig._job_checker_started = True
-        logger.info("CronjobConfig.ready() running...")
-        import multiprocessing
-        multiprocessing.set_start_method('spawn', force=True)  # Optional: avoids multiprocessing errors on Windows
+    
+    _job_checker_thread = None
 
-        logger.info("Starting job_checker thread...")
-        t = threading.Thread(target=job_checker, daemon=True)
-        t.start()
-        logger.info("job_checker thread started successfully")
+    def ready(self):
+        import sys
+        import os
+        
+        # Special handling for uvicorn
+        if 'uvicorn' in sys.argv[0].lower():
+            is_main_process = True
+        else:
+            # Get the process name
+            process_name = os.environ.get('SERVER_SOFTWARE', '')
+            
+            # Check if we're in the main process for any supported server
+            is_main_process = (
+                'uvicorn' in process_name.lower() or  # For uvicorn
+                any(x in sys.argv for x in ['runserver', 'daphne']) or  # For runserver/daphne
+                os.environ.get('DJANGO_SETTINGS_MODULE')  # For other ASGI servers
+            )
+        
+        if not is_main_process:
+            logger.info("Not in main process, skipping job checker startup")
+            return
+            
+        if 'test' in sys.argv:
+            return
+
+        # Use a process-level flag to prevent multiple starts
+        if not getattr(CronjobConfig, '_job_checker_started', False):
+            CronjobConfig._job_checker_started = True
+            logger.info("CronjobConfig.ready() running...")
+            
+            import multiprocessing
+            multiprocessing.set_start_method('spawn', force=True)
+
+            if not self._job_checker_thread or not self._job_checker_thread.is_alive():
+                logger.info("Starting job_checker thread...")
+                self._job_checker_thread = threading.Thread(target=job_checker, daemon=True)
+                self._job_checker_thread.start()
+                logger.info("job_checker thread started successfully")

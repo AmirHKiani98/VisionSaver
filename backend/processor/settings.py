@@ -147,6 +147,7 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+JOB_CHECKER_ENABLED=False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -200,7 +201,6 @@ if not cache_dir:
 
 MEDIA_URL = f'/{os.path.basename(cache_dir)}/'
 MEDIA_ROOT = cache_dir
-
 # Ensure MEDIA_ROOT exists
 if not os.path.exists(MEDIA_ROOT):
     os.makedirs(MEDIA_ROOT, exist_ok=True)
