@@ -16,6 +16,8 @@ const RecordLink = (props) => {
   const [recordsId, setRecordsId] = React.useState(props.recordsId || [])
   const [progresses, setProgresses] = React.useState({})
   const [env, setEnv] = React.useState(null)
+  const [sockets, setSockets] = React.useState({})
+  const [webhookRunning, setWebhookRunning] = React.useState(false)
   React.useEffect(() => {
     if (!props.recordsId) return
     const progressDict = {}
@@ -33,25 +35,13 @@ const RecordLink = (props) => {
   React.useEffect(() => {
     window.env.get().then(setEnv)
   }, [])
-
-  React.useEffect(() => {
-  if (
-    !env ||
-    !env.BACKEND_SERVER_DOMAIN ||
-    !env.BACKEND_SERVER_PORT ||
-    !env.WEBSOCKET_RECORD_PROGRESS ||
-    !props.inProcess // <- 🔥 Only start socket if recording is in process
-  ) {
-    return;
-  }
-
-  const sockets = {};
+  const runWebhook = () => {
     recordsId.forEach((recordId) => {
       const ws = new WebSocket(
         `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.WEBSOCKET_RECORD_PROGRESS}/${recordId}/`
       );
 
-      sockets[recordId] = ws;
+      setSockets((prev) => ({ ...prev, [recordId]: ws }));
       console.log(`WebSocket created for recordId ${recordId}`);
 
       ws.onmessage = (event) => {
@@ -77,6 +67,27 @@ const RecordLink = (props) => {
         console.log(`WebSocket closed for recordId ${recordId}`);
       };
     });
+    return ws;
+  }
+  React.useEffect(() => {
+    if (
+      !env ||
+      !env.BACKEND_SERVER_DOMAIN ||
+      !env.BACKEND_SERVER_PORT ||
+      !env.WEBSOCKET_RECORD_PROGRESS ||
+      !props.inProcess
+    ) {
+      return;
+    }
+    setInterval(() => {
+      console.log("Running webhook check...");
+      if (!webhookRunning) {
+        runWebhook();
+        setWebhookRunning(true);
+      }
+    }, 5000); // Run every 5 seconds
+    
+    
 
     return () => {
       Object.values(sockets).forEach((ws) => {
