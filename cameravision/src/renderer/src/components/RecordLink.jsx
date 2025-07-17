@@ -35,26 +35,37 @@ const RecordLink = (props) => {
   }, [])
 
   React.useEffect(() => {
-    if (!env || !env.BACKEND_SERVER_DOMAIN || !env.BACKEND_SERVER_PORT || !env.WEBSOCKET_RECORD_PROGRESS) return;
+  if (
+    !env ||
+    !env.BACKEND_SERVER_DOMAIN ||
+    !env.BACKEND_SERVER_PORT ||
+    !env.WEBSOCKET_RECORD_PROGRESS ||
+    !props.inProcess // <- 🔥 Only start socket if recording is in process
+  ) {
+    return;
+  }
 
-    const sockets = {};
+  const sockets = {};
     recordsId.forEach((recordId) => {
       const ws = new WebSocket(
         `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.WEBSOCKET_RECORD_PROGRESS}/${recordId}/`
       );
+
       sockets[recordId] = ws;
-      console.log(`WebSocket created for recordId ${recordId}:`, ws);
+      console.log(`WebSocket created for recordId ${recordId}`);
+
       ws.onmessage = (event) => {
-        console.log("before",event.data);
         const data = JSON.parse(event.data);
-        console.log(data);
+        console.log(recordId, "progress", data);
         if (data.progress !== undefined) {
-          
-          setProgresses((prev) => ({ ...prev, [recordId]: {
-            "progress": data.progress*100,
-            "recording": data.recording || false,
-            "converting": data.converting || false 
-        }}));
+          setProgresses((prev) => ({
+            ...prev,
+            [recordId]: {
+              progress: data.progress * 100,
+              recording: data.recording || false,
+              converting: data.converting || false,
+            },
+          }));
         }
       };
 
@@ -68,12 +79,11 @@ const RecordLink = (props) => {
     });
 
     return () => {
-      // Cleanup
       Object.values(sockets).forEach((ws) => {
-        if (ws && ws.readyState === WebSocket.OPEN) ws.close();
+        if (ws.readyState === WebSocket.OPEN) ws.close();
       });
     };
-  }, [env, recordsId]);
+  }, [env, props.inProcess, recordsId]);
   // TODO: This is too much. It might cause performance issues if there are many records.
   // React.useEffect(() => {
   //     const intervalId = setInterval(() => {
