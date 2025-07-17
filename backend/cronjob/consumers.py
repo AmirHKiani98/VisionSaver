@@ -16,5 +16,7 @@ class ProgressConsumer(AsyncWebsocketConsumer):
 
     async def send_progress(self, event):
         await self.send(text_data=json.dumps({
-            "progress": event["progress"]
+            "progress": event["progress"],
+            "converting": event["converting"],
+            "recording": event["recording"]
         }))
