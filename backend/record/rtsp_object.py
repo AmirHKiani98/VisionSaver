@@ -95,21 +95,28 @@ class RTSPObject:
         ]
         creation_flags = 0x08000000  # This hides the window in Windows
         process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, creationflags=creation_flags)
+
+        stderr_lines = []
         if process.stderr is not None:
             for line in process.stderr:
+                stderr_lines.append(line)
                 match = progress_re.search(line)
                 if match:
                     timestamp = match.group(1)
                     h, m, s = timestamp.split(':')
                     seconds = float(s)
                     timestamps_to_seconds = int(h) * 3600 + int(m) * 60 + seconds
-                    percentage = timestamps_to_seconds/(duration_minutes * 60)
+                    percentage = timestamps_to_seconds / (duration_minutes * 60)
                     broadcast_progress(str(record_id), str(percentage), recording=False, converting=True)
-        else:
-            logger.warning("FFmpeg stderr is None, no progress updates will be sent.")
+
+        # Wait for the process to finish
+        process.wait()
+
+        stderr_output = ''.join(stderr_lines)
         if process.returncode != 0:
-            stderr_output = process.communicate()[1]
             logger.error(f"[ERROR] Transcoding failed: {stderr_output}")
+            logger.error(f"FFmpeg command failed: {' '.join(cmd)}")
+            logger.error(f"FFmpeg output: {stderr_output}")
             raise RuntimeError(f"Transcoding failed: {stderr_output}")
         return output_path
     
