@@ -66,8 +66,8 @@ const RecordLink = (props) => {
         console.log(`WebSocket closed for recordId ${recordId}`);
       };
     });
-    setWebhook(ws);
-  }
+  };
+
   React.useEffect(() => {
     if (
       !env ||
@@ -122,7 +122,7 @@ const RecordLink = (props) => {
   return (
     <Tooltip
       title={props.done ? 'Review' : props.inProcess ? 
-        <div className='flex flex-col gap-2 w-48'>
+        <div className='flex flex-col gap-2'>
             {Array.isArray(recordsId) &&
               recordsId.map((recordId) => {
                 const progressObj = progresses[recordId] || {};

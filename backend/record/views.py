@@ -59,6 +59,7 @@ def start_record_rtsp(request):
     This view should be triggered via a POST request with the necessary parameters.
     """
     if request.method != 'POST':
+        logger.error("Method not allowed for start_record_rtsp.")
         return JsonResponse({"error": "Method Not Allowed"}, status=405)
     try:
         data = json.loads(request.body.decode('utf-8'))
@@ -66,7 +67,7 @@ def start_record_rtsp(request):
         camera_url = data.get('camera_url')
         duration = data.get('duration', 60)  # Default to 60 seconds if not provided
         output_file = data.get('output_file', f"{settings.MEDIA_ROOT}/{record_id}.mkv")
-
+        logger.info(f"Starting recording for record ID {record_id} at {camera_url} for {duration} seconds.")
         if not record_id or not camera_url:
             logger.error("Missing 'record_id' or 'camera_url' in request data.")
             return JsonResponse({"error": "'record_id' and 'camera_url' are required."}, status=400)
@@ -76,7 +77,7 @@ def start_record_rtsp(request):
         if not record:
             logger.error(f"Record with ID {record_id} not found.")
             return JsonResponse({"error": "Record not found."}, status=404)
-        
+        logger.info(f"Record found: {record}")
 
         # Start the recording in a separate thread
         threading.Thread(
