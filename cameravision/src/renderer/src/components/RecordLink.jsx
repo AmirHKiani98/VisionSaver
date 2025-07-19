@@ -18,6 +18,7 @@ const RecordLink = (props) => {
   const [env, setEnv] = React.useState(null)
   const [sockets, setSockets] = React.useState({})
   const [webhookRunning, setWebhookRunning] = React.useState(false)
+  const [webhook, setWebhook] = React.useState(null)
   React.useEffect(() => {
     if (!props.recordsId) return
     const progressDict = {}
@@ -42,11 +43,9 @@ const RecordLink = (props) => {
       );
 
       setSockets((prev) => ({ ...prev, [recordId]: ws }));
-      console.log(`WebSocket created for recordId ${recordId}`);
 
       ws.onmessage = (event) => {
         const data = JSON.parse(event.data);
-        console.log(recordId, "progress", data);
         if (data.progress !== undefined) {
           setProgresses((prev) => ({
             ...prev,
@@ -67,7 +66,7 @@ const RecordLink = (props) => {
         console.log(`WebSocket closed for recordId ${recordId}`);
       };
     });
-    return ws;
+    setWebhook(ws);
   }
   React.useEffect(() => {
     if (
@@ -80,19 +79,20 @@ const RecordLink = (props) => {
       return;
     }
     setInterval(() => {
-      console.log("Running webhook check...");
       if (!webhookRunning) {
         runWebhook();
         setWebhookRunning(true);
       }
-    }, 5000); // Run every 5 seconds
+    }, 3000); // Run every 5 seconds
     
     
 
     return () => {
-      Object.values(sockets).forEach((ws) => {
-        if (ws.readyState === WebSocket.OPEN) ws.close();
-      });
+      if(webhook) {
+        Object.values(sockets).forEach((webhook) => {
+          if (webhook.readyState === WebSocket.OPEN) webhook.close();
+        });
+      }
     };
   }, [env, props.inProcess, recordsId]);
   // TODO: This is too much. It might cause performance issues if there are many records.
