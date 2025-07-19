@@ -95,7 +95,7 @@ def get_record_schedule(request):
         df['ip'], df['stream'] = zip(*df['camera_url'].apply(parse_camera_url))
         # Group by camera_url and aggregate the records
         grouped_records = df.groupby('token').agg(
-            ip=('ip', 'first'),
+            ip=('ip', lambda x: sorted(list(set(x)))),
             start_time=('start_time', 'first'),
             duration=('duration', 'first'),
             in_process=('in_process', 'first'),

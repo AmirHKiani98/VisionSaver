@@ -176,6 +176,7 @@ function App() {
               cameraUrl: record.camera_url || record.cameraUrl, // Ensure cameraUrl is set correctly
               startTime: record.start_time || record.startTime,
               inProcess: record.in_process || record.inProcess,
+              ip: record.ip || [], // Bad naming. It should have been ips
               recordsId: record.records_id || [], // Ensure recordsId is set correctly
               }))
               .sort((a, b) => new Date(b.startTime) - new Date(a.startTime))
@@ -611,6 +612,7 @@ function App() {
                           inProcess={record.inProcess}
                           recordsId={record.recordsId}
                           done={record.done}
+                          ip={record.ip}
                         />
                       );
                     })

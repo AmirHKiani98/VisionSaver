@@ -64,10 +64,10 @@ const RecordLink = (props) => {
 
       ws.onclose = () => {
         console.log(`WebSocket closed for recordId ${recordId}`);
+        
       };
     });
   };
-
   React.useEffect(() => {
     if (
       !env ||
@@ -121,34 +121,39 @@ const RecordLink = (props) => {
 
   return (
     <Tooltip
-      title={props.done ? 'Review' : props.inProcess ? 
-        <div className='flex flex-col gap-2'>
-            {Array.isArray(recordsId) &&
-              recordsId.map((recordId) => {
-                const progressObj = progresses[recordId] || {};
-                // Check if all required keys exist
-                const hasAllKeys = (
-                  progressObj.hasOwnProperty('progress') &&
-                  progressObj.hasOwnProperty('recording') &&
-                  progressObj.hasOwnProperty('converting')
-                );
-                return (
-                  <div key={recordId}>                    {hasAllKeys ? (
-                      <LinearProgressWithLabel
-                        value={progressObj.progress || 0}
-                        className="bg-main-500"
-                        color="success"
-                        recording={progressObj.recording ? true : undefined}
-                        converting={progressObj.converting ? true : undefined}
-                      />
-                    ) : (
-                      <div className="text-gray-400 text-xs">Progress unavailable</div>
-                    )}
-                  </div>
-                );
-              })}
-        </div>
-       : 'Wait for start'}
+      title={
+        props.done
+          ? 'Review'
+          : props.inProcess
+          ? (
+            <div className='flex flex-col gap-2'>
+              {Array.isArray(recordsId) &&
+                recordsId.map((recordId) => {
+                  const progressObj = progresses[recordId] || {};
+                  const hasAllKeys =
+                    progressObj.hasOwnProperty('progress') &&
+                    progressObj.hasOwnProperty('recording') &&
+                    progressObj.hasOwnProperty('converting');
+                  return (
+                    <div key={recordId}>
+                      {hasAllKeys ? (
+                        <LinearProgressWithLabel
+                          value={progressObj.progress || 0}
+                          className="bg-main-500"
+                          color="success"
+                          recording={progressObj.recording ? true : undefined}
+                          converting={progressObj.converting ? true : undefined}
+                        />
+                      ) : (
+                        <div className="text-gray-400 text-xs">Progress unavailable</div>
+                      )}
+                    </div>
+                  );
+                })}
+            </div>
+          )
+          : 'Wait for start'
+      }
       placement="top"
     >
       <ListItem
@@ -186,11 +191,11 @@ const RecordLink = (props) => {
         }
       >
         <Link
-          to={`/editor?token=${props.token}`}
-          className={`w-full h-full ${props.done ? 'cursor-pointer' : 'cursor-default'}`}
+          to={props.done ? `/editor?token=${props.token}` : "#"}
+          className={`w-full h-full ${props.done ? 'cursor-pointer' : 'cursor-not-allowed'}`}
           tabIndex={props.done ? 0 : -1}
           aria-disabled={!props.done}
-          style={{ textDecoration: 'none' }} // optional if you want no underline
+          style={{ textDecoration: 'none', pointerEvents: props.done ? 'auto' : 'none' }}
         >
           <ListItemButton className="flex flex-row gap-10" disabled={!props.done}>
             <div className="flex flex-col">
@@ -200,6 +205,14 @@ const RecordLink = (props) => {
             <div className="flex flex-col">
               <Typography className="text-white">Duration</Typography>
               <Typography className="text-gray-400">{props.duration}</Typography>
+            </div>
+            <div className="flex flex-col">
+              {(
+                <>
+                  <Typography className="text-white">Ip</Typography>
+                  <Typography className="text-gray-400">{props.ip}</Typography>
+                </>
+              )}
             </div>
           </ListItemButton>
         </Link>
