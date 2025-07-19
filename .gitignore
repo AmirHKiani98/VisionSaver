@@ -153,3 +153,4 @@ dist/
 
 # Temporary files
 _pycache_
+!./backend/logs/django.log

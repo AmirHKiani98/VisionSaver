@@ -1,7 +1,6 @@
 import os
 import sys
 import time
-import threading
 import dotenv
 from pathlib import Path
 import requests
@@ -27,7 +26,7 @@ django.setup()
 from django.conf import settings
 logger = settings.APP_LOGGER
 
-
+logger.info(f"Starting cronjob: {ENV_PATH}")
 # --- MAIN JOB LOOP ---
 def job_checker():
     from record.models import Record
@@ -35,7 +34,7 @@ def job_checker():
     from django.db.utils import OperationalError, ProgrammingError
 
     if settings.JOB_CHECKER_ENABLED:
-        print("Job checker already enabled.")
+        logger.info("Job checker is already running. Exiting.")
         return
     settings.JOB_CHECKER_ENABLED = True
 
@@ -45,9 +44,9 @@ def job_checker():
                 now = timezone.now()
                 os.makedirs(settings.MEDIA_ROOT, exist_ok=True)
                 records = Record.objects.filter(done=False, in_process=False, start_time__lte=now)
-
+                logger.info(f"Found {records.count()} records to process.")
                 for record in records:
-                    print(f"Launching record thread for ID {record.id}")
+                    logger.info(f"Processing record: {record.id} from {record.camera_url}")
                     record.in_process = True
                     record.save()
 
@@ -63,9 +62,9 @@ def job_checker():
                     post_url = f"http://{os.getenv('BACKEND_SERVER_DOMAIN')}:{os.getenv('BACKEND_SERVER_PORT')}/{os.getenv('RECORD_FUNCTION_NAME')}/"
                     response = requests.post(post_url, json=post_data)
                     if response.status_code == 200:
-                        print(f"Record {record.id} started successfully.")
+                        logger.info(f"Record {record.id} started successfully.")
                     else:
-                        print(f"Failed to start record {record.id}: {response.text}")
+                        logger.info(f"Failed to start record {record.id}: {response.text}")
                         # record.in_process = False
                         # record.save()
                         # continue
