@@ -6,7 +6,6 @@ import dotenv
 from django.conf import settings
 # Load environment variables
 
-dotenv.load_dotenv(settings.ENV_PATH)
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.processor.settings')

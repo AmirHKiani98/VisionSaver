@@ -1677,3 +1677,996 @@ INFO 2025-07-19 04:42:12,983 logger 11520 24616 Found 0 records to process.
 INFO 2025-07-19 04:42:12,983 logger 11520 24616 Found 0 records to process.
 INFO 2025-07-19 04:42:22,989 logger 11520 24616 Found 0 records to process.
 INFO 2025-07-19 04:42:22,989 logger 11520 24616 Found 0 records to process.
+INFO 2025-07-19 04:42:32,996 logger 11520 24616 Found 0 records to process.
+INFO 2025-07-19 04:42:32,996 logger 11520 24616 Found 0 records to process.
+INFO 2025-07-19 04:42:43,001 logger 11520 24616 Found 0 records to process.
+INFO 2025-07-19 04:42:43,001 logger 11520 24616 Found 0 records to process.
+DEBUG 2025-07-19 04:42:45,885 logger 24784 22636 Output file created: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/136.mkv
+DEBUG 2025-07-19 04:42:45,885 logger 24784 22636 Output file created: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/136.mkv
+INFO 2025-07-19 04:42:45,888 logger 24784 22636 ffmpeg path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe
+INFO 2025-07-19 04:42:45,888 logger 24784 22636 ffmpeg path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe
+ERROR 2025-07-19 04:42:50,249 logger 24784 22636 [ERROR] Transcoding failed: 
+ERROR 2025-07-19 04:42:50,249 logger 24784 22636 [ERROR] Transcoding failed: 
+CRITICAL 2025-07-19 04:42:50,253 logger 24784 22636 Exception running FFmpeg: Transcoding failed: 
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 193, in record
+    output_path = self.transcode_to_mp4(abs_output_path, record_id, duration_minutes)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 113, in transcode_to_mp4
+    raise RuntimeError(f"Transcoding failed: {stderr_output}")
+RuntimeError: Transcoding failed: 
+
+CRITICAL 2025-07-19 04:42:50,253 logger 24784 22636 Exception running FFmpeg: Transcoding failed: 
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 193, in record
+    output_path = self.transcode_to_mp4(abs_output_path, record_id, duration_minutes)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 113, in transcode_to_mp4
+    raise RuntimeError(f"Transcoding failed: {stderr_output}")
+RuntimeError: Transcoding failed: 
+
+ERROR 2025-07-19 04:42:50,256 logger 24784 22636 Recording file doesn't exist: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/136
+ERROR 2025-07-19 04:42:50,256 logger 24784 22636 Recording file doesn't exist: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/136
+INFO 2025-07-19 04:42:53,007 logger 11520 24616 Found 1 records to process.
+INFO 2025-07-19 04:42:53,007 logger 11520 24616 Found 1 records to process.
+INFO 2025-07-19 04:42:53,011 logger 11520 24616 Processing record: 136 from rtsp://192.168.122.105/cam1
+INFO 2025-07-19 04:42:53,011 logger 11520 24616 Processing record: 136 from rtsp://192.168.122.105/cam1
+INFO 2025-07-19 04:42:53,052 logger 24784 17040 Starting recording for record ID 136 at rtsp://192.168.122.105/cam1 for 2 seconds.
+INFO 2025-07-19 04:42:53,052 logger 24784 17040 Starting recording for record ID 136 at rtsp://192.168.122.105/cam1 for 2 seconds.
+INFO 2025-07-19 04:42:53,058 logger 24784 17040 Record found: Record from rtsp://192.168.122.105/cam1 starting at 2025-07-19 09:38:27.013000+00:00 for 2 seconds
+INFO 2025-07-19 04:42:53,058 logger 24784 17040 Record found: Record from rtsp://192.168.122.105/cam1 starting at 2025-07-19 09:38:27.013000+00:00 for 2 seconds
+INFO 2025-07-19 04:42:53,069 logger 24784 17040 Started recording for record ID 136 at rtsp://192.168.122.105/cam1 for 2 seconds.
+INFO 2025-07-19 04:42:53,069 logger 24784 17040 Started recording for record ID 136 at rtsp://192.168.122.105/cam1 for 2 seconds.
+INFO 2025-07-19 04:42:53,087 logger 11520 24616 Record 136 started successfully.
+INFO 2025-07-19 04:42:53,087 logger 11520 24616 Record 136 started successfully.
+DEBUG 2025-07-19 04:42:54,921 logger 24784 4588 Starting recording for 2 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/136
+DEBUG 2025-07-19 04:42:54,921 logger 24784 4588 Starting recording for 2 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/136
+DEBUG 2025-07-19 04:42:54,924 logger 24784 4588 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/136.mkv
+DEBUG 2025-07-19 04:42:54,924 logger 24784 4588 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/136.mkv
+DEBUG 2025-07-19 04:42:54,926 logger 24784 4588 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.122.105/cam1 -t 120 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/136.mkv
+DEBUG 2025-07-19 04:42:54,926 logger 24784 4588 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.122.105/cam1 -t 120 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/136.mkv
+DEBUG 2025-07-19 04:43:00,547 logger 24784 25632 Output file created: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/137.mkv
+DEBUG 2025-07-19 04:43:00,547 logger 24784 25632 Output file created: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/137.mkv
+INFO 2025-07-19 04:43:00,550 logger 24784 25632 ffmpeg path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe
+INFO 2025-07-19 04:43:00,550 logger 24784 25632 ffmpeg path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe
+INFO 2025-07-19 04:43:03,092 logger 11520 24616 Found 0 records to process.
+INFO 2025-07-19 04:43:03,092 logger 11520 24616 Found 0 records to process.
+ERROR 2025-07-19 04:43:05,150 logger 24784 25632 [ERROR] Transcoding failed: 
+ERROR 2025-07-19 04:43:05,150 logger 24784 25632 [ERROR] Transcoding failed: 
+CRITICAL 2025-07-19 04:43:05,153 logger 24784 25632 Exception running FFmpeg: Transcoding failed: 
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 193, in record
+    output_path = self.transcode_to_mp4(abs_output_path, record_id, duration_minutes)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 113, in transcode_to_mp4
+    raise RuntimeError(f"Transcoding failed: {stderr_output}")
+RuntimeError: Transcoding failed: 
+
+CRITICAL 2025-07-19 04:43:05,153 logger 24784 25632 Exception running FFmpeg: Transcoding failed: 
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 193, in record
+    output_path = self.transcode_to_mp4(abs_output_path, record_id, duration_minutes)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 113, in transcode_to_mp4
+    raise RuntimeError(f"Transcoding failed: {stderr_output}")
+RuntimeError: Transcoding failed: 
+
+ERROR 2025-07-19 04:43:05,156 logger 24784 25632 Recording file doesn't exist: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/137
+ERROR 2025-07-19 04:43:05,156 logger 24784 25632 Recording file doesn't exist: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/137
+DEBUG 2025-07-19 04:43:05,292 logger 24784 26144 Output file created: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/138.mkv
+DEBUG 2025-07-19 04:43:05,292 logger 24784 26144 Output file created: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/138.mkv
+INFO 2025-07-19 04:43:05,294 logger 24784 26144 ffmpeg path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe
+INFO 2025-07-19 04:43:05,294 logger 24784 26144 ffmpeg path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe
+DEBUG 2025-07-19 04:43:07,729 logger 24784 6616 Output file created: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/139.mkv
+DEBUG 2025-07-19 04:43:07,729 logger 24784 6616 Output file created: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/139.mkv
+INFO 2025-07-19 04:43:07,732 logger 24784 6616 ffmpeg path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe
+INFO 2025-07-19 04:43:07,732 logger 24784 6616 ffmpeg path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe
+ERROR 2025-07-19 04:43:09,563 logger 24784 26144 [ERROR] Transcoding failed: 
+ERROR 2025-07-19 04:43:09,563 logger 24784 26144 [ERROR] Transcoding failed: 
+CRITICAL 2025-07-19 04:43:09,566 logger 24784 26144 Exception running FFmpeg: Transcoding failed: 
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 193, in record
+    output_path = self.transcode_to_mp4(abs_output_path, record_id, duration_minutes)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 113, in transcode_to_mp4
+    raise RuntimeError(f"Transcoding failed: {stderr_output}")
+RuntimeError: Transcoding failed: 
+
+CRITICAL 2025-07-19 04:43:09,566 logger 24784 26144 Exception running FFmpeg: Transcoding failed: 
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 193, in record
+    output_path = self.transcode_to_mp4(abs_output_path, record_id, duration_minutes)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 113, in transcode_to_mp4
+    raise RuntimeError(f"Transcoding failed: {stderr_output}")
+RuntimeError: Transcoding failed: 
+
+ERROR 2025-07-19 04:43:09,571 logger 24784 26144 Recording file doesn't exist: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/138
+ERROR 2025-07-19 04:43:09,571 logger 24784 26144 Recording file doesn't exist: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/138
+ERROR 2025-07-19 04:43:12,911 logger 24784 6616 [ERROR] Transcoding failed: 
+ERROR 2025-07-19 04:43:12,911 logger 24784 6616 [ERROR] Transcoding failed: 
+CRITICAL 2025-07-19 04:43:12,923 logger 24784 6616 Exception running FFmpeg: Transcoding failed: 
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 193, in record
+    output_path = self.transcode_to_mp4(abs_output_path, record_id, duration_minutes)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 113, in transcode_to_mp4
+    raise RuntimeError(f"Transcoding failed: {stderr_output}")
+RuntimeError: Transcoding failed: 
+
+CRITICAL 2025-07-19 04:43:12,923 logger 24784 6616 Exception running FFmpeg: Transcoding failed: 
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 193, in record
+    output_path = self.transcode_to_mp4(abs_output_path, record_id, duration_minutes)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 113, in transcode_to_mp4
+    raise RuntimeError(f"Transcoding failed: {stderr_output}")
+RuntimeError: Transcoding failed: 
+
+ERROR 2025-07-19 04:43:12,929 logger 24784 6616 Recording file doesn't exist: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/139
+ERROR 2025-07-19 04:43:12,929 logger 24784 6616 Recording file doesn't exist: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/139
+INFO 2025-07-19 04:43:13,102 logger 11520 24616 Found 3 records to process.
+INFO 2025-07-19 04:43:13,102 logger 11520 24616 Found 3 records to process.
+INFO 2025-07-19 04:43:13,106 logger 11520 24616 Processing record: 137 from rtsp://192.168.122.105/cam4
+INFO 2025-07-19 04:43:13,106 logger 11520 24616 Processing record: 137 from rtsp://192.168.122.105/cam4
+INFO 2025-07-19 04:43:13,129 logger 24784 26488 Starting recording for record ID 137 at rtsp://192.168.122.105/cam4 for 2 seconds.
+INFO 2025-07-19 04:43:13,129 logger 24784 26488 Starting recording for record ID 137 at rtsp://192.168.122.105/cam4 for 2 seconds.
+INFO 2025-07-19 04:43:13,135 logger 24784 26488 Record found: Record from rtsp://192.168.122.105/cam4 starting at 2025-07-19 09:38:27.013000+00:00 for 2 seconds
+INFO 2025-07-19 04:43:13,135 logger 24784 26488 Record found: Record from rtsp://192.168.122.105/cam4 starting at 2025-07-19 09:38:27.013000+00:00 for 2 seconds
+INFO 2025-07-19 04:43:13,140 logger 24784 26488 Started recording for record ID 137 at rtsp://192.168.122.105/cam4 for 2 seconds.
+INFO 2025-07-19 04:43:13,140 logger 24784 26488 Started recording for record ID 137 at rtsp://192.168.122.105/cam4 for 2 seconds.
+INFO 2025-07-19 04:43:13,150 logger 11520 24616 Record 137 started successfully.
+INFO 2025-07-19 04:43:13,150 logger 11520 24616 Record 137 started successfully.
+INFO 2025-07-19 04:43:13,152 logger 11520 24616 Processing record: 138 from rtsp://192.168.122.105/cam3
+INFO 2025-07-19 04:43:13,152 logger 11520 24616 Processing record: 138 from rtsp://192.168.122.105/cam3
+INFO 2025-07-19 04:43:13,176 logger 24784 23676 Starting recording for record ID 138 at rtsp://192.168.122.105/cam3 for 2 seconds.
+INFO 2025-07-19 04:43:13,176 logger 24784 23676 Starting recording for record ID 138 at rtsp://192.168.122.105/cam3 for 2 seconds.
+INFO 2025-07-19 04:43:13,181 logger 24784 23676 Record found: Record from rtsp://192.168.122.105/cam3 starting at 2025-07-19 09:38:27.013000+00:00 for 2 seconds
+INFO 2025-07-19 04:43:13,181 logger 24784 23676 Record found: Record from rtsp://192.168.122.105/cam3 starting at 2025-07-19 09:38:27.013000+00:00 for 2 seconds
+INFO 2025-07-19 04:43:13,186 logger 24784 23676 Started recording for record ID 138 at rtsp://192.168.122.105/cam3 for 2 seconds.
+INFO 2025-07-19 04:43:13,186 logger 24784 23676 Started recording for record ID 138 at rtsp://192.168.122.105/cam3 for 2 seconds.
+INFO 2025-07-19 04:43:13,198 logger 11520 24616 Record 138 started successfully.
+INFO 2025-07-19 04:43:13,198 logger 11520 24616 Record 138 started successfully.
+INFO 2025-07-19 04:43:13,201 logger 11520 24616 Processing record: 139 from rtsp://192.168.122.105/cam2
+INFO 2025-07-19 04:43:13,201 logger 11520 24616 Processing record: 139 from rtsp://192.168.122.105/cam2
+INFO 2025-07-19 04:43:13,223 logger 24784 2664 Starting recording for record ID 139 at rtsp://192.168.122.105/cam2 for 2 seconds.
+INFO 2025-07-19 04:43:13,223 logger 24784 2664 Starting recording for record ID 139 at rtsp://192.168.122.105/cam2 for 2 seconds.
+INFO 2025-07-19 04:43:13,229 logger 24784 2664 Record found: Record from rtsp://192.168.122.105/cam2 starting at 2025-07-19 09:38:27.013000+00:00 for 2 seconds
+INFO 2025-07-19 04:43:13,229 logger 24784 2664 Record found: Record from rtsp://192.168.122.105/cam2 starting at 2025-07-19 09:38:27.013000+00:00 for 2 seconds
+INFO 2025-07-19 04:43:13,233 logger 24784 2664 Started recording for record ID 139 at rtsp://192.168.122.105/cam2 for 2 seconds.
+INFO 2025-07-19 04:43:13,233 logger 24784 2664 Started recording for record ID 139 at rtsp://192.168.122.105/cam2 for 2 seconds.
+INFO 2025-07-19 04:43:13,242 logger 11520 24616 Record 139 started successfully.
+INFO 2025-07-19 04:43:13,242 logger 11520 24616 Record 139 started successfully.
+DEBUG 2025-07-19 04:43:16,269 logger 24784 24736 Starting recording for 2 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/137
+DEBUG 2025-07-19 04:43:16,269 logger 24784 24736 Starting recording for 2 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/137
+DEBUG 2025-07-19 04:43:16,272 logger 24784 24736 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/137.mkv
+DEBUG 2025-07-19 04:43:16,272 logger 24784 24736 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/137.mkv
+DEBUG 2025-07-19 04:43:16,274 logger 24784 24736 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.122.105/cam4 -t 120 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/137.mkv
+DEBUG 2025-07-19 04:43:16,274 logger 24784 24736 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.122.105/cam4 -t 120 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/137.mkv
+DEBUG 2025-07-19 04:43:21,529 logger 24784 19368 Starting recording for 2 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/138
+DEBUG 2025-07-19 04:43:21,529 logger 24784 19368 Starting recording for 2 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/138
+DEBUG 2025-07-19 04:43:21,532 logger 24784 19368 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/138.mkv
+DEBUG 2025-07-19 04:43:21,532 logger 24784 19368 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/138.mkv
+DEBUG 2025-07-19 04:43:21,535 logger 24784 19368 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.122.105/cam3 -t 120 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/138.mkv
+DEBUG 2025-07-19 04:43:21,535 logger 24784 19368 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.122.105/cam3 -t 120 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/138.mkv
+INFO 2025-07-19 04:43:23,247 logger 11520 24616 Found 0 records to process.
+INFO 2025-07-19 04:43:23,247 logger 11520 24616 Found 0 records to process.
+DEBUG 2025-07-19 04:43:26,075 logger 24784 5132 Starting recording for 2 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/139
+DEBUG 2025-07-19 04:43:26,075 logger 24784 5132 Starting recording for 2 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/139
+DEBUG 2025-07-19 04:43:26,078 logger 24784 5132 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/139.mkv
+DEBUG 2025-07-19 04:43:26,078 logger 24784 5132 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/139.mkv
+DEBUG 2025-07-19 04:43:26,080 logger 24784 5132 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.122.105/cam2 -t 120 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/139.mkv
+DEBUG 2025-07-19 04:43:26,080 logger 24784 5132 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.122.105/cam2 -t 120 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/139.mkv
+INFO 2025-07-19 04:43:33,252 logger 11520 24616 Found 0 records to process.
+INFO 2025-07-19 04:43:33,252 logger 11520 24616 Found 0 records to process.
+INFO 2025-07-19 04:43:43,258 logger 11520 24616 Found 0 records to process.
+INFO 2025-07-19 04:43:43,258 logger 11520 24616 Found 0 records to process.
+INFO 2025-07-19 04:43:53,266 logger 11520 24616 Found 0 records to process.
+INFO 2025-07-19 04:43:53,266 logger 11520 24616 Found 0 records to process.
+INFO 2025-07-19 04:44:03,272 logger 11520 24616 Found 0 records to process.
+INFO 2025-07-19 04:44:03,272 logger 11520 24616 Found 0 records to process.
+INFO 2025-07-19 04:44:13,279 logger 11520 24616 Found 0 records to process.
+INFO 2025-07-19 04:44:13,279 logger 11520 24616 Found 0 records to process.
+INFO 2025-07-19 04:44:23,285 logger 11520 24616 Found 0 records to process.
+INFO 2025-07-19 04:44:23,285 logger 11520 24616 Found 0 records to process.
+INFO 2025-07-19 04:44:33,291 logger 11520 24616 Found 0 records to process.
+INFO 2025-07-19 04:44:33,291 logger 11520 24616 Found 0 records to process.
+INFO 2025-07-19 04:44:43,298 logger 11520 24616 Found 0 records to process.
+INFO 2025-07-19 04:44:43,298 logger 11520 24616 Found 0 records to process.
+INFO 2025-07-19 04:44:53,304 logger 11520 24616 Found 0 records to process.
+INFO 2025-07-19 04:44:53,304 logger 11520 24616 Found 0 records to process.
+DEBUG 2025-07-19 04:44:56,420 logger 24784 4588 Output file created: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/136.mkv
+DEBUG 2025-07-19 04:44:56,420 logger 24784 4588 Output file created: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/136.mkv
+INFO 2025-07-19 04:44:56,423 logger 24784 4588 ffmpeg path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe
+INFO 2025-07-19 04:44:56,423 logger 24784 4588 ffmpeg path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe
+ERROR 2025-07-19 04:45:00,899 logger 24784 4588 [ERROR] Transcoding failed: 
+ERROR 2025-07-19 04:45:00,899 logger 24784 4588 [ERROR] Transcoding failed: 
+CRITICAL 2025-07-19 04:45:00,902 logger 24784 4588 Exception running FFmpeg: Transcoding failed: 
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 193, in record
+    output_path = self.transcode_to_mp4(abs_output_path, record_id, duration_minutes)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 113, in transcode_to_mp4
+    raise RuntimeError(f"Transcoding failed: {stderr_output}")
+RuntimeError: Transcoding failed: 
+
+CRITICAL 2025-07-19 04:45:00,902 logger 24784 4588 Exception running FFmpeg: Transcoding failed: 
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 193, in record
+    output_path = self.transcode_to_mp4(abs_output_path, record_id, duration_minutes)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 113, in transcode_to_mp4
+    raise RuntimeError(f"Transcoding failed: {stderr_output}")
+RuntimeError: Transcoding failed: 
+
+ERROR 2025-07-19 04:45:00,905 logger 24784 4588 Recording file doesn't exist: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/136
+ERROR 2025-07-19 04:45:00,905 logger 24784 4588 Recording file doesn't exist: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/136
+INFO 2025-07-19 04:45:03,310 logger 11520 24616 Found 1 records to process.
+INFO 2025-07-19 04:45:03,310 logger 11520 24616 Found 1 records to process.
+INFO 2025-07-19 04:45:03,315 logger 11520 24616 Processing record: 136 from rtsp://192.168.122.105/cam1
+INFO 2025-07-19 04:45:03,315 logger 11520 24616 Processing record: 136 from rtsp://192.168.122.105/cam1
+INFO 2025-07-19 04:45:03,337 logger 24784 26168 Starting recording for record ID 136 at rtsp://192.168.122.105/cam1 for 2 seconds.
+INFO 2025-07-19 04:45:03,337 logger 24784 26168 Starting recording for record ID 136 at rtsp://192.168.122.105/cam1 for 2 seconds.
+INFO 2025-07-19 04:45:03,343 logger 24784 26168 Record found: Record from rtsp://192.168.122.105/cam1 starting at 2025-07-19 09:38:27.013000+00:00 for 2 seconds
+INFO 2025-07-19 04:45:03,343 logger 24784 26168 Record found: Record from rtsp://192.168.122.105/cam1 starting at 2025-07-19 09:38:27.013000+00:00 for 2 seconds
+INFO 2025-07-19 04:45:03,348 logger 24784 26168 Started recording for record ID 136 at rtsp://192.168.122.105/cam1 for 2 seconds.
+INFO 2025-07-19 04:45:03,348 logger 24784 26168 Started recording for record ID 136 at rtsp://192.168.122.105/cam1 for 2 seconds.
+INFO 2025-07-19 04:45:03,358 logger 11520 24616 Record 136 started successfully.
+INFO 2025-07-19 04:45:03,358 logger 11520 24616 Record 136 started successfully.
+DEBUG 2025-07-19 04:45:05,051 logger 24784 8808 Starting recording for 2 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/136
+DEBUG 2025-07-19 04:45:05,051 logger 24784 8808 Starting recording for 2 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/136
+DEBUG 2025-07-19 04:45:05,054 logger 24784 8808 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/136.mkv
+DEBUG 2025-07-19 04:45:05,054 logger 24784 8808 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/136.mkv
+DEBUG 2025-07-19 04:45:05,056 logger 24784 8808 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.122.105/cam1 -t 120 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/136.mkv
+DEBUG 2025-07-19 04:45:05,056 logger 24784 8808 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.122.105/cam1 -t 120 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/136.mkv
+INFO 2025-07-19 04:45:13,364 logger 11520 24616 Found 0 records to process.
+INFO 2025-07-19 04:45:13,364 logger 11520 24616 Found 0 records to process.
+DEBUG 2025-07-19 04:45:20,262 logger 24784 24736 Output file created: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/137.mkv
+DEBUG 2025-07-19 04:45:20,262 logger 24784 24736 Output file created: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/137.mkv
+INFO 2025-07-19 04:45:20,268 logger 24784 24736 ffmpeg path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe
+INFO 2025-07-19 04:45:20,268 logger 24784 24736 ffmpeg path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe
+INFO 2025-07-19 04:45:23,378 logger 11520 24616 Found 0 records to process.
+INFO 2025-07-19 04:45:23,378 logger 11520 24616 Found 0 records to process.
+ERROR 2025-07-19 04:45:25,116 logger 24784 24736 [ERROR] Transcoding failed: 
+ERROR 2025-07-19 04:45:25,116 logger 24784 24736 [ERROR] Transcoding failed: 
+CRITICAL 2025-07-19 04:45:25,119 logger 24784 24736 Exception running FFmpeg: Transcoding failed: 
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 193, in record
+    output_path = self.transcode_to_mp4(abs_output_path, record_id, duration_minutes)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 113, in transcode_to_mp4
+    raise RuntimeError(f"Transcoding failed: {stderr_output}")
+RuntimeError: Transcoding failed: 
+
+CRITICAL 2025-07-19 04:45:25,119 logger 24784 24736 Exception running FFmpeg: Transcoding failed: 
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 193, in record
+    output_path = self.transcode_to_mp4(abs_output_path, record_id, duration_minutes)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 113, in transcode_to_mp4
+    raise RuntimeError(f"Transcoding failed: {stderr_output}")
+RuntimeError: Transcoding failed: 
+
+ERROR 2025-07-19 04:45:25,123 logger 24784 24736 Recording file doesn't exist: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/137
+ERROR 2025-07-19 04:45:25,123 logger 24784 24736 Recording file doesn't exist: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/137
+DEBUG 2025-07-19 04:45:25,314 logger 24784 19368 Output file created: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/138.mkv
+DEBUG 2025-07-19 04:45:25,314 logger 24784 19368 Output file created: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/138.mkv
+INFO 2025-07-19 04:45:25,316 logger 24784 19368 ffmpeg path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe
+INFO 2025-07-19 04:45:25,316 logger 24784 19368 ffmpeg path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe
+DEBUG 2025-07-19 04:45:27,506 logger 24784 5132 Output file created: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/139.mkv
+DEBUG 2025-07-19 04:45:27,506 logger 24784 5132 Output file created: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/139.mkv
+INFO 2025-07-19 04:45:27,509 logger 24784 5132 ffmpeg path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe
+INFO 2025-07-19 04:45:27,509 logger 24784 5132 ffmpeg path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe
+ERROR 2025-07-19 04:45:30,614 logger 24784 19368 [ERROR] Transcoding failed: 
+ERROR 2025-07-19 04:45:30,614 logger 24784 19368 [ERROR] Transcoding failed: 
+CRITICAL 2025-07-19 04:45:30,620 logger 24784 19368 Exception running FFmpeg: Transcoding failed: 
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 193, in record
+    output_path = self.transcode_to_mp4(abs_output_path, record_id, duration_minutes)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 113, in transcode_to_mp4
+    raise RuntimeError(f"Transcoding failed: {stderr_output}")
+RuntimeError: Transcoding failed: 
+
+CRITICAL 2025-07-19 04:45:30,620 logger 24784 19368 Exception running FFmpeg: Transcoding failed: 
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 193, in record
+    output_path = self.transcode_to_mp4(abs_output_path, record_id, duration_minutes)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 113, in transcode_to_mp4
+    raise RuntimeError(f"Transcoding failed: {stderr_output}")
+RuntimeError: Transcoding failed: 
+
+ERROR 2025-07-19 04:45:30,627 logger 24784 19368 Recording file doesn't exist: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/138
+ERROR 2025-07-19 04:45:30,627 logger 24784 19368 Recording file doesn't exist: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/138
+ERROR 2025-07-19 04:45:33,250 logger 24784 5132 [ERROR] Transcoding failed: 
+ERROR 2025-07-19 04:45:33,250 logger 24784 5132 [ERROR] Transcoding failed: 
+CRITICAL 2025-07-19 04:45:33,258 logger 24784 5132 Exception running FFmpeg: Transcoding failed: 
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 193, in record
+    output_path = self.transcode_to_mp4(abs_output_path, record_id, duration_minutes)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 113, in transcode_to_mp4
+    raise RuntimeError(f"Transcoding failed: {stderr_output}")
+RuntimeError: Transcoding failed: 
+
+CRITICAL 2025-07-19 04:45:33,258 logger 24784 5132 Exception running FFmpeg: Transcoding failed: 
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 193, in record
+    output_path = self.transcode_to_mp4(abs_output_path, record_id, duration_minutes)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 113, in transcode_to_mp4
+    raise RuntimeError(f"Transcoding failed: {stderr_output}")
+RuntimeError: Transcoding failed: 
+
+ERROR 2025-07-19 04:45:33,264 logger 24784 5132 Recording file doesn't exist: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/139
+ERROR 2025-07-19 04:45:33,264 logger 24784 5132 Recording file doesn't exist: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/139
+INFO 2025-07-19 04:45:33,397 logger 11520 24616 Found 3 records to process.
+INFO 2025-07-19 04:45:33,397 logger 11520 24616 Found 3 records to process.
+INFO 2025-07-19 04:45:33,403 logger 11520 24616 Processing record: 137 from rtsp://192.168.122.105/cam4
+INFO 2025-07-19 04:45:33,403 logger 11520 24616 Processing record: 137 from rtsp://192.168.122.105/cam4
+INFO 2025-07-19 04:45:33,427 logger 24784 26548 Starting recording for record ID 137 at rtsp://192.168.122.105/cam4 for 2 seconds.
+INFO 2025-07-19 04:45:33,427 logger 24784 26548 Starting recording for record ID 137 at rtsp://192.168.122.105/cam4 for 2 seconds.
+INFO 2025-07-19 04:45:33,432 logger 24784 26548 Record found: Record from rtsp://192.168.122.105/cam4 starting at 2025-07-19 09:38:27.013000+00:00 for 2 seconds
+INFO 2025-07-19 04:45:33,432 logger 24784 26548 Record found: Record from rtsp://192.168.122.105/cam4 starting at 2025-07-19 09:38:27.013000+00:00 for 2 seconds
+INFO 2025-07-19 04:45:33,437 logger 24784 26548 Started recording for record ID 137 at rtsp://192.168.122.105/cam4 for 2 seconds.
+INFO 2025-07-19 04:45:33,437 logger 24784 26548 Started recording for record ID 137 at rtsp://192.168.122.105/cam4 for 2 seconds.
+INFO 2025-07-19 04:45:33,448 logger 11520 24616 Record 137 started successfully.
+INFO 2025-07-19 04:45:33,448 logger 11520 24616 Record 137 started successfully.
+INFO 2025-07-19 04:45:33,451 logger 11520 24616 Processing record: 138 from rtsp://192.168.122.105/cam3
+INFO 2025-07-19 04:45:33,451 logger 11520 24616 Processing record: 138 from rtsp://192.168.122.105/cam3
+INFO 2025-07-19 04:45:33,476 logger 24784 24864 Starting recording for record ID 138 at rtsp://192.168.122.105/cam3 for 2 seconds.
+INFO 2025-07-19 04:45:33,476 logger 24784 24864 Starting recording for record ID 138 at rtsp://192.168.122.105/cam3 for 2 seconds.
+INFO 2025-07-19 04:45:33,482 logger 24784 24864 Record found: Record from rtsp://192.168.122.105/cam3 starting at 2025-07-19 09:38:27.013000+00:00 for 2 seconds
+INFO 2025-07-19 04:45:33,482 logger 24784 24864 Record found: Record from rtsp://192.168.122.105/cam3 starting at 2025-07-19 09:38:27.013000+00:00 for 2 seconds
+INFO 2025-07-19 04:45:33,487 logger 24784 24864 Started recording for record ID 138 at rtsp://192.168.122.105/cam3 for 2 seconds.
+INFO 2025-07-19 04:45:33,487 logger 24784 24864 Started recording for record ID 138 at rtsp://192.168.122.105/cam3 for 2 seconds.
+INFO 2025-07-19 04:45:33,498 logger 11520 24616 Record 138 started successfully.
+INFO 2025-07-19 04:45:33,498 logger 11520 24616 Record 138 started successfully.
+INFO 2025-07-19 04:45:33,500 logger 11520 24616 Processing record: 139 from rtsp://192.168.122.105/cam2
+INFO 2025-07-19 04:45:33,500 logger 11520 24616 Processing record: 139 from rtsp://192.168.122.105/cam2
+INFO 2025-07-19 04:45:33,524 logger 24784 26412 Starting recording for record ID 139 at rtsp://192.168.122.105/cam2 for 2 seconds.
+INFO 2025-07-19 04:45:33,524 logger 24784 26412 Starting recording for record ID 139 at rtsp://192.168.122.105/cam2 for 2 seconds.
+INFO 2025-07-19 04:45:33,535 logger 24784 26412 Record found: Record from rtsp://192.168.122.105/cam2 starting at 2025-07-19 09:38:27.013000+00:00 for 2 seconds
+INFO 2025-07-19 04:45:33,535 logger 24784 26412 Record found: Record from rtsp://192.168.122.105/cam2 starting at 2025-07-19 09:38:27.013000+00:00 for 2 seconds
+INFO 2025-07-19 04:45:33,539 logger 24784 26412 Started recording for record ID 139 at rtsp://192.168.122.105/cam2 for 2 seconds.
+INFO 2025-07-19 04:45:33,539 logger 24784 26412 Started recording for record ID 139 at rtsp://192.168.122.105/cam2 for 2 seconds.
+INFO 2025-07-19 04:45:33,550 logger 11520 24616 Record 139 started successfully.
+INFO 2025-07-19 04:45:33,550 logger 11520 24616 Record 139 started successfully.
+DEBUG 2025-07-19 04:45:36,205 logger 24784 15852 Starting recording for 2 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/137
+DEBUG 2025-07-19 04:45:36,205 logger 24784 15852 Starting recording for 2 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/137
+DEBUG 2025-07-19 04:45:36,209 logger 24784 15852 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/137.mkv
+DEBUG 2025-07-19 04:45:36,209 logger 24784 15852 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/137.mkv
+DEBUG 2025-07-19 04:45:36,212 logger 24784 15852 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.122.105/cam4 -t 120 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/137.mkv
+DEBUG 2025-07-19 04:45:36,212 logger 24784 15852 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.122.105/cam4 -t 120 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/137.mkv
+DEBUG 2025-07-19 04:45:41,476 logger 24784 2588 Starting recording for 2 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/138
+DEBUG 2025-07-19 04:45:41,476 logger 24784 2588 Starting recording for 2 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/138
+DEBUG 2025-07-19 04:45:41,480 logger 24784 2588 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/138.mkv
+DEBUG 2025-07-19 04:45:41,480 logger 24784 2588 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/138.mkv
+DEBUG 2025-07-19 04:45:41,482 logger 24784 2588 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.122.105/cam3 -t 120 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/138.mkv
+DEBUG 2025-07-19 04:45:41,482 logger 24784 2588 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.122.105/cam3 -t 120 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/138.mkv
+INFO 2025-07-19 04:45:43,555 logger 11520 24616 Found 0 records to process.
+INFO 2025-07-19 04:45:43,555 logger 11520 24616 Found 0 records to process.
+DEBUG 2025-07-19 04:45:46,021 logger 24784 25764 Starting recording for 2 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/139
+DEBUG 2025-07-19 04:45:46,021 logger 24784 25764 Starting recording for 2 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/139
+DEBUG 2025-07-19 04:45:46,025 logger 24784 25764 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/139.mkv
+DEBUG 2025-07-19 04:45:46,025 logger 24784 25764 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/139.mkv
+DEBUG 2025-07-19 04:45:46,028 logger 24784 25764 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.122.105/cam2 -t 120 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/139.mkv
+DEBUG 2025-07-19 04:45:46,028 logger 24784 25764 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.122.105/cam2 -t 120 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/139.mkv
+INFO 2025-07-19 04:45:53,562 logger 11520 24616 Found 0 records to process.
+INFO 2025-07-19 04:45:53,562 logger 11520 24616 Found 0 records to process.
+INFO 2025-07-19 04:46:03,570 logger 11520 24616 Found 0 records to process.
+INFO 2025-07-19 04:46:03,570 logger 11520 24616 Found 0 records to process.
+INFO 2025-07-19 04:46:13,578 logger 11520 24616 Found 0 records to process.
+INFO 2025-07-19 04:46:13,578 logger 11520 24616 Found 0 records to process.
+INFO 2025-07-19 04:46:29,637 logger 27116 26936 Starting cronjob: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\cameravision\resources\.hc_to_app_env
+INFO 2025-07-19 04:46:29,637 logger 27116 26936 Starting cronjob: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\cameravision\resources\.hc_to_app_env
+INFO 2025-07-19 04:46:29,651 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:46:29,651 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:46:39,655 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:46:39,655 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:46:49,662 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:46:49,662 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:46:59,666 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:46:59,666 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:47:09,671 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:47:09,671 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:47:19,675 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:47:19,675 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:47:29,680 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:47:29,680 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:47:39,685 logger 27116 26936 Found 4 records to process.
+INFO 2025-07-19 04:47:39,685 logger 27116 26936 Found 4 records to process.
+INFO 2025-07-19 04:47:39,687 logger 27116 26936 Processing record: 140 from rtsp://192.168.114.9/cam1
+INFO 2025-07-19 04:47:39,687 logger 27116 26936 Processing record: 140 from rtsp://192.168.114.9/cam1
+INFO 2025-07-19 04:47:39,721 logger 21168 17320 Starting recording for record ID 140 at rtsp://192.168.114.9/cam1 for 2 seconds.
+INFO 2025-07-19 04:47:39,721 logger 21168 17320 Starting recording for record ID 140 at rtsp://192.168.114.9/cam1 for 2 seconds.
+INFO 2025-07-19 04:47:39,724 logger 21168 17320 Record found: Record from rtsp://192.168.114.9/cam1 starting at 2025-07-19 09:47:34.090000+00:00 for 2 seconds
+INFO 2025-07-19 04:47:39,724 logger 21168 17320 Record found: Record from rtsp://192.168.114.9/cam1 starting at 2025-07-19 09:47:34.090000+00:00 for 2 seconds
+INFO 2025-07-19 04:47:39,726 logger 21168 17320 Started recording for record ID 140 at rtsp://192.168.114.9/cam1 for 2 seconds.
+INFO 2025-07-19 04:47:39,726 logger 21168 17320 Started recording for record ID 140 at rtsp://192.168.114.9/cam1 for 2 seconds.
+INFO 2025-07-19 04:47:39,735 logger 27116 26936 Record 140 started successfully.
+INFO 2025-07-19 04:47:39,735 logger 27116 26936 Record 140 started successfully.
+INFO 2025-07-19 04:47:39,737 logger 27116 26936 Processing record: 141 from rtsp://192.168.114.9/cam3
+INFO 2025-07-19 04:47:39,737 logger 27116 26936 Processing record: 141 from rtsp://192.168.114.9/cam3
+INFO 2025-07-19 04:47:39,794 logger 21168 24560 Starting recording for record ID 141 at rtsp://192.168.114.9/cam3 for 2 seconds.
+INFO 2025-07-19 04:47:39,794 logger 21168 24560 Starting recording for record ID 141 at rtsp://192.168.114.9/cam3 for 2 seconds.
+INFO 2025-07-19 04:47:39,797 logger 21168 24560 Record found: Record from rtsp://192.168.114.9/cam3 starting at 2025-07-19 09:47:34.090000+00:00 for 2 seconds
+INFO 2025-07-19 04:47:39,797 logger 21168 24560 Record found: Record from rtsp://192.168.114.9/cam3 starting at 2025-07-19 09:47:34.090000+00:00 for 2 seconds
+INFO 2025-07-19 04:47:39,800 logger 21168 24560 Started recording for record ID 141 at rtsp://192.168.114.9/cam3 for 2 seconds.
+INFO 2025-07-19 04:47:39,800 logger 21168 24560 Started recording for record ID 141 at rtsp://192.168.114.9/cam3 for 2 seconds.
+INFO 2025-07-19 04:47:39,807 logger 27116 26936 Record 141 started successfully.
+INFO 2025-07-19 04:47:39,807 logger 27116 26936 Record 141 started successfully.
+INFO 2025-07-19 04:47:39,809 logger 27116 26936 Processing record: 142 from rtsp://192.168.114.9/cam2
+INFO 2025-07-19 04:47:39,809 logger 27116 26936 Processing record: 142 from rtsp://192.168.114.9/cam2
+INFO 2025-07-19 04:47:39,826 logger 21168 21620 Starting recording for record ID 142 at rtsp://192.168.114.9/cam2 for 2 seconds.
+INFO 2025-07-19 04:47:39,826 logger 21168 21620 Starting recording for record ID 142 at rtsp://192.168.114.9/cam2 for 2 seconds.
+INFO 2025-07-19 04:47:39,830 logger 21168 21620 Record found: Record from rtsp://192.168.114.9/cam2 starting at 2025-07-19 09:47:34.090000+00:00 for 2 seconds
+INFO 2025-07-19 04:47:39,830 logger 21168 21620 Record found: Record from rtsp://192.168.114.9/cam2 starting at 2025-07-19 09:47:34.090000+00:00 for 2 seconds
+INFO 2025-07-19 04:47:39,833 logger 21168 21620 Started recording for record ID 142 at rtsp://192.168.114.9/cam2 for 2 seconds.
+INFO 2025-07-19 04:47:39,833 logger 21168 21620 Started recording for record ID 142 at rtsp://192.168.114.9/cam2 for 2 seconds.
+INFO 2025-07-19 04:47:39,840 logger 27116 26936 Record 142 started successfully.
+INFO 2025-07-19 04:47:39,840 logger 27116 26936 Record 142 started successfully.
+INFO 2025-07-19 04:47:39,841 logger 27116 26936 Processing record: 143 from rtsp://192.168.114.9/cam4
+INFO 2025-07-19 04:47:39,841 logger 27116 26936 Processing record: 143 from rtsp://192.168.114.9/cam4
+INFO 2025-07-19 04:47:39,855 logger 21168 25576 Starting recording for record ID 143 at rtsp://192.168.114.9/cam4 for 2 seconds.
+INFO 2025-07-19 04:47:39,855 logger 21168 25576 Starting recording for record ID 143 at rtsp://192.168.114.9/cam4 for 2 seconds.
+INFO 2025-07-19 04:47:39,858 logger 21168 25576 Record found: Record from rtsp://192.168.114.9/cam4 starting at 2025-07-19 09:47:34.090000+00:00 for 2 seconds
+INFO 2025-07-19 04:47:39,858 logger 21168 25576 Record found: Record from rtsp://192.168.114.9/cam4 starting at 2025-07-19 09:47:34.090000+00:00 for 2 seconds
+INFO 2025-07-19 04:47:39,861 logger 21168 25576 Started recording for record ID 143 at rtsp://192.168.114.9/cam4 for 2 seconds.
+INFO 2025-07-19 04:47:39,861 logger 21168 25576 Started recording for record ID 143 at rtsp://192.168.114.9/cam4 for 2 seconds.
+INFO 2025-07-19 04:47:39,867 logger 27116 26936 Record 143 started successfully.
+INFO 2025-07-19 04:47:39,867 logger 27116 26936 Record 143 started successfully.
+DEBUG 2025-07-19 04:47:42,563 logger 21168 22972 Starting recording for 2 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/140
+DEBUG 2025-07-19 04:47:42,563 logger 21168 22972 Starting recording for 2 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/140
+DEBUG 2025-07-19 04:47:42,565 logger 21168 22972 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/140.mkv
+DEBUG 2025-07-19 04:47:42,565 logger 21168 22972 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/140.mkv
+DEBUG 2025-07-19 04:47:42,566 logger 21168 22972 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.114.9/cam1 -t 120 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/140.mkv
+DEBUG 2025-07-19 04:47:42,566 logger 21168 22972 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.114.9/cam1 -t 120 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/140.mkv
+DEBUG 2025-07-19 04:47:47,555 logger 21168 18724 Starting recording for 2 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/141
+DEBUG 2025-07-19 04:47:47,555 logger 21168 18724 Starting recording for 2 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/141
+DEBUG 2025-07-19 04:47:47,556 logger 21168 18724 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/141.mkv
+DEBUG 2025-07-19 04:47:47,556 logger 21168 18724 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/141.mkv
+DEBUG 2025-07-19 04:47:47,557 logger 21168 18724 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.114.9/cam3 -t 120 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/141.mkv
+DEBUG 2025-07-19 04:47:47,557 logger 21168 18724 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.114.9/cam3 -t 120 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/141.mkv
+INFO 2025-07-19 04:47:49,872 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:47:49,872 logger 27116 26936 Found 0 records to process.
+DEBUG 2025-07-19 04:47:52,551 logger 21168 24156 Starting recording for 2 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/143
+DEBUG 2025-07-19 04:47:52,551 logger 21168 24156 Starting recording for 2 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/143
+DEBUG 2025-07-19 04:47:52,553 logger 21168 24156 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/143.mkv
+DEBUG 2025-07-19 04:47:52,553 logger 21168 24156 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/143.mkv
+DEBUG 2025-07-19 04:47:52,556 logger 21168 24156 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.114.9/cam4 -t 120 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/143.mkv
+DEBUG 2025-07-19 04:47:52,556 logger 21168 24156 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.114.9/cam4 -t 120 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/143.mkv
+DEBUG 2025-07-19 04:47:57,586 logger 21168 19780 Starting recording for 2 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/142
+DEBUG 2025-07-19 04:47:57,586 logger 21168 19780 Starting recording for 2 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/142
+DEBUG 2025-07-19 04:47:57,589 logger 21168 19780 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/142.mkv
+DEBUG 2025-07-19 04:47:57,589 logger 21168 19780 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/142.mkv
+DEBUG 2025-07-19 04:47:57,592 logger 21168 19780 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.114.9/cam2 -t 120 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/142.mkv
+DEBUG 2025-07-19 04:47:57,592 logger 21168 19780 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.114.9/cam2 -t 120 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/142.mkv
+INFO 2025-07-19 04:47:59,876 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:47:59,876 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:48:09,880 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:48:09,880 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:48:19,886 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:48:19,886 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:48:29,890 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:48:29,890 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:48:39,894 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:48:39,894 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:48:49,897 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:48:49,897 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:48:59,900 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:48:59,900 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:49:09,904 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:49:09,904 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:49:19,907 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:49:19,907 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:49:29,910 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:49:29,910 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:49:39,913 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:49:39,913 logger 27116 26936 Found 0 records to process.
+DEBUG 2025-07-19 04:49:46,825 logger 21168 22972 Output file created: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/140.mkv
+DEBUG 2025-07-19 04:49:46,825 logger 21168 22972 Output file created: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/140.mkv
+INFO 2025-07-19 04:49:46,826 logger 21168 22972 ffmpeg path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe
+INFO 2025-07-19 04:49:46,826 logger 21168 22972 ffmpeg path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe
+INFO 2025-07-19 04:49:49,923 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:49:49,923 logger 27116 26936 Found 0 records to process.
+DEBUG 2025-07-19 04:49:50,806 logger 21168 22972 Transcoded output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/140.mp4
+DEBUG 2025-07-19 04:49:50,806 logger 21168 22972 Transcoded output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/140.mp4
+DEBUG 2025-07-19 04:49:50,808 logger 21168 22972 Recording and transcoding successful.
+DEBUG 2025-07-19 04:49:50,808 logger 21168 22972 Recording and transcoding successful.
+DEBUG 2025-07-19 04:49:51,830 logger 21168 18724 Output file created: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/141.mkv
+DEBUG 2025-07-19 04:49:51,830 logger 21168 18724 Output file created: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/141.mkv
+INFO 2025-07-19 04:49:51,831 logger 21168 18724 ffmpeg path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe
+INFO 2025-07-19 04:49:51,831 logger 21168 18724 ffmpeg path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe
+DEBUG 2025-07-19 04:49:55,953 logger 21168 18724 Transcoded output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/141.mp4
+DEBUG 2025-07-19 04:49:55,953 logger 21168 18724 Transcoded output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/141.mp4
+DEBUG 2025-07-19 04:49:55,955 logger 21168 18724 Recording and transcoding successful.
+DEBUG 2025-07-19 04:49:55,955 logger 21168 18724 Recording and transcoding successful.
+DEBUG 2025-07-19 04:49:56,904 logger 21168 24156 Output file created: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/143.mkv
+DEBUG 2025-07-19 04:49:56,904 logger 21168 24156 Output file created: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/143.mkv
+INFO 2025-07-19 04:49:56,905 logger 21168 24156 ffmpeg path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe
+INFO 2025-07-19 04:49:56,905 logger 21168 24156 ffmpeg path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe
+DEBUG 2025-07-19 04:49:58,884 logger 21168 19780 Output file created: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/142.mkv
+DEBUG 2025-07-19 04:49:58,884 logger 21168 19780 Output file created: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/142.mkv
+INFO 2025-07-19 04:49:58,886 logger 21168 19780 ffmpeg path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe
+INFO 2025-07-19 04:49:58,886 logger 21168 19780 ffmpeg path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe
+INFO 2025-07-19 04:49:59,930 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:49:59,930 logger 27116 26936 Found 0 records to process.
+DEBUG 2025-07-19 04:50:01,511 logger 21168 24156 Transcoded output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/143.mp4
+DEBUG 2025-07-19 04:50:01,511 logger 21168 24156 Transcoded output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/143.mp4
+DEBUG 2025-07-19 04:50:01,514 logger 21168 24156 Recording and transcoding successful.
+DEBUG 2025-07-19 04:50:01,514 logger 21168 24156 Recording and transcoding successful.
+DEBUG 2025-07-19 04:50:04,080 logger 21168 19780 Transcoded output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/142.mp4
+DEBUG 2025-07-19 04:50:04,080 logger 21168 19780 Transcoded output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/142.mp4
+DEBUG 2025-07-19 04:50:04,082 logger 21168 19780 Recording and transcoding successful.
+DEBUG 2025-07-19 04:50:04,082 logger 21168 19780 Recording and transcoding successful.
+INFO 2025-07-19 04:50:09,938 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:50:09,938 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:50:19,942 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:50:19,942 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:50:29,946 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:50:29,946 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:50:39,950 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:50:39,950 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:50:49,955 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:50:49,955 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:50:59,960 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:50:59,960 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:51:09,964 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:51:09,964 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:51:19,967 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:51:19,967 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:51:29,971 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:51:29,971 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:51:39,981 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:51:39,981 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:51:49,986 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:51:49,986 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:51:59,991 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:51:59,991 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:52:09,993 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:52:09,993 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:52:19,997 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:52:19,997 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:52:30,001 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:52:30,001 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:52:40,007 logger 27116 26936 Found 4 records to process.
+INFO 2025-07-19 04:52:40,007 logger 27116 26936 Found 4 records to process.
+INFO 2025-07-19 04:52:40,009 logger 27116 26936 Processing record: 148 from rtsp://192.168.23.76/cam1
+INFO 2025-07-19 04:52:40,009 logger 27116 26936 Processing record: 148 from rtsp://192.168.23.76/cam1
+INFO 2025-07-19 04:52:40,023 logger 21168 26228 Starting recording for record ID 148 at rtsp://192.168.23.76/cam1 for 5 seconds.
+INFO 2025-07-19 04:52:40,023 logger 21168 26228 Starting recording for record ID 148 at rtsp://192.168.23.76/cam1 for 5 seconds.
+INFO 2025-07-19 04:52:40,025 logger 21168 26228 Record found: Record from rtsp://192.168.23.76/cam1 starting at 2025-07-19 09:52:34.090000+00:00 for 5 seconds
+INFO 2025-07-19 04:52:40,025 logger 21168 26228 Record found: Record from rtsp://192.168.23.76/cam1 starting at 2025-07-19 09:52:34.090000+00:00 for 5 seconds
+INFO 2025-07-19 04:52:40,028 logger 21168 26228 Started recording for record ID 148 at rtsp://192.168.23.76/cam1 for 5 seconds.
+INFO 2025-07-19 04:52:40,028 logger 21168 26228 Started recording for record ID 148 at rtsp://192.168.23.76/cam1 for 5 seconds.
+INFO 2025-07-19 04:52:40,035 logger 27116 26936 Record 148 started successfully.
+INFO 2025-07-19 04:52:40,035 logger 27116 26936 Record 148 started successfully.
+INFO 2025-07-19 04:52:40,036 logger 27116 26936 Processing record: 149 from rtsp://192.168.23.76/cam2
+INFO 2025-07-19 04:52:40,036 logger 27116 26936 Processing record: 149 from rtsp://192.168.23.76/cam2
+INFO 2025-07-19 04:52:40,050 logger 21168 13432 Starting recording for record ID 149 at rtsp://192.168.23.76/cam2 for 5 seconds.
+INFO 2025-07-19 04:52:40,050 logger 21168 13432 Starting recording for record ID 149 at rtsp://192.168.23.76/cam2 for 5 seconds.
+INFO 2025-07-19 04:52:40,052 logger 21168 13432 Record found: Record from rtsp://192.168.23.76/cam2 starting at 2025-07-19 09:52:34.090000+00:00 for 5 seconds
+INFO 2025-07-19 04:52:40,052 logger 21168 13432 Record found: Record from rtsp://192.168.23.76/cam2 starting at 2025-07-19 09:52:34.090000+00:00 for 5 seconds
+INFO 2025-07-19 04:52:40,054 logger 21168 13432 Started recording for record ID 149 at rtsp://192.168.23.76/cam2 for 5 seconds.
+INFO 2025-07-19 04:52:40,054 logger 21168 13432 Started recording for record ID 149 at rtsp://192.168.23.76/cam2 for 5 seconds.
+INFO 2025-07-19 04:52:40,060 logger 27116 26936 Record 149 started successfully.
+INFO 2025-07-19 04:52:40,060 logger 27116 26936 Record 149 started successfully.
+INFO 2025-07-19 04:52:40,060 logger 27116 26936 Processing record: 150 from rtsp://192.168.23.76/cam4
+INFO 2025-07-19 04:52:40,060 logger 27116 26936 Processing record: 150 from rtsp://192.168.23.76/cam4
+INFO 2025-07-19 04:52:40,075 logger 21168 3344 Starting recording for record ID 150 at rtsp://192.168.23.76/cam4 for 5 seconds.
+INFO 2025-07-19 04:52:40,075 logger 21168 3344 Starting recording for record ID 150 at rtsp://192.168.23.76/cam4 for 5 seconds.
+INFO 2025-07-19 04:52:40,078 logger 21168 3344 Record found: Record from rtsp://192.168.23.76/cam4 starting at 2025-07-19 09:52:34.090000+00:00 for 5 seconds
+INFO 2025-07-19 04:52:40,078 logger 21168 3344 Record found: Record from rtsp://192.168.23.76/cam4 starting at 2025-07-19 09:52:34.090000+00:00 for 5 seconds
+INFO 2025-07-19 04:52:40,080 logger 21168 3344 Started recording for record ID 150 at rtsp://192.168.23.76/cam4 for 5 seconds.
+INFO 2025-07-19 04:52:40,080 logger 21168 3344 Started recording for record ID 150 at rtsp://192.168.23.76/cam4 for 5 seconds.
+INFO 2025-07-19 04:52:40,085 logger 27116 26936 Record 150 started successfully.
+INFO 2025-07-19 04:52:40,085 logger 27116 26936 Record 150 started successfully.
+INFO 2025-07-19 04:52:40,087 logger 27116 26936 Processing record: 151 from rtsp://192.168.23.76/cam3
+INFO 2025-07-19 04:52:40,087 logger 27116 26936 Processing record: 151 from rtsp://192.168.23.76/cam3
+INFO 2025-07-19 04:52:40,099 logger 21168 10916 Starting recording for record ID 151 at rtsp://192.168.23.76/cam3 for 5 seconds.
+INFO 2025-07-19 04:52:40,099 logger 21168 10916 Starting recording for record ID 151 at rtsp://192.168.23.76/cam3 for 5 seconds.
+INFO 2025-07-19 04:52:40,102 logger 21168 10916 Record found: Record from rtsp://192.168.23.76/cam3 starting at 2025-07-19 09:52:34.090000+00:00 for 5 seconds
+INFO 2025-07-19 04:52:40,102 logger 21168 10916 Record found: Record from rtsp://192.168.23.76/cam3 starting at 2025-07-19 09:52:34.090000+00:00 for 5 seconds
+INFO 2025-07-19 04:52:40,105 logger 21168 10916 Started recording for record ID 151 at rtsp://192.168.23.76/cam3 for 5 seconds.
+INFO 2025-07-19 04:52:40,105 logger 21168 10916 Started recording for record ID 151 at rtsp://192.168.23.76/cam3 for 5 seconds.
+INFO 2025-07-19 04:52:40,109 logger 27116 26936 Record 151 started successfully.
+INFO 2025-07-19 04:52:40,109 logger 27116 26936 Record 151 started successfully.
+DEBUG 2025-07-19 04:52:42,704 logger 21168 6616 Starting recording for 5 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/148
+DEBUG 2025-07-19 04:52:42,704 logger 21168 6616 Starting recording for 5 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/148
+DEBUG 2025-07-19 04:52:42,706 logger 21168 6616 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/148.mkv
+DEBUG 2025-07-19 04:52:42,706 logger 21168 6616 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/148.mkv
+DEBUG 2025-07-19 04:52:42,708 logger 21168 6616 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.23.76/cam1 -t 300 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/148.mkv
+DEBUG 2025-07-19 04:52:42,708 logger 21168 6616 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.23.76/cam1 -t 300 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/148.mkv
+DEBUG 2025-07-19 04:52:47,712 logger 21168 23712 Starting recording for 5 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/149
+DEBUG 2025-07-19 04:52:47,712 logger 21168 23712 Starting recording for 5 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/149
+DEBUG 2025-07-19 04:52:47,714 logger 21168 23712 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/149.mkv
+DEBUG 2025-07-19 04:52:47,714 logger 21168 23712 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/149.mkv
+DEBUG 2025-07-19 04:52:47,716 logger 21168 23712 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.23.76/cam2 -t 300 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/149.mkv
+DEBUG 2025-07-19 04:52:47,716 logger 21168 23712 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.23.76/cam2 -t 300 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/149.mkv
+INFO 2025-07-19 04:52:50,113 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:52:50,113 logger 27116 26936 Found 0 records to process.
+DEBUG 2025-07-19 04:52:52,596 logger 21168 3016 Starting recording for 5 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/151
+DEBUG 2025-07-19 04:52:52,596 logger 21168 3016 Starting recording for 5 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/151
+DEBUG 2025-07-19 04:52:52,597 logger 21168 3016 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/151.mkv
+DEBUG 2025-07-19 04:52:52,597 logger 21168 3016 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/151.mkv
+DEBUG 2025-07-19 04:52:52,599 logger 21168 3016 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.23.76/cam3 -t 300 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/151.mkv
+DEBUG 2025-07-19 04:52:52,599 logger 21168 3016 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.23.76/cam3 -t 300 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/151.mkv
+DEBUG 2025-07-19 04:52:57,654 logger 21168 19168 Starting recording for 5 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/150
+DEBUG 2025-07-19 04:52:57,654 logger 21168 19168 Starting recording for 5 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/150
+DEBUG 2025-07-19 04:52:57,656 logger 21168 19168 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/150.mkv
+DEBUG 2025-07-19 04:52:57,656 logger 21168 19168 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/150.mkv
+DEBUG 2025-07-19 04:52:57,657 logger 21168 19168 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.23.76/cam4 -t 300 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/150.mkv
+DEBUG 2025-07-19 04:52:57,657 logger 21168 19168 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.23.76/cam4 -t 300 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/150.mkv
+INFO 2025-07-19 04:53:00,116 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:53:00,116 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:53:10,119 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:53:10,119 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:53:20,123 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:53:20,123 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:53:30,126 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:53:30,126 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:53:40,129 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:53:40,129 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:53:50,132 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:53:50,132 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:54:00,135 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:54:00,135 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:54:10,139 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:54:10,139 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:54:20,143 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:54:20,143 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:54:30,148 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:54:30,148 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:54:40,152 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:54:40,152 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:54:50,157 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:54:50,157 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:55:00,165 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:55:00,165 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:55:10,172 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:55:10,172 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:55:20,179 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:55:20,179 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:55:30,184 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:55:30,184 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:55:40,188 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:55:40,188 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:55:50,193 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:55:50,193 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:56:00,200 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:56:00,200 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:56:10,209 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:56:10,209 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:56:20,216 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:56:20,216 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:56:30,228 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:56:30,228 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:56:40,233 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:56:40,233 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:56:50,238 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:56:50,238 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:57:00,242 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:57:00,242 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:57:10,249 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:57:10,249 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:57:20,254 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:57:20,254 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:57:30,257 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:57:30,257 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:57:40,262 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:57:40,262 logger 27116 26936 Found 0 records to process.
+DEBUG 2025-07-19 04:57:46,821 logger 21168 6616 Output file created: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/148.mkv
+DEBUG 2025-07-19 04:57:46,821 logger 21168 6616 Output file created: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/148.mkv
+INFO 2025-07-19 04:57:46,824 logger 21168 6616 ffmpeg path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe
+INFO 2025-07-19 04:57:46,824 logger 21168 6616 ffmpeg path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe
+INFO 2025-07-19 04:57:50,272 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:57:50,272 logger 27116 26936 Found 0 records to process.
+DEBUG 2025-07-19 04:57:51,751 logger 21168 23712 Output file created: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/149.mkv
+DEBUG 2025-07-19 04:57:51,751 logger 21168 23712 Output file created: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/149.mkv
+INFO 2025-07-19 04:57:51,753 logger 21168 23712 ffmpeg path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe
+INFO 2025-07-19 04:57:51,753 logger 21168 23712 ffmpeg path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe
+DEBUG 2025-07-19 04:57:56,869 logger 21168 3016 Output file created: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/151.mkv
+DEBUG 2025-07-19 04:57:56,869 logger 21168 3016 Output file created: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/151.mkv
+INFO 2025-07-19 04:57:56,871 logger 21168 3016 ffmpeg path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe
+INFO 2025-07-19 04:57:56,871 logger 21168 3016 ffmpeg path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe
+DEBUG 2025-07-19 04:57:59,253 logger 21168 19168 Output file created: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/150.mkv
+DEBUG 2025-07-19 04:57:59,253 logger 21168 19168 Output file created: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/150.mkv
+INFO 2025-07-19 04:57:59,266 logger 21168 19168 ffmpeg path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe
+INFO 2025-07-19 04:57:59,266 logger 21168 19168 ffmpeg path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe
+DEBUG 2025-07-19 04:57:59,588 logger 21168 6616 Transcoded output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/148.mp4
+DEBUG 2025-07-19 04:57:59,588 logger 21168 6616 Transcoded output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/148.mp4
+DEBUG 2025-07-19 04:57:59,591 logger 21168 6616 Recording and transcoding successful.
+DEBUG 2025-07-19 04:57:59,591 logger 21168 6616 Recording and transcoding successful.
+INFO 2025-07-19 04:58:00,285 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:58:00,285 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:58:10,312 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:58:10,312 logger 27116 26936 Found 0 records to process.
+DEBUG 2025-07-19 04:58:10,621 logger 21168 23712 Transcoded output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/149.mp4
+DEBUG 2025-07-19 04:58:10,621 logger 21168 23712 Transcoded output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/149.mp4
+DEBUG 2025-07-19 04:58:10,624 logger 21168 23712 Recording and transcoding successful.
+DEBUG 2025-07-19 04:58:10,624 logger 21168 23712 Recording and transcoding successful.
+DEBUG 2025-07-19 04:58:19,382 logger 21168 3016 Transcoded output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/151.mp4
+DEBUG 2025-07-19 04:58:19,382 logger 21168 3016 Transcoded output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/151.mp4
+DEBUG 2025-07-19 04:58:19,385 logger 21168 3016 Recording and transcoding successful.
+DEBUG 2025-07-19 04:58:19,385 logger 21168 3016 Recording and transcoding successful.
+INFO 2025-07-19 04:58:20,333 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:58:20,333 logger 27116 26936 Found 0 records to process.
+DEBUG 2025-07-19 04:58:20,579 logger 21168 19168 Transcoded output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/150.mp4
+DEBUG 2025-07-19 04:58:20,579 logger 21168 19168 Transcoded output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/150.mp4
+DEBUG 2025-07-19 04:58:20,585 logger 21168 19168 Recording and transcoding successful.
+DEBUG 2025-07-19 04:58:20,585 logger 21168 19168 Recording and transcoding successful.
+INFO 2025-07-19 04:58:30,341 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:58:30,341 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:58:40,344 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:58:40,344 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:58:50,348 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:58:50,348 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:59:00,356 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:59:00,356 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:59:10,360 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:59:10,360 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:59:20,365 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:59:20,365 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:59:30,371 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:59:30,371 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:59:40,377 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:59:40,377 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:59:50,382 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 04:59:50,382 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:00:00,387 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:00:00,387 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:00:10,391 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:00:10,391 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:00:20,395 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:00:20,395 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:00:30,399 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:00:30,399 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:00:40,402 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:00:40,402 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:00:50,406 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:00:50,406 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:01:00,410 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:01:00,410 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:01:10,413 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:01:10,413 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:01:20,418 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:01:20,418 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:01:30,421 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:01:30,421 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:01:40,426 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:01:40,426 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:01:50,430 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:01:50,430 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:02:00,433 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:02:00,433 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:02:10,438 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:02:10,438 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:02:20,443 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:02:20,443 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:02:30,450 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:02:30,450 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:02:40,454 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:02:40,454 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:02:50,457 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:02:50,457 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:03:00,460 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:03:00,460 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:03:10,473 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:03:10,473 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:03:20,480 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:03:20,480 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:03:30,486 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:03:30,486 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:03:40,491 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:03:40,491 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:03:50,496 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:03:50,496 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:04:00,501 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:04:00,501 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:04:10,506 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:04:10,506 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:04:20,509 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:04:20,509 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:04:30,514 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:04:30,514 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:04:40,519 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:04:40,519 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:04:50,522 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:04:50,522 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:05:00,526 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:05:00,526 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:05:10,531 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:05:10,531 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:05:20,536 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:05:20,536 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:05:30,542 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:05:30,542 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:05:40,545 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:05:40,545 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:05:50,548 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:05:50,548 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:06:00,552 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:06:00,552 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:06:10,555 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:06:10,555 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:06:20,560 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:06:20,560 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:06:30,565 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:06:30,565 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:06:40,570 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:06:40,570 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:06:50,575 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:06:50,575 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:07:00,581 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:07:00,581 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:07:10,586 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:07:10,586 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:07:20,589 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:07:20,589 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:07:30,593 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:07:30,593 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:07:40,600 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:07:40,600 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:07:50,603 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:07:50,603 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:08:00,607 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:08:00,607 logger 27116 26936 Found 0 records to process.
+WARNING 2025-07-19 05:08:05,876 log 21168 26612 Not Found: /record/get_records_url/f49ydg9zt1qn6bj7o0pwk33s0a3lrzgvmwcpo6vzvkjiqf37m5kzvp543695eg9iw4uagbv01ywe00wvx182b1868ipptsp0d02a/
+INFO 2025-07-19 05:08:10,611 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:08:10,611 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:08:20,615 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:08:20,615 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:08:30,620 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:08:30,620 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:08:40,624 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:08:40,624 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:08:50,629 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:08:50,629 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:09:00,632 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:09:00,632 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:09:10,636 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:09:10,636 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:09:20,640 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:09:20,640 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:09:30,645 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:09:30,645 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:09:40,650 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:09:40,650 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:09:50,653 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:09:50,653 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:10:00,659 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:10:00,659 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:10:10,664 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:10:10,664 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:10:20,670 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:10:20,670 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:10:30,676 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:10:30,676 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:10:40,679 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:10:40,679 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:10:50,682 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:10:50,682 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:11:00,687 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:11:00,687 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:11:10,691 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:11:10,691 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:11:20,696 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:11:20,696 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:11:30,700 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:11:30,700 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:11:40,704 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:11:40,704 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:11:50,708 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:11:50,708 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:12:00,714 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:12:00,714 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:12:10,719 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:12:10,719 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:12:20,724 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:12:20,724 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:12:30,728 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:12:30,728 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:12:40,732 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:12:40,732 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:12:50,737 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:12:50,737 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:13:00,742 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:13:00,742 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:13:10,747 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:13:10,747 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:13:20,755 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:13:20,755 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:13:30,759 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:13:30,759 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:13:40,763 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:13:40,763 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:13:50,767 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:13:50,767 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:14:00,772 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:14:00,772 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:14:10,775 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:14:10,775 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:14:20,778 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:14:20,778 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:14:30,782 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:14:30,782 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:14:40,785 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:14:40,785 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:14:50,788 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:14:50,788 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:15:00,792 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:15:00,792 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:15:10,797 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:15:10,797 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:15:20,802 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:15:20,802 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:15:30,808 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:15:30,808 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:15:40,811 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:15:40,811 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:15:50,820 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:15:50,820 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:16:00,824 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:16:00,824 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:16:10,830 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:16:10,830 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:16:20,834 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:16:20,834 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:16:30,839 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:16:30,839 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:16:40,842 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:16:40,842 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:16:50,847 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:16:50,847 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:17:00,853 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:17:00,853 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:17:10,857 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:17:10,857 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:17:20,862 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:17:20,862 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:17:30,867 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:17:30,867 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:17:40,872 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:17:40,872 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:17:50,875 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:17:50,875 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:18:00,878 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:18:00,878 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:18:10,883 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:18:10,883 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:18:20,887 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:18:20,887 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:18:30,889 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:18:30,889 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:18:40,894 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:18:40,894 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:18:50,897 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:18:50,897 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:19:00,902 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:19:00,902 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:19:10,909 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:19:10,909 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:19:20,915 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:19:20,915 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:19:30,920 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:19:30,920 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:19:40,924 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:19:40,924 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:19:50,928 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:19:50,928 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:20:00,933 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:20:00,933 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:20:10,939 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:20:10,939 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:20:20,943 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:20:20,943 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:20:30,949 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:20:30,949 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:20:40,958 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:20:40,958 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:20:50,964 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:20:50,964 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:21:00,970 logger 27116 26936 Found 0 records to process.
+INFO 2025-07-19 05:21:00,970 logger 27116 26936 Found 0 records to process.

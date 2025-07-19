@@ -138,8 +138,8 @@ const RecordLink = (props) => {
                         value={progressObj.progress || 0}
                         className="bg-main-500"
                         color="success"
-                        recording={progressObj.recording || undefined}
-                        converting={progressObj.converting || undefined}
+                        recording={progressObj.recording ? true : undefined}
+                        converting={progressObj.converting ? true : undefined}
                       />
                     ) : (
                       <div className="text-gray-400 text-xs">Progress unavailable</div>
