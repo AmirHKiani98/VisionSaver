@@ -12,7 +12,8 @@ import {
   faRecordVinyl,
   faDownload,
   faEdit,
-  faXmark
+  faXmark,
+  faLock
 } from '@fortawesome/free-solid-svg-icons'
 
 // MUI - Pickers
@@ -479,20 +480,48 @@ function App() {
       <div className="min-h-full min-w-full flex px-5 py-2.5">
         <div className="text-white flex flex-col w-full items-center gap-2">
           <div className="flex flex-row justify-between items-center w-full mb-2.5">
-            <Button variant="contained" className='bg-main-400 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700' onClick={downloadDB}>
-              <FontAwesomeIcon icon={faDownload} />
-            </Button>
+            <Tooltip title="Download database" placement="right"
+              slotProps={{
+                popper: {
+                  modifiers: [
+                    {
+                      name: 'offset',
+                      options: {
+                        offset: [0, 5],
+                      },
+                    },
+                  ],
+                }
+              }}
+            >
+              <Button variant="contained" className='bg-main-400 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700' onClick={downloadDB}>
+                <FontAwesomeIcon icon={faDownload} />
+              </Button>
+            </Tooltip>
             <Typography className="text-white text-2xl font-bold">
               CameraVision
             </Typography>
+            <Tooltip title="Add Camera Stream" placement="left"
+              slotProps={{
+                popper: {
+                  modifiers: [
+                    {
+                      name: 'offset',
+                      options: {
+                        offset: [0, 5],
+                      },
+                    },
+                  ],
+                }
+              }}>
             <Button
               variant="contained"
               className='bg-main-400 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700'
               onClick={() => setTurnOnMode()}
               >
-              <FontAwesomeIcon icon={faRecordVinyl} />
+              <FontAwesomeIcon icon={faLock} />
             </Button>
-              
+            </Tooltip>
           </div>
           <div className="flex w-full gap-10">
             <div className="flex flex-col w-1/2 gap-5">
@@ -637,7 +666,7 @@ function App() {
                       className="bg-red-500 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-red-700"
                       onClick={() => {
                         setTime(dayjs().add(1, 'minute'))
-                        setTimeout(() => addCronJob(),  1000); // TOdo
+                        setTimeout(() => addCronJob(),  1000); // TODO
                       }}
                     >
                       <FontAwesomeIcon icon={faRecordVinyl} />
