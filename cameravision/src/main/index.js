@@ -9,6 +9,7 @@ const { spawn } = require('child_process')
 
 const out = fs.openSync('./cronjob-out.log', 'a');
 const err = fs.openSync('./cronjob-err.log', 'a');
+const pythonExe = process.platform === 'win32' ? 'pythonw' : 'python';
 let pathToKeepMeAlive = null;
 if (is.dev) {
   pathToKeepMeAlive = join(__dirname, '../../../backend/apps/dto/main.py');
@@ -16,15 +17,22 @@ if (is.dev) {
   pathToKeepMeAlive = join(process.resourcesPath, 'backend', 'startbackend', '_internal', 'backend', 'apps', 'dto', 'main.py');
 
 }
+const keepAliveOptions = {
+  detached: true,
+  stdio: 'ignore'
+};
 
-function keepMeAlive() {
+// 🪟 Windows: hide the cmd window
+if (process.platform === 'win32') {
+  keepAliveOptions['windowsHide'] = true;
+}
+
+function keepMeAlive(coords) {
   // Execute the Python script without waiting for a response
   // Start the Python process and keep a reference to it so we can kill it later
+  console.log('Starting keepMeAlive Python process with coords:', coords);
   if (!global.keepMeAliveProcess || global.keepMeAliveProcess.killed) {
-    global.keepMeAliveProcess = spawn('python', [pathToKeepMeAlive], {
-      detached: true,
-      stdio: 'ignore'
-    });
+    global.keepMeAliveProcess = spawn(pythonExe, [pathToKeepMeAlive, JSON.stringify(coords)], keepAliveOptions);
     global.keepMeAliveProcess.unref();
   }
 }
@@ -38,14 +46,20 @@ function stopKeepingMeAlive() {
 }
 
 // IPC handlers for keepMeAlive and stopKeepingMeAlive
-ipcMain.handle('keep-me-alive', () => {
-  keepMeAlive();
+ipcMain.handle('keep-me-alive', (event, coords) => {
+  keepMeAlive(coords);
   return { status: 'started' };
 });
 
 ipcMain.handle('stop-keep-me-alive', () => {
   stopKeepingMeAlive();
   return { status: 'stopped' };
+});
+
+ipcMain.handle('get-window-bounds', (event) => {
+  const win = BrowserWindow.getFocusedWindow();
+  if (!win) return null;
+  return win.getBounds(); // { x, y, width, height }
 });
 
 function killPort(port, cb) {

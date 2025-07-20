@@ -13,9 +13,10 @@ import {
   faDownload,
   faEdit,
   faXmark,
-  faLock
+  faLock,
+  faUnlock
 } from '@fortawesome/free-solid-svg-icons'
-
+import { useRef } from 'react';
 // MUI - Pickers
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
@@ -75,6 +76,7 @@ function App() {
   const [editTime, setEditTime] = useState(null)
   const [editDuration, setEditDuration] = useState(30) // Default edit duration in minutes
   const [isLocked, setIsLocked] = useState(false)
+  const lockButtonRef = useRef(null);
   const recordLinkEditModalHandler = () => {
     setIsRecordLinkEditModalOpen(!isRecordLinkEditModalOpen)
   }
@@ -469,15 +471,25 @@ function App() {
   }
 
   const setTurnOnMode = () => {
+    
     if (!isLocked) {
-      window.api.keepMeAlive();
-      setIsLocked(true);
-      openNotification('info', 'Keep-alive mode enabled.');
+      
+      window.api.getWindowBounds().then((bounds) => {
+        const rect = lockButtonRef.current.getBoundingClientRect();
+        const screenX = bounds.x + rect.left;
+        const screenY = bounds.y + rect.top;
+        console.log(rect.left, rect.right, bounds.x, bounds.y)
+        console.log(`Screen position of button: x=${screenX}, y=${screenY}`);
+        
+
+    });
+      
     } else {
       window.api.stopKeepingMeAlive();
       setIsLocked(false);
       openNotification('info', 'Keep-alive mode disabled.');
     }
+    
   }
 
   const handleInputChange = (_, newInputValue) => {
@@ -525,11 +537,17 @@ function App() {
                 }
               }}>
             <Button
+              ref={lockButtonRef} 
               variant="contained"
               className='bg-main-400 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700'
-              onClick={() => setTurnOnMode()}
+              onClick={() => setTurnOnMode()
+              }
               >
-              <FontAwesomeIcon icon={faLock} />
+              {isLocked ? (
+                <FontAwesomeIcon icon={faLock} />
+              ) : (
+                <FontAwesomeIcon icon={faUnlock} />
+              )}
             </Button>
             </Tooltip>
           </div>
