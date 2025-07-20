@@ -76,6 +76,7 @@ function App() {
   const [editTime, setEditTime] = useState(null)
   const [editDuration, setEditDuration] = useState(30) // Default edit duration in minutes
   const [isLocked, setIsLocked] = useState(false)
+  const [autoHideDuration, setAutoHideDuration] = useState(3000) // Default auto-hide duration for notifications
   const lockButtonRef = useRef(null);
   const recordLinkEditModalHandler = () => {
     setIsRecordLinkEditModalOpen(!isRecordLinkEditModalOpen)
@@ -474,11 +475,13 @@ function App() {
     if (!isLocked) {
       window.api.keepMeAlive();
       setIsLocked(true);
-      openNotification('info', 'Keep-alive mode enabled.');
+      setAutoHideDuration(10000);
+      openNotification('info', 'Keep-alive mode enabled. Press Ctrl+L (or Cmd+L on Mac) to toggle.');
     } else {
+      setAutoHideDuration(3000);
       window.api.stopKeepingMeAlive();
       setIsLocked(false);
-      openNotification('info', 'Keep-alive mode disabled.');
+      openNotification('info', 'Keep-alive mode disabled. Press Ctrl+L (or Cmd+L on Mac) to enable again.');
     }
   };
 
@@ -812,8 +815,8 @@ function App() {
           </div>
         </div>
       </div>
-      
-      <Notification open={open} severity={severity} message={message} onClose={closeNotification} />
+
+      <Notification open={open} severity={severity} message={message} onClose={closeNotification} autoHideDuration={autoHideDuration} />
       <Modal
           open={isRecordLinkEditModalOpen}
           onClose={() => recordLinkEditModalHandler(false)}

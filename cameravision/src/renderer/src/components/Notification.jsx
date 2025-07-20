@@ -2,12 +2,12 @@ import React from 'react';
 
 import { Snackbar, Alert } from '@mui/material';
 
-const Notification = React.forwardRef(({ open, onClose, message = '', severity = 'info' }, ref) => {
+const Notification = React.forwardRef(({ open, onClose, message = '', severity = 'info', autoHideDuration = 3000 }, ref) => {
     return (
         <Snackbar
             ref={ref}
             open={open}
-            autoHideDuration={3000}
+            autoHideDuration={autoHideDuration}
             onClose={onClose}
             anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         >
