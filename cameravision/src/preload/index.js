@@ -2,7 +2,7 @@ import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 // Custom APIs for renderer
 const api = {
-  keepMeAlive: (coords) => ipcRenderer.invoke('keep-me-alive', coords),
+  keepMeAlive: () => ipcRenderer.invoke('keep-me-alive'),
   stopKeepingMeAlive: () => ipcRenderer.invoke('stop-keep-me-alive'),
   getWindowBounds: () => ipcRenderer.invoke('get-window-bounds')
 }

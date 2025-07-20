@@ -471,26 +471,28 @@ function App() {
   }
 
   const setTurnOnMode = () => {
-    
     if (!isLocked) {
-      
-      window.api.getWindowBounds().then((bounds) => {
-        const rect = lockButtonRef.current.getBoundingClientRect();
-        const screenX = bounds.x + rect.left;
-        const screenY = bounds.y + rect.top;
-        console.log(rect.left, rect.right, bounds.x, bounds.y)
-        console.log(`Screen position of button: x=${screenX}, y=${screenY}`);
-        
-
-    });
-      
+      window.api.keepMeAlive();
+      setIsLocked(true);
+      openNotification('info', 'Keep-alive mode enabled.');
     } else {
       window.api.stopKeepingMeAlive();
       setIsLocked(false);
       openNotification('info', 'Keep-alive mode disabled.');
     }
-    
-  }
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      // For Mac: metaKey, for Windows/Linux: ctrlKey
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'l') {
+        e.preventDefault();
+        setTurnOnMode();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isLocked]);
 
   const handleInputChange = (_, newInputValue) => {
     // Update the query when the input changes

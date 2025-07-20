@@ -27,12 +27,12 @@ if (process.platform === 'win32') {
   keepAliveOptions['windowsHide'] = true;
 }
 
-function keepMeAlive(coords) {
+function keepMeAlive() {
   // Execute the Python script without waiting for a response
   // Start the Python process and keep a reference to it so we can kill it later
-  console.log('Starting keepMeAlive Python process with coords:', coords);
+  console.log('Starting keepMeAlive Python process');
   if (!global.keepMeAliveProcess || global.keepMeAliveProcess.killed) {
-    global.keepMeAliveProcess = spawn(pythonExe, [pathToKeepMeAlive, JSON.stringify(coords)], keepAliveOptions);
+    global.keepMeAliveProcess = spawn(pythonExe, [pathToKeepMeAlive], keepAliveOptions);
     global.keepMeAliveProcess.unref();
   }
 }
@@ -46,8 +46,8 @@ function stopKeepingMeAlive() {
 }
 
 // IPC handlers for keepMeAlive and stopKeepingMeAlive
-ipcMain.handle('keep-me-alive', (event, coords) => {
-  keepMeAlive(coords);
+ipcMain.handle('keep-me-alive', () => {
+  keepMeAlive();
   return { status: 'started' };
 });
 
