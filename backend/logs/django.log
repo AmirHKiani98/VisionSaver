@@ -1,0 +1,104 @@
+INFO 2025-07-20 04:18:28,135 logger 23524 27940 Starting cronjob: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\cameravision\resources\.hc_to_app_env
+INFO 2025-07-20 04:18:28,135 logger 23524 27940 Starting cronjob: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\cameravision\resources\.hc_to_app_env
+INFO 2025-07-20 04:18:28,144 logger 23524 27940 Found 0 records to process.
+INFO 2025-07-20 04:18:28,144 logger 23524 27940 Found 0 records to process.
+INFO 2025-07-20 04:18:38,147 logger 23524 27940 Found 0 records to process.
+INFO 2025-07-20 04:18:38,147 logger 23524 27940 Found 0 records to process.
+INFO 2025-07-20 04:19:05,051 logger 14620 27656 Starting cronjob: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\cameravision\resources\.hc_to_app_env
+INFO 2025-07-20 04:19:05,051 logger 14620 27656 Starting cronjob: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\cameravision\resources\.hc_to_app_env
+INFO 2025-07-20 04:19:05,059 logger 14620 27656 Found 0 records to process.
+INFO 2025-07-20 04:19:05,059 logger 14620 27656 Found 0 records to process.
+ERROR 2025-07-20 04:19:08,701 logger 26644 2880 ["COLUMN(S) ['ID'] DO NOT EXIST"] Error in get_record_schedule:
+ERROR 2025-07-20 04:19:08,701 logger 26644 2880 ["COLUMN(S) ['ID'] DO NOT EXIST"] Error in get_record_schedule:
+ERROR 2025-07-20 04:19:08,708 log 26644 7812 Internal Server Error: /api/get_record_schedule/
+INFO 2025-07-20 04:19:15,063 logger 14620 27656 Found 0 records to process.
+INFO 2025-07-20 04:19:15,063 logger 14620 27656 Found 0 records to process.
+INFO 2025-07-20 04:19:25,067 logger 14620 27656 Found 0 records to process.
+INFO 2025-07-20 04:19:25,067 logger 14620 27656 Found 0 records to process.
+INFO 2025-07-20 04:19:35,072 logger 14620 27656 Found 0 records to process.
+INFO 2025-07-20 04:19:35,072 logger 14620 27656 Found 0 records to process.
+INFO 2025-07-20 04:19:45,079 logger 14620 27656 Found 0 records to process.
+INFO 2025-07-20 04:19:45,079 logger 14620 27656 Found 0 records to process.
+INFO 2025-07-20 04:19:59,718 logger 28928 28628 Starting cronjob: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\cameravision\resources\.hc_to_app_env
+INFO 2025-07-20 04:19:59,718 logger 28928 28628 Starting cronjob: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\cameravision\resources\.hc_to_app_env
+INFO 2025-07-20 04:19:59,727 logger 28928 28628 Found 0 records to process.
+INFO 2025-07-20 04:19:59,727 logger 28928 28628 Found 0 records to process.
+INFO 2025-07-20 04:20:04,228 logger 16144 22392 Dataframe after merge:    id_x  ... working
+0   152  ...     yes
+1   153  ...     yes
+2   154  ...     yes
+3   155  ...     yes
+4   156  ...     yes
+
+[5 rows x 15 columns]
+INFO 2025-07-20 04:20:04,228 logger 16144 22392 Dataframe after merge:    id_x  ... working
+0   152  ...     yes
+1   153  ...     yes
+2   154  ...     yes
+3   155  ...     yes
+4   156  ...     yes
+
+[5 rows x 15 columns]
+ERROR 2025-07-20 04:20:04,234 logger 16144 22392 ["COLUMN(S) ['ID'] DO NOT EXIST"] Error in get_record_schedule:
+ERROR 2025-07-20 04:20:04,234 logger 16144 22392 ["COLUMN(S) ['ID'] DO NOT EXIST"] Error in get_record_schedule:
+ERROR 2025-07-20 04:20:04,240 log 16144 17100 Internal Server Error: /api/get_record_schedule/
+INFO 2025-07-20 04:20:09,731 logger 28928 28628 Found 0 records to process.
+INFO 2025-07-20 04:20:09,731 logger 28928 28628 Found 0 records to process.
+INFO 2025-07-20 04:20:19,737 logger 28928 28628 Found 0 records to process.
+INFO 2025-07-20 04:20:19,737 logger 28928 28628 Found 0 records to process.
+INFO 2025-07-20 04:20:35,176 logger 26360 23672 Starting cronjob: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\cameravision\resources\.hc_to_app_env
+INFO 2025-07-20 04:20:35,176 logger 26360 23672 Starting cronjob: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\cameravision\resources\.hc_to_app_env
+INFO 2025-07-20 04:20:35,183 logger 26360 23672 Found 0 records to process.
+INFO 2025-07-20 04:20:35,183 logger 26360 23672 Found 0 records to process.
+ERROR 2025-07-20 04:20:39,585 logger 14492 28620 ["COLUMN(S) ['ID'] DO NOT EXIST"] Error in get_record_schedule:
+ERROR 2025-07-20 04:20:39,585 logger 14492 28620 ["COLUMN(S) ['ID'] DO NOT EXIST"] Error in get_record_schedule:
+ERROR 2025-07-20 04:20:39,591 log 14492 24932 Internal Server Error: /api/get_record_schedule/
+INFO 2025-07-20 04:20:45,187 logger 26360 23672 Found 0 records to process.
+INFO 2025-07-20 04:20:45,187 logger 26360 23672 Found 0 records to process.
+INFO 2025-07-20 04:21:00,871 logger 11828 12844 Starting cronjob: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\cameravision\resources\.hc_to_app_env
+INFO 2025-07-20 04:21:00,871 logger 11828 12844 Starting cronjob: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\cameravision\resources\.hc_to_app_env
+INFO 2025-07-20 04:21:00,882 logger 11828 12844 Found 0 records to process.
+INFO 2025-07-20 04:21:00,882 logger 11828 12844 Found 0 records to process.
+ERROR 2025-07-20 04:21:04,905 logger 26272 1948 ["COLUMN(S) ['ID'] DO NOT EXIST"] Error in get_record_schedule:
+ERROR 2025-07-20 04:21:04,905 logger 26272 1948 ["COLUMN(S) ['ID'] DO NOT EXIST"] Error in get_record_schedule:
+ERROR 2025-07-20 04:21:04,913 log 26272 26108 Internal Server Error: /api/get_record_schedule/
+INFO 2025-07-20 04:21:10,885 logger 11828 12844 Found 0 records to process.
+INFO 2025-07-20 04:21:10,885 logger 11828 12844 Found 0 records to process.
+INFO 2025-07-20 04:21:20,890 logger 11828 12844 Found 0 records to process.
+INFO 2025-07-20 04:21:20,890 logger 11828 12844 Found 0 records to process.
+INFO 2025-07-20 04:21:30,894 logger 11828 12844 Found 0 records to process.
+INFO 2025-07-20 04:21:30,894 logger 11828 12844 Found 0 records to process.
+INFO 2025-07-20 04:21:40,898 logger 11828 12844 Found 0 records to process.
+INFO 2025-07-20 04:21:40,898 logger 11828 12844 Found 0 records to process.
+INFO 2025-07-20 04:21:50,902 logger 11828 12844 Found 0 records to process.
+INFO 2025-07-20 04:21:50,902 logger 11828 12844 Found 0 records to process.
+INFO 2025-07-20 04:22:06,814 logger 20748 18448 Starting cronjob: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\cameravision\resources\.hc_to_app_env
+INFO 2025-07-20 04:22:06,814 logger 20748 18448 Starting cronjob: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\cameravision\resources\.hc_to_app_env
+INFO 2025-07-20 04:22:06,822 logger 20748 18448 Found 0 records to process.
+INFO 2025-07-20 04:22:06,822 logger 20748 18448 Found 0 records to process.
+INFO 2025-07-20 04:22:16,828 logger 20748 18448 Found 0 records to process.
+INFO 2025-07-20 04:22:16,828 logger 20748 18448 Found 0 records to process.
+INFO 2025-07-20 04:22:26,832 logger 20748 18448 Found 0 records to process.
+INFO 2025-07-20 04:22:26,832 logger 20748 18448 Found 0 records to process.
+INFO 2025-07-20 04:22:36,839 logger 20748 18448 Found 0 records to process.
+INFO 2025-07-20 04:22:36,839 logger 20748 18448 Found 0 records to process.
+INFO 2025-07-20 04:22:46,846 logger 20748 18448 Found 0 records to process.
+INFO 2025-07-20 04:22:46,846 logger 20748 18448 Found 0 records to process.
+INFO 2025-07-20 04:22:56,854 logger 20748 18448 Found 0 records to process.
+INFO 2025-07-20 04:22:56,854 logger 20748 18448 Found 0 records to process.
+INFO 2025-07-20 04:23:06,861 logger 20748 18448 Found 0 records to process.
+INFO 2025-07-20 04:23:06,861 logger 20748 18448 Found 0 records to process.
+INFO 2025-07-20 04:23:16,867 logger 20748 18448 Found 0 records to process.
+INFO 2025-07-20 04:23:16,867 logger 20748 18448 Found 0 records to process.
+INFO 2025-07-20 04:23:26,873 logger 20748 18448 Found 0 records to process.
+INFO 2025-07-20 04:23:26,873 logger 20748 18448 Found 0 records to process.
+INFO 2025-07-20 04:23:36,880 logger 20748 18448 Found 0 records to process.
+INFO 2025-07-20 04:23:36,880 logger 20748 18448 Found 0 records to process.
+INFO 2025-07-20 04:23:46,885 logger 20748 18448 Found 0 records to process.
+INFO 2025-07-20 04:23:46,885 logger 20748 18448 Found 0 records to process.
+INFO 2025-07-20 04:23:56,890 logger 20748 18448 Found 0 records to process.
+INFO 2025-07-20 04:23:56,890 logger 20748 18448 Found 0 records to process.
+INFO 2025-07-20 04:24:06,897 logger 20748 18448 Found 0 records to process.
+INFO 2025-07-20 04:24:06,897 logger 20748 18448 Found 0 records to process.
+INFO 2025-07-20 04:24:16,900 logger 20748 18448 Found 0 records to process.
+INFO 2025-07-20 04:24:16,900 logger 20748 18448 Found 0 records to process.

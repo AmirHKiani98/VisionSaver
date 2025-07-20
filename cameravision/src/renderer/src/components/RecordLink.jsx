@@ -160,16 +160,7 @@ const RecordLink = (props) => {
   return (
     <Tooltip
       title={
-        props.done
-          ? (
-            <>
-              {Array.isArray(intersectionsNames) &&
-                intersectionsNames.map((intersection) => {
-                  <Typography className="text-white">{intersection}</Typography>
-                })}
-            </>
-          )
-          : props.inProcess
+          props.inProcess
           ? (
             <div className='flex flex-col gap-2'>
               {Array.isArray(recordsId) &&
@@ -197,7 +188,15 @@ const RecordLink = (props) => {
                 })}
             </div>
           )
-          : 'Wait for start'
+          : (
+            <>
+              <Typography className="text-white">Start at:</Typography>
+              {Array.isArray(intersectionsNames) &&
+                intersectionsNames.map((intersection) => {
+                  <Typography className="text-white">{intersection}</Typography>
+                })}
+            </>
+          )
       }
       placement="top"
     >

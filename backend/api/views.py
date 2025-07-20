@@ -13,7 +13,7 @@ from django.http import HttpResponse
 from django.conf import settings
 def health_check(request):
     return HttpResponse("OK", status=200)
-
+logger = settings.APP_LOGGER
 @csrf_exempt
 def store_record_schedule(request):
     """
@@ -92,9 +92,10 @@ def get_record_schedule(request):
         if df.empty:
             return JsonResponse({"records": []}, status=200)
         df['ip'], df['stream'] = zip(*df['camera_url'].apply(parse_camera_url))
-        data = pd.read_csv(settings.BASE_DIR / "addons" / "all_ips.csv")
-        if not data.empty:
-            df = df.merge(data, on='ip', how='left')
+        all_api = pd.read_csv(settings.BASE_DIR / "addons" / "all_ips.csv")
+        if not all_api.empty:
+            all_api = all_api.rename(columns={"id": "corridor_id"})
+            df = df.merge(all_api, on='ip', how='left')
             df = df.rename(columns={"stream": "camera_stream"})
         else:
             df['camera_stream'] = df['stream']
@@ -116,7 +117,7 @@ def get_record_schedule(request):
 
         return JsonResponse({"records": list(records)}, status=200)
     except Exception as e:
-        print("Error in get_record_schedule:", str(e))
+        logger.error("Error in get_record_schedule:", str(e))
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
 
 @csrf_exempt
