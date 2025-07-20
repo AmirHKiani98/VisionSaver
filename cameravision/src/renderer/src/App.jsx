@@ -376,12 +376,15 @@ function App() {
           return
         })
     }
+    // Only keep unique IPs in listOfIps
+    const uniqueIps = Array.from(new Set(listOfIps));
     setRecordLinks((prev) => [
       {
       startTime: startTime,
       duration: duration,
       token: randomString,
-      ip: listOfIps
+      ip: uniqueIps,
+      intersectionsNames: query,
       },
       ...prev
     ])
