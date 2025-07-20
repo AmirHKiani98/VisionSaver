@@ -523,8 +523,8 @@ function App() {
             </Button>
             </Tooltip>
           </div>
-          <div className="flex w-full gap-10">
-            <div className="flex flex-col w-1/2 gap-5">
+          <div className="flex-col md:flex md:flex-row w-full gap-10">
+            <div className="flex flex-col w-full lg:w-1/2 gap-5">
               <form
                 id="camera-stream-form"
                 className="flex flex-col justify-between w-full"
@@ -755,7 +755,7 @@ function App() {
                 />
               </div>
             </div>
-            <div className="flex-1">              {visions && visions.length > 0 ? (
+            <div className="w-full lg:w-1/2">              {visions && visions.length > 0 ? (
                 <VisionContainer>
                   {visions.map((visionProps, idx) => (
                     <Vision img key={visionProps.id} {...visionProps} />
