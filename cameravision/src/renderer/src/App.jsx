@@ -759,6 +759,7 @@ function App() {
                           modalRecordLinkTokenSetter={setCurrentRecordLinkEditToken}
                           setEditTime={setEditTime}
                           setEditDuration={setEditDuration}
+                          intersectionsNames={record.intersection || []}
                         />
                       );
                     })
