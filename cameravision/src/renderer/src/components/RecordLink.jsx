@@ -195,76 +195,72 @@ const RecordLink = (props) => {
           }
         >
           <Tooltip
-            title={
-                props.inProcess
-                ? (
-                  <div className='flex flex-col gap-2'>
-                    {Array.isArray(recordsId) &&
-                      recordsId.map((recordId) => {
-                        const progressObj = progresses[recordId] || {};
-                        const hasAllKeys =
-                          progressObj.hasOwnProperty('progress') &&
-                          progressObj.hasOwnProperty('recording') &&
-                          progressObj.hasOwnProperty('converting');
-                        return (
-                          <div key={recordId}>
-                            {hasAllKeys ? (
-                              <LinearProgressWithLabel
-                                value={progressObj.progress || 0}
-                                className="bg-main-500"
-                                color="success"
-                                recording={progressObj.recording ? true : undefined}
-                                converting={progressObj.converting ? true : undefined}
-                              />
-                            ) : (
-                              <div className="text-gray-400 text-xs">Progress unavailable</div>
-                            )}
-                          </div>
-                        );
-                      })}
-                  </div>
-                )
-                : (
-                  <>
-                    {Array.isArray(intersectionsNames) &&
-                      intersectionsNames.map((intersection) => {
-                        <Typography className="text-white">{intersection}</Typography>
-                      })}
-                  </>
-                )
-            }
-            placement="top"
+      title={
+          props.inProcess
+          ? (
+            <div className='flex flex-col gap-2'>
+              {Array.isArray(recordsId) &&
+                recordsId.map((recordId) => {
+                  const progressObj = progresses[recordId] || {};
+                  const hasAllKeys =
+                    progressObj.hasOwnProperty('progress') &&
+                    progressObj.hasOwnProperty('recording') &&
+                    progressObj.hasOwnProperty('converting');
+                  return (
+                    <div key={recordId}>
+                      {hasAllKeys ? (
+                        <LinearProgressWithLabel
+                          value={progressObj.progress || 0}
+                          className="bg-main-500"
+                          color="success"
+                          recording={progressObj.recording ? true : undefined}
+                          converting={progressObj.converting ? true : undefined}
+                        />
+                      ) : (
+                        <div className="text-gray-400 text-xs">Progress unavailable</div>
+                      )}
+                    </div>
+                  );
+                })}
+            </div>
+          )
+          : (
+            <>
+              {intersectionsNames}
+            </>
+          )
+      }
+      placement="top"
+    >
+          <Link
+            to={props.done ? `/editor?token=${props.token}` : "#"}
+            className={`w-full h-full ${props.done ? 'cursor-pointer' : 'cursor-not-allowed'}`}
+            tabIndex={props.done ? 0 : -1}
+            aria-disabled={!props.done}
           >
-            <Link
-              to={props.done ? `/editor?token=${props.token}` : "#"}
-              className={`w-full h-full ${props.done ? 'cursor-pointer' : 'cursor-not-allowed'}`}
-              tabIndex={props.done ? 0 : -1}
-              aria-disabled={!props.done}
-              style={{ textDecoration: 'none', pointerEvents: props.done ? 'auto' : 'none' }}
-            >
-              <ListItemButton className="flex flex-row gap-10" disabled={!props.done}>
-                <div className="flex flex-col">
-                  <Typography className="text-white">Start at:</Typography>
-                  <Typography className="text-gray-400">{formatDateTime(props.startTime)}</Typography>
-                </div>
-                <div className="flex flex-col">
-                  <Typography className="text-white">Duration</Typography>
-                  <Typography className="text-gray-400">{props.duration}</Typography>
-                </div>
-                <div className="flex flex-col">
-                  {(
-                    <>
-                      <Typography className="text-white">Ip</Typography>
-                      <Typography className="text-gray-400">{props.ip}</Typography>
-                    </>
-                  )}
-                </div>
-              </ListItemButton>
-            </Link>
-          </Tooltip>
+            <ListItemButton className="flex flex-row gap-10" disabled={!props.done}>
+              <div className="flex flex-col">
+                <Typography className="text-white">Start at:</Typography>
+                <Typography className="text-gray-400">{formatDateTime(props.startTime)}</Typography>
+              </div>
+              <div className="flex flex-col">
+                <Typography className="text-white">Duration</Typography>
+                <Typography className="text-gray-400">{props.duration}</Typography>
+              </div>
+              <div className="flex flex-col">
+                {(
+                  <>
+                    <Typography className="text-white">Ip</Typography>
+                    <Typography className="text-gray-400">{props.ip}</Typography>
+                  </>
+                )}
+              </div>
+            </ListItemButton>
+          </Link>
+              </Tooltip>
+
         </ListItem>
       </ContextMenu>
-    
   )
 }
 
