@@ -18,6 +18,7 @@ const Vision = (props) => {
   const [loading, setLoading] = React.useState(true)
   const [error, setError] = React.useState(false)
   const [errorCode, setErrorCode] = React.useState(0)
+  const [ip, setIp] = React.useState(props.ip || '')
 
   React.useEffect(() => {
     setLoading(true)

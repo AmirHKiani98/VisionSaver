@@ -50,7 +50,7 @@ const today = dayjs()
 const oneHourFromNow = today.add(1, 'hour')
 
 function App() {
-  const recordLinksPerPage = 4
+  const recordLinksPerPage = 3
   const [startRecordLinkIndex, setStartRecordLinkIndex] = useState(0)
   const [time, setTime] = useState(oneHourFromNow)
   const [protocol, setProtocol] = useState('RTSP')
@@ -338,6 +338,7 @@ function App() {
     const startTime = time.toISOString()
     const apiLink = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_STORE_RECORD_SCHEDULE}`
     const randomString = Array.from({ length: 100 }, () => Math.random().toString(36)[2]).join('')
+    var listOfIps = visions.map((vision) => vision.ip).filter((ip) => ip !== undefined && ip !== null && ip !== '')
     for (const vision of visions) {
       const cameraUrl = vision.cameraUrl
 
@@ -374,7 +375,8 @@ function App() {
       {
       startTime: startTime,
       duration: duration,
-      token: randomString
+      token: randomString,
+      ip: listOfIps
       },
       ...prev
     ])
@@ -463,10 +465,9 @@ function App() {
         openNotification('error', 'Failed to delete record.')
       })
   }
-  const handleOptionChange = (_, newValue) => {
-    // When the user selects an option, set the IP value
-    setIp(newValue?.ip || '');
-  };
+
+  const setTurnOnMode = () => {
+  }
 
   const handleInputChange = (_, newInputValue) => {
     // Update the query when the input changes
@@ -475,9 +476,24 @@ function App() {
 
   return (
     <div className='flex flex-col justify-between min-h-screen min-w-full'>
-      <div className="min-h-full min-w-full flex p-5">
-        <div className="text-white flex flex-col w-full items-center gap-7">
-          <h1 className="text-2xl font-bold">CamArchive</h1>
+      <div className="min-h-full min-w-full flex px-5 py-2.5">
+        <div className="text-white flex flex-col w-full items-center gap-2">
+          <div className="flex flex-row justify-between items-center w-full mb-2.5">
+            <Button variant="contained" className='bg-main-400 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700' onClick={downloadDB}>
+              <FontAwesomeIcon icon={faDownload} />
+            </Button>
+            <Typography className="text-white text-2xl font-bold">
+              CameraVision
+            </Typography>
+            <Button
+              variant="contained"
+              className='bg-main-400 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700'
+              onClick={() => setTurnOnMode()}
+              >
+              <FontAwesomeIcon icon={faRecordVinyl} />
+            </Button>
+              
+          </div>
           <div className="flex w-full gap-10">
             <div className="flex flex-col w-1/2 gap-5">
               <form
@@ -585,7 +601,11 @@ function App() {
                       label={<Typography className="text-white">Start Time</Typography>}
                       value={time}
                       onChange={setTime}
-                      disablePast
+                      minTime={
+                        time && time.isSame(today, 'day')
+                          ? dayjs()
+                          : undefined
+                      }
                     />
                     </LocalizationProvider>
                     <TextField
@@ -652,6 +672,7 @@ function App() {
                 ) : (
                   recordLinks
                     .slice(startRecordLinkIndex, startRecordLinkIndex + recordLinksPerPage)
+                    .sort((a, b) => new Date(b.startTime) - new Date(a.startTime))
                     .map((record, idx) => {
                       const isFirst = idx === 0;
                       const isLast =
@@ -674,6 +695,8 @@ function App() {
                           ip={record.ip}
                           modalHandler={recordLinkEditModalHandler}
                           modalRecordLinkTokenSetter={setCurrentRecordLinkEditToken}
+                          setEditTime={setEditTime}
+                          setEditDuration={setEditDuration}
                         />
                       );
                     })
@@ -730,11 +753,7 @@ function App() {
           </div>
         </div>
       </div>
-      <div className="flex flex-row-reverse p-2.5">
-        <Button variant="contained" className='bg-main-400 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700' onClick={downloadDB}>
-          <FontAwesomeIcon icon={faDownload} />
-        </Button>
-      </div>
+      
       <Notification open={open} severity={severity} message={message} onClose={closeNotification} />
       <Modal
           open={isRecordLinkEditModalOpen}
@@ -765,7 +784,11 @@ function App() {
                         label={<Typography className="text-white">Start Time</Typography>}
                         value={editTime}
                         onChange={setEditTime}
-                        disablePast
+                        minTime={
+                            editTime && editTime.isSame(today, 'day')
+                            ? dayjs()
+                            : undefined
+                          }
                       />
                 </LocalizationProvider>
                         <TextField

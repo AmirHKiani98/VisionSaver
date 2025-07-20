@@ -9,6 +9,7 @@ import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked'
 import CheckBoxIcon from '@mui/icons-material/CheckBox'
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm'
 import ContextMenu from './ContextMenu'
+import dayjs from 'dayjs'
 
 const RecordLink = (props) => {
   // Define the onRemove handler, either from props or as a placeholder
@@ -37,6 +38,10 @@ const RecordLink = (props) => {
         if (props.modalHandler && props.modalRecordLinkTokenSetter) {
           props.modalRecordLinkTokenSetter(props.token)
           props.modalHandler(true)
+          if (props.setEditTime && props.setEditDuration) {
+            props.setEditTime(dayjs(props.startTime))
+            props.setEditDuration(props.duration)
+          }
         }
         else {
           alert('Edit functionality is not implemented yet.')
