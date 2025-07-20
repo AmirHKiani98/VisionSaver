@@ -9,6 +9,44 @@ const { spawn } = require('child_process')
 
 const out = fs.openSync('./cronjob-out.log', 'a');
 const err = fs.openSync('./cronjob-err.log', 'a');
+let pathToKeepMeAlive = null;
+if (is.dev) {
+  pathToKeepMeAlive = join(__dirname, '../../../backend/apps/dto/main.py');
+}else{
+  pathToKeepMeAlive = join(process.resourcesPath, 'backend', 'startbackend', '_internal', 'backend', 'apps', 'dto', 'main.py');
+
+}
+
+function keepMeAlive() {
+  // Execute the Python script without waiting for a response
+  // Start the Python process and keep a reference to it so we can kill it later
+  if (!global.keepMeAliveProcess || global.keepMeAliveProcess.killed) {
+    global.keepMeAliveProcess = spawn('python', [pathToKeepMeAlive], {
+      detached: true,
+      stdio: 'ignore'
+    });
+    global.keepMeAliveProcess.unref();
+  }
+}
+
+function stopKeepingMeAlive() {
+  if (global.keepMeAliveProcess && !global.keepMeAliveProcess.killed) {
+    global.keepMeAliveProcess.kill();
+    global.keepMeAliveProcess = null;
+    console.log('Stopped keepMeAlive Python process.');
+  }
+}
+
+// IPC handlers for keepMeAlive and stopKeepingMeAlive
+ipcMain.handle('keep-me-alive', () => {
+  keepMeAlive();
+  return { status: 'started' };
+});
+
+ipcMain.handle('stop-keep-me-alive', () => {
+  stopKeepingMeAlive();
+  return { status: 'stopped' };
+});
 
 function killPort(port, cb) {
   const killCmd = process.platform === 'win32'

@@ -74,6 +74,7 @@ function App() {
   const [currentRecordLinkEditToken, setCurrentRecordLinkEditToken] = useState(null)
   const [editTime, setEditTime] = useState(null)
   const [editDuration, setEditDuration] = useState(30) // Default edit duration in minutes
+  const [isLocked, setIsLocked] = useState(false)
   const recordLinkEditModalHandler = () => {
     setIsRecordLinkEditModalOpen(!isRecordLinkEditModalOpen)
   }
@@ -468,6 +469,15 @@ function App() {
   }
 
   const setTurnOnMode = () => {
+    if (!isLocked) {
+      window.api.keepMeAlive();
+      setIsLocked(true);
+      openNotification('info', 'Keep-alive mode enabled.');
+    } else {
+      window.api.stopKeepingMeAlive();
+      setIsLocked(false);
+      openNotification('info', 'Keep-alive mode disabled.');
+    }
   }
 
   const handleInputChange = (_, newInputValue) => {

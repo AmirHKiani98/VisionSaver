@@ -1,7 +1,10 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 // Custom APIs for renderer
-const api = {}
+const api = {
+  keepMeAlive: () => ipcRenderer.invoke('keep-me-alive'),
+  stopKeepingMeAlive: () => ipcRenderer.invoke('stop-keep-me-alive')
+}
 
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise
