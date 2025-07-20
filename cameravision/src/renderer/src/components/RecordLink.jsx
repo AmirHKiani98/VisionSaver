@@ -21,6 +21,7 @@ const RecordLink = (props) => {
   const [sockets, setSockets] = React.useState({})
   const [webhookRunning, setWebhookRunning] = React.useState(false)
   const [webhook, setWebhook] = React.useState(null)
+  const [intersectionsNames, setIntersectionsName] = React.useState(props.intersectionsNames || [])
   
 
   const recordLinkContextMenuItems = [
@@ -160,7 +161,14 @@ const RecordLink = (props) => {
     <Tooltip
       title={
         props.done
-          ? 'Review'
+          ? (
+            <>
+              {Array.isArray(intersectionsNames) &&
+                intersectionsNames.map((intersection) => {
+                  <Typography className="text-white">{intersection}</Typography>
+                })}
+            </>
+          )
           : props.inProcess
           ? (
             <div className='flex flex-col gap-2'>

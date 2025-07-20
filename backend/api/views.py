@@ -89,10 +89,16 @@ def get_record_schedule(request):
         # Helper to extract ip and stream from camera_url
         raw_records = Record.objects.all().values()
         df = pd.DataFrame(list(raw_records))
-        
         if df.empty:
             return JsonResponse({"records": []}, status=200)
         df['ip'], df['stream'] = zip(*df['camera_url'].apply(parse_camera_url))
+        data = pd.read_csv(settings.BASE_DIR / "addons" / "all_ips.csv")
+        if not data.empty:
+            df = df.merge(data, on='ip', how='left')
+            df = df.rename(columns={"stream": "camera_stream"})
+        else:
+            df['camera_stream'] = df['stream']
+        
         # Group by camera_url and aggregate the records
         grouped_records = df.groupby('token').agg(
             ip=('ip', lambda x: sorted(list(set(x)))),
@@ -101,8 +107,10 @@ def get_record_schedule(request):
             in_process=('in_process', 'first'),
             done=('done', 'first'),
             token=('token', 'first'),
+            intersection=('intersection', lambda x: sorted(list(set(x))) if not pd.isnull(x).all() else []),
             records_id=('id', lambda x: sorted(list(x)))
         ).reset_index(drop=True)
+        
 
         records = grouped_records.to_dict(orient='records')
 

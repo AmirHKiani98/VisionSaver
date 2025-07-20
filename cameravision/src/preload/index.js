@@ -1,7 +1,11 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 // Custom APIs for renderer
-const api = {}
+const api = {
+  keepMeAlive: () => ipcRenderer.invoke('keep-me-alive'),
+  stopKeepingMeAlive: () => ipcRenderer.invoke('stop-keep-me-alive'),
+  getWindowBounds: () => ipcRenderer.invoke('get-window-bounds')
+}
 
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise
@@ -13,6 +17,7 @@ if (process.contextIsolated) {
     contextBridge.exposeInMainWorld('env', {
       get: () => ipcRenderer.invoke('get-env')
     })
+    
   } catch (error) {
     console.error(error)
   }

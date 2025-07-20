@@ -13,9 +13,10 @@ import {
   faDownload,
   faEdit,
   faXmark,
-  faLock
+  faLock,
+  faUnlock
 } from '@fortawesome/free-solid-svg-icons'
-
+import { useRef } from 'react';
 // MUI - Pickers
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
@@ -74,6 +75,9 @@ function App() {
   const [currentRecordLinkEditToken, setCurrentRecordLinkEditToken] = useState(null)
   const [editTime, setEditTime] = useState(null)
   const [editDuration, setEditDuration] = useState(30) // Default edit duration in minutes
+  const [isLocked, setIsLocked] = useState(false)
+  const [autoHideDuration, setAutoHideDuration] = useState(3000) // Default auto-hide duration for notifications
+  const lockButtonRef = useRef(null);
   const recordLinkEditModalHandler = () => {
     setIsRecordLinkEditModalOpen(!isRecordLinkEditModalOpen)
   }
@@ -468,7 +472,30 @@ function App() {
   }
 
   const setTurnOnMode = () => {
-  }
+    if (!isLocked) {
+      window.api.keepMeAlive();
+      setIsLocked(true);
+      setAutoHideDuration(10000);
+      openNotification('info', 'Keep-alive mode enabled. Press Ctrl+L (or Cmd+L on Mac) to toggle.');
+    } else {
+      setAutoHideDuration(3000);
+      window.api.stopKeepingMeAlive();
+      setIsLocked(false);
+      openNotification('info', 'Keep-alive mode disabled. Press Ctrl+L (or Cmd+L on Mac) to enable again.');
+    }
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      // For Mac: metaKey, for Windows/Linux: ctrlKey
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'l') {
+        e.preventDefault();
+        setTurnOnMode();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isLocked]);
 
   const handleInputChange = (_, newInputValue) => {
     // Update the query when the input changes
@@ -515,11 +542,17 @@ function App() {
                 }
               }}>
             <Button
+              ref={lockButtonRef} 
               variant="contained"
               className='bg-main-400 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700'
-              onClick={() => setTurnOnMode()}
+              onClick={() => setTurnOnMode()
+              }
               >
-              <FontAwesomeIcon icon={faLock} />
+              {isLocked ? (
+                <FontAwesomeIcon icon={faLock} />
+              ) : (
+                <FontAwesomeIcon icon={faUnlock} />
+              )}
             </Button>
             </Tooltip>
           </div>
@@ -726,6 +759,7 @@ function App() {
                           modalRecordLinkTokenSetter={setCurrentRecordLinkEditToken}
                           setEditTime={setEditTime}
                           setEditDuration={setEditDuration}
+                          intersectionsNames={record.intersection || []}
                         />
                       );
                     })
@@ -782,8 +816,8 @@ function App() {
           </div>
         </div>
       </div>
-      
-      <Notification open={open} severity={severity} message={message} onClose={closeNotification} />
+
+      <Notification open={open} severity={severity} message={message} onClose={closeNotification} autoHideDuration={autoHideDuration} />
       <Modal
           open={isRecordLinkEditModalOpen}
           onClose={() => recordLinkEditModalHandler(false)}

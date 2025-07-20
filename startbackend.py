@@ -144,5 +144,5 @@ try:
     t2.join()
     t3.join()
 except KeyboardInterrupt:
-    print("\n🛑 Shutting down servers.")
+    print("Shutting down servers.")
     sys.exit(0)
