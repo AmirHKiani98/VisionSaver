@@ -42,5 +42,9 @@ urlpatterns = [
     path(
         f"{os.getenv('API_GET_IPS')}",
         views.get_ips,
-    )
+    ),
+    path(
+        f"{os.getenv('API_EDIT_RECORD')}",
+        views.edit_record,
+    ),
 ]

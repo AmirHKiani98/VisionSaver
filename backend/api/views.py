@@ -226,4 +226,52 @@ def get_ips(request):
     except Exception as e:
         return JsonResponse({"error": f"Failed to read ips.csv: {str(e)}"}, status=500)
 
-    
+@csrf_exempt
+def edit_record(request):
+    """
+    Edit a record by token.
+    """
+    if request.method != 'POST':
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+        token = data.get('token')
+        duration = data.get('duration')
+        start_time = data.get('start_time')
+
+        if not duration and not start_time:
+            return JsonResponse(
+                {
+                    "error": (
+                        "'camera_url', Either or both of'duration' and 'start_time' are required fields."
+                    )
+                },
+                status=400
+            )
+
+        record_qs = Record.objects.filter(token=token)
+        if not record_qs.exists():
+            return JsonResponse({"error": "Record not found."}, status=404)
+
+        # Update all records with this token
+        if not start_time:
+            updated_count = record_qs.update(
+                duration=duration,
+            )
+        elif not duration:
+            updated_count = record_qs.update(
+                start_time=start_time,
+            )
+        else:
+            updated_count = record_qs.update(
+                duration=duration,
+                start_time=start_time,
+            )
+        if updated_count == 0:
+            return JsonResponse({"error": "No records were updated."}, status=404)
+        # If we reach here, the update was successful
+        return JsonResponse({"message": f"{updated_count} record(s) updated successfully."}, status=200)
+
+        return JsonResponse({"message": "Record updated successfully."}, status=200)
+    except Exception as e:
+        return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)

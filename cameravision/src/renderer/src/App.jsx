@@ -10,7 +10,9 @@ import {
   faVideo,
   faClockRotateLeft,
   faRecordVinyl,
-  faDownload
+  faDownload,
+  faEdit,
+  faXmark
 } from '@fortawesome/free-solid-svg-icons'
 
 // MUI - Pickers
@@ -34,7 +36,8 @@ import {
   Pagination,
   Tooltip,
   Autocomplete,
-  CircularProgress
+  CircularProgress,
+  Modal
 } from '@mui/material'
 
 import dayjs from 'dayjs'
@@ -66,6 +69,13 @@ function App() {
   const [query, setQuery] = useState('CSAH');      // To store current input value
   const [optionId, setOptionId] = useState(0); // To store the ID of the selected option
   const [loadingVideos, setLoadingVideos] = useState(false)
+  const [isRecordLinkEditModalOpen, setIsRecordLinkEditModalOpen] = useState(false)
+  const [currentRecordLinkEditToken, setCurrentRecordLinkEditToken] = useState(null)
+  const [editTime, setEditTime] = useState(null)
+  const [editDuration, setEditDuration] = useState(30) // Default edit duration in minutes
+  const recordLinkEditModalHandler = () => {
+    setIsRecordLinkEditModalOpen(!isRecordLinkEditModalOpen)
+  }
 
   useEffect(() => {
     window.env.get().then(setEnv)
@@ -376,6 +386,54 @@ function App() {
     openNotification('success', `Camera stream with id ${src} deleted.`)
   }
 
+  const handleEditRecordLink = () => {
+    if (!editTime || !editDuration) {
+      openNotification('error', 'Please select a start time and duration.')
+      return
+    }
+    // Check if the time is in the past
+    if (editTime.isBefore(dayjs())) {
+      openNotification('error', 'Start time cannot be in the past.')
+      return
+    }
+    // Check if the duration is a positive number
+    if (editDuration <= 0) {
+      openNotification('error', 'Duration must be a positive number.')
+      return
+    }
+    const apiLink = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_EDIT_RECORD}`
+    const data = {
+      token: currentRecordLinkEditToken,
+      start_time: editTime.toISOString(),
+      duration: editDuration
+    }
+    fetch(apiLink, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status && data.status !== 200) {
+          openNotification('error', data.message || 'Failed to edit record link.')
+          return
+        }
+        setIsRecordLinkEditModalOpen(false)
+        openNotification('success', 'Record link edited successfully.')
+        setRecordLinks((prev) =>
+          prev.map((record) =>
+            record.token === currentRecordLinkEditToken
+              ? { ...record, startTime: editTime.toISOString(), duration: editDuration }
+              : record
+          )
+        )
+      })
+      .catch((error) => {
+        openNotification('error', 'Failed to edit record link.')
+      })
+    }
 
 
   const onRemoveRecord = (token) => {
@@ -529,6 +587,7 @@ function App() {
                       onChange={setTime}
                       disablePast
                     />
+                    </LocalizationProvider>
                     <TextField
                       id="outlined-number"
                       type="number"
@@ -549,7 +608,7 @@ function App() {
                       }}
                       label={<Typography className="text-white">Duration (minutes)</Typography>}
                     />
-                  </LocalizationProvider>
+                  
                 </div>
                 <div className="flex justify-between items-center gap-2.5">
                   <Tooltip title="Start Recording Right Away" placement="right">
@@ -613,6 +672,8 @@ function App() {
                           recordsId={record.recordsId}
                           done={record.done}
                           ip={record.ip}
+                          modalHandler={recordLinkEditModalHandler}
+                          modalRecordLinkTokenSetter={setCurrentRecordLinkEditToken}
                         />
                       );
                     })
@@ -675,6 +736,84 @@ function App() {
         </Button>
       </div>
       <Notification open={open} severity={severity} message={message} onClose={closeNotification} />
+      <Modal
+          open={isRecordLinkEditModalOpen}
+          onClose={() => recordLinkEditModalHandler(false)}
+          aria-labelledby="parent-modal-title"
+          aria-describedby="parent-modal-description"
+        >
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-[400px] bg-main-500 shadow-2xl p-5 rounded-lg flex flex-col gap-5">
+            <div className="flex flex-row gap-2.5">
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DatePicker
+                        className="bg-main-400 rounded-md w-2/5"
+                        color="primary.white"
+                        label={<Typography className="text-white">Start Date</Typography>}
+                        slotProps={{
+                          field: { clearable: false, onClear: () => setCleared(true) }
+                        }}
+                        minDate={today}
+                        value={editTime}
+                        onChange={(newValue) => {
+                          if (newValue) {
+                            setEditTime(newValue.hour(editTime.hour()).minute(editTime.minute()))
+                          }
+                        }}
+                      />
+                      <TimePicker
+                        className="bg-main-400 w-2/5 rounded-md"
+                        label={<Typography className="text-white">Start Time</Typography>}
+                        value={editTime}
+                        onChange={setEditTime}
+                        disablePast
+                      />
+                </LocalizationProvider>
+                        <TextField
+                      id="outlined-number"
+                      type="number"
+                      className="bg-main-400 w-1/5 rounded-md"
+                      slotProps={{
+                        inputLabel: {
+                          shrink: true
+                        }
+                      }}
+                      value={editDuration}
+                      onChange={(e) => {
+                        const value = e.target.value
+                        if (value >= 0) {
+                          setEditDuration(value)
+                        } else {
+                          openNotification('error', 'Duration must be a positive number.')
+                        }
+                      }}
+                      label={<Typography className="text-white">Duration (minutes)</Typography>}
+                    />
+              </div>
+              <div className='flex justify-between items-center'>
+                      <Button
+                        variant="contained"
+                        className='bg-main-400 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700'
+                        onClick={() => {
+                          handleEditRecordLink()
+                        }
+                      }
+                      >
+                        <FontAwesomeIcon icon={faEdit} />
+                      </Button>
+                      <Button
+                        variant="contained"
+                        className='bg-red-500 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-red-700'
+                        onClick={() => {
+                          setIsRecordLinkEditModalOpen(false)
+                          setCurrentRecordLinkEditToken(null)
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faXmark} />
+                      </Button>
+              </div>
+            
+          </div>
+        </Modal>
     </div>
   )
 }

@@ -17,6 +17,7 @@ API_DELETE_RECORD_SCHEDULE=api/delete_record_schedule/
 API_HEALTH_CHECK=api/health_check
 API_DOWNLOAD_DB=api/download_db
 API_GET_IPS=api/get_ips
+API_EDIT_RECORD=api/edit_record/
 
 # Celery variables
 CELERY_BROKER_DOMAIN=localhost
