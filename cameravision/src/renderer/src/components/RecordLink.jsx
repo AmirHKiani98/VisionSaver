@@ -158,48 +158,7 @@ const RecordLink = (props) => {
   }
 
   return (
-    <Tooltip
-      title={
-          props.inProcess
-          ? (
-            <div className='flex flex-col gap-2'>
-              {Array.isArray(recordsId) &&
-                recordsId.map((recordId) => {
-                  const progressObj = progresses[recordId] || {};
-                  const hasAllKeys =
-                    progressObj.hasOwnProperty('progress') &&
-                    progressObj.hasOwnProperty('recording') &&
-                    progressObj.hasOwnProperty('converting');
-                  return (
-                    <div key={recordId}>
-                      {hasAllKeys ? (
-                        <LinearProgressWithLabel
-                          value={progressObj.progress || 0}
-                          className="bg-main-500"
-                          color="success"
-                          recording={progressObj.recording ? true : undefined}
-                          converting={progressObj.converting ? true : undefined}
-                        />
-                      ) : (
-                        <div className="text-gray-400 text-xs">Progress unavailable</div>
-                      )}
-                    </div>
-                  );
-                })}
-            </div>
-          )
-          : (
-            <>
-              <Typography className="text-white">Start at:</Typography>
-              {Array.isArray(intersectionsNames) &&
-                intersectionsNames.map((intersection) => {
-                  <Typography className="text-white">{intersection}</Typography>
-                })}
-            </>
-          )
-      }
-      placement="top"
-    >
+    
       <ContextMenu menuItems={recordLinkContextMenuItems} contextMenuId={`record-link-${props.token}`}>
         <ListItem
           className={`!bg-main-500 hover:!bg-main-700 shadow-xl overflow-hidden ${props.roundedClass || ''}`}
@@ -235,35 +194,77 @@ const RecordLink = (props) => {
             </div>
           }
         >
-          <Link
-            to={props.done ? `/editor?token=${props.token}` : "#"}
-            className={`w-full h-full ${props.done ? 'cursor-pointer' : 'cursor-not-allowed'}`}
-            tabIndex={props.done ? 0 : -1}
-            aria-disabled={!props.done}
-            style={{ textDecoration: 'none', pointerEvents: props.done ? 'auto' : 'none' }}
-          >
-            <ListItemButton className="flex flex-row gap-10" disabled={!props.done}>
-              <div className="flex flex-col">
-                <Typography className="text-white">Start at:</Typography>
-                <Typography className="text-gray-400">{formatDateTime(props.startTime)}</Typography>
-              </div>
-              <div className="flex flex-col">
-                <Typography className="text-white">Duration</Typography>
-                <Typography className="text-gray-400">{props.duration}</Typography>
-              </div>
-              <div className="flex flex-col">
-                {(
+          <Tooltip
+            title={
+                props.inProcess
+                ? (
+                  <div className='flex flex-col gap-2'>
+                    {Array.isArray(recordsId) &&
+                      recordsId.map((recordId) => {
+                        const progressObj = progresses[recordId] || {};
+                        const hasAllKeys =
+                          progressObj.hasOwnProperty('progress') &&
+                          progressObj.hasOwnProperty('recording') &&
+                          progressObj.hasOwnProperty('converting');
+                        return (
+                          <div key={recordId}>
+                            {hasAllKeys ? (
+                              <LinearProgressWithLabel
+                                value={progressObj.progress || 0}
+                                className="bg-main-500"
+                                color="success"
+                                recording={progressObj.recording ? true : undefined}
+                                converting={progressObj.converting ? true : undefined}
+                              />
+                            ) : (
+                              <div className="text-gray-400 text-xs">Progress unavailable</div>
+                            )}
+                          </div>
+                        );
+                      })}
+                  </div>
+                )
+                : (
                   <>
-                    <Typography className="text-white">Ip</Typography>
-                    <Typography className="text-gray-400">{props.ip}</Typography>
+                    {Array.isArray(intersectionsNames) &&
+                      intersectionsNames.map((intersection) => {
+                        <Typography className="text-white">{intersection}</Typography>
+                      })}
                   </>
-                )}
-              </div>
-            </ListItemButton>
-          </Link>
+                )
+            }
+            placement="top"
+          >
+            <Link
+              to={props.done ? `/editor?token=${props.token}` : "#"}
+              className={`w-full h-full ${props.done ? 'cursor-pointer' : 'cursor-not-allowed'}`}
+              tabIndex={props.done ? 0 : -1}
+              aria-disabled={!props.done}
+              style={{ textDecoration: 'none', pointerEvents: props.done ? 'auto' : 'none' }}
+            >
+              <ListItemButton className="flex flex-row gap-10" disabled={!props.done}>
+                <div className="flex flex-col">
+                  <Typography className="text-white">Start at:</Typography>
+                  <Typography className="text-gray-400">{formatDateTime(props.startTime)}</Typography>
+                </div>
+                <div className="flex flex-col">
+                  <Typography className="text-white">Duration</Typography>
+                  <Typography className="text-gray-400">{props.duration}</Typography>
+                </div>
+                <div className="flex flex-col">
+                  {(
+                    <>
+                      <Typography className="text-white">Ip</Typography>
+                      <Typography className="text-gray-400">{props.ip}</Typography>
+                    </>
+                  )}
+                </div>
+              </ListItemButton>
+            </Link>
+          </Tooltip>
         </ListItem>
       </ContextMenu>
-    </Tooltip>
+    
   )
 }
 
