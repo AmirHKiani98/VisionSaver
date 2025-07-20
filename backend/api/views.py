@@ -205,7 +205,8 @@ def get_ips(request):
         data['intersection'] = data['intersection'].astype(str)
         id_ip = data[["id", "ip"]].values.tolist()
         intersection_ip = data[["intersection", "ip"]].values.tolist()
-        all_data_ip = id_ip + intersection_ip
+        ip_ip = data[["ip", "intersection"]].values.tolist()
+        all_data_ip = id_ip + intersection_ip + ip_ip
         all_df = pd.DataFrame(all_data_ip, columns=["name", "ip"])
 
         # Get the search query from request parameters
