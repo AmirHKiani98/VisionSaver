@@ -5,6 +5,7 @@ import os
 import cv2
 import dotenv
 import subprocess
+from backend.apps.vpnconnector.main import connect_to_vpn
 # --- Ensure Django settings are configured before importing settings ---
 from django.conf import settings
 
@@ -121,6 +122,10 @@ class RTSPObject:
         return output_path
     
     def record(self, duration_minutes: int, output_path: str, record_id: str):
+        result = connect_to_vpn()
+        if not result:
+            logger.error("Failed to connect to VPN. Cannot proceed with recording.")
+            return False
         logger.debug(f"Starting recording for {duration_minutes} minutes to {output_path}")
         duration_seconds = duration_minutes * 60
         ffmpeg_env = str(settings.FFMPEG_PATH)

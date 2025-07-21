@@ -2,7 +2,6 @@ import wmi
 import subprocess
 import time
 # Create your tests here
-# .
 def set_tunnel_type_ikve2(vpn_name):
     """Force the VPN connection to use IKEv2 protocol."""
     cmd = f'Set-VpnConnection -Name "{vpn_name}" -TunnelType IKEv2 -Force'
@@ -44,18 +43,17 @@ def list_all_vpn_connections():
     for name in vpn_names:
         print(f"- {name}")
     return vpn_names
-vpn_names = list_all_vpn_connections()
-if vpn_names:
-    # if the list size is 1 return the first item
-    if len(vpn_names) == 1:
-        vpn_name = vpn_names[0]
-    else:
-        # otherwise, return the closest match to 'HC', 'Hennepin County' or 'Hennepin' or 'County
-        vpn_name = next((name for name in vpn_names if 'HC' in name or 'Hennepin County' in name or 'Hennepin' in name or 'County' in name), None)
-    if vpn_name:
-        print(f"Connecting to VPN: {vpn_name}")
-        success = connect_vpn_wmi(vpn_name)
-        if success:
-            exit(0)
+
+def connect_to_vpn():
+    vpn_names = list_all_vpn_connections()
+    if vpn_names:
+        # if the list size is 1 return the first item
+        if len(vpn_names) == 1:
+            vpn_name = vpn_names[0]
         else:
-            exit(1)
+            # otherwise, return the closest match to 'HC', 'Hennepin County' or 'Hennepin' or 'County
+            vpn_name = next((name for name in vpn_names if 'HC' in name or 'Hennepin County' in name or 'Hennepin' in name or 'County' in name), None)
+        if vpn_name:
+            print(f"Connecting to VPN: {vpn_name}")
+            success = connect_vpn_wmi(vpn_name)
+            return success
