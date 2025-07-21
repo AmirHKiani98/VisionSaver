@@ -33,6 +33,7 @@ def broadcast_progress(record_id: str, progress: str, recording: bool = False, c
             }
         )
     else:
+        pass
         logger.warning("Channel layer is not configured; skipping progress notification.")
 
 class RTSPObject:
@@ -198,6 +199,7 @@ class RTSPObject:
                         percentage = timestamps_to_seconds/(duration_minutes * 60)
                         broadcast_progress(str(record_id), str(percentage), recording=True, converting=False)
             else:
+                pass
                 logger.warning("FFmpeg stderr is None, no progress updates will be sent.")
 
             if os.path.exists(abs_output_path):

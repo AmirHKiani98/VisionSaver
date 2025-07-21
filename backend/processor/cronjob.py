@@ -62,8 +62,10 @@ def job_checker():
                     post_url = f"http://{os.getenv('BACKEND_SERVER_DOMAIN')}:{os.getenv('BACKEND_SERVER_PORT')}/{os.getenv('RECORD_FUNCTION_NAME')}/"
                     response = requests.post(post_url, json=post_data)
                     if response.status_code == 200:
+                        pass
                         logger.info(f"Record {record.id} started successfully.")
                     else:
+                        pass
                         logger.info(f"Failed to start record {record.id}: {response.text}")
                         # record.in_process = False
                         # record.save()
@@ -71,8 +73,10 @@ def job_checker():
                     
 
             except (OperationalError, ProgrammingError) as db_exc:
+                pass
                 logger.warning(f"DB not ready: {db_exc}")
             except Exception as e:
+                pass
                 logger.error(f"Unhandled error in job loop: {e}")
 
             time.sleep(10)
