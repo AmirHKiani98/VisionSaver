@@ -119,7 +119,7 @@ def get_record_schedule(request):
 
         return JsonResponse({"records": list(records)}, status=200)
     except Exception as e:
-        logger.error("Error in get_record_schedule:", str(e))
+        # logger.error("Error in get_record_schedule:", str(e))
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
 
 @csrf_exempt

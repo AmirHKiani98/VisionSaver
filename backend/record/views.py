@@ -31,11 +31,11 @@ def record_rtsp_task(record_id, camera_url, duration, output_file):
         else:
             record.done = False
             record.error = f"File doesn't exist at {output_file}"
-            logger.error(f"Recording file doesn't exist: {output_file}")
+            # logger.error(f"Recording file doesn't exist: {output_file}")
 
     except Exception as e:
         import traceback
-        logger.error(f"Recording error for {record_id}: {e}\n{traceback.format_exc()}")
+        # logger.error(f"Recording error for {record_id}: {e}\n{traceback.format_exc()}")
         record = Record.objects.get(id=record_id)
         record.done = False
         record.error = str(e)
@@ -59,7 +59,7 @@ def start_record_rtsp(request):
     This view should be triggered via a POST request with the necessary parameters.
     """
     if request.method != 'POST':
-        logger.error("Method not allowed for start_record_rtsp.")
+        # logger.error("Method not allowed for start_record_rtsp.")
         return JsonResponse({"error": "Method Not Allowed"}, status=405)
     try:
         data = json.loads(request.body.decode('utf-8'))
@@ -67,31 +67,31 @@ def start_record_rtsp(request):
         camera_url = data.get('camera_url')
         duration = data.get('duration', 60)  # Default to 60 seconds if not provided
         output_file = data.get('output_file', f"{settings.MEDIA_ROOT}/{record_id}.mkv")
-        logger.info(f"Starting recording for record ID {record_id} at {camera_url} for {duration} seconds.")
+        # logger.info(f"Starting recording for record ID {record_id} at {camera_url} for {duration} seconds.")
         if not record_id or not camera_url:
-            logger.error("Missing 'record_id' or 'camera_url' in request data.")
+            # logger.error("Missing 'record_id' or 'camera_url' in request data.")
             return JsonResponse({"error": "'record_id' and 'camera_url' are required."}, status=400)
 
         # Create a new Record instance
         record = Record.objects.get(id=record_id)
         if not record:
-            logger.error(f"Record with ID {record_id} not found.")
+            # logger.error(f"Record with ID {record_id} not found.")
             return JsonResponse({"error": "Record not found."}, status=404)
-        logger.info(f"Record found: {record}")
+        # logger.info(f"Record found: {record}")
 
         # Start the recording in a separate thread
         threading.Thread(
             target=record_rtsp_task,
             args=(record.id, camera_url, duration, output_file)
         ).start()
-        logger.info(f"Started recording for record ID {record.id} at {camera_url} for {duration} seconds.")
+        # logger.info(f"Started recording for record ID {record.id} at {camera_url} for {duration} seconds.")
         return JsonResponse({"message": "Recording started successfully.", "record_id": record.id}, status=200)
 
     except json.JSONDecodeError:
-        logger.error("Invalid JSON body in request.")
+        # logger.error("Invalid JSON body in request.")
         return JsonResponse({"error": "Invalid JSON body."}, status=400)
     except Exception as e:
-        logger.error(f"An error occurred while starting the recording: {str(e)}")
+        # logger.error(f"An error occurred while starting the recording: {str(e)}")
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
 
 

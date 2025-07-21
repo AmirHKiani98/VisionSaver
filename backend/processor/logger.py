@@ -29,7 +29,7 @@ class Logger:
         self.base_dir = base_dir or os.path.dirname(os.path.abspath(__file__))
         if not self._initialized:
             self._setup_logger()
-            Logger._initialized = True
+            # logger._initialized = True
     
     def _get_log_directory(self):
         # For PyInstaller, create logs relative to the executable location, not the temp extraction path
@@ -62,11 +62,11 @@ class Logger:
         
         # Create logger
         self.logger = logging.getLogger('cameravision')
-        self.logger.setLevel(logging.DEBUG)
+        self.# logger.setLevel(logging.DEBUG)
         
         # Remove existing handlers to avoid duplicates
-        for handler in self.logger.handlers[:]:
-            self.logger.removeHandler(handler)
+        for handler in self.# logger.handlers[:]:
+            self.# logger.removeHandler(handler)
         
         # Create formatter
         formatter = logging.Formatter(
@@ -83,7 +83,7 @@ class Logger:
             )
             file_handler.setLevel(logging.DEBUG)  # Will log DEBUG level and above
             file_handler.setFormatter(formatter)
-            self.logger.addHandler(file_handler)
+            self.# logger.addHandler(file_handler)
         except (OSError, PermissionError):
             # If file logging fails, just continue without file logging
             print("Warning: Could not create file logger, continuing with console only")
@@ -137,12 +137,12 @@ class Logger:
         
         # Get or create logger with the specific name
         caller_logger = logging.getLogger(logger_name)
-        caller_logger.setLevel(self.logger.level)
+        caller_# logger.setLevel(self.# logger.level)
         
         # Add handlers from main logger if they don't exist
-        if not caller_logger.handlers:
-            for handler in self.logger.handlers:
-                caller_logger.addHandler(handler)
+        if not caller_# logger.handlers:
+            for handler in self.# logger.handlers:
+                caller_# logger.addHandler(handler)
         
-        caller_logger.log(level, message)
+        caller_# logger.log(level, message)
 

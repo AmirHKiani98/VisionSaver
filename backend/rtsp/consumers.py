@@ -14,7 +14,7 @@ class MJPEGConsumer(AsyncWebsocketConsumer):
         query_string = self.scope['query_string'].decode()
         params = parse_qs(query_string)
         self.rtsp_url = params.get('url', [None])[0]
-        logger.info("Reading frame from: %s", self.rtsp_url)
+        # logger.info("Reading frame from: %s", self.rtsp_url)
 
         if not self.rtsp_url:
             await self.close()
@@ -45,7 +45,7 @@ class MJPEGConsumer(AsyncWebsocketConsumer):
             try:
                 await self.send(text_data=b64frame)
             except Exception as e:
-                logger.error("WebSocket send failed: %s", e)
+                # logger.error("WebSocket send failed: %s", e)
                 break
 
             await asyncio.sleep(0.01)  # ≈30 FPS (tune this if needed)

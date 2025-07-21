@@ -26,7 +26,7 @@ django.setup()
 from django.conf import settings
 logger = settings.APP_LOGGER
 
-logger.info(f"Starting cronjob: {ENV_PATH}")
+# logger.info(f"Starting cronjob: {ENV_PATH}")
 # --- MAIN JOB LOOP ---
 def job_checker():
     from record.models import Record
@@ -34,7 +34,7 @@ def job_checker():
     from django.db.utils import OperationalError, ProgrammingError
 
     if settings.JOB_CHECKER_ENABLED:
-        logger.info("Job checker is already running. Exiting.")
+        # logger.info("Job checker is already running. Exiting.")
         return
     settings.JOB_CHECKER_ENABLED = True
 
@@ -44,9 +44,9 @@ def job_checker():
                 now = timezone.now()
                 os.makedirs(settings.MEDIA_ROOT, exist_ok=True)
                 records = Record.objects.filter(done=False, in_process=False, start_time__lte=now)
-                logger.info(f"Found {records.count()} records to process.")
+                # logger.info(f"Found {records.count()} records to process.")
                 for record in records:
-                    logger.info(f"Processing record: {record.id} from {record.camera_url}")
+                    # logger.info(f"Processing record: {record.id} from {record.camera_url}")
                     record.in_process = True
                     record.save()
 
@@ -63,10 +63,10 @@ def job_checker():
                     response = requests.post(post_url, json=post_data)
                     if response.status_code == 200:
                         pass
-                        logger.info(f"Record {record.id} started successfully.")
+                        # logger.info(f"Record {record.id} started successfully.")
                     else:
                         pass
-                        logger.info(f"Failed to start record {record.id}: {response.text}")
+                        # logger.info(f"Failed to start record {record.id}: {response.text}")
                         # record.in_process = False
                         # record.save()
                         # continue
@@ -74,10 +74,10 @@ def job_checker():
 
             except (OperationalError, ProgrammingError) as db_exc:
                 pass
-                logger.warning(f"DB not ready: {db_exc}")
+                # logger.warning(f"DB not ready: {db_exc}")
             except Exception as e:
                 pass
-                logger.error(f"Unhandled error in job loop: {e}")
+                # logger.error(f"Unhandled error in job loop: {e}")
 
             time.sleep(10)
 
