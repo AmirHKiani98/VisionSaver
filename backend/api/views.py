@@ -282,7 +282,5 @@ def edit_record(request):
             return JsonResponse({"error": "No records were updated."}, status=404)
         # If we reach here, the update was successful
         return JsonResponse({"message": f"{updated_count} record(s) updated successfully."}, status=200)
-
-        return JsonResponse({"message": "Record updated successfully."}, status=200)
     except Exception as e:
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
