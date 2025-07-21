@@ -21054,3 +21054,1079 @@ INFO 2025-07-21 08:09:26,888 logger 29644 9428 Started recording for record ID 4
 INFO 2025-07-21 08:09:26,888 logger 29644 9428 Started recording for record ID 420 at rtsp://192.168.135.9/cam2 for 5 seconds.
 INFO 2025-07-21 08:09:26,897 logger 30860 18264 Record 420 started successfully.
 INFO 2025-07-21 08:09:26,897 logger 30860 18264 Record 420 started successfully.
+ERROR 2025-07-21 08:09:27,397 logger 29644 15736 Recording error for 421: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1340, in connect
+    obj = GetObject(moniker)
+          ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 86, in GetObject
+    return Moniker(Pathname, clsctx)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 103, in Moniker
+    moniker, i, bindCtx = pythoncom.MkParseDisplayName(Pathname)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pywintypes.com_error: (-2147221020, 'Invalid syntax', None, None)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1354, in connect
+    handle_com_error()
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 258, in handle_com_error
+    raise klass(com_error=err)
+wmi.x_wmi_uninitialised_thread: <x_wmi: Unexpected COM Error (-2147221020, 'Invalid syntax', None, None)>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\views.py", line 26, in record_rtsp_task
+    done = rtsp_obj.record(duration, output_file, record_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 126, in record
+    result = connect_to_vpn()
+             ^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 58, in connect_to_vpn
+    success = connect_vpn_wmi(vpn_name)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 11, in connect_vpn_wmi
+    c = wmi.WMI()
+        ^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1357, in connect
+    raise x_wmi_uninitialised_thread("WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex]")
+wmi.x_wmi_uninitialised_thread: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+
+ERROR 2025-07-21 08:09:27,397 logger 29644 15736 Recording error for 421: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1340, in connect
+    obj = GetObject(moniker)
+          ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 86, in GetObject
+    return Moniker(Pathname, clsctx)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 103, in Moniker
+    moniker, i, bindCtx = pythoncom.MkParseDisplayName(Pathname)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pywintypes.com_error: (-2147221020, 'Invalid syntax', None, None)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1354, in connect
+    handle_com_error()
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 258, in handle_com_error
+    raise klass(com_error=err)
+wmi.x_wmi_uninitialised_thread: <x_wmi: Unexpected COM Error (-2147221020, 'Invalid syntax', None, None)>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\views.py", line 26, in record_rtsp_task
+    done = rtsp_obj.record(duration, output_file, record_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 126, in record
+    result = connect_to_vpn()
+             ^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 58, in connect_to_vpn
+    success = connect_vpn_wmi(vpn_name)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 11, in connect_vpn_wmi
+    c = wmi.WMI()
+        ^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1357, in connect
+    raise x_wmi_uninitialised_thread("WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex]")
+wmi.x_wmi_uninitialised_thread: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+
+ERROR 2025-07-21 08:09:29,931 logger 29644 30896 Recording error for 419: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1340, in connect
+    obj = GetObject(moniker)
+          ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 86, in GetObject
+    return Moniker(Pathname, clsctx)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 103, in Moniker
+    moniker, i, bindCtx = pythoncom.MkParseDisplayName(Pathname)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pywintypes.com_error: (-2147221020, 'Invalid syntax', None, None)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1354, in connect
+    handle_com_error()
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 258, in handle_com_error
+    raise klass(com_error=err)
+wmi.x_wmi_uninitialised_thread: <x_wmi: Unexpected COM Error (-2147221020, 'Invalid syntax', None, None)>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\views.py", line 26, in record_rtsp_task
+    done = rtsp_obj.record(duration, output_file, record_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 126, in record
+    result = connect_to_vpn()
+             ^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 58, in connect_to_vpn
+    success = connect_vpn_wmi(vpn_name)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 11, in connect_vpn_wmi
+    c = wmi.WMI()
+        ^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1357, in connect
+    raise x_wmi_uninitialised_thread("WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex]")
+wmi.x_wmi_uninitialised_thread: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+
+ERROR 2025-07-21 08:09:29,931 logger 29644 30896 Recording error for 419: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1340, in connect
+    obj = GetObject(moniker)
+          ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 86, in GetObject
+    return Moniker(Pathname, clsctx)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 103, in Moniker
+    moniker, i, bindCtx = pythoncom.MkParseDisplayName(Pathname)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pywintypes.com_error: (-2147221020, 'Invalid syntax', None, None)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1354, in connect
+    handle_com_error()
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 258, in handle_com_error
+    raise klass(com_error=err)
+wmi.x_wmi_uninitialised_thread: <x_wmi: Unexpected COM Error (-2147221020, 'Invalid syntax', None, None)>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\views.py", line 26, in record_rtsp_task
+    done = rtsp_obj.record(duration, output_file, record_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 126, in record
+    result = connect_to_vpn()
+             ^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 58, in connect_to_vpn
+    success = connect_vpn_wmi(vpn_name)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 11, in connect_vpn_wmi
+    c = wmi.WMI()
+        ^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1357, in connect
+    raise x_wmi_uninitialised_thread("WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex]")
+wmi.x_wmi_uninitialised_thread: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+
+ERROR 2025-07-21 08:09:31,902 logger 29644 17344 Recording error for 420: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1340, in connect
+    obj = GetObject(moniker)
+          ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 86, in GetObject
+    return Moniker(Pathname, clsctx)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 103, in Moniker
+    moniker, i, bindCtx = pythoncom.MkParseDisplayName(Pathname)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pywintypes.com_error: (-2147221020, 'Invalid syntax', None, None)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1354, in connect
+    handle_com_error()
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 258, in handle_com_error
+    raise klass(com_error=err)
+wmi.x_wmi_uninitialised_thread: <x_wmi: Unexpected COM Error (-2147221020, 'Invalid syntax', None, None)>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\views.py", line 26, in record_rtsp_task
+    done = rtsp_obj.record(duration, output_file, record_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 126, in record
+    result = connect_to_vpn()
+             ^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 58, in connect_to_vpn
+    success = connect_vpn_wmi(vpn_name)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 11, in connect_vpn_wmi
+    c = wmi.WMI()
+        ^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1357, in connect
+    raise x_wmi_uninitialised_thread("WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex]")
+wmi.x_wmi_uninitialised_thread: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+
+ERROR 2025-07-21 08:09:31,902 logger 29644 17344 Recording error for 420: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1340, in connect
+    obj = GetObject(moniker)
+          ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 86, in GetObject
+    return Moniker(Pathname, clsctx)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 103, in Moniker
+    moniker, i, bindCtx = pythoncom.MkParseDisplayName(Pathname)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pywintypes.com_error: (-2147221020, 'Invalid syntax', None, None)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1354, in connect
+    handle_com_error()
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 258, in handle_com_error
+    raise klass(com_error=err)
+wmi.x_wmi_uninitialised_thread: <x_wmi: Unexpected COM Error (-2147221020, 'Invalid syntax', None, None)>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\views.py", line 26, in record_rtsp_task
+    done = rtsp_obj.record(duration, output_file, record_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 126, in record
+    result = connect_to_vpn()
+             ^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 58, in connect_to_vpn
+    success = connect_vpn_wmi(vpn_name)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 11, in connect_vpn_wmi
+    c = wmi.WMI()
+        ^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1357, in connect
+    raise x_wmi_uninitialised_thread("WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex]")
+wmi.x_wmi_uninitialised_thread: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+
+INFO 2025-07-21 08:09:36,904 logger 30860 18264 Found 3 records to process.
+INFO 2025-07-21 08:09:36,904 logger 30860 18264 Found 3 records to process.
+INFO 2025-07-21 08:09:36,908 logger 30860 18264 Processing record: 419 from rtsp://192.168.135.9/cam1
+INFO 2025-07-21 08:09:36,908 logger 30860 18264 Processing record: 419 from rtsp://192.168.135.9/cam1
+INFO 2025-07-21 08:09:36,936 logger 29644 29664 Starting recording for record ID 419 at rtsp://192.168.135.9/cam1 for 5 seconds.
+INFO 2025-07-21 08:09:36,936 logger 29644 29664 Starting recording for record ID 419 at rtsp://192.168.135.9/cam1 for 5 seconds.
+INFO 2025-07-21 08:09:36,941 logger 29644 29664 Record found: Record from rtsp://192.168.135.9/cam1 starting at 2025-07-21 13:08:10.991000+00:00 for 5 seconds
+INFO 2025-07-21 08:09:36,941 logger 29644 29664 Record found: Record from rtsp://192.168.135.9/cam1 starting at 2025-07-21 13:08:10.991000+00:00 for 5 seconds
+INFO 2025-07-21 08:09:36,944 logger 29644 29664 Started recording for record ID 419 at rtsp://192.168.135.9/cam1 for 5 seconds.
+INFO 2025-07-21 08:09:36,944 logger 29644 29664 Started recording for record ID 419 at rtsp://192.168.135.9/cam1 for 5 seconds.
+INFO 2025-07-21 08:09:36,952 logger 30860 18264 Record 419 started successfully.
+INFO 2025-07-21 08:09:36,952 logger 30860 18264 Record 419 started successfully.
+INFO 2025-07-21 08:09:36,954 logger 30860 18264 Processing record: 420 from rtsp://192.168.135.9/cam2
+INFO 2025-07-21 08:09:36,954 logger 30860 18264 Processing record: 420 from rtsp://192.168.135.9/cam2
+INFO 2025-07-21 08:09:36,975 logger 29644 30972 Starting recording for record ID 420 at rtsp://192.168.135.9/cam2 for 5 seconds.
+INFO 2025-07-21 08:09:36,975 logger 29644 30972 Starting recording for record ID 420 at rtsp://192.168.135.9/cam2 for 5 seconds.
+INFO 2025-07-21 08:09:36,981 logger 29644 30972 Record found: Record from rtsp://192.168.135.9/cam2 starting at 2025-07-21 13:08:10.991000+00:00 for 5 seconds
+INFO 2025-07-21 08:09:36,981 logger 29644 30972 Record found: Record from rtsp://192.168.135.9/cam2 starting at 2025-07-21 13:08:10.991000+00:00 for 5 seconds
+INFO 2025-07-21 08:09:36,984 logger 29644 30972 Started recording for record ID 420 at rtsp://192.168.135.9/cam2 for 5 seconds.
+INFO 2025-07-21 08:09:36,984 logger 29644 30972 Started recording for record ID 420 at rtsp://192.168.135.9/cam2 for 5 seconds.
+INFO 2025-07-21 08:09:37,010 logger 30860 18264 Record 420 started successfully.
+INFO 2025-07-21 08:09:37,010 logger 30860 18264 Record 420 started successfully.
+INFO 2025-07-21 08:09:37,013 logger 30860 18264 Processing record: 421 from rtsp://192.168.135.9/cam3
+INFO 2025-07-21 08:09:37,013 logger 30860 18264 Processing record: 421 from rtsp://192.168.135.9/cam3
+INFO 2025-07-21 08:09:37,033 logger 29644 13336 Starting recording for record ID 421 at rtsp://192.168.135.9/cam3 for 5 seconds.
+INFO 2025-07-21 08:09:37,033 logger 29644 13336 Starting recording for record ID 421 at rtsp://192.168.135.9/cam3 for 5 seconds.
+INFO 2025-07-21 08:09:37,038 logger 29644 13336 Record found: Record from rtsp://192.168.135.9/cam3 starting at 2025-07-21 13:08:10.991000+00:00 for 5 seconds
+INFO 2025-07-21 08:09:37,038 logger 29644 13336 Record found: Record from rtsp://192.168.135.9/cam3 starting at 2025-07-21 13:08:10.991000+00:00 for 5 seconds
+INFO 2025-07-21 08:09:37,042 logger 29644 13336 Started recording for record ID 421 at rtsp://192.168.135.9/cam3 for 5 seconds.
+INFO 2025-07-21 08:09:37,042 logger 29644 13336 Started recording for record ID 421 at rtsp://192.168.135.9/cam3 for 5 seconds.
+INFO 2025-07-21 08:09:37,050 logger 30860 18264 Record 421 started successfully.
+INFO 2025-07-21 08:09:37,050 logger 30860 18264 Record 421 started successfully.
+ERROR 2025-07-21 08:09:39,569 logger 29644 9348 Recording error for 419: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1340, in connect
+    obj = GetObject(moniker)
+          ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 86, in GetObject
+    return Moniker(Pathname, clsctx)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 103, in Moniker
+    moniker, i, bindCtx = pythoncom.MkParseDisplayName(Pathname)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pywintypes.com_error: (-2147221020, 'Invalid syntax', None, None)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1354, in connect
+    handle_com_error()
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 258, in handle_com_error
+    raise klass(com_error=err)
+wmi.x_wmi_uninitialised_thread: <x_wmi: Unexpected COM Error (-2147221020, 'Invalid syntax', None, None)>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\views.py", line 26, in record_rtsp_task
+    done = rtsp_obj.record(duration, output_file, record_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 126, in record
+    result = connect_to_vpn()
+             ^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 58, in connect_to_vpn
+    success = connect_vpn_wmi(vpn_name)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 11, in connect_vpn_wmi
+    c = wmi.WMI()
+        ^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1357, in connect
+    raise x_wmi_uninitialised_thread("WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex]")
+wmi.x_wmi_uninitialised_thread: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+
+ERROR 2025-07-21 08:09:39,569 logger 29644 9348 Recording error for 419: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1340, in connect
+    obj = GetObject(moniker)
+          ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 86, in GetObject
+    return Moniker(Pathname, clsctx)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 103, in Moniker
+    moniker, i, bindCtx = pythoncom.MkParseDisplayName(Pathname)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pywintypes.com_error: (-2147221020, 'Invalid syntax', None, None)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1354, in connect
+    handle_com_error()
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 258, in handle_com_error
+    raise klass(com_error=err)
+wmi.x_wmi_uninitialised_thread: <x_wmi: Unexpected COM Error (-2147221020, 'Invalid syntax', None, None)>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\views.py", line 26, in record_rtsp_task
+    done = rtsp_obj.record(duration, output_file, record_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 126, in record
+    result = connect_to_vpn()
+             ^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 58, in connect_to_vpn
+    success = connect_vpn_wmi(vpn_name)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 11, in connect_vpn_wmi
+    c = wmi.WMI()
+        ^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1357, in connect
+    raise x_wmi_uninitialised_thread("WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex]")
+wmi.x_wmi_uninitialised_thread: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+
+ERROR 2025-07-21 08:09:41,512 logger 29644 20316 Recording error for 420: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1340, in connect
+    obj = GetObject(moniker)
+          ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 86, in GetObject
+    return Moniker(Pathname, clsctx)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 103, in Moniker
+    moniker, i, bindCtx = pythoncom.MkParseDisplayName(Pathname)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pywintypes.com_error: (-2147221020, 'Invalid syntax', None, None)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1354, in connect
+    handle_com_error()
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 258, in handle_com_error
+    raise klass(com_error=err)
+wmi.x_wmi_uninitialised_thread: <x_wmi: Unexpected COM Error (-2147221020, 'Invalid syntax', None, None)>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\views.py", line 26, in record_rtsp_task
+    done = rtsp_obj.record(duration, output_file, record_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 126, in record
+    result = connect_to_vpn()
+             ^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 58, in connect_to_vpn
+    success = connect_vpn_wmi(vpn_name)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 11, in connect_vpn_wmi
+    c = wmi.WMI()
+        ^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1357, in connect
+    raise x_wmi_uninitialised_thread("WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex]")
+wmi.x_wmi_uninitialised_thread: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+
+ERROR 2025-07-21 08:09:41,512 logger 29644 20316 Recording error for 420: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1340, in connect
+    obj = GetObject(moniker)
+          ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 86, in GetObject
+    return Moniker(Pathname, clsctx)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 103, in Moniker
+    moniker, i, bindCtx = pythoncom.MkParseDisplayName(Pathname)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pywintypes.com_error: (-2147221020, 'Invalid syntax', None, None)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1354, in connect
+    handle_com_error()
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 258, in handle_com_error
+    raise klass(com_error=err)
+wmi.x_wmi_uninitialised_thread: <x_wmi: Unexpected COM Error (-2147221020, 'Invalid syntax', None, None)>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\views.py", line 26, in record_rtsp_task
+    done = rtsp_obj.record(duration, output_file, record_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 126, in record
+    result = connect_to_vpn()
+             ^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 58, in connect_to_vpn
+    success = connect_vpn_wmi(vpn_name)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 11, in connect_vpn_wmi
+    c = wmi.WMI()
+        ^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1357, in connect
+    raise x_wmi_uninitialised_thread("WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex]")
+wmi.x_wmi_uninitialised_thread: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+
+INFO 2025-07-21 08:09:47,055 logger 30860 18264 Found 2 records to process.
+INFO 2025-07-21 08:09:47,055 logger 30860 18264 Found 2 records to process.
+INFO 2025-07-21 08:09:47,059 logger 30860 18264 Processing record: 419 from rtsp://192.168.135.9/cam1
+INFO 2025-07-21 08:09:47,059 logger 30860 18264 Processing record: 419 from rtsp://192.168.135.9/cam1
+INFO 2025-07-21 08:09:47,087 logger 29644 27212 Starting recording for record ID 419 at rtsp://192.168.135.9/cam1 for 5 seconds.
+INFO 2025-07-21 08:09:47,087 logger 29644 27212 Starting recording for record ID 419 at rtsp://192.168.135.9/cam1 for 5 seconds.
+INFO 2025-07-21 08:09:47,094 logger 29644 27212 Record found: Record from rtsp://192.168.135.9/cam1 starting at 2025-07-21 13:08:10.991000+00:00 for 5 seconds
+INFO 2025-07-21 08:09:47,094 logger 29644 27212 Record found: Record from rtsp://192.168.135.9/cam1 starting at 2025-07-21 13:08:10.991000+00:00 for 5 seconds
+INFO 2025-07-21 08:09:47,098 logger 29644 27212 Started recording for record ID 419 at rtsp://192.168.135.9/cam1 for 5 seconds.
+INFO 2025-07-21 08:09:47,098 logger 29644 27212 Started recording for record ID 419 at rtsp://192.168.135.9/cam1 for 5 seconds.
+INFO 2025-07-21 08:09:47,109 logger 30860 18264 Record 419 started successfully.
+INFO 2025-07-21 08:09:47,109 logger 30860 18264 Record 419 started successfully.
+INFO 2025-07-21 08:09:47,111 logger 30860 18264 Processing record: 420 from rtsp://192.168.135.9/cam2
+INFO 2025-07-21 08:09:47,111 logger 30860 18264 Processing record: 420 from rtsp://192.168.135.9/cam2
+INFO 2025-07-21 08:09:47,133 logger 29644 29152 Starting recording for record ID 420 at rtsp://192.168.135.9/cam2 for 5 seconds.
+INFO 2025-07-21 08:09:47,133 logger 29644 29152 Starting recording for record ID 420 at rtsp://192.168.135.9/cam2 for 5 seconds.
+INFO 2025-07-21 08:09:47,149 logger 29644 29152 Record found: Record from rtsp://192.168.135.9/cam2 starting at 2025-07-21 13:08:10.991000+00:00 for 5 seconds
+INFO 2025-07-21 08:09:47,149 logger 29644 29152 Record found: Record from rtsp://192.168.135.9/cam2 starting at 2025-07-21 13:08:10.991000+00:00 for 5 seconds
+INFO 2025-07-21 08:09:47,154 logger 29644 29152 Started recording for record ID 420 at rtsp://192.168.135.9/cam2 for 5 seconds.
+INFO 2025-07-21 08:09:47,154 logger 29644 29152 Started recording for record ID 420 at rtsp://192.168.135.9/cam2 for 5 seconds.
+INFO 2025-07-21 08:09:47,163 logger 30860 18264 Record 420 started successfully.
+INFO 2025-07-21 08:09:47,163 logger 30860 18264 Record 420 started successfully.
+ERROR 2025-07-21 08:09:47,181 logger 29644 25984 Recording error for 421: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1340, in connect
+    obj = GetObject(moniker)
+          ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 86, in GetObject
+    return Moniker(Pathname, clsctx)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 103, in Moniker
+    moniker, i, bindCtx = pythoncom.MkParseDisplayName(Pathname)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pywintypes.com_error: (-2147221020, 'Invalid syntax', None, None)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1354, in connect
+    handle_com_error()
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 258, in handle_com_error
+    raise klass(com_error=err)
+wmi.x_wmi_uninitialised_thread: <x_wmi: Unexpected COM Error (-2147221020, 'Invalid syntax', None, None)>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\views.py", line 26, in record_rtsp_task
+    done = rtsp_obj.record(duration, output_file, record_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 126, in record
+    result = connect_to_vpn()
+             ^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 58, in connect_to_vpn
+    success = connect_vpn_wmi(vpn_name)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 11, in connect_vpn_wmi
+    c = wmi.WMI()
+        ^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1357, in connect
+    raise x_wmi_uninitialised_thread("WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex]")
+wmi.x_wmi_uninitialised_thread: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+
+ERROR 2025-07-21 08:09:47,181 logger 29644 25984 Recording error for 421: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1340, in connect
+    obj = GetObject(moniker)
+          ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 86, in GetObject
+    return Moniker(Pathname, clsctx)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 103, in Moniker
+    moniker, i, bindCtx = pythoncom.MkParseDisplayName(Pathname)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pywintypes.com_error: (-2147221020, 'Invalid syntax', None, None)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1354, in connect
+    handle_com_error()
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 258, in handle_com_error
+    raise klass(com_error=err)
+wmi.x_wmi_uninitialised_thread: <x_wmi: Unexpected COM Error (-2147221020, 'Invalid syntax', None, None)>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\views.py", line 26, in record_rtsp_task
+    done = rtsp_obj.record(duration, output_file, record_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 126, in record
+    result = connect_to_vpn()
+             ^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 58, in connect_to_vpn
+    success = connect_vpn_wmi(vpn_name)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 11, in connect_vpn_wmi
+    c = wmi.WMI()
+        ^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1357, in connect
+    raise x_wmi_uninitialised_thread("WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex]")
+wmi.x_wmi_uninitialised_thread: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+
+ERROR 2025-07-21 08:09:49,858 logger 29644 24524 Recording error for 419: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1340, in connect
+    obj = GetObject(moniker)
+          ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 86, in GetObject
+    return Moniker(Pathname, clsctx)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 103, in Moniker
+    moniker, i, bindCtx = pythoncom.MkParseDisplayName(Pathname)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pywintypes.com_error: (-2147221020, 'Invalid syntax', None, None)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1354, in connect
+    handle_com_error()
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 258, in handle_com_error
+    raise klass(com_error=err)
+wmi.x_wmi_uninitialised_thread: <x_wmi: Unexpected COM Error (-2147221020, 'Invalid syntax', None, None)>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\views.py", line 26, in record_rtsp_task
+    done = rtsp_obj.record(duration, output_file, record_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 126, in record
+    result = connect_to_vpn()
+             ^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 58, in connect_to_vpn
+    success = connect_vpn_wmi(vpn_name)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 11, in connect_vpn_wmi
+    c = wmi.WMI()
+        ^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1357, in connect
+    raise x_wmi_uninitialised_thread("WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex]")
+wmi.x_wmi_uninitialised_thread: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+
+ERROR 2025-07-21 08:09:49,858 logger 29644 24524 Recording error for 419: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1340, in connect
+    obj = GetObject(moniker)
+          ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 86, in GetObject
+    return Moniker(Pathname, clsctx)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 103, in Moniker
+    moniker, i, bindCtx = pythoncom.MkParseDisplayName(Pathname)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pywintypes.com_error: (-2147221020, 'Invalid syntax', None, None)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1354, in connect
+    handle_com_error()
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 258, in handle_com_error
+    raise klass(com_error=err)
+wmi.x_wmi_uninitialised_thread: <x_wmi: Unexpected COM Error (-2147221020, 'Invalid syntax', None, None)>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\views.py", line 26, in record_rtsp_task
+    done = rtsp_obj.record(duration, output_file, record_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 126, in record
+    result = connect_to_vpn()
+             ^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 58, in connect_to_vpn
+    success = connect_vpn_wmi(vpn_name)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 11, in connect_vpn_wmi
+    c = wmi.WMI()
+        ^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1357, in connect
+    raise x_wmi_uninitialised_thread("WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex]")
+wmi.x_wmi_uninitialised_thread: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+
+ERROR 2025-07-21 08:09:51,491 logger 29644 20428 Recording error for 420: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1340, in connect
+    obj = GetObject(moniker)
+          ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 86, in GetObject
+    return Moniker(Pathname, clsctx)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 103, in Moniker
+    moniker, i, bindCtx = pythoncom.MkParseDisplayName(Pathname)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pywintypes.com_error: (-2147221020, 'Invalid syntax', None, None)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1354, in connect
+    handle_com_error()
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 258, in handle_com_error
+    raise klass(com_error=err)
+wmi.x_wmi_uninitialised_thread: <x_wmi: Unexpected COM Error (-2147221020, 'Invalid syntax', None, None)>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\views.py", line 26, in record_rtsp_task
+    done = rtsp_obj.record(duration, output_file, record_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 126, in record
+    result = connect_to_vpn()
+             ^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 58, in connect_to_vpn
+    success = connect_vpn_wmi(vpn_name)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 11, in connect_vpn_wmi
+    c = wmi.WMI()
+        ^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1357, in connect
+    raise x_wmi_uninitialised_thread("WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex]")
+wmi.x_wmi_uninitialised_thread: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+
+ERROR 2025-07-21 08:09:51,491 logger 29644 20428 Recording error for 420: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1340, in connect
+    obj = GetObject(moniker)
+          ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 86, in GetObject
+    return Moniker(Pathname, clsctx)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 103, in Moniker
+    moniker, i, bindCtx = pythoncom.MkParseDisplayName(Pathname)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pywintypes.com_error: (-2147221020, 'Invalid syntax', None, None)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1354, in connect
+    handle_com_error()
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 258, in handle_com_error
+    raise klass(com_error=err)
+wmi.x_wmi_uninitialised_thread: <x_wmi: Unexpected COM Error (-2147221020, 'Invalid syntax', None, None)>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\views.py", line 26, in record_rtsp_task
+    done = rtsp_obj.record(duration, output_file, record_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 126, in record
+    result = connect_to_vpn()
+             ^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 58, in connect_to_vpn
+    success = connect_vpn_wmi(vpn_name)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 11, in connect_vpn_wmi
+    c = wmi.WMI()
+        ^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1357, in connect
+    raise x_wmi_uninitialised_thread("WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex]")
+wmi.x_wmi_uninitialised_thread: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+
+INFO 2025-07-21 08:09:57,169 logger 30860 18264 Found 3 records to process.
+INFO 2025-07-21 08:09:57,169 logger 30860 18264 Found 3 records to process.
+INFO 2025-07-21 08:09:57,173 logger 30860 18264 Processing record: 419 from rtsp://192.168.135.9/cam1
+INFO 2025-07-21 08:09:57,173 logger 30860 18264 Processing record: 419 from rtsp://192.168.135.9/cam1
+INFO 2025-07-21 08:09:57,196 logger 29644 31196 Starting recording for record ID 419 at rtsp://192.168.135.9/cam1 for 5 seconds.
+INFO 2025-07-21 08:09:57,196 logger 29644 31196 Starting recording for record ID 419 at rtsp://192.168.135.9/cam1 for 5 seconds.
+INFO 2025-07-21 08:09:57,201 logger 29644 31196 Record found: Record from rtsp://192.168.135.9/cam1 starting at 2025-07-21 13:08:10.991000+00:00 for 5 seconds
+INFO 2025-07-21 08:09:57,201 logger 29644 31196 Record found: Record from rtsp://192.168.135.9/cam1 starting at 2025-07-21 13:08:10.991000+00:00 for 5 seconds
+INFO 2025-07-21 08:09:57,205 logger 29644 31196 Started recording for record ID 419 at rtsp://192.168.135.9/cam1 for 5 seconds.
+INFO 2025-07-21 08:09:57,205 logger 29644 31196 Started recording for record ID 419 at rtsp://192.168.135.9/cam1 for 5 seconds.
+INFO 2025-07-21 08:09:57,213 logger 30860 18264 Record 419 started successfully.
+INFO 2025-07-21 08:09:57,213 logger 30860 18264 Record 419 started successfully.
+INFO 2025-07-21 08:09:57,214 logger 30860 18264 Processing record: 420 from rtsp://192.168.135.9/cam2
+INFO 2025-07-21 08:09:57,214 logger 30860 18264 Processing record: 420 from rtsp://192.168.135.9/cam2
+INFO 2025-07-21 08:09:57,238 logger 29644 6264 Starting recording for record ID 420 at rtsp://192.168.135.9/cam2 for 5 seconds.
+INFO 2025-07-21 08:09:57,238 logger 29644 6264 Starting recording for record ID 420 at rtsp://192.168.135.9/cam2 for 5 seconds.
+INFO 2025-07-21 08:09:57,243 logger 29644 6264 Record found: Record from rtsp://192.168.135.9/cam2 starting at 2025-07-21 13:08:10.991000+00:00 for 5 seconds
+INFO 2025-07-21 08:09:57,243 logger 29644 6264 Record found: Record from rtsp://192.168.135.9/cam2 starting at 2025-07-21 13:08:10.991000+00:00 for 5 seconds
+INFO 2025-07-21 08:09:57,247 logger 29644 6264 Started recording for record ID 420 at rtsp://192.168.135.9/cam2 for 5 seconds.
+INFO 2025-07-21 08:09:57,247 logger 29644 6264 Started recording for record ID 420 at rtsp://192.168.135.9/cam2 for 5 seconds.
+INFO 2025-07-21 08:09:57,257 logger 30860 18264 Record 420 started successfully.
+INFO 2025-07-21 08:09:57,257 logger 30860 18264 Record 420 started successfully.
+INFO 2025-07-21 08:09:57,258 logger 30860 18264 Processing record: 421 from rtsp://192.168.135.9/cam3
+INFO 2025-07-21 08:09:57,258 logger 30860 18264 Processing record: 421 from rtsp://192.168.135.9/cam3
+INFO 2025-07-21 08:09:57,280 logger 29644 26628 Starting recording for record ID 421 at rtsp://192.168.135.9/cam3 for 5 seconds.
+INFO 2025-07-21 08:09:57,280 logger 29644 26628 Starting recording for record ID 421 at rtsp://192.168.135.9/cam3 for 5 seconds.
+INFO 2025-07-21 08:09:57,302 logger 29644 26628 Record found: Record from rtsp://192.168.135.9/cam3 starting at 2025-07-21 13:08:10.991000+00:00 for 5 seconds
+INFO 2025-07-21 08:09:57,302 logger 29644 26628 Record found: Record from rtsp://192.168.135.9/cam3 starting at 2025-07-21 13:08:10.991000+00:00 for 5 seconds
+INFO 2025-07-21 08:09:57,305 logger 29644 26628 Started recording for record ID 421 at rtsp://192.168.135.9/cam3 for 5 seconds.
+INFO 2025-07-21 08:09:57,305 logger 29644 26628 Started recording for record ID 421 at rtsp://192.168.135.9/cam3 for 5 seconds.
+INFO 2025-07-21 08:09:57,314 logger 30860 18264 Record 421 started successfully.
+INFO 2025-07-21 08:09:57,314 logger 30860 18264 Record 421 started successfully.
+ERROR 2025-07-21 08:09:59,982 logger 29644 27836 Recording error for 419: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1340, in connect
+    obj = GetObject(moniker)
+          ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 86, in GetObject
+    return Moniker(Pathname, clsctx)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 103, in Moniker
+    moniker, i, bindCtx = pythoncom.MkParseDisplayName(Pathname)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pywintypes.com_error: (-2147221020, 'Invalid syntax', None, None)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1354, in connect
+    handle_com_error()
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 258, in handle_com_error
+    raise klass(com_error=err)
+wmi.x_wmi_uninitialised_thread: <x_wmi: Unexpected COM Error (-2147221020, 'Invalid syntax', None, None)>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\views.py", line 26, in record_rtsp_task
+    done = rtsp_obj.record(duration, output_file, record_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 126, in record
+    result = connect_to_vpn()
+             ^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 58, in connect_to_vpn
+    success = connect_vpn_wmi(vpn_name)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 11, in connect_vpn_wmi
+    c = wmi.WMI()
+        ^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1357, in connect
+    raise x_wmi_uninitialised_thread("WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex]")
+wmi.x_wmi_uninitialised_thread: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+
+ERROR 2025-07-21 08:09:59,982 logger 29644 27836 Recording error for 419: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1340, in connect
+    obj = GetObject(moniker)
+          ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 86, in GetObject
+    return Moniker(Pathname, clsctx)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 103, in Moniker
+    moniker, i, bindCtx = pythoncom.MkParseDisplayName(Pathname)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pywintypes.com_error: (-2147221020, 'Invalid syntax', None, None)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1354, in connect
+    handle_com_error()
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 258, in handle_com_error
+    raise klass(com_error=err)
+wmi.x_wmi_uninitialised_thread: <x_wmi: Unexpected COM Error (-2147221020, 'Invalid syntax', None, None)>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\views.py", line 26, in record_rtsp_task
+    done = rtsp_obj.record(duration, output_file, record_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 126, in record
+    result = connect_to_vpn()
+             ^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 58, in connect_to_vpn
+    success = connect_vpn_wmi(vpn_name)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 11, in connect_vpn_wmi
+    c = wmi.WMI()
+        ^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1357, in connect
+    raise x_wmi_uninitialised_thread("WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex]")
+wmi.x_wmi_uninitialised_thread: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+
+ERROR 2025-07-21 08:10:01,588 logger 29644 28092 Recording error for 420: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1340, in connect
+    obj = GetObject(moniker)
+          ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 86, in GetObject
+    return Moniker(Pathname, clsctx)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 103, in Moniker
+    moniker, i, bindCtx = pythoncom.MkParseDisplayName(Pathname)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pywintypes.com_error: (-2147221020, 'Invalid syntax', None, None)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1354, in connect
+    handle_com_error()
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 258, in handle_com_error
+    raise klass(com_error=err)
+wmi.x_wmi_uninitialised_thread: <x_wmi: Unexpected COM Error (-2147221020, 'Invalid syntax', None, None)>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\views.py", line 26, in record_rtsp_task
+    done = rtsp_obj.record(duration, output_file, record_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 126, in record
+    result = connect_to_vpn()
+             ^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 58, in connect_to_vpn
+    success = connect_vpn_wmi(vpn_name)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 11, in connect_vpn_wmi
+    c = wmi.WMI()
+        ^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1357, in connect
+    raise x_wmi_uninitialised_thread("WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex]")
+wmi.x_wmi_uninitialised_thread: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+
+ERROR 2025-07-21 08:10:01,588 logger 29644 28092 Recording error for 420: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1340, in connect
+    obj = GetObject(moniker)
+          ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 86, in GetObject
+    return Moniker(Pathname, clsctx)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 103, in Moniker
+    moniker, i, bindCtx = pythoncom.MkParseDisplayName(Pathname)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pywintypes.com_error: (-2147221020, 'Invalid syntax', None, None)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1354, in connect
+    handle_com_error()
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 258, in handle_com_error
+    raise klass(com_error=err)
+wmi.x_wmi_uninitialised_thread: <x_wmi: Unexpected COM Error (-2147221020, 'Invalid syntax', None, None)>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\views.py", line 26, in record_rtsp_task
+    done = rtsp_obj.record(duration, output_file, record_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 126, in record
+    result = connect_to_vpn()
+             ^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 58, in connect_to_vpn
+    success = connect_vpn_wmi(vpn_name)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 11, in connect_vpn_wmi
+    c = wmi.WMI()
+        ^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1357, in connect
+    raise x_wmi_uninitialised_thread("WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex]")
+wmi.x_wmi_uninitialised_thread: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+
+ERROR 2025-07-21 08:10:06,759 logger 29644 25912 Recording error for 421: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1340, in connect
+    obj = GetObject(moniker)
+          ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 86, in GetObject
+    return Moniker(Pathname, clsctx)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 103, in Moniker
+    moniker, i, bindCtx = pythoncom.MkParseDisplayName(Pathname)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pywintypes.com_error: (-2147221020, 'Invalid syntax', None, None)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1354, in connect
+    handle_com_error()
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 258, in handle_com_error
+    raise klass(com_error=err)
+wmi.x_wmi_uninitialised_thread: <x_wmi: Unexpected COM Error (-2147221020, 'Invalid syntax', None, None)>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\views.py", line 26, in record_rtsp_task
+    done = rtsp_obj.record(duration, output_file, record_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 126, in record
+    result = connect_to_vpn()
+             ^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 58, in connect_to_vpn
+    success = connect_vpn_wmi(vpn_name)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 11, in connect_vpn_wmi
+    c = wmi.WMI()
+        ^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1357, in connect
+    raise x_wmi_uninitialised_thread("WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex]")
+wmi.x_wmi_uninitialised_thread: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+
+ERROR 2025-07-21 08:10:06,759 logger 29644 25912 Recording error for 421: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1340, in connect
+    obj = GetObject(moniker)
+          ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 86, in GetObject
+    return Moniker(Pathname, clsctx)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\win32com\client\__init__.py", line 103, in Moniker
+    moniker, i, bindCtx = pythoncom.MkParseDisplayName(Pathname)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pywintypes.com_error: (-2147221020, 'Invalid syntax', None, None)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1354, in connect
+    handle_com_error()
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 258, in handle_com_error
+    raise klass(com_error=err)
+wmi.x_wmi_uninitialised_thread: <x_wmi: Unexpected COM Error (-2147221020, 'Invalid syntax', None, None)>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\views.py", line 26, in record_rtsp_task
+    done = rtsp_obj.record(duration, output_file, record_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\record\rtsp_object.py", line 126, in record
+    result = connect_to_vpn()
+             ^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 58, in connect_to_vpn
+    success = connect_vpn_wmi(vpn_name)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\vpnconnector\main.py", line 11, in connect_vpn_wmi
+    c = wmi.WMI()
+        ^^^^^^^^^
+  File "C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\.venv\Lib\site-packages\wmi.py", line 1357, in connect
+    raise x_wmi_uninitialised_thread("WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex]")
+wmi.x_wmi_uninitialised_thread: <x_wmi: WMI returned a syntax error: you're probably running inside a thread without first calling pythoncom.CoInitialize[Ex] (no underlying exception)>
+
+INFO 2025-07-21 08:10:07,319 logger 30860 18264 Found 3 records to process.
+INFO 2025-07-21 08:10:07,319 logger 30860 18264 Found 3 records to process.
+INFO 2025-07-21 08:10:07,322 logger 30860 18264 Processing record: 419 from rtsp://192.168.135.9/cam1
+INFO 2025-07-21 08:10:07,322 logger 30860 18264 Processing record: 419 from rtsp://192.168.135.9/cam1
+INFO 2025-07-21 08:10:07,348 logger 29644 20376 Starting recording for record ID 419 at rtsp://192.168.135.9/cam1 for 5 seconds.
+INFO 2025-07-21 08:10:07,348 logger 29644 20376 Starting recording for record ID 419 at rtsp://192.168.135.9/cam1 for 5 seconds.
+INFO 2025-07-21 08:10:07,353 logger 29644 20376 Record found: Record from rtsp://192.168.135.9/cam1 starting at 2025-07-21 13:08:10.991000+00:00 for 5 seconds
+INFO 2025-07-21 08:10:07,353 logger 29644 20376 Record found: Record from rtsp://192.168.135.9/cam1 starting at 2025-07-21 13:08:10.991000+00:00 for 5 seconds
+INFO 2025-07-21 08:10:07,357 logger 29644 20376 Started recording for record ID 419 at rtsp://192.168.135.9/cam1 for 5 seconds.
+INFO 2025-07-21 08:10:07,357 logger 29644 20376 Started recording for record ID 419 at rtsp://192.168.135.9/cam1 for 5 seconds.
+INFO 2025-07-21 08:10:07,366 logger 30860 18264 Record 419 started successfully.
+INFO 2025-07-21 08:10:07,366 logger 30860 18264 Record 419 started successfully.
+INFO 2025-07-21 08:10:07,367 logger 30860 18264 Processing record: 420 from rtsp://192.168.135.9/cam2
+INFO 2025-07-21 08:10:07,367 logger 30860 18264 Processing record: 420 from rtsp://192.168.135.9/cam2
+INFO 2025-07-21 08:10:07,388 logger 29644 31676 Starting recording for record ID 420 at rtsp://192.168.135.9/cam2 for 5 seconds.
+INFO 2025-07-21 08:10:07,388 logger 29644 31676 Starting recording for record ID 420 at rtsp://192.168.135.9/cam2 for 5 seconds.
+INFO 2025-07-21 08:10:07,395 logger 29644 31676 Record found: Record from rtsp://192.168.135.9/cam2 starting at 2025-07-21 13:08:10.991000+00:00 for 5 seconds
+INFO 2025-07-21 08:10:07,395 logger 29644 31676 Record found: Record from rtsp://192.168.135.9/cam2 starting at 2025-07-21 13:08:10.991000+00:00 for 5 seconds
+INFO 2025-07-21 08:10:07,398 logger 29644 31676 Started recording for record ID 420 at rtsp://192.168.135.9/cam2 for 5 seconds.
+INFO 2025-07-21 08:10:07,398 logger 29644 31676 Started recording for record ID 420 at rtsp://192.168.135.9/cam2 for 5 seconds.
+INFO 2025-07-21 08:10:07,407 logger 30860 18264 Record 420 started successfully.
+INFO 2025-07-21 08:10:07,407 logger 30860 18264 Record 420 started successfully.
+INFO 2025-07-21 08:10:07,409 logger 30860 18264 Processing record: 421 from rtsp://192.168.135.9/cam3
+INFO 2025-07-21 08:10:07,409 logger 30860 18264 Processing record: 421 from rtsp://192.168.135.9/cam3
+INFO 2025-07-21 08:10:07,429 logger 29644 28668 Starting recording for record ID 421 at rtsp://192.168.135.9/cam3 for 5 seconds.
+INFO 2025-07-21 08:10:07,429 logger 29644 28668 Starting recording for record ID 421 at rtsp://192.168.135.9/cam3 for 5 seconds.
+INFO 2025-07-21 08:10:07,453 logger 29644 28668 Record found: Record from rtsp://192.168.135.9/cam3 starting at 2025-07-21 13:08:10.991000+00:00 for 5 seconds
+INFO 2025-07-21 08:10:07,453 logger 29644 28668 Record found: Record from rtsp://192.168.135.9/cam3 starting at 2025-07-21 13:08:10.991000+00:00 for 5 seconds
+INFO 2025-07-21 08:10:07,457 logger 29644 28668 Started recording for record ID 421 at rtsp://192.168.135.9/cam3 for 5 seconds.
+INFO 2025-07-21 08:10:07,457 logger 29644 28668 Started recording for record ID 421 at rtsp://192.168.135.9/cam3 for 5 seconds.
+INFO 2025-07-21 08:10:07,465 logger 30860 18264 Record 421 started successfully.
+INFO 2025-07-21 08:10:07,465 logger 30860 18264 Record 421 started successfully.
+DEBUG 2025-07-21 08:10:12,997 logger 29644 26452 Starting recording for 5 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/419
+DEBUG 2025-07-21 08:10:12,997 logger 29644 26452 Starting recording for 5 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/419
+DEBUG 2025-07-21 08:10:13,000 logger 29644 26452 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/419.mkv
+DEBUG 2025-07-21 08:10:13,000 logger 29644 26452 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/419.mkv
+DEBUG 2025-07-21 08:10:13,002 logger 29644 26452 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.135.9/cam1 -t 300 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/419.mkv
+DEBUG 2025-07-21 08:10:13,002 logger 29644 26452 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.135.9/cam1 -t 300 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/419.mkv
+DEBUG 2025-07-21 08:10:17,168 logger 29644 20640 Starting recording for 5 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/420
+DEBUG 2025-07-21 08:10:17,168 logger 29644 20640 Starting recording for 5 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/420
+DEBUG 2025-07-21 08:10:17,170 logger 29644 20640 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/420.mkv
+DEBUG 2025-07-21 08:10:17,170 logger 29644 20640 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/420.mkv
+DEBUG 2025-07-21 08:10:17,172 logger 29644 20640 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.135.9/cam2 -t 300 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/420.mkv
+DEBUG 2025-07-21 08:10:17,172 logger 29644 20640 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.135.9/cam2 -t 300 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/420.mkv
+INFO 2025-07-21 08:10:17,469 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:10:17,469 logger 30860 18264 Found 0 records to process.
+DEBUG 2025-07-21 08:10:18,966 logger 29644 19860 Starting recording for 5 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/421
+DEBUG 2025-07-21 08:10:18,966 logger 29644 19860 Starting recording for 5 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/421
+DEBUG 2025-07-21 08:10:18,968 logger 29644 19860 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/421.mkv
+DEBUG 2025-07-21 08:10:18,968 logger 29644 19860 Absolute output path: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/421.mkv
+DEBUG 2025-07-21 08:10:18,969 logger 29644 19860 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.135.9/cam3 -t 300 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/421.mkv
+DEBUG 2025-07-21 08:10:18,969 logger 29644 19860 Running FFmpeg command: C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\apps\ffmpeg\bin\ffmpeg.exe -y -rtsp_transport tcp -rtsp_flags prefer_tcp -timeout 30000000 -i rtsp://192.168.135.9/cam3 -t 300 -c copy -avoid_negative_ts make_zero -fflags +genpts -f matroska C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/421.mkv
+INFO 2025-07-21 08:10:27,477 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:10:27,477 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:10:37,484 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:10:37,484 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:10:47,491 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:10:47,491 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:10:57,497 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:10:57,497 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:11:07,504 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:11:07,504 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:11:17,512 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:11:17,512 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:11:27,522 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:11:27,522 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:11:37,530 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:11:37,530 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:11:47,539 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:11:47,539 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:11:57,548 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:11:57,548 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:12:07,556 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:12:07,556 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:12:17,570 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:12:17,570 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:12:27,579 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:12:27,579 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:12:37,586 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:12:37,586 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:12:47,594 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:12:47,594 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:12:57,601 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:12:57,601 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:13:07,608 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:13:07,608 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:13:17,615 logger 30860 18264 Found 0 records to process.
+INFO 2025-07-21 08:13:17,615 logger 30860 18264 Found 0 records to process.
