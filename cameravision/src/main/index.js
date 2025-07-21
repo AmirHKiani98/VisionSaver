@@ -119,7 +119,7 @@ if(!is.dev){
       : join(process.resourcesPath, 'backend')
   }, (error) => {
     if (error) {
-      console.error('Django:', error)
+      // console.error('Django:', error)
     } else {
       console.log('Django server started successfully.')
     }
@@ -151,12 +151,10 @@ if(!is.dev){
   })
   cronJobProcess = spawn('python', ['-m', 'backend.processor.cronjob'], {
     cwd: join(__dirname, '../../../'),
-    stdio: ['ignore', out, err] // redirect stdout/stderr to files
+    stdio: ['ignore', 'ignore', 'ignore'] // redirect stdout/stderr to files
   });
 }
 
-djangoProcess.stdout?.on('data', (data) => console.log(`Django: ${data}`))
-djangoProcess.stderr?.on('data', (data) => console.error(`Django: ${data}`))
 
 // Kill Django on quit
 app.on('before-quit', () => {
