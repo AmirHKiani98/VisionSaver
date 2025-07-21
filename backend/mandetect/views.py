@@ -18,13 +18,16 @@ def get_information(ip, start_time: datetime, camera_channel=None, end_time=None
     params = {'start-time': start_time_str}
     if end_time:
         params['end-time'] = end_time.isoformat()
-
+    request_datas = {}
     if camera_channel:
         link_url = f"http://{ip}/api/v1/cameras/{camera_channel}/bin-statistics"
     for i in range(1, 5):
-        pass # TODO implement
-
+        result = get_information(ip, start_time, camera_channel=str(i), end_time=end_time)
+        request_datas[i] = result
+        
     response = requests.get(link_url, params=params)
+    if request_datas:
+        return request_datas
     if response.status_code == 200:
         return response.json()
     else:
