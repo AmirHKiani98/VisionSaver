@@ -1,6 +1,7 @@
 import wmi
 import subprocess
 import time
+import pythoncom
 # Create your tests here
 def set_tunnel_type_ikve2(vpn_name):
     """Force the VPN connection to use IKEv2 protocol."""
@@ -8,20 +9,22 @@ def set_tunnel_type_ikve2(vpn_name):
     subprocess.run(['powershell', '-Command', cmd], capture_output=True)
 
 def connect_vpn_wmi(vpn_name):
-    c = wmi.WMI()
-    print(f"Checking existing VPN connections for '{vpn_name}'...")
-    for conn in c.Win32_NetworkConnection():
-        print(f"Checking connection: {conn.Name}")
-        if vpn_name.lower() in conn.Name.lower():
-            print(f"VPN '{vpn_name}' already connected.")
-            return True
-    print(f"Setting VPN '{vpn_name}' to use IKEv2 protocol.")
-    set_tunnel_type_ikve2(vpn_name)
-    
-    command = ['rasdial', vpn_name]
-    print(f"Connecting to VPN '{vpn_name}' with command: {' '.join(command)}")
-    start_time = time.time()
+    pythoncom.CoInitialize()
+
     try:
+        c = wmi.WMI()
+        print(f"Checking existing VPN connections for '{vpn_name}'...")
+        for conn in c.Win32_NetworkConnection():
+            print(f"Checking connection: {conn.Name}")
+            if vpn_name.lower() in conn.Name.lower():
+                print(f"VPN '{vpn_name}' already connected.")
+                return True
+        print(f"Setting VPN '{vpn_name}' to use IKEv2 protocol.")
+        set_tunnel_type_ikve2(vpn_name)
+        
+        command = ['rasdial', vpn_name]
+        print(f"Connecting to VPN '{vpn_name}' with command: {' '.join(command)}")
+        start_time = time.time()
         result = subprocess.run(command, capture_output=True, text=True, check=True)
         elapsed_time = time.time() - start_time
         print(f"VPN connection command executed in {elapsed_time:.2f} seconds.")
@@ -34,6 +37,8 @@ def connect_vpn_wmi(vpn_name):
         print("Error output:")
         print(e.stderr)
         return False
+    finally:
+        pythoncom.CoUninitialize()
 def list_all_vpn_connections():
     """List all VPN connections configured on the system."""
     cmd = 'Get-VpnConnection | Select-Object -ExpandProperty Name'
