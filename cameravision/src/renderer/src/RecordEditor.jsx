@@ -1,15 +1,12 @@
 import "./assets/main.css";
 import react from 'react';
 import {
-    CircularProgress,
     Button,
-    Link,
     Divider,
     Chip,
     TextField
 } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
-import ContextMenu from './components/ContextMenu';
 import Notification from './components/Notification';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -68,13 +65,6 @@ const RecordEditor = (props) => {
             window.env.get().then(setEnv);
     }, []);
 
-
-
-    const closeNotification = () => {
-        // setOpen(false);
-        // setSeverity('info');
-        // setMessage('');
-    }
     const ajaxKeyDown = (turn) => {
         const currentTime = videoRef.current?.getCurrentTime?.() ?? 0;
         const floorCurrentTime = Math.floor(currentTime);
@@ -92,9 +82,9 @@ const RecordEditor = (props) => {
         }).then(response => response.json())
         .then(data => {
             if (data.error) {
-                
                 openNotification('error', data.error);
             } else {
+                console.log("data", data, "turn_movement", turn);
                 setAllTurns(prev => [...prev, {
                     id: data.log_id,
                     time: floorCurrentTime,
@@ -120,7 +110,6 @@ const RecordEditor = (props) => {
             } else {
                 let checkpoint = Number(data.checkpoint);
                 let videoDuration = Number(data.video_duration);
-
                 setPendingSeekTime(checkpoint)
                 console.log("data", data);
                 if (data.turns && data.turns.length > 0) {
@@ -154,9 +143,7 @@ const RecordEditor = (props) => {
             break;
         }
         };
-
         window.addEventListener('keydown', handleKeyDown);
-
         // Cleanup event listener on component unmount
         return () => {
         window.removeEventListener('keydown', handleKeyDown);
@@ -191,8 +178,6 @@ const RecordEditor = (props) => {
     }, []);
 
     const openNotification = (severity, message) => {
-        
-
         if (open) {
             setSeverity(severity);
             setMessage(message);
@@ -362,11 +347,11 @@ const RecordEditor = (props) => {
                                 <Button 
                                     className="!bg-yellow-400 !text-white !font-bold hover:!bg-main-500 active:!bg-main-600 flex flex-col shadow-lg"
                                     onClick={() => {
-                                        setRightTurns(rightTurns + 1);
+                                        setThroughTurns(throughTurns + 1);
                                         ajaxKeyDown('through');
                                         // openNotification("success", "Right turn incremented successfully.");
                                     }}
-                                    ref={rightTurnButtonRef}
+                                    ref={throughButtonRef}
                                 >
                                     <ArrowDropDownIcon />
                                     <Typography style={{ fontSize: "7px" }} >
@@ -376,11 +361,11 @@ const RecordEditor = (props) => {
                                 <Button 
                                     className="!bg-red-400 !text-white !font-bold hover:!bg-main-500 active:!bg-main-600 flex flex-col shadow-lg"
                                     onClick={() => {
-                                        setThroughTurns(throughTurns + 1);
+                                        setRightTurns(rightTurns + 1);
                                         ajaxKeyDown('right');
                                         // openNotification("success", "Through incremented successfully.");
                                     }}
-                                    ref={throughButtonRef}
+                                    ref={rightTurnButtonRef}
                                 >
                                     <ArrowRightIcon />
                                     <Typography style={{ fontSize: "7px" }} >

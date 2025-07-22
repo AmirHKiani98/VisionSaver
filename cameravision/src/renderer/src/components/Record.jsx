@@ -204,6 +204,23 @@ const Record = forwardRef((props, ref) => {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [isPlaying])
+  
+  react.useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === ' ') {
+        e.preventDefault(); // Prevent scrolling
+        handlePlayPause();
+      }
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        e.preventDefault(); // Prevent seeking with arrow keys
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isPlaying]);
 
   return (
     <div
@@ -319,6 +336,7 @@ const Record = forwardRef((props, ref) => {
                   <MenuItem value={1}>1x</MenuItem>
                   <MenuItem value={1.5}>1.5x</MenuItem>
                   <MenuItem value={2}>2x</MenuItem>
+                  <MenuItem value={3}>3x</MenuItem>
                 </Select>
               </FormControl>
             </div>
