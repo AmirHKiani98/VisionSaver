@@ -124,10 +124,12 @@ def get_records_url(request, token):
             url = (
                 f"http://{domain}:{port}/{func_name}/{record_id}"
             )
+            finished_counting = Record.objects.get(id=record_id).finished_counting
             urls.append(
                 {
                     "id": record_id,
                     "url": url,
+                    "finished_counting": finished_counting
                 }
             )
 

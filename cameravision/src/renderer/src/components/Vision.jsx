@@ -41,12 +41,12 @@ const Vision = (props) => {
         { label: 'Delete', action: () => props.onRemove(props.src) },
         { label: 'Info', action: props.onInfo || (() => alert(`ID: ${props.id}\nSource: ${src}`)) }
       ]}
-      className="relative !bg-main-300 rounded-lg shadow-lg overflow-hidden flex items-center justify-center"
+      // className="relative !bg-main-300 rounded-lg shadow-lg overflow-hidden flex items-center justify-center"
       contextMenuId={props.id}
     >
       <Button
         data-key={props.key || ''}
-        className={`relative w-full h-full !bg-main-300 rounded-lg shadow-lg overflow-hidden flex items-center justify-center`}
+        className={`relative w-full h-full bg-main-300 ${props.finished_counting ? '!bg-green-400' : ''} rounded-lg shadow-lg overflow-hidden flex items-center justify-center`}
       >
         <div className="relative w-full h-full flex items-center justify-center">
           {loading && !error && (
@@ -87,13 +87,11 @@ const Vision = (props) => {
                   onError={(e) => {
                     const videoEl = e.target
                     const error = videoEl.error
-                    console.log(errorCode)
-                    if (error.code === 4) {
-                      setSrc(src + '/?mp4=true') // Attempt to reload with MP4 conversion
+                    if (error && error.code === 4) {
+                      setSrc(src + '/?mp4=true')
                     } else {
                       setLoading(false)
                       setError(true)
-                      // Log detailed error info
                       if (error) {
                         console.error('Video error:', error, 'code:', error.code, 'src:', src)
                       } else {
@@ -104,9 +102,8 @@ const Vision = (props) => {
                 />
               </Link>
               <div
-                variant="containd"
                 size="small"
-                className={`bg-main-400 p-1 ${loading ? ' invisible' : ''} active:bg-main-500`}
+                className={`bg-main-400 p-1${loading ? ' invisible' : ''} active:bg-main-500`}
                 onClick={handlePlayPause}
                 style={{
                   position: 'absolute',
