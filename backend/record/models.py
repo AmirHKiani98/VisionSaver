@@ -60,3 +60,15 @@ class RecordLog(models.Model):
         max_length=100,
         help_text="The key of the input that triggered this log entry."
     )
+
+class RecordNotes(models.Model):
+    """
+    Model to represent notes associated with a Record.
+    """
+    id = models.AutoField(primary_key=True, help_text="Unique identifier for the RecordNotes.")
+    record = models.ForeignKey(Record, on_delete=models.CASCADE, related_name='notes')
+    note = models.TextField(help_text="The note text associated with the Record.")
+    created_at = models.DateTimeField(auto_now_add=True, help_text="The time when the note was created.")
+    
+    def __str__(self):
+        return f"Note for Record {self.record.id} at {self.created_at}"
