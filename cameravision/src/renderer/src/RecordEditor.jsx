@@ -12,7 +12,7 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
-
+import AddIcon from '@mui/icons-material/Add';
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
@@ -428,15 +428,53 @@ const RecordEditor = (props) => {
                         </div>
                     </div>
                     <div>
-                        <div>
-                        <Divider textAlign="left" sx={{
-                            "&::before, &::after": {
-                                borderColor: "secondary.light",
-                            },
-                        }}>
-                            <Chip label="Notes" className="!bg-main-400 !text-white !font-bold" />
-                        </Divider>
-                    </div>
+                        <div className="flex flex-col gap-2">
+                            <Divider textAlign="left" sx={{
+                                "&::before, &::after": {
+                                    borderColor: "secondary.light",
+                                },
+                            }}>
+                                <Chip label="Notes" className="!bg-main-400 !text-white !font-bold" />
+                            </Divider>
+                            <div className="w-full p-5 gap-5 flex flex-col">
+                                { notes && notes.length > 0 ? (
+                                    notes.map((note, idx) => (
+                                        <div key={idx} className="flex items-center justify-between bg-gray-200 p-2 rounded-md mb-2">
+                                            <Typography className="text-gray-700">{note.note}</Typography>
+                                            <Typography className="text-gray-500 text-xs">{new Date(note.time * 1000).toLocaleString()}</Typography>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <div className="text-gray-500 text-center">No notes available.</div>
+                                )}
+                                <TextField
+                                    variant="outlined"
+                                    value={newNote}
+                                    onChange={(e) => setNewNote(e.target.value)}
+                                    className="w-full bg-white rounded-lg"
+                                    multiline
+                                    rows={3}
+                                    label={<Typography className="text-black">Duration (minutes)</Typography>}
+                                    
+                                />
+                                <div className="flex justify-center items-center">
+                                    <Button className="!bg-blue-500 !text-white !font-bold hover:!bg-main-500 active:!bg-main-600"
+                                    onClick={() => {
+                                        if (newNote.trim() === "") {
+                                            openNotification("error", "Note cannot be empty.");
+                                            return;
+                                        }
+                                        addRecordNote(newNote);
+                                        setNewNote("");
+                                    }}
+                                    >
+                                        
+                                        <AddIcon />
+                                    </Button>
+
+                                </div>
+                            </div>
+                        </div>
                     
                     </div>
                     
