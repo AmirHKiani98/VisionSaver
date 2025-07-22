@@ -62,11 +62,11 @@ class Logger:
         
         # Create logger
         self.logger = logging.getLogger('cameravision')
-        self.# logger.setLevel(logging.DEBUG)
+        self.logger.setLevel(logging.DEBUG)
         
         # Remove existing handlers to avoid duplicates
-        for handler in self.# logger.handlers[:]:
-            self.# logger.removeHandler(handler)
+        for handler in self.logger.handlers[:]:
+            self.logger.removeHandler(handler)
         
         # Create formatter
         formatter = logging.Formatter(
@@ -83,7 +83,7 @@ class Logger:
             )
             file_handler.setLevel(logging.DEBUG)  # Will log DEBUG level and above
             file_handler.setFormatter(formatter)
-            self.# logger.addHandler(file_handler)
+            self.logger.addHandler(file_handler)
         except (OSError, PermissionError):
             # If file logging fails, just continue without file logging
             print("Warning: Could not create file logger, continuing with console only")
@@ -137,12 +137,12 @@ class Logger:
         
         # Get or create logger with the specific name
         caller_logger = logging.getLogger(logger_name)
-        caller_# logger.setLevel(self.# logger.level)
+        caller_logger.setLevel(self.logger.level)
         
         # Add handlers from main logger if they don't exist
-        if not caller_# logger.handlers:
-            for handler in self.# logger.handlers:
-                caller_# logger.addHandler(handler)
+        if not caller_logger.handlers:
+            for handler in self.logger.handlers:
+                caller_logger.addHandler(handler)
         
-        caller_# logger.log(level, message)
+        caller_logger.log(level, message)
 

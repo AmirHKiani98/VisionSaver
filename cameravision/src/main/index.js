@@ -124,35 +124,86 @@ if(!is.dev){
       console.log('Django server started successfully.')
     }
   })
-} else {
-  console.log('Running in development mode, Django server will not be started automatically.')
+} else {  console.log('Running in development mode, Django server will not be started automatically.')
   // Run django from ../../../backend/manage.py runserver
   djangoProcess = execFile('python', ['-m', 'uvicorn', 'backend.processor.asgi:create_app','--factory', '--host', domain, '--port', port, '--workers', '1'], {
       cwd: join(__dirname, '../../../'),
-      stdio: ['ignore', 'ignore', 'ignore']
+      maxBuffer: 10 * 1024 * 1024 // 10MB buffer instead of default 1MB
     }, (error) => {
       if (error) {
-        console.error('Django error:', error)
+        console.error('Django error:', error.message) // Only log the message to prevent buffer overflow
       } else {
         console.log('Django server started successfully.')
       }
     }
   )
+  
+  // Add output handling to prevent buffer overflow
+  djangoProcess.stdout?.on('data', (data) => {
+    const output = data.toString()
+    // Only log important messages, skip routine output
+    if (output.includes('ERROR') || output.includes('CRITICAL') || output.includes('WARNING')) {
+      console.log(`Django: ${output.slice(0, 200)}`) // Limit to 200 chars
+    }
+  })
+    djangoProcess.stderr?.on('data', (data) => {
+    const output = data.toString()
+    // Skip routine uvicorn output, only log real errors
+    if (!output.includes('INFO:') && !output.includes('Started server process')) {
+      console.error(`Django Error: ${output.slice(0, 200)}`) // Limit to 200 chars
+    }
+  })
+  
   killPort(streamerPort, () => {
     streamerProcess = execFile('python', ['-m', 'uvicorn', 'backend.apps.streamer.asgi_mpeg:app', '--host', streamerDomain, '--port', streamerPort,], {
-      cwd: join(__dirname, '../../../')
+      cwd: join(__dirname, '../../../'),
+      maxBuffer: 10 * 1024 * 1024 // 10MB buffer instead of default 1MB
     }, (error) => {
       if (error) {
-        console.error('Streamer error:', error)
+        console.error('Streamer error:', error.message)
       } else {
         console.log('Streamer server started successfully.')
       }
     })
+    
+    // Add output handling for streamer
+    streamerProcess.stdout?.on('data', (data) => {
+      const output = data.toString()
+      if (output.includes('ERROR') || output.includes('CRITICAL') || output.includes('WARNING')) {
+        console.log(`Streamer: ${output.slice(0, 200)}`)
+      }
+    })
+      streamerProcess.stderr?.on('data', (data) => {
+      const output = data.toString()
+      if (!output.includes('INFO:') && !output.includes('Started server process')) {
+        console.error(`Streamer Error: ${output.slice(0, 200)}`)
+      }
+    })
   })
+  
   cronJobProcess = spawn('python', ['-m', 'backend.processor.cronjob'], {
     cwd: join(__dirname, '../../../'),
-    stdio: ['ignore', 'ignore', 'ignore'] // redirect stdout/stderr to files
-  });
+    stdio: ['ignore', 'pipe', 'pipe'] // Allow stderr/stdout but with bigger buffer
+  })
+  
+  // Handle cronjob output to prevent buffer overflow
+  cronJobProcess.stdout?.on('data', (data) => {
+    // Only log first 100 characters to prevent spam
+    const output = data.toString().slice(0, 100)
+    if (output.includes('ERROR') || output.includes('CRITICAL')) {
+      console.log(`Cronjob: ${output}`)
+    }
+  })
+  
+  cronJobProcess.stderr?.on('data', (data) => {
+    // Only log first 100 characters to prevent spam
+    const output = data.toString().slice(0, 100)
+    console.error(`Cronjob Error: ${output}`)
+  })
+  
+  cronJobProcess.on('error', (error) => {
+    console.error('Cronjob process error:', error.message)
+  })
 }
 
 
@@ -164,6 +215,18 @@ app.on('before-quit', () => {
     djangoProcess.stdout?.destroy()
     djangoProcess.stderr?.destroy()
     djangoProcess.kill()
+  }
+  if (streamerProcess && !streamerProcess.killed) {
+    console.log('Killing Streamer server...')
+    streamerProcess.stdout?.destroy()
+    streamerProcess.stderr?.destroy()
+    streamerProcess.kill()
+  }
+  if (cronJobProcess && !cronJobProcess.killed) {
+    console.log('Killing Cronjob process...')
+    cronJobProcess.stdout?.destroy()
+    cronJobProcess.stderr?.destroy()
+    cronJobProcess.kill()
   }
 })
 

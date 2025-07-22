@@ -78,6 +78,9 @@ function App() {
   const [isLocked, setIsLocked] = useState(false)
   const [autoHideDuration, setAutoHideDuration] = useState(3000) // Default auto-hide duration for notifications
   const lockButtonRef = useRef(null);
+  
+  const getQuery = new URLSearchParams(location.search);
+  const currentPage = parseInt(getQuery.get('page')) || 1;
   const recordLinkEditModalHandler = () => {
     setIsRecordLinkEditModalOpen(!isRecordLinkEditModalOpen)
   }
@@ -771,9 +774,12 @@ function App() {
               <div className="flex justify-center p-2.5">
                 <Pagination
                   count={Math.ceil(recordLinks.length / recordLinksPerPage)}
+                  page={currentPage}
                   onChange={(event, value) => {
                     const newIndex = (value - 1) * recordLinksPerPage
                     setStartRecordLinkIndex(newIndex)
+                    getQuery.set('page', value)
+                    history.pushState({}, '', `?${getQuery.toString()}`)
                   }}
                   shape="rounded"
                   color="primary"
