@@ -162,7 +162,7 @@ const RecordEditor = (props) => {
                     openNotification('error', data.error);
                 } else {
                     console.log("data", data);
-                    setAllTurns(prev => [...prev, {
+                    setNotes(prev => [...prev, {
                         id: data.note_id,
                         time: data.time,
                         note: note
@@ -451,10 +451,11 @@ const RecordEditor = (props) => {
                                     variant="outlined"
                                     value={newNote}
                                     onChange={(e) => setNewNote(e.target.value)}
-                                    className="w-full bg-white rounded-lg"
+                                    className="w-full bg-main-400 rounded-lg text-white"
                                     multiline
+                                    focused
                                     rows={3}
-                                    label={<Typography className="text-black">Duration (minutes)</Typography>}
+                                    label={<Typography className="text-white">Duration (minutes)</Typography>}
                                     
                                 />
                                 <div className="flex justify-center items-center">

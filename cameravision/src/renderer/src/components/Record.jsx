@@ -19,7 +19,7 @@ const Record = forwardRef((props, ref) => {
   const [loading, setLoading] = react.useState(true)
   const [error, setError] = react.useState(false)
   const [env, setEnv] = react.useState(props.env || null)
-  const [playbackRate, setPlaybackRate] = react.useState(1)
+  const [playbackRate, setPlaybackRate] = react.useState()
   const [currentTime, setCurrentTime] = react.useState(0)
   const [duration, setDuration] = react.useState(0)
   const [passedPercentage, setPassedPercentage] = react.useState(0)
@@ -191,7 +191,7 @@ const Record = forwardRef((props, ref) => {
   // Set keybinds
   react.useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === ' ') {
+      if (e.key === ' ' && document.activeElement.tagName !== 'TEXTAREA' && document.activeElement.tagName !== 'INPUT') {
         e.preventDefault(); // Prevent scrolling
         handlePlayPause();
       }
@@ -207,7 +207,8 @@ const Record = forwardRef((props, ref) => {
   
   react.useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === ' ') {
+      if (e.key === ' ' && document.activeElement.tagName !== 'TEXTAREA' && document.activeElement.tagName !== 'INPUT') {
+        console.log('Space key pressed, toggling play/pause', document.activeElement);
         e.preventDefault(); // Prevent scrolling
         handlePlayPause();
       }
@@ -337,6 +338,7 @@ const Record = forwardRef((props, ref) => {
                   <MenuItem value={1.5}>1.5x</MenuItem>
                   <MenuItem value={2}>2x</MenuItem>
                   <MenuItem value={3}>3x</MenuItem>
+                  <MenuItem value={4}>4x</MenuItem>
                 </Select>
               </FormControl>
             </div>

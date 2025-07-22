@@ -93,7 +93,10 @@ function Recording() {
             </div>
             <div className='flex items-center p-2.5 gap-2.5'>
                 
-                <h1 className='text-white text-2xl font-bold'>Camera Vision Recording</h1>
+                <h1 className='text-white text-2xl font-bold'>
+                    {visions.map(vision => vision.id).join(', ')}
+
+                </h1>
             </div>
             <VisionContainer>                {visions && visions.length > 0 ? (
                     visions.map((visionProps, idx) => (

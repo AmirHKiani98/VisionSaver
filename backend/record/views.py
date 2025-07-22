@@ -405,7 +405,8 @@ def add_record_note(request):
         # Create a new RecordNote entry
         record_note = RecordNote.objects.create(record=record, note=note)
         record_note.save()
-        return JsonResponse({"message": "Record note added successfully.", "note_id": record_note.id}, status=201)
+        return JsonResponse({"message": "Record note added successfully.", "note_id": record_note.id, "time": record_note.created_at.strftime("%Y-%m-%d %H:%M:%S"), "note":note
+            }, status=201)
     except Record.DoesNotExist:
         return JsonResponse({"error": "Record not found."}, status=404)
     except json.JSONDecodeError:
