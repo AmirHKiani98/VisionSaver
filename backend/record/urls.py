@@ -57,4 +57,9 @@ urlpatterns = [
         views.add_record_note,
         name=os.getenv('ADD_RECORD_NOTE_URL') or 'add_record_note'
     ),
+    path(
+        f"{os.getenv('SET_RECORD_FINISHED_STATUS') or 'set_record_finished'}",
+        views.set_record_finished_status,
+        name=os.getenv('SET_RECORD_FINISHED_STATUS') or 'set_record_finished'
+    )
 ]

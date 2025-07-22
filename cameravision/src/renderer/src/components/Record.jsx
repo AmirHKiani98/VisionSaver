@@ -142,6 +142,7 @@ const Record = forwardRef((props, ref) => {
     }
   }, [src])
 
+
   const formatSeconds = (seconds) => {
     const minutes = Math.floor(seconds / 60)
     const secs = Math.floor(seconds % 60)
@@ -162,7 +163,6 @@ const Record = forwardRef((props, ref) => {
 
   // State to track if video is playing
   const [isPlaying, setIsPlaying] = react.useState(false)
-
   // Play/pause handlers
   const handlePlayPause = () => {
     if (!videoRef.current) return

@@ -13,6 +13,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import AddIcon from '@mui/icons-material/Add';
+import CheckIcon from '@mui/icons-material/Check';
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
@@ -239,6 +240,30 @@ const RecordEditor = (props) => {
 
 
 
+    const recordFinishedHandler = () => {
+        if (!env) return;
+        fetch(`http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.SET_RECORD_FINISHED_STATUS}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                record_id: recordId,
+                finished_counting: true
+            })
+        }).then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    openNotification('error', data.error);
+                } else {
+                    openNotification('success', 'Record marked as finished successfully.');
+                    navigate(-1);
+                }
+            })
+            .catch(error => {
+                openNotification('error', `Error marking record as finished: ${error.message}`);
+            });
+        }
 
 
     return (
@@ -252,7 +277,7 @@ const RecordEditor = (props) => {
             </div>
             <div className="absolute w-screen h-screen flex overflow-hidden">
 
-                <div className="flex w-3/4 flex-col justify-between bg-main-600 p-20">
+                <div className="flex flex-1 w-3/4 flex-col justify-between bg-main-600 p-20">
                     <div></div>
                     <Record
                         id={recordId}
@@ -263,7 +288,7 @@ const RecordEditor = (props) => {
                         setLogs={setAllTurns} // Pass setter to allow Record to update allTurns
                     />
                 </div>
-                <div className="flex flex-col bg-main-300 py-2">
+                <div className="flex flex-col bg-main-300 py-2 max-w-72">
                     <div>
                         <Divider textAlign="left" sx={{
                             "&::before, &::after": {
@@ -458,7 +483,7 @@ const RecordEditor = (props) => {
                                     label={<Typography className="text-white">Duration (minutes)</Typography>}
                                     
                                 />
-                                <div className="flex justify-center items-center">
+                                <div className="flex justify-between items-center">
                                     <Button className="!bg-blue-500 !text-white !font-bold hover:!bg-main-500 active:!bg-main-600"
                                     onClick={() => {
                                         if (newNote.trim() === "") {
@@ -472,8 +497,14 @@ const RecordEditor = (props) => {
                                         
                                         <AddIcon />
                                     </Button>
-
+                                    <Button className="!bg-green-500 !text-white !font-bold hover:!bg-main-500 active:!bg-main-600"
+                                    onClick={recordFinishedHandler}
+                                    >
+                                        
+                                        <CheckIcon />
+                                    </Button>
                                 </div>
+                                
                             </div>
                         </div>
                     

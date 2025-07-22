@@ -10,6 +10,7 @@ GET_RECORD_RESOLVED_URL=record/get_resolved_url
 ADD_RECORD_TURN_URL=record/add_record_turn
 GET_RECORD_STATUS=record/get_record_status
 GET_RECORD_NOTES=record/get_record_notes
+SET_RECORD_FINISHED_STATUS=record/set_record_finished_status
 ADD_RECORD_NOTE_URL=record/add_record_note
 REMOVE_RECORD_LOG=record/remove_log
 # API variables

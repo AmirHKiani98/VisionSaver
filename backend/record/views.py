@@ -413,3 +413,28 @@ def add_record_note(request):
         return JsonResponse({"error": "Invalid JSON body."}, status=400)
     except Exception as e:
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
+    
+@csrf_exempt
+def set_record_finished_status(request):
+    """
+    Set a record as finished.
+    This view should be triggered via a POST request with the record ID.
+    """
+    if request.method != 'POST':
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+        record_id = data.get('record_id')
+        finished_counting = data.get('finished_counting', True)  # Default to True if not provided
+        if not record_id:
+            return JsonResponse({"error": "'record_id' is required."}, status=400)
+
+        try:
+            record = Record.objects.get(id=record_id)
+            record.finished_counting = finished_counting
+            record.save()
+            return JsonResponse({"message": "Record marked as finished."}, status=200)
+        except Record.DoesNotExist:
+            return JsonResponse({"error": "Record not found."}, status=404)
+    except Exception as e:
+        return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
