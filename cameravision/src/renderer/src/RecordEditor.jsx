@@ -20,7 +20,7 @@ function useQuery() {
 import Record from './components/Record';
 import { Typography } from "@material-tailwind/react";
 const RecordEditor = (props) => {
-    
+
     const [env, setEnv] = react.useState(props.env || null);
     const query = useQuery();
     const recordIdParam = query.get('record_id');
@@ -31,10 +31,12 @@ const RecordEditor = (props) => {
     const [message, setMessage] = react.useState('');
     const [leftTurns, setLeftTurns] = react.useState(0);
 
-    
+
     const [rightTurns, setRightTurns] = react.useState(0);
     const [throughTurns, setThroughTurns] = react.useState(0);
     const [approach, setApproach] = react.useState(0);
+    const [newNote, setNewNote] = react.useState("");
+    const [notes, setNotes] = react.useState([]);
     const leftTurnButtonRef = react.useRef(null);
     const rightTurnButtonRef = react.useRef(null);
     const throughButtonRef = react.useRef(null);
@@ -43,7 +45,7 @@ const RecordEditor = (props) => {
     const [allTurns, setAllTurns] = react.useState([]);
     const [pendingSeekTime, setPendingSeekTime] = react.useState(null);
     react.useEffect(() => {
-        if (!allTurns || allTurns.length === 0){
+        if (!allTurns || allTurns.length === 0) {
             setLeftTurns(0);
             setRightTurns(0);
             setThroughTurns(0);
@@ -62,7 +64,7 @@ const RecordEditor = (props) => {
 
     const navigate = useNavigate();
     react.useEffect(() => {
-            window.env.get().then(setEnv);
+        window.env.get().then(setEnv);
     }, []);
 
     const ajaxKeyDown = (turn) => {
@@ -73,26 +75,26 @@ const RecordEditor = (props) => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            
+
             body: JSON.stringify({
                 record_id: recordId,
                 time: floorCurrentTime,
                 turn: turn
             })
         }).then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                openNotification('error', data.error);
-            } else {
-                console.log("data", data, "turn_movement", turn);
-                setAllTurns(prev => [...prev, {
-                    id: data.log_id,
-                    time: floorCurrentTime,
-                    turn_movement: turn
-                }]);
-                openNotification('success', `${turn.charAt(0).toUpperCase() + turn.slice(1)} incremented successfully.`);
-            }
-        })
+            .then(data => {
+                if (data.error) {
+                    openNotification('error', data.error);
+                } else {
+                    console.log("data", data, "turn_movement", turn);
+                    setAllTurns(prev => [...prev, {
+                        id: data.log_id,
+                        time: floorCurrentTime,
+                        turn_movement: turn
+                    }]);
+                    openNotification('success', `${turn.charAt(0).toUpperCase() + turn.slice(1)} incremented successfully.`);
+                }
+            })
     }
     react.useEffect(() => {
         if (!env) return; // Prevent fetch until env is loaded
@@ -103,50 +105,96 @@ const RecordEditor = (props) => {
                 'Content-Type': 'application/json',
             },
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                openNotification('error', data.error);
-            } else {
-                let checkpoint = Number(data.checkpoint);
-                let videoDuration = Number(data.video_duration);
-                setPendingSeekTime(checkpoint)
-                console.log("data", data);
-                if (data.turns && data.turns.length > 0) {
-                    for (const turn of data.turns) {
-                        setAllTurns(prev => [...prev, turn]);
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    openNotification('error', data.error);
+                } else {
+                    let checkpoint = Number(data.checkpoint);
+                    let videoDuration = Number(data.video_duration);
+                    setPendingSeekTime(checkpoint)
+                    console.log("data", data);
+                    if (data.turns && data.turns.length > 0) {
+                        for (const turn of data.turns) {
+                            setAllTurns(prev => [...prev, turn]);
+                        }
                     }
                 }
-            }
-        })
-        .catch(error => {
-            openNotification('error', `Error fetching record logs: ${error.message}`);
-        });
+            })
+            .catch(error => {
+                openNotification('error', `Error fetching record logs: ${error.message}`);
+            });
     }, [recordId, env, videoRef]);
 
     react.useEffect(() => {
+        if (!env) return;
+        fetch(`http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.GET_RECORD_NOTES}/${recordId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        }).then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    openNotification('error', data.error);
+                } else {
+                    console.log("data", data);
+                    if (data.notes && data.notes.length > 0) {
+                        setNotes(data.notes);
+                    }
+                }
+            })
+    }, [env]);
+
+    const addRecordNote = (note) => {
+        fetch(`http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.ADD_RECORD_NOTE_URL}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                record_id: recordId,
+                note: note
+            })
+        }).then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    openNotification('error', data.error);
+                } else {
+                    console.log("data", data);
+                    setAllTurns(prev => [...prev, {
+                        id: data.note_id,
+                        time: data.time,
+                        note: note
+                    }]);
+                    openNotification('success', 'Note added successfully.');
+                }
+            })
+    }
+
+    react.useEffect(() => {
         const handleKeyDown = (event) => {
-        switch (event.key) {
-            case 'ArrowUp':
-            approacButtonRef.current?.click();
-            break;
-            case 'ArrowDown':
-            throughButtonRef.current?.click();
-            break;
-            case 'ArrowLeft':
-            leftTurnButtonRef.current?.click();
-            break;
-            case 'ArrowRight':
-            rightTurnButtonRef.current?.click();
-            break;
-            default:
-            break;
-        }
+            switch (event.key) {
+                case 'ArrowUp':
+                    approacButtonRef.current?.click();
+                    break;
+                case 'ArrowDown':
+                    throughButtonRef.current?.click();
+                    break;
+                case 'ArrowLeft':
+                    leftTurnButtonRef.current?.click();
+                    break;
+                case 'ArrowRight':
+                    rightTurnButtonRef.current?.click();
+                    break;
+                default:
+                    break;
+            }
         };
         window.addEventListener('keydown', handleKeyDown);
         // Cleanup event listener on component unmount
         return () => {
-        window.removeEventListener('keydown', handleKeyDown);
+            window.removeEventListener('keydown', handleKeyDown);
         };
     }, []);
 
@@ -159,7 +207,7 @@ const RecordEditor = (props) => {
     lastTime = getCurrentTimestamp();
     const [currentTime, setCurrentTime] = react.useState(getCurrentTimestamp());
 
-    
+
     react.useEffect(() => {
         const interval = setInterval(() => {
             setCurrentTime((prevTime) => {
@@ -191,19 +239,19 @@ const RecordEditor = (props) => {
 
 
 
-    
+
 
     return (
         <div className="relative w-screen h-screen flex overflow-hidden">
             <div className="absolute top-10 left-10 z-10">
-                <Button onClick={() =>{
+                <Button onClick={() => {
                     navigate(-1);
                 }}>
                     Back
                 </Button>
             </div>
             <div className="absolute w-screen h-screen flex overflow-hidden">
-                
+
                 <div className="flex w-3/4 flex-col justify-between bg-main-600 p-20">
                     <div></div>
                     <Record
@@ -215,9 +263,9 @@ const RecordEditor = (props) => {
                         setLogs={setAllTurns} // Pass setter to allow Record to update allTurns
                     />
                 </div>
-                <div className="flex-1 flex flex-col justify-center bg-main-300 py-2">
+                <div className="flex flex-col bg-main-300 py-2">
                     <div>
-                        <Divider textAlign="right"  sx={{
+                        <Divider textAlign="left" sx={{
                             "&::before, &::after": {
                                 borderColor: "secondary.light",
                             },
@@ -225,7 +273,8 @@ const RecordEditor = (props) => {
                             <Chip label="Record Logs" className="!bg-main-400 !text-white !font-bold" />
                         </Divider>
                     </div>
-                    <div className="flex flex-col items-center justify-between flex-1">
+
+                    <div className="flex flex-col">
                         <div className="grid grid-cols-2 grid-rows-2 gap-4 p-5">
                             <TextField
                                 id="outlined-number"
@@ -234,7 +283,7 @@ const RecordEditor = (props) => {
                                 className="bg-blue-400 rounded-md"
                                 slotProps={{
                                     inputLabel: {
-                                    shrink: true,
+                                        shrink: true,
                                     },
                                 }}
                                 value={leftTurns ?? 0}
@@ -245,76 +294,79 @@ const RecordEditor = (props) => {
                                     } else {
                                         openNotification("error", "Value must be a positive number.");
                                     }
-                                    }}
-                                    label={<Typography className="text-white">Left Turns</Typography>}
-                                />
-                                <TextField
-                                    id="outlined-number"
-                                    type="number"
-                                    disabled
-                                    className="bg-red-400 rounded-md"
-                                    slotProps={{
-                                        inputLabel: {
+                                }}
+                                label={<Typography className="text-white">Left Turns</Typography>}
+                            />
+                            <TextField
+                                id="outlined-number"
+                                type="number"
+                                disabled
+                                className="bg-red-400 rounded-md"
+                                slotProps={{
+                                    inputLabel: {
                                         shrink: true,
-                                        },
-                                    }}
-                                    value={rightTurns ?? 0}
-                                    onChange={(e) => {
-                                        const value = e.target.value;
-                                        if (value >= 0) {
-                                            setRightTurns(value);
-                                        } else {
-                                            openNotification("error", "Value must be a positive number.");
-                                        }
-                                        }}
-                                        label={<Typography className="text-white">Right Turns</Typography>}
-                                />
-                                <TextField
-                                    id="outlined-number"
-                                    type="number"
-                                    disabled
-                                    className="bg-yellow-400 rounded-md"
-                                    slotProps={{
-                                        inputLabel: {
+                                    },
+                                }}
+                                value={rightTurns ?? 0}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (value >= 0) {
+                                        setRightTurns(value);
+                                    } else {
+                                        openNotification("error", "Value must be a positive number.");
+                                    }
+                                }}
+                                label={<Typography className="text-white">Right Turns</Typography>}
+                            />
+                            <TextField
+                                id="outlined-number"
+                                type="number"
+                                disabled
+                                className="bg-yellow-400 rounded-md"
+                                slotProps={{
+                                    inputLabel: {
                                         shrink: true,
-                                        },
-                                    }}
-                                    value={throughTurns ?? 0}
-                                    onChange={(e) => {
-                                        const value = e.target.value;
-                                        if (value >= 0) {
-                                            setThroughTurns(value);
-                                        } else {
-                                            openNotification("error", "Value must be a positive number.");
-                                        }
-                                        }}
-                                        label={<Typography className="text-white">Through</Typography>}
-                                />
-                                <TextField
-                                    id="outlined-number"
-                                    type="number"
-                                    disabled
-                                    className="bg-green-400 rounded-md"
-                                    slotProps={{
-                                        inputLabel: {
+                                    },
+                                }}
+                                value={throughTurns ?? 0}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (value >= 0) {
+                                        setThroughTurns(value);
+                                    } else {
+                                        openNotification("error", "Value must be a positive number.");
+                                    }
+                                }}
+                                label={<Typography className="text-white">Through</Typography>}
+                            />
+                            <TextField
+                                id="outlined-number"
+                                type="number"
+                                disabled
+                                className="bg-green-400 rounded-md"
+                                slotProps={{
+                                    inputLabel: {
                                         shrink: true,
-                                        },
-                                    }}
-                                    value={approach ?? 0}
-                                    onChange={(e) => {
-                                        const value = e.target.value;
-                                        if (value >= 0) {
-                                            setApproach(value);
-                                        } else {
-                                            openNotification("error", "Value must be a positive number.");
-                                        }
-                                        }}
-                                        label={<Typography className="text-white">Approach</Typography>}
-                                />
+                                    },
+                                }}
+                                value={approach ?? 0}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (value >= 0) {
+                                        setApproach(value);
+                                    } else {
+                                        openNotification("error", "Value must be a positive number.");
+                                    }
+                                }}
+                                label={<Typography className="text-white">Approach</Typography>}
+                            />
+
                         </div>
+
+
                         <div className="flex flex-col items-center gap-2.5 p-5">
                             <div className="flex justify-center items-center">
-                                <Button 
+                                <Button
                                     className="!bg-green-400 !text-white !font-bold hover:!bg-main-500 active:!bg-main-600 flex flex-col shadow-lg"
                                     onClick={() => {
                                         setApproach(approach + 1);
@@ -330,7 +382,7 @@ const RecordEditor = (props) => {
                                 </Button>
                             </div>
                             <div className="flex justify-center items-start gap-2.5">
-                                <Button 
+                                <Button
                                     className="!bg-blue-400 !text-white !font-bold hover:!bg-main-500 active:!bg-main-600 flex flex-col shadow-lg"
                                     onClick={() => {
                                         setLeftTurns(leftTurns + 1);
@@ -344,7 +396,7 @@ const RecordEditor = (props) => {
                                         Left
                                     </Typography>
                                 </Button>
-                                <Button 
+                                <Button
                                     className="!bg-yellow-400 !text-white !font-bold hover:!bg-main-500 active:!bg-main-600 flex flex-col shadow-lg"
                                     onClick={() => {
                                         setThroughTurns(throughTurns + 1);
@@ -358,7 +410,7 @@ const RecordEditor = (props) => {
                                         Through
                                     </Typography>
                                 </Button>
-                                <Button 
+                                <Button
                                     className="!bg-red-400 !text-white !font-bold hover:!bg-main-500 active:!bg-main-600 flex flex-col shadow-lg"
                                     onClick={() => {
                                         setRightTurns(rightTurns + 1);
@@ -374,6 +426,18 @@ const RecordEditor = (props) => {
                                 </Button>
                             </div>
                         </div>
+                    </div>
+                    <div>
+                        <div>
+                        <Divider textAlign="left" sx={{
+                            "&::before, &::after": {
+                                borderColor: "secondary.light",
+                            },
+                        }}>
+                            <Chip label="Notes" className="!bg-main-400 !text-white !font-bold" />
+                        </Divider>
+                    </div>
+                    
                     </div>
                     
                 </div>

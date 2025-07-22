@@ -125,9 +125,9 @@ if(!is.dev){
     }
   })
 } else {  console.log('Running in development mode, Django server will not be started automatically.')
-  // Run django from ../../../backend/manage.py runserver
-  djangoProcess = execFile('python', ['-m', 'uvicorn', 'backend.processor.asgi:create_app','--factory', '--host', domain, '--port', port, '--workers', '1'], {
-      cwd: join(__dirname, '../../../'),
+  // Run django from backend directory
+  djangoProcess = execFile('python', ['-m', 'uvicorn', 'processor.asgi:create_app','--factory', '--host', domain, '--port', port, '--workers', '1'], {
+      cwd: join(__dirname, '../../../backend'),
       maxBuffer: 10 * 1024 * 1024 // 10MB buffer instead of default 1MB
     }, (error) => {
       if (error) {
@@ -154,9 +154,8 @@ if(!is.dev){
     }
   })
   
-  killPort(streamerPort, () => {
-    streamerProcess = execFile('python', ['-m', 'uvicorn', 'backend.apps.streamer.asgi_mpeg:app', '--host', streamerDomain, '--port', streamerPort,], {
-      cwd: join(__dirname, '../../../'),
+  killPort(streamerPort, () => {    streamerProcess = execFile('python', ['-m', 'uvicorn', 'apps.streamer.asgi_mpeg:app', '--host', streamerDomain, '--port', streamerPort,], {
+      cwd: join(__dirname, '../../../backend'),
       maxBuffer: 10 * 1024 * 1024 // 10MB buffer instead of default 1MB
     }, (error) => {
       if (error) {
@@ -180,9 +179,8 @@ if(!is.dev){
       }
     })
   })
-  
-  cronJobProcess = spawn('python', ['-m', 'backend.processor.cronjob'], {
-    cwd: join(__dirname, '../../../'),
+    cronJobProcess = spawn('python', ['-m', 'processor.cronjob'], {
+    cwd: join(__dirname, '../../../backend'),
     stdio: ['ignore', 'pipe', 'pipe'] // Allow stderr/stdout but with bigger buffer
   })
   

@@ -9,6 +9,8 @@ GET_RECORD_TURN_URL=record/get_record_turn
 GET_RECORD_RESOLVED_URL=record/get_resolved_url
 ADD_RECORD_TURN_URL=record/add_record_turn
 GET_RECORD_STATUS=record/get_record_status
+GET_RECORD_NOTES=record/get_record_notes
+ADD_RECORD_NOTE_URL=record/add_record_note
 REMOVE_RECORD_LOG=record/remove_log
 # API variables
 API_STORE_RECORD_SCHEDULE=api/store_record_schedule/
@@ -35,4 +37,4 @@ WEBSOCKET_STREAM_URL=ws/stream
 STREAM_SERVER_PORT=2500
 STREAM_SERVER_DOMAIN=localhost
 MJPEG_STREAM_URL=mjpeg_stream
-DJANGO_SETTINGS_MODULE=backend.processor.settings
+DJANGO_SETTINGS_MODULE=processor.settings

@@ -5,7 +5,7 @@ import os
 import cv2
 import dotenv
 import subprocess
-from backend.apps.vpnconnector.main import connect_to_vpn
+from apps.vpnconnector.main import connect_to_vpn
 # --- Ensure Django settings are configured before importing settings ---
 from django.conf import settings
 

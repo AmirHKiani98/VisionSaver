@@ -5,12 +5,12 @@ from django.http import JsonResponse, FileResponse
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseNotFound
 import dotenv
-from .models import Record, RecordLog  # Import models here to avoid circular import issues
+from .models import Record, RecordLog, RecordNote  # Import models here to avoid circular import issues
 from django.views.decorators.csrf import csrf_exempt
 import threading
 # Import settings django
 from django.conf import settings
-from backend.record.rtsp_object import RTSPObject
+from record.rtsp_object import RTSPObject
 
 logger = settings.APP_LOGGER
 def record_rtsp_task(record_id, camera_url, duration, output_file):
@@ -361,5 +361,54 @@ def remove_record_log(request, log_id):
             return JsonResponse({"message": "Record log entry removed successfully."}, status=200)
         except RecordLog.DoesNotExist:
             return JsonResponse({"error": "Record log entry not found."}, status=404)
+    except Exception as e:
+        return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
+
+@csrf_exempt
+def get_record_notes(request, record_id):
+    """
+    Get all notes for a specific record.
+    """
+    try:
+        if not record_id:
+            return JsonResponse({"error": "'record_id' is required."}, status=400)
+
+        try:
+            record = Record.objects.get(id=record_id)
+            notes = RecordNote.objects.filter(record=record).values('id', 'note', 'created_at')
+            return JsonResponse({"notes": list(notes)}, status=200)
+        except Record.DoesNotExist:
+            return JsonResponse({"error": "Record not found."}, status=404)
+    except Exception as e:
+        return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
+    
+@csrf_exempt
+def add_record_note(request):
+    """
+    Add a note to a specific record.
+    This view should be triggered via a POST request with the necessary parameters.
+    """
+    if request.method != 'POST':
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+        record_id = data.get('record_id')
+        note = data.get('note')
+        
+        if not record_id or not note:
+            return JsonResponse({"error": "'record_id' and 'note' are required."}, status=400)
+
+        record = Record.objects.get(id=record_id)
+        if not record:
+            return JsonResponse({"error": "Record not found."}, status=404)
+
+        # Create a new RecordNote entry
+        record_note = RecordNote.objects.create(record=record, note=note)
+        record_note.save()
+        return JsonResponse({"message": "Record note added successfully.", "note_id": record_note.id}, status=201)
+    except Record.DoesNotExist:
+        return JsonResponse({"error": "Record not found."}, status=404)
+    except json.JSONDecodeError:
+        return JsonResponse({"error": "Invalid JSON body."}, status=400)
     except Exception as e:
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)

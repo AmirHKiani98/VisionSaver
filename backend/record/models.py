@@ -61,7 +61,7 @@ class RecordLog(models.Model):
         help_text="The key of the input that triggered this log entry."
     )
 
-class RecordNotes(models.Model):
+class RecordNote(models.Model):
     """
     Model to represent notes associated with a Record.
     """

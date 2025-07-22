@@ -46,5 +46,15 @@ urlpatterns = [
         f"{os.getenv('REMOVE_RECORD_LOG') or 'remove_record_log'}/<int:log_id>/",
         views.remove_record_log,
         name=os.getenv('REMOVE_RECORD_LOG') or 'remove_record_log'
-    )
+    ),
+    path(
+        f"{os.getenv('GET_RECORD_NOTES') or 'get_record_notes'}/<int:record_id>/",
+        views.get_record_notes,
+        name=os.getenv('GET_RECORD_NOTES') or 'get_record_notes'
+    ),
+    path(
+        f"{os.getenv('ADD_RECORD_NOTE_URL') or 'add_record_note'}",
+        views.add_record_note,
+        name=os.getenv('ADD_RECORD_NOTE_URL') or 'add_record_note'
+    ),
 ]

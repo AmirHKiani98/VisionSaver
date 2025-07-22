@@ -171,7 +171,7 @@ function App() {
     return () => {
       clearInterval(intervalId);
     };
-  }, [env.BACKEND_SERVER_DOMAIN, env.BACKEND_SERVER_PORT, env.get_record_status, recordLinks]); // Only use stable primitive dependencies
+  }, [env.BACKEND_SERVER_DOMAIN, env.BACKEND_SERVER_PORT, env.GET_RECORD_STATUS, recordLinks]); // Only use stable primitive dependencies
 
   useEffect(() => {
     if (env.BACKEND_SERVER_DOMAIN && env.BACKEND_SERVER_PORT && env.API_GET_RECORD_SCHEDULE) {

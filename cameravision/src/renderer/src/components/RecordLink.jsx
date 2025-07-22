@@ -75,6 +75,9 @@ const RecordLink = (props) => {
     window.env.get().then(setEnv)
   }, [])
   const runWebhook = () => {
+    if(!props.isInMainPage){
+      return
+    }
     recordsId.forEach((recordId) => {
       const ws = new WebSocket(
         `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.WEBSOCKET_RECORD_PROGRESS}/${recordId}/`

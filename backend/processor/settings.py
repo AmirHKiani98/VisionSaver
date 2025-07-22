@@ -67,7 +67,7 @@ INSTALLED_APPS = [
     'channels'
 ]
 
-ASGI_APPLICATION = "backend.processor.asgi.application"
+ASGI_APPLICATION = "processor.asgi.application"
 
 CHANNEL_LAYERS = {
     "default": {
@@ -87,7 +87,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'backend.processor.urls'
+ROOT_URLCONF = 'processor.urls'
 
 TEMPLATES = [
     {
