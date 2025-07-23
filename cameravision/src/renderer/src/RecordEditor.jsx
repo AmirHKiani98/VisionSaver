@@ -300,7 +300,7 @@ const RecordEditor = (props) => {
                     </div>
 
                     <div className="flex flex-col">
-                        <div className="grid grid-cols-2 grid-rows-2 gap-4 p-5">
+                        <div className="grid grid-cols-3 grid-rows-2 gap-4 px-4 py-4">
                             <TextField
                                 id="outlined-number"
                                 type="number"
@@ -364,7 +364,7 @@ const RecordEditor = (props) => {
                                 }}
                                 label={<Typography className="text-white">Through</Typography>}
                             />
-                            <TextField
+                            {/* <TextField
                                 id="outlined-number"
                                 type="number"
                                 disabled
@@ -384,13 +384,13 @@ const RecordEditor = (props) => {
                                     }
                                 }}
                                 label={<Typography className="text-white">Approach</Typography>}
-                            />
+                            /> */}
 
                         </div>
 
 
-                        <div className="flex flex-col items-center gap-2.5 p-5">
-                            <div className="flex justify-center items-center">
+                        <div className="flex flex-col items-center gap-2.5 px-4 pb-4">
+                            {/* <div className="flex justify-center items-center">
                                 <Button
                                     className="!bg-green-400 !text-white !font-bold hover:!bg-main-500 active:!bg-main-600 flex flex-col shadow-lg"
                                     onClick={() => {
@@ -405,7 +405,7 @@ const RecordEditor = (props) => {
                                         Approach
                                     </Typography>
                                 </Button>
-                            </div>
+                            </div> */}
                             <div className="flex justify-center items-start gap-2.5">
                                 <Button
                                     className="!bg-blue-400 !text-white !font-bold hover:!bg-main-500 active:!bg-main-600 flex flex-col shadow-lg"

@@ -188,16 +188,19 @@ function App() {
             }))
             setRecordLinks(data)
           } else if (data.records) {
+            console.log('Fetched records:', data.records)
             const records = data.records
               .map((record) => ({
               ...record,
               cameraUrl: record.camera_url || record.cameraUrl, // Ensure cameraUrl is set correctly
               startTime: record.start_time || record.startTime,
               inProcess: record.in_process || record.inProcess,
+              finishedCountingAll: record.finished_counting_all || record.finishedCountingAll,
               ip: record.ip || [], // Bad naming. It should have been ips
               recordsId: record.records_id || [], // Ensure recordsId is set correctly
               }))
               .sort((a, b) => new Date(b.startTime) - new Date(a.startTime))
+            console.log('Fetched records:', records)
             setRecordLinks(records)
           } else {
             setRecordLinks([])
@@ -754,6 +757,7 @@ function App() {
                           token={record.token}
                           startTime={record.startTime}
                           duration={record.duration}
+                          finishedCountingAll={record.finishedCountingAll}
                           key={record.token} // Use record.token as the unique key
                           roundedClass={roundedClass}
                           onRemove={() => onRemoveRecord(record.token)}

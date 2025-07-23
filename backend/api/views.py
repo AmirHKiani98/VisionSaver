@@ -111,6 +111,7 @@ def get_record_schedule(request):
             done=('done', 'first'),
             token=('token', 'first'),
             intersection=('intersection', lambda x: sorted(list(set(x))) if not pd.isnull(x).all() else []),
+            finished_counting_all=('finished_counting', lambda x: all(x) if len(x) > 0 else False),
             records_id=('id', lambda x: sorted(list(x)))
         ).reset_index(drop=True)
         

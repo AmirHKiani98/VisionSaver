@@ -10,7 +10,7 @@ const VisionContainer = (props) => {
 
 
     return (
-        <div className='flex-1 grid grid-cols-2 grid-rows-2 gap-2.5 w-full h-80'>
+        <div className='flex-1 grid grid-cols-2 grid-rows-2 gap-2.5 w-full h-80 p-2.5'>
             {visionChildren.map((child, idx) =>
                 React.cloneElement(child, {
                     className: (child.props.className || ''),

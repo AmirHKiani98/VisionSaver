@@ -46,7 +46,7 @@ const Vision = (props) => {
     >
       <Button
         data-key={props.key || ''}
-        className={`relative w-full h-full bg-main-300 ${props.finished_counting ? '!bg-green-400' : ''} rounded-lg shadow-lg overflow-hidden flex items-center justify-center`}
+        className={`relative w-full h-full ${props.finished_counting ? '!bg-green-400' : '!bg-main-300'} rounded-lg shadow-lg overflow-hidden flex items-center justify-center !p-0`}
       >
         <div className="relative w-full h-full flex items-center justify-center">
           {loading && !error && (
@@ -103,7 +103,7 @@ const Vision = (props) => {
               </Link>
               <div
                 size="small"
-                className={`bg-main-400 p-1${loading ? ' invisible' : ''} active:bg-main-500`}
+                className={`bg-main-400${loading ? ' invisible' : ''} active:bg-main-500`}
                 onClick={handlePlayPause}
                 style={{
                   position: 'absolute',
