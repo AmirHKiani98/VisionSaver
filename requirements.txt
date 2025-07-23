@@ -20,7 +20,8 @@ tzdata==2025.2
 requests==2.32.4
 channels==4.2.2
 uvicorn[standard]==0.35.0
-starlette==0.47.1
+starlette==0.40.0
 pyautogui==0.9.54
 wakepy==0.10.2.post1
 wmi==1.5.1
+ultralytics==8.3.169

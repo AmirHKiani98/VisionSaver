@@ -1,3 +1,11 @@
 from django.test import TestCase
 
-# Create your tests here.
+class AiAppTestCase(TestCase):
+    """
+    Template test case for the 'ai' Django app.
+    """
+    def test_sample(self):
+        # Example test: always passes
+        self.assertTrue(True)
+
+
