@@ -1,6 +1,7 @@
 from django.test import TestCase
-from .views import load_model
+from .car_detection import CarDetection
 from django.conf import settings
+from ultralytics import YOLO
 import cv2
 class AiAppTestCase(TestCase):
     """
@@ -8,19 +9,14 @@ class AiAppTestCase(TestCase):
     """
     def test_video_image(self):
         # Example test: always passes
-        model = load_model()
-        video_path = settings.MEDIA_ROOT + "/503.mkv"
-        video_capture = cv2.VideoCapture(video_path)
-        fps = video_capture.get(cv2.CAP_PROP_FPS)
-        target_time = 130 # seconds into the video (2:08)
-        frame_number = int(target_time * fps)
-        video_capture.set(cv2.CAP_PROP_POS_FRAMES, frame_number)
-        success, frame = video_capture.read()
-        if not success:
-            self.fail("Failed to read frame from video.")
-        # Plot frame
-        results = model(frame)
-        print(results)
+        model = YOLO('yolov8n.pt', verbose=False)  # Load a pre-trained YOLO model
+        model = CarDetection(
+            model=model, 
+            video_path=settings.MEDIA_ROOT + "/503.mkv",
+            divide_time=100
+        )
+        
+        print(model.results)
         
         
 
