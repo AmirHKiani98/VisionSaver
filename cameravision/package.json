@@ -41,6 +41,7 @@
     "dotenv": "^17.0.0",
     "electron-updater": "^6.3.9",
     "react-day-picker": "^9.7.0",
+    "react-konva": "^19.0.7",
     "react-player": "^3.0.0",
     "react-router-dom": "^7.6.3"
   },
@@ -78,7 +79,10 @@
       {
         "from": "resources/backend",
         "to": "backend",
-        "filter": ["**/*", "!node_modules/**"]
+        "filter": [
+          "**/*",
+          "!node_modules/**"
+        ]
       },
       {
         "from": "resources/.hc_to_app_env",

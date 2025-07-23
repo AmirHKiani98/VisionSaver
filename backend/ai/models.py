@@ -42,3 +42,18 @@ class TurnDetectionInstance(models.Model):
     turn_type = models.CharField(max_length=50, help_text="Type of turn detected (e.g., left, right).")
     confidence_threshold = models.FloatField(default=0.5, help_text="Confidence threshold for turn detection.")
     created_at = models.DateTimeField(auto_now_add=True, help_text="Timestamp when the model was created.")
+    
+class DetectionLines(models.Model):
+    """
+    Model to represent detection lines for car and turn detection.
+    """
+    id = models.AutoField(primary_key=True, help_text="Unique identifier for the detection lines.")
+    type_of_turn = models.CharField(max_length=50, help_text="Type of turn for which the lines are defined (e.g., left, right).")
+    record = models.ForeignKey('record.Record', on_delete=models.CASCADE, related_name='detection_lines')
+    line_coordinates = models.JSONField(help_text="Coordinates of the detection lines.")
+    type_of_line = models.Choices(
+        ('start', "START"),
+        ('end', "END"),
+        ('middle', "MIDDLE")
+    )
+    created_at = models.DateTimeField(auto_now_add=True, help_text="Timestamp when the model was created.")

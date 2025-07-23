@@ -16,7 +16,5 @@ class AiAppTestCase(TestCase):
             divide_time=100
         )
         
-        print(model.results)
-        
         
 
