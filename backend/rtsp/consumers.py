@@ -45,7 +45,7 @@ class MJPEGConsumer(AsyncWebsocketConsumer):
             try:
                 await self.send(text_data=b64frame)
             except Exception as e:
-                # logger.error("WebSocket send failed: %s", e)
+                logger.error("WebSocket send failed: %s", e)
                 break
 
             await asyncio.sleep(0.01)  # ≈30 FPS (tune this if needed)
