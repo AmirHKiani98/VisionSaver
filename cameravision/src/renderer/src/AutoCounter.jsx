@@ -34,6 +34,7 @@ const AutoCounter = () => {
     react.useEffect(() => {
         const updateSize = () => {
             if (videoRef.current) {
+                console.log('Updating video display size');
                 const rect = videoRef.current.getBoundingClientRect();
                 setVideoDisplaySize({ width: rect.width, height: rect.height });
             }
@@ -44,13 +45,26 @@ const AutoCounter = () => {
     }, [videoRef]);
 
     const handleMouseDown = (e) => {
-        isDrawing.current = true;
         const pos = e.target.getStage().getPointerPosition();
-
+        if (tool === 'eraser') {
+            setLines(prevLines => {
+                const updatedLines = [...prevLines[turnMovementIndication][exitOrEntry]];
+                // Remove any line where the pointer is near
+                const filtered = updatedLines.filter(line => !isPointNearLine(line.points, pos.x, pos.y));
+                return {
+                    ...prevLines,
+                    [turnMovementIndication]: {
+                        ...prevLines[turnMovementIndication],
+                        [exitOrEntry]: filtered
+                    }
+                };
+            });
+            return; // Don't start drawing a new line
+        }
+        isDrawing.current = true;
         setLines(prevLines => {
             const updatedLines = [...prevLines[turnMovementIndication][exitOrEntry]];
             updatedLines.push({ tool, points: [pos.x, pos.y] });
-
             return {
                 ...prevLines,
                 [turnMovementIndication]: {
@@ -86,10 +100,28 @@ const AutoCounter = () => {
             };
         });
     };
+    function isPointNearLine(points, x, y, threshold = 10) {
+        for (let i = 0; i < points.length - 2; i += 2) {
+            const x1 = points[i], y1 = points[i + 1];
+            const x2 = points[i + 2], y2 = points[i + 3];
+            // Distance from point to segment
+            const A = x - x1, B = y - y1, C = x2 - x1, D = y2 - y1;
+            const dot = A * C + B * D;
+            const len_sq = C * C + D * D;
+            let param = -1;
+            if (len_sq !== 0) param = dot / len_sq;
+            let xx, yy;
+            if (param < 0) { xx = x1; yy = y1; }
+            else if (param > 1) { xx = x2; yy = y2; }
+            else { xx = x1 + param * C; yy = y1 + param * D; }
+            const dx = x - xx, dy = y - yy;
+            if (Math.sqrt(dx * dx + dy * dy) < threshold) return true;
+        }
+        return false;
+    }
 
     const handleMouseUp = () => {
         isDrawing.current = false;
-
         const scaleX = videoResolution.width / videoDisplaySize.width;
         const scaleY = videoResolution.height / videoDisplaySize.height;
 
@@ -182,7 +214,7 @@ const AutoCounter = () => {
             <div className='w-2/3 p-5'>
                 <div className="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden">
                     {videoSrc !== '' ? (
-                        <video src={videoSrc} className='w-full h-full' onLoadedMetadata={(e) => {
+                        <video ref={videoRef} src={videoSrc} className='w-full h-full' onLoadedMetadata={(e) => {
                             const video = e.target;
                             setVideoResolution({ width: video.videoWidth, height: video.videoHeight });
                         }}
