@@ -23,7 +23,7 @@ def main():
         if not backend_server_domain or not backend_server_port:
             print("❌ ERROR: BACKEND_SERVER_DOMAIN or BACKEND_SERVER_PORT is not set")
             sys.exit(1)
-        execute_from_command_line(["manage.py", "runserver", "--noreload", f"{backend_server_domain}:{backend_server_port}"])
+        execute_from_command_line(["manage.py", "runserver", f"{backend_server_domain}:{backend_server_port}"])
     else:
         execute_from_command_line(sys.argv)
 

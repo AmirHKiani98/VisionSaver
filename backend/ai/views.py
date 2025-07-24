@@ -2,6 +2,7 @@ from django.shortcuts import render
 import json
 from django.http import JsonResponse
 from .models import DetectionLines
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 def load_model():
@@ -14,6 +15,7 @@ def load_model():
     model = YOLO('yolov8n.pt')  # Load a pre-trained YOLO model
     return model
 
+@csrf_exempt
 def add_line(request):
     """
     Handle the request to add a line.
