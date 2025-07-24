@@ -9,7 +9,7 @@ import {
     FormControl,
     InputLabel
 } from '@mui/material';
-import {faPen, faPencil} from '@fortawesome/free-solid-svg-icons';
+import {faPen, faPencil, faEraser} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLocation } from 'react-router-dom';
 function useQuery() {
@@ -124,9 +124,11 @@ const AutoCounter = () => {
                     ) : (
                         <div className="text-white text-xl">Loading video...</div>
                     )}
-                    <div id="canvas" className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+                    <div id="canvas" className="absolute top-0 left-0 w-full h-full flex items-center justify-center z-50">
                         <Stage
                             className='w-full h-full'
+                            width={window.innerWidth}
+                            height={window.innerHeight}
                             onMouseDown={handleMouseDown}
                             onMousemove={handleMouseMove}
                             onMouseup={handleMouseUp}
@@ -135,7 +137,6 @@ const AutoCounter = () => {
                             onTouchEnd={handleMouseUp}
                             >
                                 <Layer>
-                                <Text text="Just start drawing" x={5} y={30} />
                                 {lines.map((line, i) => (
                                     <Line
                                     key={i}
@@ -157,28 +158,34 @@ const AutoCounter = () => {
                 
 
             </div>
-            <div className="flex-1 p-2.5 bg-main-300 h-full">
+            <div className="flex-1 p-2.5 bg-main-300 h-full flex flex-col gap-2.5">
+                <div className="grid grid-cols-2 gap-2.5">
+                    <FormControl className="w-full">
+                        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={tool}
+                            label="Drawer"
+                            onChange={(e) => setTool(e.target.value)}
 
-                <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Age</InputLabel>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={tool}
-                        label="Age"
-
-                    >
-                        <MenuItem value={'pen'}>
-                        <Typography variant="body1" color="textPrimary">
-                            Pen
-                            <FontAwesomeIcon icon={faPen} className="ml-2" />
-                        </Typography>
-                        
-                        </MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
-                    </Select>
-                </FormControl>
+                        >
+                            <MenuItem value={'pen'}>
+                            <Typography variant="body1" color="textPrimary">
+                                Pen
+                                <FontAwesomeIcon icon={faPen} className="ml-2" />
+                            </Typography>
+                            
+                            </MenuItem>
+                            <MenuItem value={'eraser'}>
+                                <Typography variant="body1" color="textPrimary">
+                                    Eraser
+                                    <FontAwesomeIcon icon={faEraser} className="ml-2" />
+                                </Typography>
+                            </MenuItem>
+                        </Select>
+                    </FormControl>
+                </div>
             </div>
         </div>
     );
