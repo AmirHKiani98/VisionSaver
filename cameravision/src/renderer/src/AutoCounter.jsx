@@ -44,7 +44,29 @@ const AutoCounter = () => {
         updateSize();
         return () => window.removeEventListener('resize', updateSize);
     }, [videoRef]);
+    react.useEffect(() => {
+        if(!env) return;
+        if (!recordId) {
+            console.error('No record ID provided in the URL');
+            return;
+        }
+        fetch(`http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.AI_GET_LINES}/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ record_id: recordId }),
+        }).then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.error('Error fetching lines:', data.error);
+            } else {
+                const newLines = data.lines
+                setLines(newLines);
+            }
+        })
 
+    }, [env]);
     const sendLines = () => {
         if (!env || !env.BACKEND_SERVER_DOMAIN || !env.BACKEND_SERVER_PORT) {
             console.error('Environment variables not set');
