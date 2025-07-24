@@ -52,8 +52,8 @@ class DetectionLines(models.Model):
     record = models.ForeignKey('record.Record', on_delete=models.CASCADE, related_name='detection_lines')
     line_coordinates = models.JSONField(help_text="Coordinates of the detection lines.")
     type_of_line = models.Choices(
-        ('start', "START"),
-        ('end', "END"),
+        ('entry', "ENTRY"),
+        ('exit', "EXIT"),
         ('middle', "MIDDLE")
     )
     created_at = models.DateTimeField(auto_now_add=True, help_text="Timestamp when the model was created.")

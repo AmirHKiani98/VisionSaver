@@ -1,15 +1,16 @@
 import react from 'react';
 import { Stage, Layer, Line, Text} from 'react-konva';
 import Video from './components/Video';
-import Record from './components/Record';``
+import Record from './components/Record';
 import {
     Select,
     MenuItem,
     Typography,
     FormControl,
-    InputLabel
+    InputLabel,
+    Button
 } from '@mui/material';
-import {faPen, faPencil, faEraser} from '@fortawesome/free-solid-svg-icons';
+import {faPen, faPlus, faEraser} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLocation } from 'react-router-dom';
 function useQuery() {
@@ -43,6 +44,31 @@ const AutoCounter = () => {
         updateSize();
         return () => window.removeEventListener('resize', updateSize);
     }, [videoRef]);
+
+    const sendLines = () => {
+        if (!env || !env.BACKEND_SERVER_DOMAIN || !env.BACKEND_SERVER_PORT) {
+            console.error('Environment variables not set');
+            return;
+        }
+        const backendUrl = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.AI_ADD_LINE}`;
+        fetch(backendUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                record_id: recordId,
+                lines: lines,
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Lines sent successfully:', data);
+        })
+        .catch(error => {
+            console.error('Error sending lines:', error);
+        });
+    }
 
     const handleMouseDown = (e) => {
         const pos = e.target.getStage().getPointerPosition();
@@ -314,7 +340,8 @@ const AutoCounter = () => {
                         </Select>
                     </FormControl>
                 </div>
-                <FormControl className="w-full">
+                <div className="flex items-center gap-2.5">
+                    <FormControl className="w-full">
                         <InputLabel id="demo-simple-select-label">Movement</InputLabel>
                         <Select
                             labelId="demo-simple-select-label"
@@ -345,6 +372,28 @@ const AutoCounter = () => {
                             </MenuItem>
                         </Select>
                     </FormControl>
+                </div>
+                <div className='flex justify-between items-center'>
+                    <Button
+                    className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black'
+                    onClick={sendLines}
+                    >
+                        <FontAwesomeIcon icon={faPlus} />
+                    </Button>
+                    <Button
+                    className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black'
+                    onClick={() => {
+                        setLines({"right":{"entry": [], "exit": []}, "left":{"entry": [], "exit": []}, "through":{"entry": [], "exit": []}});
+                        setTurnMovementIndication("right");
+                        setExitOrEntry("entry");
+                    }}
+                    >
+                        {/* <FontAwesomeIcon icon={faPlus} /> */}
+                        <Typography variant="body1" color="textPrimary">
+                            Clear
+                        </Typography>
+                    </Button>
+                </div>
             </div>
         </div>
     );
