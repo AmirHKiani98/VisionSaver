@@ -15,4 +15,8 @@ urlpatterns = [
         f"{os.getenv('AI_ADD_LINE')}",
         views.add_line,
     ),
+    path(
+        f"{os.getenv('AI_GET_LINES')}",
+        views.get_lines,
+    )
 ]

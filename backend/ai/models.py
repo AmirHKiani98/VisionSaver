@@ -48,17 +48,6 @@ class DetectionLines(models.Model):
     Model to represent detection lines for car and turn detection.
     """
     id = models.AutoField(primary_key=True, help_text="Unique identifier for the detection lines.")
-    type_of_turn = models.CharField(max_length=50, help_text="Type of turn for which the lines are defined (e.g., left, right).")
     record = models.ForeignKey('record.Record', on_delete=models.CASCADE, related_name='detection_lines')
-    line_coordinates = models.JSONField(help_text="Coordinates of the detection lines.")
-    TYPE_OF_LINE_CHOICES = [
-        ('entry', "ENTRY"),
-        ('exit', "EXIT"),
-        ('middle', "MIDDLE"),
-    ]
-    type_of_line = models.CharField(
-        max_length=10,
-        choices=TYPE_OF_LINE_CHOICES,
-        help_text="Type of line (entry, exit, middle)."
-    )
+    lines = models.JSONField(help_text="Coordinates of the detection lines.")
     created_at = models.DateTimeField(auto_now_add=True, help_text="Timestamp when the model was created.")
