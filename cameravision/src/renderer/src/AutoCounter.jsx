@@ -28,30 +28,94 @@ const AutoCounter = () => {
     const [exitOrEntry, setExitOrEntry] = react.useState("entry");
     const isDrawing = react.useRef(false);
     const [tool, setTool] = react.useState('pen'); // 'pen'
+    const [videoResolution, setVideoResolution] = react.useState({ width: 1, height: 1 });
+    const [videoDisplaySize, setVideoDisplaySize] = react.useState({ width: 1, height: 1 });
+    
+    react.useEffect(() => {
+        const updateSize = () => {
+            if (videoRef.current) {
+                const rect = videoRef.current.getBoundingClientRect();
+                setVideoDisplaySize({ width: rect.width, height: rect.height });
+            }
+        };
+        window.addEventListener('resize', updateSize);
+        updateSize();
+        return () => window.removeEventListener('resize', updateSize);
+    }, [videoRef]);
 
     const handleMouseDown = (e) => {
         isDrawing.current = true;
         const pos = e.target.getStage().getPointerPosition();
-        setLines([...lines, { tool, points: [pos.x, pos.y] }]);
-    }
+
+        setLines(prevLines => {
+            const updatedLines = [...prevLines[turnMovementIndication][exitOrEntry]];
+            updatedLines.push({ tool, points: [pos.x, pos.y] });
+
+            return {
+                ...prevLines,
+                [turnMovementIndication]: {
+                    ...prevLines[turnMovementIndication],
+                    [exitOrEntry]: updatedLines
+                }
+            };
+        });
+    };
+
     const handleMouseMove = (e) => {
-        // no drawing - skipping
-        if (!isDrawing.current) {
-        return;
-        }
+        if (!isDrawing.current) return;
+
         const stage = e.target.getStage();
         const point = stage.getPointerPosition();
-        let lastLine = lines[lines.length - 1];
-        // add point
-        lastLine.points = lastLine.points.concat([point.x, point.y]);
 
-        // replace last
-        lines.splice(lines.length - 1, 1, lastLine);
-        setLines(lines.concat());
+        setLines(prevLines => {
+            const currentLines = [...prevLines[turnMovementIndication][exitOrEntry]];
+
+            // Copy the last line and append the new point
+            const lastLine = { ...currentLines[currentLines.length - 1] };
+            lastLine.points = [...lastLine.points, point.x, point.y];
+
+            // Replace the last line
+            currentLines[currentLines.length - 1] = lastLine;
+
+            return {
+                ...prevLines,
+                [turnMovementIndication]: {
+                    ...prevLines[turnMovementIndication],
+                    [exitOrEntry]: currentLines
+                }
+            };
+        });
     };
 
     const handleMouseUp = () => {
         isDrawing.current = false;
+
+        const scaleX = videoResolution.width / videoDisplaySize.width;
+        const scaleY = videoResolution.height / videoDisplaySize.height;
+
+        const updatedLines = [...lines[turnMovementIndication][exitOrEntry]];
+        const lastLine = updatedLines[updatedLines.length - 1];
+
+        const scaledPoints = lastLine.points.map((pt, idx) =>
+            idx % 2 === 0
+                ? pt * scaleX // X
+                : pt * scaleY // Y
+        );
+
+        // Save the scaled points to use or export
+        console.log('Video pixel coordinates:', scaledPoints);
+
+        // Optional: Save it inside the line if you want to keep both
+        lastLine.scaledPoints = scaledPoints;
+        updatedLines[updatedLines.length - 1] = lastLine;
+
+        setLines({
+            ...lines,
+            [turnMovementIndication]: {
+                ...lines[turnMovementIndication],
+                [exitOrEntry]: updatedLines
+            }
+        });
     };
 
     react.useEffect(() => {
@@ -118,7 +182,11 @@ const AutoCounter = () => {
             <div className='w-2/3 p-5'>
                 <div className="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden">
                     {videoSrc !== '' ? (
-                        <video src={videoSrc} className='w-full h-full'></video>
+                        <video src={videoSrc} className='w-full h-full' onLoadedMetadata={(e) => {
+                            const video = e.target;
+                            setVideoResolution({ width: video.videoWidth, height: video.videoHeight });
+                        }}
+                        ></video>
                     ) : (
                         <div className="text-white text-xl">Loading video...</div>
                     )}
