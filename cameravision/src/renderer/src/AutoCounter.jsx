@@ -23,19 +23,17 @@ const AutoCounter = () => {
     const [pendingSeekTime, setPendingSeekTime] = react.useState(null);
     const [env, setEnv] = react.useState(null);
     const videoRef = react.useRef(null);
-    const [lines, setLines] = react.useState([]);
+    const [lines, setLines] = react.useState({"right":{"entry": [], "exit": []}, "left":{"entry": [], "exit": []}, "through":{"entry": [], "exit": []}});
+    const [turnMovementIndication, setTurnMovementIndication] = react.useState("right");
+    const [exitOrEntry, setExitOrEntry] = react.useState("entry");
     const isDrawing = react.useRef(false);
     const [tool, setTool] = react.useState('pen'); // 'pen'
-    const drawing = (e) => {
-        isDrawing.current = true;
-        const pos = e.target.getStage().getPointerPosition();
-        setLines([...lines, { tool, points: [pos.x, pos.y] }]);
-    };
+
     const handleMouseDown = (e) => {
         isDrawing.current = true;
         const pos = e.target.getStage().getPointerPosition();
         setLines([...lines, { tool, points: [pos.x, pos.y] }]);
-    };
+    }
     const handleMouseMove = (e) => {
         // no drawing - skipping
         if (!isDrawing.current) {
@@ -137,20 +135,20 @@ const AutoCounter = () => {
                             onTouchEnd={handleMouseUp}
                             >
                                 <Layer>
-                                {lines.map((line, i) => (
-                                    <Line
-                                    key={i}
-                                    points={line.points}
-                                    stroke="#df4b26"
-                                    strokeWidth={5}
-                                    tension={0.5}
-                                    lineCap="round"
-                                    lineJoin="round"
-                                    globalCompositeOperation={
-                                        line.tool === 'eraser' ? 'destination-out' : 'source-over'
-                                    }
-                                    />
-                                ))}
+                                    {lines[turnMovementIndication][exitOrEntry].map((line, i) => (
+                                        <Line
+                                        key={i}
+                                        points={line.points}
+                                        stroke="#df4b26"
+                                        strokeWidth={5}
+                                        tension={0.5}
+                                        lineCap="round"
+                                        lineJoin="round"
+                                        globalCompositeOperation={
+                                            line.tool === 'eraser' ? 'destination-out' : 'source-over'
+                                        }
+                                        />
+                                    ))}
                                 </Layer>
                         </Stage>
                     </div>
@@ -166,6 +164,10 @@ const AutoCounter = () => {
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             value={tool}
+                            className='shadow-lg bg-main-400'
+                            sx={{
+                                color: 'primary.white'
+                            }}
                             label="Drawer"
                             onChange={(e) => setTool(e.target.value)}
 
@@ -185,7 +187,64 @@ const AutoCounter = () => {
                             </MenuItem>
                         </Select>
                     </FormControl>
+                    <FormControl className="w-full">
+                        <InputLabel id="demo-simple-select-label">Portal</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={exitOrEntry}
+                            className='shadow-lg bg-main-400'
+                            sx={{
+                                color: 'primary.white'
+                            }}
+                            label="Portal"
+                            onChange={(e) => setExitOrEntry(e.target.value)}
+
+                        >   
+                            <MenuItem value={'entry'}>
+                                <Typography variant="body1" color="textPrimary">
+                                    Entry
+                                </Typography>
+                            </MenuItem>
+                            <MenuItem value={'exit'}>
+                                <Typography variant="body1" color="textPrimary">
+                                    Exit
+                                </Typography>
+                            </MenuItem>
+                        </Select>
+                    </FormControl>
                 </div>
+                <FormControl className="w-full">
+                        <InputLabel id="demo-simple-select-label">Movement</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={turnMovementIndication}
+                            className='shadow-lg bg-main-400'
+                            sx={{
+                                color: 'primary.white'
+                            }}
+                            label="Movement"
+                            onChange={(e) => setTurnMovementIndication(e.target.value)}
+
+                        >   
+                            <MenuItem value={'through'}>
+                                <Typography variant="body1" color="textPrimary">
+                                    Through Movement
+                                </Typography>
+                            </MenuItem>
+                            <MenuItem value={'left'}>
+                                <Typography variant="body1" color="textPrimary">
+                                    Left Turn
+                                </Typography>
+                            </MenuItem>
+                            <MenuItem value={'right'}>
+                                <Typography variant="body1" color="textPrimary">
+                                    Right Turn
+                                </Typography>
+                            </MenuItem>
+                        </Select>
+                    </FormControl>
             </div>
         </div>
     );
