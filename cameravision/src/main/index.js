@@ -126,7 +126,7 @@ if(!is.dev){
   })
 } else {  console.log('Running in development mode, Django server will not be started automatically.')
   // Run django from backend directory
-  djangoProcess = execFile('python', ['-m', 'uvicorn', 'processor.asgi:create_app','--factory', '--host', domain, '--port', port, '--workers', '1'], {
+  djangoProcess = execFile('python', ['-m', 'uvicorn', 'processor.asgi:create_app','--factory', '--host', domain, '--port', port, '--workers', '1', '--reload'], {
       cwd: join(__dirname, '../../../backend'),
       maxBuffer: 10 * 1024 * 1024 // 10MB buffer instead of default 1MB
     }, (error) => {
