@@ -42,3 +42,5 @@ def add_line(request):
                     })
 
         return JsonResponse({'status': 'success', 'created_lines': created_lines}, status=201)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)

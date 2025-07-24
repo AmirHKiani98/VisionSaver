@@ -64,7 +64,8 @@ INSTALLED_APPS = [
     'record',
     'cronjob',
     'corsheaders',
-    'channels'
+    'channels',
+    'ai'
 ]
 
 ASGI_APPLICATION = "processor.asgi.application"

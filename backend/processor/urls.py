@@ -10,4 +10,5 @@ urlpatterns = [
     path('', include('rtsp.urls')),
     path('', include('record.urls')),
     path('', include('api.urls')),
+    path('', include('ai.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
