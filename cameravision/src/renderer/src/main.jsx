@@ -42,7 +42,7 @@ createRoot(document.getElementById('root')).render(
           <Route path="/" element={<App />} />
           <Route path="/editor" element={<Recording />} />
           <Route path="/record" element={<RecordEditor />} />
-          <Route path="/auto_counter" element={<AutoCounter />} />
+          <Route path="/auto-counter" element={<AutoCounter />} />
         </Routes>
       </HashRouter>
     </ThemeProvider>

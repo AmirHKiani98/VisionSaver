@@ -13,7 +13,7 @@ import {
 import PlayCircleIcon from '@mui/icons-material/PlayCircle'
 import StopCircleIcon from '@mui/icons-material/StopCircle'
 import RecordLogIndicator from './RecordLogIndicator.jsx'
-
+import Video from './Video.jsx'
 const Record = forwardRef((props, ref) => {
   const [src, setSrc] = react.useState(props.src || '')
   const [loading, setLoading] = react.useState(true)
@@ -244,35 +244,34 @@ const Record = forwardRef((props, ref) => {
         )}
         {src && (
           <div className="relative inline-block">
-            <video
-              ref={videoRef}
-              src={src}
-              onLoadedData={() => setLoading(false)}
-              onError={(e) => {
-                const videoEl = e.target
-                const error = videoEl.error
-                if (error.code === 4){
-                  setSrc(src + '/?mp4=true') // Attempt to reload with MP4 conversion
-                }
-                else{
-                  setLoading(false)
-                  setError(true)
-                  // Log detailed error info
-                  if (error) {
-                    console.error('Video error:', error, 'code:', error.code, 'src:', src)
+            <Video
+                ref={videoRef}
+                src={src}
+                onLoadedData={() => setLoading(false)}
+                onError={(e) => {
+                  const videoEl = e.target
+                  const error = videoEl.error
+                  if (error && error.code === 4) {
+                    setSrc(src + '/?mp4=true')
                   } else {
-                    console.error('Unknown video error', e, 'src:', src)
+                    setLoading(false)
+                    setError(true)
+                    if (error) {
+                      console.error('Video error:', error, 'code:', error.code, 'src:', src)
+                    } else {
+                      console.error('Unknown video error', e, 'src:', src)
+                    }
                   }
-                }
-              }}
-              className="block max-w-full max-h-[60vh] w-auto h-auto object-contain"
-              style={{
-                background: 'black',
-                display: 'block',
-                margin: 0,
-                padding: 0
-              }}
-            />            {Array.isArray(props.logs) && props.logs.map((turn, idx) => (
+                }}
+                className="block max-w-full max-h-[60vh] w-auto h-auto object-contain"
+                style={{
+                  background: 'black',
+                  display: 'block',
+                  margin: 0,
+                  padding: 0
+                }}
+              />            
+            {Array.isArray(props.logs) && props.logs.map((turn, idx) => (
                   <RecordLogIndicator
                   key={turn.id}
                   id={turn.id}

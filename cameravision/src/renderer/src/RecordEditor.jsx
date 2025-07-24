@@ -6,7 +6,7 @@ import {
     Chip,
     TextField
 } from '@mui/material';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Notification from './components/Notification';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -268,16 +268,24 @@ const RecordEditor = (props) => {
 
     return (
         <div className="relative w-screen h-screen flex overflow-hidden">
-            <div className="absolute top-10 left-10 z-10">
-                <Button onClick={() => {
-                    navigate(-1);
-                }}>
-                    Back
-                </Button>
-            </div>
+            
             <div className="absolute w-screen h-screen flex overflow-hidden">
 
-                <div className="flex flex-1 w-3/4 flex-col justify-between bg-main-600 p-20">
+                <div className="relative flex flex-1 w-3/4 flex-col justify-between bg-main-600 p-20">
+                <div className="absolute top-10 left-10 z-10">
+                    <Button onClick={() => {
+                        navigate(-1);
+                    }}>
+                        Back
+                    </Button>
+                </div>
+                <div className="absolute top-10 right-10 z-10">
+                    <Link to={`/auto-counter?record_id=${recordId}`}>
+                        <Button>
+                            Auto Counter
+                        </Button>
+                    </Link>
+                </div>
                     <div></div>
                     <Record
                         id={recordId}
