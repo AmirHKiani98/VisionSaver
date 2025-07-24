@@ -247,6 +247,8 @@ const Record = forwardRef((props, ref) => {
             <Video
                 ref={videoRef}
                 src={src}
+                setError={setError}
+                setLoading={setLoading}
                 onLoadedData={() => setLoading(false)}
                 onError={(e) => {
                   const videoEl = e.target

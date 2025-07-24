@@ -1,24 +1,20 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 
-const Video = ({ src: initialSrc }) => {
-    const videoRef = useRef(null);
-    const [src, setSrc] = useState(initialSrc);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
+const Video = React.forwardRef((props, ref) => {
 
     return (
         <video
-            ref={videoRef}
-            src={src}
-            onLoadedData={() => setLoading(false)}
+            ref={ref}
+            src={props.src}
+            onLoadedData={() => props.setLoading(false)}
             onError={(e) => {
                 const videoEl = e.target;
                 const errorObj = videoEl.error;
                 if (errorObj && errorObj.code === 4) {
                     setSrc(src + '/?mp4=true'); // Attempt to reload with MP4 conversion
                 } else {
-                    setLoading(false);
-                    setError(true);
+                    props.setLoading(false);
+                    props.setError(true);
                     if (errorObj) {
                         console.error('Video error:', errorObj, 'code:', errorObj.code, 'src:', src);
                     } else {
@@ -35,6 +31,6 @@ const Video = ({ src: initialSrc }) => {
             }}
         />
     );
-};
+});
 
 export default Video;
