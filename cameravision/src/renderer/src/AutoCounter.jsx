@@ -25,6 +25,7 @@ const AutoCounter = () => {
     const [env, setEnv] = react.useState(null);
     const videoRef = react.useRef(null);
     const [lines, setLines] = react.useState({"right":{"entry": [], "exit": []}, "left":{"entry": [], "exit": []}, "through":{"entry": [], "exit": []}});
+    const [scaledLines, setScaledLines] = react.useState({"right":{"entry": [], "exit": []}, "left":{"entry": [], "exit": []}, "through":{"entry": [], "exit": []}});
     const [turnMovementIndication, setTurnMovementIndication] = react.useState("right");
     const [exitOrEntry, setExitOrEntry] = react.useState("entry");
     const isDrawing = react.useRef(false);
@@ -38,21 +39,15 @@ const AutoCounter = () => {
                 const rect = videoRef.current.getBoundingClientRect();
                 setVideoDisplaySize({ width: rect.width, height: rect.height });
                 // Update the lines to match the video display size
-                console.log('Updating lines to match video display size:', lines);
-                setLines(prevLines => {
-                    const updatedLines = { ...prevLines };
-                    Object.keys(updatedLines).forEach(turn => {
-                        Object.keys(updatedLines[turn]).forEach(portal => {
-                            updatedLines[turn][portal] = updatedLines[turn][portal].map(line => ({
-                                ...line,
-                                points: line.points.map((pt, idx) =>
-                                    idx % 2 === 0 ? pt * (rect.width / videoResolution.width) : pt * (rect.height / videoResolution.height)
-                                )
-                            }));
-                        });
-                    });
-                    return updatedLines;
-                });
+                // Object.keys(lines).forEach(movement => {
+                //     Object.keys(lines[movement]).forEach(portal => {
+                //         const updatedLines = lines[movement][portal].map(line => {
+                //             const scaledPoints = scaleLines(line);
+                //             return { ...line, points: scaledPoints };
+                //         });
+                //         console.log(lines[movement][portal], movement, portal, lines)
+                //     });
+                // });
             }
         };
         window.addEventListener('resize', updateSize);
@@ -183,27 +178,36 @@ const AutoCounter = () => {
         return false;
     }
 
-    const handleMouseUp = () => {
-        isDrawing.current = false;
+    const scaleLines = (line) => {
         const scaleX = videoResolution.width / videoDisplaySize.width;
         const scaleY = videoResolution.height / videoDisplaySize.height;
-
-        const updatedLines = [...lines[turnMovementIndication][exitOrEntry]];
-        const lastLine = updatedLines[updatedLines.length - 1];
-
-        const scaledPoints = lastLine.points.map((pt, idx) =>
+        const scaledPoints = line.points.map((pt, idx) =>
             idx % 2 === 0
                 ? pt * scaleX // X
                 : pt * scaleY // Y
         );
+        return scaledPoints
+    }
 
-        // Save the scaled points to use or export
-        console.log('Video pixel coordinates:', scaledPoints);
+    const handleMouseUp = () => {
+        isDrawing.current = false;
+        
 
-        // Optional: Save it inside the line if you want to keep both
+        const updatedLines = [...lines[turnMovementIndication][exitOrEntry]];
+        const lastLine = updatedLines[updatedLines.length - 1];
+
+        const scaledPoints = scaleLines(lastLine);
+
         lastLine.scaledPoints = scaledPoints;
         updatedLines[updatedLines.length - 1] = lastLine;
-
+        setScaledLines({
+            ...scaledLines,
+            [turnMovementIndication]: {
+                ...scaledLines[turnMovementIndication],
+                [exitOrEntry]: scaledPoints
+            }
+        });
+        
         setLines({
             ...lines,
             [turnMovementIndication]: {
@@ -211,6 +215,7 @@ const AutoCounter = () => {
                 [exitOrEntry]: updatedLines
             }
         });
+        console.log(lines)
     };
 
     react.useEffect(() => {
@@ -269,7 +274,6 @@ const AutoCounter = () => {
             console.error('No record ID provided in the URL');
             return;
         }
-        console.log(`Record ID from URL: ${recordId}`);
     }, [recordId]);
 
     return (
