@@ -48,12 +48,14 @@ class CarDetection():
                 if int(cls) in objects_of_interest:
                     x1, y1, x2, y2 = map(float, box)
                     detections.append(([x1, y1, x2 - x1, y2 - y1], float(conf), 'vehicle'))
-
+    
         tracks = self.tracker.update_tracks(detections, frame=image)
         output = []
         for track in tracks:
             if not track.is_confirmed():
+                
                 continue
+ 
             track_id = track.track_id
             x, y, w, h = track.to_ltrb()
             output.append({
@@ -94,4 +96,5 @@ class CarDetection():
                 'frame_number': frame_number,
                 'objects': data
             }
+            print(f"{self.results[i]['objects']}")
             # logger.info(f"Processed frame at {i} seconds: {i}")
