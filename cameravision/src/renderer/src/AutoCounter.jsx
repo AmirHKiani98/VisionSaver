@@ -35,9 +35,24 @@ const AutoCounter = () => {
     react.useEffect(() => {
         const updateSize = () => {
             if (videoRef.current) {
-                console.log('Updating video display size');
                 const rect = videoRef.current.getBoundingClientRect();
                 setVideoDisplaySize({ width: rect.width, height: rect.height });
+                // Update the lines to match the video display size
+                console.log('Updating lines to match video display size:', lines);
+                setLines(prevLines => {
+                    const updatedLines = { ...prevLines };
+                    Object.keys(updatedLines).forEach(turn => {
+                        Object.keys(updatedLines[turn]).forEach(portal => {
+                            updatedLines[turn][portal] = updatedLines[turn][portal].map(line => ({
+                                ...line,
+                                points: line.points.map((pt, idx) =>
+                                    idx % 2 === 0 ? pt * (rect.width / videoResolution.width) : pt * (rect.height / videoResolution.height)
+                                )
+                            }));
+                        });
+                    });
+                    return updatedLines;
+                });
             }
         };
         window.addEventListener('resize', updateSize);
@@ -50,7 +65,7 @@ const AutoCounter = () => {
             console.error('No record ID provided in the URL');
             return;
         }
-        fetch(`http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.AI_GET_LINES}/`, {
+        fetch(`http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.AI_GET_LINES}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -72,7 +87,7 @@ const AutoCounter = () => {
             console.error('Environment variables not set');
             return;
         }
-        const backendUrl = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.AI_ADD_LINE}`;
+        const backendUrl = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.AI_ADD_LINES}`;
         fetch(backendUrl, {
             method: 'POST',
             headers: {
@@ -283,7 +298,7 @@ const AutoCounter = () => {
                             onTouchEnd={handleMouseUp}
                             >
                                 <Layer>
-                                    {lines[turnMovementIndication][exitOrEntry].map((line, i) => (
+                                    {lines && lines[turnMovementIndication][exitOrEntry].map((line, i) => (
                                         <Line
                                         key={i}
                                         points={line.points}

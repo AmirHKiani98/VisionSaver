@@ -49,5 +49,16 @@ class DetectionLines(models.Model):
     """
     id = models.AutoField(primary_key=True, help_text="Unique identifier for the detection lines.")
     record = models.ForeignKey('record.Record', on_delete=models.CASCADE, related_name='detection_lines')
-    lines = models.JSONField(help_text="Coordinates of the detection lines.")
+
+    def default_lines(): # type: ignore
+        return {
+            "right": {"entry": [], "exit": []},
+            "left": {"entry": [], "exit": []},
+            "through": {"entry": [], "exit": []}
+        }
+
+    lines = models.JSONField(
+        default=default_lines,
+        help_text="Coordinates of the detection lines."
+    )
     created_at = models.DateTimeField(auto_now_add=True, help_text="Timestamp when the model was created.")

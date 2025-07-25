@@ -40,6 +40,6 @@ STREAM_SERVER_DOMAIN=localhost
 MJPEG_STREAM_URL=mjpeg_stream
 DJANGO_SETTINGS_MODULE=processor.settings
 # AI App
-AI_ADD_LINE=ai/add_line
+AI_ADD_LINES=ai/add_line
 AI_GET_LINES=ai/get_lines
 AI_DELETE_LINE=ai/delete_line

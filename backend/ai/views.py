@@ -42,7 +42,8 @@ def add_line(request):
         return JsonResponse({'status': 'success', 'lines': lines}, status=201)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
-    
+
+@csrf_exempt
 def get_lines(request):
     """
     Retrieve detection lines for a specific record.
@@ -51,11 +52,18 @@ def get_lines(request):
         data = json.loads(request.body)
         record_id = data.get('record_id')
         try:
-            detection_object = DetectionLines.objects.get(record__id=record_id)
+            try:
+                record = Record.objects.get(id=record_id)
+            except Record.DoesNotExist:
+                logger.error(f"Record not found for record ID: {record_id}")
+                return JsonResponse({'error': 'Record not found'}, status=404)
+            detection_object = DetectionLines.objects.get_or_create(record=record)[0]
             lines = detection_object.lines
             return JsonResponse({'status': 'success', 'lines': lines}, status=200)
         except DetectionLines.DoesNotExist:
+            logger.error(f"Detection lines not found for record ID: {record_id}")
             return JsonResponse({'error': 'Detection lines not found for this record'}, status=404)
     else:
+        logger.error("Invalid request method for get_lines")
         return JsonResponse({'error': 'Invalid request method'}, status=405)
 

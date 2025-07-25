@@ -12,7 +12,7 @@ urlpatterns = [
     # This endpoint is used to check if the API is running and healthy.
     # It returns a simple JSON response with a status message.
     path(
-        f"{os.getenv('AI_ADD_LINE')}",
+        f"{os.getenv('AI_ADD_LINES')}",
         views.add_line,
     ),
     path(
