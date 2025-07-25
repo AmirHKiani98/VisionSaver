@@ -35,6 +35,7 @@ def add_line(request):
         detection_object = DetectionLines.objects.get_or_create(
             record=record
         )
+        logger.warning(f"Adding lines for record ID: {record_id}, lines: {lines}")
         detection_object = detection_object[0]
         detection_object.lines = lines
         detection_object.save()

@@ -1,7 +1,5 @@
 import react from 'react';
-import { Stage, Layer, Line, Text} from 'react-konva';
-import Video from './components/Video';
-import Record from './components/Record';
+import { Stage, Layer, Line} from 'react-konva';
 import {
     Select,
     MenuItem,
@@ -26,7 +24,6 @@ const AutoCounter = () => {
     const [env, setEnv] = react.useState(null);
     const videoRef = react.useRef(null);
     const [lines, setLines] = react.useState({"right":{"entry": [], "exit": []}, "left":{"entry": [], "exit": []}, "through":{"entry": [], "exit": []}});
-    const [scaledLines, setScaledLines] = react.useState({"right":{"entry": [], "exit": []}, "left":{"entry": [], "exit": []}, "through":{"entry": [], "exit": []}});
     const [turnMovementIndication, setTurnMovementIndication] = react.useState("right");
     const [exitOrEntry, setExitOrEntry] = react.useState("entry");
     const isDrawing = react.useRef(false);
@@ -76,19 +73,21 @@ const AutoCounter = () => {
                 const formattedLines = { right: { entry: [], exit: [] }, left: { entry: [], exit: [] }, through: { entry: [], exit: [] } };
                 ['right', 'left', 'through'].forEach(movement => {
                     ['entry', 'exit'].forEach(portal => {
-                        const rawLines = data.lines?.[movement]?.[portal];
-                        const linePoints = []
-                        if (Array.isArray(rawLines) && rawLines.length > 0) {
-                            for (let index = 0; index < rawLines.length; index += 2) {
-                                const element = rawLines.slice(index, index + 2);
-                                linePoints.points = [...linePoints.points || [], ...element];
-                                linePoints.push({tool: 'pen', points: element});
+                        const rawPoints = data.lines?.[movement]?.[portal];
+                        if (Array.isArray(rawPoints) && rawPoints.length > 0) {
+                            for (let index = 0; index < rawPoints.length; index++) {
+                                const element = rawPoints[index];
+                                // Process each element as needed
+                                formattedLines[movement][portal].push({
+                                    tool: element.tool || 'pen', // Default to 'pen' if tool is not specified
+                                    points: element.points || []
+                                });
                             }
-                            // formattedLines[movement][portal] = rescaleLines(linePoints);
+                            
                         }
                     });
                 });
-
+                console.log('Formatted lines:', formattedLines);
                 setLines(formattedLines);
             }
         })
@@ -107,12 +106,12 @@ const AutoCounter = () => {
             },
             body: JSON.stringify({
                 record_id: recordId,
-                lines: scaledLines,
+                lines: lines,
             }),
         })
         .then(response => response.json())
         .then(data => {
-            console.log('Lines sent successfully:', data);
+            console.log('Lines sent successfully:', data, lines);
         })
         .catch(error => {
             console.error('Error sending lines:', error);
@@ -184,13 +183,21 @@ const AutoCounter = () => {
         const scaledPoints = [];
         for (let i = 0; i < points.length; i += 2) {
             const element = points.slice(i, i + 2);
-            console.log('before scaling', element);
             element[0] = element[0] * stageRef.current.width()
             element[1] = element[1] * stageRef.current.height();
-            console.log('after scaling', element);
             scaledPoints.push(...element);
         }
         return scaledPoints;
+    };
+    const scaledPointsToPoints = (scaledPoints) => {
+        const points = [];
+        for (let i = 0; i < scaledPoints.length; i += 2) {
+            const element = scaledPoints.slice(i, i + 2);
+            element[0] = element[0] / stageRef.current.width();
+            element[1] = element[1] / stageRef.current.height();
+            points.push(...element);
+        }
+        return points;
     };
 
     function isPointNearLine(points, x, y, threshold = 10) {
