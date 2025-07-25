@@ -22,6 +22,7 @@ const AutoCounter = () => {
     const recordId = recordIdParam ? recordIdParam.split('?')[0] : null;
     const [videoSrc, setVideoSrc] = react.useState('');
     const [pendingSeekTime, setPendingSeekTime] = react.useState(null);
+    const stageRef = react.useRef(null);
     const [env, setEnv] = react.useState(null);
     const videoRef = react.useRef(null);
     const [lines, setLines] = react.useState({"right":{"entry": [], "exit": []}, "left":{"entry": [], "exit": []}, "through":{"entry": [], "exit": []}});
@@ -30,6 +31,7 @@ const AutoCounter = () => {
     const [exitOrEntry, setExitOrEntry] = react.useState("entry");
     const isDrawing = react.useRef(false);
     const [tool, setTool] = react.useState('pen'); // 'pen'
+    const [videoReady, setVideoReady] = react.useState(false);
     const [videoResolution, setVideoResolution] = react.useState({ width: 1, height: 1 });
     const [videoDisplaySize, setVideoDisplaySize] = react.useState({ width: 1, height: 1 });
     
@@ -55,7 +57,7 @@ const AutoCounter = () => {
         return () => window.removeEventListener('resize', updateSize);
     }, [videoRef]);
     react.useEffect(() => {
-        if(!env) return;
+        if (!env || !videoReady) return;
         if (!recordId) {
             console.error('No record ID provided in the URL');
             return;
@@ -71,12 +73,27 @@ const AutoCounter = () => {
             if (data.error) {
                 console.error('Error fetching lines:', data.error);
             } else {
-                const newLines = data.lines
-                setLines(newLines);
+                const formattedLines = { right: { entry: [], exit: [] }, left: { entry: [], exit: [] }, through: { entry: [], exit: [] } };
+                ['right', 'left', 'through'].forEach(movement => {
+                    ['entry', 'exit'].forEach(portal => {
+                        const rawLines = data.lines?.[movement]?.[portal];
+                        const linePoints = []
+                        if (Array.isArray(rawLines) && rawLines.length > 0) {
+                            for (let index = 0; index < rawLines.length; index += 2) {
+                                const element = rawLines.slice(index, index + 2);
+                                linePoints.points = [...linePoints.points || [], ...element];
+                                linePoints.push({tool: 'pen', points: element});
+                            }
+                            // formattedLines[movement][portal] = rescaleLines(linePoints);
+                        }
+                    });
+                });
+
+                setLines(formattedLines);
             }
         })
 
-    }, [env]);
+    }, [env, videoReady]);
     const sendLines = () => {
         if (!env || !env.BACKEND_SERVER_DOMAIN || !env.BACKEND_SERVER_PORT) {
             console.error('Environment variables not set');
@@ -90,7 +107,7 @@ const AutoCounter = () => {
             },
             body: JSON.stringify({
                 record_id: recordId,
-                lines: lines,
+                lines: scaledLines,
             }),
         })
         .then(response => response.json())
@@ -104,11 +121,16 @@ const AutoCounter = () => {
 
     const handleMouseDown = (e) => {
         const pos = e.target.getStage().getPointerPosition();
+        // Get the width and height of the canvas
+        const stage = e.target.getStage();
+        const canvasWidth = stage.width();
+        const canvasHeight = stage.height();
+
         if (tool === 'eraser') {
             setLines(prevLines => {
                 const updatedLines = [...prevLines[turnMovementIndication][exitOrEntry]];
                 // Remove any line where the pointer is near
-                const filtered = updatedLines.filter(line => !isPointNearLine(line.points, pos.x, pos.y));
+                const filtered = updatedLines.filter(line => !isPointNearLine(line.points, pos.x/canvasWidth, pos.y/canvasHeight));
                 return {
                     ...prevLines,
                     [turnMovementIndication]: {
@@ -122,7 +144,7 @@ const AutoCounter = () => {
         isDrawing.current = true;
         setLines(prevLines => {
             const updatedLines = [...prevLines[turnMovementIndication][exitOrEntry]];
-            updatedLines.push({ tool, points: [pos.x, pos.y] });
+            updatedLines.push({ tool, points: [pos.x/canvasWidth, pos.y/canvasHeight] });
             return {
                 ...prevLines,
                 [turnMovementIndication]: {
@@ -144,7 +166,7 @@ const AutoCounter = () => {
 
             // Copy the last line and append the new point
             const lastLine = { ...currentLines[currentLines.length - 1] };
-            lastLine.points = [...lastLine.points, point.x, point.y];
+            lastLine.points = [...lastLine.points, point.x / stage.width(), point.y / stage.height()];
 
             // Replace the last line
             currentLines[currentLines.length - 1] = lastLine;
@@ -158,6 +180,19 @@ const AutoCounter = () => {
             };
         });
     };
+    const pointsToScaledPoints = (points) => {
+        const scaledPoints = [];
+        for (let i = 0; i < points.length; i += 2) {
+            const element = points.slice(i, i + 2);
+            console.log('before scaling', element);
+            element[0] = element[0] * stageRef.current.width()
+            element[1] = element[1] * stageRef.current.height();
+            console.log('after scaling', element);
+            scaledPoints.push(...element);
+        }
+        return scaledPoints;
+    };
+
     function isPointNearLine(points, x, y, threshold = 10) {
         for (let i = 0; i < points.length - 2; i += 2) {
             const x1 = points[i], y1 = points[i + 1];
@@ -178,17 +213,6 @@ const AutoCounter = () => {
         return false;
     }
 
-    const scaleLines = (line) => {
-        const scaleX = videoResolution.width / videoDisplaySize.width;
-        const scaleY = videoResolution.height / videoDisplaySize.height;
-        const scaledPoints = line.points.map((pt, idx) =>
-            idx % 2 === 0
-                ? pt * scaleX // X
-                : pt * scaleY // Y
-        );
-        return scaledPoints
-    }
-
     const handleMouseUp = () => {
         isDrawing.current = false;
         
@@ -196,17 +220,7 @@ const AutoCounter = () => {
         const updatedLines = [...lines[turnMovementIndication][exitOrEntry]];
         const lastLine = updatedLines[updatedLines.length - 1];
 
-        const scaledPoints = scaleLines(lastLine);
-
-        lastLine.scaledPoints = scaledPoints;
         updatedLines[updatedLines.length - 1] = lastLine;
-        setScaledLines({
-            ...scaledLines,
-            [turnMovementIndication]: {
-                ...scaledLines[turnMovementIndication],
-                [exitOrEntry]: scaledPoints
-            }
-        });
         
         setLines({
             ...lines,
@@ -215,7 +229,6 @@ const AutoCounter = () => {
                 [exitOrEntry]: updatedLines
             }
         });
-        console.log(lines)
     };
 
     react.useEffect(() => {
@@ -282,8 +295,12 @@ const AutoCounter = () => {
                 <div className="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden">
                     {videoSrc !== '' ? (
                         <video ref={videoRef} src={videoSrc} className='w-full h-full' onLoadedMetadata={(e) => {
+                            setVideoReady(true);
                             const video = e.target;
+                            const rect = video.getBoundingClientRect();
+
                             setVideoResolution({ width: video.videoWidth, height: video.videoHeight });
+                            setVideoDisplaySize({ width: rect.width, height: rect.height });
                         }}
                         ></video>
                     ) : (
@@ -291,9 +308,15 @@ const AutoCounter = () => {
                     )}
                     <div id="canvas" className="absolute top-0 left-0 w-full h-full flex items-center justify-center z-50">
                         <Stage
-                            className='w-full h-full'
-                            width={window.innerWidth}
-                            height={window.innerHeight}
+                            ref={stageRef}
+                            style={{
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                pointerEvents: 'auto' // optional if you're not drawing
+                            }}
+                            width={videoDisplaySize.width}
+                            height={videoDisplaySize.height}
                             onMouseDown={handleMouseDown}
                             onMousemove={handleMouseMove}
                             onMouseup={handleMouseUp}
@@ -305,7 +328,7 @@ const AutoCounter = () => {
                                     {lines && lines[turnMovementIndication][exitOrEntry].map((line, i) => (
                                         <Line
                                         key={i}
-                                        points={line.points}
+                                        points={pointsToScaledPoints(line.points)}
                                         stroke="#df4b26"
                                         strokeWidth={5}
                                         tension={0.5}
