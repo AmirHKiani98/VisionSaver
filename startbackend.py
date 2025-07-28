@@ -124,7 +124,6 @@ def run_streamer():
     uvicorn.run("backend.apps.streamer.asgi_mpeg:app", host=stream_server_domain, port=stream_server_port, log_level="info", workers=1)
 
 def run_cronjob():
-    print("Starting Cronjob")
     try:
         subprocess.run([sys.executable, "-m", "backend.processor.cronjob"], check=True)
     except subprocess.CalledProcessError as e:
