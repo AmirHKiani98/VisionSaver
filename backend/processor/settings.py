@@ -239,6 +239,8 @@ def get_ffmpeg_path():
 FFMPEG_PATH = get_ffmpeg_path()
 # Get log directory but don't create it yet (let the logger create it when first used)
 log_dir = get_log_directory()
+if not os.path.exists(log_dir):
+    os.makedirs(log_dir, exist_ok=True)
 django_log_filename = os.path.join(log_dir, 'django.log')
 
 # Logging Configuration
