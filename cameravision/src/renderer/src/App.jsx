@@ -78,6 +78,7 @@ function App() {
   const [isLocked, setIsLocked] = useState(false)
   const [autoHideDuration, setAutoHideDuration] = useState(3000) // Default auto-hide duration for notifications
   const lockButtonRef = useRef(null);
+  const [shouldAddCronJob, setShouldAddCronJob] = useState(false)
   
   const getQuery = new URLSearchParams(location.search);
   const currentPage = parseInt(getQuery.get('page')) || 1;
@@ -511,6 +512,13 @@ function App() {
     setQuery(newInputValue);
   };
 
+  useEffect(() => {
+    if (shouldAddCronJob) {
+      addCronJob();
+      setShouldAddCronJob(false);
+    }
+  }, [time, shouldAddCronJob]);
+
   return (
     <div className='flex flex-col justify-between min-h-screen min-w-full'>
       <div className="min-h-full min-w-full flex px-5 py-2.5">
@@ -707,8 +715,8 @@ function App() {
                       id="submit-start-recording"
                       className="bg-red-500 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-red-700"
                       onClick={() => {
-                        setTime(dayjs().add(1, 'minute'))
-                        setTimeout(() => addCronJob(),  1000); // TODO
+                        setTime(dayjs().add(1, 'minute'));
+                        setShouldAddCronJob(true);
                       }}
                     >
                       <FontAwesomeIcon icon={faRecordVinyl} />
