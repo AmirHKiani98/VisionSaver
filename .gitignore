@@ -154,3 +154,7 @@ dist/
 # Temporary files
 _pycache_
 !./backend/logs/django.log
+
+# Django backend
+*.pyc
+*.pyo

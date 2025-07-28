@@ -4,16 +4,20 @@ import cv2
 
 from django.conf import settings
 logger = settings.APP_LOGGER
-
+from deep_sort_realtime.deepsort_tracker import DeepSort
 class CarDetection():
     
-    def __init__(self, model, video_path, divide_time=1):
+    def __init__(self, model, video_path, divide_time=1, tracker_config=None):
         """
         Initialize the CarDetection instance.
         """
         self.model = model
-        self.results = {} # {time: data of the cars}, time = time into the video
+        self.results = {}
         self.load_video(video_path)
+        if tracker_config is not None:
+            self.tracker = DeepSort(**tracker_config)
+        else:
+            self.tracker = DeepSort(max_age=5)
         logger.info(f"CarDetection initialized with model {model} and video {video_path}")
         self.get_results_from_video(divide_time)
         
@@ -29,36 +33,41 @@ class CarDetection():
         self.video_path = video_path
         self.video_capture = cv2.VideoCapture(video_path)
         self.duration = int(self.video_capture.get(cv2.CAP_PROP_FRAME_COUNT) / self.video_capture.get(cv2.CAP_PROP_FPS))
-    
-    @staticmethod
-    def detect_cars(image, model):
+
+
+    def detect_and_track(self, image):
         """
         detect the cars inside a cv2 image
         """
-        results = model(image)[0]
-        # Only keep detections labeled as 'car'
-        data = []
-        objects_of_interest = [2, 3, 5, 7] # ["car", "motorcycle", "bus", "truck"] in coco8
+        detections = []
+        results = self.model(image)[0]
+        objects_of_interest = [2, 3, 5, 7]
+
         if hasattr(results, 'boxes') and results.boxes is not None:
-            xyxy = results.boxes.xyxy
-            classes = results.boxes.cls
-            
-            for index, box in enumerate(xyxy):
-                if classes[index] in objects_of_interest:
-                    x1, y1, x2, y2 = box
-                    center_x = (x1 + x2) // 2
-                    center_y = (y1 + y2) // 2
-                    confidence = float(results.boxes.conf[index]) if hasattr(results.boxes, 'conf') else None
-                    data.append({
-                        'x1': x1,
-                        'y1': y1,
-                        'x2': x2,
-                        'y2': y2,
-                        'center_x': center_x,
-                        'center_y': center_y,
-                        'confidence': confidence
-                    })
-        return data
+            for box, cls, conf in zip(results.boxes.xyxy, results.boxes.cls, results.boxes.conf):
+                if int(cls) in objects_of_interest:
+                    x1, y1, x2, y2 = map(float, box)
+                    detections.append(([x1, y1, x2 - x1, y2 - y1], float(conf), 'vehicle'))
+    
+        tracks = self.tracker.update_tracks(detections, frame=image)
+        output = []
+        for track in tracks:
+            if not track.is_confirmed():
+                
+                continue
+ 
+            track_id = track.track_id
+            x, y, w, h = track.to_ltrb()
+            output.append({
+                'id': track_id,
+                'x1': x,
+                'y1': y,
+                'x2': x + w,
+                'y2': y + h,
+                'center_x': x + w / 2,
+                'center_y': y + h / 2,
+            })
+        return output
         
 
     def get_results_from_video(self, divide_time=1):
@@ -81,6 +90,11 @@ class CarDetection():
             if not success:
                 logger.warning(f"Failed to read frame at {frame_number}. Skipping.")
                 continue
-            data = self.detect_cars(frame, self.model)
-            self.results[i] = data
+            data = self.detect_and_track(frame)
+
+            self.results[i] = {
+                'frame_number': frame_number,
+                'objects': data
+            }
+            print(f"{self.results[i]['objects']}")
             # logger.info(f"Processed frame at {i} seconds: {i}")
