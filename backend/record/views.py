@@ -1,8 +1,6 @@
 import os
 import json
-from urllib import response
 from django.http import JsonResponse, FileResponse
-from django.shortcuts import get_object_or_404
 from django.http import HttpResponseNotFound
 import dotenv
 from .models import Record, RecordLog, RecordNote  # Import models here to avoid circular import issues
@@ -11,37 +9,32 @@ import threading
 # Import settings django
 from django.conf import settings
 from record.rtsp_object import RTSPObject
+from django.utils import timezone
 
 logger = settings.APP_LOGGER
 def record_rtsp_task(record_id, camera_url, duration, output_file):
 
     print(f"Starting recording task for record ID {record_id}")
     try:
-        record = Record.objects.get(id=record_id)
-        record.in_process = True
-        record.save()
+        record = Record.objects.filter(id=record_id)
 
         os.makedirs(os.path.dirname(output_file), exist_ok=True)
         rtsp_obj = RTSPObject(camera_url)
-        done = rtsp_obj.record(duration, output_file, record_id)
+        record.update(in_process=True, done=False, error=None, finished_counting=False)
+        rtsp_obj.record(duration, output_file, record_id)
+        record.update(in_process=False, done=True, error=None)
 
-        if done:
-            record.done = True
-            record.error = ""
-        else:
-            record.done = False
-            record.error = f"File doesn't exist at {output_file}"
-            # logger.error(f"Recording file doesn't exist: {output_file}")
+        # if done:
+        #     Record.objects.filter(id=record_id).update(done=True, error="", in_process=False)
+        # else:
+        #     Record.objects.filter(id=record_id).update(done=False, error=f"File doesn't exist at {output_file}", in_process=False)
+        #     # logger.error(f"Recording file doesn't exist: {output_file}")
 
     except Exception as e:
         import traceback
-        # logger.error(f"Recording error for {record_id}: {e}\n{traceback.format_exc()}")
-        record = Record.objects.get(id=record_id)
-        record.done = False
-        record.error = str(e)
+        logger.error(f"Recording error for {record_id}: {e}\n{traceback.format_exc()}")
+        Record.objects.filter(id=record_id).update(done=False, error=str(e), in_process=False)
 
-    record.in_process = False
-    record.save()
     print(f"Finished recording for record ID {record_id}")
 
 # Create your views here.

@@ -47,7 +47,32 @@ class Record(models.Model):
             f"for {self.duration} seconds"
         )
 
-
+class FFMPEGLog(models.Model):
+    """
+    Model to represent a Record that has been processed by FFMPEG.
+    """
+    id = models.AutoField(primary_key=True, help_text="Unique identifier for the FFMPEGLog.")
+    record = models.ForeignKey(Record, on_delete=models.CASCADE, related_name='ffmpeg_logs')    
+    log_type = models.CharField(
+        max_length=50,
+        choices=[
+            ('transcode_started_at', 'Transcode Started'),
+            ('transcode_finished_at', 'Transcode Finished'),
+            ('record_started_at', 'Record Started'),
+            ('record_finished_at', 'Record Finished')
+        ],
+        help_text="Type of the log entry."
+    )
+    
+    log_time = models.DateTimeField(
+        auto_now_add=True,
+        help_text="The time when the log entry was created."
+    )
+    def __str__(self):
+        return (
+            f"FFMPEGLog for Record {self.record.id} at {self.log_time} "
+            f"of type {self.log_type}"
+        )
 class RecordLog(models.Model):
     """
     Model to represent a log entry for a Record.
