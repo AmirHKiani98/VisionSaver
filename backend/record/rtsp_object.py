@@ -12,7 +12,8 @@ from django.conf import settings
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 import re
-
+from django.utils import timezone
+from record.models import FFMPEGLog
 progress_re = re.compile(r'time=(\d{2}:\d{2}:\d{2}\.\d{2})')
 # ----------------------------------------------------------------------
 dotenv.load_dotenv(settings.ENV_PATH)
@@ -21,7 +22,6 @@ logger = settings.APP_LOGGER
 def broadcast_progress(record_id: str, progress: str, recording: bool = False, converting: bool = False):
     channel_layer = get_channel_layer()
     group_name = f"recording_progress_{record_id}"
-    # # logger.info(f"Broadcasting progress {progress} for record {record_id} to group {group_name}")
     if channel_layer is not None:
         async_to_sync(channel_layer.group_send)(
             group_name,
@@ -78,14 +78,13 @@ class RTSPObject:
         """
         ffmpeg_env = str(settings.FFMPEG_PATH)
         if not ffmpeg_env:
-            # logger.error("FFMPEG_PATH environment variable is not set.")
+            logger.error("FFMPEG_PATH environment variable is not set.")
             raise EnvironmentError("FFMPEG_PATH environment variable is not set.")
         ffmpeg_path = ffmpeg_env if os.path.isabs(ffmpeg_env) else os.path.join(str(settings.BASE_DIR), ffmpeg_env)
         if not os.path.isfile(ffmpeg_path):
-            # logger.error(f"FFmpeg executable not found at: {ffmpeg_path}")
+            logger.error(f"FFmpeg executable not found at: {ffmpeg_path}")
             raise FileNotFoundError(f"FFmpeg executable not found at: {ffmpeg_path}")
         output_path = os.path.splitext(input_path)[0] + ".mp4"
-        # logger.info(f"ffmpeg path: {ffmpeg_path}")
         cmd = [
             ffmpeg_path, "-y",
             "-i", input_path,
@@ -100,6 +99,10 @@ class RTSPObject:
 
         stderr_lines = []
         if process.stderr is not None:
+            FFMPEGLog.objects.create(
+                record_id=record_id,
+                log_type='transcode_started_at',
+            )
             for line in process.stderr:
                 stderr_lines.append(line)
                 match = progress_re.search(line)
@@ -120,14 +123,19 @@ class RTSPObject:
             # logger.error(f"FFmpeg command failed: {' '.join(cmd)}")
             # logger.error(f"FFmpeg output: {stderr_output}")
             raise RuntimeError(f"Transcoding failed: {stderr_output}")
+
+        FFMPEGLog.objects.create(
+            record_id=record_id,
+            log_type='transcode_finished_at',
+        )
         return output_path
     
-    def record(self, duration_minutes: int, output_path: str, record_id: str):
+    def record(self, duration_minutes: int, output_path: str, record_id):
         result = connect_to_vpn()
         if not result:
-            # logger.error("Failed to connect to VPN. Cannot proceed with recording.")
+            logger.error("Failed to connect to VPN. Cannot proceed with recording.")
             return False
-        # logger.debug(f"Starting recording for {duration_minutes} minutes to {output_path}")
+        logger.debug(f"Starting recording for {duration_minutes} minutes to {output_path}")
         duration_seconds = duration_minutes * 60
         ffmpeg_env = str(settings.FFMPEG_PATH)
 
@@ -135,24 +143,22 @@ class RTSPObject:
         abs_output_path = os.path.join(str(settings.MEDIA_ROOT), output_path) if not os.path.isabs(output_path) else output_path
         output_dir = os.path.dirname(abs_output_path)
         if not os.path.isdir(output_dir):
-            # logger.debug(f"Creating output directory: {output_dir}")
+            logger.debug(f"Creating output directory: {output_dir}")
             os.makedirs(output_dir, exist_ok=True)
 
         if not ffmpeg_env:
-            # logger.error("FFMPEG_PATH environment variable is not set.")
+            logger.error("FFMPEG_PATH environment variable is not set.")
             raise EnvironmentError("FFMPEG_PATH environment variable is not set.")
         ffmpeg_path = ffmpeg_env if os.path.isabs(ffmpeg_env) else os.path.join(str(settings.BASE_DIR), ffmpeg_env)
         if not os.path.isfile(ffmpeg_path):
-            # logger.error(f"FFmpeg executable not found at: {ffmpeg_path}")
-            # logger.error(f"Path to BASE_DIR: {str(settings.BASE_DIR)}")
-            # logger.error(f"FFMPEG Env: {ffmpeg_env}")
-
+            logger.error(f"FFmpeg executable not found at: {ffmpeg_path}")
+            logger.error(f"Path to BASE_DIR: {str(settings.BASE_DIR)}")
+            logger.error(f"FFMPEG Env: {ffmpeg_env}")
             raise FileNotFoundError(f"FFmpeg executable not found at: {ffmpeg_path}")
         # Adjust output extension according to method
         abs_output_path = os.path.splitext(abs_output_path)[0] + ".mkv"
-        # logger.debug(f"Absolute output path: {abs_output_path}")
-
         # Copy method for simple public RTSP
+        
         cmd_copy = [
             ffmpeg_path, "-y",
             "-rtsp_transport", "tcp", "-rtsp_flags", "prefer_tcp",
@@ -172,7 +178,7 @@ class RTSPObject:
             "-rtsp_transport", "tcp", "-rtsp_flags", "prefer_tcp",
             "-timeout", "30000000",
             "-i", self.url,
-            "-t", str(duration_seconds),
+            "-t", str(duration_seconds+1),
             "-c", "copy",
             "-avoid_negative_ts", "make_zero",
             "-fflags", "+genpts",
@@ -183,13 +189,33 @@ class RTSPObject:
         preferred_cmd = cmd_encode if self.record_type == 'supervisor' else cmd_copy
         # fallback_cmd = cmd_copy if self.record_type == 'supervisor' else cmd_encode
 
-        # Try preferred
         try:
             # logger.debug(f"Running FFmpeg command: {' '.join(preferred_cmd)}")
             creation_flags = 0x08000000  # This hides the window in Windows
             process = subprocess.Popen(preferred_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, creationflags=creation_flags)
+            # Add timestamp when recording starts
+            
             if process.stderr is not None:
+                recording_started = False
+                recording_finished = False
                 for line in process.stderr:
+                    # Check if recording has started
+                    if not recording_started and "Press [q] to stop" in line:
+                        FFMPEGLog.objects.create(
+                            record_id=record_id,
+                            log_type='record_started_at',
+                        )
+                        recording_started = True
+                    
+                    # Check if recording has finished
+                    if not recording_finished and "video:" in line and "audio:" in line and "subtitle:" in line:
+                        FFMPEGLog.objects.create(
+                            record_id=record_id,
+                            log_type='record_finished_at',
+                        )
+                        recording_finished = True
+                    
+                    # Track progress
                     match = progress_re.search(line)
                     if match:
                         timestamp = match.group(1)
@@ -201,34 +227,36 @@ class RTSPObject:
             else:
                 pass
                 # logger.warning("FFmpeg stderr is None, no progress updates will be sent.")
-
+            process.wait()
+            
             if os.path.exists(abs_output_path):
                 # logger.debug(f"Output file created: {abs_output_path}")
+                # Record.objects.filter(id=record_id).update(record_finished_at=timezone.now())
                 output_path = self.transcode_to_mp4(abs_output_path, record_id, duration_minutes)
                 # logger.debug(f"Transcoded output path: {output_path}")
                 if os.path.exists(output_path):
                     # logger.debug("Recording and transcoding successful.")
                     return True
                 else:
-                    # logger.critical("Transcoded file missing.")
+                    logger.critical("Transcoded file missing.")
                     return False
             else:
-                # logger.critical(f"Output file missing or too small: {abs_output_path}")
+                logger.critical(f"Output file missing: {abs_output_path}")
                 return False
         except Exception as e:
             import traceback
-            # logger.critical(f"Exception running FFmpeg: {e}\n{traceback.format_exc()}")
+            logger.critical(f"Exception running FFmpeg: {e}\n{traceback.format_exc()}")
             return False
-
-# Try
-if __name__ == "__main__":
-    # Example usage
-    ip = "192.168.29.108"
-    stream = "cam1"
-    rtsp = RTSPObject(f"rtsp://{ip}/{stream}")
-    # Try recording for 1 minute and save to output.mp4
-    try:
-        rtsp.record(1, "output", "1")
-    except Exception as e:
-        # logger.debug(f"Exception during recording: {e}")
-        pass
+    
+# # Try
+# if __name__ == "__main__":
+#     # Example usage
+#     ip = "192.168.29.108"
+#     stream = "cam1"
+#     rtsp = RTSPObject(f"rtsp://{ip}/{stream}")
+#     # Try recording for 1 minute and save to output.mp4
+#     try:
+#         rtsp.record(1, "output", "1")
+#     except Exception as e:
+#         # logger.debug(f"Exception during recording: {e}")
+#         pass

@@ -62,3 +62,11 @@ def connect_to_vpn():
             print(f"Connecting to VPN: {vpn_name}")
             success = connect_vpn_wmi(vpn_name)
             return success
+    
+
+if __name__ == "__main__":
+    # Example usage
+    if connect_to_vpn():
+        print("VPN connection established successfully.")
+    else:
+        print("Failed to establish VPN connection.")

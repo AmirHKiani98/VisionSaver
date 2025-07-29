@@ -180,6 +180,7 @@ function App() {
       fetch(apiLink)
         .then((res) => res.json())
         .then((data) => {
+          console.log('Fetched record schedule:', data)
           if (Array.isArray(data)) {
             // camera_url should be changed to cameraUrl
             data = data.map((record) => ({
@@ -208,6 +209,7 @@ function App() {
           }
         })
         .catch((e) => {
+          console.error('Error fetching record schedule:', e)
           setRecordLinks([])
         })
     }
@@ -715,7 +717,7 @@ function App() {
                       id="submit-start-recording"
                       className="bg-red-500 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-red-700"
                       onClick={() => {
-                        setTime(dayjs().add(1, 'minute'));
+                        setTime(dayjs().add(5, 'seconds'));
                         setShouldAddCronJob(true);
                       }}
                     >

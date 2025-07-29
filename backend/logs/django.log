@@ -1,0 +1,92 @@
+ERROR 2025-07-28 19:03:55,289 log 16580 26340 Internal Server Error: /api/get_record_schedule/
+ERROR 2025-07-28 19:12:00,182 log 16580 21252 Internal Server Error: /api/get_record_schedule/
+ERROR 2025-07-28 19:12:30,840 log 16580 26340 Internal Server Error: /api/get_record_schedule/
+ERROR 2025-07-28 19:12:51,568 log 16580 21252 Internal Server Error: /api/get_record_schedule/
+ERROR 2025-07-28 19:13:09,531 log 16580 26340 Internal Server Error: /api/get_record_schedule/
+ERROR 2025-07-28 19:14:23,863 log 16580 21252 Internal Server Error: /api/get_record_schedule/
+ERROR 2025-07-28 19:14:40,171 log 16580 26340 Internal Server Error: /api/get_record_schedule/
+ERROR 2025-07-28 19:15:32,967 log 16580 21252 Internal Server Error: /api/get_record_schedule/
+ERROR 2025-07-28 19:16:24,522 log 16580 26340 Internal Server Error: /api/get_record_schedule/
+ERROR 2025-07-28 19:17:07,412 log 16580 21252 Internal Server Error: /api/get_record_schedule/
+ERROR 2025-07-28 19:17:45,499 log 16580 26340 Internal Server Error: /api/get_record_schedule/
+ERROR 2025-07-28 19:22:58,012 log 16580 21252 Internal Server Error: /api/get_record_schedule/
+WARNING 2025-07-28 19:25:22,942 log 16580 21252 Not Found: /favicon.ico
+WARNING 2025-07-28 19:26:21,947 log 16580 21252 Not Found: /favicon.ico
+WARNING 2025-07-28 19:30:26,516 log 16580 21252 Not Found: /favicon.ico
+WARNING 2025-07-28 19:30:26,971 log 16580 21252 Not Found: /favicon.ico
+WARNING 2025-07-28 19:30:27,176 log 16580 21252 Not Found: /favicon.ico
+WARNING 2025-07-28 19:32:30,679 log 16580 21252 Not Found: /favicon.ico
+WARNING 2025-07-28 19:32:31,029 log 16580 21252 Not Found: /favicon.ico
+WARNING 2025-07-28 19:32:31,209 log 16580 21252 Not Found: /favicon.ico
+WARNING 2025-07-28 19:32:31,359 log 16580 21252 Not Found: /favicon.ico
+INFO 2025-07-28 19:34:33,732 logger 35772 34888 get_record_schedule called
+INFO 2025-07-28 19:34:33,732 logger 35772 34888 get_record_schedule called
+INFO 2025-07-28 19:34:33,734 logger 35772 34888 Fetching record schedule
+INFO 2025-07-28 19:34:33,734 logger 35772 34888 Fetching record schedule
+INFO 2025-07-28 19:34:33,741 logger 35772 34888 Raw records fetched: 140
+INFO 2025-07-28 19:34:33,741 logger 35772 34888 Raw records fetched: 140
+WARNING 2025-07-28 19:35:06,195 log 35772 34324 Not Found: /favicon.ico
+INFO 2025-07-28 19:37:08,259 logger 3192 21120 Processing record: 634 from rtsp://192.168.113.233/cam4
+INFO 2025-07-28 19:37:08,259 logger 3192 21120 Processing record: 634 from rtsp://192.168.113.233/cam4
+INFO 2025-07-28 19:37:08,272 logger 3192 21120 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-28 19:37:08,272 logger 3192 21120 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-28 19:37:08,300 logger 3192 21120 Record 634 started successfully.
+INFO 2025-07-28 19:37:08,300 logger 3192 21120 Record 634 started successfully.
+INFO 2025-07-28 19:37:08,302 logger 3192 21120 Processing record: 635 from rtsp://192.168.113.233/cam2
+INFO 2025-07-28 19:37:08,302 logger 3192 21120 Processing record: 635 from rtsp://192.168.113.233/cam2
+INFO 2025-07-28 19:37:08,311 logger 3192 21120 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-28 19:37:08,311 logger 3192 21120 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-28 19:37:08,358 logger 3192 21120 Record 635 started successfully.
+INFO 2025-07-28 19:37:08,358 logger 3192 21120 Record 635 started successfully.
+INFO 2025-07-28 19:37:08,359 logger 3192 21120 Processing record: 636 from rtsp://192.168.113.233/cam3
+INFO 2025-07-28 19:37:08,359 logger 3192 21120 Processing record: 636 from rtsp://192.168.113.233/cam3
+INFO 2025-07-28 19:37:08,366 logger 3192 21120 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-28 19:37:08,366 logger 3192 21120 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-28 19:37:08,379 logger 3192 21120 Record 636 started successfully.
+INFO 2025-07-28 19:37:08,379 logger 3192 21120 Record 636 started successfully.
+INFO 2025-07-28 19:37:08,380 logger 3192 21120 Processing record: 637 from rtsp://192.168.113.233/cam1
+INFO 2025-07-28 19:37:08,380 logger 3192 21120 Processing record: 637 from rtsp://192.168.113.233/cam1
+INFO 2025-07-28 19:37:08,387 logger 3192 21120 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-28 19:37:08,387 logger 3192 21120 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-28 19:37:08,398 logger 3192 21120 Record 637 started successfully.
+INFO 2025-07-28 19:37:08,398 logger 3192 21120 Record 637 started successfully.
+DEBUG 2025-07-28 19:37:14,672 logger 35772 27064 Starting recording for 1 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/634
+DEBUG 2025-07-28 19:37:14,672 logger 35772 27064 Starting recording for 1 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/634
+DEBUG 2025-07-28 19:37:19,334 logger 35772 32652 Starting recording for 1 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/635
+DEBUG 2025-07-28 19:37:19,334 logger 35772 32652 Starting recording for 1 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/635
+DEBUG 2025-07-28 19:37:20,483 logger 35772 23940 Starting recording for 1 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/637
+DEBUG 2025-07-28 19:37:20,483 logger 35772 23940 Starting recording for 1 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/637
+DEBUG 2025-07-28 19:37:21,912 logger 35772 34908 Starting recording for 1 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/636
+DEBUG 2025-07-28 19:37:21,912 logger 35772 34908 Starting recording for 1 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/636
+INFO 2025-07-28 19:40:08,442 logger 3192 21120 Processing record: 638 from rtsp://192.168.113.233/cam2
+INFO 2025-07-28 19:40:08,442 logger 3192 21120 Processing record: 638 from rtsp://192.168.113.233/cam2
+INFO 2025-07-28 19:40:08,449 logger 3192 21120 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-28 19:40:08,449 logger 3192 21120 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-28 19:40:08,467 logger 3192 21120 Record 638 started successfully.
+INFO 2025-07-28 19:40:08,467 logger 3192 21120 Record 638 started successfully.
+INFO 2025-07-28 19:40:08,469 logger 3192 21120 Processing record: 639 from rtsp://192.168.113.233/cam1
+INFO 2025-07-28 19:40:08,469 logger 3192 21120 Processing record: 639 from rtsp://192.168.113.233/cam1
+INFO 2025-07-28 19:40:08,479 logger 3192 21120 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-28 19:40:08,479 logger 3192 21120 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-28 19:40:08,525 logger 3192 21120 Record 639 started successfully.
+INFO 2025-07-28 19:40:08,525 logger 3192 21120 Record 639 started successfully.
+INFO 2025-07-28 19:40:08,527 logger 3192 21120 Processing record: 640 from rtsp://192.168.113.233/cam3
+INFO 2025-07-28 19:40:08,527 logger 3192 21120 Processing record: 640 from rtsp://192.168.113.233/cam3
+INFO 2025-07-28 19:40:08,537 logger 3192 21120 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-28 19:40:08,537 logger 3192 21120 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-28 19:40:08,557 logger 3192 21120 Record 640 started successfully.
+INFO 2025-07-28 19:40:08,557 logger 3192 21120 Record 640 started successfully.
+INFO 2025-07-28 19:40:08,560 logger 3192 21120 Processing record: 641 from rtsp://192.168.113.233/cam4
+INFO 2025-07-28 19:40:08,560 logger 3192 21120 Processing record: 641 from rtsp://192.168.113.233/cam4
+INFO 2025-07-28 19:40:08,572 logger 3192 21120 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-28 19:40:08,572 logger 3192 21120 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-28 19:40:08,591 logger 3192 21120 Record 641 started successfully.
+INFO 2025-07-28 19:40:08,591 logger 3192 21120 Record 641 started successfully.
+DEBUG 2025-07-28 19:40:14,113 logger 32872 14992 Starting recording for 1 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/638
+DEBUG 2025-07-28 19:40:14,113 logger 32872 14992 Starting recording for 1 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/638
+DEBUG 2025-07-28 19:40:23,828 logger 32872 35820 Starting recording for 1 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/639
+DEBUG 2025-07-28 19:40:23,828 logger 32872 35820 Starting recording for 1 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/639
+DEBUG 2025-07-28 19:40:26,012 logger 32872 3940 Starting recording for 1 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/641
+DEBUG 2025-07-28 19:40:26,012 logger 32872 3940 Starting recording for 1 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/641
+DEBUG 2025-07-28 19:40:27,588 logger 32872 7944 Starting recording for 1 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/640
+DEBUG 2025-07-28 19:40:27,588 logger 32872 7944 Starting recording for 1 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/640

@@ -85,11 +85,14 @@ def get_record_schedule(request):
     """
     Get the recording schedule.
     """
+    logger.info("get_record_schedule called")
     if request.method != 'GET':
         return JsonResponse({"error": "Method Not Allowed"}, status=405)
     try:
         # Helper to extract ip and stream from camera_url
+        logger.info("Fetching record schedule")
         raw_records = Record.objects.all().values()
+        logger.info(f"Raw records fetched: {len(raw_records)}")
         df = pd.DataFrame(list(raw_records))
         if df.empty:
             return JsonResponse({"records": []}, status=200)
@@ -120,7 +123,7 @@ def get_record_schedule(request):
 
         return JsonResponse({"records": list(records)}, status=200)
     except Exception as e:
-        # logger.error("Error in get_record_schedule:", str(e))
+        logger.error("Error in get_record_schedule:", str(e))
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
 
 @csrf_exempt
