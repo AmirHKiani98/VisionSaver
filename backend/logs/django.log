@@ -18598,3 +18598,161 @@ WARNING 2025-07-28 20:53:17,483 selector_events 34596 24472 socket.send() raised
 WARNING 2025-07-28 20:53:17,483 selector_events 34596 24472 socket.send() raised exception.
 WARNING 2025-07-28 20:53:17,483 selector_events 34596 24472 socket.send() raised exception.
 WARNING 2025-07-28 20:53:17,483 selector_events 34596 24472 socket.send() raised exception.
+INFO 2025-07-29 07:17:16,824 logger 34596 36240 get_record_schedule called
+INFO 2025-07-29 07:17:16,824 logger 34596 36240 get_record_schedule called
+INFO 2025-07-29 07:17:16,827 logger 34596 36240 Fetching record schedule
+INFO 2025-07-29 07:17:16,827 logger 34596 36240 Fetching record schedule
+INFO 2025-07-29 07:17:17,130 logger 34596 36240 Raw records fetched: 144
+INFO 2025-07-29 07:17:17,130 logger 34596 36240 Raw records fetched: 144
+INFO 2025-07-29 07:18:23,976 logger 28392 13596 Processing record: 646 from rtsp://192.168.135.9/cam3
+INFO 2025-07-29 07:18:23,976 logger 28392 13596 Processing record: 646 from rtsp://192.168.135.9/cam3
+INFO 2025-07-29 07:18:23,985 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 07:18:23,985 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 07:18:24,029 logger 28392 13596 Record 646 started successfully.
+INFO 2025-07-29 07:18:24,029 logger 28392 13596 Record 646 started successfully.
+INFO 2025-07-29 07:18:24,030 logger 28392 13596 Processing record: 647 from rtsp://192.168.135.9/cam1
+INFO 2025-07-29 07:18:24,030 logger 28392 13596 Processing record: 647 from rtsp://192.168.135.9/cam1
+INFO 2025-07-29 07:18:24,038 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 07:18:24,038 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 07:18:24,066 logger 28392 13596 Record 647 started successfully.
+INFO 2025-07-29 07:18:24,066 logger 28392 13596 Record 647 started successfully.
+INFO 2025-07-29 07:18:24,068 logger 28392 13596 Processing record: 648 from rtsp://192.168.135.9/cam2
+INFO 2025-07-29 07:18:24,068 logger 28392 13596 Processing record: 648 from rtsp://192.168.135.9/cam2
+INFO 2025-07-29 07:18:24,076 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 07:18:24,076 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 07:18:24,099 logger 28392 13596 Record 648 started successfully.
+INFO 2025-07-29 07:18:24,099 logger 28392 13596 Record 648 started successfully.
+DEBUG 2025-07-29 07:18:34,725 logger 34596 11688 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/646
+DEBUG 2025-07-29 07:18:34,725 logger 34596 11688 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/646
+DEBUG 2025-07-29 07:18:38,907 logger 34596 34772 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/647
+DEBUG 2025-07-29 07:18:38,907 logger 34596 34772 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/647
+DEBUG 2025-07-29 07:18:43,996 logger 34596 36944 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/648
+DEBUG 2025-07-29 07:18:43,996 logger 34596 36944 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/648
+INFO 2025-07-29 07:20:24,131 logger 28392 13596 Processing record: 649 from rtsp://192.168.114.9/cam1
+INFO 2025-07-29 07:20:24,131 logger 28392 13596 Processing record: 649 from rtsp://192.168.114.9/cam1
+INFO 2025-07-29 07:20:24,137 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 07:20:24,137 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 07:20:24,159 logger 28392 13596 Record 649 started successfully.
+INFO 2025-07-29 07:20:24,159 logger 28392 13596 Record 649 started successfully.
+INFO 2025-07-29 07:20:24,161 logger 28392 13596 Processing record: 650 from rtsp://192.168.114.9/cam3
+INFO 2025-07-29 07:20:24,161 logger 28392 13596 Processing record: 650 from rtsp://192.168.114.9/cam3
+INFO 2025-07-29 07:20:24,170 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 07:20:24,170 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 07:20:24,194 logger 28392 13596 Record 650 started successfully.
+INFO 2025-07-29 07:20:24,194 logger 28392 13596 Record 650 started successfully.
+INFO 2025-07-29 07:20:24,197 logger 28392 13596 Processing record: 651 from rtsp://192.168.114.9/cam4
+INFO 2025-07-29 07:20:24,197 logger 28392 13596 Processing record: 651 from rtsp://192.168.114.9/cam4
+INFO 2025-07-29 07:20:24,205 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 07:20:24,205 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 07:20:24,230 logger 28392 13596 Record 651 started successfully.
+INFO 2025-07-29 07:20:24,230 logger 28392 13596 Record 651 started successfully.
+INFO 2025-07-29 07:20:24,231 logger 28392 13596 Processing record: 652 from rtsp://192.168.114.9/cam2
+INFO 2025-07-29 07:20:24,231 logger 28392 13596 Processing record: 652 from rtsp://192.168.114.9/cam2
+INFO 2025-07-29 07:20:24,239 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 07:20:24,239 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 07:20:24,262 logger 28392 13596 Record 652 started successfully.
+INFO 2025-07-29 07:20:24,262 logger 28392 13596 Record 652 started successfully.
+DEBUG 2025-07-29 07:20:29,137 logger 34596 25716 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/649
+DEBUG 2025-07-29 07:20:29,137 logger 34596 25716 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/649
+DEBUG 2025-07-29 07:20:33,917 logger 34596 22660 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/650
+DEBUG 2025-07-29 07:20:33,917 logger 34596 22660 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/650
+DEBUG 2025-07-29 07:20:38,865 logger 34596 23528 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/652
+DEBUG 2025-07-29 07:20:38,865 logger 34596 23528 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/652
+DEBUG 2025-07-29 07:20:44,077 logger 34596 28240 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/651
+DEBUG 2025-07-29 07:20:44,077 logger 34596 28240 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/651
+INFO 2025-07-29 07:40:17,365 logger 28392 13596 Processing record: 653 from rtsp://192.168.113.201/cam1
+INFO 2025-07-29 07:40:17,365 logger 28392 13596 Processing record: 653 from rtsp://192.168.113.201/cam1
+INFO 2025-07-29 07:40:17,378 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 07:40:17,378 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 07:40:17,409 logger 28392 13596 Record 653 started successfully.
+INFO 2025-07-29 07:40:17,409 logger 28392 13596 Record 653 started successfully.
+INFO 2025-07-29 07:40:17,413 logger 28392 13596 Processing record: 654 from rtsp://192.168.113.201/cam2
+INFO 2025-07-29 07:40:17,413 logger 28392 13596 Processing record: 654 from rtsp://192.168.113.201/cam2
+INFO 2025-07-29 07:40:17,423 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 07:40:17,423 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 07:40:17,450 logger 28392 13596 Record 654 started successfully.
+INFO 2025-07-29 07:40:17,450 logger 28392 13596 Record 654 started successfully.
+INFO 2025-07-29 07:40:17,452 logger 28392 13596 Processing record: 655 from rtsp://192.168.113.201/cam4
+INFO 2025-07-29 07:40:17,452 logger 28392 13596 Processing record: 655 from rtsp://192.168.113.201/cam4
+INFO 2025-07-29 07:40:17,462 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 07:40:17,462 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 07:40:17,488 logger 28392 13596 Record 655 started successfully.
+INFO 2025-07-29 07:40:17,488 logger 28392 13596 Record 655 started successfully.
+INFO 2025-07-29 07:40:17,491 logger 28392 13596 Processing record: 656 from rtsp://192.168.113.201/cam3
+INFO 2025-07-29 07:40:17,491 logger 28392 13596 Processing record: 656 from rtsp://192.168.113.201/cam3
+INFO 2025-07-29 07:40:17,502 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 07:40:17,502 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 07:40:17,526 logger 28392 13596 Record 656 started successfully.
+INFO 2025-07-29 07:40:17,526 logger 28392 13596 Record 656 started successfully.
+DEBUG 2025-07-29 07:40:24,117 logger 34596 36584 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/653
+DEBUG 2025-07-29 07:40:24,117 logger 34596 36584 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/653
+DEBUG 2025-07-29 07:40:28,894 logger 34596 34880 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/654
+DEBUG 2025-07-29 07:40:28,894 logger 34596 34880 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/654
+DEBUG 2025-07-29 07:40:34,617 logger 34596 10532 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/656
+DEBUG 2025-07-29 07:40:34,617 logger 34596 10532 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/656
+DEBUG 2025-07-29 07:40:39,176 logger 34596 12932 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/655
+DEBUG 2025-07-29 07:40:39,176 logger 34596 12932 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/655
+INFO 2025-07-29 08:02:37,875 logger 28392 13596 Processing record: 657 from rtsp://192.168.113.73/cam1
+INFO 2025-07-29 08:02:37,875 logger 28392 13596 Processing record: 657 from rtsp://192.168.113.73/cam1
+INFO 2025-07-29 08:02:37,891 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 08:02:37,891 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 08:02:37,913 logger 28392 13596 Record 657 started successfully.
+INFO 2025-07-29 08:02:37,913 logger 28392 13596 Record 657 started successfully.
+INFO 2025-07-29 08:02:37,917 logger 28392 13596 Processing record: 658 from rtsp://192.168.113.73/cam2
+INFO 2025-07-29 08:02:37,917 logger 28392 13596 Processing record: 658 from rtsp://192.168.113.73/cam2
+INFO 2025-07-29 08:02:37,926 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 08:02:37,926 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 08:02:37,946 logger 28392 13596 Record 658 started successfully.
+INFO 2025-07-29 08:02:37,946 logger 28392 13596 Record 658 started successfully.
+INFO 2025-07-29 08:02:37,948 logger 28392 13596 Processing record: 659 from rtsp://192.168.113.73/cam3
+INFO 2025-07-29 08:02:37,948 logger 28392 13596 Processing record: 659 from rtsp://192.168.113.73/cam3
+INFO 2025-07-29 08:02:37,962 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 08:02:37,962 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 08:02:37,983 logger 28392 13596 Record 659 started successfully.
+INFO 2025-07-29 08:02:37,983 logger 28392 13596 Record 659 started successfully.
+INFO 2025-07-29 08:02:37,984 logger 28392 13596 Processing record: 660 from rtsp://192.168.113.73/cam4
+INFO 2025-07-29 08:02:37,984 logger 28392 13596 Processing record: 660 from rtsp://192.168.113.73/cam4
+INFO 2025-07-29 08:02:38,010 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 08:02:38,010 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 08:02:38,033 logger 28392 13596 Record 660 started successfully.
+INFO 2025-07-29 08:02:38,033 logger 28392 13596 Record 660 started successfully.
+DEBUG 2025-07-29 08:02:47,297 logger 34596 24564 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/657
+DEBUG 2025-07-29 08:02:47,297 logger 34596 24564 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/657
+DEBUG 2025-07-29 08:02:52,476 logger 34596 10572 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/658
+DEBUG 2025-07-29 08:02:52,476 logger 34596 10572 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/658
+DEBUG 2025-07-29 08:02:56,741 logger 34596 9052 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/660
+DEBUG 2025-07-29 08:02:56,741 logger 34596 9052 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/660
+DEBUG 2025-07-29 08:03:02,185 logger 34596 34392 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/659
+DEBUG 2025-07-29 08:03:02,185 logger 34596 34392 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/659
+INFO 2025-07-29 08:03:48,054 logger 28392 13596 Processing record: 661 from rtsp://192.168.113.169/cam1
+INFO 2025-07-29 08:03:48,054 logger 28392 13596 Processing record: 661 from rtsp://192.168.113.169/cam1
+INFO 2025-07-29 08:03:48,061 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 08:03:48,061 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 08:03:48,085 logger 28392 13596 Record 661 started successfully.
+INFO 2025-07-29 08:03:48,085 logger 28392 13596 Record 661 started successfully.
+INFO 2025-07-29 08:03:48,087 logger 28392 13596 Processing record: 662 from rtsp://192.168.113.169/cam2
+INFO 2025-07-29 08:03:48,087 logger 28392 13596 Processing record: 662 from rtsp://192.168.113.169/cam2
+INFO 2025-07-29 08:03:48,093 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 08:03:48,093 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 08:03:48,115 logger 28392 13596 Record 662 started successfully.
+INFO 2025-07-29 08:03:48,115 logger 28392 13596 Record 662 started successfully.
+INFO 2025-07-29 08:03:48,117 logger 28392 13596 Processing record: 663 from rtsp://192.168.113.169/cam3
+INFO 2025-07-29 08:03:48,117 logger 28392 13596 Processing record: 663 from rtsp://192.168.113.169/cam3
+INFO 2025-07-29 08:03:48,127 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 08:03:48,127 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 08:03:48,152 logger 28392 13596 Record 663 started successfully.
+INFO 2025-07-29 08:03:48,152 logger 28392 13596 Record 663 started successfully.
+INFO 2025-07-29 08:03:48,155 logger 28392 13596 Processing record: 664 from rtsp://192.168.113.169/cam4
+INFO 2025-07-29 08:03:48,155 logger 28392 13596 Processing record: 664 from rtsp://192.168.113.169/cam4
+INFO 2025-07-29 08:03:48,171 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 08:03:48,171 logger 28392 13596 Making POST request to: http://localhost:5051/record/start_record_rtsp/
+INFO 2025-07-29 08:03:48,192 logger 28392 13596 Record 664 started successfully.
+INFO 2025-07-29 08:03:48,192 logger 28392 13596 Record 664 started successfully.
+DEBUG 2025-07-29 08:03:54,423 logger 34596 37116 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/661
+DEBUG 2025-07-29 08:03:54,423 logger 34596 37116 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/661
+DEBUG 2025-07-29 08:03:59,397 logger 34596 33088 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/662
+DEBUG 2025-07-29 08:03:59,397 logger 34596 33088 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/662
+DEBUG 2025-07-29 08:04:04,692 logger 34596 17972 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/664
+DEBUG 2025-07-29 08:04:04,692 logger 34596 17972 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/664
+DEBUG 2025-07-29 08:04:09,461 logger 34596 21316 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/663
+DEBUG 2025-07-29 08:04:09,461 logger 34596 21316 Starting recording for 15 minutes to C:\Users\amki003\OneDrive - Hennepin County\Documents\Github\CameraVision\backend\media/663
