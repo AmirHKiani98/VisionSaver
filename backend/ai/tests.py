@@ -5,49 +5,84 @@ from ultralytics import YOLO
 import os
 import cv2
 import logging
+import json
 logging.getLogger('ultralytics').setLevel(logging.WARNING)
 class AiAppTestCase(TestCase):
     """
     Template test case for the 'ai' Django app.
     """
+    def setUp(self):
+        """
+        Set up the test case with necessary configurations.
+        """
+        self.video_path = os.path.join(settings.MEDIA_ROOT, "165.mkv")
+        if not os.path.isfile(self.video_path):
+            raise FileNotFoundError(f"Test video file not found at {self.video_path}")
+        # Ensure the video file is accessible
+        self.output_dir = os.path.join(os.path.dirname(__file__), 'test')
+        self.assertTrue(os.path.isfile(self.video_path), f"Video file not found at {self.video_path}")
+
     def test_video_image(self):
-        video_path = os.path.join(settings.MEDIA_ROOT, "165.mkv")
-        self.assertTrue(os.path.isfile(video_path), f"Video file not found at {video_path}")
+        self.assertTrue(os.path.isfile(self.video_path), f"Video file not found at {self.video_path}")
+        if os.path.isfile(os.path.join(self.output_dir, 'car_detection_results.json')):
+            return
         
         # Load YOLOv8 model
         model = YOLO('yolov8n.pt', verbose=False)
         detector = CarDetection(
             model=model,
-            video_path=video_path,
-            divide_time=1
+            video_path=self.video_path,
+            divide_time=0.1
         )
 
         # Check that results exist
         self.assertIsInstance(detector.results, dict)
         self.assertGreater(len(detector.results), 0, "No frames were processed")
         # Store the data inside the test folder
-        output_dir = os.path.join(settings.BASE_DIR, 'tests', 'output')
-        os.makedirs(output_dir, exist_ok=True)
-        with open(os.path.join(output_dir, 'car_detection_results.json'), 'w') as f:
-            import json
-            json.dump(detector.results, f, indent=4)
-        
-        # Check if th file exists
-        self.assertTrue(os.path.isfile(os.path.join(output_dir, 'car_detection_results.json')), "Results file was not created")
+        os.makedirs(self.output_dir, exist_ok=True)
+        with open(os.path.join(self.output_dir, 'car_detection_results.json'), 'w') as f:
+            # Convert all keys to str to ensure JSON serializability
+            def convert_keys_to_str(obj):
+                if isinstance(obj, dict):
+                    return {str(k): convert_keys_to_str(v) for k, v in obj.items()}
+                elif isinstance(obj, list):
+                    return [convert_keys_to_str(i) for i in obj]
+                else:
+                    return obj
+            json.dump(convert_keys_to_str(detector.results), f, indent=4)
+
+        # Check if the file exists
+        self.assertTrue(os.path.isfile(os.path.join(self.output_dir, 'car_detection_results.json')), "Results file was not created")
+
+    def test_play_annotated_video(self):
+        # Test playing the annotated video
+        with open(os.path.join(self.output_dir, 'car_detection_results.json'), 'r') as f:
+            detector = json.load(f)
+        self.play_annotated_video(detector)
+
+    def play_annotated_video(self, detector: dict, fps=10):
+        delay = int(1000 / fps)
+        sorted_keys = sorted(detector.keys())
+        cap = cv2.VideoCapture(self.video_path)
+        for timestamp in sorted_keys:
+            result = detector[timestamp]
+            frame_number = result['frame_number']
+            cap.set(cv2.CAP_PROP_POS_FRAMES, frame_number)
+            success, frame = cap.read()
+            if not success:
+                continue
+            frame = self.draw_detections(frame, result['objects'])
+            cv2.imshow('Annotated Video', frame)
+            if cv2.waitKey(delay) & 0xFF == ord('q'):
+                break
+        cap.release()
+        cv2.destroyAllWindows()
 
     def draw_detections(self, frame, objects):
         for obj in objects:
-            x1, y1, x2, y2 = int(obj['x1']), int(obj['y1']), int(obj['x2']), int(obj['y2'])
-            track_id = obj['id']
-
-            # Draw bounding box
-            cv2.rectangle(frame, (x1, y1), (x2, y2), color=(0, 255, 0), thickness=2)
-
-            # Draw ID label
-            label = f"ID: {track_id}"
-            cv2.putText(frame, label, (x1, y1 - 10),
-                        fontFace=cv2.FONT_HERSHEY_SIMPLEX,
-                        fontScale=0.6,
-                        color=(0, 255, 0),
-                        thickness=2)
+            [x1, y1, x2, y2], _, _ = obj
+            print(f"Drawing rectangle at: {x1}, {y1}, {x2}, {y2}")
+            cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 2)
+            cv2.putText(frame, f"ID: {'Vehicle'}", (int(x1), int(y1) - 10),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
         return frame

@@ -1,13 +1,13 @@
 import os
 import cv2
-
+import numpy as np
 
 from django.conf import settings
 logger = settings.APP_LOGGER
 from deep_sort_realtime.deepsort_tracker import DeepSort
 class CarDetection():
     
-    def __init__(self, model, video_path, divide_time=1, tracker_config=None):
+    def __init__(self, model, video_path, divide_time=1.0, tracker_config=None):
         """
         Initialize the CarDetection instance.
         """
@@ -47,30 +47,13 @@ class CarDetection():
             for box, cls, conf in zip(results.boxes.xyxy, results.boxes.cls, results.boxes.conf):
                 if int(cls) in objects_of_interest:
                     x1, y1, x2, y2 = map(float, box)
-                    detections.append(([x1, y1, x2 - x1, y2 - y1], float(conf), 'vehicle'))
+                    detections.append(([x1, y1, x2, y2], float(conf), 'vehicle'))
     
-        tracks = self.tracker.update_tracks(detections, frame=image)
-        output = []
-        for track in tracks:
-            if not track.is_confirmed():
-                
-                continue
- 
-            track_id = track.track_id
-            x, y, w, h = track.to_ltrb()
-            output.append({
-                'id': track_id,
-                'x1': x,
-                'y1': y,
-                'x2': x + w,
-                'y2': y + h,
-                'center_x': x + w / 2,
-                'center_y': y + h / 2,
-            })
-        return output
+
+        return detections
         
 
-    def get_results_from_video(self, divide_time=1):
+    def get_results_from_video(self, divide_time=1.0):
         """
         Extract images from the video at specified intervals.
         """
@@ -83,7 +66,8 @@ class CarDetection():
             logger.error("Invalid FPS value. Cannot extract frames.")
             raise ValueError("Invalid FPS value. Cannot extract frames.")
         
-        for i in range(0, int(self.duration), divide_time):
+        for i in np.arange(0, self.duration, divide_time):
+            print(f"Progress : {round((i/self.duration) * 10000)/100}%")
             frame_number = int(i * fps)
             self.video_capture.set(cv2.CAP_PROP_POS_FRAMES, frame_number)
             success, frame = self.video_capture.read()
@@ -93,8 +77,7 @@ class CarDetection():
             data = self.detect_and_track(frame)
 
             self.results[i] = {
-                'frame_number': frame_number,
-                'objects': data
+            'timestamp': float(i),
+            'frame_number': frame_number,
+            'objects': data
             }
-            print(f"{self.results[i]['objects']}")
-            # logger.info(f"Processed frame at {i} seconds: {i}")
