@@ -11,6 +11,7 @@ import {
 import {faPen, faPlus, faEraser} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLocation } from 'react-router-dom';
+import Notification from './components/Notification';
 function useQuery() {
     return new URLSearchParams(useLocation().search);
 }
@@ -31,22 +32,24 @@ const AutoCounter = () => {
     const [videoReady, setVideoReady] = react.useState(false);
     const [videoResolution, setVideoResolution] = react.useState({ width: 1, height: 1 });
     const [videoDisplaySize, setVideoDisplaySize] = react.useState({ width: 1, height: 1 });
-    
+    const [open, setOpen] = react.useState(false);
+    const [severity, setSeverity] = react.useState('info');
+    const [message, setMessage] = react.useState('');
+
+    const autoHideDuration = 3000;
+    const openNotification = (severity, message) => {
+        setSeverity(severity);
+        setMessage(message);
+        setOpen(true);
+    };
+    const closeNotification = () => {
+        setOpen(false);
+    }
     react.useEffect(() => {
         const updateSize = () => {
             if (videoRef.current) {
                 const rect = videoRef.current.getBoundingClientRect();
                 setVideoDisplaySize({ width: rect.width, height: rect.height });
-                // Update the lines to match the video display size
-                // Object.keys(lines).forEach(movement => {
-                //     Object.keys(lines[movement]).forEach(portal => {
-                //         const updatedLines = lines[movement][portal].map(line => {
-                //             const scaledPoints = scaleLines(line);
-                //             return { ...line, points: scaledPoints };
-                //         });
-                //         console.log(lines[movement][portal], movement, portal, lines)
-                //     });
-                // });
             }
         };
         window.addEventListener('resize', updateSize);
@@ -111,10 +114,10 @@ const AutoCounter = () => {
         })
         .then(response => response.json())
         .then(data => {
-            console.log('Lines sent successfully:', data, lines);
+            openNotification('success', 'Lines sent successfully');
         })
         .catch(error => {
-            console.error('Error sending lines:', error);
+            openNotification('error', 'Error sending lines');
         });
     }
 
@@ -466,7 +469,9 @@ const AutoCounter = () => {
                     </Button>
                 </div>
             </div>
+            <Notification open={open} severity={severity} message={message} onClose={closeNotification} autoHideDuration={autoHideDuration} />
         </div>
+        
     );
 };
 

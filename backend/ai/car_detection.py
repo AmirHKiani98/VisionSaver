@@ -37,7 +37,8 @@ class CarDetection():
 
     def detect_and_track(self, image):
         """
-        detect the cars inside a cv2 image
+        Detect and track vehicles in the frame.
+        Returns list of tracked objects with bounding boxes and track IDs.
         """
         detections = []
         results = self.model(image)[0]
@@ -48,9 +49,28 @@ class CarDetection():
                 if int(cls) in objects_of_interest:
                     x1, y1, x2, y2 = map(float, box)
                     detections.append(([x1, y1, x2, y2], float(conf), 'vehicle'))
-    
 
-        return detections
+        # Pass detections to tracker
+        tracks = self.tracker.update_tracks(detections, frame=image)
+
+        # Extract tracked objects
+        tracked_objects = []
+        for track in tracks:
+            if not track.is_confirmed():
+                continue
+            track_id = track.track_id
+            tlwh = [float(x) for x in track.to_tlwh()]
+            tracked_objects.append({
+                'track_id': track_id,
+                'tlx': tlwh[0],
+                'tly': tlwh[1],
+                'width': tlwh[2],
+                'height': tlwh[3],
+                'label': 'vehicle'
+            })
+
+        return tracked_objects
+
         
 
     def get_results_from_video(self, divide_time=1.0):

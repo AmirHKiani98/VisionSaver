@@ -15,10 +15,11 @@ class AiAppTestCase(TestCase):
         """
         Set up the test case with necessary configurations.
         """
-        self.video_path = os.path.join(settings.MEDIA_ROOT, "165.mkv")
+        video_input = "663.mkv"
+        self.video_path = os.path.join(settings.MEDIA_ROOT, video_input)
         if not os.path.isfile(self.video_path):
             raise FileNotFoundError(f"Test video file not found at {self.video_path}")
-        # Ensure the video file is accessible
+        # Ensure the video file is accessiblea
         self.output_dir = os.path.join(os.path.dirname(__file__), 'test')
         self.assertTrue(os.path.isfile(self.video_path), f"Video file not found at {self.video_path}")
 
@@ -32,7 +33,7 @@ class AiAppTestCase(TestCase):
         detector = CarDetection(
             model=model,
             video_path=self.video_path,
-            divide_time=0.1
+            divide_time=0.5
         )
 
         # Check that results exist
@@ -80,9 +81,11 @@ class AiAppTestCase(TestCase):
 
     def draw_detections(self, frame, objects):
         for obj in objects:
-            [x1, y1, x2, y2], _, _ = obj
-            print(f"Drawing rectangle at: {x1}, {y1}, {x2}, {y2}")
-            cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 2)
-            cv2.putText(frame, f"ID: {'Vehicle'}", (int(x1), int(y1) - 10),
+            x1, y1, x2, y2 = map(int, obj['bbox'])
+            track_id = obj['track_id']
+            label = obj['label']
+
+            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
+            cv2.putText(frame, f"{label} ID:{track_id}", (x1, y1 - 10),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
         return frame
