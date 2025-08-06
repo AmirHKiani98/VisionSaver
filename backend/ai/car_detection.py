@@ -3,9 +3,12 @@ import cv2
 import numpy as np
 import pandas as pd
 from ai.car import Car
+from tqdm import tqdm
 from django.conf import settings
 from ai.deepsort.nn_matching import NearestNeighborDistanceMetric
 from ai.deepsort.tracker import Tracker
+from ai.deepsort.detection import Detection
+import hashlib
 logger = settings.APP_LOGGER
 
 
@@ -62,7 +65,13 @@ class CarDetection():
                         'class_id': int(cls),
                         # 'car_image': image[int(y1):int(y2), int(x1):int(x2)]
                     })
-                    detections.append(([x1, y1, x2, y2], float(conf), 'vehicle'))
+                    # Convert from (x1, y1, x2, y2) to (x, y, w, h) format
+                    w = x2 - x1
+                    h = y2 - y1
+                    tlwh = [x1, y1, w, h]
+                    # Create a simple feature vector (placeholder)
+                    feature = np.random.rand(128).astype(np.float32)
+                    detections.append(Detection(tlwh, float(conf), feature))
         self.tracker.predict()
         self.tracker.update(detections)
 
@@ -96,25 +105,28 @@ class CarDetection():
         if fps <= 0:
             logger.error("Invalid FPS value. Cannot extract frames.")
             raise ValueError("Invalid FPS value. Cannot extract frames.")
-        df = pd.DataFrame(columns=['time', 'frame_number', "x1", "y1", "x2", "y2", "confidence", "class_id"])
+        df = pd.DataFrame(columns=['time', 'frame_number', "x1", "y1", "x2", "y2", 'track_id'])
         # Hash the name of the video
         video_name = os.path.basename(self.video_path)
-        hash_name = hash(video_name)
+        hash_name = hashlib.md5((video_name + str(divide_time)).encode()).hexdigest()
         output_path = os.path.join(settings.MEDIA_ROOT,  str(hash_name) + '.csv')
         if os.path.exists(output_path):
             logger.info(f"Loading existing results from {output_path}")
             df = pd.read_csv(output_path)
             self.results_df = df
             return df
-        times_cars = {}
-        for i in np.arange(0, self.duration, divide_time):
-            
-            print(f"Progress : {round((i/self.duration) * 10000)/100}%")
+        for i in tqdm(np.arange(0, self.duration, divide_time), total=int(self.duration/divide_time)):
             frame_number = int(i * fps)
             self.video_capture.set(cv2.CAP_PROP_POS_FRAMES, frame_number)
             success, frame = self.video_capture.read()
-            if not success:
-                logger.warning(f"Failed to read frame at {frame_number}. Skipping.")
+            if (
+                not success
+                or frame is None
+                or frame.shape[0] == 0
+                or frame.shape[1] == 0
+                or np.mean(frame) < 1  # type: ignore
+            ):
+                logger.warning(f"[Decode Error] Suspect frame at frame={frame_number}, time={i:.2f}s")
                 continue
             data = self.detect_and_track(frame)
             
@@ -122,6 +134,7 @@ class CarDetection():
                 new_row = pd.DataFrame([{
                     'time': i,
                     'frame_number': frame_number,
+                    'track_id': obj['track_id'],
                     'x1': obj['x1'],
                     'y1': obj['y1'],
                     'x2': obj['x2'],

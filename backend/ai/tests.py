@@ -5,7 +5,7 @@ from ultralytics import YOLO
 import os
 import cv2
 import logging
-import json
+from django.conf import settings
 logging.getLogger('ultralytics').setLevel(logging.WARNING)
 class AiAppTestCase(TestCase):
     """
@@ -30,7 +30,7 @@ class AiAppTestCase(TestCase):
         detector = CarDetection(
             model=model,
             video_path=self.video_path,
-            divide_time=0.5
+            divide_time=0.1
         )
 
         
@@ -42,7 +42,7 @@ class AiAppTestCase(TestCase):
         self.assertIsNotNone(objects_df, "Results DataFrame is None")
         self.assertGreater(len(objects_df), 0, "No objects detected in the video") # type: ignore
         os.makedirs(self.output_dir, exist_ok=True)
-        objects_df.to_csv(os.path.join(self.output_dir, 'car_detection_results.csv'), index=False) # type: ignore
+        # objects_df.to_csv(os.path.join(settings.MEDIA_ROOT, str(hash(os.path.basename(self.video_path))) + '.csv'), index=False) # type: ignore
         self.play_annotated_video(objects_df)
         
         
@@ -82,9 +82,8 @@ class AiAppTestCase(TestCase):
             x1, y1 = int(row['x1']), int(row['y1'])
             x2, y2 = int(row['x2']), int(row['y2'])
             track_id = row['track_id'] if 'track_id' in row else 0
-            label = row['label'] if 'label' in row else 'unknown'
 
             cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
-            cv2.putText(frame, f"{label} ID:{track_id}", (x1, y1 - 10),
+            cv2.putText(frame, f"ID:{track_id}", (x1, y1 - 10),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
         return frame
