@@ -2,9 +2,13 @@ import os
 import cv2
 import numpy as np
 import pandas as pd
-
+from ai.car import Car
 from django.conf import settings
+from ai.deepsort.nn_matching import NearestNeighborDistanceMetric
+from ai.deepsort.tracker import Tracker
 logger = settings.APP_LOGGER
+
+
 # from deep_sort_realtime.deepsort_tracker import DeepSort
 class CarDetection():
     
@@ -14,6 +18,8 @@ class CarDetection():
         """
         self.results_df = None
         self.model = model
+        metric = NearestNeighborDistanceMetric("cosine", matching_threshold=0.4, budget=100)
+        self.tracker = Tracker(metric)
         self.load_video(video_path)
         
         logger.info(f"CarDetection initialized with model {model} and video {video_path}")
@@ -54,9 +60,27 @@ class CarDetection():
                         'x1': x1, 'y1': y1, 'x2': x2, 'y2': y2,
                         'confidence': float(conf),
                         'class_id': int(cls),
+                        # 'car_image': image[int(y1):int(y2), int(x1):int(x2)]
                     })
                     detections.append(([x1, y1, x2, y2], float(conf), 'vehicle'))
-        return objects
+        self.tracker.predict()
+        self.tracker.update(detections)
+
+        output = []
+        for track in self.tracker.tracks:
+            if not track.is_confirmed() or track.time_since_update > 1:
+                continue
+            tlwh = track.to_tlwh()
+            x1, y1, w, h = tlwh
+            x2, y2 = x1 + w, y1 + h
+            output.append({
+                'track_id': track.track_id,
+                'x1': x1,
+                'y1': y1,
+                'x2': x2,
+                'y2': y2
+            })
+        return output
 
         
 
@@ -82,7 +106,9 @@ class CarDetection():
             df = pd.read_csv(output_path)
             self.results_df = df
             return df
+        times_cars = {}
         for i in np.arange(0, self.duration, divide_time):
+            
             print(f"Progress : {round((i/self.duration) * 10000)/100}%")
             frame_number = int(i * fps)
             self.video_capture.set(cv2.CAP_PROP_POS_FRAMES, frame_number)
@@ -91,6 +117,7 @@ class CarDetection():
                 logger.warning(f"Failed to read frame at {frame_number}. Skipping.")
                 continue
             data = self.detect_and_track(frame)
+            
             for obj in data:
                 new_row = pd.DataFrame([{
                     'time': i,
@@ -99,8 +126,8 @@ class CarDetection():
                     'y1': obj['y1'],
                     'x2': obj['x2'],
                     'y2': obj['y2'],
-                    'confidence': obj.get('confidence', 0.0),
-                    'class_id': obj.get('class_id', 0)
+                    # 'confidence': obj.get('confidence', 0.0),
+                    # 'class_id': obj.get('class_id', 0)
                 }])
                 df = pd.concat([df, new_row], ignore_index=True)
 
@@ -150,3 +177,33 @@ class CarDetection():
             return None
         return frame
     
+    # def run_tracker(self):
+    #     """
+    #     Run detection on a specific timestamp.
+    #     """
+    #     if self.results_df is None:
+    #         logger.error("Results DataFrame is empty. Please run get_results_from_video first.")
+    #         return None
+    #     if self.results_df.empty:
+    #         logger.error("Results DataFrame is empty. No detections found.")
+    #         return None
+    #     self.results_df['time'] = self.results_df['time'].astype(float)
+    #     self.results_df = self.results_df.sort_values(by='time').reset_index(drop=True)
+
+    #     timestamp = None
+    #     next_timestamp = None
+
+    #     time_groups = self.results_df.groupby('time')
+    #     if len(time_groups) == 0:
+    #         logger.error("No time groups found in results DataFrame.")
+    #         return None
+    #     # Process each group of results
+    #     for name, group in time_groups:
+    #         logger.info(f"Processing group: {name}")
+    #         time = name
+    #         frame = self.get_image_from_timestamp(time)
+            
+    #         for index, row in group.iterrows():
+    #             timestamp = row['time']
+                
+ 
