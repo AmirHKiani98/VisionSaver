@@ -2,10 +2,17 @@ import os
 import cv2
 import numpy as np
 import pandas as pd
-
+from ai.car import Car
+from tqdm import tqdm
 from django.conf import settings
+from ai.deepsort.nn_matching import NearestNeighborDistanceMetric
+from ai.deepsort.tracker import Tracker
+from ai.deepsort.detection import Detection
+import hashlib
 logger = settings.APP_LOGGER
-from deep_sort_realtime.deepsort_tracker import DeepSort
+
+
+# from deep_sort_realtime.deepsort_tracker import DeepSort
 class CarDetection():
     
     def __init__(self, model, video_path, divide_time=1.0, tracker_config=None):
@@ -14,11 +21,10 @@ class CarDetection():
         """
         self.results_df = None
         self.model = model
+        metric = NearestNeighborDistanceMetric("cosine", matching_threshold=0.4, budget=100)
+        self.tracker = Tracker(metric)
         self.load_video(video_path)
-        if tracker_config is not None:
-            self.tracker = DeepSort(**tracker_config)
-        else:
-            self.tracker = DeepSort(max_age=5)
+        
         logger.info(f"CarDetection initialized with model {model} and video {video_path}")
         self.results_df = None
         self.get_results_from_video(divide_time)
@@ -52,47 +58,38 @@ class CarDetection():
                 if int(cls) in objects_of_interest:
                     x1, y1, x2, y2 = map(float, box)
                     # AVG RGB
-                    avg_rgb = self.average_rgb(image, [x1, y1, x2, y2])
                     
                     objects.append({
                         'x1': x1, 'y1': y1, 'x2': x2, 'y2': y2,
-                        'avg_r': avg_rgb[0] if avg_rgb else None,
-                        'avg_g': avg_rgb[1] if avg_rgb else None,
-                        'avg_b': avg_rgb[2] if avg_rgb else None,
                         'confidence': float(conf),
                         'class_id': int(cls),
+                        # 'car_image': image[int(y1):int(y2), int(x1):int(x2)]
                     })
-                    detections.append(([x1, y1, x2, y2], float(conf), 'vehicle'))
-        return objects
-        # Pass detections to tracker
-        tracks = self.tracker.update_tracks(detections, frame=image)
+                    # Convert from (x1, y1, x2, y2) to (x, y, w, h) format
+                    w = x2 - x1
+                    h = y2 - y1
+                    tlwh = [x1, y1, w, h]
+                    # Create a simple feature vector (placeholder)
+                    feature = np.random.rand(128).astype(np.float32)
+                    detections.append(Detection(tlwh, float(conf), feature))
+        self.tracker.predict()
+        self.tracker.update(detections)
 
-        # Extract tracked objects
-        tracked_objects = []
-        for track in tracks:
-            if not track.is_confirmed():
+        output = []
+        for track in self.tracker.tracks:
+            if not track.is_confirmed() or track.time_since_update > 1:
                 continue
-            track_id = track.track_id
-            tlwh = [float(x) for x in track.to_tlwh()]
-            # Find the YOLO box that matches this track (you may need to keep a mapping)
-            # For simplicity, let's assume you can get the last YOLO box for this track
-            # You need to implement this mapping logic in your pipeline
-            yolo_box = track.last_detection_box if hasattr(track, 'last_detection_box') else None
-            if yolo_box is not None:
-                x1, y1, x2, y2 = map(int, yolo_box)
-                checked = "yolo"
-            else:
-                # fallback to tracker box if YOLO box is not available
-                x1, y1, w, h = map(int, tlwh)
-                x2, y2 = x1 + w, y1 + h
-                checked = "tracker"
-            tracked_objects.append({
-                'track_id': track_id,
-                'label': 'vehicle',
-                'x1': x1, 'y1': y1, 'x2': x2, 'y2': y2,
-                'checked': checked
+            tlwh = track.to_tlwh()
+            x1, y1, w, h = tlwh
+            x2, y2 = x1 + w, y1 + h
+            output.append({
+                'track_id': track.track_id,
+                'x1': x1,
+                'y1': y1,
+                'x2': x2,
+                'y2': y2
             })
-        return tracked_objects
+        return output
 
         
 
@@ -108,48 +105,118 @@ class CarDetection():
         if fps <= 0:
             logger.error("Invalid FPS value. Cannot extract frames.")
             raise ValueError("Invalid FPS value. Cannot extract frames.")
-        df = pd.DataFrame(columns=['time', 'frame_number', "x1", "y1", "x2", "y2", "confidence", "class_id"])
-        for i in np.arange(0, self.duration, divide_time):
-            print(f"Progress : {round((i/self.duration) * 10000)/100}%")
+        df = pd.DataFrame(columns=['time', 'frame_number', "x1", "y1", "x2", "y2", 'track_id'])
+        # Hash the name of the video
+        video_name = os.path.basename(self.video_path)
+        hash_name = hashlib.md5((video_name + str(divide_time)).encode()).hexdigest()
+        output_path = os.path.join(settings.MEDIA_ROOT,  str(hash_name) + '.csv')
+        if os.path.exists(output_path):
+            logger.info(f"Loading existing results from {output_path}")
+            df = pd.read_csv(output_path)
+            self.results_df = df
+            return df
+        for i in tqdm(np.arange(0, self.duration, divide_time), total=int(self.duration/divide_time)):
             frame_number = int(i * fps)
             self.video_capture.set(cv2.CAP_PROP_POS_FRAMES, frame_number)
             success, frame = self.video_capture.read()
-            if not success:
-                logger.warning(f"Failed to read frame at {frame_number}. Skipping.")
+            if (
+                not success
+                or frame is None
+                or frame.shape[0] == 0
+                or frame.shape[1] == 0
+                or np.mean(frame) < 1  # type: ignore
+            ):
+                logger.warning(f"[Decode Error] Suspect frame at frame={frame_number}, time={i:.2f}s")
                 continue
             data = self.detect_and_track(frame)
+            
             for obj in data:
                 new_row = pd.DataFrame([{
                     'time': i,
                     'frame_number': frame_number,
+                    'track_id': obj['track_id'],
                     'x1': obj['x1'],
                     'y1': obj['y1'],
                     'x2': obj['x2'],
                     'y2': obj['y2'],
-                    'confidence': obj.get('confidence', 0.0),
-                    'class_id': obj.get('class_id', 0)
+                    # 'confidence': obj.get('confidence', 0.0),
+                    # 'class_id': obj.get('class_id', 0)
                 }])
                 df = pd.concat([df, new_row], ignore_index=True)
 
         self.results_df = df
+        df.to_csv(output_path, index=False)
         return df
 
-    def average_rgb(self, frame, bbox) -> list[float] | None:
+    def _is_both_images_same_car_abs_difference(self, image1, image2, threshold=0.8):
         """
-        Calculate the average RGB values of the bbox inside a frame.
-        :param frame: The video frame as a numpy array.
-        :param bbox: Bounding box in the format [x1, y1, x2, y2].
+        Compare two images to check if they are of the same car.
+        Uses a simple pixel-wise comparison.
         """
-        x1, y1, x2, y2 = map(int, bbox)
-        if x1 < 0 or y1 < 0 or x2 > frame.shape[1] or y2 > frame.shape[0]:
-            logger.error("Bounding box is out of frame bounds.")
+        # Find the smaller image
+        width = min(image1.shape[1], image2.shape[1])
+        height = min(image1.shape[0], image2.shape[0])
+        image1_resized = cv2.resize(image1, (width, height))
+        image2_resized = cv2.resize(image2, (width, height))
+        # Calculate absolute difference
+        diff = cv2.absdiff(image1_resized, image2_resized)
+        gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
+        # number of items smaller than the threshold
+        num_diff = np.sum(gray < (255 * (1 - threshold)))
+        total_pixels = width * height
+        # Calculate the percentage of different pixels
+        percentage_diff = num_diff / total_pixels
+        if percentage_diff < (1 - threshold):
+            logger.info("Images are of the same car.")
+            return True
+        else:
+            logger.info("Images are of different cars.")
+            return False
+        
+        
+    def get_image_from_timestamp(self, timestamp):
+        """
+        Get an image from the video at a specific timestamp.
+        """
+        if not hasattr(self, 'video_capture'):
+            logger.error("Video capture not initialized. Please load a video first.")
+            raise RuntimeError("Video capture not initialized. Please load a video first.")
+        fps = self.video_capture.get(cv2.CAP_PROP_FPS)
+        frame_number = int(timestamp * fps)
+        self.video_capture.set(cv2.CAP_PROP_POS_FRAMES, frame_number)
+        success, frame = self.video_capture.read()
+        if not success:
+            logger.error(f"Failed to read frame at {frame_number}.")
             return None
-        roi = frame[y1:y2, x1:x2]
-        if roi.size == 0:
-            logger.warning("Region of interest is empty.")
-            return None
-        avg_color = cv2.mean(roi)[:3]
-        return [avg_color[2], avg_color[1], avg_color[0]] # [R, G, B] order
-        
-        
-        
+        return frame
+    
+    # def run_tracker(self):
+    #     """
+    #     Run detection on a specific timestamp.
+    #     """
+    #     if self.results_df is None:
+    #         logger.error("Results DataFrame is empty. Please run get_results_from_video first.")
+    #         return None
+    #     if self.results_df.empty:
+    #         logger.error("Results DataFrame is empty. No detections found.")
+    #         return None
+    #     self.results_df['time'] = self.results_df['time'].astype(float)
+    #     self.results_df = self.results_df.sort_values(by='time').reset_index(drop=True)
+
+    #     timestamp = None
+    #     next_timestamp = None
+
+    #     time_groups = self.results_df.groupby('time')
+    #     if len(time_groups) == 0:
+    #         logger.error("No time groups found in results DataFrame.")
+    #         return None
+    #     # Process each group of results
+    #     for name, group in time_groups:
+    #         logger.info(f"Processing group: {name}")
+    #         time = name
+    #         frame = self.get_image_from_timestamp(time)
+            
+    #         for index, row in group.iterrows():
+    #             timestamp = row['time']
+                
+ 

@@ -14,7 +14,8 @@ import {
   faEdit,
   faXmark,
   faLock,
-  faUnlock
+  faUnlock,
+  faCloudArrowDown
 } from '@fortawesome/free-solid-svg-icons'
 import { useRef } from 'react';
 // MUI - Pickers
@@ -22,6 +23,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { TimePicker } from '@mui/x-date-pickers/TimePicker'
+import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
 
 // MUI - Core
 import {
@@ -48,6 +50,7 @@ import VisionContainer from './components/VisionContainer'
 
 import Notification from './components/Notification'
 import RecordLink from './components/RecordLink'
+import ImportComponent from './Import'
 const today = dayjs()
 const oneHourFromNow = today.add(1, 'hour')
 
@@ -79,7 +82,8 @@ function App() {
   const [autoHideDuration, setAutoHideDuration] = useState(3000) // Default auto-hide duration for notifications
   const lockButtonRef = useRef(null);
   const [shouldAddCronJob, setShouldAddCronJob] = useState(false)
-  
+  const [isImportRecordModalOpen, setIsImportRecordModalOpen] = useState(false)
+
   const getQuery = new URLSearchParams(location.search);
   const currentPage = parseInt(getQuery.get('page')) || 1;
   const recordLinkEditModalHandler = () => {
@@ -724,15 +728,28 @@ function App() {
                       <FontAwesomeIcon icon={faRecordVinyl} />
                     </Button>
                   </Tooltip>
-                  <Tooltip title="Add Cron Job for Recording" placement="top">
-                    <Button
-                      id="submit-add-cronjob"
-                      className="bg-yellow-600 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-yellow-700"
-                      onClick={addCronJob}
-                    >
-                      <FontAwesomeIcon icon={faClockRotateLeft} />
-                    </Button>
-                  </Tooltip>
+                  <div className='flex flex-row items-center justify-center gap-2.5'>
+                    <Tooltip title="Add Cron Job for Recording" placement="top">
+                      <Button
+                        id="submit-add-cronjob"
+                        className="bg-yellow-600 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-yellow-700"
+                        onClick={addCronJob}
+                      >
+                        <FontAwesomeIcon icon={faClockRotateLeft} />
+                      </Button>
+                    </Tooltip>
+                    <Tooltip title="Import Recordings" placement="top">
+                      <Button
+                        id="submit-import-recordings"
+                        className="bg-yellow-600 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-yellow-700"
+                        onClick={() => {
+                          setIsImportRecordModalOpen(true);
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faCloudArrowDown} />
+                      </Button>
+                    </Tooltip>
+                  </div>
                 </div>
               </div>
               <Divider
@@ -922,6 +939,14 @@ function App() {
               </div>
             
           </div>
+        </Modal>
+        <Modal
+          open={isImportRecordModalOpen}
+          onClose={() => setIsImportRecordModalOpen(false)}
+          aria-labelledby="parent-modal-title"
+          aria-describedby="parent-modal-description"
+        >
+            <ImportComponent></ImportComponent>
         </Modal>
     </div>
   )

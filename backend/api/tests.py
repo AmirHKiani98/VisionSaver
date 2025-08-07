@@ -1,6 +1,6 @@
 # from django.test import TestCase
 # from backend.api.views import connect_vpn_wmi
-import wmi
+# import wmi
 # Create your tests here.
 # def connect_vpn_wmi(vpn_name):
 #     c = wmi.WMI()
