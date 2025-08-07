@@ -272,7 +272,7 @@ const RecordEditor = (props) => {
             <div className="absolute w-screen h-screen flex overflow-hidden">
 
                 <div className="relative flex flex-1 w-3/4 flex-col justify-between bg-main-600 p-20">
-                <div className="absolute top-10 left-10 z-10">
+                <div className="absolute top-5 left-5 z-10">
                     <Button onClick={() => {
                         navigate(-1);
                     }}>

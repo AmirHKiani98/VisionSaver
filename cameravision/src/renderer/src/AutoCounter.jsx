@@ -203,7 +203,7 @@ const AutoCounter = () => {
         return points;
     };
 
-    function isPointNearLine(points, x, y, threshold = 10) {
+    function isPointNearLine(points, x, y, threshold = 0.02) {
         for (let i = 0; i < points.length - 2; i += 2) {
             const x1 = points[i], y1 = points[i + 1];
             const x2 = points[i + 2], y2 = points[i + 3];
@@ -301,6 +301,14 @@ const AutoCounter = () => {
 
     return (
         <div className='w-screen h-screen flex items-center justify-center'>
+            <div className='absolute top-5 left-5 z-10'>
+                <Button onClick={() => {
+                    window.history.back();
+                }
+                }>
+                    Back
+                </Button>
+            </div>
             <div className='w-2/3 p-5'>
                 <div className="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden">
                     {videoSrc !== '' ? (
