@@ -6,6 +6,7 @@ import { styled } from '@mui/material/styles';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faCloudArrowDown } from "@fortawesome/free-solid-svg-icons";
 import VideoInput from "./components/VideoInput";
+import Notification from './components/Notification';
 // import { openNotification } from './components/Notification';
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -25,6 +26,9 @@ const ImportComponent = () => {
     const [duration, setDuration] = React.useState(0);
     const today = dayjs().startOf('day');
     const [cleared, setCleared] = React.useState(false);
+    const [severity, setSeverity] = React.useState('info')
+    const [message, setMessage] = React.useState('Note archived')
+    const [open, setOpen] = React.useState(false)
     const [videos, setVideos] = React.useState([]);
     const [videoInputs, setVideoInputs] = React.useState([]);
     const [env, setEnv] = React.useState({});
@@ -33,9 +37,51 @@ const ImportComponent = () => {
         // Get the env
         window.env.get().then(setEnv)
     }, []);
+    const autoHideDuration = 3000;
+    const openNotification = (severity, message) => {
+        setSeverity(severity)
+        setMessage(message)
+        setOpen(true)
+    }
+    const closeNotification = () => {
+        setOpen(false)
+    }
+
     const uploadVideos = () => {
         const randomString = Array.from({ length: 100 }, () => Math.random().toString(36)[2]).join('')
-        const uploadUrl = `${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.IMPORT_VIDEO_URL}`;
+        const uploadUrl = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_IMPORT_VIDEO_URL}`;
+        console.log("Uploading videos to:", uploadUrl);
+        console.log(videoInputs)
+        fetch(uploadUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                videos: videoInputs.map((input, index) => ({
+                    url: videos[index],
+                    ip: input.ip,
+                    start_time: input.time ? dayjs(input.time).toISOString() : null,
+                    duration: input.duration,
+                    type: 'import',
+                    token: randomString,
+                })),
+            }),
+        }).then(response => response.json())
+          .then(data => {
+            if (data.status == 200 || data.message === 'Records imported successfully.') {
+                openNotification('success', 'Videos imported successfully!');
+                // Clear the current videos and inputs
+                setVideos([]);
+                setVideoInputs([]);
+            } else {
+                console.error('Error importing videos:', data);
+                openNotification('error', 'Failed to import videos: ' + (data.message || 'Unknown error'));
+            }
+          }
+            ).catch(error => {
+                openNotification('error', 'Error importing videos: ' + error.message);
+            });
     }
     // When you add videos, also initialize videoInputs:
     const handleFiles = (event) => {
@@ -76,9 +122,7 @@ const ImportComponent = () => {
                     tabIndex={-1}
                     disabled={videos.length === 0}
                     variant="contained"
-                    onClick={() => {
-                        
-                    }}
+                    onClick={uploadVideos}
                     className="!bg-green-400 rounded-lg shadow-xl !p-2.5 !w-10 active:shadow-none active:bg-main-700"
                 >
                     <FontAwesomeIcon icon={faCheck} className="text-white" />
@@ -108,6 +152,7 @@ const ImportComponent = () => {
                     ))}
                 </div>
             </div>
+            <Notification open={open} severity={severity} message={message} onClose={closeNotification} autoHideDuration={autoHideDuration} />
         </div>
     )
 }

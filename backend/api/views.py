@@ -296,7 +296,9 @@ def import_video(request):
         return JsonResponse({"error": "Method Not Allowed"}, status=405)
     try:
         data = json.loads(request.body.decode('utf-8'))
-        records = data.get('records', [])
+        logger.warning(f"Importing videos: {data}")
+        print(f"Importing videos: {data}")
+        records = data.get('videos', [])
         if not records:
             return JsonResponse({"error": "No records provided."}, status=400)
 
@@ -309,7 +311,7 @@ def import_video(request):
                 return JsonResponse(
                     {
                         "error": (
-                            "'camera_url', 'duration', and 'start_time' are required fields."
+                            "'ip', 'duration', and 'start_time' are required fields."
                         )
                     },
                     status=400
