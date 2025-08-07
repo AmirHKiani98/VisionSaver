@@ -21,6 +21,7 @@ API_HEALTH_CHECK=api/health_check
 API_DOWNLOAD_DB=api/download_db
 API_GET_IPS=api/get_ips
 API_EDIT_RECORD=api/edit_record/
+API_IMPORT_VIDEO_URL=api/import_video_url
 
 # Celery variables
 CELERY_BROKER_DOMAIN=localhost

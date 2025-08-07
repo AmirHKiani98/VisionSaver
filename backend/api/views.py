@@ -288,3 +288,43 @@ def edit_record(request):
         return JsonResponse({"message": f"{updated_count} record(s) updated successfully."}, status=200)
     except Exception as e:
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
+    
+    
+@csrf_exempt
+def import_video(request):
+    if request.method != 'POST':
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+        records = data.get('records', [])
+        if not records:
+            return JsonResponse({"error": "No records provided."}, status=400)
+
+        for record in records:
+            camera_url = record.get('ip')
+            duration = record.get('duration')
+            start_time = record.get('start_time')
+            token = record.get('token', None)
+            if not camera_url or not duration or not start_time:
+                return JsonResponse(
+                    {
+                        "error": (
+                            "'camera_url', 'duration', and 'start_time' are required fields."
+                        )
+                    },
+                    status=400
+                )
+            Record.objects.create(
+                camera_url=camera_url,
+                duration=duration,
+                start_time=start_time,
+                token=token,
+                in_process=False,
+                done=True,
+                record_type='import'
+            )
+        return JsonResponse({"message": "Records imported successfully."}, status=200)
+    except json.JSONDecodeError:
+        return JsonResponse({"error": "Invalid JSON format."}, status=400)
+    except Exception as e:
+        return JsonResponse({"error": f"An unexpected error occurred: {str(e)}"}, status=500)

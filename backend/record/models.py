@@ -17,7 +17,8 @@ class Record(models.Model):
         max_length=50,
         choices=[
             ('supervisor', 'SP'),
-            ('costar', 'CS')
+            ('costar', 'CS'),
+            ('import', 'IM')
         ],
         default='supervisor',
         help_text="Type of the Record, e.g., video, audio, or both."

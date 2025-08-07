@@ -47,4 +47,8 @@ urlpatterns = [
         f"{os.getenv('API_EDIT_RECORD')}",
         views.edit_record,
     ),
+    path(
+        f"{os.getenv('API_IMPORT_VIDEO_URL')}",
+        views.import_video,
+    )
 ]
