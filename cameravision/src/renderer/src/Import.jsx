@@ -47,7 +47,8 @@ const ImportComponent = () => {
                         onChange={(event) => {
                             const files = Array.from(event.target.files || []);
                             const urls = files.map(file => URL.createObjectURL(file));
-                            setVideos(urls);
+                            setVideos(prev => [...prev, ...urls]);
+                            
                         }}
                         multiple
                     />
