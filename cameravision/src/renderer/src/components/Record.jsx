@@ -7,13 +7,13 @@ import {
   InputLabel,
   Typography,
   FormControl,
-  Slider,
   Button
 } from '@mui/material'
 import PlayCircleIcon from '@mui/icons-material/PlayCircle'
 import StopCircleIcon from '@mui/icons-material/StopCircle'
 import RecordLogIndicator from './RecordLogIndicator.jsx'
 import Video from './Video.jsx'
+import VideoSlider from './VideoSlider.jsx'
 const Record = forwardRef((props, ref) => {
   const [src, setSrc] = react.useState(props.src || '')
   const [loading, setLoading] = react.useState(true)
@@ -249,6 +249,8 @@ const Record = forwardRef((props, ref) => {
                 src={src}
                 setError={setError}
                 setLoading={setLoading}
+                setCanvas={props.setCanvas}
+                canvas={props.canvas}
                 onLoadedData={() => setLoading(false)}
                 onError={(e) => {
                   const videoEl = e.target
@@ -295,7 +297,7 @@ const Record = forwardRef((props, ref) => {
                   />
                 ))}
 
-            <Slider
+            <VideoSlider
               value={currentTime}
               min={0}
               max={duration}
@@ -310,7 +312,7 @@ const Record = forwardRef((props, ref) => {
                 width: '100%',
                 height: '8px',
                 padding: 0,
-                backgroundColor: 'rgba(250, 250, 250, 1)', // rgba for #122846
+                backgroundColor: 'rgba(250, 250, 250, 1)',
                 '& .MuiSlider-rail': {
                   background: `linear-gradient(to right, green ${passedPercentage}%, #ffffff ${passedPercentage}%)`
                 }

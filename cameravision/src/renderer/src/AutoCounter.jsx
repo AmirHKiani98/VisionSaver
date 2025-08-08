@@ -15,7 +15,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLocation } from 'react-router-dom';
 import Notification from './components/Notification';
 import LinearProgressWithLabel from './components/LinearProgressWithLabel';
-import Record from './components/Record';
+import Video from './components/Video';
+import VideoSlider from './components/VideoSlider';
 function useQuery() {
     return new URLSearchParams(useLocation().search);
 }
@@ -42,6 +43,9 @@ const AutoCounter = () => {
     const [selectedPortal, setSelectedPortal] = react.useState('');
     const [counterActivated, setCounterActivated] = react.useState(false);
     const [progress, setProgress] = react.useState(0);
+    const [currentTime, setCurrentTime] = react.useState(0);
+    const [duration, setDuration] = react.useState(0);
+    const [seeking, setSeeking] = react.useState(false);
     const autoHideDuration = 3000;
     const openNotification = (severity, message) => {
         setSeverity(severity);
@@ -295,6 +299,28 @@ const AutoCounter = () => {
         }
     }, [recordId]);
 
+    // Handler for slider change
+    const handleSliderChange = (e, value) => {
+        if (videoRef.current) {
+            videoRef.current.currentTime = value;
+        }
+        setCurrentTime(value);
+    };
+
+    // Handler for video time update
+    const handleTimeUpdate = () => {
+        if (videoRef.current && !seeking) {
+            setCurrentTime(videoRef.current.currentTime);
+        }
+    };
+
+    // Handler for video loadedmetadata
+    const handleLoadedMetadata = () => {
+        if (videoRef.current) {
+            setDuration(videoRef.current.duration);
+        }
+    };
+
     return (
         <div className='w-screen h-screen flex items-center justify-center'>
             <div className='absolute top-5 left-5 z-10'>
@@ -319,12 +345,12 @@ const AutoCounter = () => {
                 </div>
                 <div className="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden">
                     {videoSrc !== '' ? (
-                        <Record
+                        <Video
+                            ref={videoRef}
                             src={videoSrc}
-                            recordId={recordId}
-                            env={env}
-                            playbackRate={1}
-                            pendingSeekTime={pendingSeekTime}
+                            setLoading={setVideoReady}
+                            onTimeUpdate={handleTimeUpdate}
+                            onLoadedMetadata={handleLoadedMetadata}
                         />
                     ) : (
                         <div className="text-white text-xl">
@@ -338,7 +364,10 @@ const AutoCounter = () => {
                                 position: 'absolute',
                                 top: 0,
                                 left: 0,
-                                pointerEvents: 'auto' // optional if you're not drawing
+                                width: '100%',
+                                height: '100%',
+                                pointerEvents: 'auto',
+                                zIndex: 2
                             }}
                             width={videoDisplaySize.width}
                             height={videoDisplaySize.height}
@@ -349,26 +378,43 @@ const AutoCounter = () => {
                             onTouchMove={handleMouseMove}
                             onTouchEnd={handleMouseUp}
                             >
-                                <Layer>
-                                    {lines && lines[selectedPortal] && lines[selectedPortal].map((line, i) => (
-                                        <Line
-                                        key={i}
-                                        points={pointsToScaledPoints(line.points)}
-                                        stroke="#df4b26"
-                                        strokeWidth={5}
-                                        tension={0.5}
-                                        lineCap="round"
-                                        lineJoin="round"
-                                        globalCompositeOperation={
-                                            line.tool === 'eraser' ? 'destination-out' : 'source-over'
-                                        }
-                                        />
-                                    ))}
-                                </Layer>
+                            <Layer>
+                                {lines && lines[selectedPortal] && lines[selectedPortal].map((line, i) => (
+                                <Line
+                                    key={i}
+                                    points={pointsToScaledPoints(line.points)}
+                                    stroke="#df4b26"
+                                    strokeWidth={5}
+                                    tension={0.5}
+                                    lineCap="round"
+                                    lineJoin="round"
+                                    globalCompositeOperation={
+                                    line.tool === 'eraser' ? 'destination-out' : 'source-over'
+                                    }
+                                />
+                                ))}
+                            </Layer>
                         </Stage>
                     </div>
+                    
                 </div>
-                
+                <div className='px-5 mt-2.5 z-50'>
+                        <VideoSlider
+                            value={currentTime}
+                            min={0}
+                            max={duration}
+                            onChange={(e, value) => {
+                                setSeeking(true);
+                                setCurrentTime(value);
+                            }}
+                            onChangeCommitted={(e, value) => {
+                                setSeeking(false);
+                                if (videoRef.current) {
+                                videoRef.current.currentTime = value;
+                                }
+                            }}
+                            />
+                    </div>
 
             </div>
             <div className="flex-1 p-2.5 bg-main-300 h-full flex flex-col gap-2.5">
