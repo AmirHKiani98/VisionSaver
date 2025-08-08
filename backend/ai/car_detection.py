@@ -18,7 +18,7 @@ logger = settings.APP_LOGGER
 # from deep_sort_realtime.deepsort_tracker import DeepSort
 class CarDetection():
     
-    def __init__(self, model, video_path, divide_time=1.0, tracker_config=None, detection_lines={}):
+    def __init__(self, model, video_path, divide_time=1.0, tracker_config=None, detection_lines={}, epsilon_magnitude=0.02):
         """
         Initialize the CarDetection instance.
         """
@@ -27,10 +27,11 @@ class CarDetection():
         metric = NearestNeighborDistanceMetric("cosine", matching_threshold=0.4, budget=100)
         self.tracker = Tracker(metric)
         self.load_video(video_path)
-        self._get_line_type()
+        self.detection_lines = detection_lines
+        self._get_line_type(epsilon_magnitude)
         logger.info(f"CarDetection initialized with model {model} and video {video_path}")
         self.results_df = None
-        self.detection_lines = detection_lines
+        
         self.tracker_config = tracker_config if tracker_config else {
             'max_age': 30,
             'min_hits': 3,
@@ -162,25 +163,8 @@ class CarDetection():
         return df
 
     
-    def _calculate_angle(self, p1, p2, p3):
-        # Vectors
-        v1 = p1 - p2
-        v2 = p3 - p2
-        
-        # Dot product and magnitudes
-        dot_product = np.dot(v1, v2)
-        magnitude_v1 = np.linalg.norm(v1)
-        magnitude_v2 = np.linalg.norm(v2)
-        
-        # Angle in radians
-        angle_rad = np.arccos(dot_product / (magnitude_v1 * magnitude_v2))
-        
-        # Convert to degrees
-        angle_deg = np.degrees(angle_rad)
-        
-        return angle_deg
 
-    def _get_line_type(self):
+    def _get_line_type(self, epsilon_magnitude=0.02):
         """
         Determine the type of detection line based on the detection lines provided.
         """
@@ -189,28 +173,23 @@ class CarDetection():
             line_types[line_key] = []
             for line in lines:
                 points = line['points']
-                tuple_points = np.array([[x, y] for x, y in zip(points[0::2], points[1::2])])
-                perpendicular_lines = 0
-                for index in range(0, len(points), 3):
-                    if index + 2 < len(points):
-                        p1 = np.array(points[index])
-                        p2 = np.array(points[index + 1])
-                        p3 = np.array(points[index + 2])
-                        angle = self._calculate_angle(p1, p2, p3)
-                        if angle > 70:
-                            perpendicular_lines += 1
-                if perpendicular_lines >= 2:
-                    rect_bbox = cv2.boundingRect(tuple_points)
-                    line_types[line_key].append(['rectangle', rect_bbox])
-                elif perpendicular_lines == 1:
-                    line_types[line_key].append('intersection', [])
-                elif perpendicular_lines == 1:
-                    line_types[line_key].append('straight', [tuple_points[0], tuple_points[-1]])
+                points = np.array(points, dtype=np.float32).reshape(-1, 2)
+                points[:, 0] = self.width * points[:, 0]
+                points[:, 1] = self.height * points[:, 1]
+                epsilon = epsilon_magnitude * cv2.arcLength(points, True)
+                approx = cv2.approxPolyDP(points, epsilon, True )
+                approx = approx.reshape(-1, 2)
+                
+                
+                if len(approx) >= 2:
+                    rect_bbox = cv2.boundingRect(approx)
+                    rect_bbox = (rect_bbox[0]/self.width, rect_bbox[1]/self.height, 
+                               rect_bbox[2]/self.width, rect_bbox[3]/self.height)
+                    line_types[line_key].append(['closed', rect_bbox])
+                else:
+                    line_types[line_key].append(['straight', [[points[0], points[1]], [points[len(points)-2], points[-1]]]])
         self.line_types = line_types
                 
-                
-    
-        
     def get_image_from_timestamp(self, timestamp):
         """
         Get an image from the video at a specific timestamp.
