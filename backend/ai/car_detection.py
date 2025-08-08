@@ -10,7 +10,8 @@ from ai.deepsort.tracker import Tracker
 from ai.deepsort.detection import Detection
 import hashlib
 import numpy as np
-from sklearn.decomposition import PCA
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 
 logger = settings.APP_LOGGER
 
@@ -18,7 +19,7 @@ logger = settings.APP_LOGGER
 # from deep_sort_realtime.deepsort_tracker import DeepSort
 class CarDetection():
     
-    def __init__(self, model, video_path, divide_time=1.0, tracker_config=None, detection_lines={}, epsilon_magnitude=0.02):
+    def __init__(self, model, record_id, divide_time=1.0, tracker_config=None, detection_lines={}, epsilon_magnitude=0.02):
         """
         Initialize the CarDetection instance.
         """
@@ -26,10 +27,11 @@ class CarDetection():
         self.model = model
         metric = NearestNeighborDistanceMetric("cosine", matching_threshold=0.4, budget=100)
         self.tracker = Tracker(metric)
-        self.load_video(video_path)
+        self.record_id = record_id
+        self.load_video(record_id)
         self.detection_lines = detection_lines
         self._get_line_types(epsilon_magnitude)
-        logger.info(f"CarDetection initialized with model {model} and video {video_path}")
+        logger.info(f"CarDetection initialized with model {model} and record {record_id}")
         self.results_df = None
         
         self.tracker_config = tracker_config if tracker_config else {
@@ -42,15 +44,19 @@ class CarDetection():
         self.divide_time = divide_time
         
         
-    def load_video(self, video_path):
+    def load_video(self, record_id):
         """
         Load a video file for car detection.
         
         :param video_path: Path to the video file.
         """
+        video_path = os.path.join(settings.MEDIA_ROOT, f"{record_id}.mp4")
         if not os.path.isfile(video_path):
-            logger.error(f"Video file not found: {video_path}")
-            raise FileNotFoundError(f"Video file not found: {video_path}")
+            video_path = os.path.join(settings.MEDIA_ROOT, f"{record_id}.mkv")
+            if not os.path.isfile(video_path):
+                logger.error(f"Video file not found: {video_path}")
+                raise FileNotFoundError(f"Video file not found: {video_path}")
+                
         self.video_path = video_path
         self.video_capture = cv2.VideoCapture(video_path)
         self.duration = int(self.video_capture.get(cv2.CAP_PROP_FRAME_COUNT) / self.video_capture.get(cv2.CAP_PROP_FPS))
@@ -130,6 +136,20 @@ class CarDetection():
             self.results_df = df
             return df
         for i in tqdm(np.arange(0, self.duration, self.divide_time), total=int(self.duration/self.divide_time)):
+            channel_layer = get_channel_layer()
+            group_name = f"counter_progress_{self.record_id}"
+            progress = round(i / self.duration * 100, 2)
+            if channel_layer is not None:
+                async_to_sync(channel_layer.group_send)(
+                    group_name,
+                    {
+                        "type": "send.progress",
+                        "progress": progress,
+                    }
+                )
+            else:
+                pass
+                # logger.warning("Channel layer is not configured; skipping progress notification.")
             frame_number = int(i * fps)
             self.video_capture.set(cv2.CAP_PROP_POS_FRAMES, frame_number)
             success, frame = self.video_capture.read()
@@ -153,8 +173,6 @@ class CarDetection():
                     'y1': obj['y1'],
                     'x2': obj['x2'],
                     'y2': obj['y2'],
-                    # 'confidence': obj.get('confidence', 0.0),
-                    # 'class_id': obj.get('class_id', 0)
                 }])
                 df = pd.concat([df, new_row], ignore_index=True)
 
