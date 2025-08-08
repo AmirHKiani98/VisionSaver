@@ -217,7 +217,6 @@ class CarDetection():
         # Show the image
         cv2.imshow('Detection Lines', image)
         cv2.waitKey(0)
-        cv2.destroyAllWindows()
         
     def get_image_from_timestamp(self, timestamp):
         """
