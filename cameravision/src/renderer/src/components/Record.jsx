@@ -249,7 +249,6 @@ const Record = forwardRef((props, ref) => {
                 src={src}
                 setError={setError}
                 setLoading={setLoading}
-                setCanvas={props.setCanvas}
                 canvas={props.canvas}
                 onLoadedData={() => setLoading(false)}
                 onError={(e) => {
