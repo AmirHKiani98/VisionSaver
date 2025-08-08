@@ -134,6 +134,18 @@ class CarDetection():
             logger.info(f"Loading existing results from {output_path}")
             df = pd.read_csv(output_path)
             self.results_df = df
+            channel_layer = get_channel_layer()
+            group_name = f"counter_progress_{self.record_id}"
+            if channel_layer is not None:
+                async_to_sync(channel_layer.group_send)(
+                    group_name,
+                    {
+                        "type": "send.progress",
+                        "progress": 100.00,
+                    }
+                )
+            else:
+                pass
             return df
         for i in tqdm(np.arange(0, self.duration, self.divide_time), total=int(self.duration/self.divide_time)):
             channel_layer = get_channel_layer()

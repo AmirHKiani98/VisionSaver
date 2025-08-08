@@ -17,6 +17,7 @@ import Notification from './components/Notification';
 import LinearProgressWithLabel from './components/LinearProgressWithLabel';
 import Video from './components/Video';
 import VideoSlider from './components/VideoSlider';
+import PlayStop from './components/PlayStop';
 function useQuery() {
     return new URLSearchParams(useLocation().search);
 }
@@ -399,25 +400,37 @@ const AutoCounter = () => {
                     </div>
                     
                 </div>
-                <div className='px-5 mt-2.5 z-50'>
-                        <VideoSlider
-                            value={0}
-                            min={0}
-                            max={duration}
-                            step={0.1}
-                            onChange={(e, value) => {
-                                console.log('Slider value changed:', value);
-                                setSeeking(true);
-                                setCurrentTime(value);
-                            }}
-                            onChangeCommitted={(e, value) => {
-                                setSeeking(false);
-                                if (videoRef.current) {
-                                    videoRef.current.currentTime = value;
-                                }
-                            }}
-                            />
-                    </div>
+                <div className='flex mt-2.5 z-50 gap-5 justify-between items-center'>
+                    <VideoSlider
+                        value={currentTime}
+                        min={0}
+                        max={duration}
+                        step={0.1}
+                        onChange={(e, value) => {
+                            console.log('Slider value changed:', value);
+                            setSeeking(true);
+                            setCurrentTime(value);
+                        }}
+                        className='flex-1'
+                        onChangeCommitted={(e, value) => {
+                            setSeeking(false);
+                            if (videoRef.current) {
+                                videoRef.current.currentTime = value;
+                            }
+                        }}
+                        />
+                    <PlayStop
+                        videoRef={videoRef}
+                        setCurrentTime={setCurrentTime}
+                        setSeeking={setSeeking}
+                        currentTime={currentTime}
+                        duration={duration}
+                        setDuration={setDuration}
+                        setVideoReady={setVideoReady}
+                        pendingSeekTime={pendingSeekTime}
+                        setPendingSeekTime={setPendingSeekTime}
+                    />
+                </div>
 
             </div>
             <div className="flex-1 p-2.5 bg-main-300 h-full flex flex-col gap-2.5">
