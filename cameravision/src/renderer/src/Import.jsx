@@ -51,22 +51,21 @@ const ImportComponent = () => {
         const randomString = Array.from({ length: 100 }, () => Math.random().toString(36)[2]).join('')
         const uploadUrl = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_IMPORT_VIDEO_URL}`;
         console.log("Uploading videos to:", uploadUrl);
-        console.log(videoInputs)
+        const formData = new FormData();
+        videoInputs.forEach((input, idx) => {
+            console.log("Input:", input);
+            formData.append(`video_${idx}`, input.file); // input.file is the File object
+            formData.append(`meta_${idx}`, JSON.stringify({
+                ip: input.ip,
+                start_time: input.time,
+                duration: input.duration,
+                token: randomString,
+            }));
+        });
+        console.log("Form Data prepared:", formData);
         fetch(uploadUrl, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                videos: videoInputs.map((input, index) => ({
-                    url: videos[index],
-                    ip: input.ip,
-                    start_time: input.time ? dayjs(input.time).toISOString() : null,
-                    duration: input.duration,
-                    type: 'import',
-                    token: randomString,
-                })),
-            }),
+            body: formData,
         }).then(response => response.json())
           .then(data => {
             if (data.status == 200 || data.message === 'Records imported successfully.') {
@@ -91,7 +90,7 @@ const ImportComponent = () => {
         setVideos(prev => [...prev, ...urls]);
         setVideoInputs(prev => [
             ...prev,
-            ...urls.map(() => ({ ip: '', time: null, duration: 0 }))
+            ...files.map(file => ({ ip: '', time: null, duration: 0, file })) // <-- store file here
         ]);
     };
 
@@ -142,7 +141,7 @@ const ImportComponent = () => {
                                 onChange={({ ip, time, duration }) => {
                                     setVideoInputs(inputs => {
                                         const updated = [...inputs];
-                                        updated[index] = { ip, time, duration };
+                                        updated[index] = { ...inputs[index], ip, time, duration }; // <-- GOOD: keeps .file
                                         return updated;
                                     });
                                 }}

@@ -32,34 +32,35 @@ const VideoInput = React.forwardRef(({ value, onChange, ...props }, ref) => {
             <div className='flex flex-row gap-2.5'>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
-                        className="bg-main-400 rounded-md w-1/3"
-                        label={<Typography className="text-white">Start Date</Typography>}
-                        maxDate={today}
-                        value={time}
-                        onChange={(newValue) => {
-                            if (newValue) {
-                                setTime(newValue.hour(time.hour()).minute(time.minute()));
-                            }
-                        }}
-                        slotProps={{
-                            field: { clearable: false }
-                        }}
-                    />
-                    <TimePicker
-                        className="bg-main-400 w-1/3 rounded-md"
-                        label={<Typography className="text-white">Start Time</Typography>}
-                        value={time}
-                        onChange={(newValue) => {
-                            if (newValue) {
-                                setTime(time.date(newValue.date()).hour(newValue.hour()).minute(newValue.minute()));
-                            }
-                        }}
-                        maxTime={
-                            time && time.isSame(today, 'day')
-                                ? dayjs()
-                                : undefined
+                    className="bg-main-400 rounded-md w-1/3"
+                    label={<Typography className="text-white">Start Date</Typography>}
+                    maxDate={today}
+                    value={time}
+                    onChange={(newValue) => {
+                        if (newValue) {
+                            setTime(newValue.hour(time.hour()).minute(time.minute()));
                         }
-                    />
+                    }}
+                    slotProps={{
+                        field: { clearable: false }
+                    }}
+                />
+                <TimePicker
+                    className="bg-main-400 w-1/3 rounded-md"
+                    label={<Typography className="text-white">Start Time</Typography>}
+                    value={time}
+                    onChange={(newValue) => {
+                        if (newValue) {
+                            setTime(time.date(newValue.date()).hour(newValue.hour()).minute(newValue.minute()));
+                        }
+                    }}
+                    // Only restrict maxTime if the selected date is today
+                    maxTime={
+                        time && time.isSame(today, 'day')
+                            ? dayjs()
+                            : undefined
+                    }
+                />
                 </LocalizationProvider>
                 <TextField
                     id="outlined-number"

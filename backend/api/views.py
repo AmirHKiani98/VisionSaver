@@ -7,6 +7,8 @@ from collections import defaultdict
 import re
 import pandas as pd
 from django.utils.dateparse import parse_datetime
+import os
+import subprocess
 # Create your views here.
 
 
@@ -294,19 +296,16 @@ def edit_record(request):
 def import_video(request):
     if request.method != 'POST':
         return JsonResponse({"error": "Method Not Allowed"}, status=405)
-    try:
-        data = json.loads(request.body.decode('utf-8'))
-        logger.warning(f"Importing videos: {data}")
-        print(f"Importing videos: {data}")
-        records = data.get('videos', [])
-        if not records:
-            return JsonResponse({"error": "No records provided."}, status=400)
-
-        for record in records:
-            camera_url = record.get('ip')
-            duration = record.get('duration')
-            start_time = record.get('start_time')
-            token = record.get('token', None)
+    try:        
+        
+        for key in request.FILES:
+            video_file = request.FILES[key]
+            idx = key.split('_')[-1]
+            meta = json.loads(request.POST.get(f'meta_{idx}', '{}'))
+            camera_url = meta.get('ip')
+            duration = meta.get('duration')
+            start_time = meta.get('start_time')
+            token = meta.get('token', None)
             if not camera_url or not duration or not start_time:
                 return JsonResponse(
                     {
@@ -325,6 +324,19 @@ def import_video(request):
                 done=True,
                 record_type='import'
             )
+            record_id = Record.objects.latest('id').id
+            ffmpeg_env = str(settings.FFMPEG_PATH)
+            ffmpeg_path = ffmpeg_env if os.path.isabs(ffmpeg_env) else os.path.join(str(settings.BASE_DIR), ffmpeg_env)
+            mkv_path = os.path.join(settings.MEDIA_ROOT, f"{record_id}.mkv")
+            with open(mkv_path, 'wb+') as destination:
+                for chunk in video_file.chunks():
+                    destination.write(chunk)
+
+            # Transcode to mp4 using ffmpeg
+            mp4_path = os.path.join(settings.MEDIA_ROOT, f"{record_id}.mp4")
+            subprocess.run([
+                ffmpeg_path, '-i', mkv_path, '-c:v', 'copy', '-c:a', 'copy', mp4_path
+            ], check=True)
         return JsonResponse({"message": "Records imported successfully."}, status=200)
     except json.JSONDecodeError:
         return JsonResponse({"error": "Invalid JSON format."}, status=400)
