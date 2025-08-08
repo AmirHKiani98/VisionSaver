@@ -111,7 +111,6 @@ const AutoCounter = () => {
             return;
         }
         const pos = e.target.getStage().getPointerPosition();
-        // Get the width and height of the canvas
         const stage = e.target.getStage();
         const canvasWidth = stage.width();
         const canvasHeight = stage.height();
@@ -119,19 +118,19 @@ const AutoCounter = () => {
         if (tool === 'eraser') {
             setLines(prevLines => {
                 const updatedLines = [...(prevLines[selectedPortal] || [])];
-                // Remove any line where the pointer is near
                 const filtered = updatedLines.filter(line => !isPointNearLine(line.points, pos.x/canvasWidth, pos.y/canvasHeight));
                 return {
                     ...prevLines,
                     [selectedPortal]: filtered
                 };
             });
-            return; // Don't start drawing a new line
+            return;
         }
         isDrawing.current = true;
         setLines(prevLines => {
             const updatedLines = [...(prevLines[selectedPortal] || [])];
-            updatedLines.push({ tool, points: [pos.x/canvasWidth, pos.y/canvasHeight] });
+            // Start a new line with the first point
+            updatedLines.push({ tool, points: [pos.x / canvasWidth, pos.y / canvasHeight] });
             return {
                 ...prevLines,
                 [selectedPortal]: updatedLines
@@ -141,19 +140,15 @@ const AutoCounter = () => {
 
     const handleMouseMove = (e) => {
         if (!isDrawing.current) return;
-
         const stage = e.target.getStage();
         const point = stage.getPointerPosition();
-
         setLines(prevLines => {
             const currentLines = [...(prevLines[selectedPortal] || [])];
             if (currentLines.length === 0) return prevLines; // nothing to update
 
-            // Copy the last line and append the new point
+            // Add the new point to the last line
             const lastLine = { ...currentLines[currentLines.length - 1] };
             lastLine.points = [...lastLine.points, point.x / stage.width(), point.y / stage.height()];
-
-            // Replace the last line
             currentLines[currentLines.length - 1] = lastLine;
 
             return {
@@ -171,16 +166,6 @@ const AutoCounter = () => {
             scaledPoints.push(...element);
         }
         return scaledPoints;
-    };
-    const scaledPointsToPoints = (scaledPoints) => {
-        const points = [];
-        for (let i = 0; i < scaledPoints.length; i += 2) {
-            const element = scaledPoints.slice(i, i + 2);
-            element[0] = element[0] / stageRef.current.width();
-            element[1] = element[1] / stageRef.current.height();
-            points.push(...element);
-        }
-        return points;
     };
 
     function isPointNearLine(points, x, y, threshold = 0.02) {
