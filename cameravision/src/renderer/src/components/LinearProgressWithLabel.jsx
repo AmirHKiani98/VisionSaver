@@ -2,7 +2,7 @@ import { Box, LinearProgress, Typography } from '@mui/material';
 import "../assets/main.css"
 function LinearProgressWithLabel(props) {
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center' }} className="min-w-[300px]">
+    <Box sx={{ display: 'flex', alignItems: 'center' }} className={`${props.className || ''}`}>
       <Box sx={{ width: '100%', mr: 1 }}>
         <LinearProgress variant="determinate" {...props} />
       </Box>

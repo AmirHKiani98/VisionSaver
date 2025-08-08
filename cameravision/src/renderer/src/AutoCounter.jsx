@@ -7,13 +7,13 @@ import {
     FormControl,
     InputLabel,
     Button,
-    TextField,
-    LinearProgress
+    TextField
 } from '@mui/material';
 import {faPen, faPlus, faEraser} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLocation } from 'react-router-dom';
 import Notification from './components/Notification';
+import LinearProgressWithLabel from './components/LinearProgressWithLabel';
 function useQuery() {
     return new URLSearchParams(useLocation().search);
 }
@@ -313,7 +313,7 @@ const AutoCounter = () => {
                     >
                         Start Counting
                     </Button>
-                    <LinearProgress value={progress} variant="determinate" className='flex-1' />
+                    <LinearProgressWithLabel value={progress} variant="determinate" className='flex-1' />
                 </div>
                 <div className="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden">
                     {videoSrc !== '' ? (
