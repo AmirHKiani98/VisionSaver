@@ -79,6 +79,7 @@ def run_car_detection(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         record_id = data.get('record_id')
+        divide_time = data.get('divide_time', 1)  # Default to 10 seconds if not provided
         try:
             record = Record.objects.get(id=record_id)
         except Record.DoesNotExist:
@@ -86,7 +87,7 @@ def run_car_detection(request):
             return JsonResponse({'error': 'Record not found'}, status=404)
 
         # Initialize the car detection process
-        detection = CarDetection(record_id=record_id, model=load_model())
+        detection = CarDetection(record_id=record_id, model=load_model(), divide_time=divide_time)
         thread = threading.Thread(target=detection.run)
         thread.start()
         return JsonResponse({'status': 'success', 'message': 'Car detection started'}, status=200)
