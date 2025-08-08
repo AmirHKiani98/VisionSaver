@@ -34,7 +34,7 @@ class CounterProgressConsumer(AsyncWebsocketConsumer):
         if self.channel_layer is not None:
             await self.channel_layer.group_discard(self.group_name, self.channel_name)
 
-    async def send_counter_progress(self, event):
+    async def send_progress(self, event):
         await self.send(text_data=json.dumps({
             "progress": event["progress"]
         }))

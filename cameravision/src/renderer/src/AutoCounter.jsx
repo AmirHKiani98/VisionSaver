@@ -7,7 +7,8 @@ import {
     FormControl,
     InputLabel,
     Button,
-    TextField
+    TextField,
+    LinearProgress
 } from '@mui/material';
 import {faPen, faPlus, faEraser} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -37,6 +38,8 @@ const AutoCounter = () => {
     const [message, setMessage] = react.useState('');
     const [portalInput, setPortalInput] = react.useState('');
     const [selectedPortal, setSelectedPortal] = react.useState('');
+    const [counterActivated, setCounterActivated] = react.useState(false);
+    const [progress, setProgress] = react.useState(0);
     const autoHideDuration = 3000;
     const openNotification = (severity, message) => {
         setSeverity(severity);
@@ -216,9 +219,49 @@ const AutoCounter = () => {
             });
     }, [env, recordId]);
 
-    react.useEffect(() => {
+    const startCounting = () => {
+        if (!env || !env.BACKEND_SERVER_DOMAIN || !env.BACKEND_SERVER_PORT) {
+            openNotification('error', 'Environment variables not set');
+            return;
+        }
+        const backendUrl = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.AI_START_COUNTING}`;
+        fetch(backendUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                record_id: recordId,
+                lines: lines,
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                openNotification('error', data.error);
+            } else {
+                openNotification('success', 'Counting started successfully');
+            }
+        })
+        .catch(error => {
+            openNotification('error', `Error starting counting: ${error.message}`);
+        });
+    }
 
-    })
+    react.useEffect(() => {
+        if (!env || !recordId) return;
+        const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/counter_progress/${recordId}/`;
+        const ws = new window.WebSocket(wsUrl);
+
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            if (data.progress !== undefined) setProgress(data.progress);
+        };
+        ws.onclose = () => { /* Optionally handle close */ };
+        ws.onerror = (e) => { /* Optionally handle error */ };
+
+        return () => ws.close();
+    }, [env, recordId]);
 
     react.useEffect(() => {
         if (!env) return;
@@ -261,6 +304,17 @@ const AutoCounter = () => {
                 </Button>
             </div>
             <div className='w-2/3 p-5'>
+                <div className='flex items-center justify-between mb-5 gap-2.5'>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={startCounting}
+                        className='!bg-main-500 shadow-lg hover:!bg-main-400 !text-black'
+                    >
+                        Start Counting
+                    </Button>
+                    <LinearProgress value={progress} variant="determinate" className='flex-1' />
+                </div>
                 <div className="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden">
                     {videoSrc !== '' ? (
                         <video ref={videoRef} src={videoSrc} className='w-full h-full' onLoadedMetadata={(e) => {

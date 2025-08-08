@@ -44,3 +44,4 @@ DJANGO_SETTINGS_MODULE=processor.settings
 AI_ADD_LINES=ai/add_line
 AI_GET_LINES=ai/get_lines
 AI_DELETE_LINE=ai/delete_line
+AI_START_COUNTING=ai/start_counting

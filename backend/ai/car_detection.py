@@ -113,7 +113,7 @@ class CarDetection():
 
         
 
-    def get_results_from_video(self):
+    def run(self):
         """
         Extract images from the video at specified intervals.
         """

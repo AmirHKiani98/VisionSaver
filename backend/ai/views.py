@@ -5,6 +5,9 @@ from .models import DetectionLines
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from record.models import Record
+from ai.car_detection import CarDetection
+import threading
+
 # Create your views here.
 
 logger = settings.APP_LOGGER
@@ -68,3 +71,24 @@ def get_lines(request):
         logger.error("Invalid request method for get_lines")
         return JsonResponse({'error': 'Invalid request method'}, status=405)
 
+@csrf_exempt
+def run_car_detection(request):
+    """
+    Run car detection on a specific record.
+    """
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        record_id = data.get('record_id')
+        try:
+            record = Record.objects.get(id=record_id)
+        except Record.DoesNotExist:
+            logger.error(f"Record not found for record ID: {record_id}")
+            return JsonResponse({'error': 'Record not found'}, status=404)
+
+        # Initialize the car detection process
+        detection = CarDetection(record_id=record_id, model=load_model())
+        thread = threading.Thread(target=detection.run)
+        thread.start()
+        return JsonResponse({'status': 'success', 'message': 'Car detection started'}, status=200)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
