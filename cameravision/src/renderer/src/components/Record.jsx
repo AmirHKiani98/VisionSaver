@@ -19,7 +19,7 @@ const Record = forwardRef((props, ref) => {
   const [loading, setLoading] = react.useState(true)
   const [error, setError] = react.useState(false)
   const [env, setEnv] = react.useState(props.env || null)
-  const [playbackRate, setPlaybackRate] = react.useState()
+  const [playbackRate, setPlaybackRate] = react.useState(1)
   const [currentTime, setCurrentTime] = react.useState(0)
   const [duration, setDuration] = react.useState(0)
   const [passedPercentage, setPassedPercentage] = react.useState(0)

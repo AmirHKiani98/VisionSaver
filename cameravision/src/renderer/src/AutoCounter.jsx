@@ -7,13 +7,15 @@ import {
     FormControl,
     InputLabel,
     Button,
-    TextField
+    TextField,
+    CircularProgress
 } from '@mui/material';
 import {faPen, faPlus, faEraser} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLocation } from 'react-router-dom';
 import Notification from './components/Notification';
 import LinearProgressWithLabel from './components/LinearProgressWithLabel';
+import Record from './components/Record';
 function useQuery() {
     return new URLSearchParams(useLocation().search);
 }
@@ -317,17 +319,17 @@ const AutoCounter = () => {
                 </div>
                 <div className="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden">
                     {videoSrc !== '' ? (
-                        <video ref={videoRef} src={videoSrc} className='w-full h-full' onLoadedMetadata={(e) => {
-                            setVideoReady(true);
-                            const video = e.target;
-                            const rect = video.getBoundingClientRect();
-
-                            setVideoResolution({ width: video.videoWidth, height: video.videoHeight });
-                            setVideoDisplaySize({ width: rect.width, height: rect.height });
-                        }}
-                        ></video>
+                        <Record
+                            src={videoSrc}
+                            recordId={recordId}
+                            env={env}
+                            playbackRate={1}
+                            pendingSeekTime={pendingSeekTime}
+                        />
                     ) : (
-                        <div className="text-white text-xl">Loading video...</div>
+                        <div className="text-white text-xl">
+                            <CircularProgress></CircularProgress>
+                        </div>
                     )}
                     <div id="canvas" className="absolute top-0 left-0 w-full h-full flex items-center justify-center z-50">
                         <Stage
