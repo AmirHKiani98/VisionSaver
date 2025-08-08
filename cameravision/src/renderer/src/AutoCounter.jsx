@@ -316,6 +316,7 @@ const AutoCounter = () => {
 
     // Handler for video loadedmetadata
     const handleLoadedMetadata = () => {
+        console.log('Video metadata loaded');
         if (videoRef.current) {
             setDuration(videoRef.current.duration);
         }
@@ -400,17 +401,19 @@ const AutoCounter = () => {
                 </div>
                 <div className='px-5 mt-2.5 z-50'>
                         <VideoSlider
-                            value={currentTime}
+                            value={0}
                             min={0}
                             max={duration}
+                            step={0.1}
                             onChange={(e, value) => {
+                                console.log('Slider value changed:', value);
                                 setSeeking(true);
                                 setCurrentTime(value);
                             }}
                             onChangeCommitted={(e, value) => {
                                 setSeeking(false);
                                 if (videoRef.current) {
-                                videoRef.current.currentTime = value;
+                                    videoRef.current.currentTime = value;
                                 }
                             }}
                             />
