@@ -36,6 +36,7 @@ class AiAppTestCase(TestCase):
             video_path=self.video_path,
             divide_time=0.1
         )
+        detector.get_results_from_video(divide_time)
 
         
         

@@ -9,13 +9,16 @@ from ai.deepsort.nn_matching import NearestNeighborDistanceMetric
 from ai.deepsort.tracker import Tracker
 from ai.deepsort.detection import Detection
 import hashlib
+import numpy as np
+from sklearn.decomposition import PCA
+
 logger = settings.APP_LOGGER
 
 
 # from deep_sort_realtime.deepsort_tracker import DeepSort
 class CarDetection():
     
-    def __init__(self, model, video_path, divide_time=1.0, tracker_config=None):
+    def __init__(self, model, video_path, divide_time=1.0, tracker_config=None, detection_lines={}):
         """
         Initialize the CarDetection instance.
         """
@@ -24,10 +27,18 @@ class CarDetection():
         metric = NearestNeighborDistanceMetric("cosine", matching_threshold=0.4, budget=100)
         self.tracker = Tracker(metric)
         self.load_video(video_path)
-        
+        self._get_line_type()
         logger.info(f"CarDetection initialized with model {model} and video {video_path}")
         self.results_df = None
-        self.get_results_from_video(divide_time)
+        self.detection_lines = detection_lines
+        self.tracker_config = tracker_config if tracker_config else {
+            'max_age': 30,
+            'min_hits': 3,
+            'n_init': 3,
+            'max_cosine_distance': 0.4,
+            'nn_budget': 100
+        }
+        self.divide_time = divide_time
         
         
     def load_video(self, video_path):
@@ -42,6 +53,8 @@ class CarDetection():
         self.video_path = video_path
         self.video_capture = cv2.VideoCapture(video_path)
         self.duration = int(self.video_capture.get(cv2.CAP_PROP_FRAME_COUNT) / self.video_capture.get(cv2.CAP_PROP_FPS))
+        self.width = int(self.video_capture.get(cv2.CAP_PROP_FRAME_WIDTH))
+        self.height = int(self.video_capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
 
     def detect_and_track(self, image):
@@ -93,7 +106,7 @@ class CarDetection():
 
         
 
-    def get_results_from_video(self, divide_time=1.0):
+    def get_results_from_video(self):
         """
         Extract images from the video at specified intervals.
         """
@@ -108,14 +121,14 @@ class CarDetection():
         df = pd.DataFrame(columns=['time', 'frame_number', "x1", "y1", "x2", "y2", 'track_id'])
         # Hash the name of the video
         video_name = os.path.basename(self.video_path)
-        hash_name = hashlib.md5((video_name + str(divide_time)).encode()).hexdigest()
+        hash_name = hashlib.md5((video_name + str(self.divide_time)).encode()).hexdigest()
         output_path = os.path.join(settings.MEDIA_ROOT,  str(hash_name) + '.csv')
         if os.path.exists(output_path):
             logger.info(f"Loading existing results from {output_path}")
             df = pd.read_csv(output_path)
             self.results_df = df
             return df
-        for i in tqdm(np.arange(0, self.duration, divide_time), total=int(self.duration/divide_time)):
+        for i in tqdm(np.arange(0, self.duration, self.divide_time), total=int(self.duration/self.divide_time)):
             frame_number = int(i * fps)
             self.video_capture.set(cv2.CAP_PROP_POS_FRAMES, frame_number)
             success, frame = self.video_capture.read()
@@ -148,31 +161,55 @@ class CarDetection():
         df.to_csv(output_path, index=False)
         return df
 
-    def _is_both_images_same_car_abs_difference(self, image1, image2, threshold=0.8):
-        """
-        Compare two images to check if they are of the same car.
-        Uses a simple pixel-wise comparison.
-        """
-        # Find the smaller image
-        width = min(image1.shape[1], image2.shape[1])
-        height = min(image1.shape[0], image2.shape[0])
-        image1_resized = cv2.resize(image1, (width, height))
-        image2_resized = cv2.resize(image2, (width, height))
-        # Calculate absolute difference
-        diff = cv2.absdiff(image1_resized, image2_resized)
-        gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
-        # number of items smaller than the threshold
-        num_diff = np.sum(gray < (255 * (1 - threshold)))
-        total_pixels = width * height
-        # Calculate the percentage of different pixels
-        percentage_diff = num_diff / total_pixels
-        if percentage_diff < (1 - threshold):
-            logger.info("Images are of the same car.")
-            return True
-        else:
-            logger.info("Images are of different cars.")
-            return False
+    
+    def _calculate_angle(self, p1, p2, p3):
+        # Vectors
+        v1 = p1 - p2
+        v2 = p3 - p2
         
+        # Dot product and magnitudes
+        dot_product = np.dot(v1, v2)
+        magnitude_v1 = np.linalg.norm(v1)
+        magnitude_v2 = np.linalg.norm(v2)
+        
+        # Angle in radians
+        angle_rad = np.arccos(dot_product / (magnitude_v1 * magnitude_v2))
+        
+        # Convert to degrees
+        angle_deg = np.degrees(angle_rad)
+        
+        return angle_deg
+
+    def _get_line_type(self):
+        """
+        Determine the type of detection line based on the detection lines provided.
+        """
+        line_types = {}
+        for line_key, lines in self.detection_lines.items():
+            line_types[line_key] = []
+            for line in lines:
+                points = line['points']
+                tuple_points = np.array([[x, y] for x, y in zip(points[0::2], points[1::2])])
+                perpendicular_lines = 0
+                for index in range(0, len(points), 3):
+                    if index + 2 < len(points):
+                        p1 = np.array(points[index])
+                        p2 = np.array(points[index + 1])
+                        p3 = np.array(points[index + 2])
+                        angle = self._calculate_angle(p1, p2, p3)
+                        if angle > 70:
+                            perpendicular_lines += 1
+                if perpendicular_lines >= 2:
+                    rect_bbox = cv2.boundingRect(tuple_points)
+                    line_types[line_key].append(['rectangle', rect_bbox])
+                elif perpendicular_lines == 1:
+                    line_types[line_key].append('intersection', [])
+                elif perpendicular_lines == 1:
+                    line_types[line_key].append('straight', [tuple_points[0], tuple_points[-1]])
+        self.line_types = line_types
+                
+                
+    
         
     def get_image_from_timestamp(self, timestamp):
         """
@@ -189,34 +226,4 @@ class CarDetection():
             logger.error(f"Failed to read frame at {frame_number}.")
             return None
         return frame
-    
-    # def run_tracker(self):
-    #     """
-    #     Run detection on a specific timestamp.
-    #     """
-    #     if self.results_df is None:
-    #         logger.error("Results DataFrame is empty. Please run get_results_from_video first.")
-    #         return None
-    #     if self.results_df.empty:
-    #         logger.error("Results DataFrame is empty. No detections found.")
-    #         return None
-    #     self.results_df['time'] = self.results_df['time'].astype(float)
-    #     self.results_df = self.results_df.sort_values(by='time').reset_index(drop=True)
 
-    #     timestamp = None
-    #     next_timestamp = None
-
-    #     time_groups = self.results_df.groupby('time')
-    #     if len(time_groups) == 0:
-    #         logger.error("No time groups found in results DataFrame.")
-    #         return None
-    #     # Process each group of results
-    #     for name, group in time_groups:
-    #         logger.info(f"Processing group: {name}")
-    #         time = name
-    #         frame = self.get_image_from_timestamp(time)
-            
-    #         for index, row in group.iterrows():
-    #             timestamp = row['time']
-                
- 
