@@ -6,7 +6,8 @@ import {
     Typography,
     FormControl,
     InputLabel,
-    Button
+    Button,
+    TextField
 } from '@mui/material';
 import {faPen, faPlus, faEraser} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -24,9 +25,8 @@ const AutoCounter = () => {
     const stageRef = react.useRef(null);
     const [env, setEnv] = react.useState(null);
     const videoRef = react.useRef(null);
-    const [lines, setLines] = react.useState({"right":{"entry": [], "exit": []}, "left":{"entry": [], "exit": []}, "through":{"entry": [], "exit": []}});
-    const [turnMovementIndication, setTurnMovementIndication] = react.useState("right");
-    const [exitOrEntry, setExitOrEntry] = react.useState("entry");
+    const [lines, setLines] = react.useState({});
+    const [portal, setPortal] = react.useState("");
     const isDrawing = react.useRef(false);
     const [tool, setTool] = react.useState('pen'); // 'pen'
     const [videoReady, setVideoReady] = react.useState(false);
@@ -35,7 +35,8 @@ const AutoCounter = () => {
     const [open, setOpen] = react.useState(false);
     const [severity, setSeverity] = react.useState('info');
     const [message, setMessage] = react.useState('');
-
+    const [portalInput, setPortalInput] = react.useState('');
+    const [selectedPortal, setSelectedPortal] = react.useState('');
     const autoHideDuration = 3000;
     const openNotification = (severity, message) => {
         setSeverity(severity);
@@ -73,25 +74,8 @@ const AutoCounter = () => {
             if (data.error) {
                 console.error('Error fetching lines:', data.error);
             } else {
-                const formattedLines = { right: { entry: [], exit: [] }, left: { entry: [], exit: [] }, through: { entry: [], exit: [] } };
-                ['right', 'left', 'through'].forEach(movement => {
-                    ['entry', 'exit'].forEach(portal => {
-                        const rawPoints = data.lines?.[movement]?.[portal];
-                        if (Array.isArray(rawPoints) && rawPoints.length > 0) {
-                            for (let index = 0; index < rawPoints.length; index++) {
-                                const element = rawPoints[index];
-                                // Process each element as needed
-                                formattedLines[movement][portal].push({
-                                    tool: element.tool || 'pen', // Default to 'pen' if tool is not specified
-                                    points: element.points || []
-                                });
-                            }
-                            
-                        }
-                    });
-                });
-                console.log('Formatted lines:', formattedLines);
-                setLines(formattedLines);
+                console.log('Fetched lines:', data.lines);
+                setLines(data.lines);
             }
         })
 
@@ -122,6 +106,10 @@ const AutoCounter = () => {
     }
 
     const handleMouseDown = (e) => {
+        if (selectedPortal === '') {
+            openNotification('error', 'Please select a portal first');
+            return;
+        }
         const pos = e.target.getStage().getPointerPosition();
         // Get the width and height of the canvas
         const stage = e.target.getStage();
@@ -130,29 +118,23 @@ const AutoCounter = () => {
 
         if (tool === 'eraser') {
             setLines(prevLines => {
-                const updatedLines = [...prevLines[turnMovementIndication][exitOrEntry]];
+                const updatedLines = [...(prevLines[selectedPortal] || [])];
                 // Remove any line where the pointer is near
                 const filtered = updatedLines.filter(line => !isPointNearLine(line.points, pos.x/canvasWidth, pos.y/canvasHeight));
                 return {
                     ...prevLines,
-                    [turnMovementIndication]: {
-                        ...prevLines[turnMovementIndication],
-                        [exitOrEntry]: filtered
-                    }
+                    [selectedPortal]: filtered
                 };
             });
             return; // Don't start drawing a new line
         }
         isDrawing.current = true;
         setLines(prevLines => {
-            const updatedLines = [...prevLines[turnMovementIndication][exitOrEntry]];
+            const updatedLines = [...(prevLines[selectedPortal] || [])];
             updatedLines.push({ tool, points: [pos.x/canvasWidth, pos.y/canvasHeight] });
             return {
                 ...prevLines,
-                [turnMovementIndication]: {
-                    ...prevLines[turnMovementIndication],
-                    [exitOrEntry]: updatedLines
-                }
+                [selectedPortal]: updatedLines
             };
         });
     };
@@ -164,7 +146,8 @@ const AutoCounter = () => {
         const point = stage.getPointerPosition();
 
         setLines(prevLines => {
-            const currentLines = [...prevLines[turnMovementIndication][exitOrEntry]];
+            const currentLines = [...(prevLines[selectedPortal] || [])];
+            if (currentLines.length === 0) return prevLines; // nothing to update
 
             // Copy the last line and append the new point
             const lastLine = { ...currentLines[currentLines.length - 1] };
@@ -175,10 +158,7 @@ const AutoCounter = () => {
 
             return {
                 ...prevLines,
-                [turnMovementIndication]: {
-                    ...prevLines[turnMovementIndication],
-                    [exitOrEntry]: currentLines
-                }
+                [selectedPortal]: currentLines
             };
         });
     };
@@ -225,20 +205,6 @@ const AutoCounter = () => {
 
     const handleMouseUp = () => {
         isDrawing.current = false;
-        
-
-        const updatedLines = [...lines[turnMovementIndication][exitOrEntry]];
-        const lastLine = updatedLines[updatedLines.length - 1];
-
-        updatedLines[updatedLines.length - 1] = lastLine;
-        
-        setLines({
-            ...lines,
-            [turnMovementIndication]: {
-                ...lines[turnMovementIndication],
-                [exitOrEntry]: updatedLines
-            }
-        });
     };
 
     react.useEffect(() => {
@@ -343,7 +309,7 @@ const AutoCounter = () => {
                             onTouchEnd={handleMouseUp}
                             >
                                 <Layer>
-                                    {lines && lines[turnMovementIndication][exitOrEntry].map((line, i) => (
+                                    {lines && lines[selectedPortal] && lines[selectedPortal].map((line, i) => (
                                         <Line
                                         key={i}
                                         points={pointsToScaledPoints(line.points)}
@@ -365,7 +331,7 @@ const AutoCounter = () => {
 
             </div>
             <div className="flex-1 p-2.5 bg-main-300 h-full flex flex-col gap-2.5">
-                <div className="grid grid-cols-2 gap-2.5">
+                <div className="grid grid-cols-1 gap-5">
                     <FormControl className="w-full">
                         <InputLabel id="demo-simple-select-label">Age</InputLabel>
                         <Select
@@ -395,69 +361,64 @@ const AutoCounter = () => {
                             </MenuItem>
                         </Select>
                     </FormControl>
+                    <FormControl className="w-full !flex !flex-row items-center justify-between gap-2.5">
+                        <TextField
+                            label="Portal Name"
+                            variant="outlined"
+                            value={portalInput}
+                            onChange={(e) => setPortalInput(e.target.value)}
+                            className='shadow-lg bg-main-400'
+                            sx={{
+                                color: 'primary.white'
+                            }}
+                        />
+                        <Button
+                            className='!bg-green-500 h-full shadow-lg hover:!bg-main-400 !text-black'
+                            onClick={() => {
+                                if (portalInput.trim() === '') {
+                                    openNotification('error', 'Portal name cannot be empty');
+                                    return;
+                                }
+                                setLines(prevLines => {
+                                    const newLines = { ...prevLines, [portalInput]: [] };
+                                    setSelectedPortal(portalInput); // Optionally select the new portal
+                                    return newLines;
+                                });
+                                setPortalInput('');
+                            }}
+                        >
+                            <FontAwesomeIcon icon={faPlus} />
+                        </Button>
+                    </FormControl>
                     <FormControl className="w-full">
                         <InputLabel id="demo-simple-select-label">Portal</InputLabel>
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            value={exitOrEntry}
+                            value={selectedPortal}
                             className='shadow-lg bg-main-400'
                             sx={{
                                 color: 'primary.white'
                             }}
+                            disabled={Object.keys(lines).length === 0}
                             label="Portal"
-                            onChange={(e) => setExitOrEntry(e.target.value)}
+                            onChange={(e) => setSelectedPortal(e.target.value)}
 
                         >   
-                            <MenuItem value={'entry'}>
-                                <Typography variant="body1" color="textPrimary">
-                                    Entry
-                                </Typography>
-                            </MenuItem>
-                            <MenuItem value={'exit'}>
-                                <Typography variant="body1" color="textPrimary">
-                                    Exit
-                                </Typography>
-                            </MenuItem>
+                            {Object.keys(lines).map((key) => (
+                                <MenuItem key={key} value={key}>
+                                    <Typography variant="body1" color="textPrimary">
+                                        {key}
+                                    </Typography>
+                                </MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </div>
-                <div className="flex items-center gap-2.5">
-                    <FormControl className="w-full">
-                        <InputLabel id="demo-simple-select-label">Movement</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={turnMovementIndication}
-                            className='shadow-lg bg-main-400'
-                            sx={{
-                                color: 'primary.white'
-                            }}
-                            label="Movement"
-                            onChange={(e) => setTurnMovementIndication(e.target.value)}
-
-                        >   
-                            <MenuItem value={'through'}>
-                                <Typography variant="body1" color="textPrimary">
-                                    Through Movement
-                                </Typography>
-                            </MenuItem>
-                            <MenuItem value={'left'}>
-                                <Typography variant="body1" color="textPrimary">
-                                    Left Turn
-                                </Typography>
-                            </MenuItem>
-                            <MenuItem value={'right'}>
-                                <Typography variant="body1" color="textPrimary">
-                                    Right Turn
-                                </Typography>
-                            </MenuItem>
-                        </Select>
-                    </FormControl>
-                </div>
+                
                 <div className='flex justify-between items-center'>
                     <Button
-                    className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black'
+                    className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black h-full'
                     onClick={sendLines}
                     >
                         <FontAwesomeIcon icon={faPlus} />
@@ -465,9 +426,9 @@ const AutoCounter = () => {
                     <Button
                     className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black'
                     onClick={() => {
-                        setLines({"right":{"entry": [], "exit": []}, "left":{"entry": [], "exit": []}, "through":{"entry": [], "exit": []}});
-                        setTurnMovementIndication("right");
-                        setExitOrEntry("entry");
+                        setLines({});
+                        setSelectedPortal('');
+                        setPortal("");
                     }}
                     >
                         {/* <FontAwesomeIcon icon={faPlus} /> */}

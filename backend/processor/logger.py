@@ -4,6 +4,8 @@ import logging
 import logging.handlers
 import dotenv
 from django.conf import settings
+from concurrent_log_handler import ConcurrentRotatingFileHandler
+
 # Load environment variables
 
 dotenv.load_dotenv(settings.ENV_PATH)
@@ -76,7 +78,7 @@ class Logger:
         log_dir = self._get_log_directory()
         # File handler for all logs (stored in backend.log)
         try:
-            file_handler = logging.handlers.RotatingFileHandler(
+            file_handler = ConcurrentRotatingFileHandler(
                 os.path.join(log_dir, 'backend.log'),
                 maxBytes=10*1024*1024,  # 10MB
                 backupCount=5

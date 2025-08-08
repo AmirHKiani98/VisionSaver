@@ -52,9 +52,7 @@ class DetectionLines(models.Model):
 
     def default_lines(): # type: ignore
         return {
-            "right": {"entry": [], "exit": []},
-            "left": {"entry": [], "exit": []},
-            "through": {"entry": [], "exit": []}
+            
         }
 
     lines = models.JSONField(
