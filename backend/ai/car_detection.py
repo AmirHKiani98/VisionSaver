@@ -209,8 +209,6 @@ class CarDetection():
                 epsilon = epsilon_magnitude * cv2.arcLength(points, True)
                 approx = cv2.approxPolyDP(points, epsilon, True )
                 approx = approx.reshape(-1, 2)
-                
-                
                 if len(approx) >= 2:
                     rect_bbox = cv2.boundingRect(approx)
                     rect_bbox = (rect_bbox[0]/self.width, rect_bbox[1]/self.height, 
