@@ -383,8 +383,8 @@ const AutoCounter = () => {
                             width={videoDisplaySize.width}
                             height={videoDisplaySize.height}
                             onMouseDown={handleMouseDown}
-                            onMousemove={handleMouseMove}
-                            onMouseup={handleMouseUp}
+                            onMouseMove={handleMouseMove}
+                            onMouseUp={handleMouseUp}
                             onTouchStart={handleMouseDown}
                             onTouchMove={handleMouseMove}
                             onTouchEnd={handleMouseUp}
