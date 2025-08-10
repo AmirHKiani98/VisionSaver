@@ -85,7 +85,7 @@ function Recording() {
     };
     return (
         <>
-        <div className='relative w-screen h-screen flex flex-col items-center'>
+        <div className='relative w-full h-full flex flex-col items-center'>
             <div className="absolute top-5 left-5 z-10">
                 <Button onClick={() =>{
                     navigate(-1);

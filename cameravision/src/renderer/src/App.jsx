@@ -829,7 +829,7 @@ function App() {
                 />
               </div>
             </div>
-            <div className="w-full lg:w-1/2">              {visions && visions.length > 0 ? (
+            <div className="w-full lg:w-1/2 min-h-full overflow-auto">              {visions && visions.length > 0 ? (
                 <VisionContainer>
                   {visions.map((visionProps, idx) => (
                     <Vision img key={visionProps.id} {...visionProps} />
