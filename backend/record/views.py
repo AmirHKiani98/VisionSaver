@@ -112,11 +112,18 @@ def get_records_url(request, token):
             if not os.path.exists(record_path):
                 continue
             domain = os.getenv('BACKEND_SERVER_DOMAIN')
-            port = os.getenv('BACKEND_SERVER_PORT')
-            func_name = os.getenv('RECORD_STREAM_FUNCTION_NAME')
-            url = (
-                f"http://{domain}:{port}/{func_name}/{record_id}"
-            )
+            apache_port = os.getenv('APACHE_PORT', None)
+            if not apache_port:
+                port = os.getenv('BACKEND_SERVER_PORT')
+                func_name = os.getenv('RECORD_STREAM_FUNCTION_NAME')
+                
+                url = (
+                    f"http://{domain}:{port}/{func_name}/{record_id}"
+                )
+            else:
+                url = (
+                    f"http://{domain}:{apache_port}/media/{record_id}.mp4"
+                )
             finished_counting = Record.objects.get(id=record_id).finished_counting
             urls.append(
                 {
@@ -224,11 +231,18 @@ def get_record_url(request, record_id):
             if not record.done:
                 return JsonResponse({"error": "Record is not done yet."}, status=400)
             domain = os.getenv('BACKEND_SERVER_DOMAIN')
-            port = os.getenv('BACKEND_SERVER_PORT')
-            func_name = os.getenv('RECORD_STREAM_FUNCTION_NAME')
-            url = (
-                f"http://{domain}:{port}/{func_name}/{record_id}"
-            )
+            apache_port = os.getenv('APACHE_PORT', None)
+            if not apache_port:
+                port = os.getenv('BACKEND_SERVER_PORT')
+                func_name = os.getenv('RECORD_STREAM_FUNCTION_NAME')
+                
+                url = (
+                    f"http://{domain}:{port}/{func_name}/{record_id}"
+                )
+            else:
+                url = (
+                    f"http://{domain}:{apache_port}/media/{record_id}.mp4"
+                )
             return JsonResponse({"url": url}, status=200)
         except Record.DoesNotExist:
             return JsonResponse({"error": "Record not found."}, status=404)

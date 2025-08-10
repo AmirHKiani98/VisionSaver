@@ -306,6 +306,29 @@ if(!is.dev){
 }
 
 
+// --- Apache config update script ---
+function updateApacheConfig() {
+  // Get APACHE_PORT from env or default to 54321
+  const apachePort = process.env.APACHE_PORT || '54321';
+  // Get absolute path of apache24
+  const apacheRootAbs = path.resolve(__dirname, '../../../backend/apps/apache24');
+  // Path to httpd.conf
+  const confPath = path.resolve(apacheRootAbs, 'conf/httpd.conf');
+  // Read config
+  let confText = fs.readFileSync(confPath, 'utf8');
+  // Replace SRVROOT
+  confText = confText.replace(/Define SRVROOT .*/g, `Define SRVROOT "${apacheRootAbs.replace(/\\/g, '/')}` + '"');
+  // Replace Listen and ServerName
+  confText = confText.replace(/Listen .*/g, `Listen 127.0.0.1:${apachePort}`);
+  confText = confText.replace(/ServerName .*/g, `ServerName localhost:${apachePort}`);
+  // Write back
+  fs.writeFileSync(confPath, confText, 'utf8');
+  console.log('httpd.conf updated with SRVROOT and port:', apacheRootAbs, apachePort);
+}
+
+// Call updateApacheConfig before starting Apache
+updateApacheConfig();
+
 // Kill Django on quit
 app.on('before-quit', () => {
   app.isQuiting = true

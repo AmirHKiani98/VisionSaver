@@ -13,6 +13,7 @@ GET_RECORD_NOTES=record/get_record_notes
 SET_RECORD_FINISHED_STATUS=record/set_record_finished_status
 ADD_RECORD_NOTE_URL=record/add_record_note
 REMOVE_RECORD_LOG=record/remove_log
+APACHE_PORT=54321
 # API variables
 API_STORE_RECORD_SCHEDULE=api/store_record_schedule/
 API_GET_RECORD_SCHEDULE=api/get_record_schedule/
