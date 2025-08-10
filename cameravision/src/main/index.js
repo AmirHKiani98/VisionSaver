@@ -2,9 +2,110 @@ import { app, shell, BrowserWindow, ipcMain, Tray, Menu, nativeImage } from 'ele
 import { join, resolve } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import dotenv from 'dotenv'
+const fs = require('fs');
+const path = require('path');
+
+
+
+// Load environment variables
+let envPath;
+if (is.dev) {
+  envPath = path.join(__dirname, '../../resources/.hc_to_app_env');
+} else {
+  envPath = path.join(process.resourcesPath, '.hc_to_app_env');
+}
+dotenv.config({ path: envPath });
+
+const backendDomain = process.env.BACKEND_SERVER_DOMAIN || 'localhost';
+const backendPort = process.env.BACKEND_SERVER_PORT || '8000';
+
+// Paths
+let httpdConfPath, apacheRoot, mediaPath;
+if (is.dev) {
+  httpdConfPath = path.resolve(__dirname, '../../../backend/apps/apache24/conf/httpd.conf');
+  apacheRoot = path.resolve(__dirname, '../../../backend/apps/apache24');
+  mediaPath = path.resolve(__dirname, '../../../backend/media');
+} else {
+  httpdConfPath = path.resolve(process.resourcesPath, 'backend', 'startbackend', '_internal', 'backend', 'apps', 'apache24', 'conf', 'httpd.conf');
+  apacheRoot = path.resolve(process.resourcesPath, 'backend', 'startbackend', '_internal', 'backend', 'apps', 'apache24');
+  mediaPath = path.resolve(process.resourcesPath, 'backend', 'media');
+}
+
+// Read httpd.conf
+let conf = fs.readFileSync(httpdConfPath, 'utf8');
+
+// Update SRVROOT, media Alias/Directory
+conf = conf.replace(/Define SRVROOT .*/g, `Define SRVROOT "${apacheRoot.replace(/\\/g, '/')}"`);
+conf = conf.replace(/Alias \/media\/ .*/g, `Alias /media/ "${mediaPath.replace(/\\/g, '/')}/"`);
+conf = conf.replace(/<Directory .*media.*>/g, `<Directory "${mediaPath.replace(/\\/g, '/')}/">`);
+
+// Enable proxy modules (uncomment if commented)
+conf = conf.replace(/^#LoadModule proxy_module /m, 'LoadModule proxy_module ');
+conf = conf.replace(/^#LoadModule proxy_http_module /m, 'LoadModule proxy_http_module ');
+
+// Add or update ProxyPass/ProxyPassReverse for /api/
+const proxyBlock = `
+# Proxy API requests to Django backend
+LoadModule proxy_module modules/mod_proxy.so
+LoadModule proxy_http_module modules/mod_proxy_http.so
+
+ProxyPass /api/ http://${backendDomain}:${backendPort}/api/
+ProxyPassReverse /api/ http://${backendDomain}:${backendPort}/api/
+`;
+
+// Remove any existing ProxyPass/ProxyPassReverse for /api/
+conf = conf.replace(/# Proxy API requests[\s\S]*?ProxyPassReverse \/api\/.*\n?/g, '');
+// Add the new block at the end (or wherever you want)
+conf += '\n' + proxyBlock;
+
+// Write back to file
+// fs.writeFileSync(httpdConfPath, conf, 'utf8');
+
+
+let apacheProcess = null;
+let apachePid = null;
+
+// Determine Apache executable path
+let apacheExe;
+if (is.dev) {
+  apacheExe = path.resolve(__dirname, '../../../backend/apps/apache24/bin/httpd.exe');
+} else {
+  apacheExe = path.resolve(process.resourcesPath, 'backend', 'startbackend', '_internal', 'backend', 'apps', 'apache24', 'bin', 'httpd.exe');
+}
+
+// Function to start Apache
+function startApache() {
+  if (!apacheProcess || apacheProcess.killed) {
+    apacheProcess = spawn(apacheExe, ['-f', httpdConfPath], {
+      // detached: true, // removed
+      stdio: 'ignore',
+      windowsHide: true
+    });
+    apachePid = apacheProcess.pid; // Save the PID
+    // apacheProcess.unref(); // removed
+    console.log('Apache started.');
+  }
+}
+
+// Function to stop Apache
+function stopApache() {
+  if (apacheProcess && !apacheProcess.killed) {
+    apacheProcess.kill();
+    apacheProcess = null;
+    console.log('Apache stopped.');
+  } else if (apachePid) {
+    try {
+      process.kill(apachePid);
+      console.log('Apache stopped by PID.');
+    } catch (e) {
+      // Already dead or not found
+    }
+    apachePid = null;
+  }
+}
 
 const { execFile, exec } = require('child_process')
-const fs = require('fs');
+
 const { spawn } = require('child_process')
 
 const out = fs.openSync('./cronjob-out.log', 'a');
@@ -208,6 +309,7 @@ if(!is.dev){
 // Kill Django on quit
 app.on('before-quit', () => {
   app.isQuiting = true
+  stopApache();
   if (djangoProcess && !djangoProcess.killed) {
     console.log('Killing Django server...')
     djangoProcess.stdout?.destroy()
@@ -308,7 +410,7 @@ app.whenReady().then(() => {
 
   // 🟢 Show splash *immediately*
   createSplashWindow()
-
+  startApache();
   // 🟡 Start waiting for Django
   import('wait-on')
     .then((mod) => {
@@ -377,7 +479,14 @@ app.on('window-all-closed', (event) => {
     app.quit()
   }
 })
+function handleExit() {
+  stopApache();
+  process.exit();
+}
 
+process.on('SIGINT', handleExit);
+process.on('SIGTERM', handleExit);
+process.on('exit', stopApache);
 app.on('activate', () => {
   if (win) win.show()
 })
