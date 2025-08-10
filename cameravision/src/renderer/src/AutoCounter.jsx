@@ -53,6 +53,18 @@ const AutoCounter = () => {
         setMessage(message);
         setOpen(true);
     };
+    const containerRef = react.useRef(null);
+    const [containerSize, setContainerSize] = react.useState({ width: 0, height: 0 });
+
+    react.useEffect(() => {
+    if (!containerRef.current) return;
+    const ro = new ResizeObserver(([entry]) => {
+        const cr = entry.contentRect;
+        setContainerSize({ width: cr.width, height: cr.height });
+    });
+    ro.observe(containerRef.current);
+    return () => ro.disconnect();
+    }, []);
     const closeNotification = () => {
         setOpen(false);
     }
@@ -353,62 +365,53 @@ const AutoCounter = () => {
                     </Button>
                     <LinearProgressWithLabel value={progress} variant="determinate" className='flex-1 ' />
                 </div>
-                <div className="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    {videoSrc !== '' ? (
+                <div className="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden" ref={containerRef}>
+                    {videoSrc ? (
                         <Video
-                            ref={videoRef}
-                            src={videoSrc}
-                            setLoading={setVideoReady}
-                            onTimeUpdate={handleTimeUpdate}
-                            onLoadedMetadata={handleLoadedMetadata}
-                            style={{ pointerEvents: 'none' }} // <-- Add this line
+                        ref={videoRef}
+                        src={videoSrc}
+                        setLoading={setVideoReady}
+                        onTimeUpdate={handleTimeUpdate}
+                        onLoadedMetadata={handleLoadedMetadata}
+                        style={{ pointerEvents: 'none', width: '100%', height: 'auto', display: 'block' }}
                         />
                     ) : (
-                        <div className="text-white text-xl">
-                            <CircularProgress></CircularProgress>
-                        </div>
+                        <div className="text-white text-xl"><CircularProgress /></div>
                     )}
-                    <div id="canvas" className="absolute top-0 left-0 w-full h-full flex items-center justify-center z-50">
+
+                    {containerSize.width > 0 && containerSize.height > 0 && (
+                        <div className="absolute inset-0 z-50">
                         <Stage
                             ref={stageRef}
-                            style={{
-                                position: 'absolute',
-                                top: 0,
-                                left: 0,
-                                width: '100%',
-                                height: '100%',
-                                pointerEvents: 'auto',
-                                zIndex: 2
-                            }}
-                            width={videoDisplaySize.width}
-                            height={videoDisplaySize.height}
+                            width={containerSize.width}
+                            height={containerSize.height}
+                            style={{ width: '100%', height: '100%', pointerEvents: 'auto' }}
                             onMouseDown={handleMouseDown}
                             onMouseMove={handleMouseMove}
                             onMouseUp={handleMouseUp}
                             onTouchStart={handleMouseDown}
                             onTouchMove={handleMouseMove}
                             onTouchEnd={handleMouseUp}
-                            >
+                        >
                             <Layer>
-                                {lines && lines[selectedPortal] && lines[selectedPortal].map((line, i) => (
+                            {lines && lines[selectedPortal] && lines[selectedPortal].map((line, i) => (
                                 <Line
-                                    key={i}
-                                    points={pointsToScaledPoints(line.points)}
-                                    stroke="#df4b26"
-                                    strokeWidth={5}
-                                    tension={0.5}
-                                    lineCap="round"
-                                    lineJoin="round"
-                                    globalCompositeOperation={
-                                    line.tool === 'eraser' ? 'destination-out' : 'source-over'
-                                    }
+                                key={i}
+                                points={pointsToScaledPoints(line.points)}
+                                stroke="#df4b26"
+                                strokeWidth={5}
+                                tension={0.5}
+                                lineCap="round"
+                                lineJoin="round"
+                                globalCompositeOperation={line.tool === 'eraser' ? 'destination-out' : 'source-over'}
                                 />
-                                ))}
+                            ))}
                             </Layer>
                         </Stage>
+                        </div>
+                    )}
                     </div>
-                    
-                </div>
+
                 <div className='flex mt-2.5 z-50 gap-5 justify-between items-center'>
                     <VideoSlider
                         value={currentTime}
