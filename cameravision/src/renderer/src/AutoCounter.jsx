@@ -57,15 +57,23 @@ const AutoCounter = () => {
         setOpen(false);
     }
     react.useEffect(() => {
+        if (!videoRef.current) return;
+        const videoElem = videoRef.current;
         const updateSize = () => {
-            if (videoRef.current) {
-                const rect = videoRef.current.getBoundingClientRect();
-                setVideoDisplaySize({ width: rect.width, height: rect.height });
-            }
+            const rect = videoElem.getBoundingClientRect();
+            setVideoDisplaySize({ width: rect.width, height: rect.height });
         };
-        window.addEventListener('resize', updateSize);
+        // Initial update
         updateSize();
-        return () => window.removeEventListener('resize', updateSize);
+        // Use ResizeObserver for dynamic layout changes
+        const resizeObserver = new window.ResizeObserver(updateSize);
+        resizeObserver.observe(videoElem);
+        // Also listen to window resize for safety
+        window.addEventListener('resize', updateSize);
+        return () => {
+            resizeObserver.disconnect();
+            window.removeEventListener('resize', updateSize);
+        };
     }, [videoRef]);
     react.useEffect(() => {
         if (!env || !videoReady) return;
@@ -343,7 +351,7 @@ const AutoCounter = () => {
                     >
                         Start Counting
                     </Button>
-                    <LinearProgressWithLabel value={progress} variant="determinate" className='flex-1' />
+                    <LinearProgressWithLabel value={progress} variant="determinate" className='flex-1 ' />
                 </div>
                 <div className="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden">
                     {videoSrc !== '' ? (
@@ -353,6 +361,7 @@ const AutoCounter = () => {
                             setLoading={setVideoReady}
                             onTimeUpdate={handleTimeUpdate}
                             onLoadedMetadata={handleLoadedMetadata}
+                            style={{ pointerEvents: 'none' }} // <-- Add this line
                         />
                     ) : (
                         <div className="text-white text-xl">
