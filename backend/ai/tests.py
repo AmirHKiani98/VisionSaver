@@ -67,7 +67,7 @@ class AiAppTestCase(TestCase):
         for names, group in group_by_time:
             timestamp, frame_number = names
             
-            print(f"Processing timestamp: {timestamp}")
+            # print(f"Processing timestamp: {timestamp}")
             # Only seek if not the next frame
             if last_frame_number is None or frame_number != last_frame_number + 1:
                 cap.set(cv2.CAP_PROP_POS_FRAMES, frame_number)

@@ -38,7 +38,7 @@ def add_line(request):
         detection_object = DetectionLines.objects.get_or_create(
             record=record
         )
-        logger.warning(f"Adding lines for record ID: {record_id}, lines: {lines}")
+        #logger.warning(f"Adding lines for record ID: {record_id}, lines: {lines}")
         detection_object = detection_object[0]
         detection_object.lines = lines
         detection_object.save()
@@ -59,16 +59,16 @@ def get_lines(request):
             try:
                 record = Record.objects.get(id=record_id)
             except Record.DoesNotExist:
-                logger.error(f"Record not found for record ID: {record_id}")
+                #logger.error(f"Record not found for record ID: {record_id}")
                 return JsonResponse({'error': 'Record not found'}, status=404)
             detection_object = DetectionLines.objects.get_or_create(record=record)[0]
             lines = detection_object.lines
             return JsonResponse({'status': 'success', 'lines': lines}, status=200)
         except DetectionLines.DoesNotExist:
-            logger.error(f"Detection lines not found for record ID: {record_id}")
+            #logger.error(f"Detection lines not found for record ID: {record_id}")
             return JsonResponse({'error': 'Detection lines not found for this record'}, status=404)
     else:
-        logger.error("Invalid request method for get_lines")
+        #logger.error("Invalid request method for get_lines")
         return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 @csrf_exempt
@@ -79,11 +79,11 @@ def run_car_detection(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         record_id = data.get('record_id')
-        divide_time = data.get('divide_time', 1)  # Default to 10 seconds if not provided
+        divide_time = data.get('divide_time', 0.1)  # Default to 10 seconds if not provided
         try:
             record = Record.objects.get(id=record_id)
         except Record.DoesNotExist:
-            logger.error(f"Record not found for record ID: {record_id}")
+            #logger.error(f"Record not found for record ID: {record_id}")
             return JsonResponse({'error': 'Record not found'}, status=404)
 
         # Initialize the car detection process

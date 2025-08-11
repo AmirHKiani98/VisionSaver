@@ -17,7 +17,7 @@ def get_stream_type(ip):
             return 'supervisor'
     except requests.RequestException as e:
         # Handle any exceptions that occur during the request
-        print(f"Error fetching URL {url}: {e}")
+        #print(f"Error fetching URL {url}: {e}")
         return 'unknown'
     
 def get_ip_from_url(url):

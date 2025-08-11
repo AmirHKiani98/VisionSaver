@@ -8,9 +8,10 @@ import {
     InputLabel,
     Button,
     TextField,
-    CircularProgress
+    CircularProgress,
+    Tooltip
 } from '@mui/material';
-import {faPen, faPlus, faEraser} from '@fortawesome/free-solid-svg-icons';
+import {faPen, faPlus, faEraser, faUpload, faRefresh} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLocation } from 'react-router-dom';
 import Notification from './components/Notification';
@@ -511,9 +512,15 @@ const AutoCounter = () => {
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             value={selectedPortal}
-                            className='shadow-lg bg-main-400'
+                            className='shadow-lg bg-main-400 flex'
                             sx={{
-                                color: 'primary.white'
+                                color: 'primary.white',
+                                '& .MuiSelect-select': {
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center'
+                                }
                             }}
                             disabled={Object.keys(lines).length === 0}
                             label="Portal"
@@ -521,10 +528,26 @@ const AutoCounter = () => {
 
                         >   
                             {Object.keys(lines).map((key) => (
-                                <MenuItem key={key} value={key}>
-                                    <Typography variant="body1" color="textPrimary">
-                                        {key}
-                                    </Typography>
+                                <MenuItem key={key} value={key} className='!flex !justify-between !items-center'>
+                                        <Typography variant="body1" color="textPrimary" className='w-10'>
+                                            {key}
+                                        </Typography>
+                                        <Button
+                                            className='!bg-red-500 h-full shadow-lg hover:!bg-main-500 !text-black'
+                                            onClick={() => {
+                                                // Remove the selected portal and its lines
+                                                setLines(prevLines => {
+                                                    const newLines = { ...prevLines };
+                                                    delete newLines[key];
+                                                    if (selectedPortal === key) {
+                                                        setSelectedPortal(''); // Clear selection if the deleted portal was selected
+                                                    }
+                                                    return newLines;
+                                                })
+                                            }}
+                                            >
+                                            <FontAwesomeIcon icon={faEraser} className='text-white' />
+                                            </Button>
                                 </MenuItem>
                             ))}
                         </Select>
@@ -532,12 +555,14 @@ const AutoCounter = () => {
                 </div>
                 
                 <div className='flex justify-between items-center'>
-                    <Button
-                    className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black h-full'
-                    onClick={sendLines}
-                    >
-                        <FontAwesomeIcon icon={faPlus} />
-                    </Button>
+                    <Tooltip title="Send lines to the server">
+                        <Button
+                        className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black h-full'
+                        onClick={sendLines}
+                        >
+                            <FontAwesomeIcon icon={faUpload} />
+                        </Button>
+                    </Tooltip>
                     <Button
                     className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black'
                     onClick={() => {
@@ -547,9 +572,7 @@ const AutoCounter = () => {
                     }}
                     >
                         {/* <FontAwesomeIcon icon={faPlus} /> */}
-                        <Typography variant="body1" color="textPrimary">
-                            Clear
-                        </Typography>
+                        <FontAwesomeIcon icon={faRefresh} />
                     </Button>
                 </div>
             </div>

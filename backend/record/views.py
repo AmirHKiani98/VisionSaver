@@ -14,7 +14,7 @@ from django.utils import timezone
 logger = settings.APP_LOGGER
 def record_rtsp_task(record_id, camera_url, duration, output_file):
 
-    print(f"Starting recording task for record ID {record_id}")
+    #print(f"Starting recording task for record ID {record_id}")
     try:
         record = Record.objects.filter(id=record_id)
 
@@ -28,14 +28,14 @@ def record_rtsp_task(record_id, camera_url, duration, output_file):
         #     Record.objects.filter(id=record_id).update(done=True, error="", in_process=False)
         # else:
         #     Record.objects.filter(id=record_id).update(done=False, error=f"File doesn't exist at {output_file}", in_process=False)
-        #     # logger.error(f"Recording file doesn't exist: {output_file}")
+        #     # #logger.error(f"Recording file doesn't exist: {output_file}")
 
     except Exception as e:
         import traceback
-        logger.error(f"Recording error for {record_id}: {e}\n{traceback.format_exc()}")
+        #logger.error(f"Recording error for {record_id}: {e}\n{traceback.format_exc()}")
         Record.objects.filter(id=record_id).update(done=False, error=str(e), in_process=False)
 
-    print(f"Finished recording for record ID {record_id}")
+    #print(f"Finished recording for record ID {record_id}")
 
 # Create your views here.
 from .rtsp_object import RTSPObject
@@ -52,7 +52,7 @@ def start_record_rtsp(request):
     This view should be triggered via a POST request with the necessary parameters.
     """
     if request.method != 'POST':
-        # logger.error("Method not allowed for start_record_rtsp.")
+        # #logger.error("Method not allowed for start_record_rtsp.")
         return JsonResponse({"error": "Method Not Allowed"}, status=405)
     try:
         data = json.loads(request.body.decode('utf-8'))
@@ -60,31 +60,31 @@ def start_record_rtsp(request):
         camera_url = data.get('camera_url')
         duration = data.get('duration', 60)  # Default to 60 seconds if not provided
         output_file = data.get('output_file', f"{settings.MEDIA_ROOT}/{record_id}.mkv")
-        # logger.info(f"Starting recording for record ID {record_id} at {camera_url} for {duration} seconds.")
+        # #logger.info(f"Starting recording for record ID {record_id} at {camera_url} for {duration} seconds.")
         if not record_id or not camera_url:
-            # logger.error("Missing 'record_id' or 'camera_url' in request data.")
+            # #logger.error("Missing 'record_id' or 'camera_url' in request data.")
             return JsonResponse({"error": "'record_id' and 'camera_url' are required."}, status=400)
 
         # Create a new Record instance
         record = Record.objects.get(id=record_id)
         if not record:
-            # logger.error(f"Record with ID {record_id} not found.")
+            # #logger.error(f"Record with ID {record_id} not found.")
             return JsonResponse({"error": "Record not found."}, status=404)
-        # logger.info(f"Record found: {record}")
+        # #logger.info(f"Record found: {record}")
 
         # Start the recording in a separate thread
         threading.Thread(
             target=record_rtsp_task,
             args=(record.id, camera_url, duration, output_file)
         ).start()
-        # logger.info(f"Started recording for record ID {record.id} at {camera_url} for {duration} seconds.")
+        # #logger.info(f"Started recording for record ID {record.id} at {camera_url} for {duration} seconds.")
         return JsonResponse({"message": "Recording started successfully.", "record_id": record.id}, status=200)
 
     except json.JSONDecodeError:
-        # logger.error("Invalid JSON body in request.")
+        # #logger.error("Invalid JSON body in request.")
         return JsonResponse({"error": "Invalid JSON body."}, status=400)
     except Exception as e:
-        # logger.error(f"An error occurred while starting the recording: {str(e)}")
+        # #logger.error(f"An error occurred while starting the recording: {str(e)}")
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
 
 
@@ -308,9 +308,9 @@ def add_record_turn(request):
         turn = data.get('turn')
         time = data.get('time')
         record_id = data.get('record_id')
-        print(f"Adding record turn: {turn}, time: {time}, record_id: {record_id}")
-        # Print types
-        print(f"Types - turn: {type(turn)}, time: {type(time)}, record_id: {type(record_id)}")
+        #print(f"Adding record turn: {turn}, time: {time}, record_id: {record_id}")
+        # #print types
+        #print(f"Types - turn: {type(turn)}, time: {type(time)}, record_id: {type(record_id)}")
         if not record_id or not turn or time is None:
             return JsonResponse(
                 {"error": "'record_id', 'turn', and 'time' are required."},
@@ -344,13 +344,13 @@ def add_record_turn(request):
             status=201
         )
     except Record.DoesNotExist:
-        print(f"Record with ID {record_id} not found.")
+        #print(f"Record with ID {record_id} not found.")
         return JsonResponse({"error": "Record not found."}, status=404)
     except json.JSONDecodeError:
-        print("Invalid JSON body.")
+        #print("Invalid JSON body.")
         return JsonResponse({"error": "Invalid JSON body."}, status=400)
     except Exception as e:
-        print(f"An error occurred: {str(e)}")
+        #print(f"An error occurred: {str(e)}")
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
 
 @csrf_exempt

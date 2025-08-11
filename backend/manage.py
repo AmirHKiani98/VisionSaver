@@ -21,7 +21,7 @@ def main():
         backend_server_port = os.getenv("BACKEND_SERVER_PORT", "8000")
         backend_server_domain = os.getenv("BACKEND_SERVER_DOMAIN", "localhost")
         if not backend_server_domain or not backend_server_port:
-            print("❌ ERROR: BACKEND_SERVER_DOMAIN or BACKEND_SERVER_PORT is not set")
+            # print("❌ ERROR: BACKEND_SERVER_DOMAIN or BACKEND_SERVER_PORT is not set")
             sys.exit(1)
         execute_from_command_line(["manage.py", "runserver", f"{backend_server_domain}:{backend_server_port}"])
     else:

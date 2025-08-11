@@ -3,7 +3,6 @@ import cv2
 import numpy as np
 import pandas as pd
 from ai.car import Car
-from tqdm import tqdm
 from django.conf import settings
 from ai.deepsort.nn_matching import NearestNeighborDistanceMetric
 from ai.deepsort.tracker import Tracker
@@ -31,7 +30,7 @@ class CarDetection():
         self.load_video(record_id)
         self.detection_lines = detection_lines
         self._get_line_types(epsilon_magnitude)
-        logger.info(f"CarDetection initialized with model {model} and record {record_id}")
+        #logger.info(f"CarDetection initialized with model {model} and record {record_id}")
         self.results_df = None
         
         self.tracker_config = tracker_config if tracker_config else {
@@ -54,7 +53,7 @@ class CarDetection():
         if not os.path.isfile(video_path):
             video_path = os.path.join(settings.MEDIA_ROOT, f"{record_id}.mkv")
             if not os.path.isfile(video_path):
-                logger.error(f"Video file not found: {video_path}")
+                #logger.error(f"Video file not found: {video_path}")
                 raise FileNotFoundError(f"Video file not found: {video_path}")
                 
         self.video_path = video_path
@@ -119,11 +118,11 @@ class CarDetection():
         """
         # if video_capture is not in self raise error
         if not hasattr(self, 'video_capture'):
-            logger.error("Video capture not initialized. Please load a video first.")
+            #logger.error("Video capture not initialized. Please load a video first.")
             raise RuntimeError("Video capture not initialized. Please load a video first.")
         fps = self.video_capture.get(cv2.CAP_PROP_FPS)
         if fps <= 0:
-            logger.error("Invalid FPS value. Cannot extract frames.")
+            #logger.error("Invalid FPS value. Cannot extract frames.")
             raise ValueError("Invalid FPS value. Cannot extract frames.")
         df = pd.DataFrame(columns=['time', 'frame_number', "x1", "y1", "x2", "y2", 'track_id'])
         # Hash the name of the video
@@ -131,7 +130,7 @@ class CarDetection():
         hash_name = hashlib.md5((video_name + str(self.divide_time)).encode()).hexdigest()
         output_path = os.path.join(settings.MEDIA_ROOT,  str(hash_name) + '.csv')
         if os.path.exists(output_path):
-            logger.info(f"Loading existing results from {output_path}")
+            #logger.info(f"Loading existing results from {output_path}")
             df = pd.read_csv(output_path)
             self.results_df = df
             channel_layer = get_channel_layer()
@@ -147,7 +146,7 @@ class CarDetection():
             else:
                 pass
             return df
-        for i in tqdm(np.arange(0, self.duration, self.divide_time), total=int(self.duration/self.divide_time)):
+        for i in np.arange(0, self.duration, self.divide_time):
             channel_layer = get_channel_layer()
             group_name = f"counter_progress_{self.record_id}"
             progress = round(i / self.duration * 100, 2)
@@ -161,7 +160,7 @@ class CarDetection():
                 )
             else:
                 pass
-                # logger.warning("Channel layer is not configured; skipping progress notification.")
+                # #logger.warning("Channel layer is not configured; skipping progress notification.")
             frame_number = int(i * fps)
             self.video_capture.set(cv2.CAP_PROP_POS_FRAMES, frame_number)
             success, frame = self.video_capture.read()
@@ -172,7 +171,7 @@ class CarDetection():
                 or frame.shape[1] == 0
                 or np.mean(frame) < 1  # type: ignore
             ):
-                logger.warning(f"[Decode Error] Suspect frame at frame={frame_number}, time={i:.2f}s")
+                #logger.warning(f"[Decode Error] Suspect frame at frame={frame_number}, time={i:.2f}s")
                 continue
             data = self.detect_and_track(frame)
             
@@ -226,7 +225,7 @@ class CarDetection():
         # Get the image in the first second
         image = self.get_image_from_timestamp(1.0)
         if image is None:
-            logger.error("Failed to retrieve image for drawing lines.")
+            #logger.error("Failed to retrieve image for drawing lines.")
             return
         for line_key, lines in self.line_types.items():
             for index, line in enumerate(lines):
@@ -251,14 +250,14 @@ class CarDetection():
         Get an image from the video at a specific timestamp.
         """
         if not hasattr(self, 'video_capture'):
-            logger.error("Video capture not initialized. Please load a video first.")
+            #logger.error("Video capture not initialized. Please load a video first.")
             raise RuntimeError("Video capture not initialized. Please load a video first.")
         fps = self.video_capture.get(cv2.CAP_PROP_FPS)
         frame_number = int(timestamp * fps)
         self.video_capture.set(cv2.CAP_PROP_POS_FRAMES, frame_number)
         success, frame = self.video_capture.read()
         if not success:
-            logger.error(f"Failed to read frame at {frame_number}.")
+            #logger.error(f"Failed to read frame at {frame_number}.")
             return None
         return frame
 

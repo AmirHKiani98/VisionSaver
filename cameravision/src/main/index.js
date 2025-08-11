@@ -83,7 +83,6 @@ function startApache() {
     });
     apachePid = apacheProcess.pid; // Save the PID
     // apacheProcess.unref(); // removed
-    console.log('Apache started.');
   }
 }
 
@@ -92,11 +91,9 @@ function stopApache() {
   if (apacheProcess && !apacheProcess.killed) {
     apacheProcess.kill();
     apacheProcess = null;
-    console.log('Apache stopped.');
   } else if (apachePid) {
     try {
       process.kill(apachePid);
-      console.log('Apache stopped by PID.');
     } catch (e) {
       // Already dead or not found
     }
@@ -131,7 +128,6 @@ if (process.platform === 'win32') {
 function keepMeAlive() {
   // Execute the Python script without waiting for a response
   // Start the Python process and keep a reference to it so we can kill it later
-  console.log('Starting keepMeAlive Python process');
   if (!global.keepMeAliveProcess || global.keepMeAliveProcess.killed) {
     global.keepMeAliveProcess = spawn(pythonExe, [pathToKeepMeAlive], keepAliveOptions);
     global.keepMeAliveProcess.unref();
@@ -142,7 +138,6 @@ function stopKeepingMeAlive() {
   if (global.keepMeAliveProcess && !global.keepMeAliveProcess.killed) {
     global.keepMeAliveProcess.kill();
     global.keepMeAliveProcess = null;
-    console.log('Stopped keepMeAlive Python process.');
   }
 }
 
@@ -194,9 +189,6 @@ const url = `http://${domain}:${port}`
 const streamerUrl = `http://${streamerDomain}:${streamerPort}`
 const apiHealthUrl = `${url}/${process.env.API_HEALTH_CHECK}`
 const streamerHealthUrl = `${streamerUrl}/${process.env.API_HEALTH_CHECK}/`
-console.log(`Django server URL: ${url}`)
-console.log(`Streamer server URL: ${streamerUrl}`)
-
 const frontRoot = resolve(__dirname, '../../')
 let djangoProcess = null
 let streamerProcess = null
@@ -225,7 +217,7 @@ if(!is.dev){
       console.log('Django server started successfully.')
     }
   })
-} else {  console.log('Running in development mode, Django server will not be started automatically.')
+} else {  
   // Run django from backend directory
   djangoProcess = execFile('python', ['-m', 'uvicorn', 'processor.asgi:create_app','--factory', '--host', domain, '--port', port, '--workers', '1'], {
       cwd: join(__dirname, '../../../backend'),
@@ -323,7 +315,6 @@ function updateApacheConfig() {
   confText = confText.replace(/ServerName .*/g, `ServerName localhost:${apachePort}`);
   // Write back
   fs.writeFileSync(confPath, confText, 'utf8');
-  console.log('httpd.conf updated with SRVROOT and port:', apacheRootAbs, apachePort);
 }
 
 // Call updateApacheConfig before starting Apache
@@ -334,19 +325,16 @@ app.on('before-quit', () => {
   app.isQuiting = true
   stopApache();
   if (djangoProcess && !djangoProcess.killed) {
-    console.log('Killing Django server...')
     djangoProcess.stdout?.destroy()
     djangoProcess.stderr?.destroy()
     djangoProcess.kill()
   }
   if (streamerProcess && !streamerProcess.killed) {
-    console.log('Killing Streamer server...')
     streamerProcess.stdout?.destroy()
     streamerProcess.stderr?.destroy()
     streamerProcess.kill()
   }
   if (cronJobProcess && !cronJobProcess.killed) {
-    console.log('Killing Cronjob process...')
     cronJobProcess.stdout?.destroy()
     cronJobProcess.stderr?.destroy()
     cronJobProcess.kill()
@@ -415,7 +403,6 @@ function createWindow() {
 
 function waitForHealthPing(url, callback) {
   const interval = setInterval(() => {
-    console.log(`Checking health at ${url}...`)
     fetch(url)
       .then((res) => {
         if (res.ok) {
@@ -438,22 +425,16 @@ app.whenReady().then(() => {
   import('wait-on')
     .then((mod) => {
       const waitOn = mod.default
-      console.log('Waiting for Django server to be ready...')
-
       waitOn({ resources: [url, streamerUrl], timeout: 12000 }, (err) => {
         if (err) {
-          console.error('Django or Streamer server failed to start:', err)
-          console.warn('Opening app anyway in fallback mode...')
           // Close app
           if (splashWindow) splashWindow.destroy()
           if (win) win.destroy()
           app.isQuiting = true
           app.quit()
         } else {
-          console.log('Django and Streamer servers are ready.')
           waitForHealthPing(apiHealthUrl, () => {
             waitForHealthPing(streamerHealthUrl, () => {
-              console.log('Both Django and Streamer servers are healthy.')
               createWindow() // load main app window
             })
           })
@@ -462,7 +443,6 @@ app.whenReady().then(() => {
       })
     })
     .catch((e) => {
-      console.error('Failed to load wait-on:', e)
       process.exit(1)
     })
 

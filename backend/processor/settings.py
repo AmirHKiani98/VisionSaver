@@ -28,7 +28,8 @@ ENV_PATH = get_env_path()
 if not os.path.exists(ENV_PATH):
     raise FileNotFoundError(f"Environment file not found: {ENV_PATH}")
 else:
-    print(f"Loading environment variables from: {ENV_PATH}")
+    #print(f"Loading environment variables from: {ENV_PATH}")
+    pass
 
 dotenv.load_dotenv(ENV_PATH)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.

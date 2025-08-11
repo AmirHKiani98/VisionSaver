@@ -33,7 +33,7 @@ def job_checker():
     from django.db.utils import OperationalError, ProgrammingError
 
     if settings.JOB_CHECKER_ENABLED:
-        logger.info("Job checker is already running. Exiting.")
+        #logger.info("Job checker is already running. Exiting.")
         return
     settings.JOB_CHECKER_ENABLED = True
 
@@ -45,7 +45,7 @@ def job_checker():
                 records = Record.objects.filter(done=False, in_process=False, start_time__lte=now)
                 
                 for record in records:
-                    logger.info(f"Processing record: {record.id} from {record.camera_url}")
+                    #logger.info(f"Processing record: {record.id} from {record.camera_url}")
                     record.in_process = True
                     record.save()
 
@@ -58,27 +58,31 @@ def job_checker():
                     }
 
                     post_url = f"http://{os.getenv('BACKEND_SERVER_DOMAIN')}:{os.getenv('BACKEND_SERVER_PORT')}/{os.getenv('RECORD_FUNCTION_NAME')}/"
-                    logger.info(f"Making POST request to: {post_url}")
+                    #logger.info(f"Making POST request to: {post_url}")
                     response = requests.post(post_url, json=post_data)
                     if response.status_code == 200:
-                        logger.info(f"Record {record.id} started successfully.")
+                        #logger.info(f"Record {record.id} started successfully.")
+                        pass
                     else:
-                        logger.error(f"Failed to start record {record.id}: Status {response.status_code}, Response: {response.text}")
+                        #logger.error(f"Failed to start record {record.id}: Status {response.status_code}, Response: {response.text}")
                         record.in_process = False
                         record.save()
                         continue
 
             except (OperationalError, ProgrammingError) as db_exc:
-                logger.warning(f"DB not ready: {db_exc}")
+                #logger.warning(f"DB not ready: {db_exc}")
+                pass
             except Exception as e:
-                logger.error(f"Unhandled error in job loop: {e}")
+                #logger.error(f"Unhandled error in job loop: {e}")
+                pass
 
             time.sleep(10)
 
     except KeyboardInterrupt:
-        print("\n[INFO] Cronjob interrupted by user. Exiting gracefully.")
+        #print("\n[INFO] Cronjob interrupted by user. Exiting gracefully.")
+        pass
 
 # --- ENTRY POINT ---
 if __name__ == "__main__":
-    print("[INFO] Starting cronjob loop from external runner...")
+    #print("[INFO] Starting cronjob loop from external runner...")
     job_checker()

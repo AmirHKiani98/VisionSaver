@@ -31,7 +31,7 @@ class Logger:
         self.base_dir = base_dir or os.path.dirname(os.path.abspath(__file__))
         if not self._initialized:
             self._setup_logger()
-            # logger._initialized = True
+            # #logger._initialized = True
     
     def _get_log_directory(self):
         # For PyInstaller, create logs relative to the executable location, not the temp extraction path
@@ -88,7 +88,7 @@ class Logger:
             self.logger.addHandler(file_handler)
         except (OSError, PermissionError):
             # If file logging fails, just continue without file logging
-            print("Warning: Could not create file logger, continuing with console only")
+            #print("Warning: Could not create file logger, continuing with console only")
             pass
     
     def debug(self, message, app_name=None):

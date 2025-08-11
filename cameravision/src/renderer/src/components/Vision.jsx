@@ -2,6 +2,8 @@ import React from 'react'
 import { CircularProgress, Button } from '@mui/material'
 import { Link } from 'react-router-dom'
 import ContextMenu from './ContextMenu'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlay, faStop } from '@fortawesome/free-solid-svg-icons'
 const Vision = (props) => {
   const [src, setSrc] = React.useState(props.src || '')
 
@@ -17,8 +19,7 @@ const Vision = (props) => {
   // Loading and error state for <img>
   const [loading, setLoading] = React.useState(true)
   const [error, setError] = React.useState(false)
-  const [errorCode, setErrorCode] = React.useState(0)
-  const [ip, setIp] = React.useState(props.ip || '')
+  const [isPlaying, setIsplaying] = React.useState(false)
 
   React.useEffect(() => {
     setLoading(true)
@@ -29,8 +30,10 @@ const Vision = (props) => {
   const handlePlayPause = () => {
     if (!videoRef.current) return
     if (videoRef.current.paused) {
+      setIsplaying(true)
       videoRef.current.play()
     } else {
+      setIsplaying(false)
       videoRef.current.pause()
     }
   }
@@ -101,7 +104,7 @@ const Vision = (props) => {
                   }}
                 />
               </Link>
-              <div
+              {/* <div
                 size="small"
                 className={`bg-main-400${loading ? ' invisible' : ''} active:bg-main-500`}
                 onClick={handlePlayPause}
@@ -113,8 +116,19 @@ const Vision = (props) => {
                   zIndex: 2
                 }}
               >
-                Play/Pause
-              </div>
+                
+              </div> */}
+              <div
+                className={`bg-main-400 z-10 shadow-lg rounded-sm opacity-60 left-1/2 -translate-x-1/2 absolute bottom-1 ${loading ? ' invisible' : ''} active:bg-main-500 !min-w-0 px-5`}
+                onClick={handlePlayPause}
+                
+              >
+                {!isPlaying ? (
+                  <FontAwesomeIcon icon={faPlay} className="text-white" />
+                ) : (
+                  <FontAwesomeIcon icon={faStop} className="text-white" />
+                )}
+                </div>
             </div>
           ) : null}
         </div>

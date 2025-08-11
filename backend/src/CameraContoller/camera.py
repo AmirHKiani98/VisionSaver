@@ -123,7 +123,7 @@ class CameraCostar:
 
 
         first = xml_body.split(":")[0].strip("<>")
-        print(first)  
+        #print(first)  
         service = "all"
         for key, value in CameraCostar.SERVICE_MAP.items():
             if first.lower().startswith(key):

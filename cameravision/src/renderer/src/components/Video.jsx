@@ -14,7 +14,7 @@ const Video = React.forwardRef((props, ref) => {
             src={src}
             onLoadedMetadata={props.onLoadedMetadata}
             onTimeUpdate={props.onTimeUpdate}
-            onLoadedData={() => setLoading && setLoading(false)}
+            onLoadedData={() => setLoading && setLoading(true)}
             onError={(e) => {
                 const videoEl = e.target;
                 const errorObj = videoEl.error;

@@ -37,13 +37,13 @@ def store_record_schedule(request):
         camera_url = data.get('camera_url')
         duration = data.get('duration')
         start_time = data.get('start_time')
-        print("Start time:", start_time, "type:", type(start_time))
+        #print("Start time:", start_time, "type:", type(start_time))
         token = data.get('token')
         if not start_time:
             start_time = timezone.now()
         else:
             dt = parse_datetime(start_time)
-            print(dt)
+            #print(dt)
             if dt is None:
                 try:
                     from datetime import datetime
@@ -87,14 +87,14 @@ def get_record_schedule(request):
     """
     Get the recording schedule.
     """
-    logger.info("get_record_schedule called")
+    #logger.info("get_record_schedule called")
     if request.method != 'GET':
         return JsonResponse({"error": "Method Not Allowed"}, status=405)
     try:
         # Helper to extract ip and stream from camera_url
-        logger.info("Fetching record schedule")
+        #logger.info("Fetching record schedule")
         raw_records = Record.objects.all().values()
-        logger.info(f"Raw records fetched: {len(raw_records)}")
+        #logger.info(f"Raw records fetched: {len(raw_records)}")
         df = pd.DataFrame(list(raw_records))
         if df.empty:
             return JsonResponse({"records": []}, status=200)
@@ -125,7 +125,7 @@ def get_record_schedule(request):
 
         return JsonResponse({"records": list(records)}, status=200)
     except Exception as e:
-        logger.error("Error in get_record_schedule:", str(e))
+        #logger.error("Error in get_record_schedule:", str(e))
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
 
 @csrf_exempt
