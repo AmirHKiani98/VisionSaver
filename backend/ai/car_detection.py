@@ -11,6 +11,7 @@ import hashlib
 import numpy as np
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
+from ai.models import AutoCounter
 
 logger = settings.APP_LOGGER
 
@@ -130,6 +131,11 @@ class CarDetection():
         hash_name = hashlib.md5((video_name + str(self.divide_time)).encode()).hexdigest()
         output_path = os.path.join(settings.MEDIA_ROOT,  str(hash_name) + '.csv')
         if os.path.exists(output_path):
+            auto_count = AutoCounter.objects.get_or_create(
+                record_id=self.record_id,
+                file_name=output_path,
+                divide_time=self.divide_time
+            )
             #logger.info(f"Loading existing results from {output_path}")
             df = pd.read_csv(output_path)
             self.results_df = df
@@ -188,6 +194,11 @@ class CarDetection():
                 df = pd.concat([df, new_row], ignore_index=True)
 
         self.results_df = df
+        auto_count = AutoCounter.objects.get_or_create(
+            record_id=self.record_id,
+            file_name=output_path,
+            divide_time=self.divide_time
+        )
         df.to_csv(output_path, index=False)
         return df
 

@@ -48,6 +48,10 @@ const AutoCounter = () => {
     const [currentTime, setCurrentTime] = react.useState(0);
     const [duration, setDuration] = react.useState(0);
     const [seeking, setSeeking] = react.useState(false);
+    const [countDict, setCountDict] = react.useState({});
+
+
+
     const autoHideDuration = 3000;
     const openNotification = (severity, message) => {
         setSeverity(severity);
@@ -88,6 +92,29 @@ const AutoCounter = () => {
             window.removeEventListener('resize', updateSize);
         };
     }, [videoRef]);
+
+    react.useEffect(() => {
+        if (!env) return;
+        fetch(`http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.GET_RECORD_AUTOCOUNTS}/`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ record_id: recordId }),
+            }
+        )
+        .then(response => response.json())
+        .then(data => {
+            if (data && data.auto_counts) {
+                const autoCounts = data.counts;
+                setCountDict(autoCounts);
+            } else {
+                console.error('No auto counts found in the response');
+            }
+        })
+    }, [env, recordId]);
+
     react.useEffect(() => {
         if (!env || !videoReady) return;
         if (!recordId) {
@@ -364,7 +391,7 @@ const AutoCounter = () => {
                     >
                         Start Counting
                     </Button>
-                    <LinearProgressWithLabel value={progress} variant="determinate" className='flex-1 ' />
+                        <LinearProgressWithLabel value={progress} variant="determinate" className='flex-1 ' />
                 </div>
                 <div className="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden" ref={containerRef}>
                     {videoSrc ? (

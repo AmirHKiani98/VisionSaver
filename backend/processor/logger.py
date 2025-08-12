@@ -1,7 +1,6 @@
 import os
 import sys
 import logging
-import logging.handlers
 import dotenv
 from django.conf import settings
 from concurrent_log_handler import ConcurrentRotatingFileHandler

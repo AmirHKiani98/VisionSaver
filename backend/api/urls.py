@@ -50,5 +50,9 @@ urlpatterns = [
     path(
         f"{os.getenv('API_IMPORT_VIDEO_URL')}",
         views.import_video,
+    ),
+    path(
+        f"{os.getenv('API_GET_RECORD_AUTOCOUNTS')}",
+        views.get_record_counts,
     )
 ]

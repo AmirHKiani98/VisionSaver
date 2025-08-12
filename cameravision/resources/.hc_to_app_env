@@ -23,6 +23,7 @@ API_DOWNLOAD_DB=api/download_db
 API_GET_IPS=api/get_ips
 API_EDIT_RECORD=api/edit_record/
 API_IMPORT_VIDEO_URL=api/import_video_url
+API_GET_RECORD_AUTOCOUNTS=api/get_record_autocounts/
 
 # Celery variables
 CELERY_BROKER_DOMAIN=localhost

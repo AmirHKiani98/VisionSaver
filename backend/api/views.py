@@ -342,3 +342,27 @@ def import_video(request):
         return JsonResponse({"error": "Invalid JSON format."}, status=400)
     except Exception as e:
         return JsonResponse({"error": f"An unexpected error occurred: {str(e)}"}, status=500)
+    
+@csrf_exempt
+def get_record_counts(request):
+    """
+    Get the counts for a specific record.
+    """
+    if request.method != 'POST':
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+        record_id = data.get('record_id')
+        if not record_id:
+            return JsonResponse({"error": "'record_id' is required."}, status=400)
+        record = Record.objects.filter(id=record_id).first()
+        if not record:
+            return JsonResponse({"error": "Record not found."}, status=404)
+        counts_file = os.path.join(settings.MEDIA_ROOT, f"{record_id}_counts.json")
+        if not os.path.exists(counts_file):
+            return JsonResponse({"counts": {}}, status=200  )
+        with open(counts_file, 'r') as f:
+            counts_data = json.load(f)
+        return JsonResponse({"counts": counts_data}, status=200)
+    except Exception as e:
+        return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)

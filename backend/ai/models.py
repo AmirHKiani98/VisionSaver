@@ -60,3 +60,13 @@ class DetectionLines(models.Model):
         help_text="Coordinates of the detection lines."
     )
     created_at = models.DateTimeField(auto_now_add=True, help_text="Timestamp when the model was created.")
+    
+class AutoCounter(models.Model):
+    """
+    Model to represent an auto counter for vehicles.
+    """
+    id = models.AutoField(primary_key=True, help_text="Unique identifier for the auto counter.")
+    record = models.ForeignKey('record.Record', on_delete=models.CASCADE, related_name='auto_counters')
+    time = models.DateField(help_text="The time in seconds into the record when this count was made.")
+    file_name = models.TextField(help_text="File name associated with the count data.")
+    divide_time = models.FloatField(default=0.1, help_text="Time interval for dividing counts.")

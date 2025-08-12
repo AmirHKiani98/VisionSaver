@@ -22,5 +22,5 @@ urlpatterns = [
     path(
         f"{os.getenv('AI_START_COUNTING')}",
         views.run_car_detection,
-    ),
+    )
 ]

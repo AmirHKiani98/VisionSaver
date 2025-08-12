@@ -206,97 +206,35 @@ const backendBinary = is.dev
       process.platform === 'darwin' ? 'startbackend' : 'startbackend/startbackend.exe' // TODO: fix this for mac packaging as well
     )
 if(!is.dev){
-  djangoProcess = execFile(backendBinary, {
+  djangoProcess = spawn(backendBinary, [], {
     cwd: is.dev
       ? join(frontRoot, 'resources', 'backend')
-      : join(process.resourcesPath, 'backend')
-  }, (error) => {
-    if (error) {
-      // console.error('Django:', error)
-    } else {
-      console.log('Django server started successfully.')
-    }
-  })
-} else {  
+      : join(process.resourcesPath, 'backend'),
+    stdio: 'ignore',
+    windowsHide: true
+  });
+} else {
   // Run django from backend directory
-  djangoProcess = execFile('python', ['-m', 'uvicorn', 'processor.asgi:create_app','--factory', '--host', domain, '--port', port, '--workers', '1'], {
-      cwd: join(__dirname, '../../../backend'),
-      maxBuffer: 10 * 1024 * 1024 // 10MB buffer instead of default 1MB
-    }, (error) => {
-      if (error) {
-        console.error('Django error:', error.message) // Only log the message to prevent buffer overflow
-      } else {
-        console.log('Django server started successfully.')
-      }
-    }
-  )
-  
-  // Add output handling to prevent buffer overflow
-  djangoProcess.stdout?.on('data', (data) => {
-    const output = data.toString()
-    // Only log important messages, skip routine output
-    if (output.includes('ERROR') || output.includes('CRITICAL') || output.includes('WARNING')) {
-      console.log(`Django: ${output.slice(0, 200)}`) // Limit to 200 chars
-    }
-  })
-    djangoProcess.stderr?.on('data', (data) => {
-    const output = data.toString()
-    // Skip routine uvicorn output, only log real errors
-    if (!output.includes('INFO:') && !output.includes('Started server process')) {
-      console.error(`Django Error: ${output.slice(0, 200)}`) // Limit to 200 chars
-    }
-  })
-  
-  killPort(streamerPort, () => {    streamerProcess = execFile('python', ['-m', 'uvicorn', 'apps.streamer.asgi_mpeg:app', '--host', streamerDomain, '--port', streamerPort,], {
-      cwd: join(__dirname, '../../../backend'),
-      maxBuffer: 10 * 1024 * 1024 // 10MB buffer instead of default 1MB
-    }, (error) => {
-      if (error) {
-        console.error('Streamer error:', error.message)
-      } else {
-        console.log('Streamer server started successfully.')
-      }
-    })
-    
-    // Add output handling for streamer
-    streamerProcess.stdout?.on('data', (data) => {
-      const output = data.toString()
-      if (output.includes('ERROR') || output.includes('CRITICAL') || output.includes('WARNING')) {
-        console.log(`Streamer: ${output.slice(0, 200)}`)
-      }
-    })
-      streamerProcess.stderr?.on('data', (data) => {
-      const output = data.toString()
-      if (!output.includes('INFO:') && !output.includes('Started server process')) {
-        console.error(`Streamer Error: ${output.slice(0, 200)}`)
-      }
-    })
-  })
-    cronJobProcess = spawn('python', ['-m', 'processor.cronjob'], {
+  djangoProcess = spawn('python', ['-m', 'uvicorn', 'processor.asgi:create_app','--factory', '--host', domain, '--port', port, '--workers', '1'], {
     cwd: join(__dirname, '../../../backend'),
-    stdio: ['ignore', 'pipe', 'pipe'] // Allow stderr/stdout but with bigger buffer
-  })
-  
-  // Handle cronjob output to prevent buffer overflow
-  cronJobProcess.stdout?.on('data', (data) => {
-    // Only log first 100 characters to prevent spam
-    const output = data.toString().slice(0, 100)
-    if (output.includes('ERROR') || output.includes('CRITICAL')) {
-      console.log(`Cronjob: ${output}`)
-    }
-  })
-  
-  cronJobProcess.stderr?.on('data', (data) => {
-    // Only log first 100 characters to prevent spam
-    const output = data.toString().slice(0, 100)
-    console.error(`Cronjob Error: ${output}`)
-  })
-  
-  cronJobProcess.on('error', (error) => {
-    console.error('Cronjob process error:', error.message)
-  })
-}
+    stdio: 'ignore',
+    windowsHide: true
+  });
 
+  killPort(streamerPort, () => {
+    streamerProcess = spawn('python', ['-m', 'uvicorn', 'apps.streamer.asgi_mpeg:app', '--host', streamerDomain, '--port', streamerPort], {
+      cwd: join(__dirname, '../../../backend'),
+      stdio: 'ignore',
+      windowsHide: true
+    });
+  });
+
+  cronJobProcess = spawn('python', ['-m', 'processor.cronjob'], {
+    cwd: join(__dirname, '../../../backend'),
+    stdio: 'ignore',
+    windowsHide: true
+  });
+}
 
 // --- Apache config update script ---
 function updateApacheConfig() {
