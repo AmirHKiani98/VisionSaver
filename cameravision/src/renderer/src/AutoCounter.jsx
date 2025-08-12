@@ -95,7 +95,7 @@ const AutoCounter = () => {
 
     react.useEffect(() => {
         if (!env) return;
-        fetch(`http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.GET_RECORD_AUTOCOUNTS}/`,
+        fetch(`http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_GET_RECORD_AUTOCOUNTS}`,
             {
                 method: 'POST',
                 headers: {
@@ -106,11 +106,10 @@ const AutoCounter = () => {
         )
         .then(response => response.json())
         .then(data => {
-            if (data && data.auto_counts) {
+            if (data && data.counts) {
                 const autoCounts = data.counts;
                 setCountDict(autoCounts);
             } else {
-                console.error('No auto counts found in the response');
             }
         })
     }, [env, recordId]);
@@ -388,10 +387,13 @@ const AutoCounter = () => {
                         color="primary"
                         onClick={startCounting}
                         className='!bg-main-500 shadow-lg hover:!bg-main-400 !text-black'
+                        disabled={Object.keys(lines).length === 0}
                     >
                         Start Counting
                     </Button>
-                        <LinearProgressWithLabel value={progress} variant="determinate" className='flex-1 ' />
+                    {Object.keys(countDict).length == 0 && (
+                        <LinearProgressWithLabel value={progress} />
+                    )}
                 </div>
                 <div className="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden" ref={containerRef}>
                     {videoSrc ? (
