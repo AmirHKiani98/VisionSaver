@@ -443,3 +443,26 @@ def get_counts_at_time(request):
             return JsonResponse({"error": f"Failed to read counts file: {str(file_error)}"}, status=500)
     except Exception as e:
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
+
+@csrf_exempt
+def count_exists(request):
+    """
+    Check if counting exists for a specific record.
+    """
+    if request.method != 'POST':
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+        record_id = data.get('record_id')
+        if not record_id:
+            return JsonResponse({"error": "'record_id' is required."}, status=400)
+        record = Record.objects.filter(id=record_id).first()
+        if not record:
+            return JsonResponse({"error": "Record not found."}, status=404)
+        auto_count = AutoCounter.objects.filter(record=record).first()
+        if auto_count:
+            return JsonResponse({"exists": True}, status=200)
+        else:
+            return JsonResponse({"exists": False}, status=200)
+    except Exception as e:
+        return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)

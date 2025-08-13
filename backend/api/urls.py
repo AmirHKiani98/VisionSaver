@@ -58,5 +58,9 @@ urlpatterns = [
     path(
         f"{os.getenv('API_GET_COUNTS_AT_TIME')}",
         views.get_counts_at_time,
+    ),
+    path(
+        f"{os.getenv('API_COUNT_EXISTS')}",
+        views.count_exists,
     )
 ]

@@ -54,7 +54,7 @@ const AutoCounter = () => {
     const [countDict, setCountDict] = react.useState({});
     const [showCounts, setShowCounts] = react.useState(false);
     const [loadProgress, setLoadProgress] = react.useState(0);
-
+    const [countingExists, setCountingExists] = react.useState(false);
 
 
     const autoHideDuration = 3000;
@@ -97,6 +97,32 @@ const AutoCounter = () => {
             window.removeEventListener('resize', updateSize);
         };
     }, [videoRef]);
+
+
+    react.useEffect(() => {
+        if (!env) return;
+        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_COUNT_EXISTS}`;
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ record_id: recordId }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data && data.exists) {
+                setCountingExists(true);
+            } else {
+                setCountingExists(false);
+            }
+        })
+        .catch(error => {
+            console.error('Error checking counting existence:', error);
+            setCountingExists(false);
+        }
+        );
+    }, [env, recordId]);
 
     react.useEffect(() => {
         if (!env || !videoReady) return;
@@ -170,6 +196,7 @@ const AutoCounter = () => {
         setLines(prevLines => {
             const updatedLines = [...(prevLines[selectedPortal] || [])];
             // Start a new line with the first point
+            
             updatedLines.push({ tool, points: [pos.x / canvasWidth, pos.y / canvasHeight] });
             return {
                 ...prevLines,
@@ -293,6 +320,7 @@ const AutoCounter = () => {
             if (data.error) {
                 openNotification('error', data.error);
             } else {
+                setCountingStarted(true);
                 openNotification('success', 'Counting started successfully');
             }
         })
@@ -323,6 +351,9 @@ const AutoCounter = () => {
 
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
+            if (Math.abs(data.progress - 100) < 1 ){
+                setCountingExists(true);
+            }
             if (data.progress !== undefined) setProgress(data.progress);
         };
         ws.onclose = () => { /* Optionally handle close */ };
@@ -430,12 +461,13 @@ const AutoCounter = () => {
                         color="primary"
                         variant="contained"
                         onClick={startCounting}
-                        className='!bg-main-500 shadow-lg hover:!bg-main-400 !text-black'
+
+                        className={`bg-main-500 shadow-lg hover:!bg-main-400 !text-black ${countingExists ? '!bg-green-400' : '!bg-yellow-400'}`}
                     >
                         Start Counting
                     </Button>
                     {countingStarted && (
-                        <LinearProgressWithLabel value={progress} variant="determinate" className='flex-1 ' />
+                        <LinearProgressWithLabel value={progress} variant="determinate" className='flex-1' />
                     )}
                 </div>
                 <div className="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden" ref={containerRef}>
@@ -536,7 +568,7 @@ const AutoCounter = () => {
                             pendingSeekTime={pendingSeekTime}
                             setPendingSeekTime={setPendingSeekTime}
                         />
-                        {/* {loadProgress!=0 &&( */}
+                        {countingExists && (
                             <Tooltip title="Show counts" placement="bottom">
                                 <GradualColorButton
                                     percentage={0}
@@ -557,8 +589,7 @@ const AutoCounter = () => {
                                     <FontAwesomeIcon icon={faEye} />
                                 </GradualColorButton>
                             </Tooltip>
-                        {/* )
-                        } */}
+                        )}
                     </div>
                 </div>
 
