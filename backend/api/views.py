@@ -9,6 +9,10 @@ import pandas as pd
 from django.utils.dateparse import parse_datetime
 import os
 import subprocess
+from ai.models import AutoCounter
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+
 # Create your views here.
 
 
@@ -358,11 +362,84 @@ def get_record_counts(request):
         record = Record.objects.filter(id=record_id).first()
         if not record:
             return JsonResponse({"error": "Record not found."}, status=404)
-        counts_file = os.path.join(settings.MEDIA_ROOT, f"{record_id}_counts.json")
+        auto_count = AutoCounter.objects.filter(record=record).first()
+        if not auto_count:
+            return JsonResponse({"counts": {}}, status=200)
+        counts_file = auto_count.file_name
         if not os.path.exists(counts_file):
-            return JsonResponse({"counts": {}}, status=200  )
-        with open(counts_file, 'r') as f:
-            counts_data = json.load(f)
-        return JsonResponse({"counts": counts_data}, status=200)
+            return JsonResponse({"counts": {}}, status=200)
+        try:
+            df = pd.read_csv(counts_file)
+            _dict = {}
+            groupby_time = df.groupby('time')
+            length = len(groupby_time)
+            i = 0
+            channel_layer = get_channel_layer()
+            group_name = f"counter_loading_progress_{record_id}"
+            for time, group in groupby_time:
+                
+                loading_progress = i / length
+                # Check for close message in channel layer
+                try:
+                    if channel_layer is not None:
+                        async_to_sync(channel_layer.group_send)(
+                            group_name,
+                            {
+                                "type": "send_progress",
+                                "progress": loading_progress,
+                            }
+                        )
+                        # Check if close message received
+                        close_message = async_to_sync(channel_layer.group_receive)(group_name)
+                        if close_message and close_message.get('type') == 'close':
+                            return JsonResponse({"message": "Processing cancelled"}, status=200)
+                except Exception as channel_error:
+                    logger.error(f"Channel error: {channel_error}")
+                    # Continue processing even if channel communication fails
+                    pass
+                i += 1
+                
+                _dict[time] = group.to_dict(orient='records')
+            return JsonResponse({"counts": _dict}, status=200)
+        except Exception as file_error:
+            return JsonResponse({"error": f"Failed to read counts file: {str(file_error)}"}, status=500)
+    except Exception as e:
+        return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
+
+@csrf_exempt
+def get_counts_at_time(request):
+    """
+    Get the counts for a specific record at a given time.
+    """
+    if request.method != 'POST':
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+        record_id = data.get('record_id')
+        time = data.get('time')
+        if not record_id or not time:
+            return JsonResponse({"error": "'record_id' and 'time' are required."}, status=400)
+        record = Record.objects.filter(id=record_id).first()
+        if not record:
+            return JsonResponse({"error": "Record not found."}, status=404)
+        auto_count = AutoCounter.objects.filter(record=record).first()
+        if not auto_count:
+            return JsonResponse({"counts": {}}, status=200)
+        counts_file = auto_count.file_name
+        if not os.path.exists(counts_file):
+            return JsonResponse({"counts": {}}, status=200)
+        try:
+            df = pd.read_csv(counts_file)
+            
+            # Find the closest timestamp to the given time
+            df['time_diff'] = abs(df['time'] - float(time))
+            group = df[df['time_diff'] == df['time_diff'].min()]
+
+            if group.empty:
+                return JsonResponse({"counts": []}, status=200)
+            counts = group.to_dict(orient='records')
+            return JsonResponse({"counts": counts}, status=200)
+        except Exception as file_error:
+            return JsonResponse({"error": f"Failed to read counts file: {str(file_error)}"}, status=500)
     except Exception as e:
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)

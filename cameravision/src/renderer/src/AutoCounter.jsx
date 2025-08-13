@@ -1,5 +1,5 @@
 import react from 'react';
-import { Stage, Layer, Line} from 'react-konva';
+import { Stage, Layer, Line, Rect} from 'react-konva';
 import {
     Select,
     MenuItem,
@@ -11,9 +11,11 @@ import {
     CircularProgress,
     Tooltip
 } from '@mui/material';
-import {faPen, faPlus, faEraser, faUpload, faRefresh} from '@fortawesome/free-solid-svg-icons';
+import {faPen, faPlus, faEraser, faUpload, faRefresh, faEye} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLocation } from 'react-router-dom';
+import GradualColorButton from './components/GradualColorButton';
+
 import Notification from './components/Notification';
 import LinearProgressWithLabel from './components/LinearProgressWithLabel';
 import Video from './components/Video';
@@ -33,6 +35,7 @@ const AutoCounter = () => {
     const videoRef = react.useRef(null);
     const [lines, setLines] = react.useState({});
     const [portal, setPortal] = react.useState("");
+    const [countingStarted, setCountingStarted] = react.useState(false);
     const isDrawing = react.useRef(false);
     const [tool, setTool] = react.useState('pen'); // 'pen'
     const [videoReady, setVideoReady] = react.useState(false);
@@ -49,6 +52,8 @@ const AutoCounter = () => {
     const [duration, setDuration] = react.useState(0);
     const [seeking, setSeeking] = react.useState(false);
     const [countDict, setCountDict] = react.useState({});
+    const [showCounts, setShowCounts] = react.useState(false);
+    const [loadProgress, setLoadProgress] = react.useState(0);
 
 
 
@@ -93,26 +98,26 @@ const AutoCounter = () => {
         };
     }, [videoRef]);
 
-    react.useEffect(() => {
-        if (!env) return;
-        fetch(`http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_GET_RECORD_AUTOCOUNTS}`,
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ record_id: recordId }),
-            }
-        )
-        .then(response => response.json())
-        .then(data => {
-            if (data && data.counts) {
-                const autoCounts = data.counts;
-                setCountDict(autoCounts);
-            } else {
-            }
-        })
-    }, [env, recordId]);
+    // react.useEffect(() => {
+    //     if (!env) return;
+    //     fetch(`http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_GET_RECORD_AUTOCOUNTS}`,
+    //         {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //             body: JSON.stringify({ record_id: recordId }),
+    //         }
+    //     )
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         if (data && data.counts) {
+    //             const autoCounts = data.counts;
+    //             // setCountDict(autoCounts);
+    //         } else {
+    //         }
+    //     })
+    // }, [env, recordId]);
 
     react.useEffect(() => {
         if (!env || !videoReady) return;
@@ -131,7 +136,6 @@ const AutoCounter = () => {
             if (data.error) {
                 console.error('Error fetching lines:', data.error);
             } else {
-                console.log('Fetched lines:', data.lines);
                 setLines(data.lines);
             }
         })
@@ -224,7 +228,23 @@ const AutoCounter = () => {
         }
         return scaledPoints;
     };
-
+    const videoPointToScaledPoint = (points) => {
+        if (!videoRef.current) {
+            return [0, 0];
+        }
+        
+        // Correctly destructure the points array
+        let [x, y] = points;
+        
+        
+        x = x / videoRef.current.videoWidth;
+        y = y / videoRef.current.videoHeight;
+        
+        
+        x = x * stageRef.current.width();
+        y = y * stageRef.current.height();
+        return [x, y];
+    };
     function isPointNearLine(points, x, y, threshold = 0.02) {
         for (let i = 0; i < points.length - 2; i += 2) {
             const x1 = points[i], y1 = points[i + 1];
@@ -302,6 +322,21 @@ const AutoCounter = () => {
         });
     }
 
+    // react.useEffect(() => {
+    //     if (!env || !recordId) return;
+    //     const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/counter_loading_progress/${recordId}/`;
+    //     const ws = new window.WebSocket(wsUrl);
+
+    //     ws.onmessage = (event) => {
+    //         const data = JSON.parse(event.data);
+    //         if (data.progress !== undefined) setLoadProgress(data.progress);
+    //     }
+    //     ws.onclose = () => { /* Optionally handle close */ };
+    //     ws.onerror = (e) => { /* Optionally handle error */ };
+    //     return () => ws.close();
+    // }
+    // , [env, recordId]);
+
     react.useEffect(() => {
         if (!env || !recordId) return;
         const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/counter_progress/${recordId}/`;
@@ -316,6 +351,10 @@ const AutoCounter = () => {
 
         return () => ws.close();
     }, [env, recordId]);
+
+    react.useEffect(() => {
+
+    })
 
     react.useEffect(() => {
         if (!env) return;
@@ -360,11 +399,30 @@ const AutoCounter = () => {
         if (videoRef.current && !seeking) {
             setCurrentTime(videoRef.current.currentTime);
         }
+        if (showCounts && videoRef.current) {
+            // Get the counts for the current time
+            const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_GET_COUNTS_AT_TIME}`;
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ record_id: recordId, time: videoRef.current.currentTime }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.counts) {
+                    const counts = data.counts;
+                    setCountDict(counts);
+                } else {
+                    console.error('No counts found in the response');
+                }
+            })
+        }
     };
 
     // Handler for video loadedmetadata
     const handleLoadedMetadata = () => {
-        console.log('Video metadata loaded');
         if (videoRef.current) {
             setDuration(videoRef.current.duration);
         }
@@ -374,7 +432,13 @@ const AutoCounter = () => {
         <div className='w-screen h-screen flex items-center justify-center'>
             <div className='absolute top-5 left-5 z-10'>
                 <Button onClick={() => {
-                    window.history.back();
+                    const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/counter_loading_progress/${recordId}/`;
+                    const ws = new WebSocket(wsUrl);
+                    ws.onopen = () => {
+                        ws.send(JSON.stringify({ type: 'close' }));
+                        ws.close();
+                        window.history.back();
+                    };
                 }
                 }>
                     Back
@@ -382,17 +446,17 @@ const AutoCounter = () => {
             </div>
             <div className='w-2/3 p-5'>
                 <div className='flex items-center justify-between mb-5 gap-2.5'>
+
                     <Button
-                        variant="contained"
                         color="primary"
+                        variant="contained"
                         onClick={startCounting}
                         className='!bg-main-500 shadow-lg hover:!bg-main-400 !text-black'
-                        disabled={Object.keys(lines).length === 0}
                     >
                         Start Counting
                     </Button>
-                    {Object.keys(countDict).length == 0 && (
-                        <LinearProgressWithLabel value={progress} />
+                    {countingStarted && (
+                        <LinearProgressWithLabel value={progress} variant="determinate" className='flex-1 ' />
                     )}
                 </div>
                 <div className="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden" ref={containerRef}>
@@ -436,6 +500,27 @@ const AutoCounter = () => {
                                 globalCompositeOperation={line.tool === 'eraser' ? 'destination-out' : 'source-over'}
                                 />
                             ))}
+                            {Object.keys(countDict).length > 0 && showCounts && (() => {
+                                // Find the closest time key
+                                const times = Object.keys(countDict).map(t => parseFloat(t));
+                                if (times.length === 0) return null;
+                                return countDict.map((obj, idx) => {
+                                    let [x1, y1] = videoPointToScaledPoint([obj.x1, obj.y1]);
+                                    let [x2, y2] = videoPointToScaledPoint([obj.x2, obj.y2]);
+                                    return (
+                                        <Rect
+                                            key={idx}
+                                            x={Math.ceil(x1)}
+                                            y={Math.ceil(y1)}
+                                            width={Math.ceil(x2 - x1)}
+                                            height={Math.ceil(y2 - y1)}
+                                            stroke="#00ff00"
+                                            strokeWidth={3}
+                                            fill={"rgba(0,255,0,0.1)"}
+                                        />
+                                    );
+                                });
+                            })()}
                             </Layer>
                         </Stage>
                         </div>
@@ -449,7 +534,6 @@ const AutoCounter = () => {
                         max={duration}
                         step={0.1}
                         onChange={(e, value) => {
-                            console.log('Slider value changed:', value);
                             setSeeking(true);
                             setCurrentTime(value);
                         }}
@@ -461,17 +545,36 @@ const AutoCounter = () => {
                             }
                         }}
                         />
-                    <PlayStop
-                        videoRef={videoRef}
-                        setCurrentTime={setCurrentTime}
-                        setSeeking={setSeeking}
-                        currentTime={currentTime}
-                        duration={duration}
-                        setDuration={setDuration}
-                        setVideoReady={setVideoReady}
-                        pendingSeekTime={pendingSeekTime}
-                        setPendingSeekTime={setPendingSeekTime}
-                    />
+                    <div className='flex items-center gap-2.5'>
+                        <PlayStop
+                            videoRef={videoRef}
+                            setCurrentTime={setCurrentTime}
+                            setSeeking={setSeeking}
+                            currentTime={currentTime}
+                            duration={duration}
+                            setDuration={setDuration}
+                            setVideoReady={setVideoReady}
+                            pendingSeekTime={pendingSeekTime}
+                            setPendingSeekTime={setPendingSeekTime}
+                        />
+                        {/* {loadProgress!=0 &&( */}
+                            <Tooltip title="Show counts" placement="bottom">
+                                <GradualColorButton
+                                    percentage={0}
+                                    buttonChildren={<FontAwesomeIcon icon={faEye} className="text-white"/>}
+                                    // disabled={Math.abs(loadProgress - 1) > 0.01}
+                                    className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black'
+                                    onClick={() => {
+                                        setShowCounts(true);
+                                        openNotification('info', 'Counts now are visible');
+                                    }}
+                                >
+                                    <FontAwesomeIcon icon={faEye} />
+                                </GradualColorButton>
+                            </Tooltip>
+                        {/* )
+                        } */}
+                    </div>
                 </div>
 
             </div>

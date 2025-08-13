@@ -24,7 +24,7 @@ API_GET_IPS=api/get_ips
 API_EDIT_RECORD=api/edit_record/
 API_IMPORT_VIDEO_URL=api/import_video_url
 API_GET_RECORD_AUTOCOUNTS=api/get_record_autocounts
-
+API_GET_COUNTS_AT_TIME=api/get_counts_at_time
 # Celery variables
 CELERY_BROKER_DOMAIN=localhost
 CELERY_BROKER_PORT=6379

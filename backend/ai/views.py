@@ -83,9 +83,8 @@ def run_car_detection(request):
         try:
             record = Record.objects.get(id=record_id)
         except Record.DoesNotExist:
-            #logger.error(f"Record not found for record ID: {record_id}")
+            logger.error(f"Record not found for record ID: {record_id}")
             return JsonResponse({'error': 'Record not found'}, status=404)
-
         # Initialize the car detection process
         detection = CarDetection(record_id=record_id, model=load_model(), divide_time=divide_time)
         thread = threading.Thread(target=detection.run)
