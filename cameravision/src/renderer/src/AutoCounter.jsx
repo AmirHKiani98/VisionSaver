@@ -11,7 +11,7 @@ import {
     CircularProgress,
     Tooltip
 } from '@mui/material';
-import {faPen, faPlus, faEraser, faUpload, faRefresh, faEye} from '@fortawesome/free-solid-svg-icons';
+import {faPen, faPlus, faEraser, faUpload, faRefresh, faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLocation } from 'react-router-dom';
 import GradualColorButton from './components/GradualColorButton';
@@ -97,27 +97,6 @@ const AutoCounter = () => {
             window.removeEventListener('resize', updateSize);
         };
     }, [videoRef]);
-
-    // react.useEffect(() => {
-    //     if (!env) return;
-    //     fetch(`http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_GET_RECORD_AUTOCOUNTS}`,
-    //         {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             },
-    //             body: JSON.stringify({ record_id: recordId }),
-    //         }
-    //     )
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         if (data && data.counts) {
-    //             const autoCounts = data.counts;
-    //             // setCountDict(autoCounts);
-    //         } else {
-    //         }
-    //     })
-    // }, [env, recordId]);
 
     react.useEffect(() => {
         if (!env || !videoReady) return;
@@ -561,12 +540,18 @@ const AutoCounter = () => {
                             <Tooltip title="Show counts" placement="bottom">
                                 <GradualColorButton
                                     percentage={0}
-                                    buttonChildren={<FontAwesomeIcon icon={faEye} className="text-white"/>}
+                                    buttonChildren={!showCounts ? <FontAwesomeIcon icon={faEye} className="text-black"/> : <FontAwesomeIcon icon={faEyeSlash} className="text-white"/>}
                                     // disabled={Math.abs(loadProgress - 1) > 0.01}
                                     className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black'
                                     onClick={() => {
-                                        setShowCounts(true);
-                                        openNotification('info', 'Counts now are visible');
+                                        if (showCounts) {
+                                            setShowCounts(false);
+                                            openNotification('info', 'Counts are now hidden');
+                                        } else {
+                                            setShowCounts(true);
+                                            openNotification('info', 'Counts now are visible');
+                                        }
+                                        
                                     }}
                                 >
                                     <FontAwesomeIcon icon={faEye} />
