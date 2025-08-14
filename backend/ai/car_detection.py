@@ -114,96 +114,176 @@ class CarDetection():
         
 
     def run(self):
-        """
-        Extract images from the video at specified intervals.
-        """
         logger.info(f"[CarDetection.run] Starting run for record_id={self.record_id}, divide_time={self.divide_time}, video_path={self.video_path}")
-        # if video_capture is not in self raise error
+
+        # -------------- Basic capture checks --------------
         if not hasattr(self, 'video_capture'):
             logger.error("Video capture not initialized. Please load a video first.")
             raise RuntimeError("Video capture not initialized. Please load a video first.")
-        fps = self.video_capture.get(cv2.CAP_PROP_FPS)
-        if fps <= 0:
-            logger.error("Invalid FPS value. Cannot extract frames.")
+
+        if not self.video_capture.isOpened():
+            logger.error(f"cv2.VideoCapture failed to open: {self.video_path}")
+            raise RuntimeError(f"Failed to open video: {self.video_path}")
+
+        fps = float(self.video_capture.get(cv2.CAP_PROP_FPS)) or 0.0
+        frame_count = int(self.video_capture.get(cv2.CAP_PROP_FRAME_COUNT)) or 0
+        if fps <= 0.0:
+            logger.error(f"Invalid FPS ({fps}). Cannot extract frames.")
             raise ValueError("Invalid FPS value. Cannot extract frames.")
-        df = pd.DataFrame(columns=['time', 'frame_number', "x1", "y1", "x2", "y2", 'track_id'])
-        # Hash the name of the video
+        duration_sec = frame_count / fps
+        self.duration = int(duration_sec)
+        self.width = int(self.video_capture.get(cv2.CAP_PROP_FRAME_WIDTH))
+        self.height = int(self.video_capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
+        logger.info(f"[CarDetection.run] Video opened. fps={fps:.3f}, frames={frame_count}, duration={duration_sec:.2f}s, size=({self.width}x{self.height})")
+
+        # -------------- Output path, with lock + atomic writes --------------
         video_name = os.path.basename(self.video_path)
         hash_name = hashlib.md5((video_name + str(self.divide_time)).encode()).hexdigest()
-        output_path = os.path.join(settings.MEDIA_ROOT,  str(hash_name) + '.csv')
+        output_path = os.path.join(settings.MEDIA_ROOT, f"{hash_name}.csv")
+        tmp_path = output_path + ".tmp"
+        lock_path = output_path + ".lock"
+
         logger.debug(f"[CarDetection.run] Output path for results: {output_path}")
-        if os.path.exists(output_path):
-            logger.info(f"[CarDetection.run] Loading existing results from {output_path}")
-            auto_count = AutoCounter.objects.get_or_create(
-                record_id=self.record_id,
-                file_name=output_path,
-                divide_time=self.divide_time
+
+        # Acquire simple file lock
+        try:
+            lock_fd = os.open(lock_path, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+            os.write(lock_fd, str(os.getpid()).encode())
+            os.close(lock_fd)
+            have_lock = True
+            logger.debug(f"[CarDetection.run] Acquired lock: {lock_path}")
+        except FileExistsError:
+            have_lock = False
+            logger.info(f"[CarDetection.run] Another process/thread is working (lock present: {lock_path}). Will not start a duplicate run.")
+            # Optionally: send a progress ping here.
+            return self.results_df if self.results_df is not None else pd.DataFrame(
+                columns=['time','frame_number','x1','y1','x2','y2','track_id']
             )
-            df = pd.read_csv(output_path)
-            self.results_df = df
+
+        def remove_lock():
+            try:
+                if have_lock and os.path.exists(lock_path):
+                    os.remove(lock_path)
+                    logger.debug(f"[CarDetection.run] Removed lock: {lock_path}")
+            except Exception as e:
+                logger.warning(f"[CarDetection.run] Failed to remove lock {lock_path}: {e}")
+
+        try:
+            # If an existing file is there but empty/bad, ignore it.
+            exists = os.path.exists(output_path)
+            size = os.path.getsize(output_path) if exists else 0
+            logger.info(f"[CarDetection.run] Existing results? exists={exists}, size={size} bytes")
+
+            if exists and size > 0:
+                try:
+                    logger.info(f"[CarDetection.run] Loading existing results from {output_path}")
+                    auto_count, _ = AutoCounter.objects.get_or_create(
+                        record_id=self.record_id,
+                        file_name=output_path,
+                        divide_time=self.divide_time
+                    )
+                    df = pd.read_csv(output_path)
+                    self.results_df = df
+                    channel_layer = get_channel_layer()
+                    group_name = f"counter_progress_{self.record_id}"
+                    if channel_layer is not None:
+                        async_to_sync(channel_layer.group_send)(
+                            group_name,
+                            {"type": "send.progress", "progress": 100.00}
+                        )
+                    else:
+                        logger.warning("Channel layer is not configured; skipping progress notification.")
+                    return df
+                except pd.errors.EmptyDataError:
+                    logger.warning(f"[CarDetection.run] Existing CSV is empty. Will recompute: {output_path}")
+                except pd.errors.ParserError as e:
+                    logger.warning(f"[CarDetection.run] ParserError on existing CSV. Will recompute. Error: {e}")
+                except OSError as e:
+                    logger.warning(f"[CarDetection.run] OSError reading existing CSV. Will recompute. Error: {e}")
+
+            # -------------- Process video --------------
+            logger.info(f"[CarDetection.run] Processing video for car detection and tracking with divide_time={self.divide_time}s "
+                        f"and duration={self.duration}s and {len(np.arange(0, self.duration, self.divide_time))} steps")
+
+            df = pd.DataFrame(columns=['time', 'frame_number', 'x1', 'y1', 'x2', 'y2', 'track_id'])
             channel_layer = get_channel_layer()
             group_name = f"counter_progress_{self.record_id}"
-            if channel_layer is not None:
-                async_to_sync(channel_layer.group_send)(
-                    group_name,
-                    {
-                        "type": "send.progress",
-                        "progress": 100.00,
-                    }
-                )
-            else:
-                logger.warning("Channel layer is not configured; skipping progress notification.")
-            return df
-        logger.info(f"[CarDetection.run] Processing video for car detection and tracking with divide_time={self.divide_time}s and duration={self.duration}s and {len(np.arange(0, self.duration, self.divide_time))} steps")
-        for i in np.arange(0, self.duration, self.divide_time):
-            logger.info(f"[CarDetection.run] Processing time={i}, frame_number={int(i * fps)}")
-            channel_layer = get_channel_layer()
-            group_name = f"counter_progress_{self.record_id}"
-            progress = round(i / self.duration * 100, 2)
-            if channel_layer is not None:
-                async_to_sync(channel_layer.group_send)(
-                    group_name,
-                    {
-                        "type": "send.progress",
-                        "progress": progress,
-                    }
-                )
-            else:
-                logger.warning("Channel layer is not configured; skipping progress notification.")
-            frame_number = int(i * fps)
-            self.video_capture.set(cv2.CAP_PROP_POS_FRAMES, frame_number)
-            success, frame = self.video_capture.read()
-            if (
-                not success
-                or frame is None
-                or frame.shape[0] == 0
-                or frame.shape[1] == 0
-                or np.mean(frame) < 1  # type: ignore
-            ):
-                logger.warning(f"[CarDetection.run] Suspect frame at frame={frame_number}, time={i:.2f}s")
-                continue
-            data = self.detect_and_track(frame)
-            logger.debug(f"[CarDetection.run] Detected {len(data)} objects at time={i}")
-            for obj in data:
-                new_row = pd.DataFrame([{
-                    'time': i,
+
+            for i in np.arange(0, self.duration, self.divide_time):
+                frame_number = int(i * fps)
+
+                # Progress
+                progress = round((i / max(self.duration, 1)) * 100, 2)
+                if channel_layer is not None:
+                    try:
+                        async_to_sync(channel_layer.group_send)(group_name, {"type": "send.progress", "progress": progress})
+                    except Exception as e:
+                        logger.warning(f"[CarDetection.run] Failed to send progress: {e}")
+
+                logger.info(f"[CarDetection.run] Processing time={i:.2f}s, frame_number={frame_number}")
+
+                # Seek & read frame
+                self.video_capture.set(cv2.CAP_PROP_POS_FRAMES, frame_number)
+                success, frame = self.video_capture.read()
+                if (not success) or frame is None or frame.size == 0 or np.mean(frame) < 1:
+                    logger.warning(f"[CarDetection.run] Suspect frame at frame={frame_number}, time={i:.2f}s")
+                    continue
+
+                try:
+                    data = self.detect_and_track(frame)
+                except Exception as e:
+                    logger.exception(f"[CarDetection.run] detect_and_track failed at time={i:.2f}s frame={frame_number}: {e}")
+                    continue
+
+                if not data:
+                    continue
+
+                rows = [{
+                    'time': float(i),
                     'frame_number': frame_number,
                     'track_id': obj['track_id'],
-                    'x1': obj['x1'],
-                    'y1': obj['y1'],
-                    'x2': obj['x2'],
-                    'y2': obj['y2'],
-                }])
-                df = pd.concat([df, new_row], ignore_index=True)
-        self.results_df = df
-        auto_count = AutoCounter.objects.get_or_create(
-            record_id=self.record_id,
-            file_name=output_path,
-            divide_time=self.divide_time
-        )
-        logger.info(f"[CarDetection.run] Saving results to {output_path}")
-        df.to_csv(output_path, index=False)
-        return df
+                    'x1': float(obj['x1']), 'y1': float(obj['y1']),
+                    'x2': float(obj['x2']), 'y2': float(obj['y2']),
+                } for obj in data]
+                df = pd.concat([df, pd.DataFrame(rows)], ignore_index=True)
+
+            self.results_df = df
+
+            # Record DB (don’t fail the run if DB hiccups)
+            try:
+                AutoCounter.objects.get_or_create(
+                    record_id=self.record_id,
+                    file_name=output_path,
+                    divide_time=self.divide_time
+                )
+            except Exception as e:
+                logger.warning(f"[CarDetection.run] AutoCounter get_or_create failed: {e}")
+
+            # Atomic write
+            logger.info(f"[CarDetection.run] Saving results atomically to {output_path}")
+            try:
+                df.to_csv(tmp_path, index=False)
+                os.replace(tmp_path, output_path)  # atomic on Windows NTFS and POSIX
+            finally:
+                if os.path.exists(tmp_path):
+                    try:
+                        os.remove(tmp_path)
+                    except Exception:
+                        pass
+
+            # Final 100% ping
+            if channel_layer is not None:
+                try:
+                    async_to_sync(channel_layer.group_send)(group_name, {"type": "send.progress", "progress": 100.0})
+                except Exception as e:
+                    logger.warning(f"[CarDetection.run] Failed to send final progress: {e}")
+
+            return df
+
+        finally:
+            remove_lock()
+
 
     
 
