@@ -1,4 +1,3 @@
-from django.shortcuts import render
 import json
 import os
 from django.http import JsonResponse
@@ -96,45 +95,31 @@ def run_car_detection(request):
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
     
-@csrf_exempt
-def get_car_detections(request):
+def get_auto_counter(record_id, divide_time, version='v1'):
     """
-    Retrieve car detections for a specific record.
+    Retrieve auto counter for a specific record and divide time.
     """
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        record_id = data.get('record_id')
-        divide_time = data.get('divide_time', 0.1)
-        version = data.get('version', 'v1')
-        try:
-            record = Record.objects.get(id=record_id)
-        except Record.DoesNotExist:
-            logger.error(f"Record not found for record ID: {record_id}")
-            return JsonResponse({'error': 'Record not found'}, status=404)
-        
-        detection_lines = DetectionLines.objects.get(record=record)
-        if not detection_lines:
-            logger.error(f"Detection lines not found for record ID: {record_id}")
-            return JsonResponse({'error': 'Detection lines not found for this record'}, status=404)
-        auto_counter = AutoCounter.objects.filter(record=record, divide_time=divide_time).first()
-        if not auto_counter:
-            logger.error(f"AutoCounter not found for record ID: {record_id} with divide_time: {divide_time}")
-            return JsonResponse({'error': 'AutoCounter not found for this record'}, status=404)
-        record_id = record.id
-        video_path = os.path.join(settings.MEDIA_ROOT, str(record_id) + ".mp4")
+    try:
+        record = Record.objects.get(id=record_id)
+    except Record.DoesNotExist:
+        logger.error(f"Record not found for record ID: {record_id}")
+        return None
+    
+    auto_counter = AutoCounter.objects.filter(record=record, divide_time=divide_time).first()
+    if not auto_counter:
+        logger.error(f"AutoCounter not found for record ID: {record_id} with divide_time: {divide_time}")
+        return None
+    
+    video_path = os.path.join(settings.MEDIA_ROOT, str(record_id) + ".mp4")
+    if not os.path.exists(video_path):
+        video_path = os.path.join(settings.MEDIA_ROOT, str(record_id) + ".mkv")
         if not os.path.exists(video_path):
-            video_path = os.path.join(settings.MEDIA_ROOT, str(record_id) + ".mkv")
-            if not os.path.exists(video_path):
-                logger.error(f"Video file not found for record ID: {record_id}")
-                return JsonResponse({'error': 'Video file not found for this record'}, status=404)
-        
-        # Initialize the car detection process
-        ADZ = AlgorithmDetectionZone(version=version, 
-                               auto_detection_csv_path=auto_counter.file_name,
-                               detection_lines=detection_lines.lines,
-                               record_path=video_path)
-        results = ADZ.get_result()
-        
-        return JsonResponse({'status': 'success', 'detections': results}, status=200)
-    else:
-        return JsonResponse({'error': 'Invalid request method'}, status=405)
+            logger.error(f"Video file not found for record ID: {record_id}")
+            return None
+    
+    ADZ = AlgorithmDetectionZone(version=version, 
+                                 auto_detection_csv_path=auto_counter.file_name,
+                                 detection_lines=None,
+                                 record_path=video_path)
+    
+    return ADZ.get_result()
