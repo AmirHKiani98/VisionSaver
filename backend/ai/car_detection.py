@@ -217,6 +217,7 @@ class CarDetection():
                 progress = round((i / max(self.duration, 1)) * 100, 2)
                 if channel_layer is not None:
                     try:
+                        logger.debug(f"[CarDetection.run] Sending progress update: {progress}%")
                         async_to_sync(channel_layer.group_send)(group_name, {"type": "send.progress", "progress": progress})
                     except Exception as e:
                         logger.warning(f"[CarDetection.run] Failed to send progress: {e}")

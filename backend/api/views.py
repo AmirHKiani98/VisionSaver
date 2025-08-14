@@ -386,7 +386,7 @@ def get_record_counts(request):
                         async_to_sync(channel_layer.group_send)(
                             group_name,
                             {
-                                "type": "send_progress",
+                                "type": "send.progress",
                                 "progress": loading_progress,
                             }
                         )
