@@ -120,7 +120,7 @@ def get_record_schedule(request):
             done=('done', 'first'),
             token=('token', 'first'),
             intersection=('intersection', lambda x: sorted(list(set(x))) if not pd.isnull(x).all() else []),
-            finished_counting_all=('finished_counting', lambda x: all(x) if len(x) > 0 else False),
+            finished_detecting_all=('finished_detecting', lambda x: all(x) if len(x) > 0 else False),
             records_id=('id', lambda x: sorted(list(x)))
         ).reset_index(drop=True)
         
@@ -447,21 +447,23 @@ def get_counts_at_time(request):
 @csrf_exempt
 def count_exists(request):
     """
-    Check if counting exists for a specific record.
+    Check if detecting exists for a specific record.
     """
     if request.method != 'POST':
         return JsonResponse({"error": "Method Not Allowed"}, status=405)
     try:
         data = json.loads(request.body.decode('utf-8'))
         record_id = data.get('record_id')
+        divide_time = float(data.get('divide_time', 0.1))  # Default to 0.1 if not provided
         if not record_id:
             return JsonResponse({"error": "'record_id' is required."}, status=400)
         record = Record.objects.filter(id=record_id).first()
         if not record:
             return JsonResponse({"error": "Record not found."}, status=404)
-        auto_count = AutoCounter.objects.filter(record=record).first()
+        logger.info(f"Checking count existence for record_id: {record_id} with divide_time: {divide_time}")
+        auto_count = AutoCounter.objects.filter(record=record, divide_time=divide_time).first()
         if auto_count:
-            return JsonResponse({"exists": True}, status=200)
+            return JsonResponse({"exists": True, "divide_time": auto_count.divide_time}, status=200)
         else:
             return JsonResponse({"exists": False}, status=200)
     except Exception as e:

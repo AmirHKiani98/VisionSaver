@@ -201,7 +201,7 @@ function App() {
               cameraUrl: record.camera_url || record.cameraUrl, // Ensure cameraUrl is set correctly
               startTime: record.start_time || record.startTime,
               inProcess: record.in_process || record.inProcess,
-              finishedCountingAll: record.finished_counting_all || record.finishedCountingAll,
+              finishedDetectingAll: record.finished_detecting_all || record.finishedDetectingAll,
               ip: record.ip || [], // Bad naming. It should have been ips
               recordsId: record.records_id || [], // Ensure recordsId is set correctly
               }))
@@ -784,7 +784,7 @@ function App() {
                           token={record.token}
                           startTime={record.startTime}
                           duration={record.duration}
-                          finishedCountingAll={record.finishedCountingAll}
+                          finishedDetectingAll={record.finishedDetectingAll}
                           key={record.token} // Use record.token as the unique key
                           roundedClass={roundedClass}
                           onRemove={() => onRemoveRecord(record.token)}

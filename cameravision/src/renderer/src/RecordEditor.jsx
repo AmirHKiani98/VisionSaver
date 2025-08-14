@@ -249,7 +249,7 @@ const RecordEditor = (props) => {
             },
             body: JSON.stringify({
                 record_id: recordId,
-                finished_counting: true
+                finished_detecting: true
             })
         }).then(response => response.json())
             .then(data => {

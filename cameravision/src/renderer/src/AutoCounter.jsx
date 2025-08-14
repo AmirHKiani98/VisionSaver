@@ -35,7 +35,7 @@ const AutoCounter = () => {
     const videoRef = react.useRef(null);
     const [lines, setLines] = react.useState({});
     const [portal, setPortal] = react.useState("");
-    const [countingStarted, setCountingStarted] = react.useState(false);
+    const [detectingStarted, setDetectingStarted] = react.useState(false);
     const isDrawing = react.useRef(false);
     const [tool, setTool] = react.useState('pen'); // 'pen'
     const [videoReady, setVideoReady] = react.useState(false);
@@ -54,7 +54,8 @@ const AutoCounter = () => {
     const [countDict, setCountDict] = react.useState({});
     const [showCounts, setShowCounts] = react.useState(false);
     const [loadProgress, setLoadProgress] = react.useState(0);
-    const [countingExists, setCountingExists] = react.useState(false);
+    const [detectingExists, setDetectingExists] = react.useState(false);
+    const [accuracy, setAccuracy] = react.useState(0.1); // Default accuracy value
 
 
     const autoHideDuration = 3000;
@@ -101,28 +102,33 @@ const AutoCounter = () => {
 
     react.useEffect(() => {
         if (!env) return;
+        checkIfDetectingExists(accuracy);
+    }, [env, recordId]);
+
+    const checkIfDetectingExists = (divide_time) => {
+        if (!env) return;
         const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_COUNT_EXISTS}`;
         fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ record_id: recordId }),
+            body: JSON.stringify({ record_id: recordId, divide_time: divide_time}),
         })
         .then(response => response.json())
         .then(data => {
+            console.log(data);
             if (data && data.exists) {
-                setCountingExists(true);
+                setDetectingExists(true);
             } else {
-                setCountingExists(false);
+                setDetectingExists(false);
             }
         })
         .catch(error => {
-            console.error('Error checking counting existence:', error);
-            setCountingExists(false);
-        }
-        );
-    }, [env, recordId]);
+            console.error('Error checking detecting existence:', error);
+            setDetectingExists(false);
+        });
+    }
 
     react.useEffect(() => {
         if (!env || !videoReady) return;
@@ -299,12 +305,12 @@ const AutoCounter = () => {
             });
     }, [env, recordId]);
 
-    const startCounting = () => {
+    const startDetecting = () => {
         if (!env || !env.BACKEND_SERVER_DOMAIN || !env.BACKEND_SERVER_PORT) {
             openNotification('error', 'Environment variables not set');
             return;
         }
-        const backendUrl = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.AI_START_COUNTING}`;
+        const backendUrl = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.AI_START_DETECTING}`;
         fetch(backendUrl, {
             method: 'POST',
             headers: {
@@ -312,6 +318,7 @@ const AutoCounter = () => {
             },
             body: JSON.stringify({
                 record_id: recordId,
+                divide_time: accuracy,
                 lines: lines,
             }),
         })
@@ -320,12 +327,12 @@ const AutoCounter = () => {
             if (data.error) {
                 openNotification('error', data.error);
             } else {
-                setCountingStarted(true);
-                openNotification('success', 'Counting started successfully');
+                setDetectingStarted(true);
+                openNotification('success', 'Detecting started successfully');
             }
         })
         .catch(error => {
-            openNotification('error', `Error starting counting: ${error.message}`);
+            openNotification('error', `Error starting detecting: ${error.message}`);
         });
     }
 
@@ -352,7 +359,7 @@ const AutoCounter = () => {
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
             if (Math.abs(data.progress - 100) < 1 ){
-                setCountingExists(true);
+                setDetectingExists(true);
             }
             if (data.progress !== undefined) setProgress(data.progress);
         };
@@ -362,9 +369,6 @@ const AutoCounter = () => {
         return () => ws.close();
     }, [env, recordId]);
 
-    react.useEffect(() => {
-
-    })
 
     react.useEffect(() => {
         if (!env) return;
@@ -455,18 +459,35 @@ const AutoCounter = () => {
                 </Button>
             </div>
             <div className='w-2/3 p-5'>
-                <div className='flex items-center justify-between mb-5 gap-2.5'>
+                <div className='flex items-center justify-between mb-5 gap-5'>
+                    <div className='flex items-center gap-2.5'>
+                        <Button
+                            color="primary"
+                            variant="contained"
+                            onClick={startDetecting}
 
-                    <Button
-                        color="primary"
-                        variant="contained"
-                        onClick={startCounting}
+                            className={`bg-main-500 shadow-lg !h-full hover:!bg-main-400 !text-black ${detectingExists ? '!bg-green-400' : '!bg-yellow-400'}`}
+                        >
+                            Start Detecting
+                        </Button>
+                        <TextField
+                            variant="outlined"
+                            value={accuracy}
+                            type="number"
+                            onChange={(e) => {
+                                setAccuracy(e.target.value)
+                                checkIfDetectingExists(e.target.value);
+                            }}
+                            className='shadow-lg bg-main-400'
+                            focused
+                            sx={{
+                                color: 'primary.white'
+                            }}
+                            label={<Typography className="text-white">Accuracy</Typography>}
+                        />
 
-                        className={`bg-main-500 shadow-lg hover:!bg-main-400 !text-black ${countingExists ? '!bg-green-400' : '!bg-yellow-400'}`}
-                    >
-                        Start Counting
-                    </Button>
-                    {countingStarted && (
+                    </div>
+                    {detectingStarted && (
                         <LinearProgressWithLabel value={progress} variant="determinate" className='flex-1' />
                     )}
                 </div>
@@ -568,7 +589,7 @@ const AutoCounter = () => {
                             pendingSeekTime={pendingSeekTime}
                             setPendingSeekTime={setPendingSeekTime}
                         />
-                        {countingExists && (
+                        {detectingExists && (
                             <Tooltip title="Show counts" placement="bottom">
                                 <GradualColorButton
                                     percentage={0}
@@ -597,7 +618,7 @@ const AutoCounter = () => {
             <div className="flex-1 p-2.5 bg-main-300 h-full flex flex-col gap-2.5">
                 <div className="grid grid-cols-1 gap-5">
                     <FormControl className="w-full">
-                        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                        <InputLabel id="demo-simple-select-label">Drawing type</InputLabel>
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"

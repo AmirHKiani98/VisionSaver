@@ -49,7 +49,7 @@ const Vision = (props) => {
     >
       <Button
         data-key={props.key || ''}
-        className={`relative w-full h-full ${props.finished_counting ? '!bg-green-400' : '!bg-main-300'} rounded-lg shadow-lg overflow-hidden flex items-center justify-center !p-0`}
+        className={`relative w-full h-full ${props.finished_detecting ? '!bg-green-400' : '!bg-main-300'} rounded-lg shadow-lg overflow-hidden flex items-center justify-center !p-0`}
       >
         <div className="relative w-full h-full flex items-center justify-center">
           {loading && !error && (

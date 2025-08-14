@@ -20,7 +20,7 @@ def record_rtsp_task(record_id, camera_url, duration, output_file):
 
         os.makedirs(os.path.dirname(output_file), exist_ok=True)
         rtsp_obj = RTSPObject(camera_url)
-        record.update(in_process=True, done=False, error=None, finished_counting=False)
+        record.update(in_process=True, done=False, error=None, finished_detecting=False)
         rtsp_obj.record(duration, output_file, record_id)
         record.update(in_process=False, done=True, error=None)
 
@@ -124,12 +124,12 @@ def get_records_url(request, token):
                 url = (
                     f"http://{domain}:{apache_port}/media/{record_id}.mp4"
                 )
-            finished_counting = Record.objects.get(id=record_id).finished_counting
+            finished_detecting = Record.objects.get(id=record_id).finished_detecting
             urls.append(
                 {
                     "id": record_id,
                     "url": url,
-                    "finished_counting": finished_counting
+                    "finished_detecting": finished_detecting
                 }
             )
 
@@ -434,13 +434,13 @@ def set_record_finished_status(request):
     try:
         data = json.loads(request.body.decode('utf-8'))
         record_id = data.get('record_id')
-        finished_counting = data.get('finished_counting', True)  # Default to True if not provided
+        finished_detecting = data.get('finished_detecting', True)  # Default to True if not provided
         if not record_id:
             return JsonResponse({"error": "'record_id' is required."}, status=400)
 
         try:
             record = Record.objects.get(id=record_id)
-            record.finished_counting = finished_counting
+            record.finished_detecting = finished_detecting
             record.save()
             return JsonResponse({"message": "Record marked as finished."}, status=200)
         except Record.DoesNotExist:

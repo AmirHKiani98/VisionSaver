@@ -51,7 +51,7 @@ function Recording() {
                     const visionsData = data.urls.map((item) => ({
                         id: item.id,
                         src: `${item.url}`,
-                        finished_counting: item.finished_counting,
+                        finished_detecting: item.finished_detecting,
                         cameraUrl: item.url,
                         onRemove: (id) => {
                             // Handle remove action
@@ -102,7 +102,7 @@ function Recording() {
             </div>
             <VisionContainer>                {visions && visions.length > 0 ? (
                     visions.map((visionProps, idx) => (
-                        <Vision finished_counting={visionProps.finished_counting} video key={visionProps.id} token={token} {...visionProps} />
+                        <Vision finished_detecting={visionProps.finished_detecting} video key={visionProps.id} token={token} {...visionProps} />
                 ))
                 ) : (
                     <div className="text-white text-center w-full py-10">No visions available.</div>

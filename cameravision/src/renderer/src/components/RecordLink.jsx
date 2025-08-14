@@ -164,7 +164,7 @@ const RecordLink = (props) => {
     
       <ContextMenu menuItems={recordLinkContextMenuItems} contextMenuId={`record-link-${props.token}`}>
         <ListItem
-          className={`${props.finishedCountingAll ? '!bg-green-700' : '!bg-main-500'} hover:!bg-main-700 shadow-xl overflow-hidden ${props.roundedClass || ''}`}
+          className={`${props.finishedDetectingAll ? '!bg-green-700' : '!bg-main-500'} hover:!bg-main-700 shadow-xl overflow-hidden ${props.roundedClass || ''}`}
           key={props.id}
           disablePadding
           secondaryAction={

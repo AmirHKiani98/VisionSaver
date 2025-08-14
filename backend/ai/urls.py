@@ -20,7 +20,7 @@ urlpatterns = [
         views.get_lines,
     ),
     path(
-        f"{os.getenv('AI_START_COUNTING')}",
+        f"{os.getenv('AI_START_DETECTING')}",
         views.run_car_detection,
     )
 ]

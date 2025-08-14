@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddField(
             model_name='record',
-            name='finished_counting',
-            field=models.BooleanField(default=False, help_text='Indicates if the counting process for this Record has finished.'),
+            name='finished_detecting',
+            field=models.BooleanField(default=False, help_text='Indicates if the detecting process for this Record has finished.'),
         ),
     ]

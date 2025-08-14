@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('record', '0010_record_finished_counting'),
+        ('record', '0010_record_finished_detecting'),
     ]
 
     operations = [

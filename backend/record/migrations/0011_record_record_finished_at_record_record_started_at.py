@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('record', '0010_record_finished_counting'),
+        ('record', '0010_record_finished_detecting'),
     ]
 
     operations = [

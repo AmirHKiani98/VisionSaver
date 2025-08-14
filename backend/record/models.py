@@ -32,9 +32,9 @@ class Record(models.Model):
     token = models.CharField(
         max_length=150, blank=True, null=True,
         help_text="A unique token for the Record, used for authentication or identification.")
-    finished_counting = models.BooleanField(
+    finished_detecting = models.BooleanField(
         default=False,
-        help_text="Indicates if the counting process for this Record has finished."
+        help_text="Indicates if the detecting process for this Record has finished."
     )
     assigned_to = models.CharField(
         max_length=100,
