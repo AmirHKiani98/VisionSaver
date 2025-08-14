@@ -30,7 +30,6 @@ class CarDetection():
         self.record_id = record_id
         self.load_video(record_id)
         self.detection_lines = detection_lines
-        self._get_line_types(epsilon_magnitude)
         #logger.info(f"CarDetection initialized with model {model} and record {record_id}")
         self.results_df = None
         
@@ -204,57 +203,33 @@ class CarDetection():
 
     
 
-    def _get_line_types(self, epsilon_magnitude=0.02):
-        """
-        Determine the type of detection line based on the detection lines provided.
-        """
-        line_types = {}
-        for line_key, lines in self.detection_lines.items():
-            line_types[line_key] = []
-            for line in lines:
-                points = line['points']
-                points = np.array(points, dtype=np.float32).reshape(-1, 2)
-                points[:, 0] = self.width * points[:, 0]
-                points[:, 1] = self.height * points[:, 1]
-                epsilon = epsilon_magnitude * cv2.arcLength(points, True)
-                approx = cv2.approxPolyDP(points, epsilon, True )
-                approx = approx.reshape(-1, 2)
-                if len(approx) >= 2:
-                    rect_bbox = cv2.boundingRect(approx)
-                    rect_bbox = (rect_bbox[0]/self.width, rect_bbox[1]/self.height, 
-                               rect_bbox[2]/self.width, rect_bbox[3]/self.height)
-                    line_types[line_key].append(['closed', rect_bbox])
-                else:
-                    
-                    line_types[line_key].append(['straight', [[points[0]/self.width, points[1]/self.height], [points[len(points)-2]/self.width, points[-1]/self.height]]])
-        self.line_types = line_types
+    
 
-    def draw_lines(self):
-        """
-        Draw detection lines on the image for visualization.
-        """
-        # Get the image in the first second
-        image = self.get_image_from_timestamp(1.0)
-        if image is None:
-            #logger.error("Failed to retrieve image for drawing lines.")
-            return
-        for line_key, lines in self.line_types.items():
-            for index, line in enumerate(lines):
-                if line[0] == 'closed':
-                    x, y, w, h = line[1]
-                    pt1 = (int(x * self.width), int(y * self.height))
-                    pt2 = (int((x + w) * self.width), int((y + h) * self.height))
-                    cv2.rectangle(image, pt1, pt2, (0, 255, 0), 2)
-                if line[0] == 'straight':
-                
-                    x1, y1 = line[1][0]
-                    x2, y2 = line[1][1]
-                    pt1 = (int(x1 * self.width), int(y1 * self.height))
-                    pt2 = (int(x2 * self.width), int(y2 * self.height))
-                    cv2.line(image, pt1, pt2, (255, 0, 0), 2)
-        # Show the image
-        cv2.imshow('Detection Lines', image)
-        cv2.waitKey(0)
+    # def draw_lines(self):
+    #     """
+    #     Draw detection lines on the image for visualization.
+    #     """
+    #     # Get the image in the first second
+    #     image = self.get_image_from_timestamp(1.0)
+    #     if image is None:
+    #         #logger.error("Failed to retrieve image for drawing lines.")
+    #         return
+    #     for line_key, lines in self.line_types.items():
+    #         for index, line in enumerate(lines):
+    #             if line[0] == 'closed':
+    #                 x, y, w, h = line[1]
+    #                 pt1 = (int(x * self.width), int(y * self.height))
+    #                 pt2 = (int((x + w) * self.width), int((y + h) * self.height))
+    #                 cv2.rectangle(image, pt1, pt2, (0, 255, 0), 2)
+    #             if line[0] == 'straight':
+    #                 x1, y1 = line[1][0]
+    #                 x2, y2 = line[1][1]
+    #                 pt1 = (int(x1 * self.width), int(y1 * self.height))
+    #                 pt2 = (int(x2 * self.width), int(y2 * self.height))
+    #                 cv2.line(image, pt1, pt2, (255, 0, 0), 2)
+    #     # Show the image
+    #     cv2.imshow('Detection Lines', image)
+    #     cv2.waitKey(0)
         
     def get_image_from_timestamp(self, timestamp):
         """
