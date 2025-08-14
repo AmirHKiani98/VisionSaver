@@ -82,17 +82,22 @@ def run_car_detection(request):
         data = json.loads(request.body)
         record_id = data.get('record_id')
         divide_time = data.get('divide_time', 0.1)  # Default to 10 seconds if not provided
+        logger.info(f"Starting car detection for record ID: {record_id} with divide_time: {divide_time}")
         try:
             record = Record.objects.get(id=record_id)
         except Record.DoesNotExist:
             logger.error(f"Record not found for record ID: {record_id}")
             return JsonResponse({'error': 'Record not found'}, status=404)
         # Initialize the car detection process
+        logger.info("Loading YOLO model...")
         detection = CarDetection(record_id=record_id, model=load_model(), divide_time=divide_time)
+        logger.info("Starting detection thread...")
         thread = threading.Thread(target=detection.run)
         thread.start()
+        logger.info("Car detection thread started successfully")
         return JsonResponse({'status': 'success', 'message': 'Car detection started'}, status=200)
     else:
+        logger.error("Invalid request method for run_car_detection")
         return JsonResponse({'error': 'Invalid request method'}, status=405)
     
 def get_auto_counter(record_id, divide_time, version='v1'):

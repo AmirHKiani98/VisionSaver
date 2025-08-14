@@ -12,6 +12,7 @@ import numpy as np
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 from ai.models import AutoCounter
+import json
 
 logger = settings.APP_LOGGER
 
@@ -116,26 +117,28 @@ class CarDetection():
         """
         Extract images from the video at specified intervals.
         """
+        logger.info(f"[CarDetection.run] Starting run for record_id={self.record_id}, divide_time={self.divide_time}, video_path={self.video_path}")
         # if video_capture is not in self raise error
         if not hasattr(self, 'video_capture'):
-            #logger.error("Video capture not initialized. Please load a video first.")
+            logger.error("Video capture not initialized. Please load a video first.")
             raise RuntimeError("Video capture not initialized. Please load a video first.")
         fps = self.video_capture.get(cv2.CAP_PROP_FPS)
         if fps <= 0:
-            #logger.error("Invalid FPS value. Cannot extract frames.")
+            logger.error("Invalid FPS value. Cannot extract frames.")
             raise ValueError("Invalid FPS value. Cannot extract frames.")
         df = pd.DataFrame(columns=['time', 'frame_number', "x1", "y1", "x2", "y2", 'track_id'])
         # Hash the name of the video
         video_name = os.path.basename(self.video_path)
         hash_name = hashlib.md5((video_name + str(self.divide_time)).encode()).hexdigest()
         output_path = os.path.join(settings.MEDIA_ROOT,  str(hash_name) + '.csv')
+        logger.debug(f"[CarDetection.run] Output path for results: {output_path}")
         if os.path.exists(output_path):
+            logger.info(f"[CarDetection.run] Loading existing results from {output_path}")
             auto_count = AutoCounter.objects.get_or_create(
                 record_id=self.record_id,
                 file_name=output_path,
                 divide_time=self.divide_time
             )
-            #logger.info(f"Loading existing results from {output_path}")
             df = pd.read_csv(output_path)
             self.results_df = df
             channel_layer = get_channel_layer()
@@ -149,9 +152,11 @@ class CarDetection():
                     }
                 )
             else:
-                pass
+                logger.warning("Channel layer is not configured; skipping progress notification.")
             return df
+        logger.info(f"[CarDetection.run] Processing video for car detection and tracking with divide_time={self.divide_time}s and duration={self.duration}s and {len(np.arange(0, self.duration, self.divide_time))} steps")
         for i in np.arange(0, self.duration, self.divide_time):
+            logger.info(f"[CarDetection.run] Processing time={i}, frame_number={int(i * fps)}")
             channel_layer = get_channel_layer()
             group_name = f"counter_progress_{self.record_id}"
             progress = round(i / self.duration * 100, 2)
@@ -164,8 +169,7 @@ class CarDetection():
                     }
                 )
             else:
-                pass
-                # #logger.warning("Channel layer is not configured; skipping progress notification.")
+                logger.warning("Channel layer is not configured; skipping progress notification.")
             frame_number = int(i * fps)
             self.video_capture.set(cv2.CAP_PROP_POS_FRAMES, frame_number)
             success, frame = self.video_capture.read()
@@ -176,10 +180,10 @@ class CarDetection():
                 or frame.shape[1] == 0
                 or np.mean(frame) < 1  # type: ignore
             ):
-                #logger.warning(f"[Decode Error] Suspect frame at frame={frame_number}, time={i:.2f}s")
+                logger.warning(f"[CarDetection.run] Suspect frame at frame={frame_number}, time={i:.2f}s")
                 continue
             data = self.detect_and_track(frame)
-            
+            logger.debug(f"[CarDetection.run] Detected {len(data)} objects at time={i}")
             for obj in data:
                 new_row = pd.DataFrame([{
                     'time': i,
@@ -191,13 +195,13 @@ class CarDetection():
                     'y2': obj['y2'],
                 }])
                 df = pd.concat([df, new_row], ignore_index=True)
-
         self.results_df = df
         auto_count = AutoCounter.objects.get_or_create(
             record_id=self.record_id,
             file_name=output_path,
             divide_time=self.divide_time
         )
+        logger.info(f"[CarDetection.run] Saving results to {output_path}")
         df.to_csv(output_path, index=False)
         return df
 
