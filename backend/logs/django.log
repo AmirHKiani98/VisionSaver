@@ -211,3 +211,59 @@ INFO 2025-08-14 08:45:29,344 logger 24180 23088 Checking count existence for rec
 INFO 2025-08-14 08:45:29,344 logger 24180 23088 Checking count existence for record_id: 675 with divide_time: 0.1
 INFO 2025-08-14 09:14:55,616 logger 24180 27432 Checking count existence for record_id: 661 with divide_time: 0.1
 INFO 2025-08-14 09:14:55,616 logger 24180 27432 Checking count existence for record_id: 661 with divide_time: 0.1
+WARNING 2025-08-14 13:31:01,062 log 24180 8176 Not Found: /undefined
+INFO 2025-08-14 13:31:03,391 logger 24180 7712 Checking count existence for record_id: 661 with divide_time: 0.1
+INFO 2025-08-14 13:31:03,391 logger 24180 7712 Checking count existence for record_id: 661 with divide_time: 0.1
+WARNING 2025-08-14 13:31:04,941 log 24180 24432 Not Found: /undefined
+INFO 2025-08-14 13:31:19,792 logger 24180 2260 Checking count existence for record_id: 661 with divide_time: 0.1
+INFO 2025-08-14 13:31:19,792 logger 24180 2260 Checking count existence for record_id: 661 with divide_time: 0.1
+WARNING 2025-08-14 13:31:21,404 log 24180 24432 Not Found: /undefined
+ERROR 2025-08-14 13:36:10,719 log 29352 3972 Internal Server Error: /api/get_record_schedule/
+WARNING 2025-08-14 13:36:25,144 log 29352 3972 Not Found: /favicon.ico
+ERROR 2025-08-14 13:36:58,771 log 11796 27880 Internal Server Error: /api/get_record_schedule/
+ERROR 2025-08-14 13:37:31,849 log 11796 27880 Internal Server Error: /api/get_record_schedule/
+ERROR 2025-08-14 13:40:59,867 log 928 19732 Internal Server Error: /api/get_record_schedule/
+ERROR 2025-08-14 13:41:07,154 log 928 19732 Internal Server Error: /api/get_record_schedule/
+ERROR 2025-08-14 13:41:07,741 log 928 19732 Internal Server Error: /api/get_record_schedule/
+ERROR 2025-08-14 13:41:07,999 log 928 19732 Internal Server Error: /api/get_record_schedule/
+ERROR 2025-08-14 13:41:08,199 log 928 19732 Internal Server Error: /api/get_record_schedule/
+ERROR 2025-08-14 13:41:08,768 log 928 19732 Internal Server Error: /api/get_record_schedule/
+ERROR 2025-08-14 13:46:52,084 log 14556 26952 Internal Server Error: /api/get_record_schedule/
+ERROR 2025-08-14 13:47:03,716 log 14556 26952 Internal Server Error: /api/get_record_schedule/
+ERROR 2025-08-14 13:47:04,977 log 14556 26952 Internal Server Error: /api/get_record_schedule/
+ERROR 2025-08-14 13:47:05,355 log 14556 26952 Internal Server Error: /api/get_record_schedule/
+ERROR 2025-08-14 13:48:19,440 log 14556 26952 Internal Server Error: /api/get_record_schedule/
+ERROR 2025-08-14 13:48:27,274 log 14556 26952 Internal Server Error: /api/get_record_schedule/
+ERROR 2025-08-14 13:49:32,458 log 14556 26952 Internal Server Error: /api/get_record_schedule/
+ERROR 2025-08-14 13:49:32,908 log 14556 26952 Internal Server Error: /api/get_record_schedule/
+ERROR 2025-08-14 13:49:33,082 log 14556 26952 Internal Server Error: /api/get_record_schedule/
+ERROR 2025-08-14 13:49:50,305 log 27568 18808 Internal Server Error: /api/get_record_schedule/
+ERROR 2025-08-14 13:50:06,362 log 27568 18808 Internal Server Error: /api/get_record_schedule/
+ERROR 2025-08-14 13:52:37,222 log 22268 3860 Internal Server Error: /api/get_record_schedule/
+ERROR 2025-08-14 13:52:44,738 log 22268 3860 Internal Server Error: /api/get_record_schedule/
+INFO 2025-08-14 13:57:43,075 logger 28728 24784 Checking count existence for record_id: 661 with divide_time: 0.1
+INFO 2025-08-14 13:57:43,075 logger 28728 24784 Checking count existence for record_id: 661 with divide_time: 0.1
+INFO 2025-08-14 13:57:47,211 logger 28728 24980 Checking count existence for record_id: 661 with divide_time: 0.1
+INFO 2025-08-14 13:57:47,211 logger 28728 24980 Checking count existence for record_id: 661 with divide_time: 0.1
+INFO 2025-08-14 13:57:57,284 logger 28728 26152 Checking count existence for record_id: 674 with divide_time: 0.1
+INFO 2025-08-14 13:57:57,284 logger 28728 26152 Checking count existence for record_id: 674 with divide_time: 0.1
+INFO 2025-08-14 13:58:08,488 logger 28728 4372 Checking count existence for record_id: 674 with divide_time: 0.0
+INFO 2025-08-14 13:58:08,488 logger 28728 4372 Checking count existence for record_id: 674 with divide_time: 0.0
+INFO 2025-08-14 13:58:08,697 logger 28728 23844 Checking count existence for record_id: 674 with divide_time: 0.0
+INFO 2025-08-14 13:58:08,697 logger 28728 23844 Checking count existence for record_id: 674 with divide_time: 0.0
+INFO 2025-08-14 13:58:09,044 logger 28728 3780 Checking count existence for record_id: 674 with divide_time: 0.05
+INFO 2025-08-14 13:58:09,044 logger 28728 3780 Checking count existence for record_id: 674 with divide_time: 0.05
+INFO 2025-08-14 13:58:17,680 logger 28728 21928 Checking count existence for record_id: 673 with divide_time: 0.1
+INFO 2025-08-14 13:58:17,680 logger 28728 21928 Checking count existence for record_id: 673 with divide_time: 0.1
+INFO 2025-08-14 13:58:22,046 logger 28728 3568 Checking count existence for record_id: 673 with divide_time: 0.0
+INFO 2025-08-14 13:58:22,046 logger 28728 3568 Checking count existence for record_id: 673 with divide_time: 0.0
+INFO 2025-08-14 13:58:22,245 logger 28728 22904 Checking count existence for record_id: 673 with divide_time: 0.0
+INFO 2025-08-14 13:58:22,245 logger 28728 22904 Checking count existence for record_id: 673 with divide_time: 0.0
+INFO 2025-08-14 13:58:22,657 logger 28728 28784 Checking count existence for record_id: 673 with divide_time: 0.05
+INFO 2025-08-14 13:58:22,657 logger 28728 28784 Checking count existence for record_id: 673 with divide_time: 0.05
+INFO 2025-08-14 13:58:23,020 logger 28728 12460 Checking count existence for record_id: 673 with divide_time: 0.0
+INFO 2025-08-14 13:58:23,020 logger 28728 12460 Checking count existence for record_id: 673 with divide_time: 0.0
+INFO 2025-08-14 13:58:23,186 logger 28728 20092 Checking count existence for record_id: 673 with divide_time: 0.0
+INFO 2025-08-14 13:58:23,186 logger 28728 20092 Checking count existence for record_id: 673 with divide_time: 0.0
+INFO 2025-08-14 13:58:23,359 logger 28728 25736 Checking count existence for record_id: 673 with divide_time: 0.1
+INFO 2025-08-14 13:58:23,359 logger 28728 25736 Checking count existence for record_id: 673 with divide_time: 0.1
