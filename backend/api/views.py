@@ -485,7 +485,6 @@ def count_exists(request):
         record = Record.objects.filter(id=record_id).first()
         if not record:
             return JsonResponse({"error": "Record not found."}, status=404)
-        logger.info(f"Checking count existence for record_id: {record_id} with divide_time: {divide_time}")
         auto_count = AutoCounter.objects.filter(record=record, divide_time=divide_time).first()
         if auto_count:
             return JsonResponse({"exists": True, "divide_time": auto_count.divide_time}, status=200)

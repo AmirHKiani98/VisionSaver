@@ -114,7 +114,6 @@ class CarDetection():
         
 
     def run(self):
-        logger.info(f"[CarDetection.run] Starting run for record_id={self.record_id}, divide_time={self.divide_time}, video_path={self.video_path}")
 
         # -------------- Basic capture checks --------------
         if not hasattr(self, 'video_capture'):
@@ -135,7 +134,6 @@ class CarDetection():
         self.width = int(self.video_capture.get(cv2.CAP_PROP_FRAME_WIDTH))
         self.height = int(self.video_capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
-        logger.info(f"[CarDetection.run] Video opened. fps={fps:.3f}, frames={frame_count}, duration={duration_sec:.2f}s, size=({self.width}x{self.height})")
 
         # -------------- Output path, with lock + atomic writes --------------
         video_name = os.path.basename(self.video_path)
@@ -144,7 +142,6 @@ class CarDetection():
         tmp_path = output_path + ".tmp"
         lock_path = output_path + ".lock"
 
-        logger.debug(f"[CarDetection.run] Output path for results: {output_path}")
 
         # Acquire simple file lock
         try:
@@ -152,10 +149,8 @@ class CarDetection():
             os.write(lock_fd, str(os.getpid()).encode())
             os.close(lock_fd)
             have_lock = True
-            logger.debug(f"[CarDetection.run] Acquired lock: {lock_path}")
         except FileExistsError:
             have_lock = False
-            logger.info(f"[CarDetection.run] Another process/thread is working (lock present: {lock_path}). Will not start a duplicate run.")
             # Optionally: send a progress ping here.
             return self.results_df if self.results_df is not None else pd.DataFrame(
                 columns=['time','frame_number','x1','y1','x2','y2','track_id']
@@ -165,7 +160,6 @@ class CarDetection():
             try:
                 if have_lock and os.path.exists(lock_path):
                     os.remove(lock_path)
-                    logger.debug(f"[CarDetection.run] Removed lock: {lock_path}")
             except Exception as e:
                 logger.warning(f"[CarDetection.run] Failed to remove lock {lock_path}: {e}")
 
@@ -173,11 +167,9 @@ class CarDetection():
             # If an existing file is there but empty/bad, ignore it.
             exists = os.path.exists(output_path)
             size = os.path.getsize(output_path) if exists else 0
-            logger.info(f"[CarDetection.run] Existing results? exists={exists}, size={size} bytes, divide_time={self.divide_time}s, {str(exists and size > 0)}")
 
             if exists and size > 0:
                 try:
-                    logger.info(f"[CarDetection.run] Loading existing results from {output_path}")
                     auto_count, _ = AutoCounter.objects.get_or_create(
                         record_id=self.record_id,
                         file_name=output_path,
@@ -203,26 +195,20 @@ class CarDetection():
                     logger.warning(f"[CarDetection.run] OSError reading existing CSV. Will recompute. Error: {e}")
 
             # -------------- Process video --------------
-            logger.info(f"[CarDetection.run] Beginning processing video for car detection...")
             df = pd.DataFrame(columns=['time', 'frame_number', 'x1', 'y1', 'x2', 'y2', 'track_id'])
-            logger.debug(f"[CarDetection.run] Initialized empty DataFrame for results.")
             channel_layer = get_channel_layer()
             group_name = f"counter_progress_{self.record_id}"
-            logger.debug(f"[CarDetection.run] Channel layer: {channel_layer}, group_name: {group_name}, type of self.divide_time: {type(self.divide_time)}")
             for i in np.arange(0, self.duration, self.divide_time):
-                logger.debug(f"[CarDetection.run] Processing time segment starting at {i:.2f}s")
                 frame_number = int(i * fps)
 
                 # Progress
                 progress = round((i / max(self.duration, 1)) * 100, 2)
                 if channel_layer is not None:
                     try:
-                        logger.debug(f"[CarDetection.run] Sending progress update: {progress}%")
                         async_to_sync(channel_layer.group_send)(group_name, {"type": "send.progress", "progress": progress})
                     except Exception as e:
                         logger.warning(f"[CarDetection.run] Failed to send progress: {e}")
 
-                logger.info(f"[CarDetection.run] Processing time={i:.2f}s, frame_number={frame_number}")
 
                 # Seek & read frame
                 self.video_capture.set(cv2.CAP_PROP_POS_FRAMES, frame_number)
@@ -253,30 +239,21 @@ class CarDetection():
 
             # Record DB (don’t fail the run if DB hiccups)
             try:
-                logger.info(f"[CarDetection.run] Saving results to AutoCounter for record_id={self.record_id}, divide_time={self.divide_time}")
                 AutoCounter.objects.get_or_create(
                     record_id=self.record_id,
                     file_name=output_path,
                     divide_time=self.divide_time
                 )
-                logger.info(f"[CarDetection.run] AutoCounter saved successfully for record_id={self.record_id}, divide_time={self.divide_time}")
             except Exception as e:
                 logger.warning(f"[CarDetection.run] AutoCounter get_or_create failed: {e}")
 
             # Atomic write
-            logger.info(f"[CarDetection.run] Saving results atomically to {output_path}")
             try:
-                logger.debug(f"[CarDetection.run] Writing DataFrame to temporary file: {tmp_path}")
                 df.to_csv(tmp_path, index=False)
-                logger.debug(f"[CarDetection.run] Replacing {tmp_path} with {output_path}")
                 os.replace(tmp_path, output_path)  # atomic on Windows NTFS and POSIX
-                logger.info(f"[CarDetection.run] Results saved successfully to {output_path}")
             finally:
-                logger.debug(f"[CarDetection.run] Cleaning up temporary file: {tmp_path}")
                 if os.path.exists(tmp_path):
-                    logger.debug(f"[CarDetection.run] Removing temporary file: {tmp_path}")
                     try:
-                        logger.debug(f"[CarDetection.run] Attempting to remove temporary file: {tmp_path}")
                         os.remove(tmp_path)
                     except Exception:
                         logger.warning(f"[CarDetection.run] Failed to remove temporary file: {tmp_path}")
@@ -285,11 +262,9 @@ class CarDetection():
             # Final 100% ping
             if channel_layer is not None:
                 try:
-                    logger.debug(f"[CarDetection.run] Sending final progress update: 100%")
                     async_to_sync(channel_layer.group_send)(group_name, {"type": "send.progress", "progress": 100.0})
                 except Exception as e:
                     logger.warning(f"[CarDetection.run] Failed to send final progress: {e}")
-            logger.info(f"[CarDetection.run] Car detection completed successfully for record_id={self.record_id}")
             return df
 
         finally:

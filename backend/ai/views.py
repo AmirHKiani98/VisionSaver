@@ -61,16 +61,16 @@ def get_lines(request):
             try:
                 record = Record.objects.get(id=record_id)
             except Record.DoesNotExist:
-                #logger.error(f"Record not found for record ID: {record_id}")
+                logger.error(f"Record not found for record ID: {record_id}")
                 return JsonResponse({'error': 'Record not found'}, status=404)
             detection_object = DetectionLines.objects.get_or_create(record=record)[0]
             lines = detection_object.lines
             return JsonResponse({'status': 'success', 'lines': lines}, status=200)
         except DetectionLines.DoesNotExist:
-            #logger.error(f"Detection lines not found for record ID: {record_id}")
+            logger.error(f"Detection lines not found for record ID: {record_id}")
             return JsonResponse({'error': 'Detection lines not found for this record'}, status=404)
     else:
-        #logger.error("Invalid request method for get_lines")
+        logger.error("Invalid request method for get_lines")
         return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 @csrf_exempt
