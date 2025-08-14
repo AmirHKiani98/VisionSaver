@@ -1,128 +1,318 @@
-INFO 2025-08-14 14:41:01,152 logger 28776 25712 Checking count existence for record_id: 661 with divide_time: 0.1
-INFO 2025-08-14 14:41:01,152 logger 28776 25712 Checking count existence for record_id: 661 with divide_time: 0.1
-INFO 2025-08-14 14:41:02,454 logger 28776 17268 Checking count existence for record_id: 661 with divide_time: 0.0
-INFO 2025-08-14 14:41:02,454 logger 28776 17268 Checking count existence for record_id: 661 with divide_time: 0.0
-INFO 2025-08-14 14:41:02,623 logger 28776 5284 Checking count existence for record_id: 661 with divide_time: 0.0
-INFO 2025-08-14 14:41:02,623 logger 28776 5284 Checking count existence for record_id: 661 with divide_time: 0.0
-INFO 2025-08-14 14:41:02,784 logger 28776 16220 Checking count existence for record_id: 661 with divide_time: 0.05
-INFO 2025-08-14 14:41:02,784 logger 28776 16220 Checking count existence for record_id: 661 with divide_time: 0.05
-INFO 2025-08-14 14:41:04,401 logger 28776 24312 Starting car detection for record ID: 661 with divide_time: 0.05
-INFO 2025-08-14 14:41:04,401 logger 28776 24312 Starting car detection for record ID: 661 with divide_time: 0.05
-INFO 2025-08-14 14:41:04,407 logger 28776 24312 Loading YOLO model...
-INFO 2025-08-14 14:41:04,407 logger 28776 24312 Loading YOLO model...
-INFO 2025-08-14 14:41:07,585 logger 28776 24312 Starting detection thread...
-INFO 2025-08-14 14:41:07,585 logger 28776 24312 Starting detection thread...
-INFO 2025-08-14 14:41:07,587 logger 28776 18632 [CarDetection.run] Starting run for record_id=661, divide_time=0.05, video_path=C:\MyApps\CameraVision\backend\media\661.mp4
-INFO 2025-08-14 14:41:07,587 logger 28776 24312 Car detection thread started successfully
-INFO 2025-08-14 14:41:07,587 logger 28776 18632 [CarDetection.run] Starting run for record_id=661, divide_time=0.05, video_path=C:\MyApps\CameraVision\backend\media\661.mp4
-INFO 2025-08-14 14:41:07,587 logger 28776 24312 Car detection thread started successfully
-DEBUG 2025-08-14 14:41:07,590 logger 28776 18632 [CarDetection.run] Output path for results: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv
-DEBUG 2025-08-14 14:41:07,590 logger 28776 18632 [CarDetection.run] Output path for results: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv
-INFO 2025-08-14 14:43:28,576 logger 9716 28660 Checking count existence for record_id: 661 with divide_time: 0.1
-INFO 2025-08-14 14:43:28,576 logger 9716 28660 Checking count existence for record_id: 661 with divide_time: 0.1
-INFO 2025-08-14 14:43:29,624 logger 9716 12908 Checking count existence for record_id: 661 with divide_time: 0.0
-INFO 2025-08-14 14:43:29,624 logger 9716 12908 Checking count existence for record_id: 661 with divide_time: 0.0
-INFO 2025-08-14 14:43:29,824 logger 9716 5900 Checking count existence for record_id: 661 with divide_time: 0.0
-INFO 2025-08-14 14:43:29,824 logger 9716 5900 Checking count existence for record_id: 661 with divide_time: 0.0
-INFO 2025-08-14 14:43:29,979 logger 9716 14720 Checking count existence for record_id: 661 with divide_time: 0.05
-INFO 2025-08-14 14:43:29,979 logger 9716 14720 Checking count existence for record_id: 661 with divide_time: 0.05
-INFO 2025-08-14 14:43:30,942 logger 9716 3092 Starting car detection for record ID: 661 with divide_time: 0.05
-INFO 2025-08-14 14:43:30,942 logger 9716 3092 Starting car detection for record ID: 661 with divide_time: 0.05
-INFO 2025-08-14 14:43:30,946 logger 9716 3092 Loading YOLO model...
-INFO 2025-08-14 14:43:30,946 logger 9716 3092 Loading YOLO model...
-INFO 2025-08-14 14:43:34,425 logger 9716 3092 Starting detection thread...
-INFO 2025-08-14 14:43:34,425 logger 9716 3092 Starting detection thread...
-INFO 2025-08-14 14:43:34,426 logger 9716 14460 [CarDetection.run] Starting run for record_id=661, divide_time=0.05, video_path=C:\MyApps\CameraVision\backend\media\661.mp4
-INFO 2025-08-14 14:43:34,426 logger 9716 14460 [CarDetection.run] Starting run for record_id=661, divide_time=0.05, video_path=C:\MyApps\CameraVision\backend\media\661.mp4
-INFO 2025-08-14 14:43:34,426 logger 9716 3092 Car detection thread started successfully
-DEBUG 2025-08-14 14:43:34,428 logger 9716 14460 [CarDetection.run] Output path for results: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv
-INFO 2025-08-14 14:43:34,426 logger 9716 3092 Car detection thread started successfully
-DEBUG 2025-08-14 14:43:34,428 logger 9716 14460 [CarDetection.run] Output path for results: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv
-INFO 2025-08-14 17:07:48,686 logger 31556 28960 Checking count existence for record_id: 661 with divide_time: 0.1
-INFO 2025-08-14 17:07:48,686 logger 31556 28960 Checking count existence for record_id: 661 with divide_time: 0.1
-INFO 2025-08-14 17:07:50,457 logger 31556 31244 Checking count existence for record_id: 661 with divide_time: 0.0
-INFO 2025-08-14 17:07:50,457 logger 31556 31244 Checking count existence for record_id: 661 with divide_time: 0.0
-INFO 2025-08-14 17:07:50,678 logger 31556 21668 Checking count existence for record_id: 661 with divide_time: 0.0
-INFO 2025-08-14 17:07:50,678 logger 31556 21668 Checking count existence for record_id: 661 with divide_time: 0.0
-INFO 2025-08-14 17:07:51,029 logger 31556 4376 Checking count existence for record_id: 661 with divide_time: 0.05
-INFO 2025-08-14 17:07:51,029 logger 31556 4376 Checking count existence for record_id: 661 with divide_time: 0.05
-INFO 2025-08-14 17:07:52,740 logger 31556 24108 Starting car detection for record ID: 661 with divide_time: 0.05
-INFO 2025-08-14 17:07:52,740 logger 31556 24108 Starting car detection for record ID: 661 with divide_time: 0.05
-INFO 2025-08-14 17:07:52,747 logger 31556 24108 Loading YOLO model...
-INFO 2025-08-14 17:07:52,747 logger 31556 24108 Loading YOLO model...
-INFO 2025-08-14 17:07:56,552 logger 31556 24108 Starting detection thread...
-INFO 2025-08-14 17:07:56,552 logger 31556 24108 Starting detection thread...
-INFO 2025-08-14 17:07:56,558 logger 31556 27724 [CarDetection.run] Starting run for record_id=661, divide_time=0.05, video_path=C:\MyApps\CameraVision\backend\media\661.mp4
-INFO 2025-08-14 17:07:56,558 logger 31556 24108 Car detection thread started successfully
-INFO 2025-08-14 17:07:56,558 logger 31556 27724 [CarDetection.run] Starting run for record_id=661, divide_time=0.05, video_path=C:\MyApps\CameraVision\backend\media\661.mp4
-INFO 2025-08-14 17:07:56,558 logger 31556 24108 Car detection thread started successfully
-INFO 2025-08-14 17:07:56,560 logger 31556 27724 [CarDetection.run] Video opened. fps=28.478, frames=25647, duration=900.60s, size=(1280x720)
-INFO 2025-08-14 17:07:56,560 logger 31556 27724 [CarDetection.run] Video opened. fps=28.478, frames=25647, duration=900.60s, size=(1280x720)
-DEBUG 2025-08-14 17:07:56,561 logger 31556 27724 [CarDetection.run] Output path for results: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv
-DEBUG 2025-08-14 17:07:56,561 logger 31556 27724 [CarDetection.run] Output path for results: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv
-DEBUG 2025-08-14 17:07:56,565 logger 31556 27724 [CarDetection.run] Acquired lock: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv.lock
-DEBUG 2025-08-14 17:07:56,565 logger 31556 27724 [CarDetection.run] Acquired lock: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv.lock
-INFO 2025-08-14 17:07:56,567 logger 31556 27724 [CarDetection.run] Existing results? exists=False, size=0 bytes
-INFO 2025-08-14 17:07:56,567 logger 31556 27724 [CarDetection.run] Existing results? exists=False, size=0 bytes
-DEBUG 2025-08-14 17:07:56,568 logger 31556 27724 [CarDetection.run] Removed lock: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv.lock
-DEBUG 2025-08-14 17:07:56,568 logger 31556 27724 [CarDetection.run] Removed lock: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv.lock
-INFO 2025-08-14 17:19:58,673 logger 8224 3084 Checking count existence for record_id: 661 with divide_time: 0.1
-INFO 2025-08-14 17:19:58,673 logger 8224 3084 Checking count existence for record_id: 661 with divide_time: 0.1
-INFO 2025-08-14 17:20:10,311 logger 8224 7556 Checking count existence for record_id: 661 with divide_time: 0.0
-INFO 2025-08-14 17:20:10,311 logger 8224 7556 Checking count existence for record_id: 661 with divide_time: 0.0
-INFO 2025-08-14 17:20:10,494 logger 8224 30464 Checking count existence for record_id: 661 with divide_time: 0.0
-INFO 2025-08-14 17:20:10,494 logger 8224 30464 Checking count existence for record_id: 661 with divide_time: 0.0
-INFO 2025-08-14 17:20:10,675 logger 8224 11604 Checking count existence for record_id: 661 with divide_time: 0.05
-INFO 2025-08-14 17:20:10,675 logger 8224 11604 Checking count existence for record_id: 661 with divide_time: 0.05
-INFO 2025-08-14 17:20:13,318 logger 8224 26144 Checking count existence for record_id: 661 with divide_time: 0.052
-INFO 2025-08-14 17:20:13,318 logger 8224 26144 Checking count existence for record_id: 661 with divide_time: 0.052
-INFO 2025-08-14 17:20:13,623 logger 8224 4000 Checking count existence for record_id: 661 with divide_time: 0.05
-INFO 2025-08-14 17:20:13,623 logger 8224 4000 Checking count existence for record_id: 661 with divide_time: 0.05
-INFO 2025-08-14 17:20:15,563 logger 8224 2516 Starting car detection for record ID: 661 with divide_time: 0.05
-INFO 2025-08-14 17:20:15,563 logger 8224 2516 Starting car detection for record ID: 661 with divide_time: 0.05
-INFO 2025-08-14 17:20:15,567 logger 8224 2516 Loading YOLO model...
-INFO 2025-08-14 17:20:15,567 logger 8224 2516 Loading YOLO model...
-INFO 2025-08-14 17:20:20,435 logger 8224 2516 Starting detection thread...
-INFO 2025-08-14 17:20:20,435 logger 8224 2516 Starting detection thread...
-INFO 2025-08-14 17:20:20,437 logger 8224 2516 Car detection thread started successfully
-INFO 2025-08-14 17:20:20,437 logger 8224 12856 [CarDetection.run] Starting run for record_id=661, divide_time=0.05, video_path=C:\MyApps\CameraVision\backend\media\661.mp4
-INFO 2025-08-14 17:20:20,437 logger 8224 2516 Car detection thread started successfully
-INFO 2025-08-14 17:20:20,437 logger 8224 12856 [CarDetection.run] Starting run for record_id=661, divide_time=0.05, video_path=C:\MyApps\CameraVision\backend\media\661.mp4
-INFO 2025-08-14 17:20:20,439 logger 8224 12856 [CarDetection.run] Video opened. fps=28.478, frames=25647, duration=900.60s, size=(1280x720)
-INFO 2025-08-14 17:20:20,439 logger 8224 12856 [CarDetection.run] Video opened. fps=28.478, frames=25647, duration=900.60s, size=(1280x720)
-DEBUG 2025-08-14 17:20:20,443 logger 8224 12856 [CarDetection.run] Output path for results: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv
-DEBUG 2025-08-14 17:20:20,443 logger 8224 12856 [CarDetection.run] Output path for results: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv
-DEBUG 2025-08-14 17:20:20,449 logger 8224 12856 [CarDetection.run] Acquired lock: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv.lock
-DEBUG 2025-08-14 17:20:20,449 logger 8224 12856 [CarDetection.run] Acquired lock: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv.lock
-INFO 2025-08-14 17:20:20,450 logger 8224 12856 [CarDetection.run] Existing results? exists=False, size=0 bytes
-INFO 2025-08-14 17:20:20,450 logger 8224 12856 [CarDetection.run] Existing results? exists=False, size=0 bytes
-DEBUG 2025-08-14 17:20:20,452 logger 8224 12856 [CarDetection.run] Removed lock: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv.lock
-DEBUG 2025-08-14 17:20:20,452 logger 8224 12856 [CarDetection.run] Removed lock: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv.lock
-INFO 2025-08-14 17:26:41,294 logger 31776 30596 Checking count existence for record_id: 661 with divide_time: 0.1
-INFO 2025-08-14 17:26:41,294 logger 31776 30596 Checking count existence for record_id: 661 with divide_time: 0.1
-INFO 2025-08-14 17:26:44,807 logger 31776 9504 Checking count existence for record_id: 661 with divide_time: 0.0
-INFO 2025-08-14 17:26:44,807 logger 31776 9504 Checking count existence for record_id: 661 with divide_time: 0.0
-INFO 2025-08-14 17:26:45,058 logger 31776 5536 Checking count existence for record_id: 661 with divide_time: 0.0
-INFO 2025-08-14 17:26:45,058 logger 31776 5536 Checking count existence for record_id: 661 with divide_time: 0.0
-INFO 2025-08-14 17:26:45,214 logger 31776 30784 Checking count existence for record_id: 661 with divide_time: 0.04
-INFO 2025-08-14 17:26:45,214 logger 31776 30784 Checking count existence for record_id: 661 with divide_time: 0.04
-INFO 2025-08-14 17:26:46,523 logger 31776 28916 Starting car detection for record ID: 661 with divide_time: 0.04
-INFO 2025-08-14 17:26:46,523 logger 31776 28916 Starting car detection for record ID: 661 with divide_time: 0.04
-INFO 2025-08-14 17:26:46,526 logger 31776 28916 Loading YOLO model...
-INFO 2025-08-14 17:26:46,526 logger 31776 28916 Loading YOLO model...
-INFO 2025-08-14 17:26:50,221 logger 31776 28916 Starting detection thread...
-INFO 2025-08-14 17:26:50,221 logger 31776 28916 Starting detection thread...
-INFO 2025-08-14 17:26:50,223 logger 31776 28916 Car detection thread started successfully
-INFO 2025-08-14 17:26:50,223 logger 31776 28916 Car detection thread started successfully
-INFO 2025-08-14 17:26:50,223 logger 31776 20964 [CarDetection.run] Starting run for record_id=661, divide_time=0.04, video_path=C:\MyApps\CameraVision\backend\media\661.mp4
-INFO 2025-08-14 17:26:50,223 logger 31776 20964 [CarDetection.run] Starting run for record_id=661, divide_time=0.04, video_path=C:\MyApps\CameraVision\backend\media\661.mp4
-INFO 2025-08-14 17:26:50,228 logger 31776 20964 [CarDetection.run] Video opened. fps=28.478, frames=25647, duration=900.60s, size=(1280x720)
-INFO 2025-08-14 17:26:50,228 logger 31776 20964 [CarDetection.run] Video opened. fps=28.478, frames=25647, duration=900.60s, size=(1280x720)
-DEBUG 2025-08-14 17:26:50,230 logger 31776 20964 [CarDetection.run] Output path for results: C:\MyApps\CameraVision\backend\media\28fd00ed0260d29933b307673decc961.csv
-DEBUG 2025-08-14 17:26:50,230 logger 31776 20964 [CarDetection.run] Output path for results: C:\MyApps\CameraVision\backend\media\28fd00ed0260d29933b307673decc961.csv
-DEBUG 2025-08-14 17:26:50,247 logger 31776 20964 [CarDetection.run] Acquired lock: C:\MyApps\CameraVision\backend\media\28fd00ed0260d29933b307673decc961.csv.lock
-DEBUG 2025-08-14 17:26:50,247 logger 31776 20964 [CarDetection.run] Acquired lock: C:\MyApps\CameraVision\backend\media\28fd00ed0260d29933b307673decc961.csv.lock
-INFO 2025-08-14 17:26:50,248 logger 31776 20964 [CarDetection.run] Existing results? exists=False, size=0 bytes, divide_time=0.04s
-INFO 2025-08-14 17:26:50,248 logger 31776 20964 [CarDetection.run] Existing results? exists=False, size=0 bytes, divide_time=0.04s
-DEBUG 2025-08-14 17:26:50,256 logger 31776 20964 [CarDetection.run] Removed lock: C:\MyApps\CameraVision\backend\media\28fd00ed0260d29933b307673decc961.csv.lock
-DEBUG 2025-08-14 17:26:50,256 logger 31776 20964 [CarDetection.run] Removed lock: C:\MyApps\CameraVision\backend\media\28fd00ed0260d29933b307673decc961.csv.lock
+INFO 2025-08-14 18:06:16,881 logger 29856 28924 Checking count existence for record_id: 661 with divide_time: 0.1
+INFO 2025-08-14 18:06:16,881 logger 29856 28924 Checking count existence for record_id: 661 with divide_time: 0.1
+INFO 2025-08-14 18:06:17,787 logger 29856 33452 Checking count existence for record_id: 661 with divide_time: 0.0
+INFO 2025-08-14 18:06:17,787 logger 29856 33452 Checking count existence for record_id: 661 with divide_time: 0.0
+INFO 2025-08-14 18:06:18,013 logger 29856 20372 Checking count existence for record_id: 661 with divide_time: 0.0
+INFO 2025-08-14 18:06:18,013 logger 29856 20372 Checking count existence for record_id: 661 with divide_time: 0.0
+INFO 2025-08-14 18:06:18,177 logger 29856 30172 Checking count existence for record_id: 661 with divide_time: 0.05
+INFO 2025-08-14 18:06:18,177 logger 29856 30172 Checking count existence for record_id: 661 with divide_time: 0.05
+INFO 2025-08-14 18:06:19,241 logger 29856 29776 Starting car detection for record ID: 661 with divide_time: 0.05
+INFO 2025-08-14 18:06:19,241 logger 29856 29776 Starting car detection for record ID: 661 with divide_time: 0.05
+INFO 2025-08-14 18:06:19,244 logger 29856 29776 Loading YOLO model...
+INFO 2025-08-14 18:06:19,244 logger 29856 29776 Loading YOLO model...
+INFO 2025-08-14 18:06:22,563 logger 29856 29776 Starting detection thread...
+INFO 2025-08-14 18:06:22,563 logger 29856 29776 Starting detection thread...
+INFO 2025-08-14 18:06:22,566 logger 29856 23956 [CarDetection.run] Starting run for record_id=661, divide_time=0.05, video_path=C:\MyApps\CameraVision\backend\media\661.mp4
+INFO 2025-08-14 18:06:22,566 logger 29856 23956 [CarDetection.run] Starting run for record_id=661, divide_time=0.05, video_path=C:\MyApps\CameraVision\backend\media\661.mp4
+INFO 2025-08-14 18:06:22,567 logger 29856 29776 Car detection thread started successfully
+INFO 2025-08-14 18:06:22,567 logger 29856 29776 Car detection thread started successfully
+INFO 2025-08-14 18:06:22,567 logger 29856 23956 [CarDetection.run] Video opened. fps=28.478, frames=25647, duration=900.60s, size=(1280x720)
+INFO 2025-08-14 18:06:22,567 logger 29856 23956 [CarDetection.run] Video opened. fps=28.478, frames=25647, duration=900.60s, size=(1280x720)
+DEBUG 2025-08-14 18:06:22,571 logger 29856 23956 [CarDetection.run] Output path for results: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv
+DEBUG 2025-08-14 18:06:22,571 logger 29856 23956 [CarDetection.run] Output path for results: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv
+DEBUG 2025-08-14 18:06:22,578 logger 29856 23956 [CarDetection.run] Acquired lock: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv.lock
+DEBUG 2025-08-14 18:06:22,578 logger 29856 23956 [CarDetection.run] Acquired lock: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv.lock
+INFO 2025-08-14 18:06:22,580 logger 29856 23956 [CarDetection.run] Existing results? exists=False, size=0 bytes, divide_time=0.05s, False
+INFO 2025-08-14 18:06:22,580 logger 29856 23956 [CarDetection.run] Existing results? exists=False, size=0 bytes, divide_time=0.05s, False
+INFO 2025-08-14 18:06:22,580 logger 29856 23956 [CarDetection.run] Beginning processing video for car detection...
+INFO 2025-08-14 18:06:22,580 logger 29856 23956 [CarDetection.run] Beginning processing video for car detection...
+DEBUG 2025-08-14 18:06:22,583 logger 29856 23956 [CarDetection.run] Initialized empty DataFrame for results.
+DEBUG 2025-08-14 18:06:22,583 logger 29856 23956 [CarDetection.run] Initialized empty DataFrame for results.
+DEBUG 2025-08-14 18:06:22,583 logger 29856 23956 [CarDetection.run] Channel layer: <channels.layers.InMemoryChannelLayer object at 0x000001FDD2343C90>, group_name: counter_progress_661, type of self.divide_time: <class 'str'>
+DEBUG 2025-08-14 18:06:22,583 logger 29856 23956 [CarDetection.run] Channel layer: <channels.layers.InMemoryChannelLayer object at 0x000001FDD2343C90>, group_name: counter_progress_661, type of self.divide_time: <class 'str'>
+DEBUG 2025-08-14 18:06:22,585 logger 29856 23956 [CarDetection.run] Removed lock: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv.lock
+DEBUG 2025-08-14 18:06:22,585 logger 29856 23956 [CarDetection.run] Removed lock: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv.lock
+INFO 2025-08-14 18:07:16,491 logger 12156 32996 Checking count existence for record_id: 661 with divide_time: 0.1
+INFO 2025-08-14 18:07:16,491 logger 12156 32996 Checking count existence for record_id: 661 with divide_time: 0.1
+INFO 2025-08-14 18:07:17,983 logger 12156 33540 Checking count existence for record_id: 661 with divide_time: 0.0
+INFO 2025-08-14 18:07:17,983 logger 12156 33540 Checking count existence for record_id: 661 with divide_time: 0.0
+INFO 2025-08-14 18:07:18,183 logger 12156 29788 Checking count existence for record_id: 661 with divide_time: 0.0
+INFO 2025-08-14 18:07:18,183 logger 12156 29788 Checking count existence for record_id: 661 with divide_time: 0.0
+INFO 2025-08-14 18:07:18,391 logger 12156 3300 Checking count existence for record_id: 661 with divide_time: 0.05
+INFO 2025-08-14 18:07:18,391 logger 12156 3300 Checking count existence for record_id: 661 with divide_time: 0.05
+INFO 2025-08-14 18:07:19,432 logger 12156 31732 Starting car detection for record ID: 661 with divide_time: 0.05
+INFO 2025-08-14 18:07:19,432 logger 12156 31732 Starting car detection for record ID: 661 with divide_time: 0.05
+INFO 2025-08-14 18:07:19,434 logger 12156 31732 Loading YOLO model...
+INFO 2025-08-14 18:07:19,434 logger 12156 31732 Loading YOLO model...
+INFO 2025-08-14 18:07:22,478 logger 12156 31732 Starting detection thread...
+INFO 2025-08-14 18:07:22,478 logger 12156 31732 Starting detection thread...
+INFO 2025-08-14 18:07:22,479 logger 12156 23680 [CarDetection.run] Starting run for record_id=661, divide_time=0.05, video_path=C:\MyApps\CameraVision\backend\media\661.mp4
+INFO 2025-08-14 18:07:22,479 logger 12156 23680 [CarDetection.run] Starting run for record_id=661, divide_time=0.05, video_path=C:\MyApps\CameraVision\backend\media\661.mp4
+INFO 2025-08-14 18:07:22,479 logger 12156 31732 Car detection thread started successfully
+INFO 2025-08-14 18:07:22,481 logger 12156 23680 [CarDetection.run] Video opened. fps=28.478, frames=25647, duration=900.60s, size=(1280x720)
+INFO 2025-08-14 18:07:22,481 logger 12156 23680 [CarDetection.run] Video opened. fps=28.478, frames=25647, duration=900.60s, size=(1280x720)
+INFO 2025-08-14 18:07:22,479 logger 12156 31732 Car detection thread started successfully
+DEBUG 2025-08-14 18:07:22,482 logger 12156 23680 [CarDetection.run] Output path for results: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv
+DEBUG 2025-08-14 18:07:22,482 logger 12156 23680 [CarDetection.run] Output path for results: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv
+DEBUG 2025-08-14 18:07:22,490 logger 12156 23680 [CarDetection.run] Acquired lock: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv.lock
+DEBUG 2025-08-14 18:07:22,490 logger 12156 23680 [CarDetection.run] Acquired lock: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv.lock
+INFO 2025-08-14 18:07:22,493 logger 12156 23680 [CarDetection.run] Existing results? exists=False, size=0 bytes, divide_time=0.05s, False
+INFO 2025-08-14 18:07:22,493 logger 12156 23680 [CarDetection.run] Existing results? exists=False, size=0 bytes, divide_time=0.05s, False
+INFO 2025-08-14 18:07:22,495 logger 12156 23680 [CarDetection.run] Beginning processing video for car detection...
+INFO 2025-08-14 18:07:22,495 logger 12156 23680 [CarDetection.run] Beginning processing video for car detection...
+DEBUG 2025-08-14 18:07:22,498 logger 12156 23680 [CarDetection.run] Initialized empty DataFrame for results.
+DEBUG 2025-08-14 18:07:22,498 logger 12156 23680 [CarDetection.run] Initialized empty DataFrame for results.
+DEBUG 2025-08-14 18:07:22,499 logger 12156 23680 [CarDetection.run] Channel layer: <channels.layers.InMemoryChannelLayer object at 0x0000024B6176BB10>, group_name: counter_progress_661, type of self.divide_time: <class 'float'>
+DEBUG 2025-08-14 18:07:22,499 logger 12156 23680 [CarDetection.run] Channel layer: <channels.layers.InMemoryChannelLayer object at 0x0000024B6176BB10>, group_name: counter_progress_661, type of self.divide_time: <class 'float'>
+DEBUG 2025-08-14 18:07:22,514 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.00s
+DEBUG 2025-08-14 18:07:22,514 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.00s
+DEBUG 2025-08-14 18:07:22,516 logger 12156 23680 [CarDetection.run] Sending progress update: 0.0%
+DEBUG 2025-08-14 18:07:22,516 logger 12156 23680 [CarDetection.run] Sending progress update: 0.0%
+INFO 2025-08-14 18:07:22,524 logger 12156 23680 [CarDetection.run] Processing time=0.00s, frame_number=0
+INFO 2025-08-14 18:07:22,524 logger 12156 23680 [CarDetection.run] Processing time=0.00s, frame_number=0
+DEBUG 2025-08-14 18:07:27,032 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.05s
+DEBUG 2025-08-14 18:07:27,032 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.05s
+DEBUG 2025-08-14 18:07:27,035 logger 12156 23680 [CarDetection.run] Sending progress update: 0.01%
+DEBUG 2025-08-14 18:07:27,035 logger 12156 23680 [CarDetection.run] Sending progress update: 0.01%
+INFO 2025-08-14 18:07:27,046 logger 12156 23680 [CarDetection.run] Processing time=0.05s, frame_number=1
+INFO 2025-08-14 18:07:27,046 logger 12156 23680 [CarDetection.run] Processing time=0.05s, frame_number=1
+DEBUG 2025-08-14 18:07:27,367 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.10s
+DEBUG 2025-08-14 18:07:27,367 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.10s
+DEBUG 2025-08-14 18:07:27,368 logger 12156 23680 [CarDetection.run] Sending progress update: 0.01%
+DEBUG 2025-08-14 18:07:27,368 logger 12156 23680 [CarDetection.run] Sending progress update: 0.01%
+INFO 2025-08-14 18:07:27,377 logger 12156 23680 [CarDetection.run] Processing time=0.10s, frame_number=2
+INFO 2025-08-14 18:07:27,377 logger 12156 23680 [CarDetection.run] Processing time=0.10s, frame_number=2
+DEBUG 2025-08-14 18:07:27,547 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.15s
+DEBUG 2025-08-14 18:07:27,547 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.15s
+DEBUG 2025-08-14 18:07:27,549 logger 12156 23680 [CarDetection.run] Sending progress update: 0.02%
+DEBUG 2025-08-14 18:07:27,549 logger 12156 23680 [CarDetection.run] Sending progress update: 0.02%
+INFO 2025-08-14 18:07:27,554 logger 12156 23680 [CarDetection.run] Processing time=0.15s, frame_number=4
+INFO 2025-08-14 18:07:27,554 logger 12156 23680 [CarDetection.run] Processing time=0.15s, frame_number=4
+DEBUG 2025-08-14 18:07:27,732 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.20s
+DEBUG 2025-08-14 18:07:27,732 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.20s
+DEBUG 2025-08-14 18:07:27,735 logger 12156 23680 [CarDetection.run] Sending progress update: 0.02%
+DEBUG 2025-08-14 18:07:27,735 logger 12156 23680 [CarDetection.run] Sending progress update: 0.02%
+INFO 2025-08-14 18:07:27,742 logger 12156 23680 [CarDetection.run] Processing time=0.20s, frame_number=5
+INFO 2025-08-14 18:07:27,742 logger 12156 23680 [CarDetection.run] Processing time=0.20s, frame_number=5
+DEBUG 2025-08-14 18:07:27,936 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.25s
+DEBUG 2025-08-14 18:07:27,936 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.25s
+DEBUG 2025-08-14 18:07:27,938 logger 12156 23680 [CarDetection.run] Sending progress update: 0.03%
+DEBUG 2025-08-14 18:07:27,938 logger 12156 23680 [CarDetection.run] Sending progress update: 0.03%
+INFO 2025-08-14 18:07:27,947 logger 12156 23680 [CarDetection.run] Processing time=0.25s, frame_number=7
+INFO 2025-08-14 18:07:27,947 logger 12156 23680 [CarDetection.run] Processing time=0.25s, frame_number=7
+DEBUG 2025-08-14 18:07:28,140 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.30s
+DEBUG 2025-08-14 18:07:28,140 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.30s
+DEBUG 2025-08-14 18:07:28,142 logger 12156 23680 [CarDetection.run] Sending progress update: 0.03%
+DEBUG 2025-08-14 18:07:28,142 logger 12156 23680 [CarDetection.run] Sending progress update: 0.03%
+INFO 2025-08-14 18:07:28,148 logger 12156 23680 [CarDetection.run] Processing time=0.30s, frame_number=8
+INFO 2025-08-14 18:07:28,148 logger 12156 23680 [CarDetection.run] Processing time=0.30s, frame_number=8
+DEBUG 2025-08-14 18:07:28,314 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.35s
+DEBUG 2025-08-14 18:07:28,314 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.35s
+DEBUG 2025-08-14 18:07:28,316 logger 12156 23680 [CarDetection.run] Sending progress update: 0.04%
+DEBUG 2025-08-14 18:07:28,316 logger 12156 23680 [CarDetection.run] Sending progress update: 0.04%
+INFO 2025-08-14 18:07:28,320 logger 12156 23680 [CarDetection.run] Processing time=0.35s, frame_number=9
+INFO 2025-08-14 18:07:28,320 logger 12156 23680 [CarDetection.run] Processing time=0.35s, frame_number=9
+DEBUG 2025-08-14 18:07:28,484 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.40s
+DEBUG 2025-08-14 18:07:28,484 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.40s
+DEBUG 2025-08-14 18:07:28,486 logger 12156 23680 [CarDetection.run] Sending progress update: 0.04%
+DEBUG 2025-08-14 18:07:28,486 logger 12156 23680 [CarDetection.run] Sending progress update: 0.04%
+INFO 2025-08-14 18:07:28,494 logger 12156 23680 [CarDetection.run] Processing time=0.40s, frame_number=11
+INFO 2025-08-14 18:07:28,494 logger 12156 23680 [CarDetection.run] Processing time=0.40s, frame_number=11
+DEBUG 2025-08-14 18:07:28,689 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.45s
+DEBUG 2025-08-14 18:07:28,689 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.45s
+DEBUG 2025-08-14 18:07:28,691 logger 12156 23680 [CarDetection.run] Sending progress update: 0.05%
+DEBUG 2025-08-14 18:07:28,691 logger 12156 23680 [CarDetection.run] Sending progress update: 0.05%
+INFO 2025-08-14 18:07:28,697 logger 12156 23680 [CarDetection.run] Processing time=0.45s, frame_number=12
+INFO 2025-08-14 18:07:28,697 logger 12156 23680 [CarDetection.run] Processing time=0.45s, frame_number=12
+DEBUG 2025-08-14 18:07:28,842 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.50s
+DEBUG 2025-08-14 18:07:28,842 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.50s
+DEBUG 2025-08-14 18:07:28,843 logger 12156 23680 [CarDetection.run] Sending progress update: 0.06%
+DEBUG 2025-08-14 18:07:28,843 logger 12156 23680 [CarDetection.run] Sending progress update: 0.06%
+INFO 2025-08-14 18:07:28,849 logger 12156 23680 [CarDetection.run] Processing time=0.50s, frame_number=14
+INFO 2025-08-14 18:07:28,849 logger 12156 23680 [CarDetection.run] Processing time=0.50s, frame_number=14
+DEBUG 2025-08-14 18:07:29,039 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.55s
+DEBUG 2025-08-14 18:07:29,039 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.55s
+DEBUG 2025-08-14 18:07:29,041 logger 12156 23680 [CarDetection.run] Sending progress update: 0.06%
+DEBUG 2025-08-14 18:07:29,041 logger 12156 23680 [CarDetection.run] Sending progress update: 0.06%
+INFO 2025-08-14 18:07:29,049 logger 12156 23680 [CarDetection.run] Processing time=0.55s, frame_number=15
+INFO 2025-08-14 18:07:29,049 logger 12156 23680 [CarDetection.run] Processing time=0.55s, frame_number=15
+DEBUG 2025-08-14 18:07:29,317 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.60s
+DEBUG 2025-08-14 18:07:29,317 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.60s
+DEBUG 2025-08-14 18:07:29,320 logger 12156 23680 [CarDetection.run] Sending progress update: 0.07%
+DEBUG 2025-08-14 18:07:29,320 logger 12156 23680 [CarDetection.run] Sending progress update: 0.07%
+INFO 2025-08-14 18:07:29,329 logger 12156 23680 [CarDetection.run] Processing time=0.60s, frame_number=17
+INFO 2025-08-14 18:07:29,329 logger 12156 23680 [CarDetection.run] Processing time=0.60s, frame_number=17
+DEBUG 2025-08-14 18:07:29,586 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.65s
+DEBUG 2025-08-14 18:07:29,586 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.65s
+DEBUG 2025-08-14 18:07:29,589 logger 12156 23680 [CarDetection.run] Sending progress update: 0.07%
+DEBUG 2025-08-14 18:07:29,589 logger 12156 23680 [CarDetection.run] Sending progress update: 0.07%
+INFO 2025-08-14 18:07:29,596 logger 12156 23680 [CarDetection.run] Processing time=0.65s, frame_number=18
+INFO 2025-08-14 18:07:29,596 logger 12156 23680 [CarDetection.run] Processing time=0.65s, frame_number=18
+DEBUG 2025-08-14 18:07:29,773 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.70s
+DEBUG 2025-08-14 18:07:29,773 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.70s
+DEBUG 2025-08-14 18:07:29,775 logger 12156 23680 [CarDetection.run] Sending progress update: 0.08%
+DEBUG 2025-08-14 18:07:29,775 logger 12156 23680 [CarDetection.run] Sending progress update: 0.08%
+INFO 2025-08-14 18:07:29,782 logger 12156 23680 [CarDetection.run] Processing time=0.70s, frame_number=19
+INFO 2025-08-14 18:07:29,782 logger 12156 23680 [CarDetection.run] Processing time=0.70s, frame_number=19
+DEBUG 2025-08-14 18:07:29,996 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.75s
+DEBUG 2025-08-14 18:07:29,996 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.75s
+DEBUG 2025-08-14 18:07:29,998 logger 12156 23680 [CarDetection.run] Sending progress update: 0.08%
+DEBUG 2025-08-14 18:07:29,998 logger 12156 23680 [CarDetection.run] Sending progress update: 0.08%
+INFO 2025-08-14 18:07:30,006 logger 12156 23680 [CarDetection.run] Processing time=0.75s, frame_number=21
+INFO 2025-08-14 18:07:30,006 logger 12156 23680 [CarDetection.run] Processing time=0.75s, frame_number=21
+DEBUG 2025-08-14 18:07:30,219 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.80s
+DEBUG 2025-08-14 18:07:30,219 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.80s
+DEBUG 2025-08-14 18:07:30,220 logger 12156 23680 [CarDetection.run] Sending progress update: 0.09%
+DEBUG 2025-08-14 18:07:30,220 logger 12156 23680 [CarDetection.run] Sending progress update: 0.09%
+INFO 2025-08-14 18:07:30,229 logger 12156 23680 [CarDetection.run] Processing time=0.80s, frame_number=22
+INFO 2025-08-14 18:07:30,229 logger 12156 23680 [CarDetection.run] Processing time=0.80s, frame_number=22
+DEBUG 2025-08-14 18:07:30,408 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.85s
+DEBUG 2025-08-14 18:07:30,408 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.85s
+DEBUG 2025-08-14 18:07:30,410 logger 12156 23680 [CarDetection.run] Sending progress update: 0.09%
+DEBUG 2025-08-14 18:07:30,410 logger 12156 23680 [CarDetection.run] Sending progress update: 0.09%
+INFO 2025-08-14 18:07:30,416 logger 12156 23680 [CarDetection.run] Processing time=0.85s, frame_number=24
+INFO 2025-08-14 18:07:30,416 logger 12156 23680 [CarDetection.run] Processing time=0.85s, frame_number=24
+DEBUG 2025-08-14 18:07:30,589 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.90s
+DEBUG 2025-08-14 18:07:30,589 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.90s
+DEBUG 2025-08-14 18:07:30,591 logger 12156 23680 [CarDetection.run] Sending progress update: 0.1%
+DEBUG 2025-08-14 18:07:30,591 logger 12156 23680 [CarDetection.run] Sending progress update: 0.1%
+INFO 2025-08-14 18:07:30,598 logger 12156 23680 [CarDetection.run] Processing time=0.90s, frame_number=25
+INFO 2025-08-14 18:07:30,598 logger 12156 23680 [CarDetection.run] Processing time=0.90s, frame_number=25
+DEBUG 2025-08-14 18:07:30,791 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.95s
+DEBUG 2025-08-14 18:07:30,791 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.95s
+DEBUG 2025-08-14 18:07:30,792 logger 12156 23680 [CarDetection.run] Sending progress update: 0.11%
+DEBUG 2025-08-14 18:07:30,792 logger 12156 23680 [CarDetection.run] Sending progress update: 0.11%
+INFO 2025-08-14 18:07:30,799 logger 12156 23680 [CarDetection.run] Processing time=0.95s, frame_number=27
+INFO 2025-08-14 18:07:30,799 logger 12156 23680 [CarDetection.run] Processing time=0.95s, frame_number=27
+DEBUG 2025-08-14 18:07:30,978 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.00s
+DEBUG 2025-08-14 18:07:30,978 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.00s
+DEBUG 2025-08-14 18:07:30,980 logger 12156 23680 [CarDetection.run] Sending progress update: 0.11%
+DEBUG 2025-08-14 18:07:30,980 logger 12156 23680 [CarDetection.run] Sending progress update: 0.11%
+INFO 2025-08-14 18:07:30,986 logger 12156 23680 [CarDetection.run] Processing time=1.00s, frame_number=28
+INFO 2025-08-14 18:07:30,986 logger 12156 23680 [CarDetection.run] Processing time=1.00s, frame_number=28
+DEBUG 2025-08-14 18:07:31,159 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.05s
+DEBUG 2025-08-14 18:07:31,159 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.05s
+DEBUG 2025-08-14 18:07:31,161 logger 12156 23680 [CarDetection.run] Sending progress update: 0.12%
+DEBUG 2025-08-14 18:07:31,161 logger 12156 23680 [CarDetection.run] Sending progress update: 0.12%
+INFO 2025-08-14 18:07:31,168 logger 12156 23680 [CarDetection.run] Processing time=1.05s, frame_number=29
+INFO 2025-08-14 18:07:31,168 logger 12156 23680 [CarDetection.run] Processing time=1.05s, frame_number=29
+DEBUG 2025-08-14 18:07:31,335 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.10s
+DEBUG 2025-08-14 18:07:31,335 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.10s
+DEBUG 2025-08-14 18:07:31,336 logger 12156 23680 [CarDetection.run] Sending progress update: 0.12%
+DEBUG 2025-08-14 18:07:31,336 logger 12156 23680 [CarDetection.run] Sending progress update: 0.12%
+INFO 2025-08-14 18:07:31,342 logger 12156 23680 [CarDetection.run] Processing time=1.10s, frame_number=31
+INFO 2025-08-14 18:07:31,342 logger 12156 23680 [CarDetection.run] Processing time=1.10s, frame_number=31
+DEBUG 2025-08-14 18:07:31,502 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.15s
+DEBUG 2025-08-14 18:07:31,502 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.15s
+DEBUG 2025-08-14 18:07:31,503 logger 12156 23680 [CarDetection.run] Sending progress update: 0.13%
+DEBUG 2025-08-14 18:07:31,503 logger 12156 23680 [CarDetection.run] Sending progress update: 0.13%
+INFO 2025-08-14 18:07:31,512 logger 12156 23680 [CarDetection.run] Processing time=1.15s, frame_number=32
+INFO 2025-08-14 18:07:31,512 logger 12156 23680 [CarDetection.run] Processing time=1.15s, frame_number=32
+DEBUG 2025-08-14 18:07:31,673 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.20s
+DEBUG 2025-08-14 18:07:31,673 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.20s
+DEBUG 2025-08-14 18:07:31,674 logger 12156 23680 [CarDetection.run] Sending progress update: 0.13%
+DEBUG 2025-08-14 18:07:31,674 logger 12156 23680 [CarDetection.run] Sending progress update: 0.13%
+INFO 2025-08-14 18:07:31,681 logger 12156 23680 [CarDetection.run] Processing time=1.20s, frame_number=34
+INFO 2025-08-14 18:07:31,681 logger 12156 23680 [CarDetection.run] Processing time=1.20s, frame_number=34
+DEBUG 2025-08-14 18:07:31,849 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.25s
+DEBUG 2025-08-14 18:07:31,849 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.25s
+DEBUG 2025-08-14 18:07:31,850 logger 12156 23680 [CarDetection.run] Sending progress update: 0.14%
+DEBUG 2025-08-14 18:07:31,850 logger 12156 23680 [CarDetection.run] Sending progress update: 0.14%
+INFO 2025-08-14 18:07:31,858 logger 12156 23680 [CarDetection.run] Processing time=1.25s, frame_number=35
+INFO 2025-08-14 18:07:31,858 logger 12156 23680 [CarDetection.run] Processing time=1.25s, frame_number=35
+DEBUG 2025-08-14 18:07:32,074 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.30s
+DEBUG 2025-08-14 18:07:32,074 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.30s
+DEBUG 2025-08-14 18:07:32,076 logger 12156 23680 [CarDetection.run] Sending progress update: 0.14%
+DEBUG 2025-08-14 18:07:32,076 logger 12156 23680 [CarDetection.run] Sending progress update: 0.14%
+INFO 2025-08-14 18:07:32,083 logger 12156 23680 [CarDetection.run] Processing time=1.30s, frame_number=37
+INFO 2025-08-14 18:07:32,083 logger 12156 23680 [CarDetection.run] Processing time=1.30s, frame_number=37
+DEBUG 2025-08-14 18:07:32,342 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.35s
+DEBUG 2025-08-14 18:07:32,342 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.35s
+DEBUG 2025-08-14 18:07:32,344 logger 12156 23680 [CarDetection.run] Sending progress update: 0.15%
+DEBUG 2025-08-14 18:07:32,344 logger 12156 23680 [CarDetection.run] Sending progress update: 0.15%
+INFO 2025-08-14 18:07:32,352 logger 12156 23680 [CarDetection.run] Processing time=1.35s, frame_number=38
+INFO 2025-08-14 18:07:32,352 logger 12156 23680 [CarDetection.run] Processing time=1.35s, frame_number=38
+DEBUG 2025-08-14 18:07:32,562 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.40s
+DEBUG 2025-08-14 18:07:32,562 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.40s
+DEBUG 2025-08-14 18:07:32,565 logger 12156 23680 [CarDetection.run] Sending progress update: 0.16%
+DEBUG 2025-08-14 18:07:32,565 logger 12156 23680 [CarDetection.run] Sending progress update: 0.16%
+INFO 2025-08-14 18:07:32,574 logger 12156 23680 [CarDetection.run] Processing time=1.40s, frame_number=39
+INFO 2025-08-14 18:07:32,574 logger 12156 23680 [CarDetection.run] Processing time=1.40s, frame_number=39
+DEBUG 2025-08-14 18:07:32,804 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.45s
+DEBUG 2025-08-14 18:07:32,804 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.45s
+DEBUG 2025-08-14 18:07:32,807 logger 12156 23680 [CarDetection.run] Sending progress update: 0.16%
+DEBUG 2025-08-14 18:07:32,807 logger 12156 23680 [CarDetection.run] Sending progress update: 0.16%
+INFO 2025-08-14 18:07:32,816 logger 12156 23680 [CarDetection.run] Processing time=1.45s, frame_number=41
+INFO 2025-08-14 18:07:32,816 logger 12156 23680 [CarDetection.run] Processing time=1.45s, frame_number=41
+DEBUG 2025-08-14 18:07:33,050 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.50s
+DEBUG 2025-08-14 18:07:33,050 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.50s
+DEBUG 2025-08-14 18:07:33,053 logger 12156 23680 [CarDetection.run] Sending progress update: 0.17%
+DEBUG 2025-08-14 18:07:33,053 logger 12156 23680 [CarDetection.run] Sending progress update: 0.17%
+INFO 2025-08-14 18:07:33,063 logger 12156 23680 [CarDetection.run] Processing time=1.50s, frame_number=42
+INFO 2025-08-14 18:07:33,063 logger 12156 23680 [CarDetection.run] Processing time=1.50s, frame_number=42
+DEBUG 2025-08-14 18:07:33,313 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.55s
+DEBUG 2025-08-14 18:07:33,313 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.55s
+DEBUG 2025-08-14 18:07:33,316 logger 12156 23680 [CarDetection.run] Sending progress update: 0.17%
+DEBUG 2025-08-14 18:07:33,316 logger 12156 23680 [CarDetection.run] Sending progress update: 0.17%
+INFO 2025-08-14 18:07:33,326 logger 12156 23680 [CarDetection.run] Processing time=1.55s, frame_number=44
+INFO 2025-08-14 18:07:33,326 logger 12156 23680 [CarDetection.run] Processing time=1.55s, frame_number=44
+DEBUG 2025-08-14 18:07:33,625 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.60s
+DEBUG 2025-08-14 18:07:33,625 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.60s
+DEBUG 2025-08-14 18:07:33,630 logger 12156 23680 [CarDetection.run] Sending progress update: 0.18%
+DEBUG 2025-08-14 18:07:33,630 logger 12156 23680 [CarDetection.run] Sending progress update: 0.18%
+INFO 2025-08-14 18:07:33,640 logger 12156 23680 [CarDetection.run] Processing time=1.60s, frame_number=45
+INFO 2025-08-14 18:07:33,640 logger 12156 23680 [CarDetection.run] Processing time=1.60s, frame_number=45
+DEBUG 2025-08-14 18:07:33,949 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.65s
+DEBUG 2025-08-14 18:07:33,949 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.65s
+DEBUG 2025-08-14 18:07:33,953 logger 12156 23680 [CarDetection.run] Sending progress update: 0.18%
+DEBUG 2025-08-14 18:07:33,953 logger 12156 23680 [CarDetection.run] Sending progress update: 0.18%
+INFO 2025-08-14 18:07:33,965 logger 12156 23680 [CarDetection.run] Processing time=1.65s, frame_number=46
+INFO 2025-08-14 18:07:33,965 logger 12156 23680 [CarDetection.run] Processing time=1.65s, frame_number=46
+DEBUG 2025-08-14 18:07:34,253 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.70s
+DEBUG 2025-08-14 18:07:34,253 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.70s
+DEBUG 2025-08-14 18:07:34,256 logger 12156 23680 [CarDetection.run] Sending progress update: 0.19%
+DEBUG 2025-08-14 18:07:34,256 logger 12156 23680 [CarDetection.run] Sending progress update: 0.19%
+INFO 2025-08-14 18:07:34,267 logger 12156 23680 [CarDetection.run] Processing time=1.70s, frame_number=48
+INFO 2025-08-14 18:07:34,267 logger 12156 23680 [CarDetection.run] Processing time=1.70s, frame_number=48
+DEBUG 2025-08-14 18:07:34,541 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.75s
+DEBUG 2025-08-14 18:07:34,541 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.75s
+DEBUG 2025-08-14 18:07:34,544 logger 12156 23680 [CarDetection.run] Sending progress update: 0.19%
+DEBUG 2025-08-14 18:07:34,544 logger 12156 23680 [CarDetection.run] Sending progress update: 0.19%
+INFO 2025-08-14 18:07:34,553 logger 12156 23680 [CarDetection.run] Processing time=1.75s, frame_number=49
+INFO 2025-08-14 18:07:34,553 logger 12156 23680 [CarDetection.run] Processing time=1.75s, frame_number=49
+DEBUG 2025-08-14 18:07:34,815 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.80s
+DEBUG 2025-08-14 18:07:34,815 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.80s
+DEBUG 2025-08-14 18:07:34,817 logger 12156 23680 [CarDetection.run] Sending progress update: 0.2%
+DEBUG 2025-08-14 18:07:34,817 logger 12156 23680 [CarDetection.run] Sending progress update: 0.2%
+INFO 2025-08-14 18:07:34,825 logger 12156 23680 [CarDetection.run] Processing time=1.80s, frame_number=51
+INFO 2025-08-14 18:07:34,825 logger 12156 23680 [CarDetection.run] Processing time=1.80s, frame_number=51
+DEBUG 2025-08-14 18:07:35,099 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.85s
+DEBUG 2025-08-14 18:07:35,099 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.85s
+DEBUG 2025-08-14 18:07:35,102 logger 12156 23680 [CarDetection.run] Sending progress update: 0.21%
+DEBUG 2025-08-14 18:07:35,102 logger 12156 23680 [CarDetection.run] Sending progress update: 0.21%
+INFO 2025-08-14 18:07:35,108 logger 12156 23680 [CarDetection.run] Processing time=1.85s, frame_number=52
+INFO 2025-08-14 18:07:35,108 logger 12156 23680 [CarDetection.run] Processing time=1.85s, frame_number=52
+DEBUG 2025-08-14 18:07:35,396 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.90s
+DEBUG 2025-08-14 18:07:35,396 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.90s
+DEBUG 2025-08-14 18:07:35,398 logger 12156 23680 [CarDetection.run] Sending progress update: 0.21%
+DEBUG 2025-08-14 18:07:35,398 logger 12156 23680 [CarDetection.run] Sending progress update: 0.21%
+INFO 2025-08-14 18:07:35,408 logger 12156 23680 [CarDetection.run] Processing time=1.90s, frame_number=54
+INFO 2025-08-14 18:07:35,408 logger 12156 23680 [CarDetection.run] Processing time=1.90s, frame_number=54
+DEBUG 2025-08-14 18:07:35,694 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.95s
+DEBUG 2025-08-14 18:07:35,694 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.95s
+DEBUG 2025-08-14 18:07:35,696 logger 12156 23680 [CarDetection.run] Sending progress update: 0.22%
+DEBUG 2025-08-14 18:07:35,696 logger 12156 23680 [CarDetection.run] Sending progress update: 0.22%
+INFO 2025-08-14 18:07:35,729 logger 12156 23680 [CarDetection.run] Processing time=1.95s, frame_number=55
+INFO 2025-08-14 18:07:35,729 logger 12156 23680 [CarDetection.run] Processing time=1.95s, frame_number=55
+DEBUG 2025-08-14 18:07:36,043 logger 12156 23680 [CarDetection.run] Processing time segment starting at 2.00s
+DEBUG 2025-08-14 18:07:36,043 logger 12156 23680 [CarDetection.run] Processing time segment starting at 2.00s
+DEBUG 2025-08-14 18:07:36,045 logger 12156 23680 [CarDetection.run] Sending progress update: 0.22%
+DEBUG 2025-08-14 18:07:36,045 logger 12156 23680 [CarDetection.run] Sending progress update: 0.22%
+INFO 2025-08-14 18:07:36,060 logger 12156 23680 [CarDetection.run] Processing time=2.00s, frame_number=56
+INFO 2025-08-14 18:07:36,060 logger 12156 23680 [CarDetection.run] Processing time=2.00s, frame_number=56
+DEBUG 2025-08-14 18:07:36,373 logger 12156 23680 [CarDetection.run] Processing time segment starting at 2.05s
+DEBUG 2025-08-14 18:07:36,373 logger 12156 23680 [CarDetection.run] Processing time segment starting at 2.05s
+DEBUG 2025-08-14 18:07:36,376 logger 12156 23680 [CarDetection.run] Sending progress update: 0.23%
+DEBUG 2025-08-14 18:07:36,376 logger 12156 23680 [CarDetection.run] Sending progress update: 0.23%
+INFO 2025-08-14 18:07:36,387 logger 12156 23680 [CarDetection.run] Processing time=2.05s, frame_number=58
+INFO 2025-08-14 18:07:36,387 logger 12156 23680 [CarDetection.run] Processing time=2.05s, frame_number=58
