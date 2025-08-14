@@ -66,3 +66,63 @@ INFO 2025-08-14 17:07:56,567 logger 31556 27724 [CarDetection.run] Existing resu
 INFO 2025-08-14 17:07:56,567 logger 31556 27724 [CarDetection.run] Existing results? exists=False, size=0 bytes
 DEBUG 2025-08-14 17:07:56,568 logger 31556 27724 [CarDetection.run] Removed lock: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv.lock
 DEBUG 2025-08-14 17:07:56,568 logger 31556 27724 [CarDetection.run] Removed lock: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv.lock
+INFO 2025-08-14 17:19:58,673 logger 8224 3084 Checking count existence for record_id: 661 with divide_time: 0.1
+INFO 2025-08-14 17:19:58,673 logger 8224 3084 Checking count existence for record_id: 661 with divide_time: 0.1
+INFO 2025-08-14 17:20:10,311 logger 8224 7556 Checking count existence for record_id: 661 with divide_time: 0.0
+INFO 2025-08-14 17:20:10,311 logger 8224 7556 Checking count existence for record_id: 661 with divide_time: 0.0
+INFO 2025-08-14 17:20:10,494 logger 8224 30464 Checking count existence for record_id: 661 with divide_time: 0.0
+INFO 2025-08-14 17:20:10,494 logger 8224 30464 Checking count existence for record_id: 661 with divide_time: 0.0
+INFO 2025-08-14 17:20:10,675 logger 8224 11604 Checking count existence for record_id: 661 with divide_time: 0.05
+INFO 2025-08-14 17:20:10,675 logger 8224 11604 Checking count existence for record_id: 661 with divide_time: 0.05
+INFO 2025-08-14 17:20:13,318 logger 8224 26144 Checking count existence for record_id: 661 with divide_time: 0.052
+INFO 2025-08-14 17:20:13,318 logger 8224 26144 Checking count existence for record_id: 661 with divide_time: 0.052
+INFO 2025-08-14 17:20:13,623 logger 8224 4000 Checking count existence for record_id: 661 with divide_time: 0.05
+INFO 2025-08-14 17:20:13,623 logger 8224 4000 Checking count existence for record_id: 661 with divide_time: 0.05
+INFO 2025-08-14 17:20:15,563 logger 8224 2516 Starting car detection for record ID: 661 with divide_time: 0.05
+INFO 2025-08-14 17:20:15,563 logger 8224 2516 Starting car detection for record ID: 661 with divide_time: 0.05
+INFO 2025-08-14 17:20:15,567 logger 8224 2516 Loading YOLO model...
+INFO 2025-08-14 17:20:15,567 logger 8224 2516 Loading YOLO model...
+INFO 2025-08-14 17:20:20,435 logger 8224 2516 Starting detection thread...
+INFO 2025-08-14 17:20:20,435 logger 8224 2516 Starting detection thread...
+INFO 2025-08-14 17:20:20,437 logger 8224 2516 Car detection thread started successfully
+INFO 2025-08-14 17:20:20,437 logger 8224 12856 [CarDetection.run] Starting run for record_id=661, divide_time=0.05, video_path=C:\MyApps\CameraVision\backend\media\661.mp4
+INFO 2025-08-14 17:20:20,437 logger 8224 2516 Car detection thread started successfully
+INFO 2025-08-14 17:20:20,437 logger 8224 12856 [CarDetection.run] Starting run for record_id=661, divide_time=0.05, video_path=C:\MyApps\CameraVision\backend\media\661.mp4
+INFO 2025-08-14 17:20:20,439 logger 8224 12856 [CarDetection.run] Video opened. fps=28.478, frames=25647, duration=900.60s, size=(1280x720)
+INFO 2025-08-14 17:20:20,439 logger 8224 12856 [CarDetection.run] Video opened. fps=28.478, frames=25647, duration=900.60s, size=(1280x720)
+DEBUG 2025-08-14 17:20:20,443 logger 8224 12856 [CarDetection.run] Output path for results: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv
+DEBUG 2025-08-14 17:20:20,443 logger 8224 12856 [CarDetection.run] Output path for results: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv
+DEBUG 2025-08-14 17:20:20,449 logger 8224 12856 [CarDetection.run] Acquired lock: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv.lock
+DEBUG 2025-08-14 17:20:20,449 logger 8224 12856 [CarDetection.run] Acquired lock: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv.lock
+INFO 2025-08-14 17:20:20,450 logger 8224 12856 [CarDetection.run] Existing results? exists=False, size=0 bytes
+INFO 2025-08-14 17:20:20,450 logger 8224 12856 [CarDetection.run] Existing results? exists=False, size=0 bytes
+DEBUG 2025-08-14 17:20:20,452 logger 8224 12856 [CarDetection.run] Removed lock: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv.lock
+DEBUG 2025-08-14 17:20:20,452 logger 8224 12856 [CarDetection.run] Removed lock: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv.lock
+INFO 2025-08-14 17:26:41,294 logger 31776 30596 Checking count existence for record_id: 661 with divide_time: 0.1
+INFO 2025-08-14 17:26:41,294 logger 31776 30596 Checking count existence for record_id: 661 with divide_time: 0.1
+INFO 2025-08-14 17:26:44,807 logger 31776 9504 Checking count existence for record_id: 661 with divide_time: 0.0
+INFO 2025-08-14 17:26:44,807 logger 31776 9504 Checking count existence for record_id: 661 with divide_time: 0.0
+INFO 2025-08-14 17:26:45,058 logger 31776 5536 Checking count existence for record_id: 661 with divide_time: 0.0
+INFO 2025-08-14 17:26:45,058 logger 31776 5536 Checking count existence for record_id: 661 with divide_time: 0.0
+INFO 2025-08-14 17:26:45,214 logger 31776 30784 Checking count existence for record_id: 661 with divide_time: 0.04
+INFO 2025-08-14 17:26:45,214 logger 31776 30784 Checking count existence for record_id: 661 with divide_time: 0.04
+INFO 2025-08-14 17:26:46,523 logger 31776 28916 Starting car detection for record ID: 661 with divide_time: 0.04
+INFO 2025-08-14 17:26:46,523 logger 31776 28916 Starting car detection for record ID: 661 with divide_time: 0.04
+INFO 2025-08-14 17:26:46,526 logger 31776 28916 Loading YOLO model...
+INFO 2025-08-14 17:26:46,526 logger 31776 28916 Loading YOLO model...
+INFO 2025-08-14 17:26:50,221 logger 31776 28916 Starting detection thread...
+INFO 2025-08-14 17:26:50,221 logger 31776 28916 Starting detection thread...
+INFO 2025-08-14 17:26:50,223 logger 31776 28916 Car detection thread started successfully
+INFO 2025-08-14 17:26:50,223 logger 31776 28916 Car detection thread started successfully
+INFO 2025-08-14 17:26:50,223 logger 31776 20964 [CarDetection.run] Starting run for record_id=661, divide_time=0.04, video_path=C:\MyApps\CameraVision\backend\media\661.mp4
+INFO 2025-08-14 17:26:50,223 logger 31776 20964 [CarDetection.run] Starting run for record_id=661, divide_time=0.04, video_path=C:\MyApps\CameraVision\backend\media\661.mp4
+INFO 2025-08-14 17:26:50,228 logger 31776 20964 [CarDetection.run] Video opened. fps=28.478, frames=25647, duration=900.60s, size=(1280x720)
+INFO 2025-08-14 17:26:50,228 logger 31776 20964 [CarDetection.run] Video opened. fps=28.478, frames=25647, duration=900.60s, size=(1280x720)
+DEBUG 2025-08-14 17:26:50,230 logger 31776 20964 [CarDetection.run] Output path for results: C:\MyApps\CameraVision\backend\media\28fd00ed0260d29933b307673decc961.csv
+DEBUG 2025-08-14 17:26:50,230 logger 31776 20964 [CarDetection.run] Output path for results: C:\MyApps\CameraVision\backend\media\28fd00ed0260d29933b307673decc961.csv
+DEBUG 2025-08-14 17:26:50,247 logger 31776 20964 [CarDetection.run] Acquired lock: C:\MyApps\CameraVision\backend\media\28fd00ed0260d29933b307673decc961.csv.lock
+DEBUG 2025-08-14 17:26:50,247 logger 31776 20964 [CarDetection.run] Acquired lock: C:\MyApps\CameraVision\backend\media\28fd00ed0260d29933b307673decc961.csv.lock
+INFO 2025-08-14 17:26:50,248 logger 31776 20964 [CarDetection.run] Existing results? exists=False, size=0 bytes, divide_time=0.04s
+INFO 2025-08-14 17:26:50,248 logger 31776 20964 [CarDetection.run] Existing results? exists=False, size=0 bytes, divide_time=0.04s
+DEBUG 2025-08-14 17:26:50,256 logger 31776 20964 [CarDetection.run] Removed lock: C:\MyApps\CameraVision\backend\media\28fd00ed0260d29933b307673decc961.csv.lock
+DEBUG 2025-08-14 17:26:50,256 logger 31776 20964 [CarDetection.run] Removed lock: C:\MyApps\CameraVision\backend\media\28fd00ed0260d29933b307673decc961.csv.lock

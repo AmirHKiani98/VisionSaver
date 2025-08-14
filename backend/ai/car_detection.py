@@ -173,7 +173,7 @@ class CarDetection():
             # If an existing file is there but empty/bad, ignore it.
             exists = os.path.exists(output_path)
             size = os.path.getsize(output_path) if exists else 0
-            logger.info(f"[CarDetection.run] Existing results? exists={exists}, size={size} bytes")
+            logger.info(f"[CarDetection.run] Existing results? exists={exists}, size={size} bytes, divide_time={self.divide_time}s")
 
             if exists and size > 0:
                 try:
@@ -203,8 +203,6 @@ class CarDetection():
                     logger.warning(f"[CarDetection.run] OSError reading existing CSV. Will recompute. Error: {e}")
 
             # -------------- Process video --------------
-            logger.info(f"[CarDetection.run] Processing video for car detection and tracking with divide_time={self.divide_time}s "
-                        f"and duration={self.duration}s and {len(np.arange(0, self.duration, self.divide_time))} steps")
 
             df = pd.DataFrame(columns=['time', 'frame_number', 'x1', 'y1', 'x2', 'y2', 'track_id'])
             channel_layer = get_channel_layer()
