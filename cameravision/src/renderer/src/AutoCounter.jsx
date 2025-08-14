@@ -483,7 +483,7 @@ const AutoCounter = () => {
                             sx={{
                                 color: 'primary.white'
                             }}
-                            label={<Typography className="text-white">Accuracy</Typography>}
+                            label={<Typography className="text-white">Frame</Typography>}
                         />
 
                     </div>
@@ -618,9 +618,9 @@ const AutoCounter = () => {
             <div className="flex-1 p-2.5 bg-main-300 h-full flex flex-col gap-2.5">
                 <div className="grid grid-cols-1 gap-5">
                     <FormControl className="w-full">
-                        <InputLabel id="demo-simple-select-label">Drawing type</InputLabel>
+                        <InputLabel id="drawing-type-select-label">Drawing type</InputLabel>
                         <Select
-                            labelId="demo-simple-select-label"
+                            labelId="drawing-type-select-label"
                             id="demo-simple-select"
                             value={tool}
                             className='shadow-lg bg-main-400'
