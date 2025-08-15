@@ -6,13 +6,14 @@ from django.conf import settings
 import numpy as np
 from shapely.strtree import STRtree
 from shapely.ops import nearest_points
-from shapely.geometry import Point, Polygon, LineString
+from shapely.geometry import Point, Polygon, LineString, box
 class Model():
     """
     Base class for counter algorithms.
     """
-    def __init__(self, auto_detection_csv_path, detection_lines, video_width, video_height):
+    def __init__(self, auto_detection_csv_path, detection_lines, video_width, video_height, area_threshold=0.9):
         self.auto_detection_csv_path = auto_detection_csv_path
+        self.area_threshold = area_threshold
         if os.path.exists(self.auto_detection_csv_path):
             self.auto_detection_df = pd.read_csv(self.auto_detection_csv_path)
         else:
@@ -37,7 +38,7 @@ class Model():
             raise ValueError("The DataFrame must contain a 'track_id' column.")
         groups_by_track = self.auto_detection_df.groupby("track_id")
         path = os.path.splitext(self.auto_detection_csv_path)[0]
-        cleaned_path = f"{path}_cleaned.csv"
+        cleaned_path = f"{path}_cleaned_v1.csv"
         if os.path.exists(cleaned_path):
             return pd.read_csv(cleaned_path)
         df = pd.DataFrame()
@@ -62,8 +63,35 @@ class Model():
             group["zone"] = pd.Series([self._counter(row["x_center"], row["y_center"]) for _, row in group.iterrows()], index=group.index)
             df = pd.concat([df, group], ignore_index=True)
         
-        df.to_csv(cleaned_path, index=False)
-        return df
+        groups_by_time = df.groupby("time")
+        
+        df2 = pd.DataFrame()
+        
+        for time, group in groups_by_time:
+            if group.empty:
+                continue
+            group = group.sort_values(by="track_id")
+            for index, row in group.iterrows():
+                row_polygon = box(row["x1"], row["y1"], row["x2"], row["y2"])
+                for jndex, jow in group.iterrows():
+                    if index == jndex:
+                        continue
+                    jow_polygon = box(jow["x1"], jow["y1"], jow["x2"], jow["y2"])
+                    # union
+                    union = row_polygon.union(jow_polygon)
+                    # intersection
+                    intersection = row_polygon.intersection(jow_polygon)
+                    if not intersection.is_empty:
+                        intersection_area = intersection.area
+                        union_area = union.area
+                        # Change the track id of the rectangles that overlap significantly to the minimum track id
+                        if intersection_area / union_area > self.area_threshold:
+                            group.at[index, "track_id"] = min(row["track_id"], jow["track_id"])
+            df2 = pd.concat([df2, group], ignore_index=True)
+        
+        
+        df2.to_csv(cleaned_path, index=False)
+        return df2
     
     def _counter(self, center_x, center_y, line_threshold=0.05):
         """

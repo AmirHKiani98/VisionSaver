@@ -12,7 +12,7 @@ import subprocess
 from ai.models import AutoCounter
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
-from ai.views import get_auto_counter
+from ai.views import run_auto_counter
 
 # Create your views here.
 
@@ -456,7 +456,7 @@ def get_car_detections_at_time(request):
         divide_time = data.get('divide_time', 0.1)
         version = data.get('version', 'v1')
         time = data.get('time', None)
-        auto_counter = get_auto_counter(record_id, divide_time, version)
+        auto_counter = run_auto_counter(record_id, divide_time, version)
         if not auto_counter:
             return JsonResponse({'error': 'Auto counter not found'}, status=404)
         auto_counter['time_diff'] = abs(auto_counter['time'] - float(time))

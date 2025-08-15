@@ -100,7 +100,7 @@ def run_car_detection(request):
         logger.error("Invalid request method for run_car_detection")
         return JsonResponse({'error': 'Invalid request method'}, status=405)
     
-def get_auto_counter(record_id, divide_time, version='v1'):
+def run_auto_counter(record_id, divide_time, version='v1'):
     """
     Retrieve auto counter for a specific record and divide time.
     """
@@ -128,3 +128,20 @@ def get_auto_counter(record_id, divide_time, version='v1'):
                                  record_path=video_path)
     
     return ADZ.get_result()
+
+@csrf_exempt
+def start_counting(request):
+    if request.method != 'POST':
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)
+    try:
+        data = json.loads(request.body)
+        record_id = data.get('record_id')
+        divide_time = data.get('divide_time', 0.1)
+        version = data.get('version', 'v1')
+        # run with threading
+        thread = threading.Thread(target=run_auto_counter, args=(record_id, divide_time, version))
+        thread.start()
+        return JsonResponse({"status": "success", "message": "Auto counting started"}, status=200)
+    except Exception as e:
+        logger.error(f"Error in start_counting: {str(e)}")
+        return JsonResponse({"error": "Internal Server Error"}, status=500)

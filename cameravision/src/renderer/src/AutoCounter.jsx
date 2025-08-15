@@ -11,7 +11,7 @@ import {
     CircularProgress,
     Tooltip
 } from '@mui/material';
-import {faPen, faPlus, faEraser, faUpload, faRefresh, faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
+import {faPen, faPlus, faEraser, faUpload, faRefresh, faEye, faEyeSlash, faRunning, faCar} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLocation } from 'react-router-dom';
 import GradualColorButton from './components/GradualColorButton';
@@ -39,23 +39,21 @@ const AutoCounter = () => {
     const isDrawing = react.useRef(false);
     const [tool, setTool] = react.useState('pen'); // 'pen'
     const [videoReady, setVideoReady] = react.useState(false);
-    const [videoResolution, setVideoResolution] = react.useState({ width: 1, height: 1 });
     const [videoDisplaySize, setVideoDisplaySize] = react.useState({ width: 1, height: 1 });
     const [open, setOpen] = react.useState(false);
     const [severity, setSeverity] = react.useState('info');
     const [message, setMessage] = react.useState('');
     const [portalInput, setPortalInput] = react.useState('');
     const [selectedPortal, setSelectedPortal] = react.useState('');
-    const [counterActivated, setCounterActivated] = react.useState(false);
     const [progress, setProgress] = react.useState(0);
     const [currentTime, setCurrentTime] = react.useState(0);
     const [duration, setDuration] = react.useState(0);
     const [seeking, setSeeking] = react.useState(false);
     const [countDict, setCountDict] = react.useState({});
     const [showCounts, setShowCounts] = react.useState(false);
-    const [loadProgress, setLoadProgress] = react.useState(0);
     const [detectingExists, setDetectingExists] = react.useState(false);
     const [accuracy, setAccuracy] = react.useState(0.1); // Default accuracy value
+    const [counterVersion, setCounterVersion] = react.useState('v1'); // Default counter version
 
 
     const autoHideDuration = 3000;
@@ -253,6 +251,9 @@ const AutoCounter = () => {
         }
         return scaledPoints;
     };
+    const handleCounterRun = () => {
+        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.AI_START_COUNTING}`;
+    }
     const videoPointToScaledPoint = (points) => {
         if (!videoRef.current) {
             return [0, 0];
@@ -630,147 +631,185 @@ const AutoCounter = () => {
                 </div>
 
             </div>
-            <div className="flex-1 p-2.5 bg-main-300 h-full flex flex-col gap-2.5">
-                <div className="grid grid-cols-1 gap-5">
-                    <FormControl className="w-full">
-                        <InputLabel id="drawing-type-select-label" >
-                            <Typography variant="body1" className='text-white'>
-                                Drawer
-                            </Typography>
-                        </InputLabel>
-                        <Select
-                            labelId="drawing-type-select-label"
-                            id="demo-simple-select"
-                            value={tool}
-                            className='shadow-lg bg-main-400'
-                            sx={{
-                                color: 'primary.white'
-                            }}
-                            label="Drawer"
-                            onChange={(e) => setTool(e.target.value)}
-
-                        >
-                            <MenuItem value={'pen'}>
-                            <Typography variant="body1" color="textPrimary">
-                                Pen
-                                <FontAwesomeIcon icon={faPen} className="ml-2" />
-                            </Typography>
-                            
-                            </MenuItem>
-                            <MenuItem value={'eraser'}>
-                                <Typography variant="body1" color="textPrimary">
-                                    Eraser
-                                    <FontAwesomeIcon icon={faEraser} className="ml-2" />
-                                </Typography>
-                            </MenuItem>
-                        </Select>
-                    </FormControl>
-                    <FormControl className="w-full !flex !flex-row items-center justify-between gap-2.5">
-                        <TextField
-                            label={
+            <div className="flex-1 flex flex-col h-full p-2.5 bg-main-300 justify-between">
+                <div className="flex flex-col gap-2.5 p-2.5">
+                    <div className="grid grid-cols-1 gap-5">
+                        <FormControl className="w-full">
+                            <InputLabel id="drawing-type-select-label" >
                                 <Typography variant="body1" className='text-white'>
-                                Portal Name
+                                    Drawer
                                 </Typography>
-                            }
-                            focused
-                            variant="outlined"
-                            value={portalInput}
-                            onChange={(e) => setPortalInput(e.target.value)}
-                            className='shadow-lg bg-main-400'
-                            sx={{
-                                color: 'primary.white'
-                            }}
-                        />
-                        <Button
-                            className='!bg-green-500 h-full shadow-lg hover:!bg-main-400 !text-black'
-                            onClick={() => {
-                                if (portalInput.trim() === '') {
-                                    openNotification('error', 'Portal name cannot be empty');
-                                    return;
-                                }
-                                setLines(prevLines => {
-                                    const newLines = { ...prevLines, [portalInput]: [] };
-                                    setSelectedPortal(portalInput); // Optionally select the new portal
-                                    return newLines;
-                                });
-                                setPortalInput('');
-                            }}
-                        >
-                            <FontAwesomeIcon icon={faPlus} />
-                        </Button>
-                    </FormControl>
-                    <FormControl className="w-full">
-                        <InputLabel id="demo-simple-select-label">
-                        <Typography variant="body1" className='text-white'>
-                                Portal
-                        </Typography>
-                        </InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={selectedPortal}
-                            className='shadow-lg bg-main-400 flex'
-                            sx={{
-                                color: 'primary.white',
-                                '& .MuiSelect-select': {
-                                    display: 'flex',
-                                    flexDirection: 'row',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center'
-                                }
-                            }}
-                            disabled={Object.keys(lines).length === 0}
-                            label="Portal"
-                            onChange={(e) => setSelectedPortal(e.target.value)}
+                            </InputLabel>
+                            <Select
+                                labelId="drawing-type-select-label"
+                                id="demo-simple-select"
+                                value={tool}
+                                className='shadow-lg bg-main-400'
+                                sx={{
+                                    color: 'primary.white'
+                                }}
+                                label="Drawer"
+                                onChange={(e) => setTool(e.target.value)}
 
-                        >   
-                            {Object.keys(lines).map((key) => (
-                                <MenuItem key={key} value={key} className='!flex !justify-between !items-center'>
-                                        <Typography variant="body1" color="textPrimary" className='w-10'>
-                                            {key}
-                                        </Typography>
-                                        <Button
-                                            className='!bg-red-500 h-full shadow-lg hover:!bg-main-500 !text-black'
-                                            onClick={() => {
-                                                // Remove the selected portal and its lines
-                                                setLines(prevLines => {
-                                                    const newLines = { ...prevLines };
-                                                    delete newLines[key];
-                                                    if (selectedPortal === key) {
-                                                        setSelectedPortal(''); // Clear selection if the deleted portal was selected
-                                                    }
-                                                    return newLines;
-                                                })
-                                            }}
-                                            >
-                                            <FontAwesomeIcon icon={faEraser} className='text-white' />
-                                            </Button>
+                            >
+                                <MenuItem value={'pen'}>
+                                <Typography variant="body1" color="textPrimary">
+                                    Pen
+                                    <FontAwesomeIcon icon={faPen} className="ml-2" />
+                                </Typography>
+                                
                                 </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </div>
-                
-                <div className='flex justify-between items-center'>
-                    <Tooltip title="Send lines to the server">
+                                <MenuItem value={'eraser'}>
+                                    <Typography variant="body1" color="textPrimary">
+                                        Eraser
+                                        <FontAwesomeIcon icon={faEraser} className="ml-2" />
+                                    </Typography>
+                                </MenuItem>
+                            </Select>
+                        </FormControl>
+                        <FormControl className="w-full !flex !flex-row items-center justify-between gap-2.5">
+                            <TextField
+                                label={
+                                    <Typography variant="body1" className='text-white'>
+                                    Portal Name
+                                    </Typography>
+                                }
+                                focused
+                                variant="outlined"
+                                value={portalInput}
+                                onChange={(e) => setPortalInput(e.target.value)}
+                                className='shadow-lg bg-main-400'
+                                sx={{
+                                    color: 'primary.white'
+                                }}
+                            />
+                            <Button
+                                className='!bg-green-500 h-full shadow-lg hover:!bg-main-400 !text-black'
+                                onClick={() => {
+                                    if (portalInput.trim() === '') {
+                                        openNotification('error', 'Portal name cannot be empty');
+                                        return;
+                                    }
+                                    setLines(prevLines => {
+                                        const newLines = { ...prevLines, [portalInput]: [] };
+                                        setSelectedPortal(portalInput); // Optionally select the new portal
+                                        return newLines;
+                                    });
+                                    setPortalInput('');
+                                }}
+                            >
+                                <FontAwesomeIcon icon={faPlus} />
+                            </Button>
+                        </FormControl>
+                        <FormControl className="w-full">
+                            <InputLabel id="demo-simple-select-label">
+                            <Typography variant="body1" className='text-white'>
+                                    Portal
+                            </Typography>
+                            </InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={selectedPortal}
+                                className='shadow-lg bg-main-400 flex'
+                                sx={{
+                                    color: 'primary.white',
+                                    '& .MuiSelect-select': {
+                                        display: 'flex',
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center'
+                                    }
+                                }}
+                                disabled={Object.keys(lines).length === 0}
+                                label="Portal"
+                                onChange={(e) => setSelectedPortal(e.target.value)}
+
+                            >   
+                                {Object.keys(lines).map((key) => (
+                                    <MenuItem key={key} value={key} className='!flex !justify-between !items-center'>
+                                            <Typography variant="body1" color="textPrimary" className='w-10'>
+                                                {key}
+                                            </Typography>
+                                            <Button
+                                                className='!bg-red-500 h-full shadow-lg hover:!bg-main-500 !text-black'
+                                                onClick={() => {
+                                                    // Remove the selected portal and its lines
+                                                    setLines(prevLines => {
+                                                        const newLines = { ...prevLines };
+                                                        delete newLines[key];
+                                                        if (selectedPortal === key) {
+                                                            setSelectedPortal(''); // Clear selection if the deleted portal was selected
+                                                        }
+                                                        return newLines;
+                                                    })
+                                                }}
+                                                >
+                                                <FontAwesomeIcon icon={faEraser} className='text-white' />
+                                                </Button>
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </div>
+                    
+                    <div className='flex justify-between items-center'>
+                        <Tooltip title="Send lines to the server">
+                            <Button
+                            className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black h-full'
+                            onClick={sendLines}
+                            >
+                                <FontAwesomeIcon icon={faUpload} />
+                            </Button>
+                        </Tooltip>
                         <Button
-                        className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black h-full'
-                        onClick={sendLines}
+                        className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black'
+                        onClick={() => {
+                            setLines({});
+                            setSelectedPortal('');
+                            setPortal("");
+                        }}
                         >
-                            <FontAwesomeIcon icon={faUpload} />
+                            {/* <FontAwesomeIcon icon={faPlus} /> */}
+                            <FontAwesomeIcon icon={faRefresh} />
                         </Button>
-                    </Tooltip>
-                    <Button
-                    className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black'
-                    onClick={() => {
-                        setLines({});
-                        setSelectedPortal('');
-                        setPortal("");
-                    }}
-                    >
-                        {/* <FontAwesomeIcon icon={faPlus} /> */}
-                        <FontAwesomeIcon icon={faRefresh} />
-                    </Button>
+                    </div>
+                </div>
+                <div className='flex justify-between items-center p-2.5'>
+                    <div className='flex items-center gap-2.5'>
+                        <FormControl className="w-full">
+                            <InputLabel id="counter-version-select-label">
+                                <Typography variant="body1" className='text-white'>
+                                    Counter Version
+                                </Typography>
+                            </InputLabel>
+                            <Select
+                                labelId="counter-version-select-label"
+                                id="counter-version-select"
+                                value={counterVersion}
+                                className='shadow-lg bg-main-400'
+                                sx={{
+                                    color: 'primary.white'
+                                }}
+                                label="Counter Version"
+                                onChange={(e) => setCounterVersion(e.target.value)}
+                            >
+                                <MenuItem value="v1">
+                                    <Typography variant="body1" color="textPrimary">
+                                        v1
+                                    </Typography>
+                                </MenuItem>
+                            </Select>
+                        </FormControl>
+                        <Tooltip title="Run Counter" placement="top">
+                            <Button
+                                className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black'
+                                onClick={handleCounterRun}
+                            >
+                                <FontAwesomeIcon icon={faCar} className='text-center' />
+                            </Button>
+                        </Tooltip>
+                    </div>
                 </div>
             </div>
             <Notification open={open} severity={severity} message={message} onClose={closeNotification} autoHideDuration={autoHideDuration} />
