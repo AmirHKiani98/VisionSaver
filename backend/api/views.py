@@ -492,3 +492,27 @@ def count_exists(request):
             return JsonResponse({"exists": False}, status=200)
     except Exception as e:
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
+
+@csrf_exempt
+def get_car_detections_modified_at_time(request):
+    """
+    Retrieve car detections for a specific record.
+    """
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        record_id = data.get('record_id')
+        divide_time = data.get('divide_time', 0.1)
+        version = data.get('version', 'v1')
+        time = data.get('time', None)
+        auto_counter = run_auto_counter(record_id, divide_time, version)
+        if not auto_counter:
+            return JsonResponse({'error': 'Auto counter not found'}, status=404)
+        auto_counter['time_diff'] = abs(auto_counter['time'] - float(time))
+        group = auto_counter[auto_counter['time_diff'] == auto_counter['time_diff'].min()]
+
+        if group.empty:
+            return JsonResponse({"detections": []}, status=200)
+        detections = group.to_dict(orient='records')
+        return JsonResponse({"detections": detections}, status=200)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)

@@ -105,28 +105,29 @@ def run_auto_counter(record_id, divide_time, version='v1'):
     Retrieve auto counter for a specific record and divide time.
     """
     try:
+        logger.info(f"Running auto counter for record ID: {record_id}, divide_time: {divide_time}, version: {version}")
         record = Record.objects.get(id=record_id)
     except Record.DoesNotExist:
         logger.error(f"Record not found for record ID: {record_id}")
         return None
-    
+    logger.info(f"Record found: {record}")
     auto_counter = AutoCounter.objects.filter(record=record, divide_time=divide_time).first()
     if not auto_counter:
         logger.error(f"AutoCounter not found for record ID: {record_id} with divide_time: {divide_time}")
         return None
-    
+    logger.info(f"AutoCounter found: {auto_counter}")
     video_path = os.path.join(settings.MEDIA_ROOT, str(record_id) + ".mp4")
     if not os.path.exists(video_path):
         video_path = os.path.join(settings.MEDIA_ROOT, str(record_id) + ".mkv")
         if not os.path.exists(video_path):
             logger.error(f"Video file not found for record ID: {record_id}")
             return None
-    
+    logger.info(f"Video path: {video_path}")
     ADZ = AlgorithmDetectionZone(version=version, 
                                  auto_detection_csv_path=auto_counter.file_name,
                                  detection_lines=None,
                                  record_path=video_path)
-    
+    logger.info("AlgorithmDetectionZone initialized successfully")
     return ADZ.get_result()
 
 @csrf_exempt
@@ -139,6 +140,7 @@ def start_counting(request):
         divide_time = data.get('divide_time', 0.1)
         version = data.get('version', 'v1')
         # run with threading
+        logger.info(f"Starting auto counting for record ID: {record_id}, divide_time: {divide_time}, version: {version}")
         thread = threading.Thread(target=run_auto_counter, args=(record_id, divide_time, version))
         thread.start()
         return JsonResponse({"status": "success", "message": "Auto counting started"}, status=200)

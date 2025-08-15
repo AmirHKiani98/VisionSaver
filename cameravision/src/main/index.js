@@ -4,6 +4,7 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import dotenv from 'dotenv'
 const fs = require('fs');
 const path = require('path');
+const chokidar = require('chokidar');
 
 
 
@@ -215,11 +216,29 @@ if(!is.dev){
   });
 } else {
   // Run django from backend directory
-  djangoProcess = spawn('python', ['-m', 'uvicorn', 'processor.asgi:create_app','--factory', '--host', domain, '--port', port, '--workers', '1'], {
-    cwd: join(__dirname, '../../../backend'),
-    stdio: 'ignore',
-    windowsHide: true
+  function startDjango() {
+    if (djangoProcess && !djangoProcess.killed) {
+      djangoProcess.kill();
+    }
+    djangoProcess = spawn('python', ['-m', 'uvicorn', 'processor.asgi:create_app', '--factory', '--host', domain, '--port', port, '--workers', '1'], {
+      cwd: join(__dirname, '../../../backend'),
+      stdio: 'inherit', // show logs for debugging
+      windowsHide: true
+    });
+  }
+
+  // Watch backend files and restart Django on change
+  chokidar.watch(join(__dirname, '../../../backend'), {
+    ignored: [
+      join(__dirname, '../../../backend/media/**'),
+      join(__dirname, '../../../backend/logs/**'),
+      '**/*.pyc'
+    ]
+  }).on('change', (changedPath) => {
+    console.log(`Backend file changed: ${changedPath}, restarting Django...`);
+    startDjango();
   });
+  startDjango();
 
   killPort(streamerPort, () => {
     streamerProcess = spawn('python', ['-m', 'uvicorn', 'apps.streamer.asgi_mpeg:app', '--host', streamerDomain, '--port', streamerPort], {

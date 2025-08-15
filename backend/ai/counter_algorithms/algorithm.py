@@ -1,5 +1,8 @@
 import os
 import cv2
+from django.conf import settings
+logger = settings.APP_LOGGER
+
 class AlgorithmDetectionZone():
     """
     Base class for counter
@@ -24,11 +27,23 @@ class AlgorithmDetectionZone():
         record_video = cv2.VideoCapture(record_path)
         video_width = int(record_video.get(cv2.CAP_PROP_FRAME_WIDTH))
         video_height = int(record_video.get(cv2.CAP_PROP_FRAME_HEIGHT))
-        self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height)
+        logger.info(f"Video dimensions: {video_width}x{video_height}")
+        try:
+            self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height)
+        except Exception as e:
+            logger.error(f"Error initializing model instance: {e}")
+            raise e
+        logger.info("Model instance created successfully with the provided parameters.")
     
     def get_result(self):
         """
         Get the result of the counter algorithm.
         """
-        return self.model_instance.counter()
+        logger.info("Getting result from the model instance")
+        try: 
+            return self.model_instance.counter()
+        except Exception as e:
+            logger.error(f"Error while getting result: {e}")
+            raise e
+        
 

@@ -810,7 +810,7 @@ const AutoCounter = () => {
                         </FormControl>
                         <Tooltip title="Run Counter" placement="top">
                             <Button
-                                className={`!bg-green-500 shadow-lg hover:!bg-main-400 !text-black h-full ${!detectingExists ? '!bg-gray-300' : ''}`}
+                                className={`shadow-lg hover:!bg-main-400 !text-black h-full ${!detectingExists ? '!bg-gray-300' : '!bg-green-500 '}`}
                                 onClick={handleCounterRun}
                                 disabled={!detectingExists}
                             >

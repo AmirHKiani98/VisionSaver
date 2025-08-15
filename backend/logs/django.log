@@ -1,399 +1,364 @@
-INFO 2025-08-14 18:06:16,881 logger 29856 28924 Checking count existence for record_id: 661 with divide_time: 0.1
-INFO 2025-08-14 18:06:16,881 logger 29856 28924 Checking count existence for record_id: 661 with divide_time: 0.1
-INFO 2025-08-14 18:06:17,787 logger 29856 33452 Checking count existence for record_id: 661 with divide_time: 0.0
-INFO 2025-08-14 18:06:17,787 logger 29856 33452 Checking count existence for record_id: 661 with divide_time: 0.0
-INFO 2025-08-14 18:06:18,013 logger 29856 20372 Checking count existence for record_id: 661 with divide_time: 0.0
-INFO 2025-08-14 18:06:18,013 logger 29856 20372 Checking count existence for record_id: 661 with divide_time: 0.0
-INFO 2025-08-14 18:06:18,177 logger 29856 30172 Checking count existence for record_id: 661 with divide_time: 0.05
-INFO 2025-08-14 18:06:18,177 logger 29856 30172 Checking count existence for record_id: 661 with divide_time: 0.05
-INFO 2025-08-14 18:06:19,241 logger 29856 29776 Starting car detection for record ID: 661 with divide_time: 0.05
-INFO 2025-08-14 18:06:19,241 logger 29856 29776 Starting car detection for record ID: 661 with divide_time: 0.05
-INFO 2025-08-14 18:06:19,244 logger 29856 29776 Loading YOLO model...
-INFO 2025-08-14 18:06:19,244 logger 29856 29776 Loading YOLO model...
-INFO 2025-08-14 18:06:22,563 logger 29856 29776 Starting detection thread...
-INFO 2025-08-14 18:06:22,563 logger 29856 29776 Starting detection thread...
-INFO 2025-08-14 18:06:22,566 logger 29856 23956 [CarDetection.run] Starting run for record_id=661, divide_time=0.05, video_path=C:\MyApps\CameraVision\backend\media\661.mp4
-INFO 2025-08-14 18:06:22,566 logger 29856 23956 [CarDetection.run] Starting run for record_id=661, divide_time=0.05, video_path=C:\MyApps\CameraVision\backend\media\661.mp4
-INFO 2025-08-14 18:06:22,567 logger 29856 29776 Car detection thread started successfully
-INFO 2025-08-14 18:06:22,567 logger 29856 29776 Car detection thread started successfully
-INFO 2025-08-14 18:06:22,567 logger 29856 23956 [CarDetection.run] Video opened. fps=28.478, frames=25647, duration=900.60s, size=(1280x720)
-INFO 2025-08-14 18:06:22,567 logger 29856 23956 [CarDetection.run] Video opened. fps=28.478, frames=25647, duration=900.60s, size=(1280x720)
-DEBUG 2025-08-14 18:06:22,571 logger 29856 23956 [CarDetection.run] Output path for results: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv
-DEBUG 2025-08-14 18:06:22,571 logger 29856 23956 [CarDetection.run] Output path for results: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv
-DEBUG 2025-08-14 18:06:22,578 logger 29856 23956 [CarDetection.run] Acquired lock: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv.lock
-DEBUG 2025-08-14 18:06:22,578 logger 29856 23956 [CarDetection.run] Acquired lock: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv.lock
-INFO 2025-08-14 18:06:22,580 logger 29856 23956 [CarDetection.run] Existing results? exists=False, size=0 bytes, divide_time=0.05s, False
-INFO 2025-08-14 18:06:22,580 logger 29856 23956 [CarDetection.run] Existing results? exists=False, size=0 bytes, divide_time=0.05s, False
-INFO 2025-08-14 18:06:22,580 logger 29856 23956 [CarDetection.run] Beginning processing video for car detection...
-INFO 2025-08-14 18:06:22,580 logger 29856 23956 [CarDetection.run] Beginning processing video for car detection...
-DEBUG 2025-08-14 18:06:22,583 logger 29856 23956 [CarDetection.run] Initialized empty DataFrame for results.
-DEBUG 2025-08-14 18:06:22,583 logger 29856 23956 [CarDetection.run] Initialized empty DataFrame for results.
-DEBUG 2025-08-14 18:06:22,583 logger 29856 23956 [CarDetection.run] Channel layer: <channels.layers.InMemoryChannelLayer object at 0x000001FDD2343C90>, group_name: counter_progress_661, type of self.divide_time: <class 'str'>
-DEBUG 2025-08-14 18:06:22,583 logger 29856 23956 [CarDetection.run] Channel layer: <channels.layers.InMemoryChannelLayer object at 0x000001FDD2343C90>, group_name: counter_progress_661, type of self.divide_time: <class 'str'>
-DEBUG 2025-08-14 18:06:22,585 logger 29856 23956 [CarDetection.run] Removed lock: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv.lock
-DEBUG 2025-08-14 18:06:22,585 logger 29856 23956 [CarDetection.run] Removed lock: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv.lock
-INFO 2025-08-14 18:07:16,491 logger 12156 32996 Checking count existence for record_id: 661 with divide_time: 0.1
-INFO 2025-08-14 18:07:16,491 logger 12156 32996 Checking count existence for record_id: 661 with divide_time: 0.1
-INFO 2025-08-14 18:07:17,983 logger 12156 33540 Checking count existence for record_id: 661 with divide_time: 0.0
-INFO 2025-08-14 18:07:17,983 logger 12156 33540 Checking count existence for record_id: 661 with divide_time: 0.0
-INFO 2025-08-14 18:07:18,183 logger 12156 29788 Checking count existence for record_id: 661 with divide_time: 0.0
-INFO 2025-08-14 18:07:18,183 logger 12156 29788 Checking count existence for record_id: 661 with divide_time: 0.0
-INFO 2025-08-14 18:07:18,391 logger 12156 3300 Checking count existence for record_id: 661 with divide_time: 0.05
-INFO 2025-08-14 18:07:18,391 logger 12156 3300 Checking count existence for record_id: 661 with divide_time: 0.05
-INFO 2025-08-14 18:07:19,432 logger 12156 31732 Starting car detection for record ID: 661 with divide_time: 0.05
-INFO 2025-08-14 18:07:19,432 logger 12156 31732 Starting car detection for record ID: 661 with divide_time: 0.05
-INFO 2025-08-14 18:07:19,434 logger 12156 31732 Loading YOLO model...
-INFO 2025-08-14 18:07:19,434 logger 12156 31732 Loading YOLO model...
-INFO 2025-08-14 18:07:22,478 logger 12156 31732 Starting detection thread...
-INFO 2025-08-14 18:07:22,478 logger 12156 31732 Starting detection thread...
-INFO 2025-08-14 18:07:22,479 logger 12156 23680 [CarDetection.run] Starting run for record_id=661, divide_time=0.05, video_path=C:\MyApps\CameraVision\backend\media\661.mp4
-INFO 2025-08-14 18:07:22,479 logger 12156 23680 [CarDetection.run] Starting run for record_id=661, divide_time=0.05, video_path=C:\MyApps\CameraVision\backend\media\661.mp4
-INFO 2025-08-14 18:07:22,479 logger 12156 31732 Car detection thread started successfully
-INFO 2025-08-14 18:07:22,481 logger 12156 23680 [CarDetection.run] Video opened. fps=28.478, frames=25647, duration=900.60s, size=(1280x720)
-INFO 2025-08-14 18:07:22,481 logger 12156 23680 [CarDetection.run] Video opened. fps=28.478, frames=25647, duration=900.60s, size=(1280x720)
-INFO 2025-08-14 18:07:22,479 logger 12156 31732 Car detection thread started successfully
-DEBUG 2025-08-14 18:07:22,482 logger 12156 23680 [CarDetection.run] Output path for results: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv
-DEBUG 2025-08-14 18:07:22,482 logger 12156 23680 [CarDetection.run] Output path for results: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv
-DEBUG 2025-08-14 18:07:22,490 logger 12156 23680 [CarDetection.run] Acquired lock: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv.lock
-DEBUG 2025-08-14 18:07:22,490 logger 12156 23680 [CarDetection.run] Acquired lock: C:\MyApps\CameraVision\backend\media\f12fe8145c93ecb1153c236b4b99751b.csv.lock
-INFO 2025-08-14 18:07:22,493 logger 12156 23680 [CarDetection.run] Existing results? exists=False, size=0 bytes, divide_time=0.05s, False
-INFO 2025-08-14 18:07:22,493 logger 12156 23680 [CarDetection.run] Existing results? exists=False, size=0 bytes, divide_time=0.05s, False
-INFO 2025-08-14 18:07:22,495 logger 12156 23680 [CarDetection.run] Beginning processing video for car detection...
-INFO 2025-08-14 18:07:22,495 logger 12156 23680 [CarDetection.run] Beginning processing video for car detection...
-DEBUG 2025-08-14 18:07:22,498 logger 12156 23680 [CarDetection.run] Initialized empty DataFrame for results.
-DEBUG 2025-08-14 18:07:22,498 logger 12156 23680 [CarDetection.run] Initialized empty DataFrame for results.
-DEBUG 2025-08-14 18:07:22,499 logger 12156 23680 [CarDetection.run] Channel layer: <channels.layers.InMemoryChannelLayer object at 0x0000024B6176BB10>, group_name: counter_progress_661, type of self.divide_time: <class 'float'>
-DEBUG 2025-08-14 18:07:22,499 logger 12156 23680 [CarDetection.run] Channel layer: <channels.layers.InMemoryChannelLayer object at 0x0000024B6176BB10>, group_name: counter_progress_661, type of self.divide_time: <class 'float'>
-DEBUG 2025-08-14 18:07:22,514 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.00s
-DEBUG 2025-08-14 18:07:22,514 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.00s
-DEBUG 2025-08-14 18:07:22,516 logger 12156 23680 [CarDetection.run] Sending progress update: 0.0%
-DEBUG 2025-08-14 18:07:22,516 logger 12156 23680 [CarDetection.run] Sending progress update: 0.0%
-INFO 2025-08-14 18:07:22,524 logger 12156 23680 [CarDetection.run] Processing time=0.00s, frame_number=0
-INFO 2025-08-14 18:07:22,524 logger 12156 23680 [CarDetection.run] Processing time=0.00s, frame_number=0
-DEBUG 2025-08-14 18:07:27,032 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.05s
-DEBUG 2025-08-14 18:07:27,032 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.05s
-DEBUG 2025-08-14 18:07:27,035 logger 12156 23680 [CarDetection.run] Sending progress update: 0.01%
-DEBUG 2025-08-14 18:07:27,035 logger 12156 23680 [CarDetection.run] Sending progress update: 0.01%
-INFO 2025-08-14 18:07:27,046 logger 12156 23680 [CarDetection.run] Processing time=0.05s, frame_number=1
-INFO 2025-08-14 18:07:27,046 logger 12156 23680 [CarDetection.run] Processing time=0.05s, frame_number=1
-DEBUG 2025-08-14 18:07:27,367 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.10s
-DEBUG 2025-08-14 18:07:27,367 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.10s
-DEBUG 2025-08-14 18:07:27,368 logger 12156 23680 [CarDetection.run] Sending progress update: 0.01%
-DEBUG 2025-08-14 18:07:27,368 logger 12156 23680 [CarDetection.run] Sending progress update: 0.01%
-INFO 2025-08-14 18:07:27,377 logger 12156 23680 [CarDetection.run] Processing time=0.10s, frame_number=2
-INFO 2025-08-14 18:07:27,377 logger 12156 23680 [CarDetection.run] Processing time=0.10s, frame_number=2
-DEBUG 2025-08-14 18:07:27,547 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.15s
-DEBUG 2025-08-14 18:07:27,547 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.15s
-DEBUG 2025-08-14 18:07:27,549 logger 12156 23680 [CarDetection.run] Sending progress update: 0.02%
-DEBUG 2025-08-14 18:07:27,549 logger 12156 23680 [CarDetection.run] Sending progress update: 0.02%
-INFO 2025-08-14 18:07:27,554 logger 12156 23680 [CarDetection.run] Processing time=0.15s, frame_number=4
-INFO 2025-08-14 18:07:27,554 logger 12156 23680 [CarDetection.run] Processing time=0.15s, frame_number=4
-DEBUG 2025-08-14 18:07:27,732 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.20s
-DEBUG 2025-08-14 18:07:27,732 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.20s
-DEBUG 2025-08-14 18:07:27,735 logger 12156 23680 [CarDetection.run] Sending progress update: 0.02%
-DEBUG 2025-08-14 18:07:27,735 logger 12156 23680 [CarDetection.run] Sending progress update: 0.02%
-INFO 2025-08-14 18:07:27,742 logger 12156 23680 [CarDetection.run] Processing time=0.20s, frame_number=5
-INFO 2025-08-14 18:07:27,742 logger 12156 23680 [CarDetection.run] Processing time=0.20s, frame_number=5
-DEBUG 2025-08-14 18:07:27,936 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.25s
-DEBUG 2025-08-14 18:07:27,936 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.25s
-DEBUG 2025-08-14 18:07:27,938 logger 12156 23680 [CarDetection.run] Sending progress update: 0.03%
-DEBUG 2025-08-14 18:07:27,938 logger 12156 23680 [CarDetection.run] Sending progress update: 0.03%
-INFO 2025-08-14 18:07:27,947 logger 12156 23680 [CarDetection.run] Processing time=0.25s, frame_number=7
-INFO 2025-08-14 18:07:27,947 logger 12156 23680 [CarDetection.run] Processing time=0.25s, frame_number=7
-DEBUG 2025-08-14 18:07:28,140 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.30s
-DEBUG 2025-08-14 18:07:28,140 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.30s
-DEBUG 2025-08-14 18:07:28,142 logger 12156 23680 [CarDetection.run] Sending progress update: 0.03%
-DEBUG 2025-08-14 18:07:28,142 logger 12156 23680 [CarDetection.run] Sending progress update: 0.03%
-INFO 2025-08-14 18:07:28,148 logger 12156 23680 [CarDetection.run] Processing time=0.30s, frame_number=8
-INFO 2025-08-14 18:07:28,148 logger 12156 23680 [CarDetection.run] Processing time=0.30s, frame_number=8
-DEBUG 2025-08-14 18:07:28,314 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.35s
-DEBUG 2025-08-14 18:07:28,314 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.35s
-DEBUG 2025-08-14 18:07:28,316 logger 12156 23680 [CarDetection.run] Sending progress update: 0.04%
-DEBUG 2025-08-14 18:07:28,316 logger 12156 23680 [CarDetection.run] Sending progress update: 0.04%
-INFO 2025-08-14 18:07:28,320 logger 12156 23680 [CarDetection.run] Processing time=0.35s, frame_number=9
-INFO 2025-08-14 18:07:28,320 logger 12156 23680 [CarDetection.run] Processing time=0.35s, frame_number=9
-DEBUG 2025-08-14 18:07:28,484 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.40s
-DEBUG 2025-08-14 18:07:28,484 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.40s
-DEBUG 2025-08-14 18:07:28,486 logger 12156 23680 [CarDetection.run] Sending progress update: 0.04%
-DEBUG 2025-08-14 18:07:28,486 logger 12156 23680 [CarDetection.run] Sending progress update: 0.04%
-INFO 2025-08-14 18:07:28,494 logger 12156 23680 [CarDetection.run] Processing time=0.40s, frame_number=11
-INFO 2025-08-14 18:07:28,494 logger 12156 23680 [CarDetection.run] Processing time=0.40s, frame_number=11
-DEBUG 2025-08-14 18:07:28,689 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.45s
-DEBUG 2025-08-14 18:07:28,689 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.45s
-DEBUG 2025-08-14 18:07:28,691 logger 12156 23680 [CarDetection.run] Sending progress update: 0.05%
-DEBUG 2025-08-14 18:07:28,691 logger 12156 23680 [CarDetection.run] Sending progress update: 0.05%
-INFO 2025-08-14 18:07:28,697 logger 12156 23680 [CarDetection.run] Processing time=0.45s, frame_number=12
-INFO 2025-08-14 18:07:28,697 logger 12156 23680 [CarDetection.run] Processing time=0.45s, frame_number=12
-DEBUG 2025-08-14 18:07:28,842 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.50s
-DEBUG 2025-08-14 18:07:28,842 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.50s
-DEBUG 2025-08-14 18:07:28,843 logger 12156 23680 [CarDetection.run] Sending progress update: 0.06%
-DEBUG 2025-08-14 18:07:28,843 logger 12156 23680 [CarDetection.run] Sending progress update: 0.06%
-INFO 2025-08-14 18:07:28,849 logger 12156 23680 [CarDetection.run] Processing time=0.50s, frame_number=14
-INFO 2025-08-14 18:07:28,849 logger 12156 23680 [CarDetection.run] Processing time=0.50s, frame_number=14
-DEBUG 2025-08-14 18:07:29,039 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.55s
-DEBUG 2025-08-14 18:07:29,039 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.55s
-DEBUG 2025-08-14 18:07:29,041 logger 12156 23680 [CarDetection.run] Sending progress update: 0.06%
-DEBUG 2025-08-14 18:07:29,041 logger 12156 23680 [CarDetection.run] Sending progress update: 0.06%
-INFO 2025-08-14 18:07:29,049 logger 12156 23680 [CarDetection.run] Processing time=0.55s, frame_number=15
-INFO 2025-08-14 18:07:29,049 logger 12156 23680 [CarDetection.run] Processing time=0.55s, frame_number=15
-DEBUG 2025-08-14 18:07:29,317 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.60s
-DEBUG 2025-08-14 18:07:29,317 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.60s
-DEBUG 2025-08-14 18:07:29,320 logger 12156 23680 [CarDetection.run] Sending progress update: 0.07%
-DEBUG 2025-08-14 18:07:29,320 logger 12156 23680 [CarDetection.run] Sending progress update: 0.07%
-INFO 2025-08-14 18:07:29,329 logger 12156 23680 [CarDetection.run] Processing time=0.60s, frame_number=17
-INFO 2025-08-14 18:07:29,329 logger 12156 23680 [CarDetection.run] Processing time=0.60s, frame_number=17
-DEBUG 2025-08-14 18:07:29,586 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.65s
-DEBUG 2025-08-14 18:07:29,586 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.65s
-DEBUG 2025-08-14 18:07:29,589 logger 12156 23680 [CarDetection.run] Sending progress update: 0.07%
-DEBUG 2025-08-14 18:07:29,589 logger 12156 23680 [CarDetection.run] Sending progress update: 0.07%
-INFO 2025-08-14 18:07:29,596 logger 12156 23680 [CarDetection.run] Processing time=0.65s, frame_number=18
-INFO 2025-08-14 18:07:29,596 logger 12156 23680 [CarDetection.run] Processing time=0.65s, frame_number=18
-DEBUG 2025-08-14 18:07:29,773 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.70s
-DEBUG 2025-08-14 18:07:29,773 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.70s
-DEBUG 2025-08-14 18:07:29,775 logger 12156 23680 [CarDetection.run] Sending progress update: 0.08%
-DEBUG 2025-08-14 18:07:29,775 logger 12156 23680 [CarDetection.run] Sending progress update: 0.08%
-INFO 2025-08-14 18:07:29,782 logger 12156 23680 [CarDetection.run] Processing time=0.70s, frame_number=19
-INFO 2025-08-14 18:07:29,782 logger 12156 23680 [CarDetection.run] Processing time=0.70s, frame_number=19
-DEBUG 2025-08-14 18:07:29,996 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.75s
-DEBUG 2025-08-14 18:07:29,996 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.75s
-DEBUG 2025-08-14 18:07:29,998 logger 12156 23680 [CarDetection.run] Sending progress update: 0.08%
-DEBUG 2025-08-14 18:07:29,998 logger 12156 23680 [CarDetection.run] Sending progress update: 0.08%
-INFO 2025-08-14 18:07:30,006 logger 12156 23680 [CarDetection.run] Processing time=0.75s, frame_number=21
-INFO 2025-08-14 18:07:30,006 logger 12156 23680 [CarDetection.run] Processing time=0.75s, frame_number=21
-DEBUG 2025-08-14 18:07:30,219 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.80s
-DEBUG 2025-08-14 18:07:30,219 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.80s
-DEBUG 2025-08-14 18:07:30,220 logger 12156 23680 [CarDetection.run] Sending progress update: 0.09%
-DEBUG 2025-08-14 18:07:30,220 logger 12156 23680 [CarDetection.run] Sending progress update: 0.09%
-INFO 2025-08-14 18:07:30,229 logger 12156 23680 [CarDetection.run] Processing time=0.80s, frame_number=22
-INFO 2025-08-14 18:07:30,229 logger 12156 23680 [CarDetection.run] Processing time=0.80s, frame_number=22
-DEBUG 2025-08-14 18:07:30,408 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.85s
-DEBUG 2025-08-14 18:07:30,408 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.85s
-DEBUG 2025-08-14 18:07:30,410 logger 12156 23680 [CarDetection.run] Sending progress update: 0.09%
-DEBUG 2025-08-14 18:07:30,410 logger 12156 23680 [CarDetection.run] Sending progress update: 0.09%
-INFO 2025-08-14 18:07:30,416 logger 12156 23680 [CarDetection.run] Processing time=0.85s, frame_number=24
-INFO 2025-08-14 18:07:30,416 logger 12156 23680 [CarDetection.run] Processing time=0.85s, frame_number=24
-DEBUG 2025-08-14 18:07:30,589 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.90s
-DEBUG 2025-08-14 18:07:30,589 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.90s
-DEBUG 2025-08-14 18:07:30,591 logger 12156 23680 [CarDetection.run] Sending progress update: 0.1%
-DEBUG 2025-08-14 18:07:30,591 logger 12156 23680 [CarDetection.run] Sending progress update: 0.1%
-INFO 2025-08-14 18:07:30,598 logger 12156 23680 [CarDetection.run] Processing time=0.90s, frame_number=25
-INFO 2025-08-14 18:07:30,598 logger 12156 23680 [CarDetection.run] Processing time=0.90s, frame_number=25
-DEBUG 2025-08-14 18:07:30,791 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.95s
-DEBUG 2025-08-14 18:07:30,791 logger 12156 23680 [CarDetection.run] Processing time segment starting at 0.95s
-DEBUG 2025-08-14 18:07:30,792 logger 12156 23680 [CarDetection.run] Sending progress update: 0.11%
-DEBUG 2025-08-14 18:07:30,792 logger 12156 23680 [CarDetection.run] Sending progress update: 0.11%
-INFO 2025-08-14 18:07:30,799 logger 12156 23680 [CarDetection.run] Processing time=0.95s, frame_number=27
-INFO 2025-08-14 18:07:30,799 logger 12156 23680 [CarDetection.run] Processing time=0.95s, frame_number=27
-DEBUG 2025-08-14 18:07:30,978 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.00s
-DEBUG 2025-08-14 18:07:30,978 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.00s
-DEBUG 2025-08-14 18:07:30,980 logger 12156 23680 [CarDetection.run] Sending progress update: 0.11%
-DEBUG 2025-08-14 18:07:30,980 logger 12156 23680 [CarDetection.run] Sending progress update: 0.11%
-INFO 2025-08-14 18:07:30,986 logger 12156 23680 [CarDetection.run] Processing time=1.00s, frame_number=28
-INFO 2025-08-14 18:07:30,986 logger 12156 23680 [CarDetection.run] Processing time=1.00s, frame_number=28
-DEBUG 2025-08-14 18:07:31,159 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.05s
-DEBUG 2025-08-14 18:07:31,159 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.05s
-DEBUG 2025-08-14 18:07:31,161 logger 12156 23680 [CarDetection.run] Sending progress update: 0.12%
-DEBUG 2025-08-14 18:07:31,161 logger 12156 23680 [CarDetection.run] Sending progress update: 0.12%
-INFO 2025-08-14 18:07:31,168 logger 12156 23680 [CarDetection.run] Processing time=1.05s, frame_number=29
-INFO 2025-08-14 18:07:31,168 logger 12156 23680 [CarDetection.run] Processing time=1.05s, frame_number=29
-DEBUG 2025-08-14 18:07:31,335 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.10s
-DEBUG 2025-08-14 18:07:31,335 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.10s
-DEBUG 2025-08-14 18:07:31,336 logger 12156 23680 [CarDetection.run] Sending progress update: 0.12%
-DEBUG 2025-08-14 18:07:31,336 logger 12156 23680 [CarDetection.run] Sending progress update: 0.12%
-INFO 2025-08-14 18:07:31,342 logger 12156 23680 [CarDetection.run] Processing time=1.10s, frame_number=31
-INFO 2025-08-14 18:07:31,342 logger 12156 23680 [CarDetection.run] Processing time=1.10s, frame_number=31
-DEBUG 2025-08-14 18:07:31,502 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.15s
-DEBUG 2025-08-14 18:07:31,502 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.15s
-DEBUG 2025-08-14 18:07:31,503 logger 12156 23680 [CarDetection.run] Sending progress update: 0.13%
-DEBUG 2025-08-14 18:07:31,503 logger 12156 23680 [CarDetection.run] Sending progress update: 0.13%
-INFO 2025-08-14 18:07:31,512 logger 12156 23680 [CarDetection.run] Processing time=1.15s, frame_number=32
-INFO 2025-08-14 18:07:31,512 logger 12156 23680 [CarDetection.run] Processing time=1.15s, frame_number=32
-DEBUG 2025-08-14 18:07:31,673 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.20s
-DEBUG 2025-08-14 18:07:31,673 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.20s
-DEBUG 2025-08-14 18:07:31,674 logger 12156 23680 [CarDetection.run] Sending progress update: 0.13%
-DEBUG 2025-08-14 18:07:31,674 logger 12156 23680 [CarDetection.run] Sending progress update: 0.13%
-INFO 2025-08-14 18:07:31,681 logger 12156 23680 [CarDetection.run] Processing time=1.20s, frame_number=34
-INFO 2025-08-14 18:07:31,681 logger 12156 23680 [CarDetection.run] Processing time=1.20s, frame_number=34
-DEBUG 2025-08-14 18:07:31,849 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.25s
-DEBUG 2025-08-14 18:07:31,849 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.25s
-DEBUG 2025-08-14 18:07:31,850 logger 12156 23680 [CarDetection.run] Sending progress update: 0.14%
-DEBUG 2025-08-14 18:07:31,850 logger 12156 23680 [CarDetection.run] Sending progress update: 0.14%
-INFO 2025-08-14 18:07:31,858 logger 12156 23680 [CarDetection.run] Processing time=1.25s, frame_number=35
-INFO 2025-08-14 18:07:31,858 logger 12156 23680 [CarDetection.run] Processing time=1.25s, frame_number=35
-DEBUG 2025-08-14 18:07:32,074 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.30s
-DEBUG 2025-08-14 18:07:32,074 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.30s
-DEBUG 2025-08-14 18:07:32,076 logger 12156 23680 [CarDetection.run] Sending progress update: 0.14%
-DEBUG 2025-08-14 18:07:32,076 logger 12156 23680 [CarDetection.run] Sending progress update: 0.14%
-INFO 2025-08-14 18:07:32,083 logger 12156 23680 [CarDetection.run] Processing time=1.30s, frame_number=37
-INFO 2025-08-14 18:07:32,083 logger 12156 23680 [CarDetection.run] Processing time=1.30s, frame_number=37
-DEBUG 2025-08-14 18:07:32,342 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.35s
-DEBUG 2025-08-14 18:07:32,342 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.35s
-DEBUG 2025-08-14 18:07:32,344 logger 12156 23680 [CarDetection.run] Sending progress update: 0.15%
-DEBUG 2025-08-14 18:07:32,344 logger 12156 23680 [CarDetection.run] Sending progress update: 0.15%
-INFO 2025-08-14 18:07:32,352 logger 12156 23680 [CarDetection.run] Processing time=1.35s, frame_number=38
-INFO 2025-08-14 18:07:32,352 logger 12156 23680 [CarDetection.run] Processing time=1.35s, frame_number=38
-DEBUG 2025-08-14 18:07:32,562 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.40s
-DEBUG 2025-08-14 18:07:32,562 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.40s
-DEBUG 2025-08-14 18:07:32,565 logger 12156 23680 [CarDetection.run] Sending progress update: 0.16%
-DEBUG 2025-08-14 18:07:32,565 logger 12156 23680 [CarDetection.run] Sending progress update: 0.16%
-INFO 2025-08-14 18:07:32,574 logger 12156 23680 [CarDetection.run] Processing time=1.40s, frame_number=39
-INFO 2025-08-14 18:07:32,574 logger 12156 23680 [CarDetection.run] Processing time=1.40s, frame_number=39
-DEBUG 2025-08-14 18:07:32,804 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.45s
-DEBUG 2025-08-14 18:07:32,804 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.45s
-DEBUG 2025-08-14 18:07:32,807 logger 12156 23680 [CarDetection.run] Sending progress update: 0.16%
-DEBUG 2025-08-14 18:07:32,807 logger 12156 23680 [CarDetection.run] Sending progress update: 0.16%
-INFO 2025-08-14 18:07:32,816 logger 12156 23680 [CarDetection.run] Processing time=1.45s, frame_number=41
-INFO 2025-08-14 18:07:32,816 logger 12156 23680 [CarDetection.run] Processing time=1.45s, frame_number=41
-DEBUG 2025-08-14 18:07:33,050 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.50s
-DEBUG 2025-08-14 18:07:33,050 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.50s
-DEBUG 2025-08-14 18:07:33,053 logger 12156 23680 [CarDetection.run] Sending progress update: 0.17%
-DEBUG 2025-08-14 18:07:33,053 logger 12156 23680 [CarDetection.run] Sending progress update: 0.17%
-INFO 2025-08-14 18:07:33,063 logger 12156 23680 [CarDetection.run] Processing time=1.50s, frame_number=42
-INFO 2025-08-14 18:07:33,063 logger 12156 23680 [CarDetection.run] Processing time=1.50s, frame_number=42
-DEBUG 2025-08-14 18:07:33,313 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.55s
-DEBUG 2025-08-14 18:07:33,313 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.55s
-DEBUG 2025-08-14 18:07:33,316 logger 12156 23680 [CarDetection.run] Sending progress update: 0.17%
-DEBUG 2025-08-14 18:07:33,316 logger 12156 23680 [CarDetection.run] Sending progress update: 0.17%
-INFO 2025-08-14 18:07:33,326 logger 12156 23680 [CarDetection.run] Processing time=1.55s, frame_number=44
-INFO 2025-08-14 18:07:33,326 logger 12156 23680 [CarDetection.run] Processing time=1.55s, frame_number=44
-DEBUG 2025-08-14 18:07:33,625 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.60s
-DEBUG 2025-08-14 18:07:33,625 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.60s
-DEBUG 2025-08-14 18:07:33,630 logger 12156 23680 [CarDetection.run] Sending progress update: 0.18%
-DEBUG 2025-08-14 18:07:33,630 logger 12156 23680 [CarDetection.run] Sending progress update: 0.18%
-INFO 2025-08-14 18:07:33,640 logger 12156 23680 [CarDetection.run] Processing time=1.60s, frame_number=45
-INFO 2025-08-14 18:07:33,640 logger 12156 23680 [CarDetection.run] Processing time=1.60s, frame_number=45
-DEBUG 2025-08-14 18:07:33,949 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.65s
-DEBUG 2025-08-14 18:07:33,949 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.65s
-DEBUG 2025-08-14 18:07:33,953 logger 12156 23680 [CarDetection.run] Sending progress update: 0.18%
-DEBUG 2025-08-14 18:07:33,953 logger 12156 23680 [CarDetection.run] Sending progress update: 0.18%
-INFO 2025-08-14 18:07:33,965 logger 12156 23680 [CarDetection.run] Processing time=1.65s, frame_number=46
-INFO 2025-08-14 18:07:33,965 logger 12156 23680 [CarDetection.run] Processing time=1.65s, frame_number=46
-DEBUG 2025-08-14 18:07:34,253 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.70s
-DEBUG 2025-08-14 18:07:34,253 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.70s
-DEBUG 2025-08-14 18:07:34,256 logger 12156 23680 [CarDetection.run] Sending progress update: 0.19%
-DEBUG 2025-08-14 18:07:34,256 logger 12156 23680 [CarDetection.run] Sending progress update: 0.19%
-INFO 2025-08-14 18:07:34,267 logger 12156 23680 [CarDetection.run] Processing time=1.70s, frame_number=48
-INFO 2025-08-14 18:07:34,267 logger 12156 23680 [CarDetection.run] Processing time=1.70s, frame_number=48
-DEBUG 2025-08-14 18:07:34,541 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.75s
-DEBUG 2025-08-14 18:07:34,541 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.75s
-DEBUG 2025-08-14 18:07:34,544 logger 12156 23680 [CarDetection.run] Sending progress update: 0.19%
-DEBUG 2025-08-14 18:07:34,544 logger 12156 23680 [CarDetection.run] Sending progress update: 0.19%
-INFO 2025-08-14 18:07:34,553 logger 12156 23680 [CarDetection.run] Processing time=1.75s, frame_number=49
-INFO 2025-08-14 18:07:34,553 logger 12156 23680 [CarDetection.run] Processing time=1.75s, frame_number=49
-DEBUG 2025-08-14 18:07:34,815 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.80s
-DEBUG 2025-08-14 18:07:34,815 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.80s
-DEBUG 2025-08-14 18:07:34,817 logger 12156 23680 [CarDetection.run] Sending progress update: 0.2%
-DEBUG 2025-08-14 18:07:34,817 logger 12156 23680 [CarDetection.run] Sending progress update: 0.2%
-INFO 2025-08-14 18:07:34,825 logger 12156 23680 [CarDetection.run] Processing time=1.80s, frame_number=51
-INFO 2025-08-14 18:07:34,825 logger 12156 23680 [CarDetection.run] Processing time=1.80s, frame_number=51
-DEBUG 2025-08-14 18:07:35,099 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.85s
-DEBUG 2025-08-14 18:07:35,099 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.85s
-DEBUG 2025-08-14 18:07:35,102 logger 12156 23680 [CarDetection.run] Sending progress update: 0.21%
-DEBUG 2025-08-14 18:07:35,102 logger 12156 23680 [CarDetection.run] Sending progress update: 0.21%
-INFO 2025-08-14 18:07:35,108 logger 12156 23680 [CarDetection.run] Processing time=1.85s, frame_number=52
-INFO 2025-08-14 18:07:35,108 logger 12156 23680 [CarDetection.run] Processing time=1.85s, frame_number=52
-DEBUG 2025-08-14 18:07:35,396 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.90s
-DEBUG 2025-08-14 18:07:35,396 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.90s
-DEBUG 2025-08-14 18:07:35,398 logger 12156 23680 [CarDetection.run] Sending progress update: 0.21%
-DEBUG 2025-08-14 18:07:35,398 logger 12156 23680 [CarDetection.run] Sending progress update: 0.21%
-INFO 2025-08-14 18:07:35,408 logger 12156 23680 [CarDetection.run] Processing time=1.90s, frame_number=54
-INFO 2025-08-14 18:07:35,408 logger 12156 23680 [CarDetection.run] Processing time=1.90s, frame_number=54
-DEBUG 2025-08-14 18:07:35,694 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.95s
-DEBUG 2025-08-14 18:07:35,694 logger 12156 23680 [CarDetection.run] Processing time segment starting at 1.95s
-DEBUG 2025-08-14 18:07:35,696 logger 12156 23680 [CarDetection.run] Sending progress update: 0.22%
-DEBUG 2025-08-14 18:07:35,696 logger 12156 23680 [CarDetection.run] Sending progress update: 0.22%
-INFO 2025-08-14 18:07:35,729 logger 12156 23680 [CarDetection.run] Processing time=1.95s, frame_number=55
-INFO 2025-08-14 18:07:35,729 logger 12156 23680 [CarDetection.run] Processing time=1.95s, frame_number=55
-DEBUG 2025-08-14 18:07:36,043 logger 12156 23680 [CarDetection.run] Processing time segment starting at 2.00s
-DEBUG 2025-08-14 18:07:36,043 logger 12156 23680 [CarDetection.run] Processing time segment starting at 2.00s
-DEBUG 2025-08-14 18:07:36,045 logger 12156 23680 [CarDetection.run] Sending progress update: 0.22%
-DEBUG 2025-08-14 18:07:36,045 logger 12156 23680 [CarDetection.run] Sending progress update: 0.22%
-INFO 2025-08-14 18:07:36,060 logger 12156 23680 [CarDetection.run] Processing time=2.00s, frame_number=56
-INFO 2025-08-14 18:07:36,060 logger 12156 23680 [CarDetection.run] Processing time=2.00s, frame_number=56
-DEBUG 2025-08-14 18:07:36,373 logger 12156 23680 [CarDetection.run] Processing time segment starting at 2.05s
-DEBUG 2025-08-14 18:07:36,373 logger 12156 23680 [CarDetection.run] Processing time segment starting at 2.05s
-DEBUG 2025-08-14 18:07:36,376 logger 12156 23680 [CarDetection.run] Sending progress update: 0.23%
-DEBUG 2025-08-14 18:07:36,376 logger 12156 23680 [CarDetection.run] Sending progress update: 0.23%
-INFO 2025-08-14 18:07:36,387 logger 12156 23680 [CarDetection.run] Processing time=2.05s, frame_number=58
-INFO 2025-08-14 18:07:36,387 logger 12156 23680 [CarDetection.run] Processing time=2.05s, frame_number=58
-INFO 2025-08-14 18:11:36,443 logger 18808 28808 Starting car detection for record ID: 661 with divide_time: 0.01
-INFO 2025-08-14 18:11:36,443 logger 18808 28808 Starting car detection for record ID: 661 with divide_time: 0.01
-INFO 2025-08-14 18:11:36,445 logger 18808 28808 Loading YOLO model...
-INFO 2025-08-14 18:11:36,445 logger 18808 28808 Loading YOLO model...
-INFO 2025-08-14 18:11:38,721 logger 18808 28808 Starting detection thread...
-INFO 2025-08-14 18:11:38,721 logger 18808 28808 Starting detection thread...
-INFO 2025-08-14 18:11:38,723 logger 18808 28808 Car detection thread started successfully
-INFO 2025-08-14 18:11:38,723 logger 18808 28808 Car detection thread started successfully
-INFO 2025-08-14 22:42:24,205 logger 23244 7264 Starting car detection for record ID: 661 with divide_time: 0.05
-INFO 2025-08-14 22:42:24,205 logger 23244 7264 Starting car detection for record ID: 661 with divide_time: 0.05
-INFO 2025-08-14 22:42:24,213 logger 23244 7264 Loading YOLO model...
-INFO 2025-08-14 22:42:24,213 logger 23244 7264 Loading YOLO model...
-INFO 2025-08-14 22:42:27,538 logger 23244 7264 Starting detection thread...
-INFO 2025-08-14 22:42:27,538 logger 23244 7264 Starting detection thread...
-INFO 2025-08-14 22:42:27,539 logger 23244 7264 Car detection thread started successfully
-INFO 2025-08-14 22:42:27,539 logger 23244 7264 Car detection thread started successfully
-INFO 2025-08-14 22:57:10,454 logger 26440 32644 Starting car detection for record ID: 662 with divide_time: 1
-INFO 2025-08-14 22:57:10,454 logger 26440 32644 Starting car detection for record ID: 662 with divide_time: 1
-INFO 2025-08-14 22:57:10,456 logger 26440 32644 Loading YOLO model...
-INFO 2025-08-14 22:57:10,456 logger 26440 32644 Loading YOLO model...
-INFO 2025-08-14 22:57:13,124 logger 26440 32644 Starting detection thread...
-INFO 2025-08-14 22:57:13,124 logger 26440 32644 Starting detection thread...
-INFO 2025-08-14 22:57:13,125 logger 26440 32644 Car detection thread started successfully
-INFO 2025-08-14 22:57:13,125 logger 26440 32644 Car detection thread started successfully
-ERROR 2025-08-14 22:58:00,175 log 26440 5284 Internal Server Error: /api/count_exists
-ERROR 2025-08-14 22:58:01,133 log 26440 5284 Internal Server Error: /api/count_exists
-ERROR 2025-08-14 22:58:02,293 log 26440 5284 Internal Server Error: /api/count_exists
-ERROR 2025-08-14 22:58:03,335 log 26440 5284 Internal Server Error: /api/count_exists
-ERROR 2025-08-14 23:17:02,144 log 26440 5284 Internal Server Error: /api/count_exists
-ERROR 2025-08-14 23:18:46,473 log 26440 5284 Internal Server Error: /api/count_exists
-INFO 2025-08-14 23:18:48,918 logger 26440 31644 Starting car detection for record ID: 662 with divide_time: 0.01
-INFO 2025-08-14 23:18:48,918 logger 26440 31644 Starting car detection for record ID: 662 with divide_time: 0.01
-INFO 2025-08-14 23:18:48,920 logger 26440 31644 Loading YOLO model...
-INFO 2025-08-14 23:18:48,920 logger 26440 31644 Loading YOLO model...
-INFO 2025-08-14 23:18:48,968 logger 26440 31644 Starting detection thread...
-INFO 2025-08-14 23:18:48,968 logger 26440 31644 Starting detection thread...
-INFO 2025-08-14 23:18:48,970 logger 26440 31644 Car detection thread started successfully
-INFO 2025-08-14 23:18:48,970 logger 26440 31644 Car detection thread started successfully
-INFO 2025-08-14 23:58:01,179 logger 26440 23604 Starting car detection for record ID: 661 with divide_time: 0.01
-INFO 2025-08-14 23:58:01,179 logger 26440 23604 Starting car detection for record ID: 661 with divide_time: 0.01
-INFO 2025-08-14 23:58:01,187 logger 26440 23604 Loading YOLO model...
-INFO 2025-08-14 23:58:01,187 logger 26440 23604 Loading YOLO model...
-INFO 2025-08-14 23:58:01,300 logger 26440 23604 Starting detection thread...
-INFO 2025-08-14 23:58:01,300 logger 26440 23604 Starting detection thread...
-INFO 2025-08-14 23:58:01,306 logger 26440 23604 Car detection thread started successfully
-INFO 2025-08-14 23:58:01,306 logger 26440 23604 Car detection thread started successfully
-INFO 2025-08-15 00:14:45,453 logger 26440 29524 Starting car detection for record ID: 663 with divide_time: 0.01
-INFO 2025-08-15 00:14:45,453 logger 26440 29524 Starting car detection for record ID: 663 with divide_time: 0.01
-INFO 2025-08-15 00:14:45,459 logger 26440 29524 Loading YOLO model...
-INFO 2025-08-15 00:14:45,459 logger 26440 29524 Loading YOLO model...
-INFO 2025-08-15 00:14:45,541 logger 26440 29524 Starting detection thread...
-INFO 2025-08-15 00:14:45,541 logger 26440 29524 Starting detection thread...
-INFO 2025-08-15 00:14:45,545 logger 26440 29524 Car detection thread started successfully
-INFO 2025-08-15 00:14:45,545 logger 26440 29524 Car detection thread started successfully
-INFO 2025-08-15 00:14:54,678 logger 26440 20728 Starting car detection for record ID: 664 with divide_time: 0.01
-INFO 2025-08-15 00:14:54,678 logger 26440 20728 Starting car detection for record ID: 664 with divide_time: 0.01
-INFO 2025-08-15 00:14:54,683 logger 26440 20728 Loading YOLO model...
-INFO 2025-08-15 00:14:54,683 logger 26440 20728 Loading YOLO model...
-INFO 2025-08-15 00:14:54,822 logger 26440 20728 Starting detection thread...
-INFO 2025-08-15 00:14:54,822 logger 26440 20728 Starting detection thread...
-INFO 2025-08-15 00:14:54,832 logger 26440 20728 Car detection thread started successfully
-INFO 2025-08-15 00:14:54,832 logger 26440 20728 Car detection thread started successfully
-INFO 2025-08-15 02:35:28,910 logger 26440 31192 Starting car detection for record ID: 661 with divide_time: 0.01
-INFO 2025-08-15 02:35:28,910 logger 26440 31192 Starting car detection for record ID: 661 with divide_time: 0.01
-INFO 2025-08-15 02:35:28,918 logger 26440 31192 Loading YOLO model...
-INFO 2025-08-15 02:35:28,918 logger 26440 31192 Loading YOLO model...
-INFO 2025-08-15 02:35:29,198 logger 26440 31192 Starting detection thread...
-INFO 2025-08-15 02:35:29,198 logger 26440 31192 Starting detection thread...
-INFO 2025-08-15 02:35:29,245 logger 26440 31192 Car detection thread started successfully
-INFO 2025-08-15 02:35:29,245 logger 26440 31192 Car detection thread started successfully
-ERROR 2025-08-15 02:35:35,659 log 26440 5284 Internal Server Error: /api/count_exists
-INFO 2025-08-15 04:57:56,153 logger 26440 33476 Starting car detection for record ID: 662 with divide_time: 0.1
-INFO 2025-08-15 04:57:56,153 logger 26440 33476 Starting car detection for record ID: 662 with divide_time: 0.1
-INFO 2025-08-15 04:57:56,197 logger 26440 33476 Loading YOLO model...
-INFO 2025-08-15 04:57:56,197 logger 26440 33476 Loading YOLO model...
-INFO 2025-08-15 04:57:56,899 logger 26440 33476 Starting detection thread...
-INFO 2025-08-15 04:57:56,899 logger 26440 33476 Starting detection thread...
-INFO 2025-08-15 04:57:56,903 logger 26440 33476 Car detection thread started successfully
-INFO 2025-08-15 04:57:56,903 logger 26440 33476 Car detection thread started successfully
-ERROR 2025-08-15 12:13:50,616 log 26440 31524 Internal Server Error: /api/count_exists
-WARNING 2025-08-15 12:17:31,387 log 26440 31524 Not Found: /undefined
+INFO 2025-08-15 12:33:05,719 logger 35684 32828 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 12:33:05,719 logger 35684 32828 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 12:33:05,722 logger 35684 22012 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 12:33:05,722 logger 35684 22012 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 12:33:05,728 logger 35684 22012 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 12:33:05,728 logger 35684 22012 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 12:33:05,730 logger 35684 22012 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 12:33:05,730 logger 35684 22012 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 12:33:05,732 logger 35684 22012 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 12:33:05,732 logger 35684 22012 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 12:33:05,773 logger 35684 22012 Video dimensions: 1280x720
+INFO 2025-08-15 12:33:05,773 logger 35684 22012 Video dimensions: 1280x720
+INFO 2025-08-15 12:34:00,791 logger 32372 16732 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 12:34:00,791 logger 32372 16732 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 12:34:00,793 logger 32372 27068 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 12:34:00,793 logger 32372 27068 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 12:34:00,799 logger 32372 27068 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 12:34:00,799 logger 32372 27068 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 12:34:00,803 logger 32372 27068 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 12:34:00,803 logger 32372 27068 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 12:34:00,804 logger 32372 27068 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 12:34:00,804 logger 32372 27068 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 12:34:00,884 logger 32372 27068 Video dimensions: 1280x720
+INFO 2025-08-15 12:34:00,884 logger 32372 27068 Video dimensions: 1280x720
+INFO 2025-08-15 12:41:40,710 logger 34124 19916 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 12:41:40,710 logger 34124 19916 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 12:41:40,713 logger 34124 23384 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 12:41:40,713 logger 34124 23384 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 12:41:43,439 logger 5332 32348 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 12:41:43,439 logger 5332 32348 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 12:41:43,443 logger 5332 32112 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 12:42:46,764 logger 29108 26192 Starting auto counting for record ID: 673, divide_time: 0.1, version: v1
+INFO 2025-08-15 12:42:46,764 logger 29108 26192 Starting auto counting for record ID: 673, divide_time: 0.1, version: v1
+INFO 2025-08-15 12:42:46,768 logger 29108 16916 Running auto counter for record ID: 673, divide_time: 0.1, version: v1
+INFO 2025-08-15 12:42:49,362 logger 5688 4996 Starting auto counting for record ID: 673, divide_time: 0.1, version: v1
+INFO 2025-08-15 12:42:49,362 logger 5688 4996 Starting auto counting for record ID: 673, divide_time: 0.1, version: v1
+INFO 2025-08-15 12:42:49,367 logger 5688 23412 Running auto counter for record ID: 673, divide_time: 0.1, version: v1
+INFO 2025-08-15 12:44:03,407 logger 31732 8804 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 12:44:03,407 logger 31732 8804 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 12:44:03,410 logger 31732 32672 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 12:44:03,410 logger 31732 32672 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 12:44:06,089 logger 31932 8628 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 12:44:06,089 logger 31932 8628 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 12:44:06,092 logger 31932 2464 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 12:47:08,541 logger 16392 29900 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 12:47:08,541 logger 16392 29900 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 12:47:08,545 logger 16392 6844 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 12:47:08,545 logger 16392 6844 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 12:47:08,552 logger 16392 6844 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 12:47:08,552 logger 16392 6844 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 12:47:08,556 logger 16392 6844 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 12:47:08,556 logger 16392 6844 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 12:47:08,557 logger 16392 6844 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 12:47:08,557 logger 16392 6844 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 12:47:08,655 logger 16392 6844 Video dimensions: 1280x720
+INFO 2025-08-15 12:47:08,655 logger 16392 6844 Video dimensions: 1280x720
+INFO 2025-08-15 13:57:46,083 logger 14276 29300 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 13:57:46,083 logger 14276 29300 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 13:57:46,086 logger 14276 32472 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 13:57:46,086 logger 14276 32472 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 13:57:46,094 logger 14276 32472 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 13:57:46,094 logger 14276 32472 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 13:57:46,098 logger 14276 32472 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 13:57:46,098 logger 14276 32472 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 13:57:46,099 logger 14276 32472 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 13:57:46,099 logger 14276 32472 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 13:58:50,451 logger 5224 35292 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 13:58:50,451 logger 5224 35292 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 13:58:50,454 logger 5224 18792 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 13:58:50,454 logger 5224 18792 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 13:58:50,461 logger 5224 18792 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 13:58:50,461 logger 5224 18792 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 13:58:50,466 logger 5224 18792 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 13:58:50,466 logger 5224 18792 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 13:58:50,467 logger 5224 18792 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 13:58:50,467 logger 5224 18792 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 13:58:50,573 logger 5224 18792 Video dimensions: 1280x720
+INFO 2025-08-15 13:58:50,573 logger 5224 18792 Video dimensions: 1280x720
+WARNING 2025-08-15 13:58:50,738 logger 5224 18792 No detection lines provided, returning empty line types
+WARNING 2025-08-15 13:58:50,738 logger 5224 18792 No detection lines provided, returning empty line types
+INFO 2025-08-15 13:58:50,740 logger 5224 18792 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 13:58:50,740 logger 5224 18792 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 13:58:50,742 logger 5224 18792 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 13:58:50,742 logger 5224 18792 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 13:58:50,744 logger 5224 18792 Getting result from the model instance
+INFO 2025-08-15 13:58:50,744 logger 5224 18792 Getting result from the model instance
+INFO 2025-08-15 13:58:50,746 logger 5224 18792 Starting to clean the auto detection dataframe
+INFO 2025-08-15 13:58:50,746 logger 5224 18792 Starting to clean the auto detection dataframe
+INFO 2025-08-15 13:58:50,749 logger 5224 18792 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 13:58:50,749 logger 5224 18792 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 13:58:50,830 logger 5224 18792 Processing each track in the auto detection dataframe
+INFO 2025-08-15 13:58:50,830 logger 5224 18792 Processing each track in the auto detection dataframe
+ERROR 2025-08-15 13:58:50,869 logger 5224 18792 Error while getting result: unsupported operand type(s) for -: 'str' and 'float'
+ERROR 2025-08-15 13:58:50,869 logger 5224 18792 Error while getting result: unsupported operand type(s) for -: 'str' and 'float'
+INFO 2025-08-15 14:00:29,701 logger 17104 5640 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:00:29,701 logger 17104 5640 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:00:29,705 logger 17104 23616 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:00:29,705 logger 17104 23616 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:00:29,712 logger 17104 23616 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 14:00:29,712 logger 17104 23616 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 14:00:29,717 logger 17104 23616 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 14:00:29,717 logger 17104 23616 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 14:00:29,720 logger 17104 23616 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 14:00:29,720 logger 17104 23616 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 14:00:55,637 logger 26428 18196 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:00:55,637 logger 26428 18196 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:00:55,641 logger 26428 18544 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:00:55,641 logger 26428 18544 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:00:55,655 logger 26428 18544 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 14:00:55,655 logger 26428 18544 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 14:00:55,660 logger 26428 18544 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 14:00:55,660 logger 26428 18544 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 14:00:55,663 logger 26428 18544 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 14:00:55,663 logger 26428 18544 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 14:00:55,817 logger 26428 18544 Video dimensions: 1280x720
+INFO 2025-08-15 14:00:55,817 logger 26428 18544 Video dimensions: 1280x720
+WARNING 2025-08-15 14:00:56,042 logger 26428 18544 No detection lines provided, returning empty line types
+WARNING 2025-08-15 14:00:56,042 logger 26428 18544 No detection lines provided, returning empty line types
+INFO 2025-08-15 14:00:56,045 logger 26428 18544 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 14:00:56,045 logger 26428 18544 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 14:00:56,047 logger 26428 18544 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 14:00:56,047 logger 26428 18544 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 14:00:56,049 logger 26428 18544 Getting result from the model instance
+INFO 2025-08-15 14:00:56,049 logger 26428 18544 Getting result from the model instance
+INFO 2025-08-15 14:00:56,050 logger 26428 18544 Starting to clean the auto detection dataframe
+INFO 2025-08-15 14:00:56,050 logger 26428 18544 Starting to clean the auto detection dataframe
+INFO 2025-08-15 14:00:56,052 logger 26428 18544 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 14:00:56,052 logger 26428 18544 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 14:00:56,152 logger 26428 18544 Processing each track in the auto detection dataframe
+INFO 2025-08-15 14:00:56,152 logger 26428 18544 Processing each track in the auto detection dataframe
+ERROR 2025-08-15 14:00:56,179 logger 26428 18544 Error while getting result: unsupported operand type(s) for -: 'str' and 'float'
+ERROR 2025-08-15 14:00:56,179 logger 26428 18544 Error while getting result: unsupported operand type(s) for -: 'str' and 'float'
+INFO 2025-08-15 14:02:24,969 logger 33976 5564 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:02:24,969 logger 33976 5564 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:02:24,973 logger 33976 12548 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:02:24,973 logger 33976 12548 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:02:24,980 logger 33976 12548 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 14:02:24,980 logger 33976 12548 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 14:02:24,983 logger 33976 12548 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 14:02:24,983 logger 33976 12548 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 14:02:24,985 logger 33976 12548 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 14:02:24,985 logger 33976 12548 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 14:02:40,483 logger 17160 30648 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:02:40,483 logger 17160 30648 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:02:40,487 logger 17160 13060 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:02:40,487 logger 17160 13060 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:02:40,502 logger 17160 13060 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 14:02:40,502 logger 17160 13060 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 14:02:40,508 logger 17160 13060 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 14:02:40,508 logger 17160 13060 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 14:02:40,509 logger 17160 13060 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 14:02:40,509 logger 17160 13060 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 14:02:40,603 logger 17160 13060 Video dimensions: 1280x720
+INFO 2025-08-15 14:02:40,603 logger 17160 13060 Video dimensions: 1280x720
+WARNING 2025-08-15 14:02:40,796 logger 17160 13060 No detection lines provided, returning empty line types
+WARNING 2025-08-15 14:02:40,796 logger 17160 13060 No detection lines provided, returning empty line types
+INFO 2025-08-15 14:02:40,797 logger 17160 13060 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 14:02:40,797 logger 17160 13060 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 14:02:40,798 logger 17160 13060 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 14:02:40,798 logger 17160 13060 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 14:02:40,800 logger 17160 13060 Getting result from the model instance
+INFO 2025-08-15 14:02:40,800 logger 17160 13060 Getting result from the model instance
+INFO 2025-08-15 14:02:40,802 logger 17160 13060 Starting to clean the auto detection dataframe
+INFO 2025-08-15 14:02:40,802 logger 17160 13060 Starting to clean the auto detection dataframe
+INFO 2025-08-15 14:02:40,805 logger 17160 13060 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 14:02:40,805 logger 17160 13060 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 14:02:40,853 logger 17160 13060 Processing each track in the auto detection dataframe
+INFO 2025-08-15 14:02:40,853 logger 17160 13060 Processing each track in the auto detection dataframe
+INFO 2025-08-15 14:02:40,870 logger 17160 13060 next_xcenter: [628.3491297527171, 624.6850955972421, 585.0842167301407, 583.1469903964576, 580.8868283616803, 578.0567548821485, 575.082277204816, 571.8530327886559, 568.1420727217925, 563.4618381130476, 559.0708255982769, 555.8712802292973, 548.330620515997, 543.8642049055296, 537.9249710485904, 532.3941699487567, 525.793877125401, 518.9119692383686, 512.659590896187, 505.49775994768356, 500.4635503079808, 468.07711558545327, 458.86194045203325, 450.37650662218226, 441.9293117753884, 433.2000925501213, 423.9372869951269, 415.0665788495802, 405.1110685815005, 395.9792899465182, 385.5812225216191, 374.93769013351425, 365.29964532542454, 354.4799199079527, 344.68241654424753, 334.3051426638323, 323.1084250598361, 311.6438443451643, 299.9402024750689, 288.5735163815763, 276.5364196959804, 265.4057650329492, 252.5532255380122, 239.64487678695815, 228.93902647240256, 105.16951939597571, 90.92018592648336, 79.43123668023213, 71.02664403776802, 63.899329477161174, 57.133427722654915, 49.160793323382165, 38.54265930594322, "ffill"], x_center : [634.9017622935635, 628.3491297527171, 624.6850955972421, 585.0842167301407, 583.1469903964576, 580.8868283616803, 578.0567548821485, 575.082277204816, 571.8530327886559, 568.1420727217925, 563.4618381130476, 559.0708255982769, 555.8712802292973, 548.330620515997, 543.8642049055296, 537.9249710485904, 532.3941699487567, 525.793877125401, 518.9119692383686, 512.659590896187, 505.49775994768356, 500.4635503079808, 468.07711558545327, 458.86194045203325, 450.37650662218226, 441.9293117753884, 433.2000925501213, 423.9372869951269, 415.0665788495802, 405.1110685815005, 395.9792899465182, 385.5812225216191, 374.93769013351425, 365.29964532542454, 354.4799199079527, 344.68241654424753, 334.3051426638323, 323.1084250598361, 311.6438443451643, 299.9402024750689, 288.5735163815763, 276.5364196959804, 265.4057650329492, 252.5532255380122, 239.64487678695815, 228.93902647240256, 105.16951939597571, 90.92018592648336, 79.43123668023213, 71.02664403776802, 63.899329477161174, 57.133427722654915, 49.160793323382165, 38.54265930594322]
+INFO 2025-08-15 14:02:40,870 logger 17160 13060 next_xcenter: [628.3491297527171, 624.6850955972421, 585.0842167301407, 583.1469903964576, 580.8868283616803, 578.0567548821485, 575.082277204816, 571.8530327886559, 568.1420727217925, 563.4618381130476, 559.0708255982769, 555.8712802292973, 548.330620515997, 543.8642049055296, 537.9249710485904, 532.3941699487567, 525.793877125401, 518.9119692383686, 512.659590896187, 505.49775994768356, 500.4635503079808, 468.07711558545327, 458.86194045203325, 450.37650662218226, 441.9293117753884, 433.2000925501213, 423.9372869951269, 415.0665788495802, 405.1110685815005, 395.9792899465182, 385.5812225216191, 374.93769013351425, 365.29964532542454, 354.4799199079527, 344.68241654424753, 334.3051426638323, 323.1084250598361, 311.6438443451643, 299.9402024750689, 288.5735163815763, 276.5364196959804, 265.4057650329492, 252.5532255380122, 239.64487678695815, 228.93902647240256, 105.16951939597571, 90.92018592648336, 79.43123668023213, 71.02664403776802, 63.899329477161174, 57.133427722654915, 49.160793323382165, 38.54265930594322, "ffill"], x_center : [634.9017622935635, 628.3491297527171, 624.6850955972421, 585.0842167301407, 583.1469903964576, 580.8868283616803, 578.0567548821485, 575.082277204816, 571.8530327886559, 568.1420727217925, 563.4618381130476, 559.0708255982769, 555.8712802292973, 548.330620515997, 543.8642049055296, 537.9249710485904, 532.3941699487567, 525.793877125401, 518.9119692383686, 512.659590896187, 505.49775994768356, 500.4635503079808, 468.07711558545327, 458.86194045203325, 450.37650662218226, 441.9293117753884, 433.2000925501213, 423.9372869951269, 415.0665788495802, 405.1110685815005, 395.9792899465182, 385.5812225216191, 374.93769013351425, 365.29964532542454, 354.4799199079527, 344.68241654424753, 334.3051426638323, 323.1084250598361, 311.6438443451643, 299.9402024750689, 288.5735163815763, 276.5364196959804, 265.4057650329492, 252.5532255380122, 239.64487678695815, 228.93902647240256, 105.16951939597571, 90.92018592648336, 79.43123668023213, 71.02664403776802, 63.899329477161174, 57.133427722654915, 49.160793323382165, 38.54265930594322]
+INFO 2025-08-15 14:05:08,271 logger 2800 35052 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:05:08,271 logger 2800 35052 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:05:08,274 logger 2800 34324 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:05:08,274 logger 2800 34324 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:05:08,287 logger 2800 34324 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 14:05:08,287 logger 2800 34324 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 14:05:08,291 logger 2800 34324 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 14:05:08,291 logger 2800 34324 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 14:05:08,292 logger 2800 34324 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 14:05:08,292 logger 2800 34324 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 14:05:14,109 logger 22000 20312 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:05:14,109 logger 22000 20312 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:05:14,114 logger 22000 29028 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:05:14,114 logger 22000 29028 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:05:14,125 logger 22000 29028 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 14:05:14,125 logger 22000 29028 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 14:05:14,128 logger 22000 29028 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 14:05:14,128 logger 22000 29028 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 14:05:14,130 logger 22000 29028 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 14:05:14,130 logger 22000 29028 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 14:05:14,356 logger 22000 29028 Video dimensions: 1280x720
+INFO 2025-08-15 14:05:14,356 logger 22000 29028 Video dimensions: 1280x720
+WARNING 2025-08-15 14:05:14,581 logger 22000 29028 No detection lines provided, returning empty line types
+WARNING 2025-08-15 14:05:14,581 logger 22000 29028 No detection lines provided, returning empty line types
+INFO 2025-08-15 14:05:14,583 logger 22000 29028 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 14:05:14,583 logger 22000 29028 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 14:05:14,585 logger 22000 29028 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 14:05:14,585 logger 22000 29028 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 14:05:14,585 logger 22000 29028 Getting result from the model instance
+INFO 2025-08-15 14:05:14,585 logger 22000 29028 Getting result from the model instance
+INFO 2025-08-15 14:05:14,588 logger 22000 29028 Starting to clean the auto detection dataframe
+INFO 2025-08-15 14:05:14,588 logger 22000 29028 Starting to clean the auto detection dataframe
+INFO 2025-08-15 14:05:14,589 logger 22000 29028 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 14:05:14,589 logger 22000 29028 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 14:05:14,638 logger 22000 29028 Processing each track in the auto detection dataframe
+INFO 2025-08-15 14:05:14,638 logger 22000 29028 Processing each track in the auto detection dataframe
+ERROR 2025-08-15 14:05:14,659 logger 22000 29028 Error while getting result: 'Model' object has no attribute 'line_types'
+ERROR 2025-08-15 14:05:14,659 logger 22000 29028 Error while getting result: 'Model' object has no attribute 'line_types'
+INFO 2025-08-15 14:06:19,816 logger 21916 34460 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:06:19,816 logger 21916 34460 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:06:19,821 logger 21916 17788 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:06:19,821 logger 21916 17788 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:06:19,831 logger 21916 17788 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 14:06:19,831 logger 21916 17788 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 14:06:19,834 logger 21916 17788 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 14:06:19,834 logger 21916 17788 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 14:06:19,836 logger 21916 17788 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 14:06:19,836 logger 21916 17788 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 14:06:30,097 logger 29260 30664 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:06:30,097 logger 29260 30664 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:06:30,100 logger 29260 24308 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:06:30,100 logger 29260 24308 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:06:30,111 logger 29260 24308 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 14:06:30,111 logger 29260 24308 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 14:06:30,115 logger 29260 24308 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 14:06:30,115 logger 29260 24308 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 14:06:30,116 logger 29260 24308 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 14:06:30,116 logger 29260 24308 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 14:06:30,216 logger 29260 24308 Video dimensions: 1280x720
+INFO 2025-08-15 14:06:30,216 logger 29260 24308 Video dimensions: 1280x720
+WARNING 2025-08-15 14:06:30,372 logger 29260 24308 No detection lines provided, returning empty line types
+WARNING 2025-08-15 14:06:30,372 logger 29260 24308 No detection lines provided, returning empty line types
+INFO 2025-08-15 14:06:30,373 logger 29260 24308 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 14:06:30,373 logger 29260 24308 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 14:06:30,374 logger 29260 24308 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 14:06:30,374 logger 29260 24308 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 14:06:30,375 logger 29260 24308 Getting result from the model instance
+INFO 2025-08-15 14:06:30,375 logger 29260 24308 Getting result from the model instance
+INFO 2025-08-15 14:06:30,376 logger 29260 24308 Starting to clean the auto detection dataframe
+INFO 2025-08-15 14:06:30,376 logger 29260 24308 Starting to clean the auto detection dataframe
+INFO 2025-08-15 14:06:30,378 logger 29260 24308 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 14:06:30,378 logger 29260 24308 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 14:06:30,427 logger 29260 24308 Processing each track in the auto detection dataframe
+INFO 2025-08-15 14:06:30,427 logger 29260 24308 Processing each track in the auto detection dataframe
+INFO 2025-08-15 14:07:44,626 logger 31204 24168 Starting auto counting for record ID: 673, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:07:44,626 logger 31204 24168 Starting auto counting for record ID: 673, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:07:44,630 logger 31204 33632 Running auto counter for record ID: 673, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:07:44,630 logger 31204 33632 Running auto counter for record ID: 673, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:07:44,638 logger 31204 33632 Record found: Record from 192.168.130.110 starting at 2025-07-10 20:58:17.980000+00:00 for 63 seconds
+INFO 2025-08-15 14:07:44,638 logger 31204 33632 Record found: Record from 192.168.130.110 starting at 2025-07-10 20:58:17.980000+00:00 for 63 seconds
+INFO 2025-08-15 14:07:44,642 logger 31204 33632 AutoCounter found: AutoCounter object (2)
+INFO 2025-08-15 14:07:44,642 logger 31204 33632 AutoCounter found: AutoCounter object (2)
+INFO 2025-08-15 14:07:44,644 logger 31204 33632 Video path: C:\MyApps\CameraVision\backend\media\673.mp4
+INFO 2025-08-15 14:07:44,644 logger 31204 33632 Video path: C:\MyApps\CameraVision\backend\media\673.mp4
+INFO 2025-08-15 14:07:58,424 logger 17200 26972 Starting auto counting for record ID: 673, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:07:58,424 logger 17200 26972 Starting auto counting for record ID: 673, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:07:58,426 logger 17200 26800 Running auto counter for record ID: 673, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:07:58,426 logger 17200 26800 Running auto counter for record ID: 673, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:07:58,436 logger 17200 26800 Record found: Record from 192.168.130.110 starting at 2025-07-10 20:58:17.980000+00:00 for 63 seconds
+INFO 2025-08-15 14:07:58,436 logger 17200 26800 Record found: Record from 192.168.130.110 starting at 2025-07-10 20:58:17.980000+00:00 for 63 seconds
+INFO 2025-08-15 14:07:58,440 logger 17200 26800 AutoCounter found: AutoCounter object (2)
+INFO 2025-08-15 14:07:58,440 logger 17200 26800 AutoCounter found: AutoCounter object (2)
+INFO 2025-08-15 14:07:58,441 logger 17200 26800 Video path: C:\MyApps\CameraVision\backend\media\673.mp4
+INFO 2025-08-15 14:07:58,441 logger 17200 26800 Video path: C:\MyApps\CameraVision\backend\media\673.mp4
+INFO 2025-08-15 14:07:58,555 logger 17200 26800 Video dimensions: 1280x720
+INFO 2025-08-15 14:07:58,555 logger 17200 26800 Video dimensions: 1280x720
+WARNING 2025-08-15 14:07:58,736 logger 17200 26800 No detection lines provided, returning empty line types
+WARNING 2025-08-15 14:07:58,736 logger 17200 26800 No detection lines provided, returning empty line types
+INFO 2025-08-15 14:07:58,738 logger 17200 26800 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 14:07:58,738 logger 17200 26800 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 14:07:58,739 logger 17200 26800 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 14:07:58,739 logger 17200 26800 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 14:07:58,741 logger 17200 26800 Getting result from the model instance
+INFO 2025-08-15 14:07:58,741 logger 17200 26800 Getting result from the model instance
+INFO 2025-08-15 14:07:58,743 logger 17200 26800 Starting to clean the auto detection dataframe
+INFO 2025-08-15 14:07:58,743 logger 17200 26800 Starting to clean the auto detection dataframe
+INFO 2025-08-15 14:07:58,745 logger 17200 26800 Auto detection dataframe loaded with 230190 rows
+INFO 2025-08-15 14:07:58,745 logger 17200 26800 Auto detection dataframe loaded with 230190 rows
+INFO 2025-08-15 14:07:58,854 logger 17200 26800 Processing each track in the auto detection dataframe
+INFO 2025-08-15 14:07:58,854 logger 17200 26800 Processing each track in the auto detection dataframe
+INFO 2025-08-15 14:09:36,132 logger 24612 10084 Starting auto counting for record ID: 673, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:09:36,132 logger 24612 10084 Starting auto counting for record ID: 673, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:09:36,134 logger 24612 16616 Running auto counter for record ID: 673, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:09:36,134 logger 24612 16616 Running auto counter for record ID: 673, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:09:36,143 logger 24612 16616 Record found: Record from 192.168.130.110 starting at 2025-07-10 20:58:17.980000+00:00 for 63 seconds
+INFO 2025-08-15 14:09:36,143 logger 24612 16616 Record found: Record from 192.168.130.110 starting at 2025-07-10 20:58:17.980000+00:00 for 63 seconds
+INFO 2025-08-15 14:09:36,145 logger 24612 16616 AutoCounter found: AutoCounter object (2)
+INFO 2025-08-15 14:09:36,145 logger 24612 16616 AutoCounter found: AutoCounter object (2)
+INFO 2025-08-15 14:09:36,146 logger 24612 16616 Video path: C:\MyApps\CameraVision\backend\media\673.mp4
+INFO 2025-08-15 14:09:36,146 logger 24612 16616 Video path: C:\MyApps\CameraVision\backend\media\673.mp4
+INFO 2025-08-15 14:09:44,708 logger 15524 12232 Starting auto counting for record ID: 673, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:09:44,708 logger 15524 12232 Starting auto counting for record ID: 673, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:09:44,711 logger 15524 5364 Running auto counter for record ID: 673, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:09:44,711 logger 15524 5364 Running auto counter for record ID: 673, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:09:44,720 logger 15524 5364 Record found: Record from 192.168.130.110 starting at 2025-07-10 20:58:17.980000+00:00 for 63 seconds
+INFO 2025-08-15 14:09:44,720 logger 15524 5364 Record found: Record from 192.168.130.110 starting at 2025-07-10 20:58:17.980000+00:00 for 63 seconds
+INFO 2025-08-15 14:09:44,723 logger 15524 5364 AutoCounter found: AutoCounter object (2)
+INFO 2025-08-15 14:09:44,723 logger 15524 5364 AutoCounter found: AutoCounter object (2)
+INFO 2025-08-15 14:09:44,725 logger 15524 5364 Video path: C:\MyApps\CameraVision\backend\media\673.mp4
+INFO 2025-08-15 14:09:44,725 logger 15524 5364 Video path: C:\MyApps\CameraVision\backend\media\673.mp4
+INFO 2025-08-15 14:09:44,848 logger 15524 5364 Video dimensions: 1280x720
+INFO 2025-08-15 14:09:44,848 logger 15524 5364 Video dimensions: 1280x720
+WARNING 2025-08-15 14:09:45,016 logger 15524 5364 No detection lines provided, returning empty line types
+WARNING 2025-08-15 14:09:45,016 logger 15524 5364 No detection lines provided, returning empty line types
+INFO 2025-08-15 14:09:45,018 logger 15524 5364 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 14:09:45,018 logger 15524 5364 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 14:09:45,019 logger 15524 5364 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 14:09:45,019 logger 15524 5364 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 14:09:45,021 logger 15524 5364 Getting result from the model instance
+INFO 2025-08-15 14:09:45,021 logger 15524 5364 Getting result from the model instance
+INFO 2025-08-15 14:09:45,022 logger 15524 5364 Starting to clean the auto detection dataframe
+INFO 2025-08-15 14:09:45,022 logger 15524 5364 Starting to clean the auto detection dataframe
+INFO 2025-08-15 14:09:45,024 logger 15524 5364 Auto detection dataframe loaded with 230190 rows
+INFO 2025-08-15 14:09:45,024 logger 15524 5364 Auto detection dataframe loaded with 230190 rows
+INFO 2025-08-15 14:09:45,135 logger 15524 5364 Processing each track in the auto detection dataframe
+INFO 2025-08-15 14:09:45,135 logger 15524 5364 Processing each track in the auto detection dataframe
+INFO 2025-08-15 14:16:17,700 logger 15524 5364 Auto detection dataframe cleaned with 230190 rows
+INFO 2025-08-15 14:16:17,700 logger 15524 5364 Auto detection dataframe cleaned with 230190 rows
+INFO 2025-08-15 14:16:17,702 logger 15524 5364 Starting to merge overlapping rectangles
+INFO 2025-08-15 14:16:17,702 logger 15524 5364 Starting to merge overlapping rectangles
+INFO 2025-08-15 14:16:18,371 logger 15524 5364 Found 37486 unique time groups
+INFO 2025-08-15 14:16:18,371 logger 15524 5364 Found 37486 unique time groups
+INFO 2025-08-15 14:21:23,753 logger 29036 23216 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:21:23,753 logger 29036 23216 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:21:23,758 logger 29036 7432 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:21:23,758 logger 29036 7432 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:21:23,765 logger 29036 7432 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 14:21:23,765 logger 29036 7432 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 14:21:23,768 logger 29036 7432 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 14:21:23,768 logger 29036 7432 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 14:21:23,770 logger 29036 7432 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 14:21:23,770 logger 29036 7432 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 14:24:16,537 logger 25840 31280 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:24:16,537 logger 25840 31280 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:24:16,540 logger 25840 8188 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:24:16,540 logger 25840 8188 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 14:24:16,546 logger 25840 8188 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 14:24:16,546 logger 25840 8188 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 14:24:16,549 logger 25840 8188 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 14:24:16,549 logger 25840 8188 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 14:24:16,552 logger 25840 8188 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 14:24:16,552 logger 25840 8188 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 14:24:16,689 logger 25840 8188 Video dimensions: 1280x720
+INFO 2025-08-15 14:24:16,689 logger 25840 8188 Video dimensions: 1280x720
+WARNING 2025-08-15 14:24:16,877 logger 25840 8188 No detection lines provided, returning empty line types
+WARNING 2025-08-15 14:24:16,877 logger 25840 8188 No detection lines provided, returning empty line types
+INFO 2025-08-15 14:24:16,879 logger 25840 8188 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 14:24:16,879 logger 25840 8188 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 14:24:16,881 logger 25840 8188 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 14:24:16,881 logger 25840 8188 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 14:24:16,883 logger 25840 8188 Getting result from the model instance
+INFO 2025-08-15 14:24:16,883 logger 25840 8188 Getting result from the model instance
+INFO 2025-08-15 14:24:16,885 logger 25840 8188 Starting to clean the auto detection dataframe
+INFO 2025-08-15 14:24:16,885 logger 25840 8188 Starting to clean the auto detection dataframe
+INFO 2025-08-15 14:24:16,886 logger 25840 8188 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 14:24:16,886 logger 25840 8188 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 14:24:17,013 logger 25840 8188 Auto detection dataframe cleaned with 177849 rows
+INFO 2025-08-15 14:24:17,013 logger 25840 8188 Auto detection dataframe cleaned with 177849 rows
+INFO 2025-08-15 14:24:17,016 logger 25840 8188 Starting to merge overlapping rectangles
+INFO 2025-08-15 14:24:17,016 logger 25840 8188 Starting to merge overlapping rectangles
+INFO 2025-08-15 14:24:17,457 logger 25840 8188 Found 38196 unique time groups
+INFO 2025-08-15 14:24:17,457 logger 25840 8188 Found 38196 unique time groups
+INFO 2025-08-15 14:25:01,178 logger 25840 8188 Overlapping rectangles merged, resulting in 177849 rows. Time taken: 43.72 seconds using 14 processes.
+INFO 2025-08-15 14:25:01,178 logger 25840 8188 Overlapping rectangles merged, resulting in 177849 rows. Time taken: 43.72 seconds using 14 processes.
