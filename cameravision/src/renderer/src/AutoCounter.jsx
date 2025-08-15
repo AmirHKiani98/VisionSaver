@@ -312,6 +312,10 @@ const AutoCounter = () => {
             openNotification('error', 'Environment variables not set');
             return;
         }
+        if(progress !== 0) {
+            openNotification('error', 'Detecting is already in progress');
+            return;
+        }
         const backendUrl = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.AI_START_DETECTING}`;
         fetch(backendUrl, {
             method: 'POST',
@@ -348,7 +352,6 @@ const AutoCounter = () => {
                 setDetectingExists(true);
                 // setProgress(100); // Set progress to 100% if detecting exists
             }
-            console.log(data);
             if (data.progress !== undefined) setProgress(data.progress);
         };
         ws.onclose = () => { /* Optionally handle close */ };
@@ -453,8 +456,9 @@ const AutoCounter = () => {
                             color="primary"
                             variant="contained"
                             onClick={startDetecting}
+                            disabled={progress !== 0}
 
-                            className={`bg-main-500 shadow-lg !h-full hover:!bg-main-400 !text-black ${detectingExists ? '!bg-green-400' : '!bg-yellow-400'}`}
+                            className={`bg-main-500 shadow-lg !h-full hover:!bg-main-400 !text-black ${detectingExists ? '!bg-green-400' : '!bg-yellow-400'} ${progress !== 0 ? '!bg-gray-300' : ''}`}
                         >
                             Start Detecting
                         </Button>
