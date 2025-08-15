@@ -253,6 +253,21 @@ const AutoCounter = () => {
     };
     const handleCounterRun = () => {
         const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.AI_START_COUNTING}`;
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ record_id: recordId, version: counterVersion, divide_time: accuracy }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                openNotification('error', data.error);
+            } else {
+                openNotification('success', 'Counter started successfully');
+            }
+        })
     }
     const videoPointToScaledPoint = (points) => {
         if (!videoRef.current) {
@@ -402,14 +417,6 @@ const AutoCounter = () => {
             return;
         }
     }, [recordId]);
-
-    // Handler for slider change
-    const handleSliderChange = (e, value) => {
-        if (videoRef.current) {
-            videoRef.current.currentTime = value;
-        }
-        setCurrentTime(value);
-    };
 
     // Handler for video time update
     const handleTimeUpdate = () => {
@@ -803,8 +810,9 @@ const AutoCounter = () => {
                         </FormControl>
                         <Tooltip title="Run Counter" placement="top">
                             <Button
-                                className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black'
+                                className={`!bg-green-500 shadow-lg hover:!bg-main-400 !text-black h-full ${!detectingExists ? '!bg-gray-300' : ''}`}
                                 onClick={handleCounterRun}
+                                disabled={!detectingExists}
                             >
                                 <FontAwesomeIcon icon={faCar} className='text-center' />
                             </Button>
