@@ -1,5 +1,5 @@
 import react from 'react';
-import { Stage, Layer, Line, Rect} from 'react-konva';
+import { Stage, Layer, Line, Rect, Text} from 'react-konva';
 import {
     Select,
     MenuItem,
@@ -82,6 +82,7 @@ const AutoCounter = () => {
     react.useEffect(() => {
         if (!videoRef.current) return;
         const videoElem = videoRef.current;
+        let lastDevicePixelRatio = window.devicePixelRatio;
         const updateSize = () => {
             const rect = videoElem.getBoundingClientRect();
             setVideoDisplaySize({ width: rect.width, height: rect.height });
@@ -91,11 +92,21 @@ const AutoCounter = () => {
         // Use ResizeObserver for dynamic layout changes
         const resizeObserver = new window.ResizeObserver(updateSize);
         resizeObserver.observe(videoElem);
-        // Also listen to window resize for safety
+        // Listen to window resize and orientationchange
         window.addEventListener('resize', updateSize);
+        window.addEventListener('orientationchange', updateSize);
+        // Listen for devicePixelRatio changes (zoom/magnify)
+        const pixelRatioInterval = setInterval(() => {
+            if (window.devicePixelRatio !== lastDevicePixelRatio) {
+                lastDevicePixelRatio = window.devicePixelRatio;
+                updateSize();
+            }
+        }, 250);
         return () => {
             resizeObserver.disconnect();
             window.removeEventListener('resize', updateSize);
+            window.removeEventListener('orientationchange', updateSize);
+            clearInterval(pixelRatioInterval);
         };
     }, [videoRef]);
 
@@ -418,6 +429,7 @@ const AutoCounter = () => {
             .then(data => {
                 if (data && data.counts) {
                     const counts = data.counts;
+                    console.log('Counts at current time:', counts);
                     setCountDict(counts);
                 } else {
                     console.error('No counts found in the response');
@@ -531,16 +543,28 @@ const AutoCounter = () => {
                                     let [x1, y1] = videoPointToScaledPoint([obj.x1, obj.y1]);
                                     let [x2, y2] = videoPointToScaledPoint([obj.x2, obj.y2]);
                                     return (
-                                        <Rect
-                                            key={idx}
-                                            x={Math.ceil(x1)}
-                                            y={Math.ceil(y1)}
-                                            width={Math.ceil(x2 - x1)}
-                                            height={Math.ceil(y2 - y1)}
-                                            stroke="#00ff00"
-                                            strokeWidth={3}
-                                            fill={"rgba(0,255,0,0.1)"}
-                                        />
+                                        <>
+                                            <Rect
+                                                key={idx}
+                                                x={Math.ceil(x1)}
+                                                y={Math.ceil(y1)}
+                                                width={Math.ceil(x2 - x1)}
+                                                height={Math.ceil(y2 - y1)}
+                                                stroke="#00ff00"
+                                                strokeWidth={3}
+                                                fill={"rgba(0,255,0,0.1)"}
+                                            />
+                                            <react.Fragment>
+                                                <Text
+                                                    x={Math.ceil(x1)}
+                                                    y={Math.ceil(y1) - 20}
+                                                    text={String(obj.track_id)}
+                                                    fontSize={18}
+                                                    fill="#00ff00"
+                                                    fontStyle="bold"
+                                                />
+                                            </react.Fragment>
+                                        </>
                                     );
                                 });
                             })()}

@@ -8,7 +8,7 @@ function LinearProgressWithLabel(props) {
       </Box>
       <Box sx={{ minWidth: 35 }} className="flex items-center justify-between">
         <Typography variant="body2" className="text-white" >
-          {`${Math.round(props.value)}%`}
+          {`${Math.round(props.value * (10 ** (props.roundNumber || 2))) / (10 ** (props.roundNumber || 2))}%`}
         </Typography>
         <Typography variant="body2" className="text-white" >
           {props.recording ? <Typography variant="caption">Recording</Typography> : null}
