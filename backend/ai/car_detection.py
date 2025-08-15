@@ -41,6 +41,7 @@ class CarDetection():
             'max_cosine_distance': 0.4,
             'nn_budget': 100
         }
+        self.divide_time_given = divide_time
         self.divide_time = float(divide_time)
         
         
@@ -178,7 +179,7 @@ class CarDetection():
                     df = pd.read_csv(output_path)
                     self.results_df = df
                     channel_layer = get_channel_layer()
-                    group_name = f"counter_progress_{self.record_id}"
+                    group_name = f"counter_progress_{self.record_id}_{self.divide_time_given}"
                     if channel_layer is not None:
                         async_to_sync(channel_layer.group_send)(
                             group_name,
@@ -197,7 +198,7 @@ class CarDetection():
             # -------------- Process video --------------
             df = pd.DataFrame(columns=['time', 'frame_number', 'x1', 'y1', 'x2', 'y2', 'track_id'])
             channel_layer = get_channel_layer()
-            group_name = f"counter_progress_{self.record_id}"
+            group_name = f"counter_progress_{self.record_id}_{self.divide_time_given}"
             for i in np.arange(0, self.duration, self.divide_time):
                 frame_number = int(i * fps)
 

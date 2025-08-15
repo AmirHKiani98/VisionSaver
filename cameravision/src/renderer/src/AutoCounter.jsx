@@ -120,8 +120,10 @@ const AutoCounter = () => {
             console.log(data);
             if (data && data.exists) {
                 setDetectingExists(true);
+                setProgress(100); // Set progress to 100% if detecting exists
             } else {
                 setDetectingExists(false);
+                setProgress(0); // Reset progress if detecting does not exist
             }
         })
         .catch(error => {
@@ -336,38 +338,24 @@ const AutoCounter = () => {
         });
     }
 
-    // react.useEffect(() => {
-    //     if (!env || !recordId) return;
-    //     const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/counter_loading_progress/${recordId}/`;
-    //     const ws = new window.WebSocket(wsUrl);
-
-    //     ws.onmessage = (event) => {
-    //         const data = JSON.parse(event.data);
-    //         if (data.progress !== undefined) setLoadProgress(data.progress);
-    //     }
-    //     ws.onclose = () => { /* Optionally handle close */ };
-    //     ws.onerror = (e) => { /* Optionally handle error */ };
-    //     return () => ws.close();
-    // }
-    // , [env, recordId]);
-
     react.useEffect(() => {
         if (!env || !recordId) return;
-        const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/counter_progress/${recordId}/`;
+        const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/counter_progress/${recordId}/${accuracy}/`;
         const ws = new window.WebSocket(wsUrl);
-
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
             if (Math.abs(data.progress - 100) < 1 ){
                 setDetectingExists(true);
+                // setProgress(100); // Set progress to 100% if detecting exists
             }
+            console.log(data);
             if (data.progress !== undefined) setProgress(data.progress);
         };
         ws.onclose = () => { /* Optionally handle close */ };
         ws.onerror = (e) => { /* Optionally handle error */ };
 
         return () => ws.close();
-    }, [env, recordId]);
+    }, [env, recordId, accuracy]);
 
 
     react.useEffect(() => {
@@ -487,9 +475,8 @@ const AutoCounter = () => {
                         />
 
                     </div>
-                    {detectingStarted && (
-                        <LinearProgressWithLabel value={progress} variant="determinate" className='flex-1' />
-                    )}
+                    <LinearProgressWithLabel value={progress} variant="determinate" className='flex-1' />
+                    
                 </div>
                 <div className="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden" ref={containerRef}>
                     {videoSrc ? (
@@ -618,7 +605,11 @@ const AutoCounter = () => {
             <div className="flex-1 p-2.5 bg-main-300 h-full flex flex-col gap-2.5">
                 <div className="grid grid-cols-1 gap-5">
                     <FormControl className="w-full">
-                        <InputLabel id="drawing-type-select-label">Drawing type</InputLabel>
+                        <InputLabel id="drawing-type-select-label" >
+                            <Typography variant="body1" className='text-white'>
+                                Drawer
+                            </Typography>
+                        </InputLabel>
                         <Select
                             labelId="drawing-type-select-label"
                             id="demo-simple-select"
@@ -648,7 +639,12 @@ const AutoCounter = () => {
                     </FormControl>
                     <FormControl className="w-full !flex !flex-row items-center justify-between gap-2.5">
                         <TextField
-                            label="Portal Name"
+                            label={
+                                <Typography variant="body1" className='text-white'>
+                                Portal Name
+                                </Typography>
+                            }
+                            focused
                             variant="outlined"
                             value={portalInput}
                             onChange={(e) => setPortalInput(e.target.value)}
@@ -676,7 +672,11 @@ const AutoCounter = () => {
                         </Button>
                     </FormControl>
                     <FormControl className="w-full">
-                        <InputLabel id="demo-simple-select-label">Portal</InputLabel>
+                        <InputLabel id="demo-simple-select-label">
+                        <Typography variant="body1" className='text-white'>
+                                Portal
+                        </Typography>
+                        </InputLabel>
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"

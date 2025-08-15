@@ -24,7 +24,8 @@ class ProgressConsumer(AsyncWebsocketConsumer):
 class CounterProgressConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.record_id = self.scope['url_route']['kwargs']['record_id']
-        self.group_name = f"counter_progress_{self.record_id}"
+        self.divide_time = self.scope['url_route']['kwargs']['divide_time']
+        self.group_name = f"counter_progress_{self.record_id}_{self.divide_time}"
         
         if self.channel_layer is not None:
             await self.channel_layer.group_add(self.group_name, self.channel_name)
