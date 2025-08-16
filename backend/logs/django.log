@@ -2446,3 +2446,5 @@ INFO 2025-08-15 22:51:42,355 logger 26600 5132 Starting to clean the auto detect
 INFO 2025-08-15 22:51:42,355 logger 26600 5132 Starting to clean the auto detection dataframe
 INFO 2025-08-15 22:51:42,373 logger 26600 5132 Auto detection dataframe loaded with 177849 rows
 INFO 2025-08-15 22:51:42,373 logger 26600 5132 Auto detection dataframe loaded with 177849 rows
+ERROR 2025-08-16 01:12:11,893 logger 31816 28380 Error while getting result: 'Model' object has no attribute 'divide_time'
+ERROR 2025-08-16 01:12:11,893 logger 31816 28380 Error while getting result: 'Model' object has no attribute 'divide_time'

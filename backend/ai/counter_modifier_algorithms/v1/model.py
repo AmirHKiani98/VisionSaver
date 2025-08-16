@@ -9,7 +9,6 @@ from shapely.ops import nearest_points
 from shapely.geometry import Point, Polygon, LineString, box
 from tqdm import tqdm
 from multiprocessing import Pool, cpu_count
-from ai.models import ModifiedAutoCounter
 
 logger = settings.APP_LOGGER
 class Model():

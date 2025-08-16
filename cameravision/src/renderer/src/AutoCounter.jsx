@@ -141,7 +141,7 @@ const AutoCounter = () => {
         });
     }
 
-    const checkIfDetectingModifiedExists = (divide_time, version) => {
+    const checkIfDetectingModifiedExists = (divideTime) => {
         if (!env) return;
         const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_MODIFIED_COUNT_EXISTS}`;
         fetch(url, {
@@ -149,7 +149,7 @@ const AutoCounter = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ record_id: recordId, divide_time: divide_time, version: version }),
+            body: JSON.stringify({ record_id: recordId, divide_time: divideTime, version: counterVersion }),
         })
         .then(response => response.json())
         .then(data => {
@@ -524,7 +524,7 @@ const AutoCounter = () => {
                             onClick={startDetecting}
                             disabled={progress !== 0}
 
-                            className={`bg-main-500 shadow-lg !h-full hover:!bg-main-400 !text-black ${detectingExists ? '!bg-green-400' : '!bg-yellow-400'} ${progress !== 0 ? '!bg-gray-300' : ''}`}
+                            className={`bg-main-500 shadow-lg !h-full hover:!bg-main-400 !text-black ${detectingExists ? '!bg-gray-400' : '!bg-green-400'} ${progress !== 0 ? '!bg-gray-300' : ''}`}
                         >
                             Start Detecting
                         </Button>
@@ -535,6 +535,7 @@ const AutoCounter = () => {
                             onChange={(e) => {
                                 setAccuracy(e.target.value)
                                 checkIfDetectingExists(e.target.value);
+                                checkIfDetectingModifiedExists(e.target.value);
                             }}
                             className='shadow-lg bg-main-400'
                             focused
@@ -660,25 +661,27 @@ const AutoCounter = () => {
                         />
                         {detectingExists && (
                             <Tooltip title="Show counts" placement="bottom">
-                                <GradualColorButton
-                                    percentage={0}
-                                    buttonChildren={!showCounts ? <FontAwesomeIcon icon={faEye} className="text-black"/> : <FontAwesomeIcon icon={faEyeSlash} className="text-white"/>}
-                                    // disabled={Math.abs(loadProgress - 1) > 0.01}
-                                    className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black'
-                                    onClick={() => {
-                                        if (showCounts) {
-                                            setShowCounts(false);
-                                            openNotification('info', 'Counts are now hidden');
-                                        } else {
-                                            setShowModifiedCounts(false);
-                                            setShowCounts(true);
-                                            openNotification('info', 'Counts now are visible');
-                                        }
-                                        
-                                    }}
-                                >
-                                    <FontAwesomeIcon icon={faEye} />
-                                </GradualColorButton>
+                                <span>
+                                    <GradualColorButton
+                                        percentage={0}
+                                        buttonChildren={!showCounts ? <FontAwesomeIcon icon={faEye} className="text-black"/> : <FontAwesomeIcon icon={faEyeSlash} className="text-white"/>}
+                                        // disabled={Math.abs(loadProgress - 1) > 0.01}
+                                        className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black'
+                                        onClick={() => {
+                                            if (showCounts) {
+                                                setShowCounts(false);
+                                                openNotification('info', 'Counts are now hidden');
+                                            } else {
+                                                setShowModifiedCounts(false);
+                                                setShowCounts(true);
+                                                openNotification('info', 'Counts now are visible');
+                                            }
+                                            
+                                        }}
+                                    >
+                                        <FontAwesomeIcon icon={faEye} />
+                                    </GradualColorButton>
+                                </span>
                             </Tooltip>
                         )}
                     </div>
@@ -857,28 +860,34 @@ const AutoCounter = () => {
                         </FormControl>
                         <Tooltip title="Run Counter" placement="top">
                             <Button
-                                className={`shadow-lg hover:!bg-main-400 !text-black h-full ${!detectingExists ? '!bg-gray-300' : '!bg-green-500 '}`}
+                                className={`shadow-lg hover:!bg-main-400 !text-black h-full ${modifiedDetectingExists ? '!bg-gray-300' : '!bg-green-500 '}`}
                                 onClick={handleCounterRun}
-                                disabled={!detectingExists}
+                                disabled={modifiedDetectingExists}
                             >
                                 <FontAwesomeIcon icon={faCar} className='text-center' />
                             </Button>
-                            <Button 
-                                className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black h-full'
-                                onClick={() =>{
-                                    
-                                    if (showModifiedCounts) {
-                                        setShowCounts(false);
-                                        setShowModifiedCounts(false);
-                                        openNotification('info', 'Modified counts are now hidden');
-                                    } else {
-                                        setShowModifiedCounts(true);
-                                        openNotification('info', 'Modified counts are now visible');
-                                    }
-                                }}
-                                >
+                            
+                        </Tooltip>
+                        <Tooltip title="Show modified counts" placement="top">
+                            <span>
+                                <Button 
+                                    className={`shadow-lg hover:!bg-main-400 !text-black h-full ${!modifiedDetectingExists ? '!bg-gray-300' : '!bg-green-500'}`}
+                                    disabled={!modifiedDetectingExists}
+                                    onClick={() =>{
+                                        
+                                        if (showModifiedCounts) {
+                                            setShowCounts(false);
+                                            setShowModifiedCounts(false);
+                                            openNotification('info', 'Modified counts are now hidden');
+                                        } else {
+                                            setShowModifiedCounts(true);
+                                            openNotification('info', 'Modified counts are now visible');
+                                        }
+                                    }}
+                                    >
                                     <FontAwesomeIcon icon={!showModifiedCounts ? faEye : faEyeSlash} className='text-center' />
                                 </Button>
+                            </span>
                         </Tooltip>
                     </div>
                 </div>

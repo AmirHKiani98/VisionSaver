@@ -1,8 +1,6 @@
 import os
 import cv2
-from importlib import import_module
 from django.conf import settings
-from ai.models import AutoCounter, DetectionLines, ModifiedAutoCounter
 from record.models import Record
 import pandas as pd
 logger = settings.APP_LOGGER
@@ -19,7 +17,10 @@ class AlgorithmDetectionZone():
         self.version = version
         self.record_id = record_id
         self.divide_time = divide_time
-        model_module = import_module(f'.model', package=f'ai.counter_algorithms.{self.version}')
+        from ai.models import AutoCounter, DetectionLines
+
+        from importlib import import_module
+        model_module = import_module(f'.model', package=f'ai.counter_modifier_algorithms.{self.version}')
         self.Model = model_module.Model
         video_path = os.path.join(settings.MEDIA_ROOT, str(record_id) + ".mp4")
         if not os.path.exists(video_path):
@@ -40,9 +41,9 @@ class AlgorithmDetectionZone():
         if not auto_detection_csv_path:
             raise ValueError("auto_detection_csv_path must be provided.")
         
-        record = cv2.VideoCapture(video_path)
-        video_width = int(record.get(cv2.CAP_PROP_FRAME_WIDTH))
-        video_height = int(record.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        record_video = cv2.VideoCapture(video_path)
+        video_width = int(record_video.get(cv2.CAP_PROP_FRAME_WIDTH))
+        video_height = int(record_video.get(cv2.CAP_PROP_FRAME_HEIGHT))
         detection_lines_object = DetectionLines.objects.filter(record=record).first()
         if not detection_lines_object:
             logger.error(f"Detection lines not found for record ID: {record_id}")
@@ -59,9 +60,10 @@ class AlgorithmDetectionZone():
         Get the result of the counter algorithm.
         """
         #logger.info("Getting result from the model instance")
+        from ai.models import ModifiedAutoCounter
         try:
             record = Record.objects.get(id=self.record_id)
-            auto_modified_counter = ModifiedAutoCounter.objects.filter(version=self.version, record=record, divide_time=self.model_instance.divide_time).first()
+            auto_modified_counter = ModifiedAutoCounter.objects.filter(version=self.version, record=record, divide_time=self.divide_time).first()
             if auto_modified_counter:
                 file_path = auto_modified_counter.file_name
                 if os.path.exists(file_path):

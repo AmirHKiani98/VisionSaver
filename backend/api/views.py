@@ -9,7 +9,6 @@ import pandas as pd
 from django.utils.dateparse import parse_datetime
 import os
 import subprocess
-from ai.models import AutoCounter, ModifiedAutoCounter
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 from ai.views import run_auto_counter
@@ -363,6 +362,7 @@ def get_record_counts(request):
         record = Record.objects.filter(id=record_id).first()
         if not record:
             return JsonResponse({"error": "Record not found."}, status=404)
+        from ai.models import AutoCounter
         auto_count = AutoCounter.objects.filter(record=record).first()
         if not auto_count:
             return JsonResponse({"counts": {}}, status=200)
@@ -423,6 +423,7 @@ def get_counts_at_time(request):
         record = Record.objects.filter(id=record_id).first()
         if not record:
             return JsonResponse({"error": "Record not found."}, status=404)
+        from ai.models import AutoCounter
         auto_count = AutoCounter.objects.filter(record=record).first()
         if not auto_count:
             return JsonResponse({"counts": {}}, status=200)
@@ -485,6 +486,8 @@ def count_exists(request):
         record = Record.objects.filter(id=record_id).first()
         if not record:
             return JsonResponse({"error": "Record not found."}, status=404)
+        from ai.models import AutoCounter
+
         auto_count = AutoCounter.objects.filter(record=record, divide_time=divide_time).first()
         if auto_count:
             return JsonResponse({"exists": True, "divide_time": auto_count.divide_time}, status=200)
@@ -510,6 +513,7 @@ def modified_count_exists(request):
         record = Record.objects.filter(id=record_id).first()
         if not record:
             return JsonResponse({"error": "Record not found."}, status=404)
+        from ai.models import ModifiedAutoCounter
         modified_auto_count = ModifiedAutoCounter.objects.filter(record=record, version=version, divide_time=divide_time).first()
         if modified_auto_count and os.path.exists(modified_auto_count.file_name):
             return JsonResponse({"exists": True, "divide_time": modified_auto_count.divide_time}, status=200)
