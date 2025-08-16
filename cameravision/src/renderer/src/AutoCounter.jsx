@@ -56,6 +56,7 @@ const AutoCounter = () => {
     const [counterVersion, setCounterVersion] = react.useState('v1'); // Default counter version
     const [showModifiedCounts, setShowModifiedCounts] = react.useState(false);
     const [modifiedDetectingExists, setModifiedDetectingExists] = react.useState(false);
+    const [modifiedProgress, setModifiedProgress] = react.useState(0);
     const autoHideDuration = 3000;
     const openNotification = (severity, message) => {
         setSeverity(severity);
@@ -156,15 +157,20 @@ const AutoCounter = () => {
             console.log(data);
             if (data && data.exists) {
                 setModifiedDetectingExists(true);
+                setModifiedProgress(100); // Set progress to 100% if modified detecting exists
             } else {
                 setModifiedDetectingExists(false);
+                setModifiedProgress(0);
             }
         })
         .catch(error => {
             console.error('Error checking modified detecting existence:', error);
             setModifiedDetectingExists(false);
+            setModifiedProgress(0);
         });
     }
+
+    
 
     react.useEffect(() => {
         if (!env || !videoReady) return;
@@ -412,6 +418,23 @@ const AutoCounter = () => {
         return () => ws.close();
     }, [env, recordId, accuracy]);
 
+    react.useEffect(() => {
+        if (!env || !recordId) return;
+        const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/counter_modified_progress/${recordId}/${accuracy}/${counterVersion}/`;
+        const ws = new window.WebSocket(wsUrl);
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            if (Math.abs(data.progress - 100) < 1 ){
+                setModifiedDetectingExists(true);
+                // setModifiedProgress(100); // Set progress to 100% if modified detecting exists
+            }
+            if (data.progress !== undefined) setModifiedProgress(data.progress);
+            if (data.message){
+                openNotification('info', data.message);
+            }
+        }
+    }, [env, recordId, accuracy, counterVersion]);
+
 
     react.useEffect(() => {
         if (!env) return;
@@ -546,7 +569,6 @@ const AutoCounter = () => {
                         />
 
                     </div>
-                    <LinearProgressWithLabel value={progress} variant="determinate" className='flex-1' />
                     
                 </div>
                 <div className="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden" ref={containerRef}>
@@ -686,7 +708,27 @@ const AutoCounter = () => {
                         )}
                     </div>
                 </div>
+                <div className='flex flex-col items-center gap-2.5 mt-2.5'>
+                    
+                        {progress !== 100 && (
+                            <div className='w-full'>
+                            <h1 className='text-white text-xl font-bold mb-2'>
+                                Detection Progress
+                            </h1>
+                        
+                            <LinearProgressWithLabel value={progress} variant="determinate" className='w-full' />
+                             </div>
 
+                        )}
+                    {modifiedProgress !== 100 && (
+                        <div className='w-full'>
+                            <h1 className='text-white text-xl font-bold mb-2'>
+                                Modified Detection Progress
+                            </h1>
+                            <LinearProgressWithLabel value={modifiedProgress} variant="determinate" className='w-full' />
+                        </div>
+                    )}
+                </div>
             </div>
             <div className="flex-1 flex flex-col h-full p-2.5 bg-main-300 justify-between">
                 <div className="flex flex-col gap-2.5 p-2.5">

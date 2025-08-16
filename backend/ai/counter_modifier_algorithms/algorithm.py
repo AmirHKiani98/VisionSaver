@@ -51,7 +51,7 @@ class AlgorithmDetectionZone():
         if not detection_lines:
             logger.error(f"No detection lines found for record ID: {record_id}")
             raise ValueError(f"No detection lines found for record ID: {record_id}")
-        self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height, divide_time)
+        self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height, divide_time, record_id)
         
     
     def get_result(self):

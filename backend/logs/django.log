@@ -2448,3 +2448,1023 @@ INFO 2025-08-15 22:51:42,373 logger 26600 5132 Auto detection dataframe loaded w
 INFO 2025-08-15 22:51:42,373 logger 26600 5132 Auto detection dataframe loaded with 177849 rows
 ERROR 2025-08-16 01:12:11,893 logger 31816 28380 Error while getting result: 'Model' object has no attribute 'divide_time'
 ERROR 2025-08-16 01:12:11,893 logger 31816 28380 Error while getting result: 'Model' object has no attribute 'divide_time'
+ERROR 2025-08-16 04:39:52,431 log 2704 15584 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 536, in get_modified_counts_at_time
+    auto_counter = run_auto_counter(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 107, in run_auto_counter
+    ADZ = AlgorithmDetectionZone(
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\counter_modifier_algorithms\algorithm.py", line 54, in __init__
+    self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height, divide_time)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Model.__init__() missing 1 required positional argument: 'record_id'
+ERROR 2025-08-16 04:39:52,488 log 2704 15584 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 536, in get_modified_counts_at_time
+    auto_counter = run_auto_counter(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 107, in run_auto_counter
+    ADZ = AlgorithmDetectionZone(
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\counter_modifier_algorithms\algorithm.py", line 54, in __init__
+    self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height, divide_time)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Model.__init__() missing 1 required positional argument: 'record_id'
+ERROR 2025-08-16 04:39:52,741 log 2704 15584 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 536, in get_modified_counts_at_time
+    auto_counter = run_auto_counter(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 107, in run_auto_counter
+    ADZ = AlgorithmDetectionZone(
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\counter_modifier_algorithms\algorithm.py", line 54, in __init__
+    self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height, divide_time)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Model.__init__() missing 1 required positional argument: 'record_id'
+ERROR 2025-08-16 04:39:53,003 log 2704 15584 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 536, in get_modified_counts_at_time
+    auto_counter = run_auto_counter(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 107, in run_auto_counter
+    ADZ = AlgorithmDetectionZone(
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\counter_modifier_algorithms\algorithm.py", line 54, in __init__
+    self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height, divide_time)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Model.__init__() missing 1 required positional argument: 'record_id'
+ERROR 2025-08-16 04:39:53,280 log 2704 15584 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 536, in get_modified_counts_at_time
+    auto_counter = run_auto_counter(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 107, in run_auto_counter
+    ADZ = AlgorithmDetectionZone(
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\counter_modifier_algorithms\algorithm.py", line 54, in __init__
+    self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height, divide_time)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Model.__init__() missing 1 required positional argument: 'record_id'
+ERROR 2025-08-16 04:39:53,548 log 2704 15584 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 536, in get_modified_counts_at_time
+    auto_counter = run_auto_counter(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 107, in run_auto_counter
+    ADZ = AlgorithmDetectionZone(
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\counter_modifier_algorithms\algorithm.py", line 54, in __init__
+    self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height, divide_time)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Model.__init__() missing 1 required positional argument: 'record_id'
+ERROR 2025-08-16 04:39:53,798 log 2704 15584 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 536, in get_modified_counts_at_time
+    auto_counter = run_auto_counter(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 107, in run_auto_counter
+    ADZ = AlgorithmDetectionZone(
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\counter_modifier_algorithms\algorithm.py", line 54, in __init__
+    self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height, divide_time)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Model.__init__() missing 1 required positional argument: 'record_id'
+ERROR 2025-08-16 04:39:54,075 log 2704 15584 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 536, in get_modified_counts_at_time
+    auto_counter = run_auto_counter(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 107, in run_auto_counter
+    ADZ = AlgorithmDetectionZone(
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\counter_modifier_algorithms\algorithm.py", line 54, in __init__
+    self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height, divide_time)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Model.__init__() missing 1 required positional argument: 'record_id'
+ERROR 2025-08-16 04:39:54,333 log 2704 15584 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 536, in get_modified_counts_at_time
+    auto_counter = run_auto_counter(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 107, in run_auto_counter
+    ADZ = AlgorithmDetectionZone(
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\counter_modifier_algorithms\algorithm.py", line 54, in __init__
+    self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height, divide_time)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Model.__init__() missing 1 required positional argument: 'record_id'
+ERROR 2025-08-16 04:39:54,600 log 2704 15584 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 536, in get_modified_counts_at_time
+    auto_counter = run_auto_counter(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 107, in run_auto_counter
+    ADZ = AlgorithmDetectionZone(
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\counter_modifier_algorithms\algorithm.py", line 54, in __init__
+    self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height, divide_time)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Model.__init__() missing 1 required positional argument: 'record_id'
+ERROR 2025-08-16 04:39:54,862 log 2704 15584 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 536, in get_modified_counts_at_time
+    auto_counter = run_auto_counter(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 107, in run_auto_counter
+    ADZ = AlgorithmDetectionZone(
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\counter_modifier_algorithms\algorithm.py", line 54, in __init__
+    self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height, divide_time)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Model.__init__() missing 1 required positional argument: 'record_id'
+ERROR 2025-08-16 04:39:55,132 log 2704 15584 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 536, in get_modified_counts_at_time
+    auto_counter = run_auto_counter(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 107, in run_auto_counter
+    ADZ = AlgorithmDetectionZone(
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\counter_modifier_algorithms\algorithm.py", line 54, in __init__
+    self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height, divide_time)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Model.__init__() missing 1 required positional argument: 'record_id'
+ERROR 2025-08-16 04:39:55,407 log 2704 15584 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 536, in get_modified_counts_at_time
+    auto_counter = run_auto_counter(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 107, in run_auto_counter
+    ADZ = AlgorithmDetectionZone(
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\counter_modifier_algorithms\algorithm.py", line 54, in __init__
+    self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height, divide_time)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Model.__init__() missing 1 required positional argument: 'record_id'
+ERROR 2025-08-16 04:39:55,660 log 2704 15584 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 536, in get_modified_counts_at_time
+    auto_counter = run_auto_counter(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 107, in run_auto_counter
+    ADZ = AlgorithmDetectionZone(
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\counter_modifier_algorithms\algorithm.py", line 54, in __init__
+    self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height, divide_time)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Model.__init__() missing 1 required positional argument: 'record_id'
+ERROR 2025-08-16 04:39:55,928 log 2704 15584 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 536, in get_modified_counts_at_time
+    auto_counter = run_auto_counter(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 107, in run_auto_counter
+    ADZ = AlgorithmDetectionZone(
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\counter_modifier_algorithms\algorithm.py", line 54, in __init__
+    self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height, divide_time)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Model.__init__() missing 1 required positional argument: 'record_id'
+ERROR 2025-08-16 04:39:56,188 log 2704 15584 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 536, in get_modified_counts_at_time
+    auto_counter = run_auto_counter(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 107, in run_auto_counter
+    ADZ = AlgorithmDetectionZone(
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\counter_modifier_algorithms\algorithm.py", line 54, in __init__
+    self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height, divide_time)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Model.__init__() missing 1 required positional argument: 'record_id'
+ERROR 2025-08-16 04:39:56,452 log 2704 15584 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 536, in get_modified_counts_at_time
+    auto_counter = run_auto_counter(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 107, in run_auto_counter
+    ADZ = AlgorithmDetectionZone(
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\counter_modifier_algorithms\algorithm.py", line 54, in __init__
+    self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height, divide_time)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Model.__init__() missing 1 required positional argument: 'record_id'
+ERROR 2025-08-16 04:39:56,735 log 2704 15584 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 536, in get_modified_counts_at_time
+    auto_counter = run_auto_counter(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 107, in run_auto_counter
+    ADZ = AlgorithmDetectionZone(
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\counter_modifier_algorithms\algorithm.py", line 54, in __init__
+    self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height, divide_time)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Model.__init__() missing 1 required positional argument: 'record_id'
+ERROR 2025-08-16 04:39:56,980 log 2704 15584 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 536, in get_modified_counts_at_time
+    auto_counter = run_auto_counter(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 107, in run_auto_counter
+    ADZ = AlgorithmDetectionZone(
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\counter_modifier_algorithms\algorithm.py", line 54, in __init__
+    self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height, divide_time)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Model.__init__() missing 1 required positional argument: 'record_id'
+ERROR 2025-08-16 04:39:57,332 log 2704 15584 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 536, in get_modified_counts_at_time
+    auto_counter = run_auto_counter(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 107, in run_auto_counter
+    ADZ = AlgorithmDetectionZone(
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\counter_modifier_algorithms\algorithm.py", line 54, in __init__
+    self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height, divide_time)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Model.__init__() missing 1 required positional argument: 'record_id'
+ERROR 2025-08-16 04:39:57,530 log 2704 15584 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 536, in get_modified_counts_at_time
+    auto_counter = run_auto_counter(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 107, in run_auto_counter
+    ADZ = AlgorithmDetectionZone(
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\counter_modifier_algorithms\algorithm.py", line 54, in __init__
+    self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height, divide_time)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Model.__init__() missing 1 required positional argument: 'record_id'
+ERROR 2025-08-16 04:39:57,836 log 2704 15584 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 536, in get_modified_counts_at_time
+    auto_counter = run_auto_counter(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 107, in run_auto_counter
+    ADZ = AlgorithmDetectionZone(
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\counter_modifier_algorithms\algorithm.py", line 54, in __init__
+    self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height, divide_time)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Model.__init__() missing 1 required positional argument: 'record_id'
+ERROR 2025-08-16 04:39:58,104 log 2704 15584 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 536, in get_modified_counts_at_time
+    auto_counter = run_auto_counter(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 107, in run_auto_counter
+    ADZ = AlgorithmDetectionZone(
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\counter_modifier_algorithms\algorithm.py", line 54, in __init__
+    self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height, divide_time)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Model.__init__() missing 1 required positional argument: 'record_id'
+ERROR 2025-08-16 04:39:58,344 log 2704 15584 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 536, in get_modified_counts_at_time
+    auto_counter = run_auto_counter(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 107, in run_auto_counter
+    ADZ = AlgorithmDetectionZone(
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\counter_modifier_algorithms\algorithm.py", line 54, in __init__
+    self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height, divide_time)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Model.__init__() missing 1 required positional argument: 'record_id'
+ERROR 2025-08-16 04:39:58,592 log 2704 15584 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 536, in get_modified_counts_at_time
+    auto_counter = run_auto_counter(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 107, in run_auto_counter
+    ADZ = AlgorithmDetectionZone(
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\counter_modifier_algorithms\algorithm.py", line 54, in __init__
+    self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height, divide_time)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Model.__init__() missing 1 required positional argument: 'record_id'
+ERROR 2025-08-16 04:39:58,848 log 2704 15584 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 536, in get_modified_counts_at_time
+    auto_counter = run_auto_counter(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 107, in run_auto_counter
+    ADZ = AlgorithmDetectionZone(
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\counter_modifier_algorithms\algorithm.py", line 54, in __init__
+    self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height, divide_time)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Model.__init__() missing 1 required positional argument: 'record_id'
+ERROR 2025-08-16 04:39:59,122 log 2704 15584 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 536, in get_modified_counts_at_time
+    auto_counter = run_auto_counter(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 107, in run_auto_counter
+    ADZ = AlgorithmDetectionZone(
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\counter_modifier_algorithms\algorithm.py", line 54, in __init__
+    self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height, divide_time)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Model.__init__() missing 1 required positional argument: 'record_id'
+ERROR 2025-08-16 04:39:59,384 log 2704 15584 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 536, in get_modified_counts_at_time
+    auto_counter = run_auto_counter(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 107, in run_auto_counter
+    ADZ = AlgorithmDetectionZone(
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\counter_modifier_algorithms\algorithm.py", line 54, in __init__
+    self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height, divide_time)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Model.__init__() missing 1 required positional argument: 'record_id'
+ERROR 2025-08-16 04:39:59,651 log 2704 15584 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 536, in get_modified_counts_at_time
+    auto_counter = run_auto_counter(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 107, in run_auto_counter
+    ADZ = AlgorithmDetectionZone(
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\counter_modifier_algorithms\algorithm.py", line 54, in __init__
+    self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height, divide_time)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Model.__init__() missing 1 required positional argument: 'record_id'
+ERROR 2025-08-16 04:39:59,871 log 2704 15584 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 536, in get_modified_counts_at_time
+    auto_counter = run_auto_counter(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 107, in run_auto_counter
+    ADZ = AlgorithmDetectionZone(
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\counter_modifier_algorithms\algorithm.py", line 54, in __init__
+    self.model_instance = self.Model(auto_detection_csv_path, detection_lines, video_width, video_height, divide_time)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Model.__init__() missing 1 required positional argument: 'record_id'
