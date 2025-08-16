@@ -267,24 +267,30 @@ class Model:
                     processed_groups.append(result)
                     channel_layer = get_channel_layer()
                     group_name = f"counter_modified_progress_{self.record_id}_{self.divide_time}_{self.version}"
-                    if channel_layer is not None:
-                        async_to_sync(channel_layer.group_send)(
-                            group_name,
-                            {
-                                "type": "send.progress",
-                                "progress": (idx + 1) / ng
-                            }
-                        )
+                    try:
+                        if channel_layer is not None:
+                            async_to_sync(channel_layer.group_send)(
+                                group_name,
+                                {
+                                    "type": "send.progress",
+                                    "progress": (idx + 1) / ng
+                                }
+                            )
+                    except Exception as e:
+                        logger.error(f"Error sending interpolation progress via ws: {e}")
 
-            if channel_layer is not None:
-                async_to_sync(channel_layer.group_send)(
-                    group_name,
-                    {
-                        "type": "send.progress",
-                        "progress": 1,
-                        "message": "Interpolation complete"
-                    }
-                )
+            try:
+                if channel_layer is not None:
+                    async_to_sync(channel_layer.group_send)(
+                        group_name,
+                        {
+                            "type": "send.progress",
+                            "progress": 1,
+                            "message": "Interpolation complete"
+                        }
+                    )
+            except Exception as e:
+                logger.error(f"Error sending interpolation complete via ws: {e}")
         else:
             processed_groups = []
             for args in tqdm(track_tasks, total=ng, desc="Interpolating tracks"):
@@ -312,23 +318,29 @@ class Model:
                     results.append(result)
                     channel_layer = get_channel_layer()
                     group_name = f"counter_modified_progress_{self.record_id}_{self.divide_time}_{self.version}"
+                    try:
+                        if channel_layer is not None:
+                            async_to_sync(channel_layer.group_send)(
+                                group_name,
+                                {
+                                    "type": "send.progress",
+                                    "progress": (idx + 1) / total
+                                }
+                            )
+                    except Exception as e:
+                        logger.error(f"Error sending merge progress via ws: {e}")
+                try:
                     if channel_layer is not None:
                         async_to_sync(channel_layer.group_send)(
                             group_name,
                             {
                                 "type": "send.progress",
-                                "progress": (idx + 1) / total
+                                "progress": 1,
+                                "message": "Merging complete"
                             }
                         )
-                if channel_layer is not None:
-                    async_to_sync(channel_layer.group_send)(
-                        group_name,
-                        {
-                            "type": "send.progress",
-                            "progress": 1,
-                            "message": "Merging complete"
-                        }
-                    )
+                except Exception as e:
+                    logger.error(f"Error sending merge complete via ws: {e}")
         else:
             func = partial(merge_group, area_threshold=self.area_threshold)
             results = [func(t) for t in tqdm(time_tasks, total=total, desc="Merging overlapping rectangles")]

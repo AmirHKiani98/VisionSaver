@@ -426,9 +426,9 @@ const AutoCounter = () => {
             const data = JSON.parse(event.data);
             if (Math.abs(data.progress - 100) < 1 ){
                 setModifiedDetectingExists(true);
-                // setModifiedProgress(100); // Set progress to 100% if modified detecting exists
+                setModifiedProgress(100); // Set progress to 100% if modified detecting exists
             }
-            if (data.progress !== undefined) setModifiedProgress(data.progress);
+            if (data.progress !== undefined) setModifiedProgress(data.progress * 100);
             if (data.message){
                 openNotification('info', data.message);
             }
