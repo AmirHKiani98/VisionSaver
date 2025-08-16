@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import json
 import pandas as pd
 import os
@@ -9,7 +11,9 @@ from shapely.ops import nearest_points
 from shapely.geometry import Point, Polygon, LineString, box
 from tqdm import tqdm
 from multiprocessing import Pool, cpu_count
-from sklearn.linear_model import LinearRegression
+import numpy as np
+import pandas as pd
+from pandas.api.types import is_datetime64_any_dtype, is_numeric_dtype
 
 logger = settings.APP_LOGGER
 class Model():
@@ -101,12 +105,44 @@ class Model():
         df2.to_csv(cleaned_path, index=False)
         return df2, cleaned_path
     
-    def _interpolate_missing_values(self, series):
-        """
-        Interpolate missing values in a pandas Series.
-        """
-        
-    
+    def fill_piecewise_linear(self, s: pd.Series) -> pd.Series:
+        s = s.copy()
+
+        # y as float array: makes None/NaN consistent
+        y = s.to_numpy(dtype='float64')
+        n = y.size
+
+        # Build x with good typing support (no .asi8 / no np.issubdtype)
+        if is_datetime64_any_dtype(s.index):
+            # nanoseconds since epoch -> float
+            x = s.index.astype('int64', copy=False).to_numpy(dtype='float64')
+        elif is_numeric_dtype(s.index):
+            x = pd.Index(s.index).to_numpy(dtype='float64')
+        else:
+            # fallback to positional
+            x = np.arange(n, dtype='float64')
+
+        i = 0
+        while i < n:
+            if np.isnan(y[i]):
+                L = i - 1
+                j = i
+                while j < n and np.isnan(y[j]):
+                    j += 1
+                R = j  # first valid on the right (or n if none)
+
+                # Only interpolate when both sides exist (no end extrapolation)
+                if L >= 0 and R < n:
+                    denom = (x[R] - x[L])
+                    if denom != 0:
+                        m = (y[R] - y[L]) / denom
+                        y[L+1:R] = y[L] + m * (x[L+1:R] - x[L])
+                i = R
+            else:
+                i += 1
+
+        s.iloc[:] = y
+        return s
     def _counter(self, center_x, center_y, line_threshold=0.05):
         """
         Get the detections from the auto detection dataframe.
