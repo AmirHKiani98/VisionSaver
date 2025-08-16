@@ -112,6 +112,7 @@ const AutoCounter = () => {
     react.useEffect(() => {
         if (!env) return;
         checkIfDetectingExists(accuracy);
+        checkIfDetectingModifiedExists(accuracy);
     }, [env, recordId]);
     
     const checkIfDetectingExists = (divide_time) => {
@@ -126,7 +127,6 @@ const AutoCounter = () => {
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             if (data && data.exists) {
                 setDetectingExists(true);
                 setProgress(100); // Set progress to 100% if detecting exists

@@ -9,20 +9,21 @@ from shapely.ops import nearest_points
 from shapely.geometry import Point, Polygon, LineString, box
 from tqdm import tqdm
 from multiprocessing import Pool, cpu_count
+from sklearn.linear_model import LinearRegression
 
 logger = settings.APP_LOGGER
 class Model():
     """
     Base class for counter algorithms.
     """
-    def __init__(self, auto_detection_csv_path, detection_lines, video_width, video_height, area_threshold=0.9):
+    def __init__(self, auto_detection_csv_path, detection_lines, video_width, video_height, divide_time, area_threshold=0.9):
         self.auto_detection_csv_path = auto_detection_csv_path
         self.area_threshold = area_threshold
         if os.path.exists(self.auto_detection_csv_path):
             self.auto_detection_df = pd.read_csv(self.auto_detection_csv_path)
         else:
             raise FileNotFoundError(f"The file {self.auto_detection_csv_path} does not exist.")
-        
+        self.divide_time = divide_time
         self.detection_lines = detection_lines
         self.video_width = video_width
         self.video_height = video_height
@@ -49,37 +50,62 @@ class Model():
         
         # df = pd.DataFrame()
 
-        # for track_id, group in tqdm(groups_by_track, total=len(groups_by_track), desc="Cleaning tracks"):
-        #     if group.empty:
-        #         continue
+        for track_id, group in tqdm(groups_by_track, total=len(groups_by_track), desc="Cleaning tracks"):
+            if group.empty:
+                continue
             
-        #     group = group.astype({"time": "float64"})
-        #     group = group.sort_values(by="time")
-        #     group["x_center"] = (group["x1"] + group["x2"]) / 2
-        #     group["y_center"] = (group["y1"] + group["y2"]) / 2
-        #     group["next_x_center"] = group["x_center"].shift(-1)
-        #     group["next_y_center"] = group["y_center"].shift(-1)
-        #     group["next_x_center"] = group["next_x_center"].ffill()
-        #     group["next_y_center"] = group["next_y_center"].ffill()
-        #     group["x_direction"] = group["next_x_center"] - group["x_center"]
+            group = group.astype({"time": "float64"})
+            group = group.sort_values(by="time")
             
-        #     group["y_direction"] = group["next_y_center"] - group["y_center"]
-        #     group["x_direction_unit"] = (group["x_direction"]) / ((group["x_direction"]**2) + (group["y_direction"]**2))
-        #     group["y_direction_unit"] = (group["y_direction"]) / ((group["x_direction"]**2) + (group["y_direction"]**2))
-        #     tang = group["y_direction_unit"] / group["x_direction_unit"]
-        #     group["angle"] = tang.apply(lambda x: math.degrees(math.atan(x)) if x != 0 else 0)
-        #     group["angle"] = group["angle"].apply(lambda x: x + 360 if x < 0 else x)
-        #     group["zone"] = pd.Series([self._counter(row["x_center"], row["y_center"]) for _, row in group.iterrows()], index=group.index)
-        #     df = pd.concat([df, group], ignore_index=True)
+            # Round the time to two decimal places
+            group["time"] = group["time"].round(2)
+            times_should_be_there = np.arange(group["time"].min(), group["time"].max() + self.divide_time, self.divide_time)
+            times_that_exist = group["time"].unique()
+            missing_times = np.setdiff1d(times_should_be_there, times_that_exist)
+            for missing_time in missing_times:
+                new_row = {
+                    "track_id": track_id,
+                    "time": missing_time,
+                    "x1": np.nan,
+                    "y1": np.nan,
+                    "x2": np.nan,
+                    "y2": np.nan,
+                }
+                group = pd.concat([group, pd.DataFrame([new_row])], ignore_index=True)
+            
+            group["x_center"] = (group["x1"] + group["x2"]) / 2
+            group["y_center"] = (group["y1"] + group["y2"]) / 2
+            group["next_x_center"] = group["x_center"].shift(-1)
+            group["next_y_center"] = group["y_center"].shift(-1)
+            group["next_x_center"] = group["next_x_center"].ffill()
+            group["next_y_center"] = group["next_y_center"].ffill()
+            group["x_direction"] = group["next_x_center"] - group["x_center"]
+            
+            group["y_direction"] = group["next_y_center"] - group["y_center"]
+            group["x_direction_unit"] = (group["x_direction"]) / ((group["x_direction"]**2) + (group["y_direction"]**2))
+            group["y_direction_unit"] = (group["y_direction"]) / ((group["x_direction"]**2) + (group["y_direction"]**2))
+            tang = group["y_direction_unit"] / group["x_direction_unit"]
+            group["angle"] = tang.apply(lambda x: math.degrees(math.atan(x)) if x != 0 else 0)
+            group["angle"] = group["angle"].apply(lambda x: x + 360 if x < 0 else x)
+            group["zone"] = pd.Series([self._counter(row["x_center"], row["y_center"]) for _, row in group.iterrows()], index=group.index)
+            
+            df = pd.concat([df, group], ignore_index=True)
+            
         df = self.auto_detection_df.copy()
         df = df.astype({"time": "float64"})
         groups_by_time = df.groupby("time")
         df2 = pd.DataFrame()
         with Pool(cpu_count()) as pool:
-            results = list(tqdm(pool.imap(merge_group, groups_by_time), total=len(groups_by_time), desc="Merging overlapping rectangles (multiprocessing)"))
+            results = list(tqdm(pool.imap(merge_group, (groups_by_time, self.area_threshold)), total=len(groups_by_time), desc="Merging overlapping rectangles (multiprocessing)"))
         df2 = pd.concat(results, ignore_index=True)
         df2.to_csv(cleaned_path, index=False)
         return df2, cleaned_path
+    
+    def _interpolate_missing_values(self, series):
+        """
+        Interpolate missing values in a pandas Series.
+        """
+        
     
     def _counter(self, center_x, center_y, line_threshold=0.05):
         """
