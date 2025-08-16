@@ -55,7 +55,7 @@ const AutoCounter = () => {
     const [accuracy, setAccuracy] = react.useState(0.1); // Default accuracy value
     const [counterVersion, setCounterVersion] = react.useState('v1'); // Default counter version
     const [showModifiedCounts, setShowModifiedCounts] = react.useState(false);
-
+    const [modifiedDetectingExists, setModifiedDetectingExists] = react.useState(false);
     const autoHideDuration = 3000;
     const openNotification = (severity, message) => {
         setSeverity(severity);
@@ -113,7 +113,7 @@ const AutoCounter = () => {
         if (!env) return;
         checkIfDetectingExists(accuracy);
     }, [env, recordId]);
-
+    
     const checkIfDetectingExists = (divide_time) => {
         if (!env) return;
         const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_COUNT_EXISTS}`;
@@ -138,6 +138,31 @@ const AutoCounter = () => {
         .catch(error => {
             console.error('Error checking detecting existence:', error);
             setDetectingExists(false);
+        });
+    }
+
+    const checkIfDetectingModifiedExists = (divide_time, version) => {
+        if (!env) return;
+        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_MODIFIED_COUNT_EXISTS}`;
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ record_id: recordId, divide_time: divide_time, version: version }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if (data && data.exists) {
+                setModifiedDetectingExists(true);
+            } else {
+                setModifiedDetectingExists(false);
+            }
+        })
+        .catch(error => {
+            console.error('Error checking modified detecting existence:', error);
+            setModifiedDetectingExists(false);
         });
     }
 
