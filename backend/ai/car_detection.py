@@ -118,17 +118,17 @@ class CarDetection():
 
         # -------------- Basic capture checks --------------
         if not hasattr(self, 'video_capture'):
-            logger.error("Video capture not initialized. Please load a video first.")
+            #logger.error("Video capture not initialized. Please load a video first.")
             raise RuntimeError("Video capture not initialized. Please load a video first.")
 
         if not self.video_capture.isOpened():
-            logger.error(f"cv2.VideoCapture failed to open: {self.video_path}")
+            #logger.error(f"cv2.VideoCapture failed to open: {self.video_path}")
             raise RuntimeError(f"Failed to open video: {self.video_path}")
 
         fps = float(self.video_capture.get(cv2.CAP_PROP_FPS)) or 0.0
         frame_count = int(self.video_capture.get(cv2.CAP_PROP_FRAME_COUNT)) or 0
         if fps <= 0.0:
-            logger.error(f"Invalid FPS ({fps}). Cannot extract frames.")
+            #logger.error(f"Invalid FPS ({fps}). Cannot extract frames.")
             raise ValueError("Invalid FPS value. Cannot extract frames.")
         duration_sec = frame_count / fps
         self.duration = int(duration_sec)
@@ -162,7 +162,7 @@ class CarDetection():
                 if have_lock and os.path.exists(lock_path):
                     os.remove(lock_path)
             except Exception as e:
-                logger.warning(f"[CarDetection.run] Failed to remove lock {lock_path}: {e}")
+                logger.exception(f"[CarDetection.run] Failed to remove lock {lock_path}: {e}")
 
         try:
             # If an existing file is there but empty/bad, ignore it.
@@ -189,11 +189,11 @@ class CarDetection():
                         logger.warning("Channel layer is not configured; skipping progress notification.")
                     return df
                 except pd.errors.EmptyDataError:
-                    logger.warning(f"[CarDetection.run] Existing CSV is empty. Will recompute: {output_path}")
+                    logger.exception(f"[CarDetection.run] Existing CSV is empty. Will recompute: {output_path}")
                 except pd.errors.ParserError as e:
-                    logger.warning(f"[CarDetection.run] ParserError on existing CSV. Will recompute. Error: {e}")
+                    logger.exception(f"[CarDetection.run] ParserError on existing CSV. Will recompute. Error: {e}")
                 except OSError as e:
-                    logger.warning(f"[CarDetection.run] OSError reading existing CSV. Will recompute. Error: {e}")
+                    logger.exception(f"[CarDetection.run] OSError reading existing CSV. Will recompute. Error: {e}")
 
             # -------------- Process video --------------
             df = pd.DataFrame(columns=['time', 'frame_number', 'x1', 'y1', 'x2', 'y2', 'track_id'])
@@ -208,14 +208,14 @@ class CarDetection():
                     try:
                         async_to_sync(channel_layer.group_send)(group_name, {"type": "send.progress", "progress": progress})
                     except Exception as e:
-                        logger.warning(f"[CarDetection.run] Failed to send progress: {e}")
+                        logger.exception(f"[CarDetection.run] Failed to send progress: {e}")
 
 
                 # Seek & read frame
                 self.video_capture.set(cv2.CAP_PROP_POS_FRAMES, frame_number)
                 success, frame = self.video_capture.read()
                 if (not success) or frame is None or frame.size == 0 or np.mean(frame) < 1:
-                    logger.warning(f"[CarDetection.run] Suspect frame at frame={frame_number}, time={i:.2f}s")
+                    #logger.warning(f"[CarDetection.run] Suspect frame at frame={frame_number}, time={i:.2f}s")
                     continue
 
                 try:
@@ -246,7 +246,7 @@ class CarDetection():
                     divide_time=self.divide_time
                 )
             except Exception as e:
-                logger.warning(f"[CarDetection.run] AutoCounter get_or_create failed: {e}")
+                logger.exception(f"[CarDetection.run] AutoCounter get_or_create failed: {e}")
 
             # Atomic write
             try:
@@ -257,15 +257,14 @@ class CarDetection():
                     try:
                         os.remove(tmp_path)
                     except Exception:
-                        logger.warning(f"[CarDetection.run] Failed to remove temporary file: {tmp_path}")
-                        pass
+                        logger.exception(f"[CarDetection.run] Failed to remove temporary file: {tmp_path}")
 
             # Final 100% ping
             if channel_layer is not None:
                 try:
                     async_to_sync(channel_layer.group_send)(group_name, {"type": "send.progress", "progress": 100.0})
                 except Exception as e:
-                    logger.warning(f"[CarDetection.run] Failed to send final progress: {e}")
+                    logger.exception(f"[CarDetection.run] Failed to send final progress: {e}")
             return df
 
         finally:

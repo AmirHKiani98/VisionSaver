@@ -54,7 +54,7 @@ const AutoCounter = () => {
     const [detectingExists, setDetectingExists] = react.useState(false);
     const [accuracy, setAccuracy] = react.useState(0.1); // Default accuracy value
     const [counterVersion, setCounterVersion] = react.useState('v1'); // Default counter version
-
+    const [showModifiedCounts, setShowModifiedCounts] = react.useState(false);
 
     const autoHideDuration = 3000;
     const openNotification = (severity, message) => {
@@ -423,7 +423,7 @@ const AutoCounter = () => {
         if (videoRef.current && !seeking) {
             setCurrentTime(videoRef.current.currentTime);
         }
-        if (showCounts && videoRef.current) {
+        if (showCounts && videoRef.current && !showModifiedCounts) {
             // Get the counts for the current time
             const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_GET_COUNTS_AT_TIME}`;
             fetch(url, {
@@ -441,6 +441,27 @@ const AutoCounter = () => {
                     setCountDict(counts);
                 } else {
                     console.error('No counts found in the response');
+                }
+            })
+        }
+        if (showModifiedCounts && videoRef.current){
+            // Get the modified counts for the current time
+            const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_GET_MODIFIED_COUNTS_AT_TIME}`;
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ record_id: recordId, time: videoRef.current.currentTime }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                if (data && data.detections) {
+                    const detections = data.detections;
+                    setCountDict(detections);
+                } else {
+                    console.error('No modified counts found in the response');
                 }
             })
         }
@@ -543,7 +564,7 @@ const AutoCounter = () => {
                                 globalCompositeOperation={line.tool === 'eraser' ? 'destination-out' : 'source-over'}
                                 />
                             ))}
-                            {Object.keys(countDict).length > 0 && showCounts && (() => {
+                            {Object.keys(countDict).length > 0 && (showCounts || showModifiedCounts) && (() => {
                                 // Find the closest time key
                                 const times = Object.keys(countDict).map(t => parseFloat(t));
                                 if (times.length === 0) return null;
@@ -624,6 +645,7 @@ const AutoCounter = () => {
                                             setShowCounts(false);
                                             openNotification('info', 'Counts are now hidden');
                                         } else {
+                                            setShowModifiedCounts(false);
                                             setShowCounts(true);
                                             openNotification('info', 'Counts now are visible');
                                         }
@@ -816,6 +838,22 @@ const AutoCounter = () => {
                             >
                                 <FontAwesomeIcon icon={faCar} className='text-center' />
                             </Button>
+                            <Button 
+                                className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black h-full'
+                                onClick={() =>{
+                                    
+                                    if (showModifiedCounts) {
+                                        setShowCounts(false);
+                                        setShowModifiedCounts(false);
+                                        openNotification('info', 'Modified counts are now hidden');
+                                    } else {
+                                        setShowModifiedCounts(true);
+                                        openNotification('info', 'Modified counts are now visible');
+                                    }
+                                }}
+                                >
+                                    <FontAwesomeIcon icon={!showModifiedCounts ? faEye : faEyeSlash} className='text-center' />
+                                </Button>
                         </Tooltip>
                     </div>
                 </div>

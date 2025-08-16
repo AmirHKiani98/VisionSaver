@@ -362,3 +362,2087 @@ INFO 2025-08-15 14:24:17,457 logger 25840 8188 Found 38196 unique time groups
 INFO 2025-08-15 14:24:17,457 logger 25840 8188 Found 38196 unique time groups
 INFO 2025-08-15 14:25:01,178 logger 25840 8188 Overlapping rectangles merged, resulting in 177849 rows. Time taken: 43.72 seconds using 14 processes.
 INFO 2025-08-15 14:25:01,178 logger 25840 8188 Overlapping rectangles merged, resulting in 177849 rows. Time taken: 43.72 seconds using 14 processes.
+WARNING 2025-08-15 14:30:32,274 log 20048 92 Not Found: /undefined
+WARNING 2025-08-15 14:30:32,587 log 20048 92 Not Found: /undefined
+WARNING 2025-08-15 14:30:32,788 log 20048 92 Not Found: /undefined
+WARNING 2025-08-15 14:30:33,054 log 20048 92 Not Found: /undefined
+WARNING 2025-08-15 14:30:33,321 log 20048 92 Not Found: /undefined
+WARNING 2025-08-15 14:30:33,583 log 20048 92 Not Found: /undefined
+WARNING 2025-08-15 14:30:33,854 log 20048 92 Not Found: /undefined
+WARNING 2025-08-15 14:30:34,098 log 20048 92 Not Found: /undefined
+WARNING 2025-08-15 14:34:40,253 log 20048 92 Not Found: /undefined
+WARNING 2025-08-15 14:34:40,513 log 20048 92 Not Found: /undefined
+WARNING 2025-08-15 14:34:40,776 log 20048 92 Not Found: /undefined
+WARNING 2025-08-15 14:34:41,040 log 20048 92 Not Found: /undefined
+WARNING 2025-08-15 14:34:41,308 log 20048 92 Not Found: /undefined
+WARNING 2025-08-15 14:34:41,582 log 20048 92 Not Found: /undefined
+ERROR 2025-08-15 14:53:31,645 log 10952 35800 Internal Server Error: /api/count_exists
+ERROR 2025-08-15 14:53:40,908 log 10952 35800 Internal Server Error: /api/count_exists
+INFO 2025-08-15 14:53:43,667 logger 10952 24860 Starting car detection for record ID: 673 with divide_time: 10
+INFO 2025-08-15 14:53:43,667 logger 10952 24860 Starting car detection for record ID: 673 with divide_time: 10
+INFO 2025-08-15 14:53:43,671 logger 10952 24860 Loading YOLO model...
+INFO 2025-08-15 14:53:43,671 logger 10952 24860 Loading YOLO model...
+INFO 2025-08-15 14:53:48,749 logger 10952 24860 Starting detection thread...
+INFO 2025-08-15 14:53:48,749 logger 10952 24860 Starting detection thread...
+INFO 2025-08-15 14:53:48,752 logger 10952 24860 Car detection thread started successfully
+INFO 2025-08-15 14:53:48,752 logger 10952 24860 Car detection thread started successfully
+ERROR 2025-08-15 14:55:10,897 log 30832 19016 Internal Server Error: /api/count_exists
+ERROR 2025-08-15 14:55:12,350 log 30832 19016 Internal Server Error: /api/count_exists
+ERROR 2025-08-15 14:55:14,389 log 30832 19016 Internal Server Error: /api/count_exists
+WARNING 2025-08-15 21:50:37,244 log 9020 23656 Not Found: /undefined
+WARNING 2025-08-15 21:50:37,937 log 9020 23656 Not Found: /undefined
+WARNING 2025-08-15 21:50:38,871 log 9020 23656 Not Found: /undefined
+WARNING 2025-08-15 21:50:39,123 log 9020 23656 Not Found: /undefined
+WARNING 2025-08-15 21:50:39,386 log 9020 23656 Not Found: /undefined
+WARNING 2025-08-15 21:50:39,654 log 9020 23656 Not Found: /undefined
+WARNING 2025-08-15 21:50:39,898 log 9020 23656 Not Found: /undefined
+WARNING 2025-08-15 21:55:13,754 log 9020 23656 Not Found: /undefined
+WARNING 2025-08-15 21:55:14,011 log 9020 23656 Not Found: /undefined
+WARNING 2025-08-15 21:55:14,273 log 9020 23656 Not Found: /undefined
+WARNING 2025-08-15 21:55:14,536 log 9020 23656 Not Found: /undefined
+WARNING 2025-08-15 21:55:14,802 log 9020 23656 Not Found: /undefined
+WARNING 2025-08-15 21:55:15,065 log 9020 23656 Not Found: /undefined
+WARNING 2025-08-15 21:55:15,334 log 9020 23656 Not Found: /undefined
+WARNING 2025-08-15 21:55:15,598 log 9020 23656 Not Found: /undefined
+WARNING 2025-08-15 21:55:15,862 log 9020 23656 Not Found: /undefined
+WARNING 2025-08-15 21:55:16,019 log 9020 23656 Not Found: /undefined
+INFO 2025-08-15 21:56:21,736 logger 32368 10340 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 21:56:21,736 logger 32368 10340 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 21:56:21,745 logger 32368 10340 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 21:56:21,745 logger 32368 10340 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 21:56:21,751 logger 32368 10340 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 21:56:21,751 logger 32368 10340 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 21:56:21,755 logger 32368 10340 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 21:56:21,755 logger 32368 10340 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 21:56:22,061 logger 32368 10340 Video dimensions: 1280x720
+INFO 2025-08-15 21:56:22,061 logger 32368 10340 Video dimensions: 1280x720
+INFO 2025-08-15 21:56:22,260 logger 32368 16856 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 21:56:22,260 logger 32368 16856 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 21:56:22,268 logger 32368 16856 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 21:56:22,268 logger 32368 16856 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 21:56:22,274 logger 32368 16856 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 21:56:22,274 logger 32368 16856 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 21:56:22,279 logger 32368 16856 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 21:56:22,279 logger 32368 16856 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 21:56:22,358 logger 32368 16856 Video dimensions: 1280x720
+INFO 2025-08-15 21:56:22,358 logger 32368 16856 Video dimensions: 1280x720
+WARNING 2025-08-15 21:56:22,386 logger 32368 10340 No detection lines provided, returning empty line types
+WARNING 2025-08-15 21:56:22,386 logger 32368 10340 No detection lines provided, returning empty line types
+INFO 2025-08-15 21:56:22,389 logger 32368 10340 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 21:56:22,389 logger 32368 10340 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 21:56:22,393 logger 32368 10340 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 21:56:22,393 logger 32368 10340 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 21:56:22,397 logger 32368 10340 Getting result from the model instance
+INFO 2025-08-15 21:56:22,397 logger 32368 10340 Getting result from the model instance
+INFO 2025-08-15 21:56:22,400 logger 32368 10340 Starting to clean the auto detection dataframe
+INFO 2025-08-15 21:56:22,400 logger 32368 10340 Starting to clean the auto detection dataframe
+INFO 2025-08-15 21:56:22,404 logger 32368 10340 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 21:56:22,404 logger 32368 10340 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 21:56:22,670 logger 32368 20444 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 21:56:22,670 logger 32368 20444 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 21:56:22,679 logger 32368 20444 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 21:56:22,679 logger 32368 20444 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 21:56:22,687 logger 32368 20444 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 21:56:22,687 logger 32368 20444 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 21:56:22,695 logger 32368 20444 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 21:56:22,695 logger 32368 20444 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 21:56:22,795 logger 32368 29616 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 21:56:22,795 logger 32368 29616 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 21:56:22,805 logger 32368 29616 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 21:56:22,805 logger 32368 29616 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 21:56:22,814 logger 32368 29616 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 21:56:22,814 logger 32368 29616 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 21:56:22,818 logger 32368 29616 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 21:56:22,818 logger 32368 29616 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 21:56:22,828 logger 32368 20444 Video dimensions: 1280x720
+INFO 2025-08-15 21:56:22,828 logger 32368 20444 Video dimensions: 1280x720
+WARNING 2025-08-15 21:56:22,901 logger 32368 16856 No detection lines provided, returning empty line types
+WARNING 2025-08-15 21:56:22,901 logger 32368 16856 No detection lines provided, returning empty line types
+INFO 2025-08-15 21:56:22,906 logger 32368 16856 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 21:56:22,906 logger 32368 16856 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 21:56:22,911 logger 32368 16856 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 21:56:22,911 logger 32368 16856 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 21:56:22,915 logger 32368 16856 Getting result from the model instance
+INFO 2025-08-15 21:56:22,915 logger 32368 16856 Getting result from the model instance
+INFO 2025-08-15 21:56:22,917 logger 32368 29616 Video dimensions: 1280x720
+INFO 2025-08-15 21:56:22,919 logger 32368 16856 Starting to clean the auto detection dataframe
+INFO 2025-08-15 21:56:22,917 logger 32368 29616 Video dimensions: 1280x720
+INFO 2025-08-15 21:56:22,919 logger 32368 16856 Starting to clean the auto detection dataframe
+INFO 2025-08-15 21:56:22,924 logger 32368 16856 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 21:56:22,924 logger 32368 16856 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 21:56:23,104 logger 32368 31116 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 21:56:23,104 logger 32368 31116 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 21:56:23,133 logger 32368 31116 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 21:56:23,133 logger 32368 31116 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 21:56:23,197 logger 32368 31116 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 21:56:23,197 logger 32368 31116 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 21:56:23,234 logger 32368 31116 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 21:56:23,234 logger 32368 31116 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+ERROR 2025-08-15 21:56:23,326 log 32368 20780 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 508, in get_modified_counts_at_time
+    if not auto_counter:
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\pandas\core\generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+WARNING 2025-08-15 21:56:23,329 logger 32368 20444 No detection lines provided, returning empty line types
+INFO 2025-08-15 21:56:23,337 logger 32368 26032 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 21:56:23,345 logger 32368 31116 Video dimensions: 1280x720
+WARNING 2025-08-15 21:56:23,329 logger 32368 20444 No detection lines provided, returning empty line types
+INFO 2025-08-15 21:56:23,337 logger 32368 26032 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 21:56:23,345 logger 32368 31116 Video dimensions: 1280x720
+INFO 2025-08-15 21:56:23,384 logger 32368 20444 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 21:56:23,384 logger 32368 20444 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 21:56:23,396 logger 32368 26032 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 21:56:23,399 logger 32368 20444 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 21:56:23,396 logger 32368 26032 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 21:56:23,399 logger 32368 20444 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 21:56:23,407 logger 32368 26032 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 21:56:23,408 logger 32368 20444 Getting result from the model instance
+INFO 2025-08-15 21:56:23,407 logger 32368 26032 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 21:56:23,408 logger 32368 20444 Getting result from the model instance
+INFO 2025-08-15 21:56:23,416 logger 32368 26032 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 21:56:23,418 logger 32368 20444 Starting to clean the auto detection dataframe
+INFO 2025-08-15 21:56:23,416 logger 32368 26032 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 21:56:23,418 logger 32368 20444 Starting to clean the auto detection dataframe
+INFO 2025-08-15 21:56:23,426 logger 32368 20444 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 21:56:23,426 logger 32368 20444 Auto detection dataframe loaded with 177849 rows
+WARNING 2025-08-15 21:56:23,514 logger 32368 29616 No detection lines provided, returning empty line types
+INFO 2025-08-15 21:56:23,521 logger 32368 26032 Video dimensions: 1280x720
+WARNING 2025-08-15 21:56:23,514 logger 32368 29616 No detection lines provided, returning empty line types
+INFO 2025-08-15 21:56:23,521 logger 32368 26032 Video dimensions: 1280x720
+INFO 2025-08-15 21:56:23,554 logger 32368 29616 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 21:56:23,554 logger 32368 29616 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 21:56:23,629 logger 32368 29616 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 21:56:23,629 logger 32368 29616 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 21:56:23,662 logger 32368 31152 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 21:56:23,662 logger 32368 31152 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 21:56:23,676 logger 32368 29616 Getting result from the model instance
+INFO 2025-08-15 21:56:23,676 logger 32368 29616 Getting result from the model instance
+INFO 2025-08-15 21:56:23,717 logger 32368 29616 Starting to clean the auto detection dataframe
+INFO 2025-08-15 21:56:23,717 logger 32368 29616 Starting to clean the auto detection dataframe
+INFO 2025-08-15 21:56:23,729 logger 32368 31152 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 21:56:23,749 logger 32368 29616 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 21:56:23,729 logger 32368 31152 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 21:56:23,749 logger 32368 29616 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 21:56:23,793 logger 32368 31152 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 21:56:23,793 logger 32368 31152 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 21:56:23,801 logger 32368 31152 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 21:56:23,801 logger 32368 31152 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+ERROR 2025-08-15 21:56:23,834 log 32368 20780 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 508, in get_modified_counts_at_time
+    if not auto_counter:
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\pandas\core\generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+INFO 2025-08-15 21:56:23,954 logger 32368 31152 Video dimensions: 1280x720
+INFO 2025-08-15 21:56:23,954 logger 32368 31152 Video dimensions: 1280x720
+INFO 2025-08-15 21:56:23,978 logger 32368 31952 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 21:56:23,978 logger 32368 31952 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 21:56:24,049 logger 32368 31952 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 21:56:24,049 logger 32368 31952 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 21:56:24,140 logger 32368 31952 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 21:56:24,140 logger 32368 31952 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 21:56:24,161 logger 32368 31952 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 21:56:24,161 logger 32368 31952 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+WARNING 2025-08-15 21:56:24,239 logger 32368 31116 No detection lines provided, returning empty line types
+WARNING 2025-08-15 21:56:24,239 logger 32368 31116 No detection lines provided, returning empty line types
+INFO 2025-08-15 21:56:24,249 logger 32368 31116 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 21:56:24,249 logger 32368 31116 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 21:56:24,266 logger 32368 31116 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 21:56:24,266 logger 32368 31116 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 21:56:24,300 logger 32368 31116 Getting result from the model instance
+INFO 2025-08-15 21:56:24,300 logger 32368 31116 Getting result from the model instance
+INFO 2025-08-15 21:56:24,313 logger 32368 31952 Video dimensions: 1280x720
+INFO 2025-08-15 21:56:24,319 logger 32368 31116 Starting to clean the auto detection dataframe
+INFO 2025-08-15 21:56:24,313 logger 32368 31952 Video dimensions: 1280x720
+INFO 2025-08-15 21:56:24,319 logger 32368 31116 Starting to clean the auto detection dataframe
+INFO 2025-08-15 21:56:24,339 logger 32368 31116 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 21:56:24,339 logger 32368 31116 Auto detection dataframe loaded with 177849 rows
+WARNING 2025-08-15 21:56:24,376 logger 32368 26032 No detection lines provided, returning empty line types
+WARNING 2025-08-15 21:56:24,376 logger 32368 26032 No detection lines provided, returning empty line types
+INFO 2025-08-15 21:56:24,395 logger 32368 26032 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 21:56:24,395 logger 32368 26032 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 21:56:24,406 logger 32368 26032 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 21:56:24,406 logger 32368 26032 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 21:56:24,445 logger 32368 26032 Getting result from the model instance
+INFO 2025-08-15 21:56:24,445 logger 32368 26032 Getting result from the model instance
+ERROR 2025-08-15 21:56:24,520 log 32368 20780 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 508, in get_modified_counts_at_time
+    if not auto_counter:
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\pandas\core\generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+INFO 2025-08-15 21:56:24,521 logger 32368 26032 Starting to clean the auto detection dataframe
+INFO 2025-08-15 21:56:24,521 logger 32368 26032 Starting to clean the auto detection dataframe
+INFO 2025-08-15 21:56:24,591 logger 32368 26032 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 21:56:24,591 logger 32368 26032 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 21:56:24,798 logger 32368 32700 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 21:56:24,798 logger 32368 32700 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 21:56:24,996 logger 32368 32700 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 21:56:24,996 logger 32368 32700 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+WARNING 2025-08-15 21:56:25,033 logger 32368 31152 No detection lines provided, returning empty line types
+INFO 2025-08-15 21:56:25,041 logger 32368 32700 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 21:56:25,041 logger 32368 32700 AutoCounter found: AutoCounter object (1)
+WARNING 2025-08-15 21:56:25,033 logger 32368 31152 No detection lines provided, returning empty line types
+INFO 2025-08-15 21:56:25,081 logger 32368 32700 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 21:56:25,081 logger 32368 32700 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 21:56:25,101 logger 32368 31152 Model instance created successfully with the provided parameters.
+ERROR 2025-08-15 21:56:25,117 log 32368 20780 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 508, in get_modified_counts_at_time
+    if not auto_counter:
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\pandas\core\generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+INFO 2025-08-15 21:56:25,101 logger 32368 31152 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 21:56:25,166 logger 32368 31152 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 21:56:25,166 logger 32368 31152 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 21:56:25,223 logger 32368 31152 Getting result from the model instance
+INFO 2025-08-15 21:56:25,231 logger 32368 32700 Video dimensions: 1280x720
+INFO 2025-08-15 21:56:25,223 logger 32368 31152 Getting result from the model instance
+INFO 2025-08-15 21:56:25,231 logger 32368 32700 Video dimensions: 1280x720
+INFO 2025-08-15 21:56:25,288 logger 32368 31152 Starting to clean the auto detection dataframe
+INFO 2025-08-15 21:56:25,288 logger 32368 31152 Starting to clean the auto detection dataframe
+INFO 2025-08-15 21:56:25,320 logger 32368 30080 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 21:56:25,332 logger 32368 31152 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 21:56:25,320 logger 32368 30080 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 21:56:25,332 logger 32368 31152 Auto detection dataframe loaded with 177849 rows
+WARNING 2025-08-15 21:56:25,342 logger 32368 31952 No detection lines provided, returning empty line types
+WARNING 2025-08-15 21:56:25,342 logger 32368 31952 No detection lines provided, returning empty line types
+INFO 2025-08-15 21:56:25,364 logger 32368 30080 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 21:56:25,373 logger 32368 31952 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 21:56:25,364 logger 32368 30080 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 21:56:25,373 logger 32368 31952 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 21:56:25,394 logger 32368 30080 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 21:56:25,397 logger 32368 31952 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 21:56:25,394 logger 32368 30080 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 21:56:25,397 logger 32368 31952 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 21:56:25,432 logger 32368 30080 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 21:56:25,447 logger 32368 31952 Getting result from the model instance
+INFO 2025-08-15 21:56:25,432 logger 32368 30080 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 21:56:25,447 logger 32368 31952 Getting result from the model instance
+INFO 2025-08-15 21:56:25,502 logger 32368 31952 Starting to clean the auto detection dataframe
+INFO 2025-08-15 21:56:25,502 logger 32368 31952 Starting to clean the auto detection dataframe
+INFO 2025-08-15 21:56:25,553 logger 32368 31952 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 21:56:25,553 logger 32368 31952 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 21:56:25,582 logger 32368 30080 Video dimensions: 1280x720
+INFO 2025-08-15 21:56:25,582 logger 32368 30080 Video dimensions: 1280x720
+ERROR 2025-08-15 21:56:25,889 log 32368 20780 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 508, in get_modified_counts_at_time
+    if not auto_counter:
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\pandas\core\generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+WARNING 2025-08-15 21:56:26,062 logger 32368 32700 No detection lines provided, returning empty line types
+WARNING 2025-08-15 21:56:26,062 logger 32368 32700 No detection lines provided, returning empty line types
+INFO 2025-08-15 21:56:26,081 logger 32368 12200 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 21:56:26,087 logger 32368 32700 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 21:56:26,081 logger 32368 12200 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 21:56:26,087 logger 32368 32700 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 21:56:26,098 logger 32368 32700 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 21:56:26,098 logger 32368 32700 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 21:56:26,113 logger 32368 12200 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+ERROR 2025-08-15 21:56:26,116 log 32368 20780 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 508, in get_modified_counts_at_time
+    if not auto_counter:
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\pandas\core\generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+INFO 2025-08-15 21:56:26,119 logger 32368 32700 Getting result from the model instance
+INFO 2025-08-15 21:56:26,113 logger 32368 12200 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 21:56:26,119 logger 32368 32700 Getting result from the model instance
+INFO 2025-08-15 21:56:26,147 logger 32368 12200 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 21:56:26,147 logger 32368 32700 Starting to clean the auto detection dataframe
+INFO 2025-08-15 21:56:26,147 logger 32368 12200 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 21:56:26,147 logger 32368 32700 Starting to clean the auto detection dataframe
+INFO 2025-08-15 21:56:26,162 logger 32368 12200 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 21:56:26,166 logger 32368 32700 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 21:56:26,162 logger 32368 12200 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 21:56:26,166 logger 32368 32700 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 21:56:26,180 logger 32368 31460 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 21:56:26,180 logger 32368 31460 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 21:56:26,201 logger 32368 31460 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 21:56:26,201 logger 32368 31460 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 21:56:26,280 logger 32368 31460 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 21:56:26,310 logger 32368 12200 Video dimensions: 1280x720
+INFO 2025-08-15 21:56:26,280 logger 32368 31460 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 21:56:26,310 logger 32368 12200 Video dimensions: 1280x720
+INFO 2025-08-15 21:56:26,338 logger 32368 31460 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+WARNING 2025-08-15 21:56:26,363 logger 32368 30080 No detection lines provided, returning empty line types
+INFO 2025-08-15 21:56:26,338 logger 32368 31460 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+WARNING 2025-08-15 21:56:26,363 logger 32368 30080 No detection lines provided, returning empty line types
+INFO 2025-08-15 21:56:26,454 logger 32368 30080 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 21:56:26,454 logger 32368 30080 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 21:56:26,495 logger 32368 30080 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 21:56:26,507 logger 32368 31460 Video dimensions: 1280x720
+INFO 2025-08-15 21:56:26,495 logger 32368 30080 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 21:56:26,507 logger 32368 31460 Video dimensions: 1280x720
+INFO 2025-08-15 21:56:26,532 logger 32368 30080 Getting result from the model instance
+INFO 2025-08-15 21:56:26,532 logger 32368 30080 Getting result from the model instance
+INFO 2025-08-15 21:56:26,555 logger 32368 30080 Starting to clean the auto detection dataframe
+ERROR 2025-08-15 21:56:26,559 log 32368 20780 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 508, in get_modified_counts_at_time
+    if not auto_counter:
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\pandas\core\generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+INFO 2025-08-15 21:56:26,555 logger 32368 30080 Starting to clean the auto detection dataframe
+INFO 2025-08-15 21:56:26,582 logger 32368 30080 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 21:56:26,582 logger 32368 30080 Auto detection dataframe loaded with 177849 rows
+ERROR 2025-08-15 21:56:26,907 log 32368 20780 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 508, in get_modified_counts_at_time
+    if not auto_counter:
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\pandas\core\generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+WARNING 2025-08-15 21:56:27,063 logger 32368 12200 No detection lines provided, returning empty line types
+WARNING 2025-08-15 21:56:27,063 logger 32368 12200 No detection lines provided, returning empty line types
+INFO 2025-08-15 21:56:27,069 logger 32368 12200 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 21:56:27,069 logger 32368 12200 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 21:56:27,080 logger 32368 12200 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 21:56:27,080 logger 32368 12200 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 21:56:27,091 logger 32368 12200 Getting result from the model instance
+INFO 2025-08-15 21:56:27,091 logger 32368 12200 Getting result from the model instance
+INFO 2025-08-15 21:56:27,096 logger 32368 12200 Starting to clean the auto detection dataframe
+INFO 2025-08-15 21:56:27,096 logger 32368 12200 Starting to clean the auto detection dataframe
+INFO 2025-08-15 21:56:27,101 logger 32368 12200 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 21:56:27,101 logger 32368 12200 Auto detection dataframe loaded with 177849 rows
+ERROR 2025-08-15 21:56:27,200 log 32368 20780 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 508, in get_modified_counts_at_time
+    if not auto_counter:
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\pandas\core\generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+WARNING 2025-08-15 21:56:27,255 logger 32368 31460 No detection lines provided, returning empty line types
+WARNING 2025-08-15 21:56:27,255 logger 32368 31460 No detection lines provided, returning empty line types
+INFO 2025-08-15 21:56:27,273 logger 32368 31460 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 21:56:27,273 logger 32368 31460 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 21:56:27,321 logger 32368 31460 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 21:56:27,321 logger 32368 31460 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 21:56:27,347 logger 32368 31460 Getting result from the model instance
+INFO 2025-08-15 21:56:27,347 logger 32368 31460 Getting result from the model instance
+INFO 2025-08-15 21:56:27,369 logger 32368 31460 Starting to clean the auto detection dataframe
+INFO 2025-08-15 21:56:27,369 logger 32368 31460 Starting to clean the auto detection dataframe
+INFO 2025-08-15 21:56:27,377 logger 32368 31460 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 21:56:27,377 logger 32368 31460 Auto detection dataframe loaded with 177849 rows
+ERROR 2025-08-15 21:56:27,537 log 32368 20780 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 508, in get_modified_counts_at_time
+    if not auto_counter:
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\pandas\core\generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+ERROR 2025-08-15 21:56:27,737 log 32368 20780 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 508, in get_modified_counts_at_time
+    if not auto_counter:
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\pandas\core\generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+ERROR 2025-08-15 21:56:27,850 log 32368 20780 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 508, in get_modified_counts_at_time
+    if not auto_counter:
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\pandas\core\generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+INFO 2025-08-15 22:15:42,026 logger 32368 2112 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:15:42,026 logger 32368 2112 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:15:42,032 logger 32368 23144 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:15:42,032 logger 32368 23144 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:15:42,042 logger 32368 23144 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:15:42,042 logger 32368 23144 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:15:42,049 logger 32368 23144 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:15:42,049 logger 32368 23144 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:15:42,053 logger 32368 23144 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:15:42,053 logger 32368 23144 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:15:42,181 logger 32368 23144 Video dimensions: 1280x720
+INFO 2025-08-15 22:15:42,181 logger 32368 23144 Video dimensions: 1280x720
+WARNING 2025-08-15 22:15:42,418 logger 32368 23144 No detection lines provided, returning empty line types
+WARNING 2025-08-15 22:15:42,418 logger 32368 23144 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:15:42,419 logger 32368 23144 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:15:42,419 logger 32368 23144 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:15:42,421 logger 32368 23144 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:15:42,421 logger 32368 23144 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:15:42,424 logger 32368 23144 Getting result from the model instance
+INFO 2025-08-15 22:15:42,424 logger 32368 23144 Getting result from the model instance
+INFO 2025-08-15 22:15:42,425 logger 32368 23144 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:15:42,425 logger 32368 23144 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:15:42,426 logger 32368 23144 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:15:42,426 logger 32368 23144 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:16:42,863 logger 15260 26196 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:16:42,863 logger 15260 26196 Starting auto counting for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:16:42,867 logger 15260 8608 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:16:42,867 logger 15260 8608 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:16:42,881 logger 15260 8608 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:16:42,881 logger 15260 8608 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:16:42,885 logger 15260 8608 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:16:42,885 logger 15260 8608 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:16:42,889 logger 15260 8608 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:16:42,889 logger 15260 8608 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:16:43,042 logger 15260 8608 Video dimensions: 1280x720
+INFO 2025-08-15 22:16:43,042 logger 15260 8608 Video dimensions: 1280x720
+WARNING 2025-08-15 22:16:43,282 logger 15260 8608 No detection lines provided, returning empty line types
+WARNING 2025-08-15 22:16:43,282 logger 15260 8608 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:16:43,284 logger 15260 8608 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:16:43,284 logger 15260 8608 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:16:43,287 logger 15260 8608 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:16:43,287 logger 15260 8608 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:16:43,289 logger 15260 8608 Getting result from the model instance
+INFO 2025-08-15 22:16:43,289 logger 15260 8608 Getting result from the model instance
+INFO 2025-08-15 22:16:43,291 logger 15260 8608 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:16:43,291 logger 15260 8608 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:16:43,293 logger 15260 8608 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:16:43,293 logger 15260 8608 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:38:24,104 logger 21244 1672 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:38:24,104 logger 21244 1672 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:38:24,121 logger 21244 29600 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:38:24,123 logger 21244 25864 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:38:24,123 logger 21244 1672 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:38:24,121 logger 21244 29600 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:38:24,123 logger 21244 25864 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:38:24,123 logger 21244 1672 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:38:24,132 logger 21244 25864 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:38:24,132 logger 21244 29600 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:38:24,133 logger 21244 1672 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:38:24,132 logger 21244 25864 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:38:24,132 logger 21244 29600 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:38:24,133 logger 21244 1672 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:38:24,141 logger 21244 29600 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:38:24,141 logger 21244 25864 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:38:24,142 logger 21244 1672 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:38:24,141 logger 21244 29600 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:38:24,141 logger 21244 25864 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:38:24,142 logger 21244 1672 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:38:24,145 logger 21244 29600 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:38:24,146 logger 21244 25864 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:38:24,146 logger 21244 25864 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:38:24,145 logger 21244 29600 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:38:24,328 logger 21244 1672 Video dimensions: 1280x720
+INFO 2025-08-15 22:38:24,328 logger 21244 1672 Video dimensions: 1280x720
+INFO 2025-08-15 22:38:24,383 logger 21244 25864 Video dimensions: 1280x720
+INFO 2025-08-15 22:38:24,383 logger 21244 25864 Video dimensions: 1280x720
+INFO 2025-08-15 22:38:24,466 logger 21244 29600 Video dimensions: 1280x720
+INFO 2025-08-15 22:38:24,466 logger 21244 29600 Video dimensions: 1280x720
+WARNING 2025-08-15 22:38:24,662 logger 21244 1672 No detection lines provided, returning empty line types
+WARNING 2025-08-15 22:38:24,662 logger 21244 1672 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:38:24,665 logger 21244 1672 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:38:24,665 logger 21244 1672 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:38:24,667 logger 21244 1672 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:38:24,667 logger 21244 1672 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:38:24,671 logger 21244 1672 Getting result from the model instance
+INFO 2025-08-15 22:38:24,671 logger 21244 1672 Getting result from the model instance
+INFO 2025-08-15 22:38:24,673 logger 21244 1672 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:38:24,673 logger 21244 1672 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:38:24,681 logger 21244 1672 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:38:24,681 logger 21244 1672 Auto detection dataframe loaded with 177849 rows
+WARNING 2025-08-15 22:38:24,751 logger 21244 25864 No detection lines provided, returning empty line types
+WARNING 2025-08-15 22:38:24,751 logger 21244 25864 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:38:24,801 logger 21244 25864 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:38:24,801 logger 21244 25864 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:38:24,864 logger 21244 25864 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:38:24,864 logger 21244 25864 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:38:24,870 logger 21244 25864 Getting result from the model instance
+INFO 2025-08-15 22:38:24,870 logger 21244 25864 Getting result from the model instance
+INFO 2025-08-15 22:38:24,873 logger 21244 25864 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:38:24,873 logger 21244 25864 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:38:24,879 logger 21244 25864 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:38:24,879 logger 21244 25864 Auto detection dataframe loaded with 177849 rows
+WARNING 2025-08-15 22:38:24,912 logger 21244 29600 No detection lines provided, returning empty line types
+WARNING 2025-08-15 22:38:24,912 logger 21244 29600 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:38:24,916 logger 21244 29600 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:38:24,916 logger 21244 29600 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:38:25,099 logger 21244 29600 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:38:25,099 logger 21244 29600 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:38:25,143 logger 21244 29600 Getting result from the model instance
+INFO 2025-08-15 22:38:25,143 logger 21244 29600 Getting result from the model instance
+INFO 2025-08-15 22:38:25,178 logger 21244 29600 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:38:25,178 logger 21244 29600 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:38:25,223 logger 21244 29600 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:38:25,223 logger 21244 29600 Auto detection dataframe loaded with 177849 rows
+ERROR 2025-08-15 22:38:25,579 log 21244 34528 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 508, in get_modified_counts_at_time
+    if not auto_counter:
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\pandas\core\generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+ERROR 2025-08-15 22:38:25,643 log 21244 34528 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 508, in get_modified_counts_at_time
+    if not auto_counter:
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\pandas\core\generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+ERROR 2025-08-15 22:38:25,721 log 21244 34528 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 508, in get_modified_counts_at_time
+    if not auto_counter:
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\pandas\core\generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+INFO 2025-08-15 22:50:13,209 logger 21244 35196 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:50:13,209 logger 21244 35196 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:50:13,217 logger 21244 35196 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:50:13,217 logger 21244 35196 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:50:13,222 logger 21244 35196 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:50:13,222 logger 21244 35196 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:50:13,224 logger 21244 35196 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:50:13,224 logger 21244 35196 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:50:13,279 logger 21244 35196 Video dimensions: 1280x720
+INFO 2025-08-15 22:50:13,279 logger 21244 35196 Video dimensions: 1280x720
+INFO 2025-08-15 22:50:13,476 logger 21244 31760 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:50:13,476 logger 21244 31760 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:50:13,485 logger 21244 31760 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:50:13,485 logger 21244 31760 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:50:13,490 logger 21244 31760 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:50:13,490 logger 21244 31760 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:50:13,492 logger 21244 31760 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:50:13,492 logger 21244 31760 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+WARNING 2025-08-15 22:50:13,530 logger 21244 35196 No detection lines provided, returning empty line types
+WARNING 2025-08-15 22:50:13,530 logger 21244 35196 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:50:13,534 logger 21244 35196 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:50:13,534 logger 21244 35196 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:50:13,537 logger 21244 35196 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:50:13,537 logger 21244 35196 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:50:13,539 logger 21244 35196 Getting result from the model instance
+INFO 2025-08-15 22:50:13,539 logger 21244 35196 Getting result from the model instance
+INFO 2025-08-15 22:50:13,541 logger 21244 35196 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:50:13,541 logger 21244 35196 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:50:13,544 logger 21244 35196 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:50:13,544 logger 21244 35196 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:50:13,551 logger 21244 31760 Video dimensions: 1280x720
+INFO 2025-08-15 22:50:13,551 logger 21244 31760 Video dimensions: 1280x720
+INFO 2025-08-15 22:50:13,751 logger 21244 28176 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:50:13,751 logger 21244 28176 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:50:13,758 logger 21244 28176 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:50:13,758 logger 21244 28176 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:50:13,765 logger 21244 28176 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:50:13,765 logger 21244 28176 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:50:13,769 logger 21244 28176 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:50:13,769 logger 21244 28176 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:50:13,857 logger 21244 28176 Video dimensions: 1280x720
+INFO 2025-08-15 22:50:13,857 logger 21244 28176 Video dimensions: 1280x720
+WARNING 2025-08-15 22:50:13,990 logger 21244 31760 No detection lines provided, returning empty line types
+WARNING 2025-08-15 22:50:13,990 logger 21244 31760 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:50:13,994 logger 21244 31760 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:50:13,994 logger 21244 31760 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:50:13,998 logger 21244 31760 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:50:13,998 logger 21244 31760 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:50:14,006 logger 21244 31760 Getting result from the model instance
+INFO 2025-08-15 22:50:14,006 logger 21244 31760 Getting result from the model instance
+INFO 2025-08-15 22:50:14,011 logger 21244 31760 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:50:14,012 logger 21244 23300 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:50:14,011 logger 21244 31760 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:50:14,012 logger 21244 23300 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:50:14,016 logger 21244 31760 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:50:14,016 logger 21244 31760 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:50:14,031 logger 21244 23300 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:50:14,031 logger 21244 23300 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:50:14,044 logger 21244 23300 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:50:14,044 logger 21244 23300 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:50:14,050 logger 21244 23300 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:50:14,050 logger 21244 23300 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+ERROR 2025-08-15 22:50:14,107 log 21244 34528 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 508, in get_modified_counts_at_time
+    if not auto_counter:
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\pandas\core\generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+INFO 2025-08-15 22:50:14,126 logger 21244 23300 Video dimensions: 1280x720
+INFO 2025-08-15 22:50:14,126 logger 21244 23300 Video dimensions: 1280x720
+WARNING 2025-08-15 22:50:14,245 logger 21244 28176 No detection lines provided, returning empty line types
+WARNING 2025-08-15 22:50:14,245 logger 21244 28176 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:50:14,250 logger 21244 28176 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:50:14,250 logger 21244 28176 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:50:14,254 logger 21244 28176 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:50:14,254 logger 21244 28176 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:50:14,256 logger 21244 28176 Getting result from the model instance
+INFO 2025-08-15 22:50:14,256 logger 21244 28176 Getting result from the model instance
+INFO 2025-08-15 22:50:14,259 logger 21244 28176 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:50:14,259 logger 21244 28176 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:50:14,280 logger 21244 28176 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:50:14,280 logger 21244 28176 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:50:14,288 logger 21244 34760 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:50:14,288 logger 21244 34760 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:50:14,301 logger 21244 34760 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:50:14,301 logger 21244 34760 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:50:14,310 logger 21244 34760 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:50:14,310 logger 21244 34760 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:50:14,325 logger 21244 34760 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:50:14,325 logger 21244 34760 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:50:14,523 logger 21244 34760 Video dimensions: 1280x720
+INFO 2025-08-15 22:50:14,523 logger 21244 34760 Video dimensions: 1280x720
+INFO 2025-08-15 22:50:14,573 logger 21244 35336 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:50:14,573 logger 21244 35336 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:50:14,584 logger 21244 35336 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:50:14,584 logger 21244 35336 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:50:14,590 logger 21244 35336 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:50:14,590 logger 21244 35336 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:50:14,595 logger 21244 35336 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:50:14,595 logger 21244 35336 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:50:14,682 logger 21244 35336 Video dimensions: 1280x720
+INFO 2025-08-15 22:50:14,682 logger 21244 35336 Video dimensions: 1280x720
+WARNING 2025-08-15 22:50:14,692 logger 21244 23300 No detection lines provided, returning empty line types
+WARNING 2025-08-15 22:50:14,692 logger 21244 23300 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:50:14,697 logger 21244 23300 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:50:14,697 logger 21244 23300 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:50:14,709 logger 21244 23300 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:50:14,709 logger 21244 23300 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:50:14,717 logger 21244 23300 Getting result from the model instance
+INFO 2025-08-15 22:50:14,717 logger 21244 23300 Getting result from the model instance
+INFO 2025-08-15 22:50:14,723 logger 21244 23300 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:50:14,723 logger 21244 23300 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:50:14,729 logger 21244 23300 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:50:14,729 logger 21244 23300 Auto detection dataframe loaded with 177849 rows
+ERROR 2025-08-15 22:50:14,759 log 21244 34528 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 508, in get_modified_counts_at_time
+    if not auto_counter:
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\pandas\core\generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+INFO 2025-08-15 22:50:14,882 logger 21244 5016 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:50:14,882 logger 21244 5016 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:50:14,974 logger 21244 5016 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:50:14,974 logger 21244 5016 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:50:15,018 logger 21244 5016 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:50:15,018 logger 21244 5016 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:50:15,041 logger 21244 5016 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:50:15,041 logger 21244 5016 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+WARNING 2025-08-15 22:50:15,068 logger 21244 34760 No detection lines provided, returning empty line types
+WARNING 2025-08-15 22:50:15,068 logger 21244 34760 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:50:15,075 logger 21244 34760 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:50:15,075 logger 21244 34760 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:50:15,086 logger 21244 6960 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:50:15,088 logger 21244 34760 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:50:15,086 logger 21244 6960 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:50:15,088 logger 21244 34760 AlgorithmDetectionZone initialized successfully
+ERROR 2025-08-15 22:50:15,108 log 21244 34528 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 508, in get_modified_counts_at_time
+    if not auto_counter:
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\pandas\core\generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+INFO 2025-08-15 22:50:15,116 logger 21244 34760 Getting result from the model instance
+INFO 2025-08-15 22:50:15,120 logger 21244 6960 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:50:15,116 logger 21244 34760 Getting result from the model instance
+INFO 2025-08-15 22:50:15,120 logger 21244 6960 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:50:15,137 logger 21244 34760 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:50:15,137 logger 21244 34760 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:50:15,140 logger 21244 6960 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:50:15,146 logger 21244 34760 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:50:15,140 logger 21244 6960 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:50:15,146 logger 21244 34760 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:50:15,153 logger 21244 6960 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:50:15,154 logger 21244 5016 Video dimensions: 1280x720
+INFO 2025-08-15 22:50:15,153 logger 21244 6960 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:50:15,154 logger 21244 5016 Video dimensions: 1280x720
+INFO 2025-08-15 22:50:15,261 logger 21244 6960 Video dimensions: 1280x720
+INFO 2025-08-15 22:50:15,261 logger 21244 6960 Video dimensions: 1280x720
+WARNING 2025-08-15 22:50:15,414 logger 21244 35336 No detection lines provided, returning empty line types
+WARNING 2025-08-15 22:50:15,414 logger 21244 35336 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:50:15,436 logger 21244 33344 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:50:15,436 logger 21244 33344 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:50:15,452 logger 21244 35336 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:50:15,452 logger 21244 35336 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:50:15,464 logger 21244 33344 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:50:15,465 logger 21244 35336 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:50:15,464 logger 21244 33344 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:50:15,465 logger 21244 35336 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:50:15,481 logger 21244 33344 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:50:15,481 logger 21244 35336 Getting result from the model instance
+INFO 2025-08-15 22:50:15,481 logger 21244 33344 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:50:15,481 logger 21244 35336 Getting result from the model instance
+INFO 2025-08-15 22:50:15,491 logger 21244 33344 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:50:15,493 logger 21244 35336 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:50:15,491 logger 21244 33344 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:50:15,493 logger 21244 35336 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:50:15,502 logger 21244 35336 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:50:15,502 logger 21244 35336 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:50:15,605 logger 21244 33344 Video dimensions: 1280x720
+INFO 2025-08-15 22:50:15,605 logger 21244 33344 Video dimensions: 1280x720
+ERROR 2025-08-15 22:50:15,665 log 21244 34528 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 508, in get_modified_counts_at_time
+    if not auto_counter:
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\pandas\core\generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+INFO 2025-08-15 22:50:15,871 logger 21244 33144 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:50:15,871 logger 21244 33144 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:50:15,904 logger 21244 33144 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:50:15,904 logger 21244 33144 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:50:15,925 logger 21244 33144 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:50:15,925 logger 21244 33144 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:50:15,939 logger 21244 33144 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:50:15,939 logger 21244 33144 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+WARNING 2025-08-15 22:50:15,968 logger 21244 5016 No detection lines provided, returning empty line types
+WARNING 2025-08-15 22:50:15,968 logger 21244 5016 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:50:15,983 logger 21244 5016 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:50:15,983 logger 21244 5016 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:50:15,995 logger 21244 5016 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:50:15,995 logger 21244 5016 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:50:16,009 logger 21244 5016 Getting result from the model instance
+INFO 2025-08-15 22:50:16,009 logger 21244 5016 Getting result from the model instance
+WARNING 2025-08-15 22:50:16,020 logger 21244 6960 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:50:16,024 logger 21244 5016 Starting to clean the auto detection dataframe
+WARNING 2025-08-15 22:50:16,020 logger 21244 6960 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:50:16,024 logger 21244 5016 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:50:16,039 logger 21244 6960 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:50:16,042 logger 21244 5016 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:50:16,039 logger 21244 6960 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:50:16,042 logger 21244 5016 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:50:16,051 logger 21244 6960 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:50:16,051 logger 21244 6960 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:50:16,061 logger 21244 6960 Getting result from the model instance
+INFO 2025-08-15 22:50:16,061 logger 21244 6960 Getting result from the model instance
+INFO 2025-08-15 22:50:16,068 logger 21244 6960 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:50:16,068 logger 21244 6960 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:50:16,072 logger 21244 6960 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:50:16,077 logger 21244 33144 Video dimensions: 1280x720
+INFO 2025-08-15 22:50:16,072 logger 21244 6960 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:50:16,077 logger 21244 33144 Video dimensions: 1280x720
+ERROR 2025-08-15 22:50:16,102 log 21244 34528 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 508, in get_modified_counts_at_time
+    if not auto_counter:
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\pandas\core\generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+INFO 2025-08-15 22:50:16,448 logger 21244 8168 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:50:16,448 logger 21244 8168 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:50:16,554 logger 21244 8168 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:50:16,554 logger 21244 8168 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:50:16,615 logger 21244 8168 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:50:16,615 logger 21244 8168 AutoCounter found: AutoCounter object (1)
+WARNING 2025-08-15 22:50:16,690 logger 21244 33344 No detection lines provided, returning empty line types
+WARNING 2025-08-15 22:50:16,690 logger 21244 33344 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:50:16,742 logger 21244 8168 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:50:16,742 logger 21244 8168 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:50:16,764 logger 21244 33344 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:50:16,764 logger 21244 33344 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:50:16,775 logger 21244 33344 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:50:16,775 logger 21244 33344 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:50:16,794 logger 21244 33344 Getting result from the model instance
+INFO 2025-08-15 22:50:16,794 logger 21244 33344 Getting result from the model instance
+ERROR 2025-08-15 22:50:16,820 log 21244 34528 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 508, in get_modified_counts_at_time
+    if not auto_counter:
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\pandas\core\generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+INFO 2025-08-15 22:50:16,825 logger 21244 33344 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:50:16,825 logger 21244 33344 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:50:16,844 logger 21244 33344 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:50:16,844 logger 21244 33344 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:50:16,880 logger 21244 28648 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:50:16,885 logger 21244 8168 Video dimensions: 1280x720
+INFO 2025-08-15 22:50:16,880 logger 21244 28648 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:50:16,885 logger 21244 8168 Video dimensions: 1280x720
+INFO 2025-08-15 22:50:16,948 logger 21244 28648 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:50:16,948 logger 21244 28648 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:50:17,010 logger 21244 28648 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:50:17,010 logger 21244 28648 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:50:17,069 logger 21244 28648 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:50:17,069 logger 21244 28648 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+WARNING 2025-08-15 22:50:17,184 logger 21244 33144 No detection lines provided, returning empty line types
+WARNING 2025-08-15 22:50:17,184 logger 21244 33144 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:50:17,188 logger 21244 33144 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:50:17,188 logger 21244 33144 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:50:17,192 logger 21244 28648 Video dimensions: 1280x720
+INFO 2025-08-15 22:50:17,198 logger 21244 33144 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:50:17,192 logger 21244 28648 Video dimensions: 1280x720
+INFO 2025-08-15 22:50:17,198 logger 21244 33144 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:50:17,208 logger 21244 33144 Getting result from the model instance
+INFO 2025-08-15 22:50:17,208 logger 21244 33144 Getting result from the model instance
+INFO 2025-08-15 22:50:17,230 logger 21244 33144 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:50:17,230 logger 21244 33144 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:50:17,254 logger 21244 33144 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:50:17,254 logger 21244 33144 Auto detection dataframe loaded with 177849 rows
+ERROR 2025-08-15 22:50:17,489 log 21244 34528 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 508, in get_modified_counts_at_time
+    if not auto_counter:
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\pandas\core\generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+ERROR 2025-08-15 22:50:17,491 log 21244 28796 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 508, in get_modified_counts_at_time
+    if not auto_counter:
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\pandas\core\generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+INFO 2025-08-15 22:50:17,762 logger 21244 30216 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:50:17,762 logger 21244 30216 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+WARNING 2025-08-15 22:50:17,784 logger 21244 8168 No detection lines provided, returning empty line types
+WARNING 2025-08-15 22:50:17,784 logger 21244 8168 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:50:17,803 logger 21244 26812 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:50:17,803 logger 21244 30216 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:50:17,816 logger 21244 8168 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:50:17,803 logger 21244 26812 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:50:17,803 logger 21244 30216 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:50:17,816 logger 21244 8168 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:50:17,835 logger 21244 26812 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:50:17,836 logger 21244 8168 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:50:17,837 logger 21244 30216 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:50:17,835 logger 21244 26812 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:50:17,836 logger 21244 8168 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:50:17,837 logger 21244 30216 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:50:17,851 logger 21244 26812 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:50:17,852 logger 21244 8168 Getting result from the model instance
+INFO 2025-08-15 22:50:17,854 logger 21244 30216 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:50:17,851 logger 21244 26812 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:50:17,852 logger 21244 8168 Getting result from the model instance
+INFO 2025-08-15 22:50:17,854 logger 21244 30216 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:50:17,872 logger 21244 26812 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:50:17,874 logger 21244 8168 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:50:17,872 logger 21244 26812 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:50:17,874 logger 21244 8168 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:50:17,885 logger 21244 8168 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:50:17,885 logger 21244 8168 Auto detection dataframe loaded with 177849 rows
+ERROR 2025-08-15 22:50:17,916 log 21244 28796 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 508, in get_modified_counts_at_time
+    if not auto_counter:
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\pandas\core\generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+WARNING 2025-08-15 22:50:17,926 logger 21244 28648 No detection lines provided, returning empty line types
+WARNING 2025-08-15 22:50:17,926 logger 21244 28648 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:50:17,940 logger 21244 28648 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:50:17,940 logger 21244 28648 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:50:17,952 logger 21244 28648 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:50:17,952 logger 21244 28648 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:50:18,003 logger 21244 30216 Video dimensions: 1280x720
+INFO 2025-08-15 22:50:18,003 logger 21244 30216 Video dimensions: 1280x720
+INFO 2025-08-15 22:50:18,020 logger 21244 28648 Getting result from the model instance
+INFO 2025-08-15 22:50:18,020 logger 21244 28648 Getting result from the model instance
+INFO 2025-08-15 22:50:18,049 logger 21244 29252 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:50:18,068 logger 21244 28648 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:50:18,071 logger 21244 26812 Video dimensions: 1280x720
+INFO 2025-08-15 22:50:18,049 logger 21244 29252 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:50:18,068 logger 21244 28648 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:50:18,071 logger 21244 26812 Video dimensions: 1280x720
+INFO 2025-08-15 22:50:18,142 logger 21244 28648 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:50:18,142 logger 21244 28648 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:50:18,275 logger 21244 29252 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:50:18,275 logger 21244 29252 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:50:18,307 logger 21244 29252 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:50:18,307 logger 21244 29252 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:50:18,318 logger 21244 29252 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:50:18,318 logger 21244 29252 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:50:18,415 logger 21244 29252 Video dimensions: 1280x720
+INFO 2025-08-15 22:50:18,415 logger 21244 29252 Video dimensions: 1280x720
+ERROR 2025-08-15 22:50:18,451 log 21244 28796 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 508, in get_modified_counts_at_time
+    if not auto_counter:
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\pandas\core\generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+WARNING 2025-08-15 22:50:18,723 logger 21244 30216 No detection lines provided, returning empty line types
+WARNING 2025-08-15 22:50:18,723 logger 21244 30216 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:50:18,729 logger 21244 30216 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:50:18,729 logger 21244 30216 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:50:18,735 logger 21244 30216 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:50:18,735 logger 21244 30216 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:50:18,741 logger 21244 30216 Getting result from the model instance
+INFO 2025-08-15 22:50:18,741 logger 21244 30216 Getting result from the model instance
+INFO 2025-08-15 22:50:18,746 logger 21244 30216 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:50:18,746 logger 21244 30216 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:50:18,749 logger 21244 30216 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:50:18,749 logger 21244 30216 Auto detection dataframe loaded with 177849 rows
+ERROR 2025-08-15 22:50:18,821 log 21244 28796 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 508, in get_modified_counts_at_time
+    if not auto_counter:
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\pandas\core\generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+WARNING 2025-08-15 22:50:18,858 logger 21244 26812 No detection lines provided, returning empty line types
+WARNING 2025-08-15 22:50:18,858 logger 21244 26812 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:50:18,906 logger 21244 26812 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:50:18,906 logger 21244 26812 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:50:18,935 logger 21244 26812 AlgorithmDetectionZone initialized successfully
+WARNING 2025-08-15 22:50:18,948 logger 21244 29252 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:50:18,935 logger 21244 26812 AlgorithmDetectionZone initialized successfully
+WARNING 2025-08-15 22:50:18,948 logger 21244 29252 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:50:18,987 logger 21244 26812 Getting result from the model instance
+INFO 2025-08-15 22:50:18,990 logger 21244 29252 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:50:18,987 logger 21244 26812 Getting result from the model instance
+INFO 2025-08-15 22:50:18,990 logger 21244 29252 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:50:19,028 logger 21244 26812 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:50:19,029 logger 21244 29252 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:50:19,028 logger 21244 26812 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:50:19,029 logger 21244 29252 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:50:19,036 logger 21244 26812 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:50:19,040 logger 21244 29252 Getting result from the model instance
+INFO 2025-08-15 22:50:19,036 logger 21244 26812 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:50:19,040 logger 21244 29252 Getting result from the model instance
+INFO 2025-08-15 22:50:19,046 logger 21244 29252 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:50:19,046 logger 21244 29252 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:50:19,062 logger 21244 29252 Auto detection dataframe loaded with 177849 rows
+ERROR 2025-08-15 22:50:19,065 log 21244 34528 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 508, in get_modified_counts_at_time
+    if not auto_counter:
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\pandas\core\generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+INFO 2025-08-15 22:50:19,062 logger 21244 29252 Auto detection dataframe loaded with 177849 rows
+ERROR 2025-08-15 22:50:19,503 log 21244 28796 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 508, in get_modified_counts_at_time
+    if not auto_counter:
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\pandas\core\generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+ERROR 2025-08-15 22:50:19,614 log 21244 28796 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 508, in get_modified_counts_at_time
+    if not auto_counter:
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\pandas\core\generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+ERROR 2025-08-15 22:50:19,668 log 21244 28796 Internal Server Error: /api/get_modified_counts_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 508, in get_modified_counts_at_time
+    if not auto_counter:
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\pandas\core\generic.py", line 1577, in __nonzero__
+    raise ValueError(
+ValueError: The truth value of a DataFrame is ambiguous. Use a.empty, a.bool(), a.item(), a.any() or a.all().
+INFO 2025-08-15 22:51:33,038 logger 26600 23640 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:33,038 logger 26600 23640 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:33,051 logger 26600 23640 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:33,051 logger 26600 23640 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:33,057 logger 26600 23640 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:33,057 logger 26600 23640 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:33,059 logger 26600 23640 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:33,059 logger 26600 23640 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:33,105 logger 26600 34060 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:33,105 logger 26600 12604 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:33,107 logger 26600 31020 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:33,105 logger 26600 34060 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:33,107 logger 26600 35548 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:33,107 logger 26600 25896 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:33,105 logger 26600 12604 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:33,107 logger 26600 31020 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:33,107 logger 26600 35548 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:33,107 logger 26600 25896 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:33,119 logger 26600 34060 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:33,121 logger 26600 12604 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:33,123 logger 26600 31020 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:33,119 logger 26600 34060 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:33,126 logger 26600 35548 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:33,121 logger 26600 12604 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:33,123 logger 26600 31020 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:33,128 logger 26600 25896 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:33,126 logger 26600 35548 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:33,132 logger 26600 34060 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:33,137 logger 26600 12604 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:33,138 logger 26600 31020 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:33,128 logger 26600 25896 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:33,132 logger 26600 34060 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:33,141 logger 26600 35548 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:33,137 logger 26600 12604 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:33,138 logger 26600 31020 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:33,146 logger 26600 25896 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:33,147 logger 26600 34060 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:33,141 logger 26600 35548 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:33,150 logger 26600 31020 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:33,150 logger 26600 31020 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:33,146 logger 26600 25896 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:33,147 logger 26600 34060 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:33,150 logger 26600 12604 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:33,153 logger 26600 35548 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:33,154 logger 26600 25896 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:33,150 logger 26600 12604 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:33,153 logger 26600 35548 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:33,154 logger 26600 25896 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:33,209 logger 26600 23640 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:33,209 logger 26600 23640 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:33,256 logger 26600 12604 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:33,256 logger 26600 12604 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:33,321 logger 26600 31020 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:33,321 logger 26600 31020 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:33,515 logger 26600 35548 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:33,515 logger 26600 35548 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:33,589 logger 26600 25896 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:33,589 logger 26600 25896 Video dimensions: 1280x720
+WARNING 2025-08-15 22:51:33,611 logger 26600 23640 No detection lines provided, returning empty line types
+WARNING 2025-08-15 22:51:33,611 logger 26600 23640 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:51:33,617 logger 26600 23640 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:33,617 logger 26600 23640 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:33,623 logger 26600 23640 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:33,623 logger 26600 23640 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:33,627 logger 26600 23640 Getting result from the model instance
+INFO 2025-08-15 22:51:33,627 logger 26600 23640 Getting result from the model instance
+INFO 2025-08-15 22:51:33,631 logger 26600 23640 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:33,631 logger 26600 23640 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:33,635 logger 26600 23640 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:33,635 logger 26600 23640 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:33,715 logger 26600 34060 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:33,715 logger 26600 34060 Video dimensions: 1280x720
+WARNING 2025-08-15 22:51:33,775 logger 26600 12604 No detection lines provided, returning empty line types
+WARNING 2025-08-15 22:51:33,775 logger 26600 12604 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:51:33,825 logger 26600 12604 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:33,825 logger 26600 12604 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:33,848 logger 26600 12604 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:33,848 logger 26600 12604 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:33,973 logger 26600 12604 Getting result from the model instance
+INFO 2025-08-15 22:51:33,973 logger 26600 12604 Getting result from the model instance
+INFO 2025-08-15 22:51:33,992 logger 26600 12604 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:33,992 logger 26600 12604 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:34,005 logger 26600 12604 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:34,005 logger 26600 12604 Auto detection dataframe loaded with 177849 rows
+WARNING 2025-08-15 22:51:34,029 logger 26600 31020 No detection lines provided, returning empty line types
+WARNING 2025-08-15 22:51:34,029 logger 26600 31020 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:51:34,033 logger 26600 31020 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:34,033 logger 26600 31020 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:34,041 logger 26600 31020 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:34,041 logger 26600 31020 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:34,049 logger 26600 31020 Getting result from the model instance
+INFO 2025-08-15 22:51:34,049 logger 26600 31020 Getting result from the model instance
+INFO 2025-08-15 22:51:34,096 logger 26600 31020 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:34,096 logger 26600 31020 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:34,142 logger 26600 31020 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:34,142 logger 26600 31020 Auto detection dataframe loaded with 177849 rows
+WARNING 2025-08-15 22:51:34,203 logger 26600 35548 No detection lines provided, returning empty line types
+WARNING 2025-08-15 22:51:34,203 logger 26600 35548 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:51:34,245 logger 26600 35548 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:34,245 logger 26600 35548 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:34,303 logger 26600 35548 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:34,303 logger 26600 35548 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:34,355 logger 26600 35548 Getting result from the model instance
+INFO 2025-08-15 22:51:34,355 logger 26600 35548 Getting result from the model instance
+WARNING 2025-08-15 22:51:34,428 logger 26600 25896 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:51:34,430 logger 26600 35548 Starting to clean the auto detection dataframe
+WARNING 2025-08-15 22:51:34,428 logger 26600 25896 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:51:34,430 logger 26600 35548 Starting to clean the auto detection dataframe
+WARNING 2025-08-15 22:51:34,690 logger 26600 34060 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:51:34,700 logger 26600 25896 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:34,715 logger 26600 35548 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:34,700 logger 26600 25896 Model instance created successfully with the provided parameters.
+WARNING 2025-08-15 22:51:34,690 logger 26600 34060 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:51:34,715 logger 26600 35548 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:34,762 logger 26600 25896 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:34,787 logger 26600 34060 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:34,762 logger 26600 25896 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:34,787 logger 26600 34060 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:34,840 logger 26600 34060 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:34,841 logger 26600 25896 Getting result from the model instance
+INFO 2025-08-15 22:51:34,840 logger 26600 34060 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:34,841 logger 26600 25896 Getting result from the model instance
+INFO 2025-08-15 22:51:34,926 logger 26600 34060 Getting result from the model instance
+INFO 2025-08-15 22:51:34,936 logger 26600 25896 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:34,926 logger 26600 34060 Getting result from the model instance
+INFO 2025-08-15 22:51:34,936 logger 26600 25896 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:35,025 logger 26600 34060 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:35,036 logger 26600 25896 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:35,025 logger 26600 34060 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:35,036 logger 26600 25896 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:35,074 logger 26600 28352 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:35,101 logger 26600 34060 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:35,074 logger 26600 28352 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:35,101 logger 26600 34060 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:35,139 logger 26600 28352 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:35,139 logger 26600 28352 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:35,170 logger 26600 28352 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:35,170 logger 26600 28352 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:35,212 logger 26600 28352 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:35,212 logger 26600 28352 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:35,399 logger 26600 28352 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:35,399 logger 26600 28352 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:35,633 logger 26600 2776 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:35,633 logger 26600 2776 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:35,793 logger 26600 2776 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:35,793 logger 26600 2776 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:35,858 logger 26600 2776 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:35,859 logger 26600 29608 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:35,858 logger 26600 2776 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:35,859 logger 26600 29608 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:35,873 logger 26600 2776 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:35,873 logger 26600 2776 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:35,883 logger 26600 29608 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:35,883 logger 26600 29608 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:35,907 logger 26600 29608 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:35,907 logger 26600 29608 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:35,921 logger 26600 29608 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:35,921 logger 26600 29608 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:36,086 logger 26600 2776 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:36,086 logger 26600 2776 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:36,227 logger 26600 29608 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:36,227 logger 26600 29608 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:36,287 logger 26600 19280 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:36,287 logger 26600 19280 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:36,303 logger 26600 19280 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:36,303 logger 26600 19280 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:36,326 logger 26600 19280 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:36,326 logger 26600 19280 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:36,337 logger 26600 19280 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:36,337 logger 26600 19280 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+WARNING 2025-08-15 22:51:36,439 logger 26600 28352 No detection lines provided, returning empty line types
+WARNING 2025-08-15 22:51:36,439 logger 26600 28352 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:51:36,462 logger 26600 28352 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:36,462 logger 26600 28352 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:36,478 logger 26600 19280 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:36,479 logger 26600 28352 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:36,478 logger 26600 19280 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:36,479 logger 26600 28352 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:36,489 logger 26600 28352 Getting result from the model instance
+INFO 2025-08-15 22:51:36,489 logger 26600 28352 Getting result from the model instance
+INFO 2025-08-15 22:51:36,496 logger 26600 28352 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:36,496 logger 26600 28352 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:36,501 logger 26600 28352 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:36,501 logger 26600 28352 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:36,513 logger 26600 35392 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:36,513 logger 26600 35392 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:36,540 logger 26600 35392 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:36,540 logger 26600 35392 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:36,564 logger 26600 35392 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:36,564 logger 26600 35392 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:36,587 logger 26600 35392 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:36,587 logger 26600 35392 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:36,785 logger 26600 15504 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:36,797 logger 26600 35392 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:36,785 logger 26600 15504 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:36,797 logger 26600 35392 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:36,891 logger 26600 15504 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:36,891 logger 26600 15504 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:36,957 logger 26600 15504 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:36,957 logger 26600 15504 AutoCounter found: AutoCounter object (1)
+WARNING 2025-08-15 22:51:36,972 logger 26600 2776 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:51:36,988 logger 26600 15504 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+WARNING 2025-08-15 22:51:36,972 logger 26600 2776 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:51:36,988 logger 26600 15504 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:37,012 logger 26600 2776 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:37,012 logger 26600 2776 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:37,045 logger 26600 2776 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:37,045 logger 26600 2776 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:37,052 logger 26600 2776 Getting result from the model instance
+INFO 2025-08-15 22:51:37,052 logger 26600 2776 Getting result from the model instance
+INFO 2025-08-15 22:51:37,057 logger 26600 2776 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:37,057 logger 26600 2776 Starting to clean the auto detection dataframe
+WARNING 2025-08-15 22:51:37,077 logger 26600 29608 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:51:37,084 logger 26600 2776 Auto detection dataframe loaded with 177849 rows
+WARNING 2025-08-15 22:51:37,077 logger 26600 29608 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:51:37,084 logger 26600 2776 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:37,090 logger 26600 29608 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:37,090 logger 26600 29608 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:37,105 logger 26600 29608 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:37,105 logger 26600 29608 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:37,117 logger 26600 29608 Getting result from the model instance
+INFO 2025-08-15 22:51:37,117 logger 26600 29608 Getting result from the model instance
+INFO 2025-08-15 22:51:37,124 logger 26600 29608 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:37,124 logger 26600 29608 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:37,131 logger 26600 29608 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:37,131 logger 26600 29608 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:37,175 logger 26600 15504 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:37,175 logger 26600 15504 Video dimensions: 1280x720
+WARNING 2025-08-15 22:51:37,418 logger 26600 19280 No detection lines provided, returning empty line types
+WARNING 2025-08-15 22:51:37,418 logger 26600 19280 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:51:37,489 logger 26600 19280 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:37,489 logger 26600 19280 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:37,545 logger 26600 19280 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:37,545 logger 26600 19280 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:37,582 logger 26600 19280 Getting result from the model instance
+INFO 2025-08-15 22:51:37,582 logger 26600 19280 Getting result from the model instance
+INFO 2025-08-15 22:51:37,643 logger 26600 19280 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:37,643 logger 26600 19280 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:37,690 logger 26600 19280 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:37,690 logger 26600 19280 Auto detection dataframe loaded with 177849 rows
+WARNING 2025-08-15 22:51:37,750 logger 26600 35392 No detection lines provided, returning empty line types
+WARNING 2025-08-15 22:51:37,750 logger 26600 35392 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:51:37,774 logger 26600 35392 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:37,774 logger 26600 35392 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:37,860 logger 26600 35392 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:37,860 logger 26600 35392 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:37,910 logger 26600 35392 Getting result from the model instance
+INFO 2025-08-15 22:51:37,910 logger 26600 35392 Getting result from the model instance
+INFO 2025-08-15 22:51:37,964 logger 26600 35392 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:37,964 logger 26600 35392 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:38,109 logger 26600 35392 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:38,109 logger 26600 35392 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:38,209 logger 26600 23456 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:38,209 logger 26600 23456 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+WARNING 2025-08-15 22:51:38,234 logger 26600 15504 No detection lines provided, returning empty line types
+WARNING 2025-08-15 22:51:38,234 logger 26600 15504 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:51:38,284 logger 26600 15504 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:38,297 logger 26600 23456 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:38,284 logger 26600 15504 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:38,297 logger 26600 23456 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:38,375 logger 26600 15504 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:38,398 logger 26600 23456 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:38,375 logger 26600 15504 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:38,398 logger 26600 23456 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:38,437 logger 26600 15504 Getting result from the model instance
+INFO 2025-08-15 22:51:38,437 logger 26600 15504 Getting result from the model instance
+INFO 2025-08-15 22:51:38,451 logger 26600 23456 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:38,457 logger 26600 15504 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:38,451 logger 26600 23456 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:38,457 logger 26600 15504 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:38,468 logger 26600 15504 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:38,468 logger 26600 15504 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:38,546 logger 26600 23456 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:38,546 logger 26600 23456 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:38,664 logger 26600 25220 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:38,664 logger 26600 25220 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:38,779 logger 26600 25220 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:38,779 logger 26600 25220 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:38,814 logger 26600 32112 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:38,814 logger 26600 25220 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:38,814 logger 26600 32112 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:38,814 logger 26600 25220 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:38,831 logger 26600 25220 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:38,839 logger 26600 32112 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:38,831 logger 26600 25220 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:38,839 logger 26600 32112 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:38,854 logger 26600 32112 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:38,854 logger 26600 32112 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:38,858 logger 26600 32112 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:38,858 logger 26600 32112 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:38,925 logger 26600 25220 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:38,925 logger 26600 25220 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:38,935 logger 26600 24816 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:38,935 logger 26600 24816 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:38,947 logger 26600 24816 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:38,947 logger 26600 24816 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:38,957 logger 26600 24816 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:38,957 logger 26600 24816 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:38,964 logger 26600 24816 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:38,964 logger 26600 24816 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:39,011 logger 26600 32112 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:39,011 logger 26600 32112 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:39,092 logger 26600 24816 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:39,092 logger 26600 24816 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:39,105 logger 26600 29808 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:39,105 logger 26600 29808 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:39,118 logger 26600 29808 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:39,118 logger 26600 29808 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:39,140 logger 26600 29808 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:39,140 logger 26600 29808 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:39,162 logger 26600 29808 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:39,162 logger 26600 29808 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+WARNING 2025-08-15 22:51:39,205 logger 26600 23456 No detection lines provided, returning empty line types
+WARNING 2025-08-15 22:51:39,205 logger 26600 23456 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:51:39,220 logger 26600 23456 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:39,220 logger 26600 23456 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:39,224 logger 26600 23456 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:39,224 logger 26600 23456 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:39,232 logger 26600 23456 Getting result from the model instance
+INFO 2025-08-15 22:51:39,232 logger 26600 23456 Getting result from the model instance
+INFO 2025-08-15 22:51:39,239 logger 26600 23456 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:39,239 logger 26600 23456 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:39,246 logger 26600 23456 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:39,246 logger 26600 23456 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:39,330 logger 26600 29808 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:39,330 logger 26600 29808 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:39,529 logger 26600 10260 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:39,529 logger 26600 10260 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:39,605 logger 26600 10260 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+WARNING 2025-08-15 22:51:39,607 logger 26600 25220 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:51:39,605 logger 26600 10260 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+WARNING 2025-08-15 22:51:39,607 logger 26600 25220 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:51:39,647 logger 26600 10260 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:39,647 logger 26600 25220 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:39,647 logger 26600 10260 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:39,647 logger 26600 25220 Model instance created successfully with the provided parameters.
+WARNING 2025-08-15 22:51:39,666 logger 26600 32112 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:51:39,669 logger 26600 10260 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:39,671 logger 26600 25220 AlgorithmDetectionZone initialized successfully
+WARNING 2025-08-15 22:51:39,666 logger 26600 32112 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:51:39,669 logger 26600 10260 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:39,671 logger 26600 25220 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:39,680 logger 26600 32112 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:39,684 logger 26600 25220 Getting result from the model instance
+INFO 2025-08-15 22:51:39,680 logger 26600 32112 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:39,684 logger 26600 25220 Getting result from the model instance
+INFO 2025-08-15 22:51:39,692 logger 26600 32112 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:39,695 logger 26600 25220 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:39,692 logger 26600 32112 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:39,695 logger 26600 25220 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:39,700 logger 26600 32112 Getting result from the model instance
+INFO 2025-08-15 22:51:39,700 logger 26600 32112 Getting result from the model instance
+INFO 2025-08-15 22:51:39,715 logger 26600 25220 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:39,720 logger 26600 32112 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:39,715 logger 26600 25220 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:39,720 logger 26600 32112 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:39,733 logger 26600 32112 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:39,733 logger 26600 32112 Auto detection dataframe loaded with 177849 rows
+WARNING 2025-08-15 22:51:39,780 logger 26600 24816 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:51:39,782 logger 26600 10260 Video dimensions: 1280x720
+WARNING 2025-08-15 22:51:39,780 logger 26600 24816 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:51:39,782 logger 26600 10260 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:39,789 logger 26600 24816 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:39,789 logger 26600 24816 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:39,827 logger 26600 24816 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:39,827 logger 26600 24816 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:39,883 logger 26600 24816 Getting result from the model instance
+INFO 2025-08-15 22:51:39,883 logger 26600 24816 Getting result from the model instance
+INFO 2025-08-15 22:51:39,995 logger 26600 24816 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:39,995 logger 26600 24816 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:40,129 logger 26600 24816 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:40,129 logger 26600 24816 Auto detection dataframe loaded with 177849 rows
+WARNING 2025-08-15 22:51:40,362 logger 26600 29808 No detection lines provided, returning empty line types
+WARNING 2025-08-15 22:51:40,362 logger 26600 29808 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:51:40,387 logger 26600 29808 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:40,387 logger 26600 29808 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:40,423 logger 26600 29808 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:40,423 logger 26600 29808 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:40,459 logger 26600 29808 Getting result from the model instance
+INFO 2025-08-15 22:51:40,459 logger 26600 29808 Getting result from the model instance
+INFO 2025-08-15 22:51:40,486 logger 26600 29808 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:40,486 logger 26600 29808 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:40,510 logger 26600 29808 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:40,510 logger 26600 29808 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:40,729 logger 26600 32972 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:40,729 logger 26600 32972 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:40,792 logger 26600 32972 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:40,792 logger 26600 32972 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+WARNING 2025-08-15 22:51:40,806 logger 26600 10260 No detection lines provided, returning empty line types
+WARNING 2025-08-15 22:51:40,806 logger 26600 10260 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:51:40,814 logger 26600 32972 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:40,816 logger 26600 10260 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:40,814 logger 26600 32972 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:40,816 logger 26600 10260 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:40,822 logger 26600 32972 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:40,824 logger 26600 10260 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:40,822 logger 26600 32972 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:40,824 logger 26600 10260 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:40,834 logger 26600 10260 Getting result from the model instance
+INFO 2025-08-15 22:51:40,834 logger 26600 10260 Getting result from the model instance
+INFO 2025-08-15 22:51:40,849 logger 26600 10260 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:40,849 logger 26600 10260 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:40,856 logger 26600 10260 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:40,856 logger 26600 10260 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:40,932 logger 26600 32972 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:40,932 logger 26600 32972 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:41,230 logger 26600 14772 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:41,230 logger 26600 14772 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:41,243 logger 26600 5132 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:41,243 logger 26600 5132 Running auto counter for record ID: 672, divide_time: 0.1, version: v1
+INFO 2025-08-15 22:51:41,250 logger 26600 14772 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:41,250 logger 26600 14772 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:41,261 logger 26600 5132 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:41,261 logger 26600 5132 Record found: Record from 192.168.130.110 starting at 2025-08-05 21:02:17.930000+00:00 for 63 seconds
+INFO 2025-08-15 22:51:41,270 logger 26600 14772 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:41,270 logger 26600 14772 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:41,297 logger 26600 5132 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:41,303 logger 26600 14772 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:41,297 logger 26600 5132 AutoCounter found: AutoCounter object (1)
+INFO 2025-08-15 22:51:41,303 logger 26600 14772 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:41,317 logger 26600 5132 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:41,317 logger 26600 5132 Video path: C:\MyApps\CameraVision\backend\media\672.mp4
+INFO 2025-08-15 22:51:41,421 logger 26600 14772 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:41,421 logger 26600 14772 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:41,521 logger 26600 5132 Video dimensions: 1280x720
+INFO 2025-08-15 22:51:41,521 logger 26600 5132 Video dimensions: 1280x720
+WARNING 2025-08-15 22:51:41,622 logger 26600 32972 No detection lines provided, returning empty line types
+WARNING 2025-08-15 22:51:41,622 logger 26600 32972 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:51:41,629 logger 26600 32972 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:41,629 logger 26600 32972 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:41,634 logger 26600 32972 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:41,634 logger 26600 32972 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:41,637 logger 26600 32972 Getting result from the model instance
+INFO 2025-08-15 22:51:41,637 logger 26600 32972 Getting result from the model instance
+INFO 2025-08-15 22:51:41,647 logger 26600 32972 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:41,647 logger 26600 32972 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:41,652 logger 26600 32972 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:41,652 logger 26600 32972 Auto detection dataframe loaded with 177849 rows
+WARNING 2025-08-15 22:51:42,117 logger 26600 14772 No detection lines provided, returning empty line types
+WARNING 2025-08-15 22:51:42,117 logger 26600 14772 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:51:42,124 logger 26600 14772 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:42,124 logger 26600 14772 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:42,130 logger 26600 14772 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:42,130 logger 26600 14772 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:42,134 logger 26600 14772 Getting result from the model instance
+INFO 2025-08-15 22:51:42,134 logger 26600 14772 Getting result from the model instance
+INFO 2025-08-15 22:51:42,139 logger 26600 14772 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:42,139 logger 26600 14772 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:42,149 logger 26600 14772 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:42,149 logger 26600 14772 Auto detection dataframe loaded with 177849 rows
+WARNING 2025-08-15 22:51:42,213 logger 26600 5132 No detection lines provided, returning empty line types
+WARNING 2025-08-15 22:51:42,213 logger 26600 5132 No detection lines provided, returning empty line types
+INFO 2025-08-15 22:51:42,246 logger 26600 5132 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:42,246 logger 26600 5132 Model instance created successfully with the provided parameters.
+INFO 2025-08-15 22:51:42,280 logger 26600 5132 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:42,280 logger 26600 5132 AlgorithmDetectionZone initialized successfully
+INFO 2025-08-15 22:51:42,329 logger 26600 5132 Getting result from the model instance
+INFO 2025-08-15 22:51:42,329 logger 26600 5132 Getting result from the model instance
+INFO 2025-08-15 22:51:42,355 logger 26600 5132 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:42,355 logger 26600 5132 Starting to clean the auto detection dataframe
+INFO 2025-08-15 22:51:42,373 logger 26600 5132 Auto detection dataframe loaded with 177849 rows
+INFO 2025-08-15 22:51:42,373 logger 26600 5132 Auto detection dataframe loaded with 177849 rows

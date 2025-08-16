@@ -395,7 +395,7 @@ def get_record_counts(request):
                         if close_message and close_message.get('type') == 'close':
                             return JsonResponse({"message": "Processing cancelled"}, status=200)
                 except Exception as channel_error:
-                    logger.error(f"Channel error: {channel_error}")
+                    #logger.error(f"Channel error: {channel_error}")
                     # Continue processing even if channel communication fails
                     pass
                 i += 1
@@ -457,7 +457,7 @@ def get_car_detections_at_time(request):
         version = data.get('version', 'v1')
         time = data.get('time', None)
         auto_counter = run_auto_counter(record_id, divide_time, version)
-        if not auto_counter:
+        if auto_counter is None or (isinstance(auto_counter, pd.DataFrame) and auto_counter.empty):
             return JsonResponse({'error': 'Auto counter not found'}, status=404)
         auto_counter['time_diff'] = abs(auto_counter['time'] - float(time))
         group = auto_counter[auto_counter['time_diff'] == auto_counter['time_diff'].min()]
@@ -494,7 +494,31 @@ def count_exists(request):
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
 
 @csrf_exempt
-def get_car_detections_modified_at_time(request):
+def modified_count_exists(request):
+    """
+    Check if modified counting exists for a specific record.
+    """
+    if request.method != 'POST':
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+        record_id = data.get('record_id')
+        divide_time = float(data.get('divide_time', 0.1))  # Default to 0.1 if not provided
+        if not record_id:
+            return JsonResponse({"error": "'record_id' is required."}, status=400)
+        record = Record.objects.filter(id=record_id).first()
+        if not record:
+            return JsonResponse({"error": "Record not found."}, status=404)
+        auto_count = AutoCounter.objects.filter(record=record, divide_time=divide_time).first()
+        if auto_count and os.path.exists(auto_count.file_name):
+            return JsonResponse({"exists": True, "divide_time": auto_count.divide_time}, status=200)
+        else:
+            return JsonResponse({"exists": False}, status=200)
+    except Exception as e:
+        return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
+
+@csrf_exempt
+def get_modified_counts_at_time(request):
     """
     Retrieve car detections for a specific record.
     """
@@ -505,7 +529,8 @@ def get_car_detections_modified_at_time(request):
         version = data.get('version', 'v1')
         time = data.get('time', None)
         auto_counter = run_auto_counter(record_id, divide_time, version)
-        if not auto_counter:
+
+        if auto_counter is None or auto_counter.empty:
             return JsonResponse({'error': 'Auto counter not found'}, status=404)
         auto_counter['time_diff'] = abs(auto_counter['time'] - float(time))
         group = auto_counter[auto_counter['time_diff'] == auto_counter['time_diff'].min()]

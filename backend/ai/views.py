@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from record.models import Record
 from ai.car_detection import CarDetection
-from ai.counter_algorithms.algorithm import AlgorithmDetectionZone
+from ai.counter_modifier_algorithms.algorithm import AlgorithmDetectionZone
 from ai.models import AutoCounter
 import threading
 
@@ -61,16 +61,16 @@ def get_lines(request):
             try:
                 record = Record.objects.get(id=record_id)
             except Record.DoesNotExist:
-                logger.error(f"Record not found for record ID: {record_id}")
+                #logger.error(f"Record not found for record ID: {record_id}")
                 return JsonResponse({'error': 'Record not found'}, status=404)
             detection_object = DetectionLines.objects.get_or_create(record=record)[0]
             lines = detection_object.lines
             return JsonResponse({'status': 'success', 'lines': lines}, status=200)
         except DetectionLines.DoesNotExist:
-            logger.error(f"Detection lines not found for record ID: {record_id}")
+            #logger.error(f"Detection lines not found for record ID: {record_id}")
             return JsonResponse({'error': 'Detection lines not found for this record'}, status=404)
     else:
-        logger.error("Invalid request method for get_lines")
+        #logger.error("Invalid request method for get_lines")
         return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 @csrf_exempt
@@ -82,52 +82,33 @@ def run_car_detection(request):
         data = json.loads(request.body)
         record_id = data.get('record_id')
         divide_time = data.get('divide_time', 0.1)  # Default to 10 seconds if not provided
-        logger.info(f"Starting car detection for record ID: {record_id} with divide_time: {divide_time}")
+        #logger.info(f"Starting car detection for record ID: {record_id} with divide_time: {divide_time}")
         try:
             record = Record.objects.get(id=record_id)
         except Record.DoesNotExist:
-            logger.error(f"Record not found for record ID: {record_id}")
+            #logger.error(f"Record not found for record ID: {record_id}")
             return JsonResponse({'error': 'Record not found'}, status=404)
         # Initialize the car detection process
-        logger.info("Loading YOLO model...")
+        #logger.info("Loading YOLO model...")
         detection = CarDetection(record_id=record_id, model=load_model(), divide_time=divide_time)
-        logger.info("Starting detection thread...")
+        #logger.info("Starting detection thread...")
         thread = threading.Thread(target=detection.run)
         thread.start()
-        logger.info("Car detection thread started successfully")
+        #logger.info("Car detection thread started successfully")
         return JsonResponse({'status': 'success', 'message': 'Car detection started'}, status=200)
     else:
-        logger.error("Invalid request method for run_car_detection")
+        #logger.error("Invalid request method for run_car_detection")
         return JsonResponse({'error': 'Invalid request method'}, status=405)
     
 def run_auto_counter(record_id, divide_time, version='v1'):
     """
     Retrieve auto counter for a specific record and divide time.
     """
-    try:
-        logger.info(f"Running auto counter for record ID: {record_id}, divide_time: {divide_time}, version: {version}")
-        record = Record.objects.get(id=record_id)
-    except Record.DoesNotExist:
-        logger.error(f"Record not found for record ID: {record_id}")
-        return None
-    logger.info(f"Record found: {record}")
-    auto_counter = AutoCounter.objects.filter(record=record, divide_time=divide_time).first()
-    if not auto_counter:
-        logger.error(f"AutoCounter not found for record ID: {record_id} with divide_time: {divide_time}")
-        return None
-    logger.info(f"AutoCounter found: {auto_counter}")
-    video_path = os.path.join(settings.MEDIA_ROOT, str(record_id) + ".mp4")
-    if not os.path.exists(video_path):
-        video_path = os.path.join(settings.MEDIA_ROOT, str(record_id) + ".mkv")
-        if not os.path.exists(video_path):
-            logger.error(f"Video file not found for record ID: {record_id}")
-            return None
-    logger.info(f"Video path: {video_path}")
-    ADZ = AlgorithmDetectionZone(version=version, 
-                                 auto_detection_csv_path=auto_counter.file_name,
-                                 detection_lines=None,
-                                 record_path=video_path)
-    logger.info("AlgorithmDetectionZone initialized successfully")
+    ADZ = AlgorithmDetectionZone(
+        version=version,
+        record_id=record_id,
+        divide_time=divide_time,
+    )
     return ADZ.get_result()
 
 @csrf_exempt
@@ -140,7 +121,7 @@ def start_counting(request):
         divide_time = data.get('divide_time', 0.1)
         version = data.get('version', 'v1')
         # run with threading
-        logger.info(f"Starting auto counting for record ID: {record_id}, divide_time: {divide_time}, version: {version}")
+        #logger.info(f"Starting auto counting for record ID: {record_id}, divide_time: {divide_time}, version: {version}")
         thread = threading.Thread(target=run_auto_counter, args=(record_id, divide_time, version))
         thread.start()
         return JsonResponse({"status": "success", "message": "Auto counting started"}, status=200)

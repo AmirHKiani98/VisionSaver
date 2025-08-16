@@ -70,3 +70,14 @@ class AutoCounter(models.Model):
     time = models.DateField(help_text="The time in seconds into the record when this count was made.", auto_now_add=True)
     file_name = models.TextField(help_text="File name associated with the count data.")
     divide_time = models.FloatField(default=0.1, help_text="Time interval for dividing counts.")
+
+class ModifiedAutoCounter(models.Model):
+    """
+    Model to represent a modified auto counter for vehicles.
+    """
+    id = models.AutoField(primary_key=True, help_text="Unique identifier for the modified auto counter.")
+    record = models.ForeignKey('record.Record', on_delete=models.CASCADE, related_name='modified_auto_counters')
+    time = models.DateField(help_text="The time in seconds into the record when this count was made.", auto_now_add=True)
+    version = models.CharField(max_length=10, default='v1', help_text="Version of the auto counter algorithm.")
+    file_name = models.TextField(help_text="File name associated with the count data.")
+    divide_time = models.FloatField(default=0.1, help_text="Time interval for dividing counts.")
