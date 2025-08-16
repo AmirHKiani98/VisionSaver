@@ -76,7 +76,10 @@ class Model():
                     "y2": np.nan,
                 }
                 group = pd.concat([group, pd.DataFrame([new_row])], ignore_index=True)
-            
+            group["x1"] = self.fill_piecewise_linear(group["x1"])
+            group["y1"] = self.fill_piecewise_linear(group["y1"])
+            group["x2"] = self.fill_piecewise_linear(group["x2"])
+            group["y2"] = self.fill_piecewise_linear(group["y2"])
             group["x_center"] = (group["x1"] + group["x2"]) / 2
             group["y_center"] = (group["y1"] + group["y2"]) / 2
             group["next_x_center"] = group["x_center"].shift(-1)
