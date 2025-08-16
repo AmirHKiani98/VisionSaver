@@ -56,3 +56,24 @@ class CounterLoadingProgressConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({
             "progress": event["progress"]
         }))
+    
+class CounterModifiedProgressConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        self.record_id = self.scope['url_route']['kwargs']['record_id']
+        self.divide_time = self.scope['url_route']['kwargs']['divide_time']
+        self.version = self.scope['url_route']['kwargs']['version']
+        self.group_name = f"counter_modified_progress_{self.record_id}_{self.divide_time}_{self.version}"
+        
+        if self.channel_layer is not None:
+            await self.channel_layer.group_add(self.group_name, self.channel_name)
+        await self.accept()
+
+    async def disconnect(self, close_code):
+        if self.channel_layer is not None:
+            await self.channel_layer.group_discard(self.group_name, self.channel_name)
+
+    async def send_progress(self, event):
+        await self.send(text_data=json.dumps({
+            "progress": event["progress"],
+            "message": event.get("message", "")
+        }))

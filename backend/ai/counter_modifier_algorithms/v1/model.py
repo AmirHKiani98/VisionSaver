@@ -13,6 +13,8 @@ from multiprocessing import Pool, cpu_count
 from functools import partial
 from tqdm import tqdm
 from django.conf import settings
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 
 logger = settings.APP_LOGGER
 
@@ -104,7 +106,10 @@ class Model:
         decimals = _round_to_decimals(float(self.divide_time))
 
         # ---- per track processing (vectorized; no slow row concatenation) ----
-        for track_id, group in tqdm(groups_by_track, total=ng, desc="Cleaning tracks"):
+        index = 0
+        for track_id, group in groups_by_track:
+            progress = index / ng
+            index += 1
             if group.empty:
                 continue
 
