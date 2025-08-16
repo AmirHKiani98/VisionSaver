@@ -154,7 +154,6 @@ const AutoCounter = () => {
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             if (data && data.exists) {
                 setModifiedDetectingExists(true);
                 setModifiedProgress(100); // Set progress to 100% if modified detecting exists
@@ -424,7 +423,7 @@ const AutoCounter = () => {
         const ws = new window.WebSocket(wsUrl);
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
-            if (Math.abs(data.progress - 100) < 1 ){
+            if (Math.abs((data.progress * 100) - 100) < 1 ){
                 setModifiedDetectingExists(true);
                 setModifiedProgress(100); // Set progress to 100% if modified detecting exists
             }
@@ -485,7 +484,6 @@ const AutoCounter = () => {
             .then(data => {
                 if (data && data.counts) {
                     const counts = data.counts;
-                    console.log('Counts at current time:', counts);
                     setCountDict(counts);
                 } else {
                     console.error('No counts found in the response');
@@ -502,7 +500,20 @@ const AutoCounter = () => {
                 },
                 body: JSON.stringify({ record_id: recordId, time: videoRef.current.currentTime }),
             })
-            .then(response => response.json())
+            .then(async response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const text = await response.text();
+                try {
+                    // Replace NaN with null before parsing
+                    const sanitizedText = text.replace(/: NaN/g, ': null');
+                    return sanitizedText ? JSON.parse(sanitizedText) : { detections: [] };
+                } catch (error) {
+                    console.error('Error parsing JSON:', error);
+                    return { detections: [] };
+                }
+            })
             .then(data => {
                 console.log(data)
                 if (data && data.detections) {
