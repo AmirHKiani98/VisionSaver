@@ -65,7 +65,7 @@ class CarDetection():
         self.height = int(self.video_capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
 
-    def detect_and_track(self, image):
+     def detect_and_track(self, image):
         """
         Detect and track vehicles in the frame.
         Returns list of tracked objects with bounding boxes and track IDs.
@@ -79,12 +79,10 @@ class CarDetection():
                 if int(cls) in objects_of_interest:
                     x1, y1, x2, y2 = map(float, box)
                     # AVG RGB
-                    
                     objects.append({
                         'x1': x1, 'y1': y1, 'x2': x2, 'y2': y2,
                         'confidence': float(conf),
                         'class_id': int(cls),
-                        # 'car_image': image[int(y1):int(y2), int(x1):int(x2)]
                     })
                     # Convert from (x1, y1, x2, y2) to (x, y, w, h) format
                     w = x2 - x1
@@ -269,37 +267,6 @@ class CarDetection():
 
         finally:
             remove_lock()
-
-
-    
-
-    
-
-    # def draw_lines(self):
-    #     """
-    #     Draw detection lines on the image for visualization.
-    #     """
-    #     # Get the image in the first second
-    #     image = self.get_image_from_timestamp(1.0)
-    #     if image is None:
-    #         #logger.error("Failed to retrieve image for drawing lines.")
-    #         return
-    #     for line_key, lines in self.line_types.items():
-    #         for index, line in enumerate(lines):
-    #             if line[0] == 'closed':
-    #                 x, y, w, h = line[1]
-    #                 pt1 = (int(x * self.width), int(y * self.height))
-    #                 pt2 = (int((x + w) * self.width), int((y + h) * self.height))
-    #                 cv2.rectangle(image, pt1, pt2, (0, 255, 0), 2)
-    #             if line[0] == 'straight':
-    #                 x1, y1 = line[1][0]
-    #                 x2, y2 = line[1][1]
-    #                 pt1 = (int(x1 * self.width), int(y1 * self.height))
-    #                 pt2 = (int(x2 * self.width), int(y2 * self.height))
-    #                 cv2.line(image, pt1, pt2, (255, 0, 0), 2)
-    #     # Show the image
-    #     cv2.imshow('Detection Lines', image)
-    #     cv2.waitKey(0)
         
     def get_image_from_timestamp(self, timestamp):
         """

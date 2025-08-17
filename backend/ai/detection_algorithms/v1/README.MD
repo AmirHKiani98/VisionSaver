@@ -1,0 +1,1 @@
+This version of detection uses deepsort: Simple Online and Realtime Tracking with a Deep Association Metric (https://arxiv.org/abs/1703.07402)

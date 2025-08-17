@@ -553,35 +553,6 @@ const AutoCounter = () => {
             </div>
             <div className='w-2/3 p-5'>
                 <div className='flex items-center justify-between mb-5 gap-5'>
-                    <div className='flex items-center gap-2.5'>
-                        <Button
-                            color="primary"
-                            variant="contained"
-                            onClick={startDetecting}
-                            disabled={progress !== 0}
-
-                            className={`bg-main-500 shadow-lg !h-full hover:!bg-main-400 !text-black ${detectingExists ? '!bg-gray-400' : '!bg-green-400'} ${progress !== 0 ? '!bg-gray-300' : ''}`}
-                        >
-                            Start Detecting
-                        </Button>
-                        <TextField
-                            variant="outlined"
-                            value={accuracy}
-                            type="number"
-                            onChange={(e) => {
-                                setAccuracy(e.target.value)
-                                checkIfDetectingExists(e.target.value);
-                                checkIfDetectingModifiedExists(e.target.value);
-                            }}
-                            className='shadow-lg bg-main-400'
-                            focused
-                            sx={{
-                                color: 'primary.white'
-                            }}
-                            label={<Typography className="text-white">Frame</Typography>}
-                        />
-
-                    </div>
                     
                 </div>
                 <div className="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden" ref={containerRef}>
@@ -900,7 +871,8 @@ const AutoCounter = () => {
                             <Chip label="Detector" className="!bg-main-400 !text-white !font-bold" />
                         </Divider>
                     </div>
-                    <div className='flex items-center gap-2.5 p-2.5'>
+                    <div className='flex flex-col items-center gap-2.5 p-2.5'>
+                        
                         <FormControl className="w-full">
                             <InputLabel id="counter-version-select-label">
                                 <Typography variant="body1" className='text-white'>
@@ -925,39 +897,60 @@ const AutoCounter = () => {
                                 </MenuItem>
                             </Select>
                         </FormControl>
-                        <Tooltip title="Run Detection Modifier" placement="top">
-                            <span className='h-full'>
-                                <Button
-                                    className={`shadow-lg hover:!bg-main-400 !text-black h-full ${modifiedDetectingExists ? '!bg-gray-300' : '!bg-green-500 '}`}
-                                    onClick={handleCounterRun}
-                                    disabled={modifiedDetectingExists}
-                                >
-                                    <FontAwesomeIcon icon={faCar} className='text-center' />
-                                </Button>
-                            </span>
+                        <div className='w-full'>
+                            <TextField
+                                variant="outlined"
+                                value={accuracy}
+                                type="number"
+                                onChange={(e) => {
+                                    setAccuracy(e.target.value)
+                                    checkIfDetectingExists(e.target.value);
+                                    checkIfDetectingModifiedExists(e.target.value);
+                                }}
+                                className='shadow-lg bg-main-400'
+                                focused
+                                sx={{
+                                    color: 'primary.white'
+                                }}
+                                label={<Typography className="text-white">Frame</Typography>}
+                            />
                             
-                        </Tooltip>
-                        <Tooltip title="Show modified detections" placement="top">
-                            <span className='h-full'>
-                                <Button 
-                                    className={`shadow-lg hover:!bg-main-400 !text-black !h-full ${!modifiedDetectingExists ? '!bg-gray-300' : '!bg-green-500'}`}
-                                    disabled={!modifiedDetectingExists}
-                                    onClick={() =>{
-                                        
-                                        if (showModifiedDetections) {
-                                            setShowDetections(false);
-                                            setShowModifiedDetections(false);
-                                            openNotification('info', 'Modified detections are now hidden');
-                                        } else {
-                                            setShowModifiedDetections(true);
-                                            openNotification('info', 'Modified detections are now visible');
-                                        }
-                                    }}
+                        </div>
+                        <div className='flex items-center justify-between w-full'>
+                            <Tooltip title="Run Detection Modifier" placement="top">
+                                <span className='h-full'>
+                                    <Button
+                                        className={`shadow-lg hover:!bg-main-400 !text-black h-full ${modifiedDetectingExists ? '!bg-gray-300' : '!bg-green-500 '}`}
+                                        onClick={handleCounterRun}
+                                        disabled={modifiedDetectingExists}
                                     >
-                                    <FontAwesomeIcon icon={!showModifiedDetections ? faEye : faEyeSlash} className='text-center' />
-                                </Button>
-                            </span>
-                        </Tooltip>
+                                        <FontAwesomeIcon icon={faCar} className='text-center' />
+                                    </Button>
+                                </span>
+                                
+                            </Tooltip>
+                            <Tooltip title="Show modified detections" placement="top">
+                                <span className='h-full'>
+                                    <Button 
+                                        className={`shadow-lg hover:!bg-main-400 !text-black !h-full ${!modifiedDetectingExists ? '!bg-gray-300' : '!bg-green-500'}`}
+                                        disabled={!modifiedDetectingExists}
+                                        onClick={() =>{
+                                            
+                                            if (showModifiedDetections) {
+                                                setShowDetections(false);
+                                                setShowModifiedDetections(false);
+                                                openNotification('info', 'Modified detections are now hidden');
+                                            } else {
+                                                setShowModifiedDetections(true);
+                                                openNotification('info', 'Modified detections are now visible');
+                                            }
+                                        }}
+                                        >
+                                        <FontAwesomeIcon icon={!showModifiedDetections ? faEye : faEyeSlash} className='text-center' />
+                                    </Button>
+                                </span>
+                            </Tooltip>
+                        </div>
                     </div>
                     <div>
                         <Divider
