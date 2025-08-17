@@ -9,9 +9,11 @@ import {
     Button,
     TextField,
     CircularProgress,
-    Tooltip
-} from '@mui/material';
-import {faPen, faPlus, faEraser, faUpload, faRefresh, faEye, faEyeSlash, faRunning, faCar} from '@fortawesome/free-solid-svg-icons';
+    Tooltip,
+    Divider,
+    Chip
+} from '@mui/material'; 
+import {faPen, faPlus, faEraser, faUpload, faRefresh, faEye, faEyeSlash, faCar} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLocation } from 'react-router-dom';
 import GradualColorButton from './components/GradualColorButton';
@@ -49,12 +51,12 @@ const AutoCounter = () => {
     const [currentTime, setCurrentTime] = react.useState(0);
     const [duration, setDuration] = react.useState(0);
     const [seeking, setSeeking] = react.useState(false);
-    const [countDict, setCountDict] = react.useState({});
-    const [showCounts, setShowCounts] = react.useState(false);
+    const [detectionDict, setDetectionDict] = react.useState({});
+    const [showDetections, setShowDetections] = react.useState(false);
     const [detectingExists, setDetectingExists] = react.useState(false);
     const [accuracy, setAccuracy] = react.useState(0.1); // Default accuracy value
-    const [counterVersion, setCounterVersion] = react.useState('v1'); // Default counter version
-    const [showModifiedCounts, setShowModifiedCounts] = react.useState(false);
+    const [detectionVersion, setDetectionVersion] = react.useState('v1'); // Default counter version
+    const [showModifiedDetections, setShowModifiedDetections] = react.useState(false);
     const [modifiedDetectingExists, setModifiedDetectingExists] = react.useState(false);
     const [modifiedProgress, setModifiedProgress] = react.useState(0);
     const autoHideDuration = 3000;
@@ -150,7 +152,7 @@ const AutoCounter = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ record_id: recordId, divide_time: divideTime, version: counterVersion }),
+            body: JSON.stringify({ record_id: recordId, divide_time: divideTime, version: detectionVersion }),
         })
         .then(response => response.json())
         .then(data => {
@@ -288,7 +290,7 @@ const AutoCounter = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ record_id: recordId, version: counterVersion, divide_time: accuracy }),
+            body: JSON.stringify({ record_id: recordId, version: detectionVersion, divide_time: accuracy }),
         })
         .then(response => response.json())
         .then(data => {
@@ -419,7 +421,7 @@ const AutoCounter = () => {
 
     react.useEffect(() => {
         if (!env || !recordId) return;
-        const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/counter_modified_progress/${recordId}/${accuracy}/${counterVersion}/`;
+        const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/counter_modified_progress/${recordId}/${accuracy}/${detectionVersion}/`;
         const ws = new window.WebSocket(wsUrl);
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
@@ -432,7 +434,7 @@ const AutoCounter = () => {
                 openNotification('info', data.message);
             }
         }
-    }, [env, recordId, accuracy, counterVersion]);
+    }, [env, recordId, accuracy, detectionVersion]);
 
 
     react.useEffect(() => {
@@ -470,7 +472,7 @@ const AutoCounter = () => {
         if (videoRef.current && !seeking) {
             setCurrentTime(videoRef.current.currentTime);
         }
-        if (showCounts && videoRef.current && !showModifiedCounts) {
+        if (showDetections && videoRef.current && !showModifiedDetections) {
             // Get the counts for the current time
             const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_GET_COUNTS_AT_TIME}`;
             fetch(url, {
@@ -484,13 +486,13 @@ const AutoCounter = () => {
             .then(data => {
                 if (data && data.counts) {
                     const counts = data.counts;
-                    setCountDict(counts);
+                    setDetectionDict(counts);
                 } else {
                     console.error('No counts found in the response');
                 }
             })
         }
-        if (showModifiedCounts && videoRef.current){
+        if (showModifiedDetections && videoRef.current){
             // Get the modified counts for the current time
             const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_GET_MODIFIED_COUNTS_AT_TIME}`;
             fetch(url, {
@@ -518,7 +520,7 @@ const AutoCounter = () => {
                 console.log(data)
                 if (data && data.detections) {
                     const detections = data.detections;
-                    setCountDict(detections);
+                    setDetectionDict(detections);
                 } else {
                     console.error('No modified counts found in the response');
                 }
@@ -623,11 +625,11 @@ const AutoCounter = () => {
                                 globalCompositeOperation={line.tool === 'eraser' ? 'destination-out' : 'source-over'}
                                 />
                             ))}
-                            {Object.keys(countDict).length > 0 && (showCounts || showModifiedCounts) && (() => {
+                            {Object.keys(detectionDict).length > 0 && (showDetections || showModifiedDetections) && (() => {
                                 // Find the closest time key
-                                const times = Object.keys(countDict).map(t => parseFloat(t));
+                                const times = Object.keys(detectionDict).map(t => parseFloat(t));
                                 if (times.length === 0) return null;
-                                return countDict.map((obj, idx) => {
+                                return detectionDict.map((obj, idx) => {
                                     let [x1, y1] = videoPointToScaledPoint([obj.x1, obj.y1]);
                                     let [x2, y2] = videoPointToScaledPoint([obj.x2, obj.y2]);
                                     return (
@@ -697,16 +699,16 @@ const AutoCounter = () => {
                                 <span>
                                     <GradualColorButton
                                         percentage={0}
-                                        buttonChildren={!showCounts ? <FontAwesomeIcon icon={faEye} className="text-black"/> : <FontAwesomeIcon icon={faEyeSlash} className="text-white"/>}
+                                        buttonChildren={!showDetections ? <FontAwesomeIcon icon={faEye} className="text-black"/> : <FontAwesomeIcon icon={faEyeSlash} className="text-white"/>}
                                         // disabled={Math.abs(loadProgress - 1) > 0.01}
                                         className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black'
                                         onClick={() => {
-                                            if (showCounts) {
-                                                setShowCounts(false);
+                                            if (showDetections) {
+                                                setShowDetections(false);
                                                 openNotification('info', 'Counts are now hidden');
                                             } else {
-                                                setShowModifiedCounts(false);
-                                                setShowCounts(true);
+                                                setShowModifiedDetections(false);
+                                                setShowDetections(true);
                                                 openNotification('info', 'Counts now are visible');
                                             }
                                             
@@ -741,7 +743,7 @@ const AutoCounter = () => {
                     )}
                 </div>
             </div>
-            <div className="flex-1 flex flex-col h-full p-2.5 bg-main-300 justify-between">
+            <div className="flex-1 flex flex-col h-full bg-main-300 justify-between">
                 <div className="flex flex-col gap-2.5 p-2.5">
                     <div className="grid grid-cols-1 gap-5">
                         <FormControl className="w-full">
@@ -885,8 +887,20 @@ const AutoCounter = () => {
                         </Button>
                     </div>
                 </div>
-                <div className='flex justify-between items-center p-2.5'>
-                    <div className='flex items-center gap-2.5'>
+                <div className='flex flex-col gap-5'>
+                    <div>
+                        <Divider
+                            textAlign="left"
+                            sx={{
+                                '&::before, &::after': {
+                                borderColor: 'secondary.light'
+                                }
+                            }}
+                        >
+                            <Chip label="Detector" className="!bg-main-400 !text-white !font-bold" />
+                        </Divider>
+                    </div>
+                    <div className='flex items-center gap-2.5 p-2.5'>
                         <FormControl className="w-full">
                             <InputLabel id="counter-version-select-label">
                                 <Typography variant="body1" className='text-white'>
@@ -896,13 +910,13 @@ const AutoCounter = () => {
                             <Select
                                 labelId="counter-version-select-label"
                                 id="counter-version-select"
-                                value={counterVersion}
+                                value={detectionVersion}
                                 className='shadow-lg bg-main-400'
                                 sx={{
                                     color: 'primary.white'
                                 }}
                                 label="Counter Version"
-                                onChange={(e) => setCounterVersion(e.target.value)}
+                                onChange={(e) => setDetectionVersion(e.target.value)}
                             >
                                 <MenuItem value="v1">
                                     <Typography variant="body1" color="textPrimary">
@@ -911,34 +925,59 @@ const AutoCounter = () => {
                                 </MenuItem>
                             </Select>
                         </FormControl>
-                        <Tooltip title="Run Counter" placement="top">
-                            <Button
-                                className={`shadow-lg hover:!bg-main-400 !text-black h-full ${modifiedDetectingExists ? '!bg-gray-300' : '!bg-green-500 '}`}
-                                onClick={handleCounterRun}
-                                disabled={modifiedDetectingExists}
-                            >
-                                <FontAwesomeIcon icon={faCar} className='text-center' />
-                            </Button>
+                        <Tooltip title="Run Detection Modifier" placement="top">
+                            <span className='h-full'>
+                                <Button
+                                    className={`shadow-lg hover:!bg-main-400 !text-black h-full ${modifiedDetectingExists ? '!bg-gray-300' : '!bg-green-500 '}`}
+                                    onClick={handleCounterRun}
+                                    disabled={modifiedDetectingExists}
+                                >
+                                    <FontAwesomeIcon icon={faCar} className='text-center' />
+                                </Button>
+                            </span>
                             
                         </Tooltip>
-                        <Tooltip title="Show modified counts" placement="top">
-                            <span>
+                        <Tooltip title="Show modified detections" placement="top">
+                            <span className='h-full'>
                                 <Button 
-                                    className={`shadow-lg hover:!bg-main-400 !text-black h-full ${!modifiedDetectingExists ? '!bg-gray-300' : '!bg-green-500'}`}
+                                    className={`shadow-lg hover:!bg-main-400 !text-black !h-full ${!modifiedDetectingExists ? '!bg-gray-300' : '!bg-green-500'}`}
                                     disabled={!modifiedDetectingExists}
                                     onClick={() =>{
                                         
-                                        if (showModifiedCounts) {
-                                            setShowCounts(false);
-                                            setShowModifiedCounts(false);
-                                            openNotification('info', 'Modified counts are now hidden');
+                                        if (showModifiedDetections) {
+                                            setShowDetections(false);
+                                            setShowModifiedDetections(false);
+                                            openNotification('info', 'Modified detections are now hidden');
                                         } else {
-                                            setShowModifiedCounts(true);
-                                            openNotification('info', 'Modified counts are now visible');
+                                            setShowModifiedDetections(true);
+                                            openNotification('info', 'Modified detections are now visible');
                                         }
                                     }}
                                     >
-                                    <FontAwesomeIcon icon={!showModifiedCounts ? faEye : faEyeSlash} className='text-center' />
+                                    <FontAwesomeIcon icon={!showModifiedDetections ? faEye : faEyeSlash} className='text-center' />
+                                </Button>
+                            </span>
+                        </Tooltip>
+                    </div>
+                    <div>
+                        <Divider
+                            textAlign="left"
+                            sx={{
+                                '&::before, &::after': {
+                                borderColor: 'secondary.light'
+                                }
+                            }}
+                        >
+                            <Chip label="Count" className="!bg-main-400 !text-white !font-bold" />
+                        </Divider>
+                    </div>
+                    <div className='p-2.5'>
+                        <Tooltip title="Count" placement="top">
+                            <span>
+                                <Button
+                                    className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black h-full'
+                                    
+                                >
                                 </Button>
                             </span>
                         </Tooltip>
