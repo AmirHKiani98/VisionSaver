@@ -2,7 +2,6 @@ import json
 import os
 from django.http import JsonResponse
 
-from cameravision.resources.backend.startbackend._internal.cv2 import Algorithm
 from .models import DetectionLines
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings

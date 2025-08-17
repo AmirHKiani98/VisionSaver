@@ -868,36 +868,35 @@ const AutoCounter = () => {
                                 }
                             }}
                         >
-                            <Chip label="Detector" className="!bg-main-400 !text-white !font-bold" />
+                            <Chip label="Detection Modifier" className="!bg-main-400 !text-white !font-bold" />
                         </Divider>
                     </div>
                     <div className='flex flex-col items-center gap-2.5 p-2.5'>
-                        
-                        <FormControl className="w-full">
-                            <InputLabel id="counter-version-select-label">
-                                <Typography variant="body1" className='text-white'>
-                                    Counter Version
-                                </Typography>
-                            </InputLabel>
-                            <Select
-                                labelId="counter-version-select-label"
-                                id="counter-version-select"
-                                value={detectionVersion}
-                                className='shadow-lg bg-main-400'
-                                sx={{
-                                    color: 'primary.white'
-                                }}
-                                label="Counter Version"
-                                onChange={(e) => setDetectionVersion(e.target.value)}
-                            >
-                                <MenuItem value="v1">
-                                    <Typography variant="body1" color="textPrimary">
-                                        v1
+                        <div className='w-full grid grid-cols-2 gap-2.5'>
+                            <FormControl className="w-full">
+                                <InputLabel id="counter-version-select-label">
+                                    <Typography variant="body1" className='text-white'>
+                                        Counter Version
                                     </Typography>
-                                </MenuItem>
-                            </Select>
-                        </FormControl>
-                        <div className='w-full'>
+                                </InputLabel>
+                                <Select
+                                    labelId="counter-version-select-label"
+                                    id="counter-version-select"
+                                    value={detectionVersion}
+                                    className='shadow-lg bg-main-400'
+                                    sx={{
+                                        color: 'primary.white'
+                                    }}
+                                    label="Counter Version"
+                                    onChange={(e) => setDetectionVersion(e.target.value)}
+                                >
+                                    <MenuItem value="v1">
+                                        <Typography variant="body1" color="textPrimary">
+                                            v1
+                                        </Typography>
+                                    </MenuItem>
+                                </Select>
+                            </FormControl>
                             <TextField
                                 variant="outlined"
                                 value={accuracy}
@@ -914,8 +913,8 @@ const AutoCounter = () => {
                                 }}
                                 label={<Typography className="text-white">Frame</Typography>}
                             />
-                            
                         </div>
+                        
                         <div className='flex items-center justify-between w-full'>
                             <Tooltip title="Run Detection Modifier" placement="top">
                                 <span className='h-full'>
