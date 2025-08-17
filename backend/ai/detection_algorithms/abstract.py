@@ -23,24 +23,24 @@ class FinalMeta(type):
 
 class DetectionAlgorithmAbstract(metaclass=FinalMeta):
     """
-    Implement in subclass:
-      - worker_init(self, **kwargs)      # (optional) configure detector in worker (NO ORM/VideoCapture)
-      - build_detector(self)             # load heavy model (runs INSIDE worker)
-      - detect_batch(self, frames)       # runs INSIDE worker; returns one result (list[dict]) per input frame
+    Subclass must implement (worker side):
+      - worker_init(self, **kwargs)      [optional, NO ORM/VideoCapture]
+      - build_detector(self)             [required]
+      - detect_batch(self, frames)       [required, returns one list-of-dicts per input frame]
 
-    Optionally override in parent:
-      - on_frame_detections(self, fid, detections_for_frame) -> list[dict]
-        default: pass-through; override to run tracker in parent and return rows for DataFrame.
+    Parent side (optional):
+      - on_frame_detections(self, fid, detections_for_frame) -> list[dict]  (e.g., tracking)
     """
 
-    def __init__(self, record_id: int, divide_time: float):
+    def __init__(self, record_id: int, divide_time: float, version: str):
         self.record_id = record_id
         self.divide_time = float(divide_time)
-        self.video, self.duration, self.width, self.height, self.fps = self.load_video()
+        self.version = version
+        self.video, self.duration, self.width, self.height, self.fps = self._load_video()
         self.df = pd.DataFrame()
 
-    def load_video(self) -> Tuple[cv2.VideoCapture, int, int, int, float]:
-        # Resolve video path without touching ORM in worker; __init__ only runs in parent.
+    # ---------------- Parent: video open ----------------
+    def _load_video(self) -> Tuple[cv2.VideoCapture, int, int, int, float]:
         base = os.path.join(settings.MEDIA_ROOT, str(self.record_id))
         video_path = None
         for ext in (".mp4", ".mkv", ".avi"):
@@ -63,44 +63,37 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
         height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
         return cap, duration, width, height, fps
 
-    # --------- Subclass hooks (worker side) ---------
+    # ---------------- Worker hooks (to implement in subclass) ----------------
     def worker_init(self, **kwargs):
         """Optional: set detector params in worker without calling __init__."""
         pass
 
     @abstractmethod
     def build_detector(self):
-        """Initialize heavy models/resources. Runs INSIDE worker process."""
+        """Load heavy model/resources. Runs INSIDE the worker process."""
         raise NotImplementedError
 
     @abstractmethod
     def detect_batch(self, frames: List[np.ndarray]) -> List[List[Dict[str, Any]]]:
         """
-        frames: list[np.ndarray (H,W,3) BGR]
-        returns: list (len == len(frames)), where each element is a list[dict] for that frame.
+        frames: list[np.ndarray BGR]
+        returns: list (len == len(frames)); each element is a list[dict] for that frame.
         """
         raise NotImplementedError
 
-    # --------- Subclass hook (parent side) ---------
+    # ---------------- Parent hook (tracking etc.) ----------------
     def on_frame_detections(self, fid: int, detections_for_frame: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-        """
-        Parent-side hook. Override to run tracking and return rows for df.
-        Default: pass-through (no tracking).
-        """
+        """Default pass-through; override in subclass to run tracking in parent."""
         return detections_for_frame
 
-    # --------- Worker process loop ---------
+    # ---------------- Worker loop ----------------
     @staticmethod
     def _worker_loop(cls_path: str, init_kwargs: Dict[str, Any], in_q: Queue, out_q: Queue, batch_size: int):
-        """
-        cls_path: 'package.module.ClassName' of the subclass
-        init_kwargs: picklable kwargs to configure detector in worker (NO ORM/VideoCapture)
-        """
         mod_name, _, cls_name = cls_path.rpartition(".")
         mod = importlib.import_module(mod_name)
         SubCls = getattr(mod, cls_name)
 
-        # Bypass __init__ (avoids ORM/VideoCapture). Configure via worker_init().
+        # Bypass __init__ (avoids ORM/VideoCapture); configure via worker_init.
         obj = SubCls.__new__(SubCls)
         if hasattr(obj, "worker_init"):
             obj.worker_init(**(init_kwargs or {}))
@@ -109,7 +102,6 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
         pending: List[Tuple[int, np.ndarray]] = []
         alive = True
         while alive:
-            # Fill batch with short timeout to reduce latency
             try:
                 while len(pending) < batch_size:
                     item = in_q.get(timeout=0.03)
@@ -131,7 +123,6 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
                 if not isinstance(results, list) or len(results) != len(fids):
                     raise RuntimeError("detect_batch must return a list with one element per input frame")
             except Exception as e:
-                # send per-frame error so parent can fail fast
                 for fid in fids:
                     out_q.put((fid, {"__error__": str(e)}))
                 continue
@@ -141,7 +132,7 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
 
         out_q.put(None)  # sentinel to parent
 
-    # --------- Capture thread ---------
+    # ---------------- Capture thread ----------------
     @staticmethod
     def _capture_thread(cap: cv2.VideoCapture, frame_interval: int, out_q: Queue, stop_flag: dict):
         fid = 0
@@ -159,31 +150,25 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
                     break
         stop_flag["stop"] = True
         cap.release()
-        # Signal end-of-stream to worker
         try:
-            out_q.put(None)
+            out_q.put(None)  # EOS sentinel to worker
         except Exception:
             pass
 
+    # ---------------- Parent: orchestrate MP and write CSV ----------------
     @final_method
     def run(self,
             cls_path: str,
             batch_size: int = 8,
             queue_size: int = 32,
-            detector_init: Optional[Dict[str, Any]] = None) -> pd.DataFrame:
-        """
-        Start capture thread + one detector worker process.
-        - cls_path: dotted import path to *this* subclass (so the worker can import it)
-        - batch_size: frames per detect call in worker
-        - detector_init: kwargs for worker_init (e.g., model_path='yolov8m.pt', conf=0.25)
-        """
+            detector_init: Optional[Dict[str, Any]] = None) -> Tuple[pd.DataFrame, str]:
         if not self.video.isOpened():
             raise RuntimeError(f"Failed to open video for record ID {self.record_id}")
 
         detector_init = detector_init or {}
         frame_interval = max(1, int(round(self.divide_time * self.fps)))
 
-        ctx = get_context("spawn")  # safest for CUDA & Django
+        ctx = get_context("spawn")
         frame_q: Queue = ctx.Queue(maxsize=queue_size)
         result_q: Queue = ctx.Queue(maxsize=queue_size)
 
@@ -208,26 +193,26 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
                 fid, dets_for_frame = item
                 stash[fid] = dets_for_frame
 
-                # Drain in-order frames
                 while next_fid in stash:
                     det_list = stash.pop(next_fid)
                     if isinstance(det_list, dict) and "__error__" in det_list:
                         raise RuntimeError(f"Detection failed at frame {next_fid}: {det_list['__error__']}")
-                    # Parent-side hook (e.g., tracking)
-                    if isinstance(det_list, list):
-                        rows = self.on_frame_detections(next_fid, det_list)
-                        if rows:
-                            if isinstance(rows, list):
-                                buffer_rows.extend(rows)
-                            else:
-                                buffer_rows.append(rows)
+                    # Ensure det_list is a list of dicts before passing to on_frame_detections
+                    if isinstance(det_list, dict):
+                        det_list_for_frame = [det_list]
+                    else:
+                        det_list_for_frame = det_list
+                    rows = self.on_frame_detections(next_fid, det_list_for_frame)
+                    if rows:
+                        if isinstance(rows, list):
+                            buffer_rows.extend(rows)
+                        else:
+                            buffer_rows.append(rows)
                     next_fid += 1
         finally:
-            # Flush buffered rows once
             if buffer_rows:
                 self.df = pd.concat([self.df, pd.DataFrame(buffer_rows)], ignore_index=True)
 
-            # Cleanup
             try:
                 frame_q.put_nowait(None)
             except Exception:
@@ -238,4 +223,9 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
             if p.is_alive():
                 p.terminate()
 
-        return self.df
+        out_file = os.path.join(
+            settings.MEDIA_ROOT,
+            f"{self.record_id}_detections_{self.version}_{self.divide_time}.csv"
+        )
+        self.df.to_csv(out_file, index=False)
+        return self.df, out_file

@@ -5,7 +5,7 @@ from record.models import Record
 import pandas as pd
 logger = settings.APP_LOGGER
 
-class AlgorithmDetectionZone():
+class AlgorithmModificationDetection():
     """
     Base class for counter
     algorithms.

@@ -1,13 +1,14 @@
 import json
 import os
 from django.http import JsonResponse
+
+from cameravision.resources.backend.startbackend._internal.cv2 import Algorithm
 from .models import DetectionLines
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from record.models import Record
-from ai.car_detection import CarDetection
-from ai.detection_modifier_algorithms.algorithm import AlgorithmDetectionZone
-from ai.models import AutoCounter
+from ai.detection_modifier_algorithms.algorithm import AlgorithmModificationDetection
+from ai.detection_algorithms.algorithm import DetectionAlgorithm
 import threading
 
 # Create your views here.
@@ -82,18 +83,19 @@ def run_car_detection(request):
         data = json.loads(request.body)
         record_id = data.get('record_id')
         divide_time = data.get('divide_time', 0.1)  # Default to 10 seconds if not provided
+        version = data.get('version', 'v1')  # Default to version 'v1'
         #logger.info(f"Starting car detection for record ID: {record_id} with divide_time: {divide_time}")
         try:
             record = Record.objects.get(id=record_id)
         except Record.DoesNotExist:
             #logger.error(f"Record not found for record ID: {record_id}")
             return JsonResponse({'error': 'Record not found'}, status=404)
-        # Initialize the car detection process
-        #logger.info("Loading YOLO model...")
-        detection = CarDetection(record_id=record_id, model=load_model(), divide_time=divide_time)
-        #logger.info("Starting detection thread...")
-        thread = threading.Thread(target=detection.run)
-        thread.start()
+
+        algo = DetectionAlgorithm(version=version)
+        t = threading.Thread(target=algo.get_result,
+                   args=(record_id, divide_time, 8, 32))
+        t.start()
+          
         #logger.info("Car detection thread started successfully")
         return JsonResponse({'status': 'success', 'message': 'Car detection started'}, status=200)
     else:
@@ -104,7 +106,7 @@ def run_auto_counter(record_id, divide_time, version='v1'):
     """
     Retrieve auto counter for a specific record and divide time.
     """
-    ADZ = AlgorithmDetectionZone(
+    ADZ = AlgorithmModificationDetection(
         version=version,
         record_id=record_id,
         divide_time=divide_time,

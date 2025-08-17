@@ -1,49 +1,47 @@
-# ai/detection_algorithms/v1/model.py
 from typing import List, Dict, Any
 import numpy as np
 
 from ai.detection_algorithms.abstract import DetectionAlgorithmAbstract
 
-# Deep SORT pieces (parent side)
+# Deep SORT (parent side)
 from ai.detection_algorithms.v1.deepsort.nn_matching import NearestNeighborDistanceMetric
 from ai.detection_algorithms.v1.deepsort.tracker import Tracker
 from ai.detection_algorithms.v1.deepsort.detection import Detection
 
 class Model(DetectionAlgorithmAbstract):
     """
-    - Worker: loads YOLO and returns raw detections per frame (no tracking).
-    - Parent: runs Deep SORT on those detections in-order and returns track rows.
+    Worker: YOLO batched inference → raw dets.
+    Parent: Deep SORT tracking on ordered dets → rows for CSV/DF.
     """
 
     # ---------- parent init ----------
     def __init__(self, record_id: int, divide_time: float,
                  max_age: int = 30, min_hits: int = 3, n_init: int = 3,
                  max_cosine_distance: float = 0.6, nn_budget: int = 150):
-        super().__init__(record_id, divide_time)
+        super().__init__(record_id, divide_time, version="v1")
 
-        # Deep SORT tracker in the parent
         metric = NearestNeighborDistanceMetric(
             "cosine", matching_threshold=max_cosine_distance, budget=nn_budget
         )
         self.tracker = Tracker(metric, max_age=max_age, n_init=n_init)
         self.min_hits = min_hits
 
-        # Inference classes (COCO): car=2, motorcycle=3, bus=5, truck=7
+        # COCO vehicle-ish classes
         self.objects_of_interest = {2, 3, 5, 7}
 
-        # Worker-side attributes (set in worker_init)
+        # Worker-side params
         self._model_path = "yolov8m.pt"
         self._conf = 0.25
-        self._detector_model = None  # YOLO model (worker only)
+        self._detector_model = None  # worker only
 
-    # ---------- worker configuration ----------
+    # ---------- worker config ----------
     def worker_init(self, **kwargs):
-        # called in worker (NO ORM/VideoCapture)
         self._model_path = kwargs.get("model_path", self._model_path)
         self._conf = float(kwargs.get("conf", self._conf))
-        self.objects_of_interest = set(kwargs.get("objects_of_interest", list(self.objects_of_interest)))
+        if "objects_of_interest" in kwargs:
+            self.objects_of_interest = set(kwargs["objects_of_interest"])
 
-    # ---------- worker: build detector ----------
+    # ---------- worker: load model ----------
     def build_detector(self):
         from ultralytics import YOLO
         import torch
@@ -51,24 +49,19 @@ class Model(DetectionAlgorithmAbstract):
         if torch.cuda.is_available():
             self._detector_model.to("cuda")
 
-    # ---------- worker: batched detection ----------
+    # ---------- worker: batched inference ----------
     def detect_batch(self, frames: List[np.ndarray]) -> List[List[Dict[str, Any]]]:
-        """
-        Returns: for each input frame, a list of dicts with:
-        {x1,y1,x2,y2,confidence,class_id}
-        """
         if not self._detector_model:
-            raise RuntimeError("Detector model is not built")
+            raise RuntimeError("Detector model not built in worker")
         results = self._detector_model(frames, conf=self._conf, verbose=False)
-        out: List[List[Dict[str, Any]]] = []
 
+        all_out: List[List[Dict[str, Any]]] = []
         for r in results:
             dets: List[Dict[str, Any]] = []
             if hasattr(r, "boxes") and r.boxes is not None and len(r.boxes) > 0:
                 xyxy = r.boxes.xyxy
                 cls = r.boxes.cls
                 conf = r.boxes.conf
-                # Move to CPU numpy (single transfer)
                 xyxy = xyxy.detach().cpu().numpy()
                 cls = cls.detach().cpu().numpy().astype(int)
                 conf = conf.detach().cpu().numpy()
@@ -79,23 +72,19 @@ class Model(DetectionAlgorithmAbstract):
                             "x2": float(x2), "y2": float(y2),
                             "confidence": float(c), "class_id": int(k),
                         })
-            out.append(dets)
-        return out
+            all_out.append(dets)
+        return all_out
 
-    # ---------- parent: tracking on ordered detections ----------
+    # ---------- parent: tracking ----------
     def on_frame_detections(self, fid: int, detections_for_frame: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-        """
-        Convert raw detections to Deep SORT inputs, update tracker, return rows:
-        {frame_id, track_id, x1, y1, x2, y2, conf, class_id}
-        """
-        # NOTE: Replace random features with a real ReID embedding for better ID stability.
+        # NOTE: replace random features with a real ReID for stable IDs.
         ds_dets = []
         for d in detections_for_frame:
             x1, y1, x2, y2 = d["x1"], d["y1"], d["x2"], d["y2"]
             w = x2 - x1
             h = y2 - y1
             tlwh = [x1, y1, w, h]
-            feature = np.random.rand(128).astype(np.float32)  # TODO: ReID/appearance encoder
+            feature = np.random.rand(128).astype(np.float32)  # placeholder
             ds_dets.append(Detection(tlwh, d["confidence"], feature))
 
         self.tracker.predict()
@@ -113,6 +102,5 @@ class Model(DetectionAlgorithmAbstract):
                 "y1": float(y),
                 "x2": float(x + w),
                 "y2": float(y + h),
-                # Optional: attach last confidence/class if you kept them
             })
         return rows

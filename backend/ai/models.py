@@ -70,6 +70,7 @@ class AutoCounter(models.Model):
     time = models.DateField(help_text="The time in seconds into the record when this count was made.", auto_now_add=True)
     file_name = models.TextField(help_text="File name associated with the count data.")
     divide_time = models.FloatField(default=0.1, help_text="Time interval for dividing counts.")
+    version = models.CharField(max_length=10, default='v1', help_text="Version of the auto counter algorithm.")
 
 class ModifiedAutoCounter(models.Model):
     """
