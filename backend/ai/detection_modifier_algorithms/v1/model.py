@@ -113,6 +113,10 @@ def _process_track_task(args):
 
     g = g.sort_values("time")
     g = g.drop_duplicates(subset="time", keep="first")
+    max_time = g["time"].max()
+    min_time = g["time"].min()
+    if max_time - min_time < divide_time * 10:
+        return pd.DataFrame()
     g["time"] = g["time"].round(decimals)
 
     tmin, tmax = g["time"].min(), g["time"].max()
@@ -346,6 +350,7 @@ class Model:
             results = [func(t) for t in tqdm(time_tasks, total=total, desc="Merging overlapping rectangles")]
 
         df2 = pd.concat(results, ignore_index=True)
+        df2 = df2.groupby(["time", "track_id"], as_index=False).first()
         df2.to_csv(cleaned_path, index=False)
         return df2, cleaned_path
 

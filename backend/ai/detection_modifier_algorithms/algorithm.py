@@ -19,7 +19,7 @@ class AlgorithmDetectionZone():
         self.divide_time = divide_time
         from ai.models import AutoCounter, DetectionLines
         from importlib import import_module
-        model_module = import_module(f'.model', package=f'ai.counter_modifier_algorithms.{self.version}')
+        model_module = import_module(f'.model', package=f'ai.detection_modifier_algorithms.{self.version}')
         self.Model = model_module.Model
         video_path = os.path.join(settings.MEDIA_ROOT, str(record_id) + ".mp4")
         if not os.path.exists(video_path):

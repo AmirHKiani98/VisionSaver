@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from record.models import Record
 from ai.car_detection import CarDetection
-from ai.counter_modifier_algorithms.algorithm import AlgorithmDetectionZone
+from ai.detection_modifier_algorithms.algorithm import AlgorithmDetectionZone
 from ai.models import AutoCounter
 import threading
 
