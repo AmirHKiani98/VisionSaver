@@ -3,11 +3,14 @@ import cv2
 import pandas as pd
 import numpy as np
 import importlib
+import math
 from abc import abstractmethod
 from typing import Optional, List, Dict, Any, Tuple
 from multiprocessing import get_context, Queue
 from threading import Thread
 from django.conf import settings
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 
 def final_method(func):
     func.__isfinal__ = True
@@ -37,8 +40,34 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
         self.divide_time = float(divide_time)
         self.version = version
         self.video, self.duration, self.width, self.height, self.fps = self._load_video()
+        self._frame_count = int(self.video.get(cv2.CAP_PROP_FRAME_COUNT) or 0)
+        self._last_progress_sent = -1.0
         self.df = pd.DataFrame()
+    
+    def _norm_divide_time(self) -> str:
+        # canonical, drops trailing zeros; adjust precision as you like
+        return f"{self.divide_time:.6g}"
+    
+    def _ws_group_name_counter(self) -> str:
+        # Matches CounterProgressConsumer: f"counter_progress_{record_id}_{divide_time}"
+        return f"counter_progress_{self.record_id}_{self._norm_divide_time()}_{self.version}"
 
+    def _send_ws_progress(self, group: str, progress: float, message: str | None = None) -> None:
+        """
+        Fire-and-forget. Safe if Channels/Redis isn’t configured (no crash).
+        Expects a consumer handler named `send_progress`.
+        """
+        try:
+            channel_layer = get_channel_layer()
+            if not channel_layer:
+                return
+            payload = {"type": "send.progress", "progress": float(progress)}
+            if message is not None:
+                payload["message"] = message
+            async_to_sync(channel_layer.group_send)(group, payload)
+        except Exception:
+            # Keep inference resilient; don’t raise on websocket issues.
+            pass
     # ---------------- Parent: video open ----------------
     def _load_video(self) -> Tuple[cv2.VideoCapture, int, int, int, float]:
         base = os.path.join(settings.MEDIA_ROOT, str(self.record_id))
@@ -167,7 +196,12 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
 
         detector_init = detector_init or {}
         frame_interval = max(1, int(round(self.divide_time * self.fps)))
-
+        sample_stride = frame_interval
+        total_samples = (
+            math.ceil(self._frame_count / sample_stride) if self._frame_count > 0 else 0
+        )
+        group = self._ws_group_name_counter()
+        self._send_ws_progress(group, 0.0)
         ctx = get_context("spawn")
         frame_q: Queue = ctx.Queue(maxsize=queue_size)
         result_q: Queue = ctx.Queue(maxsize=queue_size)
@@ -209,6 +243,14 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
                         else:
                             buffer_rows.append(rows)
                     next_fid += 1
+                    if total_samples > 0:
+                        progress = min(100.0, (next_fid / total_samples) * 100.0)
+                    else:
+                        # Fallback when frame count is unknown: show “processed frames” as a moving bar up to 99%
+                        progress = min(99.0, next_fid % 100)
+                    if progress - self._last_progress_sent >= 1.0 or progress >= 100.0:
+                        self._send_ws_progress(group, progress)
+                        self._last_progress_sent = progress
         finally:
             if buffer_rows:
                 self.df = pd.concat([self.df, pd.DataFrame(buffer_rows)], ignore_index=True)
@@ -227,5 +269,6 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
             settings.MEDIA_ROOT,
             f"{self.record_id}_detections_{self.version}_{self.divide_time}.csv"
         )
+        self._send_ws_progress(group, 100.0)
         self.df.to_csv(out_file, index=False)
         return self.df, out_file
