@@ -64,11 +64,11 @@ urlpatterns = [
         views.count_exists,
     ),
     path(
-        f"{os.getenv('API_GET_MODIFIED_COUNTS_AT_TIME')}",
-        views.get_modified_counts_at_time,
+        f"{os.getenv('API_GET_MODIFIED_DETECTIONS_AT_TIME')}",
+        views.get_modified_detections_at_time,
     ),
     path(
-        f"{os.getenv('API_MODIFIED_COUNT_EXISTS')}",
-        views.modified_count_exists,
+        f"{os.getenv('API_MODIFIED_DETECTION_EXISTS')}",
+        views.modified_detection_exists,
     )
 ]

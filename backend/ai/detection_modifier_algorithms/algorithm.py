@@ -17,7 +17,7 @@ class AlgorithmModificationDetection():
         self.version = version
         self.record_id = record_id
         self.divide_time = divide_time
-        from ai.models import AutoCounter, DetectionLines
+        from ai.models import AutoDetection, DetectionLines
         from importlib import import_module
         model_module = import_module(f'.model', package=f'ai.detection_modifier_algorithms.{self.version}')
         self.Model = model_module.Model
@@ -32,10 +32,10 @@ class AlgorithmModificationDetection():
         except Record.DoesNotExist:
             logger.error(f"Record not found for record ID: {record_id}")
             return None
-        auto_counter = AutoCounter.objects.filter(record=record, divide_time=divide_time).first()
+        auto_counter = AutoDetection.objects.filter(record=record, divide_time=divide_time).first()
         if not auto_counter:
-            logger.error(f"AutoCounter not found for record ID: {record_id} with divide_time: {divide_time}")
-            raise ValueError(f"AutoCounter not found for record ID: {record_id} with divide_time: {divide_time}")
+            logger.error(f"AutoDetection not found for record ID: {record_id} with divide_time: {divide_time}")
+            raise ValueError(f"AutoDetection not found for record ID: {record_id} with divide_time: {divide_time}")
         auto_detection_csv_path = auto_counter.file_name
         if not auto_detection_csv_path:
             raise ValueError("auto_detection_csv_path must be provided.")
@@ -59,12 +59,12 @@ class AlgorithmModificationDetection():
         Get the result of the counter algorithm.
         """
         #logger.info("Getting result from the model instance")
-        from ai.models import ModifiedAutoCounter
+        from ai.models import ModifiedAutoDetection
         try:
             record = Record.objects.get(id=self.record_id)
-            auto_modified_counter = ModifiedAutoCounter.objects.filter(version=self.version, record=record, divide_time=self.divide_time).first()
-            if auto_modified_counter:
-                file_path = auto_modified_counter.file_name
+            auto_modified_detectioner = ModifiedAutoDetection.objects.filter(version=self.version, record=record, divide_time=self.divide_time).first()
+            if auto_modified_detectioner:
+                file_path = auto_modified_detectioner.file_name
                 if os.path.exists(file_path):
                     return pd.read_csv(file_path)
                 else:
@@ -72,7 +72,7 @@ class AlgorithmModificationDetection():
                     raise FileNotFoundError(f"Modified auto counter file not found: {file_path}")
             else:
                 df, file_path = self.model_instance.cleaner()
-                ModifiedAutoCounter.objects.create(
+                ModifiedAutoDetection.objects.create(
                     record_id=self.record_id,
                     version=self.version,
                     divide_time=self.divide_time,

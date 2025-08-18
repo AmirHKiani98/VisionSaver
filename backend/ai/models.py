@@ -61,7 +61,7 @@ class DetectionLines(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True, help_text="Timestamp when the model was created.")
     
-class AutoCounter(models.Model):
+class AutoDetection(models.Model):
     """
     Model to represent an auto counter for vehicles.
     """
@@ -72,7 +72,7 @@ class AutoCounter(models.Model):
     divide_time = models.FloatField(default=0.1, help_text="Time interval for dividing counts.")
     version = models.CharField(max_length=10, default='v1', help_text="Version of the auto counter algorithm.")
 
-class ModifiedAutoCounter(models.Model):
+class ModifiedAutoDetection(models.Model):
     """
     Model to represent a modified auto counter for vehicles.
     """

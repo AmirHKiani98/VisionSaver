@@ -28,7 +28,7 @@ const theme = createTheme({
 import App from './App'
 import Recording from './Recording'
 import RecordEditor from './RecordEditor'
-import AutoCounter from './AutoCounter'
+import AutoDetection from './AutoDetection'
 
 // Assign Tailwind and custom CSS classes to the body
 const rootElement = document.getElementById('root')
@@ -42,7 +42,7 @@ createRoot(document.getElementById('root')).render(
           <Route path="/" element={<App />} />
           <Route path="/editor" element={<Recording />} />
           <Route path="/record" element={<RecordEditor />} />
-          <Route path="/auto-counter" element={<AutoCounter />} />
+          <Route path="/auto-counter" element={<AutoDetection />} />
         </Routes>
       </HashRouter>
     </ThemeProvider>

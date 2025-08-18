@@ -26,7 +26,7 @@ import PlayStop from './components/PlayStop';
 function useQuery() {
     return new URLSearchParams(useLocation().search);
 }
-const AutoCounter = () => {
+const AutoDetection = () => {
     const query = useQuery();
     const recordIdParam = query.get('record_id');
     const recordId = recordIdParam ? recordIdParam.split('?')[0] : null;
@@ -147,7 +147,7 @@ const AutoCounter = () => {
 
     const checkIfDetectingModifiedExists = (divideTime) => {
         if (!env) return;
-        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_MODIFIED_COUNT_EXISTS}`;
+        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_MODIFIED_DETECTION_EXISTS}`;
         fetch(url, {
             method: 'POST',
             headers: {
@@ -500,7 +500,7 @@ const AutoCounter = () => {
         }
         if (showModifiedDetections && videoRef.current){
             // Get the modified counts for the current time
-            const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_GET_MODIFIED_COUNTS_AT_TIME}`;
+            const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_GET_MODIFIED_DETECTIONS_AT_TIME}`;
             fetch(url, {
                 method: 'POST',
                 headers: {
@@ -1024,4 +1024,4 @@ const AutoCounter = () => {
     );
 };
 
-export default AutoCounter;
+export default AutoDetection;

@@ -362,8 +362,8 @@ def get_record_counts(request):
         record = Record.objects.filter(id=record_id).first()
         if not record:
             return JsonResponse({"error": "Record not found."}, status=404)
-        from ai.models import AutoCounter
-        auto_count = AutoCounter.objects.filter(record=record).first()
+        from ai.models import AutoDetection
+        auto_count = AutoDetection.objects.filter(record=record).first()
         if not auto_count:
             return JsonResponse({"counts": {}}, status=200)
         counts_file = auto_count.file_name
@@ -423,8 +423,8 @@ def get_counts_at_time(request):
         record = Record.objects.filter(id=record_id).first()
         if not record:
             return JsonResponse({"error": "Record not found."}, status=404)
-        from ai.models import AutoCounter
-        auto_count = AutoCounter.objects.filter(record=record).first()
+        from ai.models import AutoDetection
+        auto_count = AutoDetection.objects.filter(record=record).first()
         if not auto_count:
             return JsonResponse({"counts": {}}, status=200)
         counts_file = auto_count.file_name
@@ -481,14 +481,15 @@ def count_exists(request):
         data = json.loads(request.body.decode('utf-8'))
         record_id = data.get('record_id')
         divide_time = float(data.get('divide_time', 0.1))  # Default to 0.1 if not provided
+        version = data.get('version', 'v1')
         if not record_id:
             return JsonResponse({"error": "'record_id' is required."}, status=400)
         record = Record.objects.filter(id=record_id).first()
         if not record:
             return JsonResponse({"error": "Record not found."}, status=404)
-        from ai.models import AutoCounter
+        from ai.models import AutoDetection
 
-        auto_count = AutoCounter.objects.filter(record=record, divide_time=divide_time).first()
+        auto_count = AutoDetection.objects.filter(record=record, divide_time=divide_time, version=version).first()
         if auto_count:
             return JsonResponse({"exists": True, "divide_time": auto_count.divide_time}, status=200)
         else:
@@ -497,7 +498,7 @@ def count_exists(request):
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
 
 @csrf_exempt
-def modified_count_exists(request):
+def modified_detection_exists(request):
     """
     Check if modified counting exists for a specific record.
     """
@@ -513,8 +514,8 @@ def modified_count_exists(request):
         record = Record.objects.filter(id=record_id).first()
         if not record:
             return JsonResponse({"error": "Record not found."}, status=404)
-        from ai.models import ModifiedAutoCounter
-        modified_auto_count = ModifiedAutoCounter.objects.filter(record=record, version=version, divide_time=divide_time).first()
+        from ai.models import ModifiedAutoDetection
+        modified_auto_count = ModifiedAutoDetection.objects.filter(record=record, version=version, divide_time=divide_time).first()
         if modified_auto_count and os.path.exists(modified_auto_count.file_name):
             return JsonResponse({"exists": True, "divide_time": modified_auto_count.divide_time}, status=200)
         else:
@@ -523,7 +524,7 @@ def modified_count_exists(request):
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
 
 @csrf_exempt
-def get_modified_counts_at_time(request):
+def get_modified_detections_at_time(request):
     """
     Retrieve car detections for a specific record.
     """

@@ -3,14 +3,14 @@ import pandas as pd
 from typing import Tuple, Optional, Dict, Any
 from django.conf import settings
 from django.db.models import Q
-from ai.models import AutoCounter
+from ai.models import AutoDetection
 
 class DetectionAlgorithm:
     """
     High-level entrypoint:
-     - If AutoCounter exists for (record_id, version, divide_time) and file is present → return cached DataFrame.
+     - If AutoDetection exists for (record_id, version, divide_time) and file is present → return cached DataFrame.
      - Else → instantiate model subclass and call .run() (MP owned by abstract).
-             → store/refresh AutoCounter with produced CSV.
+             → store/refresh AutoDetection with produced CSV.
     """
     def __init__(self, version: str = "v1"):
         self.version = version
@@ -30,8 +30,8 @@ class DetectionAlgorithm:
         Returns: (df, file_path, source)
           source ∈ {"cache", "computed"}
         """
-        # 1) Try cache (AutoCounter)
-        ac = AutoCounter.objects.filter(
+        # 1) Try cache (AutoDetection)
+        ac = AutoDetection.objects.filter(
             Q(record_id=record_id) & Q(version=self.version) & Q(divide_time=divide_time)
         ).order_by("-time").first()
 
@@ -52,8 +52,8 @@ class DetectionAlgorithm:
             detector_init=detector_init or {}
         )
 
-        # 3) Upsert AutoCounter
-        AutoCounter.objects.update_or_create(
+        # 3) Upsert AutoDetection
+        AutoDetection.objects.update_or_create(
             record_id=record_id,
             version=self.version,
             divide_time=divide_time,
