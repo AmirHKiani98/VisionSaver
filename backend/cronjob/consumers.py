@@ -31,7 +31,7 @@ class CounterProgressConsumer(AsyncWebsocketConsumer):
         except Exception:
             pass
         self.version = self.scope['url_route']['kwargs']['version']
-        self.group_name = f"counter_progress_{self.record_id}_{self.divide_time}_{self.version}"
+        self.group_name = f"detection_progress_{self.record_id}_{self.divide_time}_{self.version}"
 
         if self.channel_layer is not None:
             await self.channel_layer.group_add(self.group_name, self.channel_name)
@@ -48,7 +48,7 @@ class CounterProgressConsumer(AsyncWebsocketConsumer):
 class CounterLoadingProgressConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.record_id = self.scope['url_route']['kwargs']['record_id']
-        self.group_name = f"counter_loading_progress_{self.record_id}"
+        self.group_name = f"detection_loading_progress_{self.record_id}"
         
         if self.channel_layer is not None:
             await self.channel_layer.group_add(self.group_name, self.channel_name)
@@ -68,7 +68,7 @@ class CounterModifiedProgressConsumer(AsyncWebsocketConsumer):
         self.record_id = self.scope['url_route']['kwargs']['record_id']
         self.divide_time = self.scope['url_route']['kwargs']['divide_time']
         self.version = self.scope['url_route']['kwargs']['version']
-        self.group_name = f"counter_modified_progress_{self.record_id}_{self.divide_time}_{self.version}"
+        self.group_name = f"detection_loading_progress_{self.record_id}_{self.divide_time}_{self.version}"
         
         if self.channel_layer is not None:
             await self.channel_layer.group_add(self.group_name, self.channel_name)

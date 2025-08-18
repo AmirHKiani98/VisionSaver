@@ -24,7 +24,7 @@ urlpatterns = [
         views.run_car_detection,
     ),
     path(
-        f"{os.getenv('AI_START_COUNTING')}",
-        views.start_counting,
+        f"{os.getenv('AI_START_MODIFIER')}",
+        views.start_modifier,
     )
 ]

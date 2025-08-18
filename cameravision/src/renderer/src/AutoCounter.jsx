@@ -13,7 +13,7 @@ import {
     Divider,
     Chip
 } from '@mui/material'; 
-import {faPen, faPlus, faEraser, faUpload, faRefresh, faEye, faEyeSlash, faCar} from '@fortawesome/free-solid-svg-icons';
+import {faPen, faPlus, faEraser, faUpload, faRefresh, faEye, faEyeSlash, faCar, faMagnifyingGlass, faTrash} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLocation } from 'react-router-dom';
 import GradualColorButton from './components/GradualColorButton';
@@ -53,7 +53,7 @@ const AutoCounter = () => {
     const [seeking, setSeeking] = react.useState(false);
     const [detectionDict, setDetectionDict] = react.useState({});
     const [showDetections, setShowDetections] = react.useState(false);
-    const [detectingExists, setDetectingExists] = react.useState(false);
+    const [detectionExists, setDetectionExists] = react.useState(false);
     const [accuracy, setAccuracy] = react.useState(0.1); // Default accuracy value
     const [detectionVersion, setDetectionVersion] = react.useState('v1'); // Default counter version
     const [showModifiedDetections, setShowModifiedDetections] = react.useState(false);
@@ -130,17 +130,18 @@ const AutoCounter = () => {
         })
         .then(response => response.json())
         .then(data => {
+            console.log(data)
             if (data && data.exists) {
-                setDetectingExists(true);
+                setDetectionExists(true);
                 setProgress(100); // Set progress to 100% if detecting exists
             } else {
-                setDetectingExists(false);
+                setDetectionExists(false);
                 setProgress(0); // Reset progress if detecting does not exist
             }
         })
         .catch(error => {
             console.error('Error checking detecting existence:', error);
-            setDetectingExists(false);
+            setDetectionExists(false);
         });
     }
 
@@ -283,8 +284,8 @@ const AutoCounter = () => {
         }
         return scaledPoints;
     };
-    const handleCounterRun = () => {
-        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.AI_START_COUNTING}`;
+    const runModifier = () => {
+        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.AI_START_MODIFIER}`;
         fetch(url, {
             method: 'POST',
             headers: {
@@ -341,6 +342,11 @@ const AutoCounter = () => {
     const handleMouseUp = () => {
         isDrawing.current = false;
     };
+
+    const removeDetections = () => {
+    }
+    const removeModifiedDetections = () => {
+    }
 
     react.useEffect(() => {
         window.env.get().then(setEnv);
@@ -403,12 +409,12 @@ const AutoCounter = () => {
 
     react.useEffect(() => {
         if (!env || !recordId) return;
-        const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/counter_progress/${recordId}/${accuracy}/`;
+        const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/detection_progress/${recordId}/${accuracy}/${detectionVersion}/`;
         const ws = new window.WebSocket(wsUrl);
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
             if (Math.abs(data.progress - 100) < 1 ){
-                setDetectingExists(true);
+                setDetectionExists(true);
                 // setProgress(100); // Set progress to 100% if detecting exists
             }
             if (data.progress !== undefined) setProgress(data.progress);
@@ -421,7 +427,7 @@ const AutoCounter = () => {
 
     react.useEffect(() => {
         if (!env || !recordId) return;
-        const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/counter_modified_progress/${recordId}/${accuracy}/${detectionVersion}/`;
+        const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/detection_loading_progress/${recordId}/${accuracy}/${detectionVersion}/`;
         const ws = new window.WebSocket(wsUrl);
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
@@ -539,7 +545,7 @@ const AutoCounter = () => {
         <div className='w-screen h-screen flex items-center justify-center'>
             <div className='absolute top-5 left-5 z-10'>
                 <Button onClick={() => {
-                    const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/counter_loading_progress/${recordId}/`;
+                    const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/detection_loading_progress/${recordId}/`;
                     const ws = new WebSocket(wsUrl);
                     ws.onopen = () => {
                         ws.send(JSON.stringify({ type: 'close' }));
@@ -665,31 +671,6 @@ const AutoCounter = () => {
                             pendingSeekTime={pendingSeekTime}
                             setPendingSeekTime={setPendingSeekTime}
                         />
-                        {detectingExists && (
-                            <Tooltip title="Show counts" placement="bottom">
-                                <span>
-                                    <GradualColorButton
-                                        percentage={0}
-                                        buttonChildren={!showDetections ? <FontAwesomeIcon icon={faEye} className="text-black"/> : <FontAwesomeIcon icon={faEyeSlash} className="text-white"/>}
-                                        // disabled={Math.abs(loadProgress - 1) > 0.01}
-                                        className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black'
-                                        onClick={() => {
-                                            if (showDetections) {
-                                                setShowDetections(false);
-                                                openNotification('info', 'Counts are now hidden');
-                                            } else {
-                                                setShowModifiedDetections(false);
-                                                setShowDetections(true);
-                                                openNotification('info', 'Counts now are visible');
-                                            }
-                                            
-                                        }}
-                                    >
-                                        <FontAwesomeIcon icon={faEye} />
-                                    </GradualColorButton>
-                                </span>
-                            </Tooltip>
-                        )}
                     </div>
                 </div>
                 <div className='flex flex-col items-center gap-2.5 mt-2.5'>
@@ -868,7 +849,7 @@ const AutoCounter = () => {
                                 }
                             }}
                         >
-                            <Chip label="Detection Modifier" className="!bg-main-400 !text-white !font-bold" />
+                            <Chip label="Detection" className="!bg-main-400 !text-white !font-bold" />
                         </Divider>
                     </div>
                     <div className='flex flex-col items-center gap-2.5 p-2.5'>
@@ -916,39 +897,100 @@ const AutoCounter = () => {
                         </div>
                         
                         <div className='flex items-center justify-between w-full'>
-                            <Tooltip title="Run Detection Modifier" placement="top">
-                                <span className='h-full'>
-                                    <Button
-                                        className={`shadow-lg hover:!bg-main-400 !text-black h-full ${modifiedDetectingExists ? '!bg-gray-300' : '!bg-green-500 '}`}
-                                        onClick={handleCounterRun}
-                                        disabled={modifiedDetectingExists}
-                                    >
-                                        <FontAwesomeIcon icon={faCar} className='text-center' />
-                                    </Button>
-                                </span>
-                                
-                            </Tooltip>
-                            <Tooltip title="Show modified detections" placement="top">
-                                <span className='h-full'>
-                                    <Button 
-                                        className={`shadow-lg hover:!bg-main-400 !text-black !h-full ${!modifiedDetectingExists ? '!bg-gray-300' : '!bg-green-500'}`}
-                                        disabled={!modifiedDetectingExists}
-                                        onClick={() =>{
-                                            
-                                            if (showModifiedDetections) {
-                                                setShowDetections(false);
-                                                setShowModifiedDetections(false);
-                                                openNotification('info', 'Modified detections are now hidden');
-                                            } else {
-                                                setShowModifiedDetections(true);
-                                                openNotification('info', 'Modified detections are now visible');
-                                            }
-                                        }}
+                            <div className='flex flex-col gap-2.5'>
+                                <Tooltip title="Run Detection" placement="right">
+                                    <span className='h-full'>
+                                        <Button
+                                            className={`shadow-lg hover:!bg-main-400 !text-black h-full ${detectionExists ? '!bg-gray-300' : '!bg-green-500 '}`}
+                                            onClick={startDetecting}
+                                            disabled={detectionExists}
                                         >
-                                        <FontAwesomeIcon icon={!showModifiedDetections ? faEye : faEyeSlash} className='text-center' />
-                                    </Button>
-                                </span>
-                            </Tooltip>
+                                            <FontAwesomeIcon icon={faMagnifyingGlass} className='text-center' />
+                                        </Button>
+                                    </span>
+                                </Tooltip>
+                                <Tooltip title="Show detections" placement="right">
+                                    <span>
+                                        <GradualColorButton
+                                            percentage={0}
+                                            buttonChildren={!showDetections ? <FontAwesomeIcon icon={faEye} className="text-black"/> : <FontAwesomeIcon icon={faEyeSlash} className="text-white"/>}
+                                            // disabled={Math.abs(loadProgress - 1) > 0.01}
+                                            className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black'
+                                            onClick={() => {
+                                                if (showDetections) {
+                                                    setShowDetections(false);
+                                                    openNotification('info', 'Counts are now hidden');
+                                                } else {
+                                                    setShowModifiedDetections(false);
+                                                    setShowDetections(true);
+                                                    openNotification('info', 'Counts now are visible');
+                                                }
+                                                
+                                            }}
+                                        >
+                                            <FontAwesomeIcon icon={faEye} />
+                                        </GradualColorButton>
+                                    </span>
+                                </Tooltip>
+                                <Tooltip title="Remove detections" placement="right">
+                                    <span className='h-full'>
+                                        <Button
+                                            className={`shadow-lg hover:!bg-main-400 !text-black h-full ${!detectionExists ? '!bg-gray-300' : '!bg-red-500'}`}
+                                            disabled={!detectionExists}
+                                            onClick={removeDetections}
+                                        >
+                                            <FontAwesomeIcon icon={faTrash} className='text-center' />
+                                        </Button>
+                                    </span>
+                                </Tooltip>
+                            </div>
+                            <div className='flex flex-col gap-2.5'>
+                                <Tooltip title="Run Detection Modifier" placement="left">
+                                    <span className='h-full'>
+                                        <Button
+                                            className={`shadow-lg hover:!bg-main-400 !text-black h-full ${modifiedDetectingExists ? '!bg-gray-300' : '!bg-green-500 '}`}
+                                            onClick={runModifier}
+                                            disabled={modifiedDetectingExists}
+                                        >
+                                            <FontAwesomeIcon icon={faCar} className='text-center' />
+                                        </Button>
+                                    </span>
+                                    
+                                </Tooltip>
+                                <Tooltip title="Show modified detections" placement="left">
+                                    <span className='h-full'>
+                                        <Button 
+                                            className={`shadow-lg hover:!bg-main-400 !text-black !h-full ${!modifiedDetectingExists ? '!bg-gray-300' : '!bg-green-500'}`}
+                                            disabled={!modifiedDetectingExists}
+                                            onClick={() =>{
+                                                
+                                                if (showModifiedDetections) {
+                                                    setShowDetections(false);
+                                                    setShowModifiedDetections(false);
+                                                    openNotification('info', 'Modified detections are now hidden');
+                                                } else {
+                                                    setShowModifiedDetections(true);
+                                                    openNotification('info', 'Modified detections are now visible');
+                                                }
+                                            }}
+                                            >
+                                            <FontAwesomeIcon icon={!showModifiedDetections ? faEye : faEyeSlash} className='text-center' />
+                                        </Button>
+                                    </span>
+                                </Tooltip>
+                                <Tooltip title="Remove modified detections" placement="left">
+                                    <span className='h-full'>
+                                        <Button
+                                            className={`shadow-lg hover:!bg-main-400 !text-black h-full ${!modifiedDetectingExists ? '!bg-gray-300' : '!bg-red-500'}`}
+                                            disabled={!modifiedDetectingExists}
+                                            onClick={removeModifiedDetections}
+                                        >
+                                            <FontAwesomeIcon icon={faTrash} className='text-center' />
+                                        </Button>
+                                    </span>
+                                </Tooltip>
+                            </div>
+                            
                         </div>
                     </div>
                     <div>

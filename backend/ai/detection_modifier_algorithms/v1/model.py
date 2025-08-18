@@ -270,7 +270,7 @@ class Model:
                 ):
                     processed_groups.append(result)
                     channel_layer = get_channel_layer()
-                    group_name = f"counter_modified_progress_{self.record_id}_{self.divide_time}_{self.version}"
+                    group_name = f"detection_loading_progress_{self.record_id}_{self.divide_time}_{self.version}"
                     try:
                         if channel_layer is not None:
                             async_to_sync(channel_layer.group_send)(
@@ -321,7 +321,7 @@ class Model:
                 ):
                     results.append(result)
                     channel_layer = get_channel_layer()
-                    group_name = f"counter_modified_progress_{self.record_id}_{self.divide_time}_{self.version}"
+                    group_name = f"detection_loading_progress_{self.record_id}_{self.divide_time}_{self.version}"
                     try:
                         if channel_layer is not None:
                             async_to_sync(channel_layer.group_send)(

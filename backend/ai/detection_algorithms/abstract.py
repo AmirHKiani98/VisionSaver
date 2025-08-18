@@ -49,8 +49,8 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
         return f"{self.divide_time:.6g}"
     
     def _ws_group_name_counter(self) -> str:
-        # Matches CounterProgressConsumer: f"counter_progress_{record_id}_{divide_time}"
-        return f"counter_progress_{self.record_id}_{self._norm_divide_time()}_{self.version}"
+        # Matches CounterProgressConsumer: f"detection_progress_{record_id}_{divide_time}"
+        return f"detection_progress_{self.record_id}_{self._norm_divide_time()}_{self.version}"
 
     def _send_ws_progress(self, group: str, progress: float, message: str | None = None) -> None:
         """

@@ -11,7 +11,7 @@ import os
 import subprocess
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
-from ai.views import run_auto_counter
+from ai.views import run_modifier_detection
 
 # Create your views here.
 
@@ -376,7 +376,7 @@ def get_record_counts(request):
             length = len(groupby_time)
             i = 0
             channel_layer = get_channel_layer()
-            group_name = f"counter_loading_progress_{record_id}"
+            group_name = f"detection_loading_progress_{record_id}"
             for time, group in groupby_time:
                 
                 loading_progress = i / length
@@ -457,7 +457,7 @@ def get_car_detections_at_time(request):
         divide_time = data.get('divide_time', 0.1)
         version = data.get('version', 'v1')
         time = data.get('time', None)
-        auto_counter = run_auto_counter(record_id, divide_time, version)
+        auto_counter = run_modifier_detection(record_id, divide_time, version)
         if auto_counter is None or (isinstance(auto_counter, pd.DataFrame) and auto_counter.empty):
             return JsonResponse({'error': 'Auto counter not found'}, status=404)
         auto_counter['time_diff'] = abs(auto_counter['time'] - float(time))
@@ -533,7 +533,7 @@ def get_modified_counts_at_time(request):
         divide_time = data.get('divide_time', 0.1)
         version = data.get('version', 'v1')
         time = data.get('time', None)
-        auto_counter = run_auto_counter(record_id, divide_time, version)
+        auto_counter = run_modifier_detection(record_id, divide_time, version)
 
         if auto_counter is None or auto_counter.empty:
             return JsonResponse({'error': 'Auto counter not found'}, status=404)

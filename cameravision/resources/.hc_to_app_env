@@ -50,4 +50,4 @@ AI_ADD_LINES=ai/add_line
 AI_GET_LINES=ai/get_lines
 AI_DELETE_LINE=ai/delete_line
 AI_START_DETECTING=ai/start_detecting
-AI_START_COUNTING=ai/start_counting
+AI_START_MODIFIER=ai/start_modifier

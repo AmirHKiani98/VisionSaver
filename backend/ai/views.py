@@ -101,7 +101,7 @@ def run_car_detection(request):
         #logger.error("Invalid request method for run_car_detection")
         return JsonResponse({'error': 'Invalid request method'}, status=405)
     
-def run_auto_counter(record_id, divide_time, version='v1'):
+def run_modifier_detection(record_id, divide_time, version='v1'):
     """
     Retrieve auto counter for a specific record and divide time.
     """
@@ -113,7 +113,7 @@ def run_auto_counter(record_id, divide_time, version='v1'):
     return ADZ.get_result()
 
 @csrf_exempt
-def start_counting(request):
+def start_modifier(request):
     if request.method != 'POST':
         return JsonResponse({"error": "Method Not Allowed"}, status=405)
     try:
@@ -123,9 +123,9 @@ def start_counting(request):
         version = data.get('version', 'v1')
         # run with threading
         #logger.info(f"Starting auto counting for record ID: {record_id}, divide_time: {divide_time}, version: {version}")
-        thread = threading.Thread(target=run_auto_counter, args=(record_id, divide_time, version))
+        thread = threading.Thread(target=run_modifier_detection, args=(record_id, divide_time, version))
         thread.start()
         return JsonResponse({"status": "success", "message": "Auto counting started"}, status=200)
     except Exception as e:
-        logger.error(f"Error in start_counting: {str(e)}")
+        logger.error(f"Error in start_modifier: {str(e)}")
         return JsonResponse({"error": "Internal Server Error"}, status=500)
