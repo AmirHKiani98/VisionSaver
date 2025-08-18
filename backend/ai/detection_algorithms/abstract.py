@@ -125,6 +125,7 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
         # Bypass __init__ (avoids ORM/VideoCapture); configure via worker_init.
         obj = SubCls.__new__(SubCls)
         if hasattr(obj, "worker_init"):
+            print(f"Worker initializing {cls_path} with {init_kwargs}")
             obj.worker_init(**(init_kwargs or {}))
         obj.build_detector()
 

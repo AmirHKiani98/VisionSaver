@@ -92,7 +92,7 @@ def run_car_detection(request):
 
         algo = DetectionAlgorithm(version=version)
         t = threading.Thread(target=algo.get_result,
-                   args=(record_id, divide_time, 8, 32))
+                   args=(record_id, divide_time, {"batch_size": 8, "queue_size": 32, "model_path": "yolov8n.pt"}))
         t.start()
           
         #logger.info("Car detection thread started successfully")
