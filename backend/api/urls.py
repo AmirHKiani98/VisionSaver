@@ -70,5 +70,13 @@ urlpatterns = [
     path(
         f"{os.getenv('API_MODIFIED_DETECTION_EXISTS')}",
         views.modified_detection_exists,
-    )
+    ),
+    path(
+        f"{os.getenv('API_DELETE_DETECTION')}",
+        views.remove_detection,
+    ),
+    path(
+        f"{os.getenv('API_DELETE_MODIFIED_DETECTION')}",
+        views.remove_modified_detection,
+    ),
 ]

@@ -12,6 +12,7 @@ import subprocess
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 from ai.views import run_modifier_detection
+from ai.models import AutoDetection, ModifiedAutoDetection
 
 # Create your views here.
 
@@ -547,3 +548,37 @@ def get_modified_detections_at_time(request):
         return JsonResponse({"detections": detections}, status=200)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
+    
+def remove_detection(request):
+    """
+    Remove a specific detection from the Auto Detection for a record.
+    """
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        record_id = data.get('record_id')
+        version = data.get('version', 'v1')
+        divide_time = data.get('divide_time', 0.1)
+        auto_detection = AutoDetection.objects.filter(record_id=record_id, version=version, divide_time=divide_time).first()
+        if not auto_detection:
+            return JsonResponse({"error": "Auto detection not found"}, status=404)
+        auto_detection.delete()
+        return JsonResponse({"message": "Detection removed successfully"}, status=200)
+    else:
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)
+
+def remove_modified_detection(request):
+    """
+    Remove a specific modified detection from the Modified Auto Detection for a record.
+    """
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        record_id = data.get('record_id')
+        version = data.get('version', 'v1')
+        divide_time = data.get('divide_time', 0.1)
+        modified_auto_detection = ModifiedAutoDetection.objects.filter(record_id=record_id, version=version, divide_time=divide_time).first()
+        if not modified_auto_detection:
+            return JsonResponse({"error": "Modified auto detection not found"}, status=404)
+        modified_auto_detection.delete()
+        return JsonResponse({"message": "Modified detection removed successfully"}, status=200)
+    else:
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)

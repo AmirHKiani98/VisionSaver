@@ -1,4 +1,4 @@
-import react from 'react';
+import react, { version } from 'react';
 import { Stage, Layer, Line, Rect, Text} from 'react-konva';
 import {
     Select,
@@ -344,8 +344,58 @@ const AutoDetection = () => {
     };
 
     const removeDetections = () => {
+        if (!detectionExists){
+            openNotification('error', 'No detections to remove');
+            return;
+        }
+        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_DELETE_DETECTION}`;
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ record_id: recordId, divide_time: accuracy, version: detectionVersion }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                openNotification('error', data.error);
+            } else {
+                setDetectionExists(false);
+                setProgress(0);
+                openNotification('success', 'Detections removed successfully');
+            }
+        })
+        .catch(error => {
+            openNotification('error', `Error removing detections: ${error.message}`);
+        });
     }
     const removeModifiedDetections = () => {
+        if (!modifiedDetectingExists){
+            openNotification('error', 'No modified detections to remove');
+            return;
+        }
+        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_DELETE_MODIFIED_DETECTION}`;
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ record_id: recordId, divide_time: accuracy, version: detectionVersion }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                openNotification('error', data.error);
+            } else {
+                setModifiedDetectingExists(false);
+                setModifiedProgress(0);
+                openNotification('success', 'Modified detections removed successfully');
+            }
+        })
+        .catch(error => {
+            openNotification('error', `Error removing modified detections: ${error.message}`);
+        });
     }
 
     react.useEffect(() => {
