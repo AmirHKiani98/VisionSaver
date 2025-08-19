@@ -23,9 +23,7 @@ class DetectionAlgorithm:
     def get_result(self,
             record_id: int,
             divide_time: float,
-            detector_init: Optional[Dict[str, Any]] = None,
-            batch_size: int = 8,
-            queue_size: int = 32) -> Tuple[pd.DataFrame, str, str]:
+            detector_init: Optional[Dict[str, Any]] = None) -> Tuple[pd.DataFrame, str, str]:
         """
         Returns: (df, file_path, source)
           source ∈ {"cache", "computed"}
@@ -47,9 +45,7 @@ class DetectionAlgorithm:
         cls_path = f"ai.detection_algorithms.{self.version}.model.Model"
         df, out_file = model.run(
             cls_path=cls_path,
-            batch_size=batch_size,
-            queue_size=queue_size,
-            detector_init=detector_init or {}
+            detector_init=detector_init or {},
         )
 
         # 3) Upsert AutoDetection

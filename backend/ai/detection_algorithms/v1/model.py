@@ -36,6 +36,13 @@ class Model(DetectionAlgorithmAbstract):
 
     # ---------- worker config ----------
     def worker_init(self, **kwargs):
+        # Ensure all required attributes are set, since __init__ is not called in worker
+        if not hasattr(self, "_model_path"):
+            self._model_path = "yolov8m.pt"
+        if not hasattr(self, "_conf"):
+            self._conf = 0.25
+        if not hasattr(self, "objects_of_interest"):
+            self.objects_of_interest = {2, 3, 5, 7}
         self._model_path = kwargs.get("model_path", self._model_path)
         self._conf = float(kwargs.get("conf", self._conf))
         if "objects_of_interest" in kwargs:

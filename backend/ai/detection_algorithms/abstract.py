@@ -11,6 +11,7 @@ from threading import Thread
 from django.conf import settings
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
+from multiprocessing import cpu_count
 
 def final_method(func):
     func.__isfinal__ = True
@@ -125,6 +126,7 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
         # Bypass __init__ (avoids ORM/VideoCapture); configure via worker_init.
         obj = SubCls.__new__(SubCls)
         if hasattr(obj, "worker_init"):
+            print(f"Worker initializing {cls_path} with {init_kwargs}")
             obj.worker_init(**(init_kwargs or {}))
         obj.build_detector()
 
@@ -190,7 +192,8 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
             cls_path: str,
             batch_size: int = 8,
             queue_size: int = 32,
-            detector_init: Optional[Dict[str, Any]] = None) -> Tuple[pd.DataFrame, str]:
+            detector_init: Optional[Dict[str, Any]] = None,
+            num_workers: Optional[int] = None) -> Tuple[pd.DataFrame, str]:
         if not self.video.isOpened():
             raise RuntimeError(f"Failed to open video for record ID {self.record_id}")
 
@@ -210,20 +213,40 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
         t = Thread(target=self._capture_thread, args=(self.video, frame_interval, frame_q, stop_flag), daemon=True)
         t.start()
 
-        p = ctx.Process(target=self._worker_loop,
-                        args=(cls_path, detector_init, frame_q, result_q, batch_size),
-                        daemon=True)
-        p.start()
+        # --- SMART WORKER COUNT ---
+        if num_workers is None:
+            try:
+                import torch
+                if torch.cuda.is_available():
+                    num_workers = 1
+                else:
+                    from multiprocessing import cpu_count
+                    num_workers = min(4, cpu_count())  # Limit to 4 for RAM safety
+            except Exception:
+                from multiprocessing import cpu_count
+                num_workers = min(4, cpu_count())
+
+        workers = []
+        for i in range(num_workers):
+            p = ctx.Process(target=self._worker_loop,
+                            args=(cls_path, detector_init, frame_q, result_q, batch_size),
+                            daemon=True)
+            p.start()
+            workers.append(p)
 
         next_fid = 0
         stash: Dict[int, Any] = {}
         buffer_rows: List[Dict[str, Any]] = []
+        active_workers = num_workers
 
         try:
             while True:
                 item = result_q.get()
                 if item is None:
-                    break
+                    active_workers -= 1
+                    if active_workers == 0:
+                        break
+                    continue
                 fid, dets_for_frame = item
                 stash[fid] = dets_for_frame
 
@@ -246,7 +269,6 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
                     if total_samples > 0:
                         progress = min(100.0, (next_fid / total_samples) * 100.0)
                     else:
-                        # Fallback when frame count is unknown: show “processed frames” as a moving bar up to 99%
                         progress = min(99.0, next_fid % 100)
                     if progress - self._last_progress_sent >= 1.0 or progress >= 100.0:
                         self._send_ws_progress(group, progress)
@@ -261,9 +283,10 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
                 pass
             stop_flag["stop"] = True
             t.join()
-            p.join(timeout=5)
-            if p.is_alive():
-                p.terminate()
+            for p in workers:
+                p.join(timeout=5)
+                if p.is_alive():
+                    p.terminate()
 
         out_file = os.path.join(
             settings.MEDIA_ROOT,

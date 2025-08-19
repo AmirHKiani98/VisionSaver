@@ -18,3 +18,842 @@ ERROR 2025-08-18 08:54:03,712 log 28040 40316 Internal Server Error: /api/count_
 ERROR 2025-08-18 08:55:28,984 log 28040 40316 Internal Server Error: /api/count_exists
 ERROR 2025-08-18 08:56:45,958 log 15240 14356 Internal Server Error: /api/count_exists
 ERROR 2025-08-18 08:58:01,356 log 15240 14356 Internal Server Error: /api/count_exists
+ERROR 2025-08-18 09:59:05,098 log 29948 30196 Internal Server Error: /api/modified_detection_exists
+ERROR 2025-08-18 09:59:05,098 log 29948 13700 Internal Server Error: /api/count_exists
+ERROR 2025-08-18 09:59:08,064 log 29948 30196 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 09:59:08,324 log 29948 13700 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 09:59:08,591 log 29948 30196 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 09:59:08,855 log 29948 13700 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 09:59:09,122 log 29948 30196 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 09:59:09,382 log 29948 13700 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 09:59:09,663 log 29948 30196 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 09:59:09,918 log 29948 13700 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 09:59:10,185 log 29948 30196 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 09:59:10,447 log 29948 13700 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 09:59:10,714 log 29948 30196 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 09:59:10,986 log 29948 13700 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 09:59:11,254 log 29948 30196 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 09:59:11,520 log 29948 13700 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 09:59:11,776 log 29948 30196 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 09:59:12,040 log 29948 13700 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 09:59:12,315 log 29948 30196 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 09:59:12,574 log 29948 13700 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 09:59:12,846 log 29948 30196 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 09:59:12,936 log 29948 13700 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 09:59:18,377 log 29948 30196 Internal Server Error: /api/count_exists
+ERROR 2025-08-18 09:59:18,378 log 29948 13700 Internal Server Error: /api/modified_detection_exists
+ERROR 2025-08-18 09:59:44,114 log 29948 30196 Internal Server Error: /api/modified_detection_exists
+ERROR 2025-08-18 09:59:44,114 log 29948 13700 Internal Server Error: /api/count_exists
+ERROR 2025-08-18 10:05:11,261 log 7076 33244 Internal Server Error: /api/modified_detection_exists
+ERROR 2025-08-18 10:05:11,272 log 7076 33244 Internal Server Error: /api/count_exists
+ERROR 2025-08-18 10:06:51,947 log 7076 33244 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:06:52,467 log 7076 33244 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:06:52,734 log 7076 33244 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:06:52,995 log 7076 33244 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:06:53,255 log 7076 33244 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:06:53,528 log 7076 33244 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:06:53,787 log 7076 33244 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:06:54,055 log 7076 33244 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:06:54,624 log 7076 33244 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:06:54,881 log 7076 33244 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:06:59,685 log 7076 33244 Internal Server Error: /api/count_exists
+ERROR 2025-08-18 10:06:59,686 log 7076 32188 Internal Server Error: /api/modified_detection_exists
+ERROR 2025-08-18 10:07:03,008 log 7076 33244 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:07:03,259 log 7076 32188 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:07:03,522 log 7076 33244 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:07:03,796 log 7076 32188 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:07:04,058 log 7076 33244 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:07:04,321 log 7076 32188 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:07:04,589 log 7076 33244 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:07:04,849 log 7076 32188 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:07:04,964 log 7076 33244 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:07:43,720 log 7076 32188 Internal Server Error: /api/modified_detection_exists
+ERROR 2025-08-18 10:07:43,751 log 7076 33244 Internal Server Error: /api/count_exists
+ERROR 2025-08-18 10:11:12,328 log 34656 7160 Internal Server Error: /api/modified_detection_exists
+ERROR 2025-08-18 10:11:12,329 log 34656 38096 Internal Server Error: /api/count_exists
+ERROR 2025-08-18 10:18:31,077 log 30760 5648 Internal Server Error: /api/count_exists
+ERROR 2025-08-18 10:18:31,078 log 30760 37112 Internal Server Error: /api/modified_detection_exists
+ERROR 2025-08-18 10:18:46,883 log 30760 5648 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:47,113 log 30760 37112 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:47,657 log 30760 5648 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:47,909 log 30760 37112 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:48,174 log 30760 5648 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:48,436 log 30760 37112 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:48,705 log 30760 5648 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:48,970 log 30760 37112 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:49,234 log 30760 5648 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:49,515 log 30760 37112 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:49,765 log 30760 5648 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:50,034 log 30760 37112 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:50,295 log 30760 5648 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:50,576 log 30760 37112 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:50,839 log 30760 5648 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:51,103 log 30760 37112 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:51,370 log 30760 5648 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:51,635 log 30760 37112 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:51,896 log 30760 5648 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:52,160 log 30760 37112 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:52,424 log 30760 5648 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:52,691 log 30760 37112 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:52,950 log 30760 5648 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:53,218 log 30760 37112 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:53,495 log 30760 5648 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:53,748 log 30760 37112 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:54,017 log 30760 5648 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:54,289 log 30760 37112 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:54,543 log 30760 5648 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:54,819 log 30760 37112 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:55,082 log 30760 5648 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:55,359 log 30760 37112 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:55,608 log 30760 5648 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:55,886 log 30760 37112 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:56,143 log 30760 5648 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:56,406 log 30760 37112 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:56,676 log 30760 5648 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:18:56,796 log 30760 37112 Internal Server Error: /api/get_counts_at_time
+ERROR 2025-08-18 10:27:36,948 log 30760 5648 Internal Server Error: /api/count_exists
+ERROR 2025-08-18 10:27:36,948 log 30760 37112 Internal Server Error: /api/modified_detection_exists
+ERROR 2025-08-18 11:28:19,712 log 30760 5648 Internal Server Error: /api/count_exists
+ERROR 2025-08-18 11:28:19,718 log 30760 37112 Internal Server Error: /api/modified_detection_exists
+ERROR 2025-08-18 11:42:44,995 log 16628 10808 Internal Server Error: /api/count_exists
+ERROR 2025-08-18 11:42:44,996 log 16628 32004 Internal Server Error: /api/modified_detection_exists
+ERROR 2025-08-18 11:45:23,369 log 5744 40168 Internal Server Error: /api/modified_detection_exists
+ERROR 2025-08-18 11:45:23,369 log 5744 10892 Internal Server Error: /api/count_exists
+ERROR 2025-08-18 11:57:31,234 log 28880 14716 Internal Server Error: /api/modified_detection_exists
+ERROR 2025-08-18 12:00:24,922 log 40596 40424 Internal Server Error: /api/modified_detection_exists
+ERROR 2025-08-18 12:04:30,297 logger 7260 38812 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:30,297 logger 7260 38812 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:30,325 log 7260 33404 Internal Server Error: /api/get_modified_detections_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 538, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 108, in run_modifier_detection
+    ADZ = AlgorithmModificationDetection(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\detection_modifier_algorithms\algorithm.py", line 38, in __init__
+    raise ValueError(f"AutoDetection not found for record ID: {record_id} with divide_time: {divide_time}")
+ValueError: AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:30,351 logger 7260 25380 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:30,351 logger 7260 25380 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:30,357 log 7260 33404 Internal Server Error: /api/get_modified_detections_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 538, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 108, in run_modifier_detection
+    ADZ = AlgorithmModificationDetection(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\detection_modifier_algorithms\algorithm.py", line 38, in __init__
+    raise ValueError(f"AutoDetection not found for record ID: {record_id} with divide_time: {divide_time}")
+ValueError: AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:30,615 logger 7260 12804 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:30,615 logger 7260 12804 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:30,619 log 7260 33404 Internal Server Error: /api/get_modified_detections_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 538, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 108, in run_modifier_detection
+    ADZ = AlgorithmModificationDetection(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\detection_modifier_algorithms\algorithm.py", line 38, in __init__
+    raise ValueError(f"AutoDetection not found for record ID: {record_id} with divide_time: {divide_time}")
+ValueError: AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:30,877 logger 7260 26384 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:30,877 logger 7260 26384 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:30,881 log 7260 33404 Internal Server Error: /api/get_modified_detections_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 538, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 108, in run_modifier_detection
+    ADZ = AlgorithmModificationDetection(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\detection_modifier_algorithms\algorithm.py", line 38, in __init__
+    raise ValueError(f"AutoDetection not found for record ID: {record_id} with divide_time: {divide_time}")
+ValueError: AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:31,142 logger 7260 21728 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:31,142 logger 7260 21728 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:31,146 log 7260 33404 Internal Server Error: /api/get_modified_detections_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 538, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 108, in run_modifier_detection
+    ADZ = AlgorithmModificationDetection(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\detection_modifier_algorithms\algorithm.py", line 38, in __init__
+    raise ValueError(f"AutoDetection not found for record ID: {record_id} with divide_time: {divide_time}")
+ValueError: AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:31,428 logger 7260 23780 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:31,428 logger 7260 23780 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:31,432 log 7260 33404 Internal Server Error: /api/get_modified_detections_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 538, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 108, in run_modifier_detection
+    ADZ = AlgorithmModificationDetection(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\detection_modifier_algorithms\algorithm.py", line 38, in __init__
+    raise ValueError(f"AutoDetection not found for record ID: {record_id} with divide_time: {divide_time}")
+ValueError: AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:31,671 logger 7260 38260 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:31,671 logger 7260 38260 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:31,674 log 7260 33404 Internal Server Error: /api/get_modified_detections_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 538, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 108, in run_modifier_detection
+    ADZ = AlgorithmModificationDetection(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\detection_modifier_algorithms\algorithm.py", line 38, in __init__
+    raise ValueError(f"AutoDetection not found for record ID: {record_id} with divide_time: {divide_time}")
+ValueError: AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:31,939 logger 7260 34780 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:31,939 logger 7260 34780 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:31,943 log 7260 33404 Internal Server Error: /api/get_modified_detections_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 538, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 108, in run_modifier_detection
+    ADZ = AlgorithmModificationDetection(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\detection_modifier_algorithms\algorithm.py", line 38, in __init__
+    raise ValueError(f"AutoDetection not found for record ID: {record_id} with divide_time: {divide_time}")
+ValueError: AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:32,216 logger 7260 22416 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:32,216 logger 7260 22416 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:32,220 log 7260 33404 Internal Server Error: /api/get_modified_detections_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 538, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 108, in run_modifier_detection
+    ADZ = AlgorithmModificationDetection(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\detection_modifier_algorithms\algorithm.py", line 38, in __init__
+    raise ValueError(f"AutoDetection not found for record ID: {record_id} with divide_time: {divide_time}")
+ValueError: AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:32,473 logger 7260 35816 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:32,473 logger 7260 35816 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:32,478 log 7260 33404 Internal Server Error: /api/get_modified_detections_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 538, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 108, in run_modifier_detection
+    ADZ = AlgorithmModificationDetection(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\detection_modifier_algorithms\algorithm.py", line 38, in __init__
+    raise ValueError(f"AutoDetection not found for record ID: {record_id} with divide_time: {divide_time}")
+ValueError: AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:32,769 logger 7260 10720 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:32,769 logger 7260 10720 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:32,774 log 7260 33404 Internal Server Error: /api/get_modified_detections_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 538, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 108, in run_modifier_detection
+    ADZ = AlgorithmModificationDetection(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\detection_modifier_algorithms\algorithm.py", line 38, in __init__
+    raise ValueError(f"AutoDetection not found for record ID: {record_id} with divide_time: {divide_time}")
+ValueError: AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:33,035 logger 7260 34728 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:33,035 logger 7260 34728 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:33,041 log 7260 33404 Internal Server Error: /api/get_modified_detections_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 538, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 108, in run_modifier_detection
+    ADZ = AlgorithmModificationDetection(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\detection_modifier_algorithms\algorithm.py", line 38, in __init__
+    raise ValueError(f"AutoDetection not found for record ID: {record_id} with divide_time: {divide_time}")
+ValueError: AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:33,328 logger 7260 39576 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:33,328 logger 7260 39576 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:33,333 log 7260 33404 Internal Server Error: /api/get_modified_detections_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 538, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 108, in run_modifier_detection
+    ADZ = AlgorithmModificationDetection(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\detection_modifier_algorithms\algorithm.py", line 38, in __init__
+    raise ValueError(f"AutoDetection not found for record ID: {record_id} with divide_time: {divide_time}")
+ValueError: AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:33,588 logger 7260 14712 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:33,588 logger 7260 14712 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:33,593 log 7260 33404 Internal Server Error: /api/get_modified_detections_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 538, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 108, in run_modifier_detection
+    ADZ = AlgorithmModificationDetection(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\detection_modifier_algorithms\algorithm.py", line 38, in __init__
+    raise ValueError(f"AutoDetection not found for record ID: {record_id} with divide_time: {divide_time}")
+ValueError: AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:33,867 logger 7260 30792 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:33,867 logger 7260 30792 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:33,873 log 7260 33404 Internal Server Error: /api/get_modified_detections_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 538, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 108, in run_modifier_detection
+    ADZ = AlgorithmModificationDetection(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\detection_modifier_algorithms\algorithm.py", line 38, in __init__
+    raise ValueError(f"AutoDetection not found for record ID: {record_id} with divide_time: {divide_time}")
+ValueError: AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:34,115 logger 7260 1740 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:34,115 logger 7260 1740 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:34,119 log 7260 33404 Internal Server Error: /api/get_modified_detections_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 538, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 108, in run_modifier_detection
+    ADZ = AlgorithmModificationDetection(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\detection_modifier_algorithms\algorithm.py", line 38, in __init__
+    raise ValueError(f"AutoDetection not found for record ID: {record_id} with divide_time: {divide_time}")
+ValueError: AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:34,389 logger 7260 27604 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:34,389 logger 7260 27604 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:34,394 log 7260 33404 Internal Server Error: /api/get_modified_detections_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 538, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 108, in run_modifier_detection
+    ADZ = AlgorithmModificationDetection(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\detection_modifier_algorithms\algorithm.py", line 38, in __init__
+    raise ValueError(f"AutoDetection not found for record ID: {record_id} with divide_time: {divide_time}")
+ValueError: AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:34,645 logger 7260 23616 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:34,645 logger 7260 23616 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:34,649 log 7260 33404 Internal Server Error: /api/get_modified_detections_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 538, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 108, in run_modifier_detection
+    ADZ = AlgorithmModificationDetection(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\detection_modifier_algorithms\algorithm.py", line 38, in __init__
+    raise ValueError(f"AutoDetection not found for record ID: {record_id} with divide_time: {divide_time}")
+ValueError: AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:34,924 logger 7260 24176 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:34,924 logger 7260 24176 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:34,929 log 7260 33404 Internal Server Error: /api/get_modified_detections_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 538, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 108, in run_modifier_detection
+    ADZ = AlgorithmModificationDetection(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\detection_modifier_algorithms\algorithm.py", line 38, in __init__
+    raise ValueError(f"AutoDetection not found for record ID: {record_id} with divide_time: {divide_time}")
+ValueError: AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:35,176 logger 7260 14332 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:35,176 logger 7260 14332 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:35,179 log 7260 33404 Internal Server Error: /api/get_modified_detections_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 538, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 108, in run_modifier_detection
+    ADZ = AlgorithmModificationDetection(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\detection_modifier_algorithms\algorithm.py", line 38, in __init__
+    raise ValueError(f"AutoDetection not found for record ID: {record_id} with divide_time: {divide_time}")
+ValueError: AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:35,417 logger 7260 15132 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:35,417 logger 7260 15132 AutoDetection not found for record ID: 672 with divide_time: 0.1
+ERROR 2025-08-18 12:04:35,421 log 7260 33404 Internal Server Error: /api/get_modified_detections_at_time
+Traceback (most recent call last):
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\api\views.py", line 538, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\views.py", line 108, in run_modifier_detection
+    ADZ = AlgorithmModificationDetection(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\CameraVision\backend\ai\detection_modifier_algorithms\algorithm.py", line 38, in __init__
+    raise ValueError(f"AutoDetection not found for record ID: {record_id} with divide_time: {divide_time}")
+ValueError: AutoDetection not found for record ID: 672 with divide_time: 0.1
+WARNING 2025-08-18 13:49:49,048 log 31664 25768 Forbidden (CSRF cookie not set.): /api/delete_modified_detection

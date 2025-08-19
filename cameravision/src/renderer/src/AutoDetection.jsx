@@ -157,6 +157,7 @@ const AutoDetection = () => {
         })
         .then(response => response.json())
         .then(data => {
+            console.log(data)
             if (data && data.exists) {
                 setModifiedDetectingExists(true);
                 setModifiedProgress(100); // Set progress to 100% if modified detecting exists
@@ -961,11 +962,10 @@ const AutoDetection = () => {
                                 </Tooltip>
                                 <Tooltip title="Show detections" placement="right">
                                     <span>
-                                        <GradualColorButton
+                                        <Button
                                             percentage={0}
-                                            buttonChildren={!showDetections ? <FontAwesomeIcon icon={faEye} className="text-black"/> : <FontAwesomeIcon icon={faEyeSlash} className="text-white"/>}
-                                            // disabled={Math.abs(loadProgress - 1) > 0.01}
-                                            className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black'
+                                            className={`shadow-lg hover:!bg-main-400 !text-black ${!detectionExists ? '!bg-gray-300' : '!bg-green-500'} h-full`}
+                                            disabled={!detectionExists}
                                             onClick={() => {
                                                 if (showDetections) {
                                                     setShowDetections(false);
@@ -979,7 +979,7 @@ const AutoDetection = () => {
                                             }}
                                         >
                                             <FontAwesomeIcon icon={faEye} />
-                                        </GradualColorButton>
+                                        </Button>
                                     </span>
                                 </Tooltip>
                                 <Tooltip title="Remove detections" placement="right">
