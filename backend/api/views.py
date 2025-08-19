@@ -548,7 +548,9 @@ def get_modified_detections_at_time(request):
         return JsonResponse({"detections": detections}, status=200)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
-    
+
+
+@csrf_exempt
 def remove_detection(request):
     """
     Remove a specific detection from the Auto Detection for a record.
@@ -566,6 +568,7 @@ def remove_detection(request):
     else:
         return JsonResponse({"error": "Method Not Allowed"}, status=405)
 
+@csrf_exempt
 def remove_modified_detection(request):
     """
     Remove a specific modified detection from the Modified Auto Detection for a record.

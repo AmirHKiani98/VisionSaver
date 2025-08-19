@@ -856,3 +856,4 @@ Traceback (most recent call last):
   File "C:\MyApps\CameraVision\backend\ai\detection_modifier_algorithms\algorithm.py", line 38, in __init__
     raise ValueError(f"AutoDetection not found for record ID: {record_id} with divide_time: {divide_time}")
 ValueError: AutoDetection not found for record ID: 672 with divide_time: 0.1
+WARNING 2025-08-18 13:49:49,048 log 31664 25768 Forbidden (CSRF cookie not set.): /api/delete_modified_detection
