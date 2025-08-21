@@ -119,7 +119,7 @@ const AutoDetection = () => {
     }, [env, recordId]);
     
     const checkIfDetectingExists = (divide_time) => {
-        if (!env) return;
+        if (!env || !divide_time) return;
         const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_COUNT_EXISTS}`;
         fetch(url, {
             method: 'POST',
@@ -146,7 +146,7 @@ const AutoDetection = () => {
     }
 
     const checkIfDetectingModifiedExists = (divideTime) => {
-        if (!env) return;
+        if (!env || !divideTime) return;
         const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_MODIFIED_DETECTION_EXISTS}`;
         fetch(url, {
             method: 'POST',
@@ -459,7 +459,7 @@ const AutoDetection = () => {
     }
 
     react.useEffect(() => {
-        if (!env || !recordId) return;
+        if (!env || !recordId || !accuracy) return;
         const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/detection_progress/${recordId}/${accuracy}/${detectionVersion}/`;
         const ws = new window.WebSocket(wsUrl);
         ws.onmessage = (event) => {
@@ -477,7 +477,7 @@ const AutoDetection = () => {
     }, [env, recordId, accuracy]);
 
     react.useEffect(() => {
-        if (!env || !recordId) return;
+        if (!env || !recordId || !accuracy) return;
         const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/detection_loading_progress/${recordId}/${accuracy}/${detectionVersion}/`;
         const ws = new window.WebSocket(wsUrl);
         ws.onmessage = (event) => {

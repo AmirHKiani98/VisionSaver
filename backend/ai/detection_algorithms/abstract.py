@@ -280,7 +280,7 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
                 if item is None:
                     active_workers -= 1
                     logger.info(f"[Parent] Worker finished, {active_workers} remaining.")
-                    if active_workers == 0:
+                    if active_workers == 1:
                         break
                     continue
                 fid, dets_for_frame = item

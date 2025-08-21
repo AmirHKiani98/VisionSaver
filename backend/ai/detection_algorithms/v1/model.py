@@ -102,8 +102,14 @@ class Model(DetectionAlgorithmAbstract):
             if not track.is_confirmed() or track.time_since_update > 1:
                 continue
             x, y, w, h = track.to_tlwh()
+            
+            # Calculate time in seconds based on frame_id, divide_time, and fps
+            frame_interval = max(1, int(round(self.divide_time * self.fps))) if hasattr(self, "divide_time") and hasattr(self, "fps") else 1
+            time_in_seconds = (int(fid) * frame_interval) / self.fps if hasattr(self, "fps") and self.fps > 0 else 0
+            
             rows.append({
                 "frame_id": int(fid),
+                "time": float(time_in_seconds),
                 "track_id": int(track.track_id),
                 "x1": float(x),
                 "y1": float(y),
