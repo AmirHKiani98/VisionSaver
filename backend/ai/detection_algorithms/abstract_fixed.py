@@ -199,7 +199,7 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
                 break
             try:
                 out_q.put((fid, np.ascontiguousarray(frame)))
-                # logger.debug(f"[Capture] Put frame {fid} in queue.")
+                logger.debug(f"[Capture] Put frame {fid} in queue.")
             except Exception as e:
                 logger.error(f"[Capture] Failed to put frame {fid} in queue: {e}")
             fid += 1
@@ -276,7 +276,7 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
         try:
             while True:
                 item = result_q.get()
-                # logger.debug(f"[Parent] Got item from result_q: {item}")
+                logger.debug(f"[Parent] Got item from result_q: {item}")
                 if item is None:
                     active_workers -= 1
                     logger.info(f"[Parent] Worker finished, {active_workers} remaining.")

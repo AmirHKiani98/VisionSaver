@@ -267,7 +267,7 @@ LOGGING = {
             'formatter': 'simple',
         },
         'file': {
-            'class': 'logging.handlers.RotatingFileHandler',
+                'class': 'concurrent_log_handler.ConcurrentRotatingFileHandler',
             'filename': django_log_filename,
             'maxBytes': 1024*1024*15,  # 15MB
             'backupCount': 10,

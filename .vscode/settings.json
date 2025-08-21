@@ -6,5 +6,12 @@
   "editor.quickSuggestions": {
     "strings": true
   },
-  "python.linting.pylintArgs": ["--generate-members"]
+  "python.linting.pylintArgs": ["--generate-members"],
+  "python.dataScience.sendSelectionToInteractiveWindow": true,
+    "kite.showWelcomeNotificationOnStartup": false,
+    "python.dataScience.askForKernelRestart": false,
+    "python.dataScience.jupyterServerURI": "local",
+    "python.pythonPath": "/usr/bin/python3",
+    "vsicons.dontShowNewVersionMessage": true,
+    "python.linting.pylintArgs": ["--generate-members"]
 }

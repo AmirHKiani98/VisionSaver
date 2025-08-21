@@ -79,26 +79,67 @@ def run_car_detection(request):
     Run car detection on a specific record.
     """
     if request.method == 'POST':
+        import multiprocessing
+        import threading
+        import tempfile
+        from ai.utils import test_websocket_progress
+        
         data = json.loads(request.body)
         record_id = data.get('record_id')
         divide_time = data.get('divide_time', 0.1)  # Default to 10 seconds if not provided
         version = data.get('version', 'v1')  # Default to version 'v1'
-        #logger.info(f"Starting car detection for record ID: {record_id} with divide_time: {divide_time}")
         try:
             record = Record.objects.get(id=record_id)
         except Record.DoesNotExist:
-            #logger.error(f"Record not found for record ID: {record_id}")
             return JsonResponse({'error': 'Record not found'}, status=404)
 
+        # Send initial progress update to confirm WebSocket is working
+        test_websocket_progress(record_id, divide_time, version, 1.0)
+        logger.info(f"Starting car detection for record {record_id} with divide_time {divide_time}")
+
+        # Step 1: Create the algorithm instance
         algo = DetectionAlgorithm(version=version)
-        t = threading.Thread(target=algo.get_result,
-                   args=(record_id, divide_time, {"batch_size": 8, "queue_size": 32, "model_path": "yolov8n.pt"}))
+        
+        # Step 2: Create a result path for the detection output
+        result_path = tempfile.mktemp(suffix="_detect_result.txt")
+        
+        # Step 3: Run the detection using algo's run_detection_mp method
+        # This method handles the multiprocessing internally and is pickable
+        result_path = algo.run_detection_mp(
+            record_id, 
+            divide_time, 
+            {"batch_size": 8, "queue_size": 32, "model_path": "yolov8n.pt"}
+        )
+        
+        # Step 4: Process the result in the main process to update ORM
+        # Using a thread here is fine because we're in the main process with Django initialized
+        def process_result():
+            # The run_detection_mp method already joined the process internally
+            
+            # Check if the detection process completed successfully
+            if os.path.exists(result_path):
+                with open(result_path, "r") as f:
+                    content = f.read().strip()
+                
+                if content == "ERROR":
+                    logger.error(f"Detection process failed for record {record_id}")
+                    return
+            
+            # Now update the database with the results (this runs in the main process)
+            file_path, source = algo.get_result(record_id, divide_time, {"batch_size": 8, "queue_size": 32, "model_path": "yolov8n.pt"})
+            
+            if file_path:
+                logger.info(f"Successfully processed detection results for record {record_id}, file: {file_path}")
+            else:
+                logger.error(f"Failed to process detection results for record {record_id}")
+                
+        # Use a thread in the main process to handle the database update
+        t = threading.Thread(target=process_result)
+        t.daemon = True
         t.start()
-          
-        #logger.info("Car detection thread started successfully")
+        
         return JsonResponse({'status': 'success', 'message': 'Car detection started'}, status=200)
     else:
-        #logger.error("Invalid request method for run_car_detection")
         return JsonResponse({'error': 'Invalid request method'}, status=405)
     
 def run_modifier_detection(record_id, divide_time, version='v1'):

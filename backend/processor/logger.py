@@ -86,9 +86,18 @@ class Logger:
             file_handler.setFormatter(formatter)
             self.logger.addHandler(file_handler)
         except (OSError, PermissionError):
-            # If file logging fails, just continue without file logging
-            #print("Warning: Could not create file logger, continuing with console only")
-            pass
+            # If file logging fails, fall back to process-specific log file
+            import datetime
+            pid = os.getpid()
+            fallback_log = os.path.join(log_dir, f'backend_{pid}_{datetime.datetime.now().strftime("%Y%m%d_%H%M%S")}.log')
+            try:
+                fallback_handler = logging.FileHandler(fallback_log)
+                fallback_handler.setLevel(logging.DEBUG)
+                fallback_handler.setFormatter(formatter)
+                self.logger.addHandler(fallback_handler)
+            except Exception:
+                # If even fallback fails, continue with console only
+                pass
     
     def debug(self, message, app_name=None):
         """Log debug level message."""
