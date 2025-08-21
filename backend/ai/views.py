@@ -103,38 +103,46 @@ def run_car_detection(request):
         # Step 2: Create a result path for the detection output
         result_path = tempfile.mktemp(suffix="_detect_result.txt")
         
-        # Step 3: Run the detection using algo's run_detection_mp method
-        # This method handles the multiprocessing internally and is pickable
-        result_path = algo.run_detection_mp(
-            record_id, 
-            divide_time, 
-            {"batch_size": 8, "queue_size": 32, "model_path": "yolov8n.pt"}
-        )
-        
-        # Step 4: Process the result in the main process to update ORM
-        # Using a thread here is fine because we're in the main process with Django initialized
-        def process_result():
-            # The run_detection_mp method already joined the process internally
-            
-            # Check if the detection process completed successfully
-            if os.path.exists(result_path):
-                with open(result_path, "r") as f:
-                    content = f.read().strip()
+        # Step 3: Run detection in a background thread to avoid blocking the HTTP response
+        def run_detection_background():
+            try:
+                logger.info(f"Starting background detection for record {record_id}")
                 
-                if content == "ERROR":
-                    logger.error(f"Detection process failed for record {record_id}")
-                    return
-            
-            # Now update the database with the results (this runs in the main process)
-            file_path, source = algo.get_result(record_id, divide_time, {"batch_size": 8, "queue_size": 32, "model_path": "yolov8n.pt"})
-            
-            if file_path:
-                logger.info(f"Successfully processed detection results for record {record_id}, file: {file_path}")
-            else:
-                logger.error(f"Failed to process detection results for record {record_id}")
+                # Run the detection using algo's run_detection_mp method
+                result_path = algo.run_detection_mp(
+                    record_id, 
+                    divide_time, 
+                    {"batch_size": 8, "queue_size": 32, "model_path": "yolov8n.pt"}
+                )
                 
-        # Use a thread in the main process to handle the database update
-        t = threading.Thread(target=process_result)
+                logger.info(f"Detection process completed, checking result at {result_path}")
+                
+                # Check if the detection process completed successfully
+                if os.path.exists(result_path):
+                    with open(result_path, "r") as f:
+                        content = f.read().strip()
+                    
+                    if content == "ERROR":
+                        logger.error(f"Detection process failed for record {record_id}")
+                        return
+                    
+                    logger.info(f"Detection result file content: {content}")
+                
+                # Now update the database with the results (this runs in the main process)
+                file_path, source = algo.get_result(record_id, divide_time, {"batch_size": 8, "queue_size": 32, "model_path": "yolov8n.pt"})
+                
+                if file_path:
+                    logger.info(f"Successfully processed detection results for record {record_id}, file: {file_path}, source: {source}")
+                else:
+                    logger.error(f"Failed to process detection results for record {record_id}")
+                    
+            except Exception as e:
+                logger.error(f"Error in background detection for record {record_id}: {e}")
+                import traceback
+                logger.error(traceback.format_exc())
+                
+        # Start detection in background thread
+        t = threading.Thread(target=run_detection_background)
         t.daemon = True
         t.start()
         

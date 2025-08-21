@@ -32,6 +32,7 @@ class DetectionAlgorithm:
         import os
         import sys
         import logging
+        import traceback
         from django.conf import settings
         
         # Configure logging
@@ -111,18 +112,28 @@ class DetectionAlgorithm:
             # Final progress update
             send_direct_ws_progress(record_id, divide_time, version, 100.0, "Detection complete")
             
+            # Ensure the output file exists and is valid
+            if not out_file or not os.path.exists(out_file):
+                raise RuntimeError(f"Detection completed but output file not found: {out_file}")
+            
+            logger.info(f"Detection complete. Output file verified at: {out_file}")
+            
             # Write result to file
             if result_path:
                 with open(result_path, "w") as f:
                     f.write(out_file)
-                logger.info(f"Detection complete. Output saved to {out_file}")
+                logger.info(f"Result path written to: {result_path}")
             return out_file
         except Exception as e:
-            import traceback
-            logger.error(f"Error in _run_detection_mp: {e}\n{traceback.format_exc()}")
+            error_msg = f"Error in _run_detection_mp: {e}\n{traceback.format_exc()}"
+            logger.error(error_msg)
             if result_path:
-                with open(result_path, "w") as f:
-                    f.write("ERROR")
+                try:
+                    with open(result_path, "w") as f:
+                        f.write("ERROR")
+                    logger.info(f"Error status written to result path: {result_path}")
+                except Exception as write_error:
+                    logger.error(f"Failed to write error to result path: {write_error}")
             return None
 
     def get_result(self,
