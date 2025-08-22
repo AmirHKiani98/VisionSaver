@@ -1,12 +1,10 @@
 import os
 import pandas as pd
-import logging
 import tempfile
-import glob
 from typing import Tuple, Optional, Dict, Any
 from django.conf import settings
 from django.db.models import Q
-
+from ai.utils import poke_detection_progress
 logger = settings.APP_LOGGER
 class DetectionAlgorithm:
     """
@@ -47,7 +45,6 @@ class DetectionAlgorithm:
         try:
             # Ensure WebSockets work with the correct type field
             from channels.layers import get_channel_layer
-            from asgiref.sync import async_to_sync
             
             # Create a dedicated function for sending WebSocket updates with the correct type
             def send_direct_ws_progress(record_id, divide_time, version, progress, message=None):
@@ -67,14 +64,18 @@ class DetectionAlgorithm:
                         logger.warning("Channel layer not available")
                         return False
                         
-                    # Build payload with CORRECT type field: "send_progress" not "send.progress"
-                    payload = {"type": "send_progress", "progress": float(progress)}
+                    payload = {"type": "send.progress", "progress": float(progress)}
                     if message:
                         payload["message"] = message
                         
                     # Send update
-                    logger.info(f"Sending progress {progress}% to group {group}")
-                    async_to_sync(channel_layer.group_send)(group, payload)
+                    
+                    try:
+                        poke_detection_progress(record_id, divide_time, version, progress)
+                        logger.info(f"Sending progress {progress}% to group {group}")
+                    except Exception as e:
+                        logger.error(f"WebSocket error: {e}")
+                        return False
                     return True
                 except Exception as e:
                     logger.error(f"WebSocket error: {e}")

@@ -13,10 +13,9 @@ import {
     Divider,
     Chip
 } from '@mui/material'; 
-import {faPen, faPlus, faEraser, faUpload, faRefresh, faEye, faEyeSlash, faCar, faMagnifyingGlass, faTrash} from '@fortawesome/free-solid-svg-icons';
+import {faPen, faPlus, faEraser, faUpload, faRefresh, faEye, faEyeSlash, faCar, faMagnifyingGlass, faTrash, faCalculator} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLocation } from 'react-router-dom';
-import GradualColorButton from './components/GradualColorButton';
 
 import Notification from './components/Notification';
 import LinearProgressWithLabel from './components/LinearProgressWithLabel';
@@ -59,6 +58,7 @@ const AutoDetection = () => {
     const [showModifiedDetections, setShowModifiedDetections] = react.useState(false);
     const [modifiedDetectingExists, setModifiedDetectingExists] = react.useState(false);
     const [modifiedProgress, setModifiedProgress] = react.useState(0);
+    const [modifyingDetectionStarted, setModifyingDetectionStarted] = react.useState(false);
     const autoHideDuration = 3000;
     const openNotification = (severity, message) => {
         setSeverity(severity);
@@ -299,6 +299,7 @@ const AutoDetection = () => {
             if (data.error) {
                 openNotification('error', data.error);
             } else {
+                setModifyingDetectionStarted(true);
                 openNotification('success', 'Counter started successfully');
             }
         })
@@ -466,7 +467,8 @@ const AutoDetection = () => {
             const data = JSON.parse(event.data);
             if (Math.abs(data.progress - 100) < 1 ){
                 setDetectionExists(true);
-                // setProgress(100); // Set progress to 100% if detecting exists
+                setProgress(100); // Set progress to 100% if detecting exists
+                setDetectingStarted(false);
             }
             if (data.progress !== undefined) setProgress(data.progress);
         };
@@ -476,22 +478,22 @@ const AutoDetection = () => {
         return () => ws.close();
     }, [env, recordId, accuracy]);
 
-    react.useEffect(() => {
-        if (!env || !recordId || !accuracy) return;
-        const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/detection_loading_progress/${recordId}/${accuracy}/${detectionVersion}/`;
-        const ws = new window.WebSocket(wsUrl);
-        ws.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            if (Math.abs((data.progress * 100) - 100) < 1 ){
-                setModifiedDetectingExists(true);
-                setModifiedProgress(100); // Set progress to 100% if modified detecting exists
-            }
-            if (data.progress !== undefined) setModifiedProgress(data.progress * 100);
-            if (data.message){
-                openNotification('info', data.message);
-            }
-        }
-    }, [env, recordId, accuracy, detectionVersion]);
+    // react.useEffect(() => {
+    //     if (!env || !recordId || !accuracy) return;
+    //     const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/detection_loading_progress/${recordId}/${accuracy}/${detectionVersion}/`;
+    //     const ws = new window.WebSocket(wsUrl);
+    //     ws.onmessage = (event) => {
+    //         const data = JSON.parse(event.data);
+    //         if (Math.abs((data.progress * 100) - 100) < 1 ){
+    //             setModifiedDetectingExists(true);
+    //             setModifiedProgress(100); // Set progress to 100% if modified detecting exists
+    //         }
+    //         if (data.progress !== undefined) setModifiedProgress(data.progress * 100);
+    //         if (data.message){
+    //             openNotification('info', data.message);
+    //         }
+    //     }
+    // }, [env, recordId, accuracy, detectionVersion]);
 
 
     react.useEffect(() => {
@@ -530,7 +532,6 @@ const AutoDetection = () => {
             setCurrentTime(videoRef.current.currentTime);
         }
         if (showDetections && videoRef.current && !showModifiedDetections) {
-            // Get the counts for the current time
             const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_GET_COUNTS_AT_TIME}`;
             fetch(url, {
                 method: 'POST',
@@ -596,13 +597,7 @@ const AutoDetection = () => {
         <div className='w-screen h-screen flex items-center justify-center'>
             <div className='absolute top-5 left-5 z-10'>
                 <Button onClick={() => {
-                    const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/detection_loading_progress/${recordId}/`;
-                    const ws = new WebSocket(wsUrl);
-                    ws.onopen = () => {
-                        ws.send(JSON.stringify({ type: 'close' }));
-                        ws.close();
-                        window.history.back();
-                    };
+                    window.history.back();
                 }
                 }>
                     Back
@@ -726,7 +721,7 @@ const AutoDetection = () => {
                 </div>
                 <div className='flex flex-col items-center gap-2.5 mt-2.5'>
                     
-                        {progress !== 100 && (
+                        {progress !== 100 && detectingStarted && (
                             <div className='w-full'>
                             <h1 className='text-white text-xl font-bold mb-2'>
                                 Detection Progress
@@ -736,7 +731,7 @@ const AutoDetection = () => {
                              </div>
 
                         )}
-                    {modifiedProgress !== 100 && (
+                    {modifiedProgress !== 100 && modifyingDetectionStarted  && (
                         <div className='w-full'>
                             <h1 className='text-white text-xl font-bold mb-2'>
                                 Modified Detection Progress
@@ -1060,8 +1055,8 @@ const AutoDetection = () => {
                             <span>
                                 <Button
                                     className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black h-full'
-                                    
                                 >
+                                    <FontAwesomeIcon icon={faCalculator} />
                                 </Button>
                             </span>
                         </Tooltip>

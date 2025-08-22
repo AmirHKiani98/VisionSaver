@@ -8,9 +8,6 @@ from django.conf import settings
 dotenv.load_dotenv(settings.ENV_PATH)
 
 urlpatterns = [
-    # Health check endpoint
-    # This endpoint is used to check if the API is running and healthy.
-    # It returns a simple JSON response with a status message.
     path(
         f"{os.getenv('AI_ADD_LINES')}",
         views.add_line,
@@ -26,5 +23,9 @@ urlpatterns = [
     path(
         f"{os.getenv('AI_START_MODIFIER')}",
         views.start_modifier,
+    ),
+    path(
+        f"{os.getenv('AI_UPDATE_DETECTION_PROGRESS')}",
+        views.update_detection_progress,
     )
 ]

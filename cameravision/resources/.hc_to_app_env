@@ -53,3 +53,4 @@ AI_GET_LINES=ai/get_lines
 AI_DELETE_LINE=ai/delete_line
 AI_START_DETECTING=ai/start_detecting
 AI_START_MODIFIER=ai/start_modifier
+AI_UPDATE_DETECTION_PROGRESS=ai/update_detection_progress

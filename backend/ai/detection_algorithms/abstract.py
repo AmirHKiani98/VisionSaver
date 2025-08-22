@@ -10,10 +10,8 @@ from multiprocessing import get_context, Queue
 from threading import Thread
 from django.conf import settings
 from channels.layers import get_channel_layer
-from asgiref.sync import async_to_sync
 from multiprocessing import cpu_count
-import queue
-import logging
+from ai.utils import poke_detection_progress
 
 logger = settings.APP_LOGGER
 
@@ -41,7 +39,7 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
     """
 
     def __init__(self, record_id: int, divide_time: float, version: str):
-        logger.info(f"Initializing DetectionAlgorithmAbstract for record {record_id}, version {version}, divide_time {divide_time}")
+        #logger.info(f"Initializing DetectionAlgorithmAbstract for record {record_id}, version {version}, divide_time {divide_time}")
         self.record_id = record_id
         self.divide_time = float(divide_time)
         self.version = version
@@ -67,14 +65,12 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
             channel_layer = get_channel_layer()
             if not channel_layer:
                 return
-            # Fixed: Changed from "send.progress" to "send_progress" to match consumer method
-            payload = {"type": "send_progress", "progress": float(progress)}
+            payload = {"type": "send.progress", "progress": float(progress)}
             if message is not None:
                 payload["message"] = message
             # Only log significant progress updates to avoid cluttering logs
-            if progress % 10 < 1 or progress > 99:  # Log at 0%, 10%, 20%, etc. and 100%
-                logger.info(f"[WebSocket] Progress update {progress:.1f}% to {group}")
-            async_to_sync(channel_layer.group_send)(group, payload)
+            #logger.info(f"[WebSocket] Progress update {progress:.1f}% to {group}")
+            poke_detection_progress(self.record_id, self.divide_time, self.version, progress)
         except Exception as e:
             # Log WebSocket errors to help with debugging
             logger.error(f"[WebSocket] Error sending progress: {e}")
@@ -132,13 +128,13 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
     def _worker_loop(cls_path: str, init_kwargs: Dict[str, Any], in_q: Queue, out_q: Queue, batch_size: int):
         import traceback
         mod_name, _, cls_name = cls_path.rpartition(".")
-        logger.info(f"[Worker] Importing {mod_name}.{cls_name}")
+        #logger.info(f"[Worker] Importing {mod_name}.{cls_name}")
         try:
             mod = importlib.import_module(mod_name)
             SubCls = getattr(mod, cls_name)
             obj = SubCls.__new__(SubCls)
             if hasattr(obj, "worker_init"):
-                logger.info(f"[Worker] Initializing {cls_path} with {init_kwargs}")
+                #logger.info(f"[Worker] Initializing {cls_path} with {init_kwargs}")
                 obj.worker_init(**(init_kwargs or {}))
             obj.build_detector()
         except Exception as e:
@@ -148,20 +144,21 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
 
         pending: List[Tuple[int, np.ndarray]] = []
         alive = True
-        logger.info("[Worker] Entering main loop")
+        #logger.info("[Worker] Entering main loop")
         while alive:
             try:
                 while len(pending) < batch_size:
                     item = in_q.get(timeout=0.03)
                     if item is None:
                         alive = False
-                        logger.info("[Worker] Received EOS sentinel, shutting down.")
+                        #logger.info("[Worker] Received EOS sentinel, shutting down.")
                         break
                     pending.append(item)
             except Exception as e:
                 # Only log real exceptions, not queue.Empty timeouts
                 if not (hasattr(e, '__class__') and e.__class__.__name__ == 'Empty'):
-                    logger.debug(f"[Worker] Exception while getting from in_q: {e}")
+                    logger.error(f"[Worker] Exception while getting from in_q: {e}")
+                    
 
             if not pending:
                 continue
@@ -170,9 +167,9 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
             pending.clear()
 
             try:
-                logger.debug(f"[Worker] Running detect_batch on {len(frames)} frames")
+                #logger.debug(f"[Worker] Running detect_batch on {len(frames)} frames")
                 results = obj.detect_batch(list(frames))
-                logger.debug(f"[Worker] detect_batch returned {len(results)} results")
+                #logger.debug(f"[Worker] detect_batch returned {len(results)} results")
                 if not isinstance(results, list) or len(results) != len(fids):
                     raise RuntimeError("detect_batch must return a list with one element per input frame")
             except Exception as e:
@@ -185,34 +182,34 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
                 out_q.put((fid, det_list))
 
         out_q.put(None)  # sentinel to parent
-        logger.info("[Worker] Exiting.")
+        #logger.info("[Worker] Exiting.")
 
     @staticmethod
     def _capture_thread(cap: cv2.VideoCapture, frame_interval: int, out_q: Queue, stop_flag: dict):
         fid = 0
         grabbed = True
-        logger.info("[Capture] Starting capture thread.")
+        #logger.info("[Capture] Starting capture thread.")
         while grabbed and not stop_flag.get("stop", False):
             grabbed, frame = cap.read()
             if not grabbed:
-                logger.info(f"[Capture] Frame {fid} not grabbed, ending capture.")
+                #logger.info(f"[Capture] Frame {fid} not grabbed, ending capture.")
                 break
             try:
                 out_q.put((fid, np.ascontiguousarray(frame)))
-                # logger.debug(f"[Capture] Put frame {fid} in queue.")
+                # #logger.debug(f"[Capture] Put frame {fid} in queue.")
             except Exception as e:
                 logger.error(f"[Capture] Failed to put frame {fid} in queue: {e}")
             fid += 1
             for _ in range(max(0, frame_interval - 1)):
                 if not cap.grab():
                     grabbed = False
-                    logger.info(f"[Capture] Failed to grab frame for skipping at {fid}.")
+                    #logger.info(f"[Capture] Failed to grab frame for skipping at {fid}.")
                     break
         stop_flag["stop"] = True
         cap.release()
         try:
             out_q.put(None)  # EOS sentinel to worker
-            logger.info("[Capture] Sent EOS sentinel to worker.")
+            #logger.info("[Capture] Sent EOS sentinel to worker.")
         except Exception as e:
             logger.error(f"[Capture] Failed to send EOS sentinel: {e}")
 
@@ -223,7 +220,7 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
             queue_size: int = 32,
             detector_init: Optional[Dict[str, Any]] = None,
             num_workers: Optional[int] = None) -> Tuple[pd.DataFrame, str]:
-        logger.info("[Parent] Starting detection run.")
+        #logger.info("[Parent] Starting detection run.")
         if not self.video.isOpened():
             logger.error("[Parent] Video not opened!")
             raise RuntimeError(f"Failed to open video for record ID {self.record_id}")
@@ -236,7 +233,7 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
         )
         group = self._ws_group_name_counter()
         # Log initial WebSocket communication
-        logger.info(f"[WebSocket] Starting detection for group: {group}")
+        #logger.info(f"[WebSocket] Starting detection for group: {group}")
         self._send_ws_progress(group, 0.0)
         ctx = get_context("spawn")
         frame_q: Queue = ctx.Queue(maxsize=8)
@@ -245,19 +242,20 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
         stop_flag = {"stop": False}
         t = Thread(target=self._capture_thread, args=(self.video, frame_interval, frame_q, stop_flag), daemon=True)
         t.start()
-        logger.info("[Parent] Capture thread started.")
+        #logger.info("[Parent] Capture thread started.")
 
         if num_workers is None:
             try:
                 import torch
                 if torch.cuda.is_available():
-                    num_workers = 1
+                    logger.info("CUDA is available. Setting num_workers to min(6, cpu_count())")
+                    num_workers = int(cpu_count()/4)
                 else:
                     from multiprocessing import cpu_count
-                    num_workers = min(2, cpu_count())
+                    num_workers = min(6, cpu_count())
             except Exception:
                 from multiprocessing import cpu_count
-                num_workers = min(2, cpu_count())
+                num_workers = min(6, cpu_count())
 
         workers = []
         for i in range(num_workers):
@@ -265,7 +263,7 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
                             args=(cls_path, detector_init, frame_q, result_q, batch_size),
                             daemon=True)
             p.start()
-            logger.info(f"[Parent] Worker process {i} started with PID {p.pid}")
+            #logger.info(f"[Parent] Worker process {i} started with PID {p.pid}")
             workers.append(p)
 
         next_fid = 0
@@ -276,10 +274,10 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
         try:
             while True:
                 item = result_q.get()
-                # logger.debug(f"[Parent] Got item from result_q: {item}")
+                # #logger.debug(f"[Parent] Got item from result_q: {item}")
                 if item is None:
                     active_workers -= 1
-                    logger.info(f"[Parent] Worker finished, {active_workers} remaining.")
+                    #logger.info(f"[Parent] Worker finished, {active_workers} remaining.")
                     if active_workers == 1:
                         break
                     continue
@@ -296,7 +294,7 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
                     else:
                         det_list_for_frame = det_list
                     rows = self.on_frame_detections(next_fid, det_list_for_frame)
-                    logger.debug(f"[Parent] on_frame_detections for frame {next_fid} returned {len(rows) if rows else 0} rows.")
+                    #logger.debug(f"[Parent] on_frame_detections for frame {next_fid} returned {len(rows) if rows else 0} rows.")
                     if rows:
                         if isinstance(rows, list):
                             buffer_rows.extend(rows)
@@ -311,10 +309,10 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
                         self._send_ws_progress(group, progress)
                         self._last_progress_sent = progress
         finally:
-            logger.info("[Parent] Stopping workers and writing results...")
+            #logger.info("[Parent] Stopping workers and writing results...")
             if buffer_rows:
                 self.df = pd.concat([self.df, pd.DataFrame(buffer_rows)], ignore_index=True)
-            logger.info(f"[Parent] Total frames processed: {next_fid}, total detections: {len(self.df)}")
+            #logger.info(f"[Parent] Total frames processed: {next_fid}, total detections: {len(self.df)}")
             try:
                 frame_q.put_nowait(None)
             except Exception:
@@ -331,12 +329,12 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
             settings.MEDIA_ROOT,
             f"{self.record_id}_detections_{self.version}_{self.divide_time}.csv"
         )
-        logger.info(f"[Parent] Writing detections to {out_file}")
+        #logger.info(f"[Parent] Writing detections to {out_file}")
         if not self.df.empty:
-            logger.info(f"[Parent] Total detections: {len(self.df)}")
+            pass
         else:
             logger.warning("[Parent] DataFrame is empty, no detections written.")
         self._send_ws_progress(group, 100.0, "Detection complete")
         self.df.to_csv(out_file, index=False)
-        logger.info("[Parent] Detection run complete.")
+        #logger.info("[Parent] Detection run complete.")
         return self.df, out_file

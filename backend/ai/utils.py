@@ -1,34 +1,37 @@
-import json
-from channels.layers import get_channel_layer
-from asgiref.sync import async_to_sync
+import dotenv
+from django.conf import settings
+import os
+import requests
+dotenv.load_dotenv(settings.ENV_PATH)
 
-def test_websocket_progress(record_id, divide_time, version, progress=50.0):
+logger = settings.APP_LOGGER
+def poke_detection_progress(record_id, divide_time, version, progress=50.0):
     """
     Helper function to test WebSocket progress updates.
     Call this function to send a test progress update.
     """
-    # Format divide_time to match the WebSocket group name format
-    if isinstance(divide_time, (int, float)):
-        divide_time_str = f"{float(divide_time):.6g}"
-    else:
-        divide_time_str = divide_time
-        
-    # Get the group name for the WebSocket
-    group = f"detection_progress_{record_id}_{divide_time_str}_{version}"
-    
-    # Get the channel layer
-    channel_layer = get_channel_layer()
-    if not channel_layer:
-        print("Channel layer not available. Check if Channels is configured correctly.")
-        return False
-        
     try:
-        # Send a test progress update
-        payload = {"type": "send_progress", "progress": float(progress)}
-        async_to_sync(channel_layer.group_send)(group, payload)
-        print(f"Test progress update sent: {progress}% to group: {group}")
-        print(f"Payload: {json.dumps(payload)}")
-        return True
+        url = f"http://{os.getenv('BACKEND_SERVER_DOMAIN')}:{os.getenv('BACKEND_SERVER_PORT')}/{os.getenv('AI_UPDATE_DETECTION_PROGRESS')}"
+        r = requests.post(url, json={
+            "record_id": record_id,
+            "divide_time": divide_time,
+            "version": version,
+            "progress": progress
+        })
+        
+        # Check if request was successful
+        if r.status_code == 200:
+            response_data = r.json()
+            if response_data.get('status') == 'success':
+                logger.info("Test progress update sent successfully.")
+                return True
+            else:
+                logger.error(f"Request failed with response: {response_data}")
+                return False
+        else:
+            logger.error(f"Request failed with status code: {r.status_code}")
+            return False
+            
     except Exception as e:
-        print(f"Error sending test progress update: {e}")
-        return False
+        print(f"Error: {e}")
+        return False   

@@ -9,7 +9,8 @@ from record.models import Record
 from ai.detection_modifier_algorithms.algorithm import AlgorithmModificationDetection
 from ai.detection_algorithms.algorithm import DetectionAlgorithm
 import threading
-
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 # Create your views here.
 
 logger = settings.APP_LOGGER
@@ -82,7 +83,6 @@ def run_car_detection(request):
         import multiprocessing
         import threading
         import tempfile
-        from ai.utils import test_websocket_progress
         
         data = json.loads(request.body)
         record_id = data.get('record_id')
@@ -94,7 +94,6 @@ def run_car_detection(request):
             return JsonResponse({'error': 'Record not found'}, status=404)
 
         # Send initial progress update to confirm WebSocket is working
-        test_websocket_progress(record_id, divide_time, version, 1.0)
         logger.info(f"Starting car detection for record {record_id} with divide_time {divide_time}")
 
         # Step 1: Create the algorithm instance
@@ -177,4 +176,43 @@ def start_modifier(request):
         return JsonResponse({"status": "success", "message": "Auto counting started"}, status=200)
     except Exception as e:
         logger.error(f"Error in start_modifier: {str(e)}")
+        return JsonResponse({"error": "Internal Server Error"}, status=500)
+
+@csrf_exempt
+def update_detection_progress(request):
+    if request.method != 'POST':
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)
+    try:
+        data = json.loads(request.body)
+        record_id = data.get('record_id')
+        divide_time = data.get('divide_time', 0.1)
+        version = data.get('version', 'v1')
+        progress = data.get('progress', 50.0)
+        #logger.info(f"Updating detection progress for record ID: {record_id}, divide_time: {divide_time}, version: {version}, progress: {progress}")
+        # Format divide_time to match the WebSocket group name format
+        if isinstance(divide_time, (int, float)):
+            divide_time_str = f"{float(divide_time):.6g}"
+        else:
+            divide_time_str = divide_time
+            
+        # Get the group name for the WebSocket
+        group = f"detection_progress_{record_id}_{divide_time_str}_{version}"
+        
+        # Get the channel layer
+        channel_layer = get_channel_layer()
+        if not channel_layer:
+            print("Channel layer not available. Check if Channels is configured correctly.")
+            return False
+            
+        try:
+            # Send a test progress update
+            payload = {"type": "send_progress", "progress": float(progress)}
+            async_to_sync(channel_layer.group_send)(group, payload)
+            return JsonResponse({"status": "success"}, status=200)
+        except Exception as e:
+            print(f"Error sending test progress update: {e}")
+            return JsonResponse({"status": "success"}, status=200)
+
+    except Exception as e:
+        logger.error(f"Error in update_detection_progress: {str(e)}")
         return JsonResponse({"error": "Internal Server Error"}, status=500)

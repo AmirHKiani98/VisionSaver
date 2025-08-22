@@ -432,6 +432,7 @@ def get_counts_at_time(request):
         if not os.path.exists(counts_file):
             return JsonResponse({"counts": {}}, status=200)
         try:
+            print(counts_file)
             df = pd.read_csv(counts_file)
             
             # Find the closest timestamp to the given time
