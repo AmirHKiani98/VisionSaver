@@ -15,6 +15,11 @@ def final_method(func):
     func.__isfinal__ = True
     return func
 
+def process_frame(detect_function, frame_data):
+    """Standalone function for multiprocessing that doesn't require class instance"""
+    frame, time = frame_data
+    return detect_function(frame), time
+
 class FinalMeta(type):
     def __new__(cls, name, bases, attrs):
         for base in bases:
@@ -95,43 +100,59 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
         self._send_ws_progress(progress)
 
     @abstractmethod
-    def detect(self, frame: np.ndarray, time: float) -> List[Dict[str, Any]]:
+    def detect(self, args) -> List[Dict[str, Any]]:
+        if len(args) != 2:
+            raise ValueError("Expected args to be a tuple of (frame, time)")
+        frame, time = args
+        if frame is None or time is None:
+            raise ValueError("Frame and time must not be None")
+        if not isinstance(frame, np.ndarray):
+            raise ValueError("Frame must be a numpy ndarray")
+        if not isinstance(time, (int, float)):
+            raise ValueError("Time must be an int or float")
+        
         pass
 
+    @final_method
     @final_method
     def run(self,
             num_workers: Optional[int] = None,
             maximum_batch_size=500) -> pd.DataFrame:
         """
-        Run the detection algorithm on the video frames.
+        Run the detection algorithm on the video frames with multiprocessing.
         """
         if num_workers is None:
-            num_workers = int(cpu_count()/3)
-        args = []
-
-        def detect_wrapper(arg):
-            frame, time = arg
-            return self.detect(frame, time)
+            num_workers = max(1, int(cpu_count()/3))
+        
+        # Extract frames and times first
+        frames_and_times = []
 
         while True:
             ret, frame = self.video.read()
             if not ret:
                 break
-            # get the time into the video in seconds
+            
+            # Get the time into the video in seconds
             time = self.video.get(cv2.CAP_PROP_POS_MSEC) / 1000.0
-            args.append((frame, time))
-            if len(args) == maximum_batch_size:
-                with Pool(processes=num_workers) as pool:
-                    for i, detections in enumerate(pool.imap(detect_wrapper, args)):
-                        time = args[i][1]
-                        self._update_detection_progress((time / self.duration) * 100.0)
-                        self.df = pd.concat([self.df, pd.DataFrame(detections)], ignore_index=True)
+            frames_and_times.append((frame, time))
+                            
+            if len(frames_and_times) == maximum_batch_size:
+                batch_results = self._process_batch(num_workers, self.detect, frames_and_times, time/self.duration*100)
+                frames_and_times = []
         
-                args = []
-        if len(args) > 0:
-            with Pool(processes=num_workers) as pool:
-                for i, detections in enumerate(pool.imap(detect_wrapper, args)):
-                    time = args[i][1]
-                    self._update_detection_progress((time / self.duration) * 100.0)
-                    self.df = pd.concat([self.df, pd.DataFrame(detections)], ignore_index=True)
+        if len(frames_and_times) > 0:
+            batch_results = self._process_batch(num_workers, self.detect, frames_and_times, 100.0)
+        
+        # Final progress update
+        self._update_detection_progress(100.0)
         return self.df
+    
+    def _process_batch(self, num_workers, detect_wrapper, args, progress) -> List[Tuple[List[Dict[str, Any]], float]]:
+        with Pool(processes=num_workers) as pool:
+            results = pool.map(detect_wrapper, args)
+        self._update_detection_progress(progress)
+        for detections, time in results:
+            for detection in detections:
+                detection['time'] = time
+            self.df = pd.concat([self.df, pd.DataFrame(detections)], ignore_index=True)
+        return results

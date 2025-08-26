@@ -1,8 +1,13 @@
 from django.test import TestCase
-from detection_algorithms.algorithm import DetectionAlgorithm
+from ai.detection_algorithms.algorithm import DetectionAlgorithm
 import logging
-import 
+import websocket
+import threading
+import dotenv
+from django.conf import settings
+import os
 logging.getLogger('ultralytics').setLevel(logging.WARNING)
+dotenv.load_dotenv(settings.ENV_PATH)
 class AiAppTestCase(TestCase):
     """
     Template test case for the 'ai' Django app.
@@ -28,7 +33,33 @@ class AiAppTestCase(TestCase):
         """
         version = 'v1'
         detection_algorithm = DetectionAlgorithm(version=version)
-        df = detection_algorithm.run(record_id=self.record_id, divide_time=self.divide_time)
+        da = threading.Thread(target=detection_algorithm.run, args=(self.record_id, self.divide_time))
+        da.start()
+
+        # Wait for detection algorithm to complete
+        da.join()
+
+        def on_message(ws, message):
+            print(f"Received message: {message}")
+        def on_error(ws, error):
+            print(f"Error: {error}")
+        def on_close(ws, close_status_code, close_msg):
+            print("WebSocket closed")
+
+        # Connect to websocket after detection is complete
+        ws = websocket.WebSocketApp(f"ws://{os.getenv('BACKEND_SERVER_DOMAIN', 'localhost')}:{os.getenv('BACKEND_SERVER_PORT')}/ws/detection_progress/{self.record_id}/{self.divide_time}/{version}/",
+                                    on_message=on_message,
+                                    on_error=on_error,
+                                    on_close=on_close)
+        wst = threading.Thread(target=ws.run_forever)
+        wst.start()
+        
+        # Give websocket a short time to receive any messages
+        wst.join(timeout=1)
+        ws.close()
+        wst.join()
+
+
         
         
             

@@ -6930,3 +6930,9 @@ INFO 2025-08-20 21:23:21,131 logger 30464 26852 Starting car detection for recor
 INFO 2025-08-20 21:23:21,131 logger 30464 26852 Starting car detection for record 662 with divide_time 0.1
 INFO 2025-08-20 22:06:59,386 logger 2720 24464 Starting car detection for record 662 with divide_time 0.1
 INFO 2025-08-20 22:06:59,386 logger 2720 24464 Starting car detection for record 662 with divide_time 0.1
+ERROR 2025-08-25 22:48:17,312 _logging 6256 4864 [WinError 10061] No connection could be made because the target machine actively refused it - goodbye
+ERROR 2025-08-25 22:52:42,906 _logging 7880 5864 [WinError 10061] No connection could be made because the target machine actively refused it - goodbye
+ERROR 2025-08-25 22:55:21,823 _logging 13108 15196 [WinError 10061] No connection could be made because the target machine actively refused it - goodbye
+ERROR 2025-08-25 22:57:13,376 _logging 10792 12400 [WinError 10061] No connection could be made because the target machine actively refused it - goodbye
+ERROR 2025-08-25 23:38:40,144 _logging 17588 4844 [WinError 10061] No connection could be made because the target machine actively refused it - goodbye
+ERROR 2025-08-25 23:40:08,641 _logging 5920 6896 [WinError 10061] No connection could be made because the target machine actively refused it - goodbye
