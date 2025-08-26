@@ -20,7 +20,7 @@ class DetectionAlgorithm:
 
     def run(self, record_id: int, divide_time: float, **kwargs) -> Tuple[pd.DataFrame]:
         model_class = self._import_model()
-        model = model_class(record_id, divide_time, self.version)
+        model = model_class(record_id, divide_time)
         df = model.run(**kwargs)
         df.to_csv(f"{settings.MEDIA_ROOT}/detections_{record_id}_{self.version}_{divide_time}.csv", index=False)
         return df

@@ -3,13 +3,55 @@ import cv2
 import pandas as pd
 import numpy as np
 from abc import abstractmethod
-from typing import Optional, List, Dict, Any, Tuple
 from django.conf import settings
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 from multiprocessing import cpu_count, Pool
+from functools import partial
+from multiprocessing import Pool, cpu_count
+from typing import Optional, List, Dict, Any, Tuple
+import numpy as np
+
+# Worker-global state (lives in each child process)
+_WORKER_MODEL = None
+_WORKER_CLASSES = None
 
 logger = settings.APP_LOGGER
+_DETECT = None  # worker-global callable: (frame, t) -> list[dict]
+def _init_worker(model_path: str, classes: tuple[int, ...]):
+    """
+    Runs once per worker.
+    Builds YOLO (or any heavy model) inside the worker process and caches config.
+    """
+    from ultralytics import YOLO  # import here to avoid parent pickling issues
+    global _WORKER_MODEL, _WORKER_CLASSES
+    _WORKER_MODEL = YOLO(model_path)
+    _WORKER_CLASSES = set(classes)
+
+def _worker(frame: np.ndarray, t: float):
+    """
+    Runs per task inside workers. Uses only worker-global state.
+    Returns (detections, time)
+    """
+    # Predict statelessly in workers; track in parent later.
+    res = _WORKER_MODEL.predict(frame, verbose=False)[0]
+    dets: List[Dict[str, Any]] = []
+    if res.boxes is not None and len(res.boxes) > 0:
+        xywh = res.boxes.xywh.cpu().numpy()
+        cls  = res.boxes.cls.cpu().numpy().astype(int)
+        conf = res.boxes.conf.cpu().numpy()
+        for (x, y, w, h), c, s in zip(xywh, cls, conf):
+            if c in _WORKER_CLASSES:
+                dets.append({
+                    "x1": float(x - w/2),
+                    "y1": float(y - h/2),
+                    "x2": float(x + w/2),
+                    "y2": float(y + h/2),
+                    "track_id": None,         # parent will assign
+                    "cls_id": int(c),
+                    "confidence": float(s),
+                })
+    return dets, t
 
 def final_method(func):
     func.__isfinal__ = True
@@ -50,6 +92,13 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
         self._last_progress_sent = -1.0
         self.df = pd.DataFrame()
 
+    @abstractmethod
+    def get_worker_init_args(self) -> tuple[str, tuple[int, ...]]:
+        """
+        Must return (model_path: str, classes: tuple[int, ...]) or whatever
+        your _init_worker expects. Must be PICKLABLE simple data.
+        """
+        raise NotImplementedError
 
     def _send_ws_progress(self, progress: float, message: str | None = None) -> None:
         """
@@ -105,10 +154,9 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
         pass
 
     @final_method
-    @final_method
     def run(self,
             num_workers: Optional[int] = None,
-            maximum_batch_size=500) -> pd.DataFrame:
+            maximum_batch_size=2000) -> pd.DataFrame:
         """
         Run the detection algorithm on the video frames with multiprocessing.
         """
@@ -138,12 +186,17 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
         self._update_detection_progress(100.0)
         return self.df
     
-    def _process_batch(self, num_workers, args, progress) -> List[Tuple[List[Dict[str, Any]], float]]:
-        with Pool(processes=num_workers) as pool:
-            results = pool.starmap(worker_detect, ([self.detect, f, t] for f, t in args))
+    def _process_batch(self, num_workers, args, progress):
+        model_path, classes = self.get_worker_init_args()
+        with Pool(processes=num_workers,
+                initializer=_init_worker,
+                initargs=(model_path, classes)) as pool:
+            results = pool.starmap(_worker, args)   # args = [(frame, t), ...]
+
         self._update_detection_progress(progress)
-        for detections, time in results:
-            for detection in detections:
-                detection['time'] = time
-            self.df = pd.concat([self.df, pd.DataFrame(detections)], ignore_index=True)
+        for detections, t in results:
+            if detections:
+                for d in detections:
+                    d['time'] = t
+                self.df = pd.concat([self.df, pd.DataFrame(detections)], ignore_index=True)
         return results
