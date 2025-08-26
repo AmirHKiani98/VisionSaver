@@ -7004,3 +7004,117 @@ AttributeError: 'DetectionAlgorithm' object has no attribute 'run_detection_mp'
 
 INFO 2025-08-26 03:26:06,613 logger 4936 27488 Starting car detection for record 662 with divide_time 0.1
 INFO 2025-08-26 03:26:06,613 logger 4936 27488 Starting car detection for record 662 with divide_time 0.1
+INFO 2025-08-26 03:30:35,667 logger 11832 22860 Received record_id: 662
+INFO 2025-08-26 03:30:35,667 logger 11832 22860 Received record_id: 662
+INFO 2025-08-26 03:30:35,683 logger 11832 22860 Received divide_time: 0.1
+INFO 2025-08-26 03:30:35,683 logger 11832 22860 Received divide_time: 0.1
+INFO 2025-08-26 03:30:39,289 logger 11832 16316 Starting car detection for record 662 with divide_time 0.1
+INFO 2025-08-26 03:30:39,289 logger 11832 16316 Starting car detection for record 662 with divide_time 0.1
+INFO 2025-08-26 03:31:29,584 logger 11832 22860 Received record_id: 662
+INFO 2025-08-26 03:31:29,584 logger 11832 22860 Received record_id: 662
+INFO 2025-08-26 03:31:29,645 logger 11832 22860 Received divide_time: 0.1
+INFO 2025-08-26 03:31:29,645 logger 11832 22860 Received divide_time: 0.1
+INFO 2025-08-26 03:31:34,186 logger 11832 22860 Received record_id: 662
+INFO 2025-08-26 03:31:34,186 logger 11832 22860 Received record_id: 662
+INFO 2025-08-26 03:31:34,216 logger 11832 22860 Received divide_time: 0.1
+INFO 2025-08-26 03:31:34,216 logger 11832 22860 Received divide_time: 0.1
+INFO 2025-08-26 03:32:36,875 logger 26884 15888 Starting car detection for record 662 with divide_time 0.1
+INFO 2025-08-26 03:32:36,875 logger 26884 15888 Starting car detection for record 662 with divide_time 0.1
+WARNING 2025-08-26 03:32:38,638 logger 26884 2956 Running detection algorithm for record_id: 662, version: v1, divide_time: 0.1
+WARNING 2025-08-26 03:32:38,638 logger 26884 2956 Running detection algorithm for record_id: 662, version: v1, divide_time: 0.1
+INFO 2025-08-26 07:57:33,189 logger 22788 29108 Received record_id: 662
+INFO 2025-08-26 07:57:33,189 logger 22788 29108 Received record_id: 662
+INFO 2025-08-26 07:57:33,191 logger 22788 29108 Received divide_time: 0.1
+INFO 2025-08-26 07:57:33,191 logger 22788 29108 Received divide_time: 0.1
+INFO 2025-08-26 08:39:14,071 logger 22788 5728 Starting car detection for record 662 with divide_time 0.1
+INFO 2025-08-26 08:39:14,071 logger 22788 5728 Starting car detection for record 662 with divide_time 0.1
+WARNING 2025-08-26 08:39:15,934 logger 22788 24376 Running detection algorithm for record_id: 662, version: v1, divide_time: 0.1
+WARNING 2025-08-26 08:39:15,934 logger 22788 24376 Running detection algorithm for record_id: 662, version: v1, divide_time: 0.1
+INFO 2025-08-26 08:44:56,591 logger 18280 25140 Received record_id: 662
+INFO 2025-08-26 08:44:56,591 logger 18280 25140 Received record_id: 662
+INFO 2025-08-26 08:44:56,592 logger 18280 25140 Received divide_time: 0.1
+INFO 2025-08-26 08:44:56,592 logger 18280 25140 Received divide_time: 0.1
+INFO 2025-08-26 08:45:00,049 logger 18280 25140 Received record_id: 662
+INFO 2025-08-26 08:45:00,049 logger 18280 25140 Received record_id: 662
+INFO 2025-08-26 08:45:00,053 logger 18280 25140 Received divide_time: 1
+INFO 2025-08-26 08:45:00,053 logger 18280 25140 Received divide_time: 1
+INFO 2025-08-26 08:45:00,097 logger 18280 25140 Received record_id: 662
+INFO 2025-08-26 08:45:00,097 logger 18280 25140 Received record_id: 662
+INFO 2025-08-26 08:45:00,100 logger 18280 25140 Received divide_time: 10
+INFO 2025-08-26 08:45:00,100 logger 18280 25140 Received divide_time: 10
+INFO 2025-08-26 08:45:01,924 logger 18280 30144 Starting car detection for record 662 with divide_time 10
+INFO 2025-08-26 08:45:01,924 logger 18280 30144 Starting car detection for record 662 with divide_time 10
+WARNING 2025-08-26 08:45:03,699 logger 18280 27556 Running detection algorithm for record_id: 662, version: v1, divide_time: 10
+WARNING 2025-08-26 08:45:03,699 logger 18280 27556 Running detection algorithm for record_id: 662, version: v1, divide_time: 10
+INFO 2025-08-26 08:45:48,871 logger 18280 25140 Received record_id: 662
+INFO 2025-08-26 08:45:48,871 logger 18280 25140 Received record_id: 662
+INFO 2025-08-26 08:45:48,877 logger 18280 25140 Received divide_time: 0.1
+INFO 2025-08-26 08:45:48,877 logger 18280 25140 Received divide_time: 0.1
+INFO 2025-08-26 09:02:48,561 logger 28268 30084 Received record_id: 662
+INFO 2025-08-26 09:02:48,561 logger 28268 30084 Received record_id: 662
+INFO 2025-08-26 09:02:48,577 logger 28268 30084 Received divide_time: 0.1
+INFO 2025-08-26 09:02:48,577 logger 28268 30084 Received divide_time: 0.1
+INFO 2025-08-26 09:23:22,744 logger 13276 20688 Received record_id: 662
+INFO 2025-08-26 09:23:22,744 logger 13276 20688 Received record_id: 662
+INFO 2025-08-26 09:23:22,746 logger 13276 20688 Received divide_time: 0.1
+INFO 2025-08-26 09:23:22,746 logger 13276 20688 Received divide_time: 0.1
+INFO 2025-08-26 09:23:25,135 logger 13276 20688 Received record_id: 662
+INFO 2025-08-26 09:23:25,135 logger 13276 20688 Received record_id: 662
+INFO 2025-08-26 09:23:25,138 logger 13276 20688 Received divide_time: 5
+INFO 2025-08-26 09:23:25,138 logger 13276 20688 Received divide_time: 5
+INFO 2025-08-26 09:23:25,264 logger 13276 20688 Received record_id: 662
+INFO 2025-08-26 09:23:25,264 logger 13276 20688 Received record_id: 662
+INFO 2025-08-26 09:23:25,266 logger 13276 20688 Received divide_time: 50
+INFO 2025-08-26 09:23:25,266 logger 13276 20688 Received divide_time: 50
+INFO 2025-08-26 09:23:28,092 logger 13276 26640 Starting car detection for record 662 with divide_time 50
+INFO 2025-08-26 09:23:28,092 logger 13276 26640 Starting car detection for record 662 with divide_time 50
+WARNING 2025-08-26 09:23:30,069 logger 13276 20584 Running detection algorithm for record_id: 662, version: v1, divide_time: 50
+WARNING 2025-08-26 09:23:30,069 logger 13276 20584 Running detection algorithm for record_id: 662, version: v1, divide_time: 50
+INFO 2025-08-26 09:24:13,762 logger 23496 23792 Starting car detection for record 662 with divide_time 50
+INFO 2025-08-26 09:24:13,762 logger 23496 23792 Starting car detection for record 662 with divide_time 50
+WARNING 2025-08-26 09:24:15,573 logger 23496 22436 Running detection algorithm for record_id: 662, version: v1, divide_time: 50
+WARNING 2025-08-26 09:24:15,573 logger 23496 22436 Running detection algorithm for record_id: 662, version: v1, divide_time: 50
+INFO 2025-08-26 09:50:24,740 logger 23644 15184 Received record_id: 465
+INFO 2025-08-26 09:50:24,740 logger 23644 15184 Received record_id: 465
+INFO 2025-08-26 09:50:24,742 logger 23644 15184 Received divide_time: 0.1
+INFO 2025-08-26 09:50:24,742 logger 23644 15184 Received divide_time: 0.1
+INFO 2025-08-26 09:50:31,228 logger 18088 25932 Received record_id: 465
+INFO 2025-08-26 09:50:31,228 logger 18088 25932 Received record_id: 465
+INFO 2025-08-26 09:50:31,230 logger 18088 25932 Received divide_time: 3
+INFO 2025-08-26 09:50:31,230 logger 18088 25932 Received divide_time: 3
+INFO 2025-08-26 09:50:31,232 logger 18088 25932 Received record_id: 465
+INFO 2025-08-26 09:50:31,232 logger 18088 25932 Received record_id: 465
+INFO 2025-08-26 09:50:31,234 logger 18088 25932 Received divide_time: 30
+INFO 2025-08-26 09:50:31,234 logger 18088 25932 Received divide_time: 30
+INFO 2025-08-26 09:50:31,591 logger 18088 29380 Starting car detection for record 465 with divide_time 30
+INFO 2025-08-26 09:50:31,591 logger 18088 29380 Starting car detection for record 465 with divide_time 30
+WARNING 2025-08-26 09:50:33,415 logger 18088 24004 Running detection algorithm for record_id: 465, version: v1, divide_time: 30
+WARNING 2025-08-26 09:50:33,415 logger 18088 24004 Running detection algorithm for record_id: 465, version: v1, divide_time: 30
+INFO 2025-08-26 09:51:51,076 logger 27324 21228 Received record_id: 465
+INFO 2025-08-26 09:51:51,076 logger 27324 21228 Received record_id: 465
+INFO 2025-08-26 09:51:51,078 logger 27324 21228 Received divide_time: 0.1
+INFO 2025-08-26 09:51:51,078 logger 27324 21228 Received divide_time: 0.1
+INFO 2025-08-26 09:54:18,610 logger 27324 21228 Received record_id: 465
+INFO 2025-08-26 09:54:18,610 logger 27324 21228 Received record_id: 465
+INFO 2025-08-26 09:54:18,615 logger 27324 21228 Received divide_time: 0.1
+INFO 2025-08-26 09:54:18,615 logger 27324 21228 Received divide_time: 0.1
+INFO 2025-08-26 09:54:20,283 logger 27324 21228 Received record_id: 465
+INFO 2025-08-26 09:54:20,283 logger 27324 21228 Received record_id: 465
+INFO 2025-08-26 09:54:20,290 logger 27324 21228 Received divide_time: 5
+INFO 2025-08-26 09:54:20,290 logger 27324 21228 Received divide_time: 5
+INFO 2025-08-26 09:54:20,794 logger 27324 21228 Received record_id: 465
+INFO 2025-08-26 09:54:20,794 logger 27324 21228 Received record_id: 465
+INFO 2025-08-26 09:54:20,799 logger 27324 21228 Received divide_time: 50
+INFO 2025-08-26 09:54:20,799 logger 27324 21228 Received divide_time: 50
+INFO 2025-08-26 09:54:21,434 logger 27324 21228 Received record_id: 465
+INFO 2025-08-26 09:54:21,434 logger 27324 21228 Received record_id: 465
+INFO 2025-08-26 09:54:21,437 logger 27324 21228 Received divide_time: 5
+INFO 2025-08-26 09:54:21,437 logger 27324 21228 Received divide_time: 5
+INFO 2025-08-26 09:54:21,681 logger 27324 21228 Received record_id: 465
+INFO 2025-08-26 09:54:21,681 logger 27324 21228 Received record_id: 465
+INFO 2025-08-26 09:54:21,686 logger 27324 21228 Received divide_time: 3
+INFO 2025-08-26 09:54:21,686 logger 27324 21228 Received divide_time: 3
+INFO 2025-08-26 09:54:21,810 logger 27324 21228 Received record_id: 465
+INFO 2025-08-26 09:54:21,810 logger 27324 21228 Received record_id: 465
+INFO 2025-08-26 09:54:21,815 logger 27324 21228 Received divide_time: 30
+INFO 2025-08-26 09:54:21,815 logger 27324 21228 Received divide_time: 30

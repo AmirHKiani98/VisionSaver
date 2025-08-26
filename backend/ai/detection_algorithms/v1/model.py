@@ -1,12 +1,6 @@
-from typing import List, Dict, Any
-import numpy as np
 from ultralytics import YOLO
 from ai.detection_algorithms.abstract import DetectionAlgorithmAbstract
 
-# Deep SORT (parent side)
-from ai.detection_algorithms.v1.deepsort.nn_matching import NearestNeighborDistanceMetric
-from ai.detection_algorithms.v1.deepsort.tracker import Tracker
-from ai.detection_algorithms.v1.deepsort.detection import Detection
 
 
 def _yolo_factory(model_path: str, objects_of_interest: set[int]):

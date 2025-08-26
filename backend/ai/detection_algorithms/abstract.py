@@ -156,7 +156,7 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
     @final_method
     def run(self,
             num_workers: Optional[int] = None,
-            maximum_batch_size=2000) -> pd.DataFrame:
+            maximum_batch_size=1500) -> pd.DataFrame:
         """
         Run the detection algorithm on the video frames with multiprocessing.
         """
@@ -183,7 +183,6 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
             batch_results = self._process_batch(num_workers, frames_and_times, 100.0)
         
         # Final progress update
-        self._update_detection_progress(100.0)
         return self.df
     
     def _process_batch(self, num_workers, args, progress):
@@ -192,7 +191,7 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
                 initializer=_init_worker,
                 initargs=(model_path, classes)) as pool:
             results = pool.starmap(_worker, args)   # args = [(frame, t), ...]
-
+        logger.info(f"Progress: {progress:.2f}%")
         self._update_detection_progress(progress)
         for detections, t in results:
             if detections:

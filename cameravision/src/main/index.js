@@ -232,6 +232,7 @@ if(!is.dev){
     ignored: [
       join(__dirname, '../../../backend/media/**'),
       join(__dirname, '../../../backend/logs/**'),
+      join(__dirname, '../../../backend/apps/apache24/apache_logs/**'),
       '**/*.pyc'
     ]
   }).on('change', (changedPath) => {

@@ -22,12 +22,14 @@ class DetectionAlgorithm:
     def run(self, record_id: int, divide_time: float, **kwargs) -> Tuple[pd.DataFrame]:
         model_class = self._import_model()
         model = model_class(record_id, divide_time)
+        logger.warning(f"Running detection algorithm for record_id: {record_id}, version: {self.version}, divide_time: {divide_time}")
         df = model.run(**kwargs)
-        df.to_csv(f"{settings.MEDIA_ROOT}/detections_{record_id}_{self.version}_{divide_time}.csv", index=False)
+        file_name = f"{settings.MEDIA_ROOT}/detections_{record_id}_{self.version}_{divide_time}.csv"
+        df.to_csv(file_name, index=False)
         AutoDetection.objects.update_or_create(
             record_id=record_id,
             version=self.version,
             divide_time=divide_time,
-            defaults={"file": f"detections_{record_id}_{self.version}_{divide_time}.csv"}
+            file_name=file_name
         )
         return df
