@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 from typing import Tuple
+from ai.models import AutoDetection
 from django.conf import settings
 logger = settings.APP_LOGGER
 class DetectionAlgorithm:
@@ -23,4 +24,10 @@ class DetectionAlgorithm:
         model = model_class(record_id, divide_time)
         df = model.run(**kwargs)
         df.to_csv(f"{settings.MEDIA_ROOT}/detections_{record_id}_{self.version}_{divide_time}.csv", index=False)
+        AutoDetection.objects.update_or_create(
+            record_id=record_id,
+            version=self.version,
+            divide_time=divide_time,
+            defaults={"file": f"detections_{record_id}_{self.version}_{divide_time}.csv"}
+        )
         return df

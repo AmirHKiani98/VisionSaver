@@ -6980,4 +6980,27 @@ Ran 1 test in 6.574s
 
 OK
 Destroying test database for alias 'default'...
-(.venv) PS C:\MyApps\VisionSaver\backend> 
+(.venv) PS C:\MyApps\VisionSaver\backend> INFO 2025-08-26 03:23:10,107 logger 8668 25896 Received record_id: 662
+INFO 2025-08-26 03:23:10,107 logger 8668 25896 Received record_id: 662
+INFO 2025-08-26 03:23:10,109 logger 8668 25896 Received divide_time: 0.1
+INFO 2025-08-26 03:23:10,109 logger 8668 25896 Received divide_time: 0.1
+INFO 2025-08-26 03:23:13,542 logger 8668 27408 Starting car detection for record 662 with divide_time 0.1
+INFO 2025-08-26 03:23:13,542 logger 8668 27408 Starting car detection for record 662 with divide_time 0.1
+INFO 2025-08-26 03:23:13,544 logger 8668 14940 Starting background detection for record 662
+INFO 2025-08-26 03:23:13,544 logger 8668 14940 Starting background detection for record 662
+ERROR 2025-08-26 03:23:13,547 logger 8668 14940 Error in background detection for record 662: 'DetectionAlgorithm' object has no attribute 'run_detection_mp'
+ERROR 2025-08-26 03:23:13,547 logger 8668 14940 Error in background detection for record 662: 'DetectionAlgorithm' object has no attribute 'run_detection_mp'
+ERROR 2025-08-26 03:23:13,549 logger 8668 14940 Traceback (most recent call last):
+  File "C:\MyApps\VisionSaver\backend\ai\views.py", line 111, in run_detection_background
+    result_path = algo.run_detection_mp(
+                  ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'DetectionAlgorithm' object has no attribute 'run_detection_mp'
+
+ERROR 2025-08-26 03:23:13,549 logger 8668 14940 Traceback (most recent call last):
+  File "C:\MyApps\VisionSaver\backend\ai\views.py", line 111, in run_detection_background
+    result_path = algo.run_detection_mp(
+                  ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'DetectionAlgorithm' object has no attribute 'run_detection_mp'
+
+INFO 2025-08-26 03:26:06,613 logger 4936 27488 Starting car detection for record 662 with divide_time 0.1
+INFO 2025-08-26 03:26:06,613 logger 4936 27488 Starting car detection for record 662 with divide_time 0.1
