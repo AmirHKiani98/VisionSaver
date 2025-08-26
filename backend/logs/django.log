@@ -7118,3 +7118,55 @@ INFO 2025-08-26 09:54:21,810 logger 27324 21228 Received record_id: 465
 INFO 2025-08-26 09:54:21,810 logger 27324 21228 Received record_id: 465
 INFO 2025-08-26 09:54:21,815 logger 27324 21228 Received divide_time: 30
 INFO 2025-08-26 09:54:21,815 logger 27324 21228 Received divide_time: 30
+WARNING 2025-08-26 10:21:16,988 logger 5556 23792 Running detection algorithm for record_id: 556, version: v1, divide_time: 1
+WARNING 2025-08-26 10:21:16,988 logger 5556 23792 Running detection algorithm for record_id: 556, version: v1, divide_time: 1
+INFO 2025-08-26 10:21:44,747 logger 5556 23792 Progress: 42.96%
+INFO 2025-08-26 10:21:44,747 logger 5556 23792 Progress: 42.96%
+INFO 2025-08-26 10:22:17,087 logger 5556 23792 Progress: 85.08%
+INFO 2025-08-26 10:22:17,087 logger 5556 23792 Progress: 85.08%
+INFO 2025-08-26 10:22:40,364 logger 5556 23792 Progress: 100.00%
+INFO 2025-08-26 10:22:40,364 logger 5556 23792 Progress: 100.00%
+INFO 2025-08-26 10:36:57,658 logger 11752 20880 Received record_id: 662
+INFO 2025-08-26 10:36:57,658 logger 11752 20880 Received record_id: 662
+INFO 2025-08-26 10:36:57,660 logger 11752 20880 Received divide_time: 0.1
+INFO 2025-08-26 10:36:57,660 logger 11752 20880 Received divide_time: 0.1
+INFO 2025-08-26 10:36:59,455 logger 11752 23060 Starting car detection for record 662 with divide_time 0.1
+INFO 2025-08-26 10:36:59,455 logger 11752 23060 Starting car detection for record 662 with divide_time 0.1
+WARNING 2025-08-26 10:37:01,245 logger 11752 29872 Running detection algorithm for record_id: 662, version: v1, divide_time: 0.1
+WARNING 2025-08-26 10:37:01,245 logger 11752 29872 Running detection algorithm for record_id: 662, version: v1, divide_time: 0.1
+INFO 2025-08-26 10:37:27,230 logger 11752 29872 Progress: 5.84%
+INFO 2025-08-26 10:37:27,230 logger 11752 29872 Progress: 5.84%
+INFO 2025-08-26 10:37:57,393 logger 11752 29872 Progress: 12.64%
+INFO 2025-08-26 10:37:57,393 logger 11752 29872 Progress: 12.64%
+INFO 2025-08-26 10:38:56,830 logger 11752 29872 Progress: 21.62%
+INFO 2025-08-26 10:38:56,830 logger 11752 29872 Progress: 21.62%
+INFO 2025-08-26 10:40:28,593 logger 11752 29872 Progress: 27.17%
+INFO 2025-08-26 10:40:28,593 logger 11752 29872 Progress: 27.17%
+INFO 2025-08-26 10:41:55,413 logger 11752 29872 Progress: 32.73%
+INFO 2025-08-26 10:41:55,413 logger 11752 29872 Progress: 32.73%
+INFO 2025-08-26 10:43:38,336 logger 11752 29872 Progress: 38.29%
+INFO 2025-08-26 10:43:38,336 logger 11752 29872 Progress: 38.29%
+INFO 2025-08-26 10:44:35,224 logger 11752 29872 Progress: 43.84%
+INFO 2025-08-26 10:44:35,224 logger 11752 29872 Progress: 43.84%
+INFO 2025-08-26 10:45:20,360 logger 11752 29872 Progress: 49.40%
+INFO 2025-08-26 10:45:20,360 logger 11752 29872 Progress: 49.40%
+INFO 2025-08-26 10:46:10,811 logger 11752 29872 Progress: 54.95%
+INFO 2025-08-26 10:46:10,811 logger 11752 29872 Progress: 54.95%
+INFO 2025-08-26 10:47:03,194 logger 11752 29872 Progress: 60.51%
+INFO 2025-08-26 10:47:03,194 logger 11752 29872 Progress: 60.51%
+INFO 2025-08-26 10:48:01,268 logger 11752 29872 Progress: 66.07%
+INFO 2025-08-26 10:48:01,268 logger 11752 29872 Progress: 66.07%
+INFO 2025-08-26 10:49:04,548 logger 11752 29872 Progress: 71.63%
+INFO 2025-08-26 10:49:04,548 logger 11752 29872 Progress: 71.63%
+INFO 2025-08-26 10:50:11,438 logger 11752 29872 Progress: 77.18%
+INFO 2025-08-26 10:50:11,438 logger 11752 29872 Progress: 77.18%
+INFO 2025-08-26 10:51:23,394 logger 11752 29872 Progress: 82.74%
+INFO 2025-08-26 10:51:23,394 logger 11752 29872 Progress: 82.74%
+INFO 2025-08-26 10:52:36,196 logger 11752 29872 Progress: 88.35%
+INFO 2025-08-26 10:52:36,196 logger 11752 29872 Progress: 88.35%
+INFO 2025-08-26 10:53:47,369 logger 11752 29872 Progress: 93.92%
+INFO 2025-08-26 10:53:47,369 logger 11752 29872 Progress: 93.92%
+INFO 2025-08-26 10:55:05,499 logger 11752 29872 Progress: 99.70%
+INFO 2025-08-26 10:55:05,499 logger 11752 29872 Progress: 99.70%
+INFO 2025-08-26 10:56:03,659 logger 11752 29872 Progress: 100.00%
+INFO 2025-08-26 10:56:03,659 logger 11752 29872 Progress: 100.00%

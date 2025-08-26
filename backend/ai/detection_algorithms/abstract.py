@@ -40,6 +40,7 @@ def _worker(frame: np.ndarray, t: float):
         xywh = res.boxes.xywh.cpu().numpy()
         cls  = res.boxes.cls.cpu().numpy().astype(int)
         conf = res.boxes.conf.cpu().numpy()
+        track_id = res.boxes.id.cpu().numpy().astype(int)
         for (x, y, w, h), c, s in zip(xywh, cls, conf):
             if c in _WORKER_CLASSES:
                 dets.append({
@@ -47,7 +48,7 @@ def _worker(frame: np.ndarray, t: float):
                     "y1": float(y - h/2),
                     "x2": float(x + w/2),
                     "y2": float(y + h/2),
-                    "track_id": None,         # parent will assign
+                    "track_id": ,         # parent will assign
                     "cls_id": int(c),
                     "confidence": float(s),
                 })

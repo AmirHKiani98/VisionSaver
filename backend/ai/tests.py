@@ -16,8 +16,8 @@ class AiAppTestCase(TestCase):
         """
         Set up the test case with necessary configurations.
         """
-        self.record_id = 673
-        self.divide_time = 1
+        self.record_id = 556
+        self.divide_time = 20
         
 
 
