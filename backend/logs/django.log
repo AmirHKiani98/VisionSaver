@@ -6939,3 +6939,45 @@ ERROR 2025-08-25 23:40:08,641 _logging 5920 6896 [WinError 10061] No connection 
 ERROR 2025-08-25 23:50:30,683 _logging 17564 19172 [WinError 10061] No connection could be made because the target machine actively refused it - goodbye
 ERROR 2025-08-26 00:11:29,374 _logging 26476 6764 [WinError 10061] No connection could be made because the target machine actively refused it - goodbye
 ERROR 2025-08-26 00:12:02,065 _logging 2412 24800 [WinError 10061] No connection could be made because the target machine actively refused it - goodbye
+(.venv) PS C:\MyApps\VisionSaver\backend> python manage.py test
+Found 1 test(s).
+Creating test database for alias 'default'...
+System check identified no issues (0 silenced).
+Exception in thread Thread-1 (run):
+Traceback (most recent call last):
+  File "C:\Program Files\Python311\Lib\threading.py", line 1038, in _bootstrap_inner
+    self.run()
+  File "C:\Program Files\Python311\Lib\threading.py", line 975, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\MyApps\VisionSaver\backend\ai\detection_algorithms\algorithm.py", line 24, in run
+    df = model.run(**kwargs)
+         ^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_algorithms\abstract.py", line 131, in run
+    batch_results = self._process_batch(num_workers, frames_and_times, time/self.duration*100)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_algorithms\abstract.py", line 143, in _process_batch
+    results = pool.starmap(worker_detect, ([self.detect, f, t] for f, t in args))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 375, in starmap
+    return self._map_async(func, iterable, starmapstar, chunksize).get()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 774, in get
+    raise self._value
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 540, in _handle_tasks
+    put(task)
+  File "C:\Program Files\Python311\Lib\multiprocessing\connection.py", line 205, in send
+    self._send_bytes(_ForkingPickler.dumps(obj))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\reduction.py", line 51, in dumps
+    cls(buf, protocol).dump(obj)
+TypeError: cannot pickle 'cv2.VideoCapture' object
+Error: [WinError 10061] No connection could be made because the target machine actively refused it
+ERROR [WinError 10061] No connection could be made because the target machine actively refused it - goodbye
+WebSocket closed
+.
+----------------------------------------------------------------------
+Ran 1 test in 6.574s
+
+OK
+Destroying test database for alias 'default'...
+(.venv) PS C:\MyApps\VisionSaver\backend> 
