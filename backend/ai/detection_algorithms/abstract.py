@@ -8,7 +8,6 @@ from django.conf import settings
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 from multiprocessing import cpu_count, Pool
-from ai.utils import poke_detection_progress
 
 logger = settings.APP_LOGGER
 
@@ -93,7 +92,7 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
         return cap, duration, width, height, fps
 
     def _update_detection_progress(self, progress: float):
-        self._send_ws_progress(self._ws_group_name_counter(), progress)
+        self._send_ws_progress(progress)
 
     @abstractmethod
     def detect(self, frame: np.ndarray, time: float) -> List[Dict[str, Any]]:
