@@ -6936,3 +6936,6 @@ ERROR 2025-08-25 22:55:21,823 _logging 13108 15196 [WinError 10061] No connectio
 ERROR 2025-08-25 22:57:13,376 _logging 10792 12400 [WinError 10061] No connection could be made because the target machine actively refused it - goodbye
 ERROR 2025-08-25 23:38:40,144 _logging 17588 4844 [WinError 10061] No connection could be made because the target machine actively refused it - goodbye
 ERROR 2025-08-25 23:40:08,641 _logging 5920 6896 [WinError 10061] No connection could be made because the target machine actively refused it - goodbye
+ERROR 2025-08-25 23:50:30,683 _logging 17564 19172 [WinError 10061] No connection could be made because the target machine actively refused it - goodbye
+ERROR 2025-08-26 00:11:29,374 _logging 26476 6764 [WinError 10061] No connection could be made because the target machine actively refused it - goodbye
+ERROR 2025-08-26 00:12:02,065 _logging 2412 24800 [WinError 10061] No connection could be made because the target machine actively refused it - goodbye

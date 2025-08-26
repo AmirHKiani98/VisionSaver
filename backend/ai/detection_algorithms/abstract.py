@@ -15,10 +15,11 @@ def final_method(func):
     func.__isfinal__ = True
     return func
 
-def process_frame(detect_function, frame_data):
-    """Standalone function for multiprocessing that doesn't require class instance"""
-    frame, time = frame_data
-    return detect_function(frame), time
+def worker_detect(detect_fun, frame, time):
+    """
+    Worker function to call the detect method.
+    """
+    return detect_fun((frame, time)), time
 
 class FinalMeta(type):
     def __new__(cls, name, bases, attrs):
@@ -100,17 +101,7 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
         self._send_ws_progress(progress)
 
     @abstractmethod
-    def detect(self, args) -> List[Dict[str, Any]]:
-        if len(args) != 2:
-            raise ValueError("Expected args to be a tuple of (frame, time)")
-        frame, time = args
-        if frame is None or time is None:
-            raise ValueError("Frame and time must not be None")
-        if not isinstance(frame, np.ndarray):
-            raise ValueError("Frame must be a numpy ndarray")
-        if not isinstance(time, (int, float)):
-            raise ValueError("Time must be an int or float")
-        
+    def detect(self, frame: np.ndarray, time: float) -> List[Dict[str, Any]]:
         pass
 
     @final_method
@@ -137,19 +128,19 @@ class DetectionAlgorithmAbstract(metaclass=FinalMeta):
             frames_and_times.append((frame, time))
                             
             if len(frames_and_times) == maximum_batch_size:
-                batch_results = self._process_batch(num_workers, self.detect, frames_and_times, time/self.duration*100)
+                batch_results = self._process_batch(num_workers, frames_and_times, time/self.duration*100)
                 frames_and_times = []
         
         if len(frames_and_times) > 0:
-            batch_results = self._process_batch(num_workers, self.detect, frames_and_times, 100.0)
+            batch_results = self._process_batch(num_workers, frames_and_times, 100.0)
         
         # Final progress update
         self._update_detection_progress(100.0)
         return self.df
     
-    def _process_batch(self, num_workers, detect_wrapper, args, progress) -> List[Tuple[List[Dict[str, Any]], float]]:
+    def _process_batch(self, num_workers, args, progress) -> List[Tuple[List[Dict[str, Any]], float]]:
         with Pool(processes=num_workers) as pool:
-            results = pool.map(detect_wrapper, args)
+            results = pool.starmap(worker_detect, ([self.detect, f, t] for f, t in args))
         self._update_detection_progress(progress)
         for detections, time in results:
             for detection in detections:

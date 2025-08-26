@@ -33,20 +33,11 @@ class Model(DetectionAlgorithmAbstract):
         self._model_path = "yolo11n.pt"
         self.model = YOLO(self._model_path)
 
-    def detect(self, args) -> List[Dict[str, Any]]:
+    def detect(self, frame: np.ndarray, time: float) -> List[Dict[str, Any]]:
         """
         Perform detection on a single frame using YOLOv8 model.
         Returns a list of detections with bounding boxes, confidence scores, and class IDs.
         """
-        if len(args) != 2:
-            raise ValueError("Expected args to be a tuple of (frame, time)")
-        frame, time = args
-        if frame is None or time is None:
-            raise ValueError("Frame and time must not be None")
-        if not isinstance(frame, np.ndarray):
-            raise ValueError("Frame must be a numpy ndarray")
-        if not isinstance(time, (int, float)):
-            raise ValueError("Time must be an int or float")
         
         result = self.model.track(frame, persist=True)[0]
         detections = []
