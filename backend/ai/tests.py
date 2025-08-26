@@ -47,10 +47,7 @@ class AiAppTestCase(TestCase):
             print("WebSocket closed")
 
         # Connect to websocket after detection is complete
-        ws = websocket.WebSocketApp(f"ws://{os.getenv('BACKEND_SERVER_DOMAIN', 'localhost')}:{os.getenv('BACKEND_SERVER_PORT')}/ws/detection_progress/{self.record_id}/{self.divide_time}/{version}/",
-                                    on_message=on_message,
-                                    on_error=on_error,
-                                    on_close=on_close)
+        ws = websocket.WebSocket(f"ws://{os.getenv('BACKEND_SERVER_DOMAIN', 'localhost')}:{os.getenv('BACKEND_SERVER_PORT')}/ws/detection_progress/{self.record_id}/{self.divide_time}/{version}/")
         wst = threading.Thread(target=ws.run_forever)
         wst.start()
         
