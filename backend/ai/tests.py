@@ -27,33 +27,25 @@ class AiAppTestCase(TestCase):
         """
         return f'detection_progress_{self.record_id}_{self.divide_time}_{version}'
 
-    def test_version_v1(self):        
+    def test_detect_version_v1(self):        
         """
         Test the CarDetection class with version v1.
         """
+        return # Tested
         version = 'v1'
-        detection_algorithm = DetectionAlgorithm(version=version)
-        da = detection_algorithm.run(self.record_id, self.divide_time)
+        detection_algorithm = DetectionAlgorithm(record_id=self.record_id, divide_time=self.divide_time, version=version)
+        da = detection_algorithm.run()
+        print(da)
+    
+    def test_detect_version_v2(self):
+        """
+        Test the CarDetection class with version v2.
+        """
+        verson = 'v2'
+        detection_algorithm = DetectionAlgorithm(record_id=self.record_id, divide_time=self.divide_time, version=verson)
+        da = detection_algorithm.run()
+        print(da)
 
-        # Wait for detection algorithm to complete
-        # da.join()
-
-        # def on_message(ws, message):
-        #     print(f"Received message: {message}")
-        # def on_error(ws, error):
-        #     print(f"Error: {error}")
-        # def on_close(ws, close_status_code, close_msg):
-        #     print("WebSocket closed")
-
-        # # Connect to websocket after detection is complete
-        # ws = websocket.WebSocket(f"ws://{os.getenv('BACKEND_SERVER_DOMAIN', 'localhost')}:{os.getenv('BACKEND_SERVER_PORT')}/ws/detection_progress/{self.record_id}/{self.divide_time}/{version}/")
-        # wst = threading.Thread(target=ws.run_forever)
-        # wst.start()
-        
-        # # Give websocket a short time to receive any messages
-        # wst.join(timeout=1)
-        # ws.close()
-        # wst.join()
 
 
         

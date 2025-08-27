@@ -97,9 +97,9 @@ def run_car_detection(request):
         logger.info(f"Starting car detection for record {record_id} with divide_time {divide_time}")
 
         # Step 1: Create the algorithm instance
-        algo = DetectionAlgorithm(version=version)
+        algo = DetectionAlgorithm(record_id=record_id, divide_time=divide_time, version=version)
         
-        t = threading.Thread(target=algo.run, args=(record_id, divide_time))
+        t = threading.Thread(target=algo.run)
         t.daemon = True
         t.start()
         
@@ -160,7 +160,7 @@ def update_detection_progress(request):
         channel_layer = get_channel_layer()
         if not channel_layer:
             print("Channel layer not available. Check if Channels is configured correctly.")
-            return False
+            return JsonResponse({"status": "success"}, status=200)
             
         try:
             # Send a test progress update

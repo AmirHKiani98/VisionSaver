@@ -114,19 +114,19 @@ const AutoDetection = () => {
 
     react.useEffect(() => {
         if (!env) return;
-        checkIfDetectingExists(accuracy);
+        checkIfDetectingExists({ record_id: recordId, divide_time: accuracy, version: detectionVersion });
         checkIfDetectingModifiedExists(accuracy);
     }, [env, recordId]);
     
-    const checkIfDetectingExists = (divide_time) => {
-        if (!env || !divide_time) return;
+    const checkIfDetectingExists = (data) => {
+        if (!env || !data) return;
         const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_COUNT_EXISTS}`;
         fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ record_id: recordId, divide_time: divide_time}),
+            body: JSON.stringify(data),
         })
         .then(response => response.json())
         .then(data => {
@@ -915,11 +915,20 @@ const AutoDetection = () => {
                                         color: 'primary.white'
                                     }}
                                     label="Counter Version"
-                                    onChange={(e) => setDetectionVersion(e.target.value)}
+                                    onChange={(e) =>{
+                                        checkIfDetectingExists({ record_id: recordId, divide_time: accuracy, version: e.target.value })
+                                        setDetectionVersion(e.target.value)
+                                    }
+                                    }
                                 >
                                     <MenuItem value="v1">
                                         <Typography variant="body1" color="textPrimary">
                                             v1
+                                        </Typography>
+                                    </MenuItem>
+                                    <MenuItem value="v2">
+                                        <Typography variant="body1" color="textPrimary">
+                                            v2
                                         </Typography>
                                     </MenuItem>
                                 </Select>
@@ -930,7 +939,7 @@ const AutoDetection = () => {
                                 type="number"
                                 onChange={(e) => {
                                     setAccuracy(e.target.value)
-                                    checkIfDetectingExists(e.target.value);
+                                    checkIfDetectingExists({ record_id: recordId, divide_time: e.target.value, version: detectionVersion });
                                     checkIfDetectingModifiedExists(e.target.value);
                                 }}
                                 className='shadow-lg bg-main-400'
