@@ -7560,3 +7560,41 @@ INFO 2025-08-27 21:38:04,383 logger 14904 44008 Received record_id: 672
 INFO 2025-08-27 21:38:04,383 logger 14904 44008 Received record_id: 672
 INFO 2025-08-27 21:38:04,385 logger 14904 44008 Received divide_time: 0.1
 INFO 2025-08-27 21:38:04,385 logger 14904 44008 Received divide_time: 0.1
+INFO 2025-08-27 22:21:10,603 logger 14980 30264 Received record_id: 673
+INFO 2025-08-27 22:21:10,603 logger 14980 30264 Received record_id: 673
+INFO 2025-08-27 22:21:10,612 logger 14980 30264 Received divide_time: 0.1
+INFO 2025-08-27 22:21:10,612 logger 14980 30264 Received divide_time: 0.1
+INFO 2025-08-27 22:21:12,320 logger 14980 30264 Received record_id: 673
+INFO 2025-08-27 22:21:12,320 logger 14980 30264 Received record_id: 673
+INFO 2025-08-27 22:21:12,322 logger 14980 30264 Received divide_time: 0.1
+INFO 2025-08-27 22:21:12,322 logger 14980 30264 Received divide_time: 0.1
+INFO 2025-08-27 22:21:13,533 logger 14980 44180 Starting car detection for record 673 with divide_time 0.1
+INFO 2025-08-27 22:21:13,533 logger 14980 44180 Starting car detection for record 673 with divide_time 0.1
+INFO 2025-08-27 22:29:30,553 logger 6084 31276 Received record_id: 673
+INFO 2025-08-27 22:29:30,553 logger 6084 31276 Received record_id: 673
+INFO 2025-08-27 22:29:30,562 logger 6084 31276 Received divide_time: 0.1
+INFO 2025-08-27 22:29:30,562 logger 6084 31276 Received divide_time: 0.1
+INFO 2025-08-27 22:29:32,195 logger 6084 31276 Received record_id: 673
+INFO 2025-08-27 22:29:32,195 logger 6084 31276 Received record_id: 673
+INFO 2025-08-27 22:29:32,197 logger 6084 31276 Received divide_time: 0.1
+INFO 2025-08-27 22:29:32,197 logger 6084 31276 Received divide_time: 0.1
+INFO 2025-08-27 22:29:32,905 logger 6084 29244 Starting car detection for record 673 with divide_time 0.1
+INFO 2025-08-27 22:29:32,905 logger 6084 29244 Starting car detection for record 673 with divide_time 0.1
+INFO 2025-08-27 22:31:17,689 logger 30200 43804 Received record_id: 673
+INFO 2025-08-27 22:31:17,689 logger 30200 43804 Received record_id: 673
+INFO 2025-08-27 22:31:17,698 logger 30200 43804 Received divide_time: 0.1
+INFO 2025-08-27 22:31:17,698 logger 30200 43804 Received divide_time: 0.1
+INFO 2025-08-27 22:31:20,293 logger 30200 43804 Received record_id: 673
+INFO 2025-08-27 22:31:20,293 logger 30200 43804 Received record_id: 673
+INFO 2025-08-27 22:31:20,295 logger 30200 43804 Received divide_time: 0.1
+INFO 2025-08-27 22:31:20,295 logger 30200 43804 Received divide_time: 0.1
+INFO 2025-08-27 22:31:21,236 logger 30200 43200 Starting car detection for record 673 with divide_time 0.1
+INFO 2025-08-27 22:31:21,236 logger 30200 43200 Starting car detection for record 673 with divide_time 0.1
+INFO 2025-08-27 22:35:41,577 logger 30200 43804 Received record_id: 673
+INFO 2025-08-27 22:35:41,577 logger 30200 43804 Received record_id: 673
+INFO 2025-08-27 22:35:41,579 logger 30200 43804 Received divide_time: 0.1
+INFO 2025-08-27 22:35:41,579 logger 30200 43804 Received divide_time: 0.1
+INFO 2025-08-27 23:32:21,445 logger 30200 43804 Received record_id: 673
+INFO 2025-08-27 23:32:21,445 logger 30200 43804 Received record_id: 673
+INFO 2025-08-27 23:32:21,448 logger 30200 43804 Received divide_time: 0.1
+INFO 2025-08-27 23:32:21,448 logger 30200 43804 Received divide_time: 0.1
