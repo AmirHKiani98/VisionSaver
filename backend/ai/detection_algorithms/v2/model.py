@@ -8,7 +8,7 @@ def detect(frame):
     """
     Using YOLOv8 for object detection and DeepSORT for tracking.
     """
-    results = model(frame)[0]
+    results = model(frame, verbose=False)[0]
     detections = []
     if results.boxes is not None and len(results.boxes) > 0:
         xyxy = results.boxes.xyxy.cpu().numpy()

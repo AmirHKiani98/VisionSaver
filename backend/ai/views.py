@@ -88,6 +88,7 @@ def run_car_detection(request):
         record_id = data.get('record_id')
         divide_time = data.get('divide_time', 0.1)  # Default to 10 seconds if not provided
         version = data.get('version', 'v1')  # Default to version 'v1'
+
         try:
             record = Record.objects.get(id=record_id)
         except Record.DoesNotExist:

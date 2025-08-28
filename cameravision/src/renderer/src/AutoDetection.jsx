@@ -442,6 +442,7 @@ const AutoDetection = () => {
             body: JSON.stringify({
                 record_id: recordId,
                 divide_time: accuracy,
+                version: detectionVersion,
                 lines: lines,
             }),
         })
@@ -460,11 +461,12 @@ const AutoDetection = () => {
     }
 
     react.useEffect(() => {
-        if (!env || !recordId || !accuracy) return;
+        if (!env || !recordId || !accuracy || !detectionVersion) return;
         const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/detection_progress/${recordId}/${accuracy}/${detectionVersion}/`;
         const ws = new window.WebSocket(wsUrl);
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
+            setDetectingStarted(true);
             if (Math.abs(data.progress - 100) < 1 ){
                 setDetectionExists(true);
                 setProgress(100); // Set progress to 100% if detecting exists
@@ -476,7 +478,7 @@ const AutoDetection = () => {
         ws.onerror = (e) => { /* Optionally handle error */ };
 
         return () => ws.close();
-    }, [env, recordId, accuracy]);
+    }, [env, recordId, accuracy, detectionVersion]);
 
     // react.useEffect(() => {
     //     if (!env || !recordId || !accuracy) return;

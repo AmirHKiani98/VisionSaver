@@ -116,6 +116,7 @@ class DetectionAlgorithm:
             # Only log significant progress updates to avoid cluttering logs
             #logger.info(f"[WebSocket] Progress update {progress:.1f}% to {group}")
             # poke_detection_progress(self.record_id, self.divide_time, self.version, progress)
+
             async_to_sync(channel_layer.group_send)(group, payload)
         except Exception as e:
             # Log WebSocket errors to help with debugging
