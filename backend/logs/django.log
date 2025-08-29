@@ -7598,3 +7598,2075 @@ INFO 2025-08-27 23:32:21,445 logger 30200 43804 Received record_id: 673
 INFO 2025-08-27 23:32:21,445 logger 30200 43804 Received record_id: 673
 INFO 2025-08-27 23:32:21,448 logger 30200 43804 Received divide_time: 0.1
 INFO 2025-08-27 23:32:21,448 logger 30200 43804 Received divide_time: 0.1
+INFO 2025-08-28 08:49:15,924 logger 14560 44792 Received record_id: 673
+INFO 2025-08-28 08:49:15,924 logger 14560 44792 Received record_id: 673
+INFO 2025-08-28 08:49:15,931 logger 14560 44792 Received divide_time: 0.1
+INFO 2025-08-28 08:49:15,931 logger 14560 44792 Received divide_time: 0.1
+INFO 2025-08-28 08:49:18,303 logger 14560 44792 Received record_id: 673
+INFO 2025-08-28 08:49:18,303 logger 14560 44792 Received record_id: 673
+INFO 2025-08-28 08:49:18,307 logger 14560 44792 Received divide_time: 0.1
+INFO 2025-08-28 08:49:18,307 logger 14560 44792 Received divide_time: 0.1
+INFO 2025-08-28 08:49:46,920 logger 36780 35856 Received record_id: 673
+INFO 2025-08-28 08:49:46,920 logger 36780 35856 Received record_id: 673
+INFO 2025-08-28 08:49:46,923 logger 36780 35856 Received divide_time: 0.1
+INFO 2025-08-28 08:49:46,923 logger 36780 35856 Received divide_time: 0.1
+INFO 2025-08-28 08:49:50,938 logger 36780 35856 Received record_id: 673
+INFO 2025-08-28 08:49:50,938 logger 36780 35856 Received record_id: 673
+INFO 2025-08-28 08:49:50,941 logger 36780 35856 Received divide_time: 0.1
+INFO 2025-08-28 08:49:50,941 logger 36780 35856 Received divide_time: 0.1
+ERROR 2025-08-28 08:49:58,083 logger 36780 40224 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 08:49:58,083 logger 36780 40224 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 09:27:02,990 logger 17324 19840 Error while getting result: tuple indices must be integers or slices, not str
+ERROR 2025-08-28 09:27:02,990 logger 17324 19840 Error while getting result: tuple indices must be integers or slices, not str
+INFO 2025-08-28 10:20:28,211 logger 36688 35628 Received record_id: 673
+INFO 2025-08-28 10:20:28,211 logger 36688 35628 Received record_id: 673
+INFO 2025-08-28 10:20:28,228 logger 36688 35628 Received divide_time: 0.1
+INFO 2025-08-28 10:20:28,228 logger 36688 35628 Received divide_time: 0.1
+INFO 2025-08-28 10:20:36,165 logger 36688 35628 Received record_id: 673
+INFO 2025-08-28 10:20:36,165 logger 36688 35628 Received record_id: 673
+INFO 2025-08-28 10:20:36,168 logger 36688 35628 Received divide_time: 0.1
+INFO 2025-08-28 10:20:36,168 logger 36688 35628 Received divide_time: 0.1
+INFO 2025-08-28 10:27:41,473 logger 36688 35628 Received record_id: 673
+INFO 2025-08-28 10:27:41,473 logger 36688 35628 Received record_id: 673
+INFO 2025-08-28 10:27:41,478 logger 36688 35628 Received divide_time: 0.1
+INFO 2025-08-28 10:27:41,478 logger 36688 35628 Received divide_time: 0.1
+INFO 2025-08-28 10:27:43,351 logger 36688 35628 Received record_id: 673
+INFO 2025-08-28 10:27:43,351 logger 36688 35628 Received record_id: 673
+INFO 2025-08-28 10:27:43,354 logger 36688 35628 Received divide_time: 0.1
+INFO 2025-08-28 10:27:43,354 logger 36688 35628 Received divide_time: 0.1
+INFO 2025-08-28 10:29:39,353 logger 36688 35628 Received record_id: 673
+INFO 2025-08-28 10:29:39,353 logger 36688 35628 Received record_id: 673
+INFO 2025-08-28 10:29:39,354 logger 36688 35628 Received divide_time: 0
+INFO 2025-08-28 10:29:39,354 logger 36688 35628 Received divide_time: 0
+INFO 2025-08-28 10:29:39,722 logger 36688 35628 Received record_id: 673
+INFO 2025-08-28 10:29:39,722 logger 36688 35628 Received record_id: 673
+INFO 2025-08-28 10:29:39,724 logger 36688 35628 Received divide_time: 0.0
+INFO 2025-08-28 10:29:39,724 logger 36688 35628 Received divide_time: 0.0
+INFO 2025-08-28 10:29:40,297 logger 36688 35628 Received record_id: 673
+INFO 2025-08-28 10:29:40,297 logger 36688 35628 Received record_id: 673
+INFO 2025-08-28 10:29:40,299 logger 36688 35628 Received divide_time: 0
+INFO 2025-08-28 10:29:40,299 logger 36688 35628 Received divide_time: 0
+INFO 2025-08-28 10:29:40,479 logger 36688 35628 Received record_id: 673
+INFO 2025-08-28 10:29:40,479 logger 36688 35628 Received record_id: 673
+INFO 2025-08-28 10:29:40,481 logger 36688 35628 Received divide_time: 0.1
+INFO 2025-08-28 10:29:40,481 logger 36688 35628 Received divide_time: 0.1
+INFO 2025-08-28 10:30:26,920 logger 36688 35628 Received record_id: 673
+INFO 2025-08-28 10:30:26,920 logger 36688 35628 Received record_id: 673
+INFO 2025-08-28 10:30:26,924 logger 36688 35628 Received divide_time: 0.1
+INFO 2025-08-28 10:30:26,924 logger 36688 35628 Received divide_time: 0.1
+INFO 2025-08-28 10:30:29,047 logger 36688 35628 Received record_id: 673
+INFO 2025-08-28 10:30:29,047 logger 36688 35628 Received record_id: 673
+INFO 2025-08-28 10:30:29,050 logger 36688 35628 Received divide_time: 0.1
+INFO 2025-08-28 10:30:29,050 logger 36688 35628 Received divide_time: 0.1
+ERROR 2025-08-28 10:30:35,621 logger 36688 43640 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:35,621 logger 36688 43640 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:35,736 log 36688 23612 Internal Server Error: /api/get_modified_detections_at_time
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 48, in mapstar
+    return list(map(*args))
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 126, in _process_track_task
+    g = g.set_index("time").reindex(full_t)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\frame.py", line 5385, in reindex
+    return super().reindex(
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5629, in reindex
+    return self._reindex_axes(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5652, in _reindex_axes
+    new_index, indexer = ax.reindex(
+                         ^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\indexes\base.py", line 4436, in reindex
+    raise ValueError("cannot reindex on an axis with duplicate labels")
+ValueError: cannot reindex on an axis with duplicate labels
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\api\views.py", line 539, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\views.py", line 120, in run_modifier_detection
+    return ADZ.get_result()
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 84, in get_result
+    raise e
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 74, in get_result
+    df, file_path = self.model_instance.cleaner()
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 264, in cleaner
+    for idx, result in enumerate(
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\tqdm\std.py", line 1181, in __iter__
+    for obj in iterable:
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 451, in <genexpr>
+    return (item for chunk in result for item in chunk)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 873, in next
+    raise value
+ValueError: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:36,120 logger 36688 43872 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:36,120 logger 36688 43872 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:36,128 log 36688 23612 Internal Server Error: /api/get_modified_detections_at_time
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 48, in mapstar
+    return list(map(*args))
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 126, in _process_track_task
+    g = g.set_index("time").reindex(full_t)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\frame.py", line 5385, in reindex
+    return super().reindex(
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5629, in reindex
+    return self._reindex_axes(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5652, in _reindex_axes
+    new_index, indexer = ax.reindex(
+                         ^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\indexes\base.py", line 4436, in reindex
+    raise ValueError("cannot reindex on an axis with duplicate labels")
+ValueError: cannot reindex on an axis with duplicate labels
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\api\views.py", line 539, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\views.py", line 120, in run_modifier_detection
+    return ADZ.get_result()
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 84, in get_result
+    raise e
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 74, in get_result
+    df, file_path = self.model_instance.cleaner()
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 264, in cleaner
+    for idx, result in enumerate(
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\tqdm\std.py", line 1181, in __iter__
+    for obj in iterable:
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 451, in <genexpr>
+    return (item for chunk in result for item in chunk)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 873, in next
+    raise value
+ValueError: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:37,199 logger 36688 30112 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:37,199 logger 36688 30112 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:37,212 log 36688 23612 Internal Server Error: /api/get_modified_detections_at_time
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 48, in mapstar
+    return list(map(*args))
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 126, in _process_track_task
+    g = g.set_index("time").reindex(full_t)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\frame.py", line 5385, in reindex
+    return super().reindex(
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5629, in reindex
+    return self._reindex_axes(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5652, in _reindex_axes
+    new_index, indexer = ax.reindex(
+                         ^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\indexes\base.py", line 4436, in reindex
+    raise ValueError("cannot reindex on an axis with duplicate labels")
+ValueError: cannot reindex on an axis with duplicate labels
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\api\views.py", line 539, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\views.py", line 120, in run_modifier_detection
+    return ADZ.get_result()
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 84, in get_result
+    raise e
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 74, in get_result
+    df, file_path = self.model_instance.cleaner()
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 264, in cleaner
+    for idx, result in enumerate(
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\tqdm\std.py", line 1181, in __iter__
+    for obj in iterable:
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 451, in <genexpr>
+    return (item for chunk in result for item in chunk)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 873, in next
+    raise value
+ValueError: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:37,603 logger 36688 36328 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:37,604 logger 36688 5652 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:37,603 logger 36688 36328 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:37,604 logger 36688 5652 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:37,612 log 36688 23612 Internal Server Error: /api/get_modified_detections_at_time
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 48, in mapstar
+    return list(map(*args))
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 126, in _process_track_task
+    g = g.set_index("time").reindex(full_t)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\frame.py", line 5385, in reindex
+    return super().reindex(
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5629, in reindex
+    return self._reindex_axes(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5652, in _reindex_axes
+    new_index, indexer = ax.reindex(
+                         ^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\indexes\base.py", line 4436, in reindex
+    raise ValueError("cannot reindex on an axis with duplicate labels")
+ValueError: cannot reindex on an axis with duplicate labels
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\api\views.py", line 539, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\views.py", line 120, in run_modifier_detection
+    return ADZ.get_result()
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 84, in get_result
+    raise e
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 74, in get_result
+    df, file_path = self.model_instance.cleaner()
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 264, in cleaner
+    for idx, result in enumerate(
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\tqdm\std.py", line 1181, in __iter__
+    for obj in iterable:
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 451, in <genexpr>
+    return (item for chunk in result for item in chunk)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 873, in next
+    raise value
+ValueError: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:37,616 log 36688 28364 Internal Server Error: /api/get_modified_detections_at_time
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 48, in mapstar
+    return list(map(*args))
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 126, in _process_track_task
+    g = g.set_index("time").reindex(full_t)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\frame.py", line 5385, in reindex
+    return super().reindex(
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5629, in reindex
+    return self._reindex_axes(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5652, in _reindex_axes
+    new_index, indexer = ax.reindex(
+                         ^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\indexes\base.py", line 4436, in reindex
+    raise ValueError("cannot reindex on an axis with duplicate labels")
+ValueError: cannot reindex on an axis with duplicate labels
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\api\views.py", line 539, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\views.py", line 120, in run_modifier_detection
+    return ADZ.get_result()
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 84, in get_result
+    raise e
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 74, in get_result
+    df, file_path = self.model_instance.cleaner()
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 264, in cleaner
+    for idx, result in enumerate(
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\tqdm\std.py", line 1181, in __iter__
+    for obj in iterable:
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 451, in <genexpr>
+    return (item for chunk in result for item in chunk)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 873, in next
+    raise value
+ValueError: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:37,843 logger 36688 8396 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:37,843 logger 36688 8396 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:37,851 log 36688 23612 Internal Server Error: /api/get_modified_detections_at_time
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 48, in mapstar
+    return list(map(*args))
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 126, in _process_track_task
+    g = g.set_index("time").reindex(full_t)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\frame.py", line 5385, in reindex
+    return super().reindex(
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5629, in reindex
+    return self._reindex_axes(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5652, in _reindex_axes
+    new_index, indexer = ax.reindex(
+                         ^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\indexes\base.py", line 4436, in reindex
+    raise ValueError("cannot reindex on an axis with duplicate labels")
+ValueError: cannot reindex on an axis with duplicate labels
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\api\views.py", line 539, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\views.py", line 120, in run_modifier_detection
+    return ADZ.get_result()
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 84, in get_result
+    raise e
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 74, in get_result
+    df, file_path = self.model_instance.cleaner()
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 264, in cleaner
+    for idx, result in enumerate(
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\tqdm\std.py", line 1181, in __iter__
+    for obj in iterable:
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 451, in <genexpr>
+    return (item for chunk in result for item in chunk)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 873, in next
+    raise value
+ValueError: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:38,455 logger 36688 27460 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:38,455 logger 36688 27460 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:38,465 log 36688 23612 Internal Server Error: /api/get_modified_detections_at_time
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 48, in mapstar
+    return list(map(*args))
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 126, in _process_track_task
+    g = g.set_index("time").reindex(full_t)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\frame.py", line 5385, in reindex
+    return super().reindex(
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5629, in reindex
+    return self._reindex_axes(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5652, in _reindex_axes
+    new_index, indexer = ax.reindex(
+                         ^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\indexes\base.py", line 4436, in reindex
+    raise ValueError("cannot reindex on an axis with duplicate labels")
+ValueError: cannot reindex on an axis with duplicate labels
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\api\views.py", line 539, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\views.py", line 120, in run_modifier_detection
+    return ADZ.get_result()
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 84, in get_result
+    raise e
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 74, in get_result
+    df, file_path = self.model_instance.cleaner()
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 264, in cleaner
+    for idx, result in enumerate(
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\tqdm\std.py", line 1181, in __iter__
+    for obj in iterable:
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 451, in <genexpr>
+    return (item for chunk in result for item in chunk)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 873, in next
+    raise value
+ValueError: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:39,019 logger 36688 39560 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:39,019 logger 36688 39560 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:39,035 log 36688 23612 Internal Server Error: /api/get_modified_detections_at_time
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 48, in mapstar
+    return list(map(*args))
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 126, in _process_track_task
+    g = g.set_index("time").reindex(full_t)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\frame.py", line 5385, in reindex
+    return super().reindex(
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5629, in reindex
+    return self._reindex_axes(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5652, in _reindex_axes
+    new_index, indexer = ax.reindex(
+                         ^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\indexes\base.py", line 4436, in reindex
+    raise ValueError("cannot reindex on an axis with duplicate labels")
+ValueError: cannot reindex on an axis with duplicate labels
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\api\views.py", line 539, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\views.py", line 120, in run_modifier_detection
+    return ADZ.get_result()
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 84, in get_result
+    raise e
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 74, in get_result
+    df, file_path = self.model_instance.cleaner()
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 264, in cleaner
+    for idx, result in enumerate(
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\tqdm\std.py", line 1181, in __iter__
+    for obj in iterable:
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 451, in <genexpr>
+    return (item for chunk in result for item in chunk)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 873, in next
+    raise value
+ValueError: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:39,868 logger 36688 15864 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:39,868 logger 36688 15864 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:39,878 log 36688 23612 Internal Server Error: /api/get_modified_detections_at_time
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 48, in mapstar
+    return list(map(*args))
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 126, in _process_track_task
+    g = g.set_index("time").reindex(full_t)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\frame.py", line 5385, in reindex
+    return super().reindex(
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5629, in reindex
+    return self._reindex_axes(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5652, in _reindex_axes
+    new_index, indexer = ax.reindex(
+                         ^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\indexes\base.py", line 4436, in reindex
+    raise ValueError("cannot reindex on an axis with duplicate labels")
+ValueError: cannot reindex on an axis with duplicate labels
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\api\views.py", line 539, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\views.py", line 120, in run_modifier_detection
+    return ADZ.get_result()
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 84, in get_result
+    raise e
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 74, in get_result
+    df, file_path = self.model_instance.cleaner()
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 264, in cleaner
+    for idx, result in enumerate(
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\tqdm\std.py", line 1181, in __iter__
+    for obj in iterable:
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 451, in <genexpr>
+    return (item for chunk in result for item in chunk)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 873, in next
+    raise value
+ValueError: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:40,156 logger 36688 39260 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:40,156 logger 36688 39260 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:40,182 log 36688 23612 Internal Server Error: /api/get_modified_detections_at_time
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 48, in mapstar
+    return list(map(*args))
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 126, in _process_track_task
+    g = g.set_index("time").reindex(full_t)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\frame.py", line 5385, in reindex
+    return super().reindex(
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5629, in reindex
+    return self._reindex_axes(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5652, in _reindex_axes
+    new_index, indexer = ax.reindex(
+                         ^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\indexes\base.py", line 4436, in reindex
+    raise ValueError("cannot reindex on an axis with duplicate labels")
+ValueError: cannot reindex on an axis with duplicate labels
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\api\views.py", line 539, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\views.py", line 120, in run_modifier_detection
+    return ADZ.get_result()
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 84, in get_result
+    raise e
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 74, in get_result
+    df, file_path = self.model_instance.cleaner()
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 264, in cleaner
+    for idx, result in enumerate(
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\tqdm\std.py", line 1181, in __iter__
+    for obj in iterable:
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 451, in <genexpr>
+    return (item for chunk in result for item in chunk)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 873, in next
+    raise value
+ValueError: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:40,273 logger 36688 30584 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:40,273 logger 36688 30584 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:40,291 log 36688 23612 Internal Server Error: /api/get_modified_detections_at_time
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 48, in mapstar
+    return list(map(*args))
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 126, in _process_track_task
+    g = g.set_index("time").reindex(full_t)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\frame.py", line 5385, in reindex
+    return super().reindex(
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5629, in reindex
+    return self._reindex_axes(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5652, in _reindex_axes
+    new_index, indexer = ax.reindex(
+                         ^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\indexes\base.py", line 4436, in reindex
+    raise ValueError("cannot reindex on an axis with duplicate labels")
+ValueError: cannot reindex on an axis with duplicate labels
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\api\views.py", line 539, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\views.py", line 120, in run_modifier_detection
+    return ADZ.get_result()
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 84, in get_result
+    raise e
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 74, in get_result
+    df, file_path = self.model_instance.cleaner()
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 264, in cleaner
+    for idx, result in enumerate(
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\tqdm\std.py", line 1181, in __iter__
+    for obj in iterable:
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 451, in <genexpr>
+    return (item for chunk in result for item in chunk)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 873, in next
+    raise value
+ValueError: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:40,848 logger 36688 30288 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:40,848 logger 36688 30288 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:40,858 log 36688 23612 Internal Server Error: /api/get_modified_detections_at_time
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 48, in mapstar
+    return list(map(*args))
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 126, in _process_track_task
+    g = g.set_index("time").reindex(full_t)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\frame.py", line 5385, in reindex
+    return super().reindex(
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5629, in reindex
+    return self._reindex_axes(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5652, in _reindex_axes
+    new_index, indexer = ax.reindex(
+                         ^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\indexes\base.py", line 4436, in reindex
+    raise ValueError("cannot reindex on an axis with duplicate labels")
+ValueError: cannot reindex on an axis with duplicate labels
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\api\views.py", line 539, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\views.py", line 120, in run_modifier_detection
+    return ADZ.get_result()
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 84, in get_result
+    raise e
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 74, in get_result
+    df, file_path = self.model_instance.cleaner()
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 264, in cleaner
+    for idx, result in enumerate(
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\tqdm\std.py", line 1181, in __iter__
+    for obj in iterable:
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 451, in <genexpr>
+    return (item for chunk in result for item in chunk)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 873, in next
+    raise value
+ValueError: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:41,378 logger 36688 27980 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:41,378 logger 36688 27980 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:41,391 log 36688 23612 Internal Server Error: /api/get_modified_detections_at_time
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 48, in mapstar
+    return list(map(*args))
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 126, in _process_track_task
+    g = g.set_index("time").reindex(full_t)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\frame.py", line 5385, in reindex
+    return super().reindex(
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5629, in reindex
+    return self._reindex_axes(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5652, in _reindex_axes
+    new_index, indexer = ax.reindex(
+                         ^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\indexes\base.py", line 4436, in reindex
+    raise ValueError("cannot reindex on an axis with duplicate labels")
+ValueError: cannot reindex on an axis with duplicate labels
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\api\views.py", line 539, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\views.py", line 120, in run_modifier_detection
+    return ADZ.get_result()
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 84, in get_result
+    raise e
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 74, in get_result
+    df, file_path = self.model_instance.cleaner()
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 264, in cleaner
+    for idx, result in enumerate(
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\tqdm\std.py", line 1181, in __iter__
+    for obj in iterable:
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 451, in <genexpr>
+    return (item for chunk in result for item in chunk)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 873, in next
+    raise value
+ValueError: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:41,515 logger 36688 40252 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:41,515 logger 36688 40252 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:41,527 log 36688 28364 Internal Server Error: /api/get_modified_detections_at_time
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 48, in mapstar
+    return list(map(*args))
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 126, in _process_track_task
+    g = g.set_index("time").reindex(full_t)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\frame.py", line 5385, in reindex
+    return super().reindex(
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5629, in reindex
+    return self._reindex_axes(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5652, in _reindex_axes
+    new_index, indexer = ax.reindex(
+                         ^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\indexes\base.py", line 4436, in reindex
+    raise ValueError("cannot reindex on an axis with duplicate labels")
+ValueError: cannot reindex on an axis with duplicate labels
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\api\views.py", line 539, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\views.py", line 120, in run_modifier_detection
+    return ADZ.get_result()
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 84, in get_result
+    raise e
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 74, in get_result
+    df, file_path = self.model_instance.cleaner()
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 264, in cleaner
+    for idx, result in enumerate(
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\tqdm\std.py", line 1181, in __iter__
+    for obj in iterable:
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 451, in <genexpr>
+    return (item for chunk in result for item in chunk)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 873, in next
+    raise value
+ValueError: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:42,176 logger 36688 25612 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:42,176 logger 36688 25612 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:42,184 log 36688 28364 Internal Server Error: /api/get_modified_detections_at_time
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 48, in mapstar
+    return list(map(*args))
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 126, in _process_track_task
+    g = g.set_index("time").reindex(full_t)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\frame.py", line 5385, in reindex
+    return super().reindex(
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5629, in reindex
+    return self._reindex_axes(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5652, in _reindex_axes
+    new_index, indexer = ax.reindex(
+                         ^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\indexes\base.py", line 4436, in reindex
+    raise ValueError("cannot reindex on an axis with duplicate labels")
+ValueError: cannot reindex on an axis with duplicate labels
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\api\views.py", line 539, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\views.py", line 120, in run_modifier_detection
+    return ADZ.get_result()
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 84, in get_result
+    raise e
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 74, in get_result
+    df, file_path = self.model_instance.cleaner()
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 264, in cleaner
+    for idx, result in enumerate(
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\tqdm\std.py", line 1181, in __iter__
+    for obj in iterable:
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 451, in <genexpr>
+    return (item for chunk in result for item in chunk)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 873, in next
+    raise value
+ValueError: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:42,654 logger 36688 35772 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:42,654 logger 36688 35772 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:42,662 log 36688 28364 Internal Server Error: /api/get_modified_detections_at_time
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 48, in mapstar
+    return list(map(*args))
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 126, in _process_track_task
+    g = g.set_index("time").reindex(full_t)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\frame.py", line 5385, in reindex
+    return super().reindex(
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5629, in reindex
+    return self._reindex_axes(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5652, in _reindex_axes
+    new_index, indexer = ax.reindex(
+                         ^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\indexes\base.py", line 4436, in reindex
+    raise ValueError("cannot reindex on an axis with duplicate labels")
+ValueError: cannot reindex on an axis with duplicate labels
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\api\views.py", line 539, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\views.py", line 120, in run_modifier_detection
+    return ADZ.get_result()
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 84, in get_result
+    raise e
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 74, in get_result
+    df, file_path = self.model_instance.cleaner()
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 264, in cleaner
+    for idx, result in enumerate(
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\tqdm\std.py", line 1181, in __iter__
+    for obj in iterable:
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 451, in <genexpr>
+    return (item for chunk in result for item in chunk)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 873, in next
+    raise value
+ValueError: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:42,673 logger 36688 42416 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:42,673 logger 36688 42416 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:42,686 log 36688 28364 Internal Server Error: /api/get_modified_detections_at_time
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 48, in mapstar
+    return list(map(*args))
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 126, in _process_track_task
+    g = g.set_index("time").reindex(full_t)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\frame.py", line 5385, in reindex
+    return super().reindex(
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5629, in reindex
+    return self._reindex_axes(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5652, in _reindex_axes
+    new_index, indexer = ax.reindex(
+                         ^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\indexes\base.py", line 4436, in reindex
+    raise ValueError("cannot reindex on an axis with duplicate labels")
+ValueError: cannot reindex on an axis with duplicate labels
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\api\views.py", line 539, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\views.py", line 120, in run_modifier_detection
+    return ADZ.get_result()
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 84, in get_result
+    raise e
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 74, in get_result
+    df, file_path = self.model_instance.cleaner()
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 264, in cleaner
+    for idx, result in enumerate(
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\tqdm\std.py", line 1181, in __iter__
+    for obj in iterable:
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 451, in <genexpr>
+    return (item for chunk in result for item in chunk)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 873, in next
+    raise value
+ValueError: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:43,258 logger 36688 27776 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:43,258 logger 36688 27776 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:43,271 log 36688 28364 Internal Server Error: /api/get_modified_detections_at_time
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 48, in mapstar
+    return list(map(*args))
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 126, in _process_track_task
+    g = g.set_index("time").reindex(full_t)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\frame.py", line 5385, in reindex
+    return super().reindex(
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5629, in reindex
+    return self._reindex_axes(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5652, in _reindex_axes
+    new_index, indexer = ax.reindex(
+                         ^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\indexes\base.py", line 4436, in reindex
+    raise ValueError("cannot reindex on an axis with duplicate labels")
+ValueError: cannot reindex on an axis with duplicate labels
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\api\views.py", line 539, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\views.py", line 120, in run_modifier_detection
+    return ADZ.get_result()
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 84, in get_result
+    raise e
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 74, in get_result
+    df, file_path = self.model_instance.cleaner()
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 264, in cleaner
+    for idx, result in enumerate(
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\tqdm\std.py", line 1181, in __iter__
+    for obj in iterable:
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 451, in <genexpr>
+    return (item for chunk in result for item in chunk)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 873, in next
+    raise value
+ValueError: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:43,545 logger 36688 45160 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:43,545 logger 36688 45160 Error while getting result: cannot reindex on an axis with duplicate labels
+ERROR 2025-08-28 10:30:43,550 log 36688 28364 Internal Server Error: /api/get_modified_detections_at_time
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 48, in mapstar
+    return list(map(*args))
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 126, in _process_track_task
+    g = g.set_index("time").reindex(full_t)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\frame.py", line 5385, in reindex
+    return super().reindex(
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5629, in reindex
+    return self._reindex_axes(
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\generic.py", line 5652, in _reindex_axes
+    new_index, indexer = ax.reindex(
+                         ^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\pandas\core\indexes\base.py", line 4436, in reindex
+    raise ValueError("cannot reindex on an axis with duplicate labels")
+ValueError: cannot reindex on an axis with duplicate labels
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\api\views.py", line 539, in get_modified_detections_at_time
+    auto_counter = run_modifier_detection(record_id, divide_time, version)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\views.py", line 120, in run_modifier_detection
+    return ADZ.get_result()
+           ^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 84, in get_result
+    raise e
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\algorithm.py", line 74, in get_result
+    df, file_path = self.model_instance.cleaner()
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\ai\detection_modifier_algorithms\v1\model.py", line 264, in cleaner
+    for idx, result in enumerate(
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\tqdm\std.py", line 1181, in __iter__
+    for obj in iterable:
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 451, in <genexpr>
+    return (item for chunk in result for item in chunk)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\multiprocessing\pool.py", line 873, in next
+    raise value
+ValueError: cannot reindex on an axis with duplicate labels
+INFO 2025-08-28 10:33:48,052 logger 7212 21660 Received record_id: 673
+INFO 2025-08-28 10:33:48,052 logger 7212 21660 Received record_id: 673
+INFO 2025-08-28 10:33:48,061 logger 7212 21660 Received divide_time: 0.1
+INFO 2025-08-28 10:33:48,061 logger 7212 21660 Received divide_time: 0.1
+INFO 2025-08-28 10:33:50,480 logger 7212 21660 Received record_id: 673
+INFO 2025-08-28 10:33:50,480 logger 7212 21660 Received record_id: 673
+INFO 2025-08-28 10:33:50,482 logger 7212 21660 Received divide_time: 0.1
+INFO 2025-08-28 10:33:50,482 logger 7212 21660 Received divide_time: 0.1
+INFO 2025-08-28 11:50:06,873 logger 34040 30484 Received record_id: 673
+INFO 2025-08-28 11:50:06,873 logger 34040 30484 Received record_id: 673
+INFO 2025-08-28 11:50:06,890 logger 34040 30484 Received divide_time: 0.1
+INFO 2025-08-28 11:50:06,890 logger 34040 30484 Received divide_time: 0.1
+INFO 2025-08-28 11:50:09,817 logger 34040 30484 Received record_id: 673
+INFO 2025-08-28 11:50:09,817 logger 34040 30484 Received record_id: 673
+INFO 2025-08-28 11:50:09,820 logger 34040 30484 Received divide_time: 0.1
+INFO 2025-08-28 11:50:09,820 logger 34040 30484 Received divide_time: 0.1
+INFO 2025-08-28 11:51:13,804 logger 35048 12520 Received record_id: 673
+INFO 2025-08-28 11:51:13,804 logger 35048 12520 Received record_id: 673
+INFO 2025-08-28 11:51:13,813 logger 35048 12520 Received divide_time: 0.1
+INFO 2025-08-28 11:51:13,813 logger 35048 12520 Received divide_time: 0.1
+INFO 2025-08-28 11:51:16,184 logger 35048 12520 Received record_id: 673
+INFO 2025-08-28 11:51:16,184 logger 35048 12520 Received record_id: 673
+INFO 2025-08-28 11:51:16,187 logger 35048 12520 Received divide_time: 0.1
+INFO 2025-08-28 11:51:16,187 logger 35048 12520 Received divide_time: 0.1
+INFO 2025-08-28 11:52:57,532 logger 41632 27812 Received record_id: 673
+INFO 2025-08-28 11:52:57,532 logger 41632 27812 Received record_id: 673
+INFO 2025-08-28 11:52:57,540 logger 41632 27812 Received divide_time: 0.1
+INFO 2025-08-28 11:52:57,540 logger 41632 27812 Received divide_time: 0.1
+INFO 2025-08-28 11:52:59,122 logger 41632 27812 Received record_id: 673
+INFO 2025-08-28 11:52:59,122 logger 41632 27812 Received record_id: 673
+INFO 2025-08-28 11:52:59,124 logger 41632 27812 Received divide_time: 0.1
+INFO 2025-08-28 11:52:59,124 logger 41632 27812 Received divide_time: 0.1
+ERROR 2025-08-28 11:53:03,370 logger 41632 41364 Error while getting result: 'numpy.float64' object cannot be interpreted as an integer
+ERROR 2025-08-28 11:53:03,370 logger 41632 41364 Error while getting result: 'numpy.float64' object cannot be interpreted as an integer
+INFO 2025-08-28 11:56:06,342 logger 42112 14004 Received record_id: 673
+INFO 2025-08-28 11:56:06,342 logger 42112 14004 Received record_id: 673
+INFO 2025-08-28 11:56:06,345 logger 42112 14004 Received divide_time: 0.1
+INFO 2025-08-28 11:56:06,345 logger 42112 14004 Received divide_time: 0.1
+INFO 2025-08-28 11:56:30,585 logger 42112 14004 Received record_id: 673
+INFO 2025-08-28 11:56:30,585 logger 42112 14004 Received record_id: 673
+INFO 2025-08-28 11:56:30,587 logger 42112 14004 Received divide_time: 0.1
+INFO 2025-08-28 11:56:30,587 logger 42112 14004 Received divide_time: 0.1
+ERROR 2025-08-28 12:05:28,387 logger 42112 26684 Error while getting result: Invalid field name(s) for model ModifiedAutoDetection: 'file_path'.
+ERROR 2025-08-28 12:05:28,387 logger 42112 26684 Error while getting result: Invalid field name(s) for model ModifiedAutoDetection: 'file_path'.
+INFO 2025-08-28 12:11:59,315 logger 14364 30612 Received record_id: 673
+INFO 2025-08-28 12:11:59,315 logger 14364 30612 Received record_id: 673
+INFO 2025-08-28 12:11:59,323 logger 14364 30612 Received divide_time: 0.1
+INFO 2025-08-28 12:11:59,323 logger 14364 30612 Received divide_time: 0.1
+INFO 2025-08-28 12:12:01,971 logger 14364 30612 Received record_id: 673
+INFO 2025-08-28 12:12:01,971 logger 14364 30612 Received record_id: 673
+INFO 2025-08-28 12:12:01,973 logger 14364 30612 Received divide_time: 0.1
+INFO 2025-08-28 12:12:01,973 logger 14364 30612 Received divide_time: 0.1
+ERROR 2025-08-28 12:12:05,440 logger 14364 33412 Error while getting result: cannot access local variable 'processed_items' where it is not associated with a value
+ERROR 2025-08-28 12:12:05,440 logger 14364 33412 Error while getting result: cannot access local variable 'processed_items' where it is not associated with a value
+INFO 2025-08-28 12:12:22,129 logger 44084 41348 Received record_id: 673
+INFO 2025-08-28 12:12:22,129 logger 44084 41348 Received record_id: 673
+INFO 2025-08-28 12:12:22,137 logger 44084 41348 Received divide_time: 0.1
+INFO 2025-08-28 12:12:22,137 logger 44084 41348 Received divide_time: 0.1
+INFO 2025-08-28 12:12:24,262 logger 44084 41348 Received record_id: 673
+INFO 2025-08-28 12:12:24,262 logger 44084 41348 Received record_id: 673
+INFO 2025-08-28 12:12:24,264 logger 44084 41348 Received divide_time: 0.1
+INFO 2025-08-28 12:12:24,264 logger 44084 41348 Received divide_time: 0.1
+INFO 2025-08-28 13:09:36,316 logger 44484 37552 Received record_id: 673
+INFO 2025-08-28 13:09:36,316 logger 44484 37552 Received record_id: 673
+INFO 2025-08-28 13:09:36,330 logger 44484 37552 Received divide_time: 0.1
+INFO 2025-08-28 13:09:36,330 logger 44484 37552 Received divide_time: 0.1
+INFO 2025-08-28 13:09:38,657 logger 44484 37552 Received record_id: 673
+INFO 2025-08-28 13:09:38,657 logger 44484 37552 Received record_id: 673
+INFO 2025-08-28 13:09:38,660 logger 44484 37552 Received divide_time: 0.1
+INFO 2025-08-28 13:09:38,660 logger 44484 37552 Received divide_time: 0.1
+INFO 2025-08-28 13:10:19,197 logger 33248 28504 Received record_id: 673
+INFO 2025-08-28 13:10:19,197 logger 33248 28504 Received record_id: 673
+INFO 2025-08-28 13:10:19,210 logger 33248 28504 Received divide_time: 0.1
+INFO 2025-08-28 13:10:19,210 logger 33248 28504 Received divide_time: 0.1
+INFO 2025-08-28 13:10:22,585 logger 33248 28504 Received record_id: 673
+INFO 2025-08-28 13:10:22,585 logger 33248 28504 Received record_id: 673
+INFO 2025-08-28 13:10:22,595 logger 33248 28504 Received divide_time: 0.1
+INFO 2025-08-28 13:10:22,595 logger 33248 28504 Received divide_time: 0.1
+INFO 2025-08-28 13:19:28,177 logger 45812 45240 Received record_id: 673
+INFO 2025-08-28 13:19:28,177 logger 45812 45240 Received record_id: 673
+INFO 2025-08-28 13:19:28,191 logger 45812 45240 Received divide_time: 0.1
+INFO 2025-08-28 13:19:28,191 logger 45812 45240 Received divide_time: 0.1
+INFO 2025-08-28 13:19:29,971 logger 45812 45240 Received record_id: 673
+INFO 2025-08-28 13:19:29,971 logger 45812 45240 Received record_id: 673
+INFO 2025-08-28 13:19:29,974 logger 45812 45240 Received divide_time: 0.1
+INFO 2025-08-28 13:19:29,974 logger 45812 45240 Received divide_time: 0.1
+INFO 2025-08-28 14:03:17,665 logger 45812 45240 Received record_id: 673
+INFO 2025-08-28 14:03:17,665 logger 45812 45240 Received record_id: 673
+INFO 2025-08-28 14:03:17,672 logger 45812 45240 Received divide_time: 0.1
+INFO 2025-08-28 14:03:17,672 logger 45812 45240 Received divide_time: 0.1
+INFO 2025-08-28 14:03:38,980 logger 45812 45240 Received record_id: 673
+INFO 2025-08-28 14:03:38,980 logger 45812 45240 Received record_id: 673
+INFO 2025-08-28 14:03:38,984 logger 45812 45240 Received divide_time: 0.1
+INFO 2025-08-28 14:03:38,984 logger 45812 45240 Received divide_time: 0.1
+INFO 2025-08-28 16:01:07,703 logger 45812 45240 Received record_id: 673
+INFO 2025-08-28 16:01:07,703 logger 45812 45240 Received record_id: 673
+INFO 2025-08-28 16:01:07,708 logger 45812 45240 Received divide_time: 0.1
+INFO 2025-08-28 16:01:07,708 logger 45812 45240 Received divide_time: 0.1
+INFO 2025-08-28 21:28:30,559 logger 16484 24820 Received record_id: 673
+INFO 2025-08-28 21:28:30,559 logger 16484 24820 Received record_id: 673
+INFO 2025-08-28 21:28:30,571 logger 16484 24820 Received divide_time: 0.1
+INFO 2025-08-28 21:28:30,571 logger 16484 24820 Received divide_time: 0.1
+INFO 2025-08-28 21:28:31,833 logger 16484 25392 Starting car detection for record 673 with divide_time 0.1
+INFO 2025-08-28 21:28:31,833 logger 16484 25392 Starting car detection for record 673 with divide_time 0.1
+INFO 2025-08-28 21:28:41,857 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:28:41,857 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:28:41,861 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:28:41,861 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:29:02,605 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:29:02,605 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:29:02,609 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:29:02,609 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:29:05,617 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:29:05,617 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:29:05,622 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:29:05,622 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:29:39,510 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:29:39,510 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:29:39,514 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:29:39,514 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:29:41,565 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:29:41,565 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:29:41,567 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:29:41,567 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:30:25,485 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:30:25,485 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:30:25,488 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:30:25,488 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:30:25,551 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:30:25,551 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:30:25,554 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:30:25,554 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:30:26,441 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:30:26,441 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:30:26,445 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:30:26,445 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:30:29,541 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:30:29,541 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:30:29,545 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:30:29,545 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:31:08,096 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:31:08,096 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:31:08,098 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:31:08,098 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:31:12,238 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:31:12,238 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:31:12,240 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:31:12,240 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:32:57,784 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:32:57,784 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:32:57,785 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:32:57,785 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:34:30,573 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:34:30,573 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:34:30,575 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:34:30,575 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:34:31,380 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:34:31,380 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:34:31,382 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:34:31,382 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:34:33,578 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:34:33,578 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:34:33,581 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:34:33,581 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:38:05,585 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:38:05,585 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:38:05,588 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:38:05,588 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:38:08,559 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:38:08,559 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:38:08,564 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:38:08,564 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:38:56,380 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:38:56,380 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:38:56,385 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:38:56,385 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:38:59,422 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:38:59,422 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:38:59,427 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:38:59,427 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:39:24,049 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:39:24,049 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:39:24,054 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:39:24,054 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:39:26,067 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:39:26,067 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:39:26,068 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:39:26,068 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:40:17,927 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:40:17,927 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:40:17,930 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:40:17,930 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:40:19,329 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:40:19,329 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:40:19,333 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:40:19,333 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:40:30,436 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:40:30,436 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:40:30,438 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:40:30,438 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:40:39,293 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:40:39,293 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:40:39,295 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:40:39,295 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:40:51,375 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:40:51,375 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:40:51,377 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:40:51,377 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:40:54,733 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:40:54,733 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:40:54,735 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:40:54,735 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:41:23,616 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:41:23,616 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:41:23,621 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:41:23,621 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:41:27,599 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:41:27,599 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:41:27,603 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:41:27,603 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:41:37,535 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:41:37,535 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:41:37,537 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:41:37,537 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:41:39,709 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:41:39,709 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:41:39,710 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:41:39,710 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:42:57,147 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:42:57,147 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:42:57,151 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:42:57,151 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:43:00,826 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:43:00,826 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 21:43:00,828 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 21:43:00,828 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 22:20:38,943 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 22:20:38,943 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 22:20:38,948 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 22:20:38,948 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 22:20:40,001 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 22:20:40,001 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 22:20:40,003 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 22:20:40,003 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 22:20:42,464 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 22:20:42,464 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 22:20:42,468 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 22:20:42,468 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 22:21:46,544 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 22:21:46,544 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 22:21:46,546 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 22:21:46,546 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 22:33:55,799 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 22:33:55,799 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 22:33:55,801 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 22:33:55,801 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 22:59:49,518 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 22:59:49,518 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 22:59:49,520 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 22:59:49,520 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 22:59:51,926 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 22:59:51,926 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 22:59:51,929 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 22:59:51,929 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 23:00:41,350 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 23:00:41,350 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 23:00:41,357 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 23:00:41,357 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 23:00:44,269 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 23:00:44,269 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 23:00:44,273 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 23:00:44,273 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 23:01:06,558 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 23:01:06,558 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 23:01:06,562 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 23:01:06,562 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 23:02:58,777 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 23:02:58,777 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 23:02:58,782 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 23:02:58,782 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 23:03:52,385 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 23:03:52,385 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 23:03:52,387 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 23:03:52,387 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 23:03:53,894 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 23:03:53,894 logger 25404 29628 Received record_id: 673
+INFO 2025-08-28 23:03:53,898 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 23:03:53,898 logger 25404 29628 Received divide_time: 0.1
+INFO 2025-08-28 23:30:26,139 logger 28280 21652 Received record_id: 673
+INFO 2025-08-28 23:30:26,139 logger 28280 21652 Received record_id: 673
+INFO 2025-08-28 23:30:26,149 logger 28280 21652 Received divide_time: 0.1
+INFO 2025-08-28 23:30:26,149 logger 28280 21652 Received divide_time: 0.1
+INFO 2025-08-28 23:30:52,073 logger 20056 14656 Received record_id: 673
+INFO 2025-08-28 23:30:52,073 logger 20056 14656 Received record_id: 673
+INFO 2025-08-28 23:30:52,081 logger 20056 14656 Received divide_time: 0.1
+INFO 2025-08-28 23:30:52,081 logger 20056 14656 Received divide_time: 0.1
+INFO 2025-08-28 23:31:58,687 logger 26716 14324 Received record_id: 673
+INFO 2025-08-28 23:31:58,687 logger 26716 14324 Received record_id: 673
+INFO 2025-08-28 23:31:58,699 logger 26716 14324 Received divide_time: 0.1
+INFO 2025-08-28 23:31:58,699 logger 26716 14324 Received divide_time: 0.1
+ERROR 2025-08-28 23:31:59,908 log 26716 23888 Internal Server Error: /api/count_exists
+Traceback (most recent call last):
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\exception.py", line 42, in inner
+    response = await get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 489, in thread_handler
+    raise exc_info[1]
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\core\handlers\base.py", line 253, in _get_response_async
+    response = await wrapped_callback(
+               ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 439, in __call__
+    ret = await asyncio.shield(exec_coro)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python311\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\asgiref\sync.py", line 493, in thread_handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MyApps\VisionSaver\backend\api\views.py", line 465, in get_car_detections_at_time
+    auto_counter_range = auto_counter[(auto_counter['time'] >= time) & (auto_counter['time'] <= time + 10)]
+                                                                                                ~~~~~^~~~
+TypeError: unsupported operand type(s) for +: 'NoneType' and 'int'
+INFO 2025-08-28 23:32:37,961 logger 22852 18932 Received record_id: 673
+INFO 2025-08-28 23:32:37,961 logger 22852 18932 Received record_id: 673
+INFO 2025-08-28 23:32:37,971 logger 22852 18932 Received divide_time: 0.1
+INFO 2025-08-28 23:32:37,971 logger 22852 18932 Received divide_time: 0.1
+DEBUG 2025-08-28 23:32:39,156 logger 22852 24844 Length of detections in range: 949
+DEBUG 2025-08-28 23:32:39,156 logger 22852 24844 Length of detections in range: 949
+WARNING 2025-08-28 23:32:48,833 log 22852 20016 Method Not Allowed: /api/count_exists
+INFO 2025-08-28 23:32:48,890 logger 22852 18932 Received record_id: 673
+INFO 2025-08-28 23:32:48,890 logger 22852 18932 Received record_id: 673
+INFO 2025-08-28 23:32:48,891 logger 22852 18932 Received divide_time: 0.01
+INFO 2025-08-28 23:32:48,891 logger 22852 18932 Received divide_time: 0.01
+INFO 2025-08-28 23:32:49,358 logger 22852 18932 Received record_id: 673
+INFO 2025-08-28 23:32:49,358 logger 22852 18932 Received record_id: 673
+INFO 2025-08-28 23:32:49,359 logger 22852 18932 Received divide_time: 0.1
+INFO 2025-08-28 23:32:49,359 logger 22852 18932 Received divide_time: 0.1
+DEBUG 2025-08-28 23:32:49,741 logger 22852 4440 Length of detections in range: 949
+DEBUG 2025-08-28 23:32:49,741 logger 22852 4440 Length of detections in range: 949
+WARNING 2025-08-28 23:32:51,659 log 22852 20016 Method Not Allowed: /api/count_exists
+INFO 2025-08-28 23:32:51,716 logger 22852 18932 Received record_id: 673
+INFO 2025-08-28 23:32:51,716 logger 22852 18932 Received record_id: 673
+INFO 2025-08-28 23:32:51,718 logger 22852 18932 Received divide_time: 0.1
+INFO 2025-08-28 23:32:51,718 logger 22852 18932 Received divide_time: 0.1
+INFO 2025-08-28 23:33:25,469 logger 26192 9932 Received record_id: 673
+INFO 2025-08-28 23:33:25,469 logger 26192 9932 Received record_id: 673
+INFO 2025-08-28 23:33:25,482 logger 26192 9932 Received divide_time: 0.1
+INFO 2025-08-28 23:33:25,482 logger 26192 9932 Received divide_time: 0.1
+WARNING 2025-08-28 23:33:31,974 log 26192 27024 Method Not Allowed: /api/get_counts_at_time
+WARNING 2025-08-28 23:33:32,239 log 26192 27024 Method Not Allowed: /api/get_counts_at_time
+WARNING 2025-08-28 23:33:32,501 log 26192 27024 Method Not Allowed: /api/get_counts_at_time
+WARNING 2025-08-28 23:33:32,768 log 26192 27024 Method Not Allowed: /api/get_counts_at_time
+WARNING 2025-08-28 23:33:33,032 log 26192 27024 Method Not Allowed: /api/get_counts_at_time
+WARNING 2025-08-28 23:33:33,094 log 26192 27024 Method Not Allowed: /api/get_counts_at_time
+INFO 2025-08-28 23:34:42,537 logger 26192 9932 Received record_id: 673
+INFO 2025-08-28 23:34:42,537 logger 26192 9932 Received record_id: 673
+INFO 2025-08-28 23:34:42,540 logger 26192 9932 Received divide_time: 0.1
+INFO 2025-08-28 23:34:42,540 logger 26192 9932 Received divide_time: 0.1
+WARNING 2025-08-28 23:34:46,585 log 26192 27024 Method Not Allowed: /api/get_counts_at_time
+WARNING 2025-08-28 23:34:46,851 log 26192 27024 Method Not Allowed: /api/get_counts_at_time
+WARNING 2025-08-28 23:34:47,117 log 26192 27024 Method Not Allowed: /api/get_counts_at_time
+WARNING 2025-08-28 23:34:47,383 log 26192 27024 Method Not Allowed: /api/get_counts_at_time
+WARNING 2025-08-28 23:34:47,648 log 26192 27024 Method Not Allowed: /api/get_counts_at_time
+WARNING 2025-08-28 23:34:47,788 log 26192 27024 Method Not Allowed: /api/get_counts_at_time
+INFO 2025-08-28 23:35:40,861 logger 26192 9932 Received record_id: 673
+INFO 2025-08-28 23:35:40,861 logger 26192 9932 Received record_id: 673
+INFO 2025-08-28 23:35:40,863 logger 26192 9932 Received divide_time: 0.1
+INFO 2025-08-28 23:35:40,863 logger 26192 9932 Received divide_time: 0.1
+INFO 2025-08-28 23:36:24,107 logger 26192 9932 Received record_id: 673
+INFO 2025-08-28 23:36:24,107 logger 26192 9932 Received record_id: 673
+INFO 2025-08-28 23:36:24,109 logger 26192 9932 Received divide_time: 0.1
+INFO 2025-08-28 23:36:24,109 logger 26192 9932 Received divide_time: 0.1
+WARNING 2025-08-28 23:36:26,499 log 26192 27024 Method Not Allowed: /api/get_counts_at_time
+WARNING 2025-08-28 23:36:26,765 log 26192 27024 Method Not Allowed: /api/get_counts_at_time
+WARNING 2025-08-28 23:36:27,003 log 26192 27024 Method Not Allowed: /api/get_counts_at_time
+INFO 2025-08-28 23:36:49,555 logger 24860 28796 Received record_id: 673
+INFO 2025-08-28 23:36:49,555 logger 24860 28796 Received record_id: 673
+INFO 2025-08-28 23:36:49,564 logger 24860 28796 Received divide_time: 0.1
+INFO 2025-08-28 23:36:49,564 logger 24860 28796 Received divide_time: 0.1
+WARNING 2025-08-28 23:36:53,076 log 24860 26304 Method Not Allowed: /api/get_counts_at_time
+WARNING 2025-08-28 23:36:53,344 log 24860 26304 Method Not Allowed: /api/get_counts_at_time
+WARNING 2025-08-28 23:36:53,570 log 24860 26304 Method Not Allowed: /api/get_counts_at_time
+INFO 2025-08-28 23:37:40,827 logger 27936 23996 Received record_id: 673
+INFO 2025-08-28 23:37:40,827 logger 27936 23996 Received record_id: 673
+INFO 2025-08-28 23:37:40,838 logger 27936 23996 Received divide_time: 0.1
+INFO 2025-08-28 23:37:40,838 logger 27936 23996 Received divide_time: 0.1
+DEBUG 2025-08-28 23:37:43,964 logger 27936 29632 Request data: {'record_id': '673', 'time': 0.188511}
+DEBUG 2025-08-28 23:37:43,964 logger 27936 29632 Request data: {'record_id': '673', 'time': 0.188511}
+WARNING 2025-08-28 23:37:43,969 log 27936 24792 Method Not Allowed: /api/get_counts_at_time
+DEBUG 2025-08-28 23:37:44,227 logger 27936 1204 Request data: {'record_id': '673', 'time': 0.453192}
+DEBUG 2025-08-28 23:37:44,227 logger 27936 1204 Request data: {'record_id': '673', 'time': 0.453192}
+WARNING 2025-08-28 23:37:44,232 log 27936 24792 Method Not Allowed: /api/get_counts_at_time
+DEBUG 2025-08-28 23:37:44,492 logger 27936 29448 Request data: {'record_id': '673', 'time': 0.717584}
+DEBUG 2025-08-28 23:37:44,492 logger 27936 29448 Request data: {'record_id': '673', 'time': 0.717584}
+WARNING 2025-08-28 23:37:44,496 log 27936 24792 Method Not Allowed: /api/get_counts_at_time
+DEBUG 2025-08-28 23:37:44,770 logger 27936 28360 Request data: {'record_id': '673', 'time': 0.996592}
+DEBUG 2025-08-28 23:37:44,770 logger 27936 28360 Request data: {'record_id': '673', 'time': 0.996592}
+WARNING 2025-08-28 23:37:44,774 log 27936 24792 Method Not Allowed: /api/get_counts_at_time
+DEBUG 2025-08-28 23:37:45,023 logger 27936 16048 Request data: {'record_id': '673', 'time': 1.249666}
+DEBUG 2025-08-28 23:37:45,023 logger 27936 16048 Request data: {'record_id': '673', 'time': 1.249666}
+WARNING 2025-08-28 23:37:45,028 log 27936 24792 Method Not Allowed: /api/get_counts_at_time
+DEBUG 2025-08-28 23:37:45,301 logger 27936 13112 Request data: {'record_id': '673', 'time': 1.527306}
+DEBUG 2025-08-28 23:37:45,301 logger 27936 13112 Request data: {'record_id': '673', 'time': 1.527306}
+WARNING 2025-08-28 23:37:45,306 log 27936 24792 Method Not Allowed: /api/get_counts_at_time
+DEBUG 2025-08-28 23:37:45,554 logger 27936 27472 Request data: {'record_id': '673', 'time': 1.779782}
+DEBUG 2025-08-28 23:37:45,554 logger 27936 27472 Request data: {'record_id': '673', 'time': 1.779782}
+WARNING 2025-08-28 23:37:45,559 log 27936 24792 Method Not Allowed: /api/get_counts_at_time
+DEBUG 2025-08-28 23:37:45,831 logger 27936 6368 Request data: {'record_id': '673', 'time': 2.056743}
+DEBUG 2025-08-28 23:37:45,831 logger 27936 6368 Request data: {'record_id': '673', 'time': 2.056743}
+WARNING 2025-08-28 23:37:45,835 log 27936 24792 Method Not Allowed: /api/get_counts_at_time
+DEBUG 2025-08-28 23:37:46,085 logger 27936 22748 Request data: {'record_id': '673', 'time': 2.311758}
+DEBUG 2025-08-28 23:37:46,085 logger 27936 22748 Request data: {'record_id': '673', 'time': 2.311758}
+WARNING 2025-08-28 23:37:46,089 log 27936 24792 Method Not Allowed: /api/get_counts_at_time
+DEBUG 2025-08-28 23:37:46,370 logger 27936 9712 Request data: {'record_id': '673', 'time': 2.587673}
+DEBUG 2025-08-28 23:37:46,370 logger 27936 9712 Request data: {'record_id': '673', 'time': 2.587673}
+WARNING 2025-08-28 23:37:46,375 log 27936 24792 Method Not Allowed: /api/get_counts_at_time
+DEBUG 2025-08-28 23:37:46,616 logger 27936 24984 Request data: {'record_id': '673', 'time': 2.842392}
+DEBUG 2025-08-28 23:37:46,616 logger 27936 24984 Request data: {'record_id': '673', 'time': 2.842392}
+WARNING 2025-08-28 23:37:46,620 log 27936 24792 Method Not Allowed: /api/get_counts_at_time
+DEBUG 2025-08-28 23:37:46,892 logger 27936 6276 Request data: {'record_id': '673', 'time': 3.117364}
+DEBUG 2025-08-28 23:37:46,892 logger 27936 6276 Request data: {'record_id': '673', 'time': 3.117364}
+WARNING 2025-08-28 23:37:46,897 log 27936 24792 Method Not Allowed: /api/get_counts_at_time
+DEBUG 2025-08-28 23:37:47,048 logger 27936 8460 Request data: {'record_id': '673', 'time': 3.265383}
+DEBUG 2025-08-28 23:37:47,048 logger 27936 8460 Request data: {'record_id': '673', 'time': 3.265383}
+WARNING 2025-08-28 23:37:47,053 log 27936 24792 Method Not Allowed: /api/get_counts_at_time
+INFO 2025-08-28 23:38:06,177 logger 8508 28884 Received record_id: 673
+INFO 2025-08-28 23:38:06,177 logger 8508 28884 Received record_id: 673
+INFO 2025-08-28 23:38:06,188 logger 8508 28884 Received divide_time: 0.1
+INFO 2025-08-28 23:38:06,188 logger 8508 28884 Received divide_time: 0.1
+DEBUG 2025-08-28 23:38:09,957 logger 8508 27972 Request data: {'record_id': '673', 'time': 0.202544, 'version': 'v2', 'divide_time': 0.1}
+DEBUG 2025-08-28 23:38:09,957 logger 8508 27972 Request data: {'record_id': '673', 'time': 0.202544, 'version': 'v2', 'divide_time': 0.1}
+DEBUG 2025-08-28 23:38:10,212 logger 8508 25516 Request data: {'record_id': '673', 'time': 0.46611, 'version': 'v2', 'divide_time': 0.1}
+DEBUG 2025-08-28 23:38:10,212 logger 8508 25516 Request data: {'record_id': '673', 'time': 0.46611, 'version': 'v2', 'divide_time': 0.1}
+DEBUG 2025-08-28 23:38:10,389 logger 8508 27972 Length of detections in range: 964
+DEBUG 2025-08-28 23:38:10,389 logger 8508 27972 Length of detections in range: 964
+DEBUG 2025-08-28 23:38:10,672 logger 8508 25516 Length of detections in range: 971
+DEBUG 2025-08-28 23:38:10,672 logger 8508 25516 Length of detections in range: 971
+DEBUG 2025-08-28 23:38:20,310 logger 8508 20408 Request data: {'record_id': '673', 'time': 10.560593, 'version': 'v2', 'divide_time': 0.1}
+DEBUG 2025-08-28 23:38:20,310 logger 8508 20408 Request data: {'record_id': '673', 'time': 10.560593, 'version': 'v2', 'divide_time': 0.1}
+DEBUG 2025-08-28 23:38:20,585 logger 8508 10632 Request data: {'record_id': '673', 'time': 10.830469, 'version': 'v2', 'divide_time': 0.1}
+DEBUG 2025-08-28 23:38:20,585 logger 8508 10632 Request data: {'record_id': '673', 'time': 10.830469, 'version': 'v2', 'divide_time': 0.1}
+DEBUG 2025-08-28 23:38:20,684 logger 8508 20408 Length of detections in range: 1422
+DEBUG 2025-08-28 23:38:20,684 logger 8508 20408 Length of detections in range: 1422
+DEBUG 2025-08-28 23:38:20,956 logger 8508 10632 Length of detections in range: 1422
+DEBUG 2025-08-28 23:38:20,956 logger 8508 10632 Length of detections in range: 1422
+DEBUG 2025-08-28 23:38:30,726 logger 8508 17076 Request data: {'record_id': '673', 'time': 20.97908, 'version': 'v2', 'divide_time': 0.1}
+DEBUG 2025-08-28 23:38:30,726 logger 8508 17076 Request data: {'record_id': '673', 'time': 20.97908, 'version': 'v2', 'divide_time': 0.1}
+DEBUG 2025-08-28 23:38:30,990 logger 8508 3940 Request data: {'record_id': '673', 'time': 21.244346, 'version': 'v2', 'divide_time': 0.1}
+DEBUG 2025-08-28 23:38:30,990 logger 8508 3940 Request data: {'record_id': '673', 'time': 21.244346, 'version': 'v2', 'divide_time': 0.1}
+DEBUG 2025-08-28 23:38:31,088 logger 8508 17076 Length of detections in range: 1763
+DEBUG 2025-08-28 23:38:31,088 logger 8508 17076 Length of detections in range: 1763
+DEBUG 2025-08-28 23:38:31,363 logger 8508 3940 Length of detections in range: 1765
+DEBUG 2025-08-28 23:38:31,363 logger 8508 3940 Length of detections in range: 1765
+INFO 2025-08-28 23:38:52,473 logger 8508 28884 Received record_id: 673
+INFO 2025-08-28 23:38:52,473 logger 8508 28884 Received record_id: 673
+INFO 2025-08-28 23:38:52,475 logger 8508 28884 Received divide_time: 0.1
+INFO 2025-08-28 23:38:52,475 logger 8508 28884 Received divide_time: 0.1
+INFO 2025-08-28 23:39:03,903 logger 8508 28884 Received record_id: 673
+INFO 2025-08-28 23:39:03,903 logger 8508 28884 Received record_id: 673
+INFO 2025-08-28 23:39:03,907 logger 8508 28884 Received divide_time: 0.1
+INFO 2025-08-28 23:39:03,907 logger 8508 28884 Received divide_time: 0.1
+DEBUG 2025-08-28 23:39:17,008 logger 8508 6352 Request data: {'record_id': '673', 'time': 11.086307, 'version': 'v2', 'divide_time': 0.1}
+DEBUG 2025-08-28 23:39:17,008 logger 8508 6352 Request data: {'record_id': '673', 'time': 11.086307, 'version': 'v2', 'divide_time': 0.1}
+DEBUG 2025-08-28 23:39:17,275 logger 8508 26644 Request data: {'record_id': '673', 'time': 11.351683, 'version': 'v2', 'divide_time': 0.1}
+DEBUG 2025-08-28 23:39:17,275 logger 8508 26644 Request data: {'record_id': '673', 'time': 11.351683, 'version': 'v2', 'divide_time': 0.1}
+DEBUG 2025-08-28 23:39:17,373 logger 8508 6352 Length of detections in range: 1419
+DEBUG 2025-08-28 23:39:17,373 logger 8508 6352 Length of detections in range: 1419
+DEBUG 2025-08-28 23:39:17,653 logger 8508 26644 Length of detections in range: 1411
+DEBUG 2025-08-28 23:39:17,653 logger 8508 26644 Length of detections in range: 1411
+INFO 2025-08-28 23:39:22,631 logger 8508 28884 Received record_id: 673
+INFO 2025-08-28 23:39:22,631 logger 8508 28884 Received record_id: 673
+INFO 2025-08-28 23:39:22,633 logger 8508 28884 Received divide_time: 0.1
+INFO 2025-08-28 23:39:22,633 logger 8508 28884 Received divide_time: 0.1
+INFO 2025-08-29 01:21:55,822 logger 30308 20004 Received record_id: 673
+INFO 2025-08-29 01:21:55,822 logger 30308 20004 Received record_id: 673
+INFO 2025-08-29 01:21:55,837 logger 30308 20004 Received divide_time: 0.1
+INFO 2025-08-29 01:21:55,837 logger 30308 20004 Received divide_time: 0.1
+INFO 2025-08-29 01:22:20,153 logger 30308 20004 Received record_id: 673
+INFO 2025-08-29 01:22:20,153 logger 30308 20004 Received record_id: 673
+INFO 2025-08-29 01:22:20,156 logger 30308 20004 Received divide_time: 0.1
+INFO 2025-08-29 01:22:20,156 logger 30308 20004 Received divide_time: 0.1
+INFO 2025-08-29 01:22:49,711 logger 30308 20004 Received record_id: 673
+INFO 2025-08-29 01:22:49,711 logger 30308 20004 Received record_id: 673
+INFO 2025-08-29 01:22:49,713 logger 30308 20004 Received divide_time: 0.1
+INFO 2025-08-29 01:22:49,713 logger 30308 20004 Received divide_time: 0.1
+INFO 2025-08-29 01:41:16,616 logger 21080 28516 Received record_id: 673
+INFO 2025-08-29 01:41:16,616 logger 21080 28516 Received record_id: 673
+INFO 2025-08-29 01:41:16,620 logger 21080 28516 Received divide_time: 0.1
+INFO 2025-08-29 01:41:16,620 logger 21080 28516 Received divide_time: 0.1
+INFO 2025-08-29 01:41:49,199 logger 21080 28516 Received record_id: 673
+INFO 2025-08-29 01:41:49,199 logger 21080 28516 Received record_id: 673
+INFO 2025-08-29 01:41:49,202 logger 21080 28516 Received divide_time: 0.1
+INFO 2025-08-29 01:41:49,202 logger 21080 28516 Received divide_time: 0.1
+INFO 2025-08-29 01:44:44,058 logger 21080 28516 Received record_id: 673
+INFO 2025-08-29 01:44:44,058 logger 21080 28516 Received record_id: 673
+INFO 2025-08-29 01:44:44,063 logger 21080 28516 Received divide_time: 0.1
+INFO 2025-08-29 01:44:44,063 logger 21080 28516 Received divide_time: 0.1
+INFO 2025-08-29 01:45:47,317 logger 21080 28516 Received record_id: 673
+INFO 2025-08-29 01:45:47,317 logger 21080 28516 Received record_id: 673
+INFO 2025-08-29 01:45:47,318 logger 21080 28516 Received divide_time: 0.1
+INFO 2025-08-29 01:45:47,318 logger 21080 28516 Received divide_time: 0.1
+INFO 2025-08-29 01:47:16,199 logger 21080 28516 Received record_id: 673
+INFO 2025-08-29 01:47:16,199 logger 21080 28516 Received record_id: 673
+INFO 2025-08-29 01:47:16,203 logger 21080 28516 Received divide_time: 0.1
+INFO 2025-08-29 01:47:16,203 logger 21080 28516 Received divide_time: 0.1
+INFO 2025-08-29 01:47:32,502 logger 21080 28516 Received record_id: 673
+INFO 2025-08-29 01:47:32,502 logger 21080 28516 Received record_id: 673
+INFO 2025-08-29 01:47:32,508 logger 21080 28516 Received divide_time: 0.1
+INFO 2025-08-29 01:47:32,508 logger 21080 28516 Received divide_time: 0.1
+INFO 2025-08-29 01:48:01,371 logger 21080 28516 Received record_id: 673
+INFO 2025-08-29 01:48:01,371 logger 21080 28516 Received record_id: 673
+INFO 2025-08-29 01:48:01,375 logger 21080 28516 Received divide_time: 0.1
+INFO 2025-08-29 01:48:01,375 logger 21080 28516 Received divide_time: 0.1
+INFO 2025-08-29 01:48:45,831 logger 23016 3272 Received record_id: 673
+INFO 2025-08-29 01:48:45,831 logger 23016 3272 Received record_id: 673
+INFO 2025-08-29 01:48:45,838 logger 23016 3272 Received divide_time: 0.1
+INFO 2025-08-29 01:48:45,838 logger 23016 3272 Received divide_time: 0.1
+INFO 2025-08-29 01:58:38,013 logger 23016 3272 Received record_id: 673
+INFO 2025-08-29 01:58:38,013 logger 23016 3272 Received record_id: 673
+INFO 2025-08-29 01:58:38,017 logger 23016 3272 Received divide_time: 0.1
+INFO 2025-08-29 01:58:38,017 logger 23016 3272 Received divide_time: 0.1
+INFO 2025-08-29 01:59:53,136 logger 23016 3272 Received record_id: 673
+INFO 2025-08-29 01:59:53,136 logger 23016 3272 Received record_id: 673
+INFO 2025-08-29 01:59:53,138 logger 23016 3272 Received divide_time: 0.1
+INFO 2025-08-29 01:59:53,138 logger 23016 3272 Received divide_time: 0.1
+INFO 2025-08-29 02:00:26,375 logger 23016 3272 Received record_id: 673
+INFO 2025-08-29 02:00:26,375 logger 23016 3272 Received record_id: 673
+INFO 2025-08-29 02:00:26,378 logger 23016 3272 Received divide_time: 0.1
+INFO 2025-08-29 02:00:26,378 logger 23016 3272 Received divide_time: 0.1
+INFO 2025-08-29 02:00:29,539 logger 23016 3272 Received record_id: 673
+INFO 2025-08-29 02:00:29,539 logger 23016 3272 Received record_id: 673
+INFO 2025-08-29 02:00:29,543 logger 23016 3272 Received divide_time: 0.1
+INFO 2025-08-29 02:00:29,543 logger 23016 3272 Received divide_time: 0.1
+INFO 2025-08-29 02:01:06,723 logger 23016 3272 Received record_id: 673
+INFO 2025-08-29 02:01:06,723 logger 23016 3272 Received record_id: 673
+INFO 2025-08-29 02:01:06,726 logger 23016 3272 Received divide_time: 0.1
+INFO 2025-08-29 02:01:06,726 logger 23016 3272 Received divide_time: 0.1
+INFO 2025-08-29 02:01:53,115 logger 23016 3272 Received record_id: 673
+INFO 2025-08-29 02:01:53,115 logger 23016 3272 Received record_id: 673
+INFO 2025-08-29 02:01:53,119 logger 23016 3272 Received divide_time: 0.1
+INFO 2025-08-29 02:01:53,119 logger 23016 3272 Received divide_time: 0.1
+INFO 2025-08-29 02:03:48,367 logger 23016 3272 Received record_id: 673
+INFO 2025-08-29 02:03:48,367 logger 23016 3272 Received record_id: 673
+INFO 2025-08-29 02:03:48,372 logger 23016 3272 Received divide_time: 0.1
+INFO 2025-08-29 02:03:48,372 logger 23016 3272 Received divide_time: 0.1
+INFO 2025-08-29 02:04:20,936 logger 23016 3272 Received record_id: 673
+INFO 2025-08-29 02:04:20,936 logger 23016 3272 Received record_id: 673
+INFO 2025-08-29 02:04:20,938 logger 23016 3272 Received divide_time: 0.1
+INFO 2025-08-29 02:04:20,938 logger 23016 3272 Received divide_time: 0.1
+INFO 2025-08-29 02:04:41,914 logger 23016 3272 Received record_id: 673
+INFO 2025-08-29 02:04:41,914 logger 23016 3272 Received record_id: 673
+INFO 2025-08-29 02:04:41,917 logger 23016 3272 Received divide_time: 0.1
+INFO 2025-08-29 02:04:41,917 logger 23016 3272 Received divide_time: 0.1
+DEBUG 2025-08-29 02:04:44,375 logger 23016 22524 Request data: {'record_id': '673', 'time': 0.187673, 'version': 'v2', 'divide_time': 0.1}
+DEBUG 2025-08-29 02:04:44,375 logger 23016 22524 Request data: {'record_id': '673', 'time': 0.187673, 'version': 'v2', 'divide_time': 0.1}
+DEBUG 2025-08-29 02:04:44,635 logger 23016 5876 Request data: {'record_id': '673', 'time': 0.44888, 'version': 'v2', 'divide_time': 0.1}
+DEBUG 2025-08-29 02:04:44,635 logger 23016 5876 Request data: {'record_id': '673', 'time': 0.44888, 'version': 'v2', 'divide_time': 0.1}
+DEBUG 2025-08-29 02:04:44,898 logger 23016 9224 Request data: {'record_id': '673', 'time': 0.714146, 'version': 'v2', 'divide_time': 0.1}
+DEBUG 2025-08-29 02:04:44,898 logger 23016 9224 Request data: {'record_id': '673', 'time': 0.714146, 'version': 'v2', 'divide_time': 0.1}
+DEBUG 2025-08-29 02:04:45,178 logger 23016 14816 Request data: {'record_id': '673', 'time': 0.979648, 'version': 'v2', 'divide_time': 0.1}
+DEBUG 2025-08-29 02:04:45,178 logger 23016 14816 Request data: {'record_id': '673', 'time': 0.979648, 'version': 'v2', 'divide_time': 0.1}
+DEBUG 2025-08-29 02:04:45,453 logger 23016 15396 Request data: {'record_id': '673', 'time': 1.245379, 'version': 'v2', 'divide_time': 0.1}
+DEBUG 2025-08-29 02:04:45,453 logger 23016 15396 Request data: {'record_id': '673', 'time': 1.245379, 'version': 'v2', 'divide_time': 0.1}
+DEBUG 2025-08-29 02:04:45,630 logger 23016 22524 Length of detections in range: 961
+DEBUG 2025-08-29 02:04:45,630 logger 23016 22524 Length of detections in range: 961
+DEBUG 2025-08-29 02:04:45,866 logger 23016 5876 Length of detections in range: 971
+DEBUG 2025-08-29 02:04:45,866 logger 23016 5876 Length of detections in range: 971
+DEBUG 2025-08-29 02:04:46,122 logger 23016 9224 Length of detections in range: 983
+DEBUG 2025-08-29 02:04:46,122 logger 23016 9224 Length of detections in range: 983
+DEBUG 2025-08-29 02:04:46,295 logger 23016 14816 Length of detections in range: 995
+DEBUG 2025-08-29 02:04:46,295 logger 23016 14816 Length of detections in range: 995
+DEBUG 2025-08-29 02:04:46,379 logger 23016 15396 Length of detections in range: 1010
+DEBUG 2025-08-29 02:04:46,379 logger 23016 15396 Length of detections in range: 1010
+INFO 2025-08-29 02:05:56,418 logger 23016 3272 Received record_id: 673
+INFO 2025-08-29 02:05:56,418 logger 23016 3272 Received record_id: 673
+INFO 2025-08-29 02:05:56,421 logger 23016 3272 Received divide_time: 0.1
+INFO 2025-08-29 02:05:56,421 logger 23016 3272 Received divide_time: 0.1
+DEBUG 2025-08-29 02:06:02,169 logger 23016 18468 Request data: {'record_id': '673', 'time': 3.623469, 'version': 'v2', 'divide_time': 0.1}
+DEBUG 2025-08-29 02:06:02,169 logger 23016 18468 Request data: {'record_id': '673', 'time': 3.623469, 'version': 'v2', 'divide_time': 0.1}
+DEBUG 2025-08-29 02:06:02,508 logger 23016 18468 Length of detections in range: 1130
+DEBUG 2025-08-29 02:06:02,508 logger 23016 18468 Length of detections in range: 1130

@@ -16,12 +16,12 @@ def detect(frame: np.ndarray):
     res = model.track(frame, verbose=False)[0]
     dets: List[Dict[str, Any]] = []
     if res.boxes is not None and len(res.boxes) > 0:
-        xywh = res.boxes.xywh.cpu().numpy()
-        cls  = res.boxes.cls.cpu().numpy().astype(int)
-        conf = res.boxes.conf.cpu().numpy()
+        xywh = res.boxes.xywh.cuda().numpy()
+        cls  = res.boxes.cls.cuda().numpy().astype(int)
+        conf = res.boxes.conf.cuda().numpy()
         if res.boxes.id is None:
             return dets
-        track_ids = res.boxes.id.int().cpu().tolist()
+        track_ids = res.boxes.id.int().cuda().tolist()
         
         for (x, y, w, h), c, s, track_id in zip(xywh, cls, conf, track_ids):
             if c in objects_of_interest:

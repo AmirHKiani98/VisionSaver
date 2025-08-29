@@ -458,17 +458,21 @@ def get_car_detections_at_time(request):
         record_id = data.get('record_id')
         divide_time = data.get('divide_time', 0.1)
         version = data.get('version', 'v1')
-        time = data.get('time', None)
-        auto_counter = run_modifier_detection(record_id, divide_time, version)
-        if auto_counter is None or (isinstance(auto_counter, pd.DataFrame) and auto_counter.empty):
-            return JsonResponse({'error': 'Auto counter not found'}, status=404)
-        auto_counter['time_diff'] = abs(auto_counter['time'] - float(time))
-        group = auto_counter[auto_counter['time_diff'] == auto_counter['time_diff'].min()]
-
-        if group.empty:
-            return JsonResponse({"detections": []}, status=200)
-        detections = group.to_dict(orient='records')
-        return JsonResponse({"detections": detections}, status=200)
+        logger.debug(f"Request data: {data}")
+        time = data.get('time', 0)
+        auto_counter_object = AutoDetection.objects.filter(record_id=record_id, divide_time=divide_time, version=version).first()
+        if auto_counter_object:
+            auto_counter = pd.read_csv(auto_counter_object.file_name)
+            auto_counter_range = auto_counter[(auto_counter['time'] >= time) & (auto_counter['time'] <= time + 10)]
+            logger.debug(f"Length of detections in range: {len(auto_counter_range)}")
+            if auto_counter_range.empty:
+                return JsonResponse({"detections": []}, status=200)
+            
+            max_auto_counter_time = auto_counter_range['time'].max()
+            return JsonResponse({"detections": auto_counter_range.to_dict(orient='records'), "max_time": max_auto_counter_time}, status=200)
+        else:
+            return JsonResponse({"error": "The data does not exist"}, status=405)
+        
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
 
@@ -535,18 +539,24 @@ def get_modified_detections_at_time(request):
         record_id = data.get('record_id')
         divide_time = data.get('divide_time', 0.1)
         version = data.get('version', 'v1')
-        time = data.get('time', None)
-        auto_counter = run_modifier_detection(record_id, divide_time, version)
+        time = data.get('time', 0)
+        
+        modified_auto_counter_object = ModifiedAutoDetection.objects.filter(record_id=record_id, divide_time=divide_time, version=version).first()
+        if not modified_auto_counter_object:
+            return JsonResponse({"error": "The data does not exist"}, status=405)
+        modified_auto_counter = pd.read_csv(modified_auto_counter_object.file_name)
+        if modified_auto_counter.empty:
+            return JsonResponse({"detections": [], "max_time": 0}, status=200)
+        
+        modified_auto_counter_range = modified_auto_counter[(modified_auto_counter['time'] >= time) & (modified_auto_counter['time'] <= time + 10)]
+        max_auto_counter_time = modified_auto_counter_range['time'].max()
+        if modified_auto_counter_range.empty:
+            return JsonResponse({"detections": [], "max_time": max_auto_counter_time}, status=200)
+        detections = modified_auto_counter_range.to_dict(orient='records')
+        return JsonResponse({"detections": detections, "max_time": max_auto_counter_time}, status=200)
+    
+        
 
-        if auto_counter is None or auto_counter.empty:
-            return JsonResponse({'error': 'Auto counter not found'}, status=404)
-        auto_counter['time_diff'] = abs(auto_counter['time'] - float(time))
-        group = auto_counter[auto_counter['time_diff'] == auto_counter['time_diff'].min()]
-
-        if group.empty:
-            return JsonResponse({"detections": []}, status=200)
-        detections = group.to_dict(orient='records')
-        return JsonResponse({"detections": detections}, status=200)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
 

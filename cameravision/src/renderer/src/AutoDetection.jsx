@@ -1,5 +1,8 @@
 import react, { version } from 'react';
+import React from 'react';
 import { Stage, Layer, Line, Rect, Text} from 'react-konva';
+import { tableFromArrays, tableFromJSON } from 'apache-arrow';
+
 import {
     Select,
     MenuItem,
@@ -50,15 +53,18 @@ const AutoDetection = () => {
     const [currentTime, setCurrentTime] = react.useState(0);
     const [duration, setDuration] = react.useState(0);
     const [seeking, setSeeking] = react.useState(false);
-    const [detectionDict, setDetectionDict] = react.useState({});
+    const [completeDf, setCompleteDf] = react.useState({});
+    const [showingDetectionDf, setShowingDetectionDf] = react.useState([]);
     const [showDetections, setShowDetections] = react.useState(false);
     const [detectionExists, setDetectionExists] = react.useState(false);
     const [accuracy, setAccuracy] = react.useState(0.1); // Default accuracy value
-    const [detectionVersion, setDetectionVersion] = react.useState('v1'); // Default counter version
+    const [detectionVersion, setDetectionVersion] = react.useState('v2');
     const [showModifiedDetections, setShowModifiedDetections] = react.useState(false);
     const [modifiedDetectingExists, setModifiedDetectingExists] = react.useState(false);
     const [modifiedProgress, setModifiedProgress] = react.useState(0);
     const [modifyingDetectionStarted, setModifyingDetectionStarted] = react.useState(false);
+    const [maxTimeUpdated, setMaxTimeUpdated] = react.useState(0);
+
     const autoHideDuration = 3000;
     const openNotification = (severity, message) => {
         setSeverity(severity);
@@ -114,8 +120,9 @@ const AutoDetection = () => {
 
     react.useEffect(() => {
         if (!env) return;
-        checkIfDetectingExists({ record_id: recordId, divide_time: accuracy, version: detectionVersion });
-        checkIfDetectingModifiedExists(accuracy);
+        const data = { record_id: recordId, divide_time: accuracy, version: detectionVersion };
+        checkIfDetectingExists(data);
+        checkIfDetectingModifiedExists(data);
     }, [env, recordId]);
     
     const checkIfDetectingExists = (data) => {
@@ -130,7 +137,7 @@ const AutoDetection = () => {
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data)
+
             if (data && data.exists) {
                 setDetectionExists(true);
                 setProgress(100); // Set progress to 100% if detecting exists
@@ -145,19 +152,19 @@ const AutoDetection = () => {
         });
     }
 
-    const checkIfDetectingModifiedExists = (divideTime) => {
-        if (!env || !divideTime) return;
+    const checkIfDetectingModifiedExists = (data) => {
+        if (!env || !data) return;
         const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_MODIFIED_DETECTION_EXISTS}`;
         fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ record_id: recordId, divide_time: divideTime, version: detectionVersion }),
+            body: JSON.stringify(data),
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data)
+            
             if (data && data.exists) {
                 setModifiedDetectingExists(true);
                 setModifiedProgress(100); // Set progress to 100% if modified detecting exists
@@ -480,22 +487,23 @@ const AutoDetection = () => {
         return () => ws.close();
     }, [env, recordId, accuracy, detectionVersion]);
 
-    // react.useEffect(() => {
-    //     if (!env || !recordId || !accuracy) return;
-    //     const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/detection_loading_progress/${recordId}/${accuracy}/${detectionVersion}/`;
-    //     const ws = new window.WebSocket(wsUrl);
-    //     ws.onmessage = (event) => {
-    //         const data = JSON.parse(event.data);
-    //         if (Math.abs((data.progress * 100) - 100) < 1 ){
-    //             setModifiedDetectingExists(true);
-    //             setModifiedProgress(100); // Set progress to 100% if modified detecting exists
-    //         }
-    //         if (data.progress !== undefined) setModifiedProgress(data.progress * 100);
-    //         if (data.message){
-    //             openNotification('info', data.message);
-    //         }
-    //     }
-    // }, [env, recordId, accuracy, detectionVersion]);
+    react.useEffect(() => {
+        if (!env || !recordId || !accuracy) return;
+        const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/modification_progress/${recordId}/${accuracy}/${detectionVersion}/`;
+        const ws = new window.WebSocket(wsUrl);
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+
+            if (Math.abs((data.progress * 100) - 100) < 1 ){
+                setModifiedDetectingExists(true);
+                setModifiedProgress(100); // Set progress to 100% if modified detecting exists
+            }
+            if (data.progress !== undefined) setModifiedProgress(data.progress * 100);
+            if (data.message){
+                openNotification('info', data.message);
+            }
+        }
+    }, [env, recordId, accuracy, detectionVersion]);
 
 
     react.useEffect(() => {
@@ -529,62 +537,108 @@ const AutoDetection = () => {
     }, [recordId]);
 
     // Handler for video time update
+
+    const getClosestTimeKey = (time, df) => {
+        if (!df || !Array.isArray(df) || df.length === 0) return [];
+        if (!videoRef.current) return [];
+
+        // Group detections by time
+        const detectionsByTime = df.reduce((acc, detection) => {
+            const timeKey = detection.time;
+            if (!acc[timeKey]) {
+                acc[timeKey] = [];
+            }
+            acc[timeKey].push(detection);
+            return acc;
+        }, {});
+
+        // Get array of times
+        const times = Object.keys(detectionsByTime).map(t => parseFloat(t));
+        if (times.length === 0) return [];
+        
+        // Find closest time
+        const closestTime = times.reduce((prev, curr) => {
+            return Math.abs(curr - time) < Math.abs(prev - time) ? curr : prev;
+        });
+
+        // Return detections for closest time
+        return detectionsByTime[closestTime] || [];
+    }
+
     const handleTimeUpdate = () => {
         if (videoRef.current && !seeking) {
             setCurrentTime(videoRef.current.currentTime);
+            setShowingDetectionDf(getClosestTimeKey(videoRef.current.currentTime, completeDf));
         }
+
         if (showDetections && videoRef.current && !showModifiedDetections) {
-            const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_GET_COUNTS_AT_TIME}`;
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ record_id: recordId, time: videoRef.current.currentTime }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data && data.counts) {
-                    const counts = data.counts;
-                    setDetectionDict(counts);
-                } else {
-                    console.error('No counts found in the response');
-                }
-            })
+            if(maxTimeUpdated < videoRef.current.currentTime){
+                const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_GET_COUNTS_AT_TIME}`;
+                setMaxTimeUpdated(10000); // Temporary high value to prevent multiple calls
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ record_id: recordId, time: videoRef.current.currentTime, version: detectionVersion, divide_time: accuracy }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.detections) {
+                        const detections = data.detections;
+                        const maxTime = data.max_time;
+                        setMaxTimeUpdated(maxTime);
+                        setCompleteDf(detections);
+                        const closestTimeData = getClosestTimeKey(videoRef.current?.currentTime || 0, detections);
+                        setShowingDetectionDf(closestTimeData);
+                    } else {
+                        console.error('No detections found in the response');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking detecting existence:', error);
+                });
+            }
         }
         if (showModifiedDetections && videoRef.current){
-            // Get the modified counts for the current time
-            const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_GET_MODIFIED_DETECTIONS_AT_TIME}`;
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ record_id: recordId, time: videoRef.current.currentTime }),
-            })
-            .then(async response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const text = await response.text();
-                try {
-                    // Replace NaN with null before parsing
-                    const sanitizedText = text.replace(/: NaN/g, ': null');
-                    return sanitizedText ? JSON.parse(sanitizedText) : { detections: [] };
-                } catch (error) {
-                    console.error('Error parsing JSON:', error);
-                    return { detections: [] };
-                }
-            })
-            .then(data => {
-                console.log(data)
-                if (data && data.detections) {
-                    const detections = data.detections;
-                    setDetectionDict(detections);
-                } else {
-                    console.error('No modified counts found in the response');
-                }
-            })
+            if(maxTimeUpdated < videoRef.current.currentTime){
+                // Get the modified counts for the current time
+                const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_GET_MODIFIED_DETECTIONS_AT_TIME}`;
+                setMaxTimeUpdated(10000); // Temporary high value to prevent multiple calls
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ record_id: recordId, time: videoRef.current.currentTime, version: detectionVersion, divide_time: accuracy }),
+                })
+                .then(async response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    const text = await response.text();
+                    try {
+                        // Replace NaN with null before parsing
+                        const sanitizedText = text.replace(/: NaN/g, ': null');
+                        return sanitizedText ? JSON.parse(sanitizedText) : { detections: [] };
+                    } catch (error) {
+                        console.error('Error parsing JSON:', error);
+                        return { detections: [] };
+                    }
+                })
+                .then(data => {
+                    if (data && data.detections) {
+                        const df = data.detections;
+                        const maxTime = data.max_time;
+                        setMaxTimeUpdated(maxTime);
+                        setCompleteDf(df);
+                        const closestTimeData = getClosestTimeKey(videoRef.current?.currentTime || 0, df);
+                        setShowingDetectionDf(closestTimeData);
+                    } else {
+                        console.error('No modified counts found in the response');
+                    }
+                })
+            }
         }
     };
 
@@ -650,17 +704,14 @@ const AutoDetection = () => {
                                 globalCompositeOperation={line.tool === 'eraser' ? 'destination-out' : 'source-over'}
                                 />
                             ))}
-                            {Object.keys(detectionDict).length > 0 && (showDetections || showModifiedDetections) && (() => {
-                                // Find the closest time key
-                                const times = Object.keys(detectionDict).map(t => parseFloat(t));
-                                if (times.length === 0) return null;
-                                return detectionDict.map((obj, idx) => {
+                            {showingDetectionDf.length > 0 && (showDetections || showModifiedDetections) && 
+                                showingDetectionDf.map((obj, idx) => {
+                                    
                                     let [x1, y1] = videoPointToScaledPoint([obj.x1, obj.y1]);
                                     let [x2, y2] = videoPointToScaledPoint([obj.x2, obj.y2]);
                                     return (
-                                        <>
+                                        <React.Fragment key={idx}>
                                             <Rect
-                                                key={idx}
                                                 x={Math.ceil(x1)}
                                                 y={Math.ceil(y1)}
                                                 width={Math.ceil(x2 - x1)}
@@ -669,20 +720,18 @@ const AutoDetection = () => {
                                                 strokeWidth={3}
                                                 fill={"rgba(0,255,0,0.1)"}
                                             />
-                                            <react.Fragment>
-                                                <Text
-                                                    x={Math.ceil(x1)}
-                                                    y={Math.ceil(y1) - 20}
-                                                    text={String(obj.track_id)}
-                                                    fontSize={18}
-                                                    fill="#00ff00"
-                                                    fontStyle="bold"
-                                                />
-                                            </react.Fragment>
-                                        </>
+                                            <Text
+                                                x={Math.ceil(x1)}
+                                                y={Math.ceil(y1) - 20}
+                                                text={String(obj.track_id)}
+                                                fontSize={18}
+                                                fill="#00ff00"
+                                                fontStyle="bold"
+                                            />
+                                        </React.Fragment>
                                     );
-                                });
-                            })()}
+                                })
+                            }
                             </Layer>
                         </Stage>
                         </div>
@@ -905,7 +954,7 @@ const AutoDetection = () => {
                             <FormControl className="w-full">
                                 <InputLabel id="counter-version-select-label">
                                     <Typography variant="body1" className='text-white'>
-                                        Counter Version
+                                        Detection Version
                                     </Typography>
                                 </InputLabel>
                                 <Select
@@ -916,11 +965,13 @@ const AutoDetection = () => {
                                     sx={{
                                         color: 'primary.white'
                                     }}
-                                    label="Counter Version"
+                                    label="Detection Version"
                                     onChange={(e) =>{
-                                        checkIfDetectingExists({ record_id: recordId, divide_time: accuracy, version: e.target.value })
+                                        const data = { record_id: recordId, divide_time: accuracy, version: e.target.value }
+                                        checkIfDetectingExists(data);
+                                        checkIfDetectingModifiedExists(data);
                                         setDetectionVersion(e.target.value)
-                                    }
+                                        }
                                     }
                                 >
                                     <MenuItem value="v1">
@@ -941,8 +992,9 @@ const AutoDetection = () => {
                                 type="number"
                                 onChange={(e) => {
                                     setAccuracy(e.target.value)
-                                    checkIfDetectingExists({ record_id: recordId, divide_time: e.target.value, version: detectionVersion });
-                                    checkIfDetectingModifiedExists(e.target.value);
+                                    const data = {record_id: recordId, divide_time: e.target.value, version: detectionVersion};
+                                    checkIfDetectingExists(data);
+                                    checkIfDetectingModifiedExists(data);
                                 }}
                                 className='shadow-lg bg-main-400'
                                 focused
@@ -973,18 +1025,16 @@ const AutoDetection = () => {
                                             className={`shadow-lg hover:!bg-main-400 !text-black ${!detectionExists ? '!bg-gray-300' : '!bg-green-500'} h-full`}
                                             disabled={!detectionExists}
                                             onClick={() => {
+                                                setShowModifiedDetections(false);
+                                                setShowDetections(!showDetections);
                                                 if (showDetections) {
-                                                    setShowDetections(false);
                                                     openNotification('info', 'Counts are now hidden');
-                                                } else {
-                                                    setShowModifiedDetections(false);
-                                                    setShowDetections(true);
+                                                } else {   
                                                     openNotification('info', 'Counts now are visible');
-                                                }
-                                                
+                                                }                                                
                                             }}
                                         >
-                                            <FontAwesomeIcon icon={faEye} />
+                                            <FontAwesomeIcon icon={!showDetections ? faEye : faEyeSlash} className='text-center'  />
                                         </Button>
                                     </span>
                                 </Tooltip>
@@ -1019,9 +1069,8 @@ const AutoDetection = () => {
                                             className={`shadow-lg hover:!bg-main-400 !text-black !h-full ${!modifiedDetectingExists ? '!bg-gray-300' : '!bg-green-500'}`}
                                             disabled={!modifiedDetectingExists}
                                             onClick={() =>{
-                                                
+                                                setShowDetections(false);
                                                 if (showModifiedDetections) {
-                                                    setShowDetections(false);
                                                     setShowModifiedDetections(false);
                                                     openNotification('info', 'Modified detections are now hidden');
                                                 } else {

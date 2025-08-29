@@ -234,7 +234,7 @@ class Model:
             raise ValueError(f"Missing required columns: {sorted(missing)}")
 
         path = os.path.splitext(self.auto_detection_csv_path)[0]
-        cleaned_path = f"{path}_cleaned_v1.csv"
+        cleaned_path = f"{path}_cleaned.csv"
 
         # dtypes
         for c in ("x1", "y1", "x2", "y2"):
