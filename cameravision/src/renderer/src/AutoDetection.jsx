@@ -488,6 +488,26 @@ const AutoDetection = () => {
     }, [env, recordId, accuracy, detectionVersion]);
 
     react.useEffect(() => {
+        if (!env || !recordId || !accuracy || !detectionVersion) return;
+        const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/actual_counter_progress/${recordId}/${accuracy}/${detectionVersion}/`;
+        const ws = new window.WebSocket(wsUrl);
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            setDetectingStarted(true);
+            if (Math.abs(data.progress - 100) < 1 ){
+                setDetectionExists(true);
+                setProgress(100); // Set progress to 100% if detecting exists
+                setDetectingStarted(false);
+            }
+            if (data.progress !== undefined) setProgress(data.progress);
+        }
+        ws.onclose = () => { /* Optionally handle close */ };
+        ws.onerror = (e) => { /* Optionally handle error */ };
+        return () => ws.close();
+    }, [env, recordId, accuracy, detectionVersion]);
+
+
+    react.useEffect(() => {
         if (!env || !recordId || !accuracy) return;
         const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/modification_progress/${recordId}/${accuracy}/${detectionVersion}/`;
         const ws = new window.WebSocket(wsUrl);
@@ -564,7 +584,9 @@ const AutoDetection = () => {
         // Return detections for closest time
         return detectionsByTime[closestTime] || [];
     }
-
+    const counterExists = () => {
+        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_COUNTER_EXISTS}`;
+    }
     const handleTimeUpdate = () => {
         if (videoRef.current && !seeking) {
             setCurrentTime(videoRef.current.currentTime);
@@ -649,6 +671,47 @@ const AutoDetection = () => {
         }
     };
 
+    const startCounting = () => {
+        if (!detectionExists && !modifiedDetectingExists) {
+            openNotification('error', 'No detections available. Please run detection first.');
+            return;
+        }
+
+        if (lines && Object.keys(lines).length === 0) {
+            openNotification('error', 'No lines defined. Please draw lines before starting the counter.');
+            return;
+        }
+
+        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.AI_START_COUNTER}`;
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ record_id: recordId, divide_time: accuracy, version: detectionVersion }),
+        })
+        .then(response => {
+            try{
+                return response.json()
+            } catch(e){
+                openNotification('error', 'Invalid response from server');
+            }
+            return null;
+        })
+        .then(data => {
+            if (data.error) {
+                openNotification('error', data.error);
+            } else {
+                setDetectingStarted(true);
+                openNotification('success', 'Counter started successfully');
+            }
+        })
+        .catch(error => {
+            openNotification('error', `Error starting counter: ${error.message}`);
+        });
+    }
+
+    
     return (
         <div className='w-screen h-screen flex items-center justify-center'>
             <div className='absolute top-5 left-5 z-10'>
@@ -1110,16 +1173,40 @@ const AutoDetection = () => {
                             <Chip label="Count" className="!bg-main-400 !text-white !font-bold" />
                         </Divider>
                     </div>
-                    <div className='p-2.5'>
-                        <Tooltip title="Count" placement="top">
-                            <span>
-                                <Button
-                                    className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black h-full'
-                                >
-                                    <FontAwesomeIcon icon={faCalculator} />
-                                </Button>
-                            </span>
-                        </Tooltip>
+                    <div className='p-2.5 w-full flex justify-between'>
+                        <div>
+                            <Tooltip title="Count" placement="top">
+                                <span>
+                                    <Button
+                                        className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black h-full'
+                                        onClick={startCounting}
+                                    >
+                                        <FontAwesomeIcon icon={faCalculator} />
+                                    </Button>
+                                </span>
+                            </Tooltip>
+                        </div>
+                        <div>
+                            <Tooltip title="Count" placement="top">
+                                <span>
+                                    <Button
+                                        className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black h-full'
+                                        onClick={
+                                            () => {
+                                                setShowDetections(!showDetections);
+                                                if (showDetections) {
+                                                    openNotification('info', 'Counts are now visible');
+                                                } else {   
+                                                    openNotification('info', 'Counts now are visible');
+                                                }
+                                            }
+                                        }
+                                    >
+                                        <FontAwesomeIcon icon={!showDetections ? faEye : faEyeSlash} />
+                                    </Button>
+                                </span>
+                            </Tooltip>
+                        </div>
                     </div>
                 </div>
             </div>

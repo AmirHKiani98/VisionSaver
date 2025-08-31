@@ -30,6 +30,7 @@ API_GET_MODIFIED_DETECTIONS_AT_TIME=api/get_modified_detections_at_time
 API_MODIFIED_DETECTION_EXISTS=api/modified_detection_exists
 API_DELETE_DETECTION=api/delete_detection
 API_DELETE_MODIFIED_DETECTION=api/delete_modified_detection
+API_COUNTER_EXISTS=api/counter_exists
 # Celery variables
 CELERY_BROKER_DOMAIN=localhost
 CELERY_BROKER_PORT=6379
@@ -54,3 +55,4 @@ AI_DELETE_LINE=ai/delete_line
 AI_START_DETECTING=ai/start_detecting
 AI_START_MODIFIER=ai/start_modifier
 AI_UPDATE_DETECTION_PROGRESS=ai/update_detection_progress
+AI_START_COUNTER=ai/start_counting

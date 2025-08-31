@@ -82,3 +82,15 @@ class AutoDetection(models.Model):
     file_name = models.TextField(help_text="File name associated with the count data.")
     divide_time = models.FloatField(default=0.1, help_text="Time interval for dividing counts.")
     version = models.CharField(max_length=10, default='v1', help_text="Version of the auto counter algorithm.")
+
+class AutoCount(models.Model):
+    """
+    Model to represent individual auto counts for vehicles.
+    """
+    id = models.AutoField(primary_key=True, help_text="Unique identifier for the auto count.")
+    record = models.ForeignKey('record.Record', on_delete=models.CASCADE, related_name='auto_counts')
+    time = models.FloatField(help_text="The time in seconds into the record when this count was made.")
+    file_name = models.TextField(help_text="File name associated with the count data.")
+    version = models.CharField(max_length=10, default='v1', help_text="Version of the auto counter algorithm.")
+    divide_time = models.FloatField(default=0.1, help_text="Time interval for dividing counts.")
+    lines = models.ForeignKey(DetectionLines, on_delete=models.CASCADE, related_name='auto_counts', help_text="Reference to the detection lines used for counting.")
