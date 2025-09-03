@@ -186,13 +186,15 @@ class Counter:
         # Save and register result
         output_path = self.df_file_path.replace('.csv', '_counted.csv')
         self.df.to_csv(output_path, index=False)
-        from ai.models import AutoCount
+        from ai.models import AutoCount, DetectionLines
+        detection_lines = DetectionLines.objects.filter(record_id=int(self.record_id)).first()
         AutoCount.objects.create(
             record_id=int(self.record_id),
             time=pd.Timestamp.now(),
             version=self.version,
             file_name=output_path,
-            divide_time=self.divide_time
+            divide_time=self.divide_time,
+            lines=detection_lines
         )
         self.update_progress(100.0)
         return self.df

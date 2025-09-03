@@ -835,7 +835,7 @@ const AutoDetection = () => {
                 </div>
                 <div className='flex flex-col items-center gap-2.5 mt-2.5'>
                     
-                        {progress !== 100 && detectingStarted && (
+                        {detectingStarted && (
                             <div className='w-full'>
                             <h1 className='text-white text-xl font-bold mb-2'>
                                 Detection Progress
