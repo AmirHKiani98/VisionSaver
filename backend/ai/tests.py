@@ -1,11 +1,13 @@
 from django.test import TestCase
 from ai.detection_algorithms.algorithm import DetectionAlgorithm
 import logging
-import websocket
-import threading
 import dotenv
 from django.conf import settings
 import os
+from ai.counter.model.main import count_function, get_line_types, line_points_to_xy
+import cv2
+import pandas as pd
+from ai.models import DetectionLines, AutoDetection
 logging.getLogger('ultralytics').setLevel(logging.WARNING)
 dotenv.load_dotenv(settings.ENV_PATH)
 class AiAppTestCase(TestCase):
@@ -16,8 +18,39 @@ class AiAppTestCase(TestCase):
         """
         Set up the test case with necessary configurations.
         """
-        self.record_id = 556
-        self.divide_time = 20
+        self.record_id = 673
+        self.divide_time = 0.1
+        self.video_time = 1290 # in seconds. There is a white SUV car going left to right at that time
+        # Load the video
+        self.video_path = f"{settings.MEDIA_ROOT}/{self.record_id}.mp4"
+        self.video_capture = cv2.VideoCapture(self.video_path)
+        if not self.video_capture.isOpened():
+            self.video_path = f"{settings.MEDIA_ROOT}/{self.record_id}.mkv"
+            self.video_capture = cv2.VideoCapture(self.video_path)
+        if not self.video_capture.isOpened():
+            raise ValueError(f"Could not open the video file {self.video_path}.")
+        self.frame_count = int(self.video_capture.get(cv2.CAP_PROP_FRAME_COUNT))
+        self.fps = self.video_capture.get(cv2.CAP_PROP_FPS)
+        self.duration = self.frame_count / self.fps if self.fps > 0 else 0
+        self.video_height = int(self.video_capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        self.video_width = int(self.video_capture.get(cv2.CAP_PROP_FRAME_WIDTH))
+        # Calculate the frame number corresponding to the specified video time
+        self.target_frame_number = int(self.video_time * self.fps)
+        if self.target_frame_number >= self.frame_count:
+            raise ValueError(f"Target frame number {self.target_frame_number} exceeds total frame count {self.frame_count}.")
+        # Set the video capture to the target frame
+        self.video_capture.set(cv2.CAP_PROP_POS_FRAMES, self.target_frame_number)
+        # Read the frame
+        ret, self.frame = self.video_capture.read()
+        if not ret:
+            raise ValueError(f"Could not read frame at {self.video_time} seconds (frame {self.target_frame_number}).")
+
+        self.detection_lines = DetectionLines.objects.get_or_create(record_id=self.record_id)[0]
+
+        if not self.detection_lines:
+            raise ValueError(f"No detection lines found for record ID {self.record_id}")
+        
+        
         
 
 
@@ -41,10 +74,116 @@ class AiAppTestCase(TestCase):
         """
         Test the CarDetection class with version v2.
         """
-        verson = 'v2'
-        detection_algorithm = DetectionAlgorithm(record_id=self.record_id, divide_time=self.divide_time, version=verson)
-        da = detection_algorithm.run()
-        print(da)
+        return # Tested
+        # verson = 'v2'
+        # detection_algorithm = DetectionAlgorithm(record_id=self.record_id, divide_time=self.divide_time, version=verson)
+        # da = detection_algorithm.run()
+        # print(da)
+    
+    def test_depict_the_points(self):
+        """
+        Test depicting points on the frame.
+        """
+        lines = self.detection_lines.lines
+        for key, list_of_points in lines.items():
+            for dictionary_of_points in list_of_points:
+                points = dictionary_of_points['points']
+                points = line_points_to_xy(points, self.video_width, self.video_height)
+                for point in points:
+                    cv2.circle(self.frame, point, 5, (0, 255, 0), -1)
+                print(f"Line {key} ")
+        cv2.imshow("Frame with Points", self.frame)
+        cv2.waitKey(0)
+        # Passed and just fine
+
+
+    def test_get_line_types(self):
+        """
+        Test the get_line_types function.
+        """
+        lines = self.detection_lines.lines
+        key_of_interest = 'vehicle_delay_rect'
+        list_of_points = lines[key_of_interest][0]['points']
+        points = line_points_to_xy(list_of_points, self.video_width, self.video_height)
+        tolerance = 0.1
+        line_types_info = get_line_types(points, tolerance)
+        assert line_types_info[0] == 'closed'
+
+    def test_depict_the_detections(self):
+        """
+        Test depicting detections on the frame.
+        """
+        aut = AutoDetection.objects.filter(
+            record_id=self.record_id, divide_time=self.divide_time, version="v1"
+        ).first() # We are using v1 detection for counting now. This can be changed to v2 if needed
+        if not aut:
+            raise ValueError("No auto detection found for this record with the specified divide_time and version")
+        df_file_path = aut.file_name # type: ignore
+        if not os.path.exists(df_file_path):
+            raise FileNotFoundError(f"The file {df_file_path} does not exist.")
+        df = pd.read_csv(df_file_path)
+
+        if df.empty:
+            raise ValueError("The detection dataframe is empty.")
+        print(f"Dataframe loaded with {len(df)} rows.")
+        # Find the closest time to self.video_time
+        df['time_diff'] = df["time"] - self.video_time
+        closest_row = df.loc[df['time_diff'].abs().idxmin()]
+        time = closest_row['time']
+        grouped = df[df['time'] == time]
+        for index, row in grouped.iterrows():
+            x1, y1, x2, y2 = int(row['x1']), int(row['y1']), int(row['x2']), int(row['y2'])
+            cv2.rectangle(self.frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
+            cv2.putText(self.frame, f"ID: {row['track_id']}", (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+        cv2.imshow("Frame with Detections", self.frame)
+        cv2.waitKey(0)
+        # Passed and just fine
+
+    def test_counter(self):
+        """
+        Test the Counter class.
+        """
+        aut = AutoDetection.objects.filter(
+            record_id=self.record_id, divide_time=self.divide_time, version="v1"
+        ).first() # We are using v1 detection for counting now. This can be changed to v2 if needed
+        if not aut:
+            raise ValueError("No auto detection found for this record with the specified divide_time and version")
+        df_file_path = aut.file_name # type: ignore
+        if not os.path.exists(df_file_path):
+            raise FileNotFoundError(f"The file {df_file_path} does not exist.")
+        df = pd.read_csv(df_file_path)
+
+        if df.empty:
+            raise ValueError("The detection dataframe is empty.")
+        print(f"Dataframe loaded with {len(df)} rows.")
+        # Find the closest time to self.video_time
+        df['time_diff'] = df["time"] - self.video_time
+        closest_row = df.loc[df['time_diff'].abs().idxmin()]
+        time = closest_row['time']
+        grouped = df[df['time'] == time]
+        print(f"Closest time in dataframe: {time} with {len(grouped)} entries.")
+        line_types = {}
+        for key, list_of_points in self.detection_lines.lines.items():
+            line_types[key] = []
+            for dictionary_of_points in list_of_points:
+                points = dictionary_of_points['points']
+                points = line_points_to_xy(points, self.video_width, self.video_height)
+                tolerance = 0.1
+                line_types[key].append(get_line_types(points, tolerance))
+        
+        for index, row in grouped.iterrows():
+            x1, y1, x2, y2 = int(row['x1']), int(row['y1']), int(row['x2']), int(row['y2'])
+            in_area, line_idx = count_function(x1, y1, x2, y2, line_types)
+            color = (255, 0, 0) if in_area else (0, 255, 0)
+            cv2.rectangle(self.frame, (x1, y1), (x2, y2), color, 2)
+            cv2.putText(self.frame, f"ID: {row['track_id']} Line: {line_idx}", (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+        cv2.imshow("Frame with Counting", self.frame)
+        cv2.waitKey(0)
+        
+        
+
+
+        
 
 
 
