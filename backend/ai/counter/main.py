@@ -5,7 +5,6 @@ import numpy as np
 from shapely.geometry import LineString, Polygon, Point
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
-from ai.models import AutoCount, ModifiedAutoDetection, AutoDetection, DetectionLines
 from django.conf import settings
 from multiprocessing import Pool, cpu_count
 
@@ -53,6 +52,10 @@ def process_row(row_data):
 
 class DetectionLineObject:
     def __init__(self, record_id) -> None:
+        from django.apps import apps
+        if not apps.ready:
+            raise RuntimeError("Django apps not ready. Cannot access models.")
+        from ai.models import DetectionLines
         detection_lines = DetectionLines.objects.filter(record_id=record_id).first()
         if not detection_lines:
             raise ValueError("No detection lines found for this record")
@@ -84,7 +87,10 @@ class Counter:
         self.record_id = record_id
         self.divide_time = divide_time
         self.version = version
-
+        from django.apps import apps
+        if not apps.ready:
+            raise RuntimeError("Django apps not ready. Cannot access models.")
+        from ai.models import ModifiedAutoDetection, AutoDetection
         mod = ModifiedAutoDetection.objects.filter(
             record_id=record_id, divide_time=divide_time, version=version
         ).first()
@@ -147,7 +153,7 @@ class Counter:
         shared_line_types = det.line_types
 
         # PROCESSES: set the number you want. This kw ONLY belongs to Pool(), not apply_async.
-        nproc = min(cpu_count(), 4)
+        nproc = max(4, cpu_count() // 2)  # Use half of available CPUs
 
         processed = 0
         # Callback runs in the parent process; safe to touch self.df here
@@ -180,6 +186,7 @@ class Counter:
         # Save and register result
         output_path = self.df_file_path.replace('.csv', '_counted.csv')
         self.df.to_csv(output_path, index=False)
+        from ai.models import AutoCount
         AutoCount.objects.create(
             record_id=int(self.record_id),
             time=pd.Timestamp.now(),
