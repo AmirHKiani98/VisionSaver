@@ -15,11 +15,9 @@ def get_line_types(points, tolerance=0.1):
 def count_function(x1, y1, x2, y2, line_types):
     x_c, y_c = (x1 + x2) / 2, (y1 + y2) / 2
     point = Point(x_c, y_c)
-
     in_area = False
     line_idx = -1
 
-    
     for line_key, line_type_list in line_types.items(): # type: ignore
         for line_type, geom in line_type_list:
             if line_type == 'closed' and geom.contains(point):

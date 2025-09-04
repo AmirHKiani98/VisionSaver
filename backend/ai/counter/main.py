@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import cv2
 import numpy as np
-from shapely.geometry import LineString, Polygon, Point
+from ai.counter.model.main import line_points_to_xy
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 from django.conf import settings
@@ -33,23 +33,7 @@ def process_row(row_data):
 
     except Exception as e:
         # Avoid noisy worker logging; send a safe fallback
-        return (row_data[0] if row_data else -1), False, -1
-
-
-class DetectionLineObject:
-    def __init__(self, record_id) -> None:
-        from django.apps import apps
-        if not apps.ready:
-            raise RuntimeError("Django apps not ready. Cannot access models.")
-        from ai.models import DetectionLines
-        detection_lines = DetectionLines.objects.filter(record_id=record_id).first()
-        if not detection_lines:
-            raise ValueError("No detection lines found for this record")
-        self.lines = detection_lines.lines
-        self.line_types = self._get_line_types()
-
-    def _get_line_types(self, tolerance=0.1):
-        return get_line_types(self.lines, tolerance)
+        return (row_data[0] if row_data else -1), False, -1    
 
 
 class Counter:
@@ -94,6 +78,19 @@ class Counter:
         self.video_height = int(self.video_capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
         self.video_width = int(self.video_capture.get(cv2.CAP_PROP_FRAME_WIDTH))
 
+
+    def _get_line_types(self, tolerance=0.1):
+        self.line_types = {}
+        for line_key, list_of_dicts in self.lines.items(): # type: ignore
+            self.line_types[line_key] = []
+            for line_dict in list_of_dicts:
+                points = line_dict.get('points', [])
+                if points:
+                    points = line_points_to_xy(points, video_width=self.video_width, video_height=self.video_height)  # Normalized to [0,1]
+                    line_type, geom = get_line_types(points, tolerance)
+                    self.line_types[line_key].append((line_type, geom))
+        return self.line_types
+    
     def update_progress(self, progress):
         try:
             group_name = f"actual_counter_progress_{self.record_id}_{self.divide_time}_{self.version}"
@@ -114,19 +111,13 @@ class Counter:
         if total_rows == 0:
             raise ValueError("The detection dataframe has no rows.")
 
-        # Prepare output columns in parent (not in workers)
         self.df['in_area'] = False
         self.df['line_index'] = -1
 
-        # Build once, share to workers via initializer
-        det = DetectionLineObject(self.record_id)
-        shared_line_types = det.line_types
-
-        # PROCESSES: set the number you want. This kw ONLY belongs to Pool(), not apply_async.
+        shared_line_types = self._get_line_types(tolerance=0.1)
         nproc = max(4, cpu_count() // 2)  # Use half of available CPUs
 
         processed = 0
-        # Callback runs in the parent process; safe to touch self.df here
         def _on_result(res):
             nonlocal processed
             idx, in_area, line_idx = res
@@ -134,26 +125,21 @@ class Counter:
                 self.df.at[idx, 'in_area'] = in_area
                 self.df.at[idx, 'line_index'] = line_idx
             processed += 1
-            # throttle progress updates
+
             if (processed % 200 == 0) or (processed == total_rows):
                 self.update_progress(processed * 100.0 / total_rows)
 
-        # Submit tasks
         async_results = []
         with Pool(processes=nproc, initializer=_init_pool, initargs=(shared_line_types,)) as pool:
-            # Using iterrows as in your code. For speed, consider itertuples and pass only needed fields.
             for row in self.df.iloc[:].iterrows():
                 ar = pool.apply_async(process_row, args=(row,), callback=_on_result)
                 async_results.append(ar)
 
-            # Important: prevent new tasks & wait for completion
             pool.close()
-            # Optional: you can iterate to raise exceptions early
             for ar in async_results:
-                ar.wait()  # or ar.get() if you want to raise worker exceptions here
+                ar.wait()
             pool.join()
 
-        # Save and register result
         output_path = self.df_file_path.replace('.csv', '_counted.csv')
         self.df.to_csv(output_path, index=False)
         from ai.models import AutoCount, DetectionLines
