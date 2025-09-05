@@ -1069,7 +1069,7 @@ const AutoDetection = () => {
                         </div>
                         
                         <div className='flex items-center justify-between w-full'>
-                            <div className='flex flex-col gap-2.5'>
+                            <div className='flex justify-between gap-2.5 w-full'>
                                 <Tooltip title="Run Detection" placement="right">
                                     <span className='h-full'>
                                         <Button
@@ -1113,99 +1113,7 @@ const AutoDetection = () => {
                                     </span>
                                 </Tooltip>
                             </div>
-                            <div className='flex flex-col gap-2.5'>
-                                <Tooltip title="Run Detection Modifier" placement="left">
-                                    <span className='h-full'>
-                                        <Button
-                                            className={`shadow-lg hover:!bg-main-400 !text-black h-full ${modifiedDetectingExists ? '!bg-gray-300' : '!bg-green-500 '}`}
-                                            onClick={runModifier}
-                                            disabled={modifiedDetectingExists}
-                                        >
-                                            <FontAwesomeIcon icon={faCar} className='text-center' />
-                                        </Button>
-                                    </span>
-                                    
-                                </Tooltip>
-                                <Tooltip title="Show modified detections" placement="left">
-                                    <span className='h-full'>
-                                        <Button 
-                                            className={`shadow-lg hover:!bg-main-400 !text-black !h-full ${!modifiedDetectingExists ? '!bg-gray-300' : '!bg-green-500'}`}
-                                            disabled={!modifiedDetectingExists}
-                                            onClick={() =>{
-                                                setShowDetections(false);
-                                                if (showModifiedDetections) {
-                                                    setShowModifiedDetections(false);
-                                                    openNotification('info', 'Modified detections are now hidden');
-                                                } else {
-                                                    setShowModifiedDetections(true);
-                                                    openNotification('info', 'Modified detections are now visible');
-                                                }
-                                            }}
-                                            >
-                                            <FontAwesomeIcon icon={!showModifiedDetections ? faEye : faEyeSlash} className='text-center' />
-                                        </Button>
-                                    </span>
-                                </Tooltip>
-                                <Tooltip title="Remove modified detections" placement="left">
-                                    <span className='h-full'>
-                                        <Button
-                                            className={`shadow-lg hover:!bg-main-400 !text-black h-full ${!modifiedDetectingExists ? '!bg-gray-300' : '!bg-red-500'}`}
-                                            disabled={!modifiedDetectingExists}
-                                            onClick={removeModifiedDetections}
-                                        >
-                                            <FontAwesomeIcon icon={faTrash} className='text-center' />
-                                        </Button>
-                                    </span>
-                                </Tooltip>
-                            </div>
                             
-                        </div>
-                    </div>
-                    <div>
-                        <Divider
-                            textAlign="left"
-                            sx={{
-                                '&::before, &::after': {
-                                borderColor: 'secondary.light'
-                                }
-                            }}
-                        >
-                            <Chip label="Count" className="!bg-main-400 !text-white !font-bold" />
-                        </Divider>
-                    </div>
-                    <div className='p-2.5 w-full flex justify-between'>
-                        <div>
-                            <Tooltip title="Count" placement="top">
-                                <span>
-                                    <Button
-                                        className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black h-full'
-                                        onClick={startCounting}
-                                    >
-                                        <FontAwesomeIcon icon={faCalculator} />
-                                    </Button>
-                                </span>
-                            </Tooltip>
-                        </div>
-                        <div>
-                            <Tooltip title="Count" placement="top">
-                                <span>
-                                    <Button
-                                        className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black h-full'
-                                        onClick={
-                                            () => {
-                                                setShowDetections(!showDetections);
-                                                if (showDetections) {
-                                                    openNotification('info', 'Counts are now visible');
-                                                } else {   
-                                                    openNotification('info', 'Counts now are visible');
-                                                }
-                                            }
-                                        }
-                                    >
-                                        <FontAwesomeIcon icon={!showDetections ? faEye : faEyeSlash} />
-                                    </Button>
-                                </span>
-                            </Tooltip>
                         </div>
                     </div>
                 </div>
