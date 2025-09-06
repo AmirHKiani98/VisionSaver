@@ -235,7 +235,8 @@ if(!is.dev){
       join(__dirname, '../../../backend/apps/apache24/apache_logs/**'),
       join(__dirname, '../../../backend/db.sqlite3'),
       '**/*.pyc'
-    ]
+    ],
+    ignoreInitial: true
   }).on('change', (changedPath) => {
     console.log(`Backend file changed: ${changedPath}, restarting Django...`);
     startDjango();

@@ -6,6 +6,7 @@ import cv2
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from ai.counter.model.main import line_points_to_xy, get_line_types
+from copy import deepcopy
 logger = settings.APP_LOGGER
 class DetectionAlgorithm:
     """
@@ -68,45 +69,77 @@ class DetectionAlgorithm:
     
     def read(self):
         ret, frame = self.video.read()
-        frame += 1
+        
         if not ret:
             return None
         
-
         time = self.video.get(cv2.CAP_PROP_POS_MSEC) / 1000.0
         
-        results = self.detect(frame)
-
-            
+        # Get detections from current frame
+        current_results = self.detect(frame)
+        
+        # Make a copy for tracking
+        raw_current_results = deepcopy(current_results)
+        
+        # Use modifier if we have previous detections - FIX ORDER HERE
         if self.last_detection is not None:
-            results = self.modifier(self.last_detection, results)
-        self.last_detection = results
-
-        for index, detection in enumerate(results):
-            in_area, final_line_key = self.counter(detection["x1"], detection["y1"], detection["x2"], detection["y2"], self.line_types)
-            results[index]['time'] = time
-            results[index]['in_area'] = in_area
-            results[index]['line_index'] = final_line_key
-        return results
+            # Change order - pass current results first, then previous
+            current_results = self.modifier(current_results, self.last_detection)
+        
+        # Update last_detection for next frame
+        self.last_detection = raw_current_results
+        
+        # Add time and other information
+        for index, detection in enumerate(current_results):
+            in_area, final_line_key = self.counter(detection["x1"], detection["y1"], 
+                                                detection["x2"], detection["y2"], self.line_types)
+            current_results[index]['time'] = time
+            current_results[index]['in_area'] = in_area
+            current_results[index]['line_index'] = final_line_key
+            
+        return current_results
 
     def run(self) -> pd.DataFrame:
         """
         Run the detection algorithm on the video frames.
         """
+        checkpoint = AutoDetectionCheckpoint.objects.filter(
+            record_id=self.record_id,
+            version=self.version,
+            divide_time=self.divide_time
+        ).first()
         frame_count = 0
+        if checkpoint:
+            frame_count = checkpoint.last_frame_captured
+            # Seek to the right position
+            self.video.set(cv2.CAP_PROP_POS_FRAMES, frame_count)
+            print(f"Resuming from frame {frame_count}")
         total_frames = int(self.video.get(cv2.CAP_PROP_FRAME_COUNT))
         # TODO: Check if there is frame done in AutoDetectionCheckpoint and resume from there
+        batch_size = 200
+        df = pd.DataFrame()
         while True:
             results = self.read()
+            
             if results is None:
                 break
-            df = pd.DataFrame(results)
-            file_exists = os.path.isfile(self.file_name)
-            df.to_csv(self.file_name, mode='a', header=not file_exists, index=False)
-            if frame_count % 200 == 0:
+            frame_count += 1
+            df = pd.concat([df, pd.DataFrame(results)], ignore_index=True)
+            
+            if frame_count % batch_size == 0:
+                file_exists = os.path.isfile(self.file_name)
+                with open(self.file_name, 'a') as f:
+                    print(f"Writing to {self.file_name}, frame {frame_count}")
+                    df.to_csv(f, mode='a', header=not file_exists, index=False)
+                    df = pd.DataFrame()  # Clear the DataFrame after writing
+                    f.flush()
                 self._send_ws_progress(frame_count, total_frames)
-        
-        self._send_ws_progress(frame_count, total_frames)
+        if frame_count % batch_size != 0:
+            file_exists = os.path.isfile(self.file_name)
+            self._send_ws_progress(frame_count, total_frames)
+            with open(self.file_name, 'a') as f:
+                df.to_csv(f, mode='a', header=not file_exists, index=False)
+                f.flush()
         
         AutoDetection.objects.update_or_create(
             record_id=self.record_id,
@@ -136,8 +169,10 @@ class DetectionAlgorithm:
                 record_id=self.record_id,
                 version=self.version,
                 divide_time=self.divide_time,
-                last_frame_captured=frame_count,
-                detection_lines=self.detection_lines
+                detection_lines= self.detection_lines,
+                defaults={
+                    'last_frame_captured': frame_count
+                }
             )
             async_to_sync(channel_layer.group_send)(group, payload)
         except Exception as e:

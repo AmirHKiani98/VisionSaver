@@ -107,45 +107,149 @@ class Model:
         )
         return output_csv_path
 
-def modifier(results, previous_results, iou_threshold=0.8):
+def modifier(results, previous_results, iou_threshold=0.5):  # Lower threshold for better matching
     """
     Modify detection results based on previous frame's results.
     """
     
-    results_df = pl.DataFrame(results)
-    if results_df.is_empty() or len(previous_results) == 0:
+    # Safety check - if either input is empty, no need for complex logic
+    if not results:
+        return []
+    
+    if not previous_results:
         return results
-    results_df = results_df.with_columns([
-        pl.struct(pl.col(['x1', 'y1', 'x2', 'y2'])).map_elements(lambda row: Polygon([(row['x1'], row['y1']), (row['x2'], row['y1']), (row['x2'], row['y2']), (row['x1'], row['y2'])])).alias('bbox')
-    ])
-    previous_results_df = pl.DataFrame(previous_results)
-    if previous_results_df.is_empty():
+    
+    # Check if required keys exist in dictionaries
+    required_keys = ['x1', 'y1', 'x2', 'y2', 'track_id']
+    
+    # Validate results
+    valid_results = []
+    for item in results:
+        if all(key in item for key in required_keys):
+            # Ensure all bounding box coordinates are valid numbers
+            if (isinstance(item['x1'], (int, float)) and 
+                isinstance(item['y1'], (int, float)) and
+                isinstance(item['x2'], (int, float)) and
+                isinstance(item['y2'], (int, float))):
+                valid_results.append(item)
+    
+    # Validate previous results
+    valid_previous = []
+    for item in previous_results:
+        if all(key in item for key in required_keys):
+            # Ensure all bounding box coordinates are valid numbers
+            if (isinstance(item['x1'], (int, float)) and 
+                isinstance(item['y1'], (int, float)) and
+                isinstance(item['x2'], (int, float)) and
+                isinstance(item['y2'], (int, float))):
+                valid_previous.append(item)
+    
+    
+    if not valid_results:
+        return []
+    
+    if not valid_previous:
+        return valid_results
+    
+    try:
+        # Create DataFrames with validated data
+        results_df = pl.DataFrame(valid_results)
+        previous_results_df = pl.DataFrame(valid_previous)
+        
+        
+        # Safely add bbox column with error handling
+        def safe_bbox_creation(row):
+            try:
+                return Polygon([
+                    (float(row['x1']), float(row['y1'])), 
+                    (float(row['x2']), float(row['y1'])), 
+                    (float(row['x2']), float(row['y2'])), 
+                    (float(row['x1']), float(row['y2']))
+                ])
+            except Exception as e:
+                print(f"Error creating bbox: {e}")
+                # Return a tiny valid polygon
+                return Polygon([(0, 0), (0, 1), (1, 1), (1, 0)])
+        
+        # Add bbox columns
+        results_df = results_df.with_columns([
+            pl.struct(pl.col(['x1', 'y1', 'x2', 'y2'])).map_elements(safe_bbox_creation).alias('bbox')
+        ])
+        
+        previous_results_df = previous_results_df.with_columns([
+            pl.struct(pl.col(['x1', 'y1', 'x2', 'y2'])).map_elements(safe_bbox_creation).alias('bbox')
+        ])
+        
+        # Get track IDs from previous frame
+        existing_track_ids = previous_results_df['track_id'].to_list()
+        
+        # Split into continuing and new detections
+        continuing_detections = results_df.filter(pl.col('track_id').is_in(existing_track_ids))
+        new_detections = results_df.filter(~pl.col('track_id').is_in(existing_track_ids))
+        
+        
+        # Process new detections to match with previous detections
+        if new_detections.shape[0] > 0:
+            new_rows = []
+            for row in new_detections.iter_rows(named=True):
+                best_iou = 0
+                best_match = None
+                
+                for prev_row in previous_results_df.iter_rows(named=True):
+                    try:
+                        current_bbox = row['bbox']
+                        prev_bbox = prev_row['bbox']
+                        
+                        # Calculate intersection over union
+                        intersection = current_bbox.intersection(prev_bbox).area
+                        union = current_bbox.area + prev_bbox.area - intersection
+                        
+                        if union > 0:
+                            iou = intersection / union
+                            if iou > best_iou:
+                                best_iou = iou
+                                best_match = prev_row
+                    except Exception as e:
+                        print(f"Error calculating IOU: {e}")
+                        continue
+                
+                # If we found a good match, use its track_id
+                if best_match is not None and best_iou > iou_threshold:
+                    row_dict = {k: v for k, v in row.items()}
+                    row_dict["track_id"] = best_match["track_id"]
+                    new_rows.append(row_dict)
+                else:
+                    new_rows.append({k: v for k, v in row.items()})
+            
+            if new_rows:
+                new_detections_df = pl.DataFrame(new_rows)
+            else:
+                new_detections_df = new_detections
+        else:
+            new_detections_df = new_detections
+        
+        # Combine continuing and newly matched detections
+        if continuing_detections.shape[0] > 0:
+            if new_detections_df.shape[0] > 0:
+                combined_df = pl.concat([continuing_detections, new_detections_df])
+            else:
+                combined_df = continuing_detections
+        else:
+            combined_df = new_detections_df
+        
+        # Remove the bbox column before returning
+        if combined_df.shape[0] > 0:
+            combined_df = combined_df.drop('bbox')
+            result_dicts = combined_df.to_dicts()
+            return result_dicts
+        else:
+            print("No results after processing")
+            return []
+    
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        # On error, return the original results
         return results
-    previous_results_df = previous_results_df.with_columns([
-        pl.struct(pl.col(['x1', 'y1', 'x2', 'y2'])).map_elements(lambda row: Polygon([(row['x1'], row['y1']), (row['x2'], row['y1']), (row['x2'], row['y2']), (row['x1'], row['y2'])])).alias('bbox')
-    ])
-
-
-    # get the rows in the results_df with track_id not in previous_results_df
-    new_detections = results_df.filter(~results_df['track_id'].is_in(previous_results_df['track_id']))
-    rest_detections = results_df.filter(results_df['track_id'].is_in(previous_results_df['track_id']))
-    if not new_detections.is_empty():
-        # Check if the iou of the new detection with any previous detection is > iou_threshold
-        new_rows = []
-        for row in new_detections.iter_rows(named=True):
-            found_match = False
-            for prev_row in previous_results_df.iter_rows(named=True):
-                iou = row['bbox'].intersection(prev_row['bbox']).area / row['bbox'].union(prev_row['bbox']).area
-                if iou > iou_threshold:
-                    row["track_id"] = prev_row["track_id"]
-                    found_match = True
-                    new_rows.append(row)
-                    break
-            if not found_match:
-                new_rows.append(row)
-        new_detections = pl.DataFrame(new_rows)
-    combined_df = pl.concat([rest_detections, new_detections])
-    combined_df = combined_df.drop('bbox')
-    return combined_df.to_dicts()
         
 

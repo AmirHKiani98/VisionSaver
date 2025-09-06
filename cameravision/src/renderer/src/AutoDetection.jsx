@@ -474,6 +474,7 @@ const AutoDetection = () => {
         const ws = new window.WebSocket(wsUrl);
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
+            
             setDetectingStarted(true);
             if (Math.abs(data.progress - 100) < 1 ){
                 setDetectionExists(true);
