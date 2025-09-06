@@ -130,7 +130,7 @@ class DetectionAlgorithm:
                 file_exists = os.path.isfile(self.file_name)
                 with open(self.file_name, 'a') as f:
                     print(f"Writing to {self.file_name}, frame {frame_count}")
-                    df.to_csv(f, mode='a', header=not file_exists, index=False)
+                    df.to_csv(f, mode='a', header=not file_exists, index=False, lineterminator='\n')
                     df = pd.DataFrame()  # Clear the DataFrame after writing
                     f.flush()
                 self._send_ws_progress(frame_count, total_frames)
@@ -138,7 +138,7 @@ class DetectionAlgorithm:
             file_exists = os.path.isfile(self.file_name)
             self._send_ws_progress(frame_count, total_frames)
             with open(self.file_name, 'a') as f:
-                df.to_csv(f, mode='a', header=not file_exists, index=False)
+                df.to_csv(f, mode='a', header=not file_exists, index=False, lineterminator='\n')
                 f.flush()
         
         AutoDetection.objects.update_or_create(
