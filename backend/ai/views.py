@@ -3,7 +3,6 @@ import os
 from django.http import JsonResponse
 
 from .models import DetectionLines, ModifiedAutoDetection, AutoDetection
-from ai.counter.main import Counter
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from record.models import Record
@@ -97,9 +96,12 @@ def run_car_detection(request):
 
         # Send initial progress update to confirm WebSocket is working
         logger.info(f"Starting car detection for record {record_id} with divide_time {divide_time}")
-
+        detection_lines = DetectionLines.objects.filter(record=record)
+        if not detection_lines.exists():
+            return JsonResponse({'error': 'No detection lines found for this record. Please add lines before running detection.'}, status=400)
+        detection_lines = detection_lines.first() # type: ignore
         # Step 1: Create the algorithm instance
-        algo = DetectionAlgorithm(record_id=record_id, divide_time=divide_time, version=version)
+        algo = DetectionAlgorithm(record_id=record_id, divide_time=divide_time, version=version, lines=detection_lines)
         
         t = threading.Thread(target=algo.run)
         t.daemon = True
@@ -119,105 +121,3 @@ def run_modifier_detection(record_id, divide_time, version='v1'):
         divide_time=divide_time,
     )
     return ADZ.get_result()
-
-@csrf_exempt
-def start_auto_counting(request):
-    if request.method != 'POST':
-        return JsonResponse({"error": "Method Not Allowed"}, status=405)
-    try:
-        data = json.loads(request.body)
-        record_id = data.get('record_id')
-        divide_time = data.get('divide_time', 0.1)
-        version = data.get('version', 'v1')
-        record = Record.objects.filter(id=record_id).first()
-        if not record:
-            return JsonResponse({"error": "Record not found"}, status=404)
-        # run with threading
-        #logger.info(f"Starting auto counting for record ID: {record_id}, divide_time: {divide_time}, version: {version}")
-        
-        
-        
-        
-        
-        counter_object = Counter(
-            record_id=record_id,
-            divide_time=divide_time,
-            version=version,
-        )
-        # Add more error handling to the thread
-        def run_counter_with_error_handling():
-            try:
-                logger.info(f"Starting counting for record ID {record_id} with divide_time {divide_time} and version {version}")
-                counter_object.counter()
-                logger.info(f"Counting completed for record ID {record_id}")
-            except Exception as e:
-                logger.error(f"Error in counter thread for record {record_id}: {str(e)}")
-                # Try to send a final progress update
-                try:
-                    counter_object.update_progress(100)
-                except:
-                    pass
-        
-        t = threading.Thread(target=run_counter_with_error_handling)
-        t.daemon = True
-        t.start()
-        return JsonResponse({"status": "success", "message": "Auto counting started"}, status=200)
-    except Exception as e:
-        return JsonResponse({"error": "Internal Server Error"}, status=500)
-
-@csrf_exempt
-def start_modifier(request):
-    if request.method != 'POST':
-        return JsonResponse({"error": "Method Not Allowed"}, status=405)
-    try:
-        data = json.loads(request.body)
-        record_id = data.get('record_id')
-        divide_time = data.get('divide_time', 0.1)
-        version = data.get('version', 'v1')
-        # run with threading
-        #logger.info(f"Starting auto counting for record ID: {record_id}, divide_time: {divide_time}, version: {version}")
-        thread = threading.Thread(target=run_modifier_detection, args=(record_id, divide_time, version))
-        thread.start()
-        return JsonResponse({"status": "success", "message": "Auto counting started"}, status=200)
-    except Exception as e:
-        logger.error(f"Error in start_modifier: {str(e)}")
-        return JsonResponse({"error": "Internal Server Error"}, status=500)
-
-@csrf_exempt
-def update_detection_progress(request):
-    if request.method != 'POST':
-        return JsonResponse({"error": "Method Not Allowed"}, status=405)
-    try:
-        data = json.loads(request.body)
-        record_id = data.get('record_id')
-        divide_time = data.get('divide_time', 0.1)
-        version = data.get('version', 'v1')
-        progress = data.get('progress', 50.0)
-        #logger.info(f"Updating detection progress for record ID: {record_id}, divide_time: {divide_time}, version: {version}, progress: {progress}")
-        # Format divide_time to match the WebSocket group name format
-        if isinstance(divide_time, (int, float)):
-            divide_time_str = f"{float(divide_time):.6g}"
-        else:
-            divide_time_str = divide_time
-            
-        # Get the group name for the WebSocket
-        group = f"detection_progress_{record_id}_{divide_time_str}_{version}"
-        
-        # Get the channel layer
-        channel_layer = get_channel_layer()
-        if not channel_layer:
-            print("Channel layer not available. Check if Channels is configured correctly.")
-            return JsonResponse({"status": "success"}, status=200)
-            
-        try:
-            # Send a test progress update
-            payload = {"type": "send_progress", "progress": float(progress)}
-            async_to_sync(channel_layer.group_send)(group, payload)
-            return JsonResponse({"status": "success"}, status=200)
-        except Exception as e:
-            print(f"Error sending test progress update: {e}")
-            return JsonResponse({"status": "success"}, status=200)
-
-    except Exception as e:
-        logger.error(f"Error in update_detection_progress: {str(e)}")
-        return JsonResponse({"error": "Internal Server Error"}, status=500)

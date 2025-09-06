@@ -19,17 +19,5 @@ urlpatterns = [
     path(
         f"{os.getenv('AI_START_DETECTING')}",
         views.run_car_detection,
-    ),
-    path(
-        f"{os.getenv('AI_START_MODIFIER')}",
-        views.start_modifier,
-    ),
-    path(
-        f"{os.getenv('AI_UPDATE_DETECTION_PROGRESS')}",
-        views.update_detection_progress,
-    ),
-    path(
-        f"{os.getenv('AI_START_COUNTER')}",
-        views.start_auto_counting,
-    ),
+    )
 ]
