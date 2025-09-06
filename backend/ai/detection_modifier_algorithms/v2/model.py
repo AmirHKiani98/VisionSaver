@@ -111,11 +111,16 @@ def modifier(results, previous_results, iou_threshold=0.8):
     """
     Modify detection results based on previous frame's results.
     """
+    
     results_df = pl.DataFrame(results)
+    if results_df.is_empty() or len(previous_results) == 0:
+        return results
     results_df = results_df.with_columns([
         pl.struct(pl.col(['x1', 'y1', 'x2', 'y2'])).map_elements(lambda row: Polygon([(row['x1'], row['y1']), (row['x2'], row['y1']), (row['x2'], row['y2']), (row['x1'], row['y2'])])).alias('bbox')
     ])
     previous_results_df = pl.DataFrame(previous_results)
+    if previous_results_df.is_empty():
+        return results
     previous_results_df = previous_results_df.with_columns([
         pl.struct(pl.col(['x1', 'y1', 'x2', 'y2'])).map_elements(lambda row: Polygon([(row['x1'], row['y1']), (row['x2'], row['y1']), (row['x2'], row['y2']), (row['x1'], row['y2'])])).alias('bbox')
     ])

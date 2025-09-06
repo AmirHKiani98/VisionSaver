@@ -233,6 +233,7 @@ if(!is.dev){
       join(__dirname, '../../../backend/media/**'),
       join(__dirname, '../../../backend/logs/**'),
       join(__dirname, '../../../backend/apps/apache24/apache_logs/**'),
+      join(__dirname, '../../../backend/db.sqlite3'),
       '**/*.pyc'
     ]
   }).on('change', (changedPath) => {

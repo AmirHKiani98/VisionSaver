@@ -95,7 +95,7 @@ class DetectionAlgorithm:
         """
         frame_count = 0
         total_frames = int(self.video.get(cv2.CAP_PROP_FRAME_COUNT))
-        
+        # TODO: Check if there is frame done in AutoDetectionCheckpoint and resume from there
         while True:
             results = self.read()
             if results is None:

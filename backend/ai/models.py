@@ -82,7 +82,7 @@ class AutoDetection(models.Model):
     file_name = models.TextField(help_text="File name associated with the count data.")
     divide_time = models.FloatField(default=0.1, help_text="Time interval for dividing counts.")
     version = models.CharField(max_length=10, default='v1', help_text="Version of the auto counter algorithm.")
-    detection_lines = models.ForeignKey(DetectionLines, on_delete=models.CASCADE, related_name='auto_detections', help_text="Reference to the detection lines used for counting.")
+    detection_lines = models.ForeignKey(DetectionLines, on_delete=models.CASCADE, related_name='auto_detections', help_text="Reference to the detection lines used for counting.", null=True, blank=True)
 
 class AutoCount(models.Model):
     """
@@ -106,4 +106,4 @@ class AutoDetectionCheckpoint(models.Model):
     version = models.CharField(max_length=10, default='v1', help_text="Version of the auto counter algorithm.")
     divide_time = models.FloatField(default=0.1, help_text="Time interval for dividing counts.")
     last_frame_captured = models.IntegerField(default=0, help_text="The last frame number that was processed.")
-    detection_lines = models.ForeignKey(DetectionLines, on_delete=models.CASCADE, related_name='auto_detection_checkpoints', help_text="Reference to the detection lines used for counting.")
+    detection_lines = models.ForeignKey(DetectionLines, on_delete=models.CASCADE, related_name='auto_detection_checkpoints', help_text="Reference to the detection lines used for counting.", null=True, blank=True)

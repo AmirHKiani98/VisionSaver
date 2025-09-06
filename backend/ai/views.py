@@ -1,16 +1,12 @@
 import json
-import os
 from django.http import JsonResponse
 
-from .models import DetectionLines, ModifiedAutoDetection, AutoDetection
+from .models import DetectionLines
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from record.models import Record
 from ai.detection_modifier_algorithms.algorithm import AlgorithmModificationDetection
 from ai.detection_algorithms.algorithm import DetectionAlgorithm
-import threading
-from channels.layers import get_channel_layer
-from asgiref.sync import async_to_sync
 # Create your views here.
 
 logger = settings.APP_LOGGER

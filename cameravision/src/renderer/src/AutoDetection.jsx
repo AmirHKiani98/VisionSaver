@@ -126,6 +126,7 @@ const AutoDetection = () => {
     }, [env, recordId]);
     
     const checkIfDetectingExists = (data) => {
+        return;
         if (!env || !data) return;
         const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_COUNT_EXISTS}`;
         fetch(url, {
