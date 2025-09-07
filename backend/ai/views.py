@@ -91,12 +91,15 @@ def check_if_detection_in_process(request):
             version=version,
             done=False
         ).first()
+        logger.info(f"Check detection process for record {record_id}, divide_time {divide_time}, version {version}: {'running' if detection_process else 'not running'}")
         if detection_process:
             autodetection_checkpoint = detection_process.autodetection_checkpoint
             progress = autodetection_checkpoint.last_frame_captured / autodetection_checkpoint.total_frames if autodetection_checkpoint and autodetection_checkpoint.total_frames > 0 else 0
             return JsonResponse({'running': True, 'progress': progress}, status=200)
         else:
             return JsonResponse({'running': False}, status=200)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 
 @csrf_exempt

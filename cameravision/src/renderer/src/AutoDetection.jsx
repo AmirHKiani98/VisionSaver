@@ -138,9 +138,11 @@ const AutoDetection = () => {
         })
         .then(response => response.json())
         .then(data => {
+            console.log('Detection in process data:', data);
             if (data && data.running) {
                 setDetectingStarted(true);
                 setProgress(data.progress || 0);
+                setDetectionInProcess(true);
             } else {
                 setDetectingStarted(false);
                 setProgress(0);
@@ -1168,7 +1170,7 @@ const AutoDetection = () => {
                                     <Tooltip title="Remove detections" placement="left">
                                         <span className='h-full'>
                                             <Button
-                                                className={`shadow-lg hover:!bg-main-400 !text-black h-full ${!detectionExists ? '!bg-gray-300' : '!bg-red-500'}`}
+                                                className={`shadow-lg hover:!bg-main-400 !text-black h-full ${!detectionInProcess ? '!bg-gray-300' : '!bg-red-500'}`}
                                                 onClick={stopDetectionProcess}
                                             >
                                                 <FontAwesomeIcon icon={faStop} className='text-center' />
