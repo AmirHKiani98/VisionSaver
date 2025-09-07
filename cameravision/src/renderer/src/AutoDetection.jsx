@@ -393,6 +393,7 @@ const AutoDetection = () => {
                 openNotification('error', data.error);
             } else {
                 setDetectingStarted(false);
+                setDetectionInProcess(false);
                 setProgress(0);
                 openNotification('success', 'Detection process stopped successfully');
             }
@@ -510,6 +511,7 @@ const AutoDetection = () => {
                 openNotification('error', data.error);
             } else {
                 setDetectingStarted(true);
+                setDetectionInProcess(true);
                 openNotification('success', 'Detecting started successfully');
             }
         })

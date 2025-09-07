@@ -8,6 +8,7 @@ from record.models import Record
 from ai.models import DetectionProcess
 from ai.detection_modifier_algorithms.algorithm import AlgorithmModificationDetection
 from ai.detection_algorithms.algorithm import DetectionAlgorithm
+
 # Create your views here.
 
 logger = settings.APP_LOGGER

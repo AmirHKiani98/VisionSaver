@@ -9,6 +9,7 @@ from channels.layers import get_channel_layer
 from ai.counter.model.main import line_points_to_xy, get_line_types
 from copy import deepcopy
 import dotenv
+from django.utils import timezone
 dotenv.load_dotenv(settings.ENV_PATH)
 logger = settings.APP_LOGGER
 class DetectionAlgorithm:
@@ -138,8 +139,17 @@ class DetectionAlgorithm:
         df = pd.DataFrame()
         self._send_ws_progress(0, total_frames, message=os.getenv("COMMAND_DETECTION_STARTED"))
         while True:
+            if frame_count % 50 == 0:
+                self.process_model.refresh_from_db()
+                if self.process_model.terminate_requested:
+                    self.process_model.terminated = True
+                    self.process_model.terminated_at =  timezone.now()
+                    self.process_model.done = True
+                    self.process_model.save()
+                    logger.info(f"Detection process for record {self.record_id}, version {self.version}, divide_time {self.divide_time} terminated as requested.")
+                    break
             results = self.read()
-            
+        
             if results is None:
                 break
             frame_count += 1
