@@ -119,7 +119,7 @@ class DetectionProcess(models.Model):
     pid = models.CharField(max_length=50, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     done = models.BooleanField(default=False)
-    
+    autodetection_checkpoint = models.ForeignKey(AutoDetectionCheckpoint, on_delete=models.SET_NULL, null=True, blank=True)
     # Add these new fields
     terminate_requested = models.BooleanField(default=False)
     terminate_requested_at = models.DateTimeField(null=True, blank=True)
