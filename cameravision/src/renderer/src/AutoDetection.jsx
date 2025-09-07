@@ -16,7 +16,7 @@ import {
     Divider,
     Chip
 } from '@mui/material'; 
-import {faPen, faPlus, faEraser, faUpload, faRefresh, faEye, faEyeSlash, faCar, faMagnifyingGlass, faTrash, faCalculator} from '@fortawesome/free-solid-svg-icons';
+import {faPen, faPlus, faEraser, faUpload, faRefresh, faEye, faEyeSlash, faCar, faMagnifyingGlass, faTrash, faCalculator, faStop} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLocation } from 'react-router-dom';
 
@@ -64,6 +64,7 @@ const AutoDetection = () => {
     const [modifiedProgress, setModifiedProgress] = react.useState(0);
     const [modifyingDetectionStarted, setModifyingDetectionStarted] = react.useState(false);
     const [maxTimeUpdated, setMaxTimeUpdated] = react.useState(0);
+    const [detectionInProcess, setDetectionInProcess] = react.useState(false);
 
     const autoHideDuration = 3000;
     const openNotification = (severity, message) => {
@@ -121,10 +122,32 @@ const AutoDetection = () => {
     react.useEffect(() => {
         if (!env) return;
         const data = { record_id: recordId, divide_time: accuracy, version: detectionVersion };
-        checkIfDetectingExists(data);
         checkIfDetectingModifiedExists(data);
-    }, [env, recordId]);
+        checkIfDetectionInProcess(data);
+    }, [env, recordId, accuracy, detectionVersion]);
     
+    const checkIfDetectionInProcess = (data) => {
+        if (!env || !data) return;
+        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_IS_DETECTION_IN_PROCESS}`;
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data && data.running) {
+                setDetectingStarted(true);
+                setProgress(data.progress || 0);
+            } else {
+                setDetectingStarted(false);
+                setProgress(0);
+            }
+        })
+    }
+
     const checkIfDetectingExists = (data) => {
         return;
         if (!env || !data) return;
@@ -347,6 +370,31 @@ const AutoDetection = () => {
             if (Math.sqrt(dx * dx + dy * dy) < threshold) return true;
         }
         return false;
+    }
+
+    const stopDetectionProcess = () => {
+        if (!detectingStarted){
+            openNotification('error', 'No detection process to stop');
+            return;
+        }
+        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.AI_TERMINATE_DETECTION_PROCESS}`;
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ record_id: recordId, divide_time: accuracy, version: detectionVersion }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                openNotification('error', data.error);
+            } else {
+                setDetectingStarted(false);
+                setProgress(0);
+                openNotification('success', 'Detection process stopped successfully');
+            }
+        })
     }
 
     const handleMouseUp = () => {
@@ -1083,7 +1131,7 @@ const AutoDetection = () => {
                                         </Button>
                                     </span>
                                 </Tooltip>
-                                <Tooltip title="Show detections" placement="right">
+                                <Tooltip title="Show detections" placement="top">
                                     <span>
                                         <Button
                                             percentage={0}
@@ -1103,17 +1151,31 @@ const AutoDetection = () => {
                                         </Button>
                                     </span>
                                 </Tooltip>
-                                <Tooltip title="Remove detections" placement="right">
-                                    <span className='h-full'>
-                                        <Button
-                                            className={`shadow-lg hover:!bg-main-400 !text-black h-full ${!detectionExists ? '!bg-gray-300' : '!bg-red-500'}`}
-                                            disabled={!detectionExists}
-                                            onClick={removeDetections}
-                                        >
-                                            <FontAwesomeIcon icon={faTrash} className='text-center' />
-                                        </Button>
-                                    </span>
-                                </Tooltip>
+                                {!detectionInProcess &&
+                                    <Tooltip title="Remove detections" placement="left">
+                                        <span className='h-full'>
+                                            <Button
+                                                className={`shadow-lg hover:!bg-main-400 !text-black h-full ${!detectionExists ? '!bg-gray-300' : '!bg-red-500'}`}
+                                                disabled={!detectionExists}
+                                                onClick={removeDetections}
+                                            >
+                                                <FontAwesomeIcon icon={faTrash} className='text-center' />
+                                            </Button>
+                                        </span>
+                                    </Tooltip>
+                                }
+                                {detectionInProcess &&
+                                    <Tooltip title="Remove detections" placement="left">
+                                        <span className='h-full'>
+                                            <Button
+                                                className={`shadow-lg hover:!bg-main-400 !text-black h-full ${!detectionExists ? '!bg-gray-300' : '!bg-red-500'}`}
+                                                onClick={stopDetectionProcess}
+                                            >
+                                                <FontAwesomeIcon icon={faStop} className='text-center' />
+                                            </Button>
+                                        </span>
+                                    </Tooltip>
+                                }
                             </div>
                             
                         </div>

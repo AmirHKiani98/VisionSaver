@@ -1,12 +1,15 @@
 import os
 import pandas as pd
-from ai.models import AutoDetection, AutoDetectionCheckpoint
+from ai.models import AutoDetection, AutoDetectionCheckpoint, DetectionProcess
 from django.conf import settings
 import cv2
+import threading
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from ai.counter.model.main import line_points_to_xy, get_line_types
 from copy import deepcopy
+import dotenv
+dotenv.load_dotenv(settings.ENV_PATH)
 logger = settings.APP_LOGGER
 class DetectionAlgorithm:
     """
@@ -108,6 +111,21 @@ class DetectionAlgorithm:
             version=self.version,
             divide_time=self.divide_time
         ).first()
+        # Store the current thread ID and process ID
+        thread_id = threading.get_ident()
+        process_id = os.getpid()
+        
+        # Create or update the DetectionProcess record
+        self.process_model, created = DetectionProcess.objects.update_or_create(
+            record_id=self.record_id,
+            version=self.version,
+            divide_time=self.divide_time,
+            autodetection_checkpoint= checkpoint,
+            defaults={
+                'done': False,
+                'pid': f"{process_id}:{thread_id}",
+            }
+        )
         frame_count = 0
         if checkpoint:
             frame_count = checkpoint.last_frame_captured
@@ -118,6 +136,7 @@ class DetectionAlgorithm:
         # TODO: Check if there is frame done in AutoDetectionCheckpoint and resume from there
         batch_size = 200
         df = pd.DataFrame()
+        self._send_ws_progress(0, total_frames, message=os.getenv("COMMAND_DETECTION_STARTED"))
         while True:
             results = self.read()
             
@@ -133,13 +152,15 @@ class DetectionAlgorithm:
                     df.to_csv(f, mode='a', header=not file_exists, index=False, lineterminator='\n')
                     df = pd.DataFrame()  # Clear the DataFrame after writing
                     f.flush()
-                self._send_ws_progress(frame_count, total_frames)
+                self._send_ws_progress(frame_count, total_frames, message=os.getenv("COMMAND_DETECTION_AVAILABLE"))
         if frame_count % batch_size != 0:
             file_exists = os.path.isfile(self.file_name)
-            self._send_ws_progress(frame_count, total_frames)
+            
             with open(self.file_name, 'a') as f:
                 df.to_csv(f, mode='a', header=not file_exists, index=False, lineterminator='\n')
                 f.flush()
+        self._send_ws_progress(total_frames, total_frames, message=os.getenv("COMMAND_DETECTION_COMPLETED"))
+        self.video.release()
         
         AutoDetection.objects.update_or_create(
             record_id=self.record_id,
@@ -168,6 +189,7 @@ class DetectionAlgorithm:
             AutoDetectionCheckpoint.objects.update_or_create(
                 record_id=self.record_id,
                 version=self.version,
+                total_frames=total_frame,
                 divide_time=self.divide_time,
                 detection_lines= self.detection_lines,
                 defaults={
