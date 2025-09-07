@@ -112,6 +112,7 @@ class AutoDetectionCheckpoint(models.Model):
     
 class DetectionProcess(models.Model):
     # Existing fields...
+    id = models.BigAutoField(primary_key=True, help_text="Unique identifier for the detection process.")
     record = models.ForeignKey(Record, on_delete=models.CASCADE)
     version = models.CharField(max_length=10)
     divide_time = models.FloatField()
