@@ -11,7 +11,6 @@ import os
 import subprocess
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
-from ai.views import run_modifier_detection
 from ai.models import AutoDetection, ModifiedAutoDetection, AutoDetectionCheckpoint
 
 # Create your views here.

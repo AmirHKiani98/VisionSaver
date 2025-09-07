@@ -7,7 +7,7 @@ from django.conf import settings
 from record.models import Record
 from ai.models import DetectionProcess
 from ai.detection_modifier_algorithms.algorithm import AlgorithmModificationDetection
-from ai.detection_algorithms.algorithm import DetectionAlgorithm, AutoDetectionCheckpoint
+from ai.detection_algorithms.algorithm import DetectionAlgorithm
 # Create your views here.
 
 logger = settings.APP_LOGGER
@@ -177,39 +177,50 @@ def terminate_detection_process(request):
     Terminate a specific detection process.
     """
     if request.method == 'POST':
-        import os
-        import signal
         data = json.loads(request.body)
-        process_id = data.get('process_id')
-        if not process_id:
-            return JsonResponse({'error': 'Process ID is required'}, status=400)
+        record_id = data.get('record_id')
+        divide_time = data.get('divide_time')
+        version = data.get('version', 'v1')
         
         from ai.models import DetectionProcess
+        from django.utils import timezone
+        
         try:
-            process = DetectionProcess.objects.get(id=process_id)
+            # Find the process to terminate
+            process = DetectionProcess.objects.get(
+                record_id=record_id,
+                divide_time=divide_time,
+                version=version,
+                done=False
+            )
+            
+            logger.debug(f"Found process: {process}, done: {process.done}, pid: {process.pid}")
+            
             if process.done:
+                logger.debug("Process is already completed")
                 return JsonResponse({'error': 'Process is already completed'}, status=400)
-            if process.pid:
-                pid_parts = process.pid.split(':')
-                if len(pid_parts) != 2:
-                    return JsonResponse({'error': 'Invalid PID format'}, status=400)
-                pid = int(pid_parts[0])
-                # Terminate the process
-                os.kill(pid, signal.SIGTERM)
-                process.terminated = True
-                process.done = True
-                process.save()
-                return JsonResponse({'status': 'success', 'message': f'Process {process_id} terminated'}, status=200)
-            else:
-                return JsonResponse({'error': 'No PID found for this process'}, status=400)
+                
+            # Set the termination flag in the database
+            process.terminate_requested = True
+            process.terminate_requested_at = timezone.now()
+            process.save(update_fields=['terminate_requested', 'terminate_requested_at'])
+            
+            logger.info(f"Termination request set for process {process.id} with pid {process.pid}")
+            
+            return JsonResponse({
+                'status': 'success', 
+                'message': f'Termination signal sent to process {process.id}. The process will stop at the next opportunity.'
+            }, status=200)
+            
         except DetectionProcess.DoesNotExist:
+            logger.debug(f"Process not found for record_id={record_id}, divide_time={divide_time}, version={version}")
             return JsonResponse({'error': 'Detection process not found'}, status=404)
         except Exception as e:
-            logger.error(f"Error terminating process {process_id}: {str(e)}")
+            logger.error(f"Error terminating process: {str(e)}")
             return JsonResponse({'error': f'Error terminating process: {str(e)}'}, status=500)
     else:
+        logger.debug("Invalid request method")
         return JsonResponse({'error': 'Invalid request method'}, status=405)
-
 def run_modifier_detection(record_id, divide_time, version='v1'):
     """
     Retrieve auto counter for a specific record and divide time.

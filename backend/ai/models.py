@@ -1,4 +1,5 @@
 from django.db import models
+from record.models import Record
 
 # Create your models here.
 
@@ -110,15 +111,19 @@ class AutoDetectionCheckpoint(models.Model):
     total_frames = models.IntegerField(default=0, help_text="Total number of frames in the video.")
     
 class DetectionProcess(models.Model):
-    """
-    Model to represent the detection process status.
-    """
-    id = models.AutoField(primary_key=True, help_text="Unique identifier for the detection process.")
-    record = models.ForeignKey('record.Record', on_delete=models.CASCADE, related_name='detection_processes')
-    version = models.CharField(max_length=10, default='v1', help_text="Version of the auto counter algorithm.")
-    divide_time = models.FloatField(default=0.1, help_text="Time interval for dividing counts.")
-    done = models.BooleanField(default=False, help_text="Indicates if the detection process is complete.")
-    created_at = models.DateTimeField(auto_now_add=True, help_text="Timestamp when the detection process started.")
-    terminated = models.BooleanField(default=False, help_text="Indicates if the detection process was terminated.")
-    pid = models.CharField(max_length=30, null=True, blank=True, help_text="Process ID of the detection process.") 
-    autodetection_checkpoint = models.ForeignKey(AutoDetectionCheckpoint, on_delete=models.CASCADE, related_name='detection_processes', help_text="Reference to the progress checkpoint.", null=True, blank=True)
+    # Existing fields...
+    record = models.ForeignKey(Record, on_delete=models.CASCADE)
+    version = models.CharField(max_length=10)
+    divide_time = models.FloatField()
+    pid = models.CharField(max_length=50, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    done = models.BooleanField(default=False)
+    
+    # Add these new fields
+    terminate_requested = models.BooleanField(default=False)
+    terminate_requested_at = models.DateTimeField(null=True, blank=True)
+    terminated = models.BooleanField(default=False)
+    terminated_at = models.DateTimeField(null=True, blank=True)
+    
+    def __str__(self):
+        return f"Detection process for record {self.record.id}, version {self.version}, divide_time {self.divide_time}"
