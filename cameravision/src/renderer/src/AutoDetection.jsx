@@ -527,7 +527,18 @@ const AutoDetection = () => {
         const ws = new window.WebSocket(wsUrl);
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
-            
+            if(data.message){
+                switch (data.message) {
+                    case "DETECTION_STARTED":
+                        
+                        break;
+                    case "DETECTION_AVAILABLE":
+                        setDetectionExists(true);
+                
+                    default:
+                        break;
+                }
+            }
             setDetectingStarted(true);
             if (Math.abs(data.progress - 100) < 1 ){
                 setDetectionExists(true);
@@ -1170,7 +1181,7 @@ const AutoDetection = () => {
                                     </Tooltip>
                                 }
                                 {detectionInProcess &&
-                                    <Tooltip title="Remove detections" placement="left">
+                                    <Tooltip title="Stop detections" placement="left">
                                         <span className='h-full'>
                                             <Button
                                                 className={`shadow-lg hover:!bg-main-400 !text-black h-full ${!detectionInProcess ? '!bg-gray-300' : '!bg-red-500'}`}

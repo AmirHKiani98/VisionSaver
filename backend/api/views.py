@@ -452,6 +452,7 @@ def get_car_detections_at_time(request):
     """
     Retrieve car detections for a specific record.
     """
+    logger.debug(f"Request method: {request.method}")
     if request.method == 'POST':
         data = json.loads(request.body)
         record_id = data.get('record_id')
@@ -473,6 +474,7 @@ def get_car_detections_at_time(request):
             return JsonResponse({"error": "The data does not exist"}, status=405)
         
     else:
+        logger.debug("Invalid request method")
         return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 @csrf_exempt
