@@ -512,6 +512,7 @@ const AutoDetection = () => {
             } else {
                 setDetectingStarted(true);
                 setDetectionInProcess(true);
+
                 openNotification('success', 'Detecting started successfully');
             }
         })
@@ -1127,9 +1128,9 @@ const AutoDetection = () => {
                                 <Tooltip title="Run Detection" placement="right">
                                     <span className='h-full'>
                                         <Button
-                                            className={`shadow-lg hover:!bg-main-400 !text-black h-full ${detectionExists ? '!bg-gray-300' : '!bg-green-500 '}`}
+                                            className={`shadow-lg hover:!bg-main-400 !text-black h-full ${(detectionExists || detectingStarted) ? '!bg-gray-300' : '!bg-green-500 '}`}
                                             onClick={startDetecting}
-                                            disabled={detectionExists}
+                                            disabled={detectionExists || detectingStarted}
                                         >
                                             <FontAwesomeIcon icon={faMagnifyingGlass} className='text-center' />
                                         </Button>
