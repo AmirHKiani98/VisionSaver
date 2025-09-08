@@ -178,6 +178,11 @@ class DetectionAlgorithm:
             divide_time=self.divide_time,
             file_name=self.file_name
         )
+        DetectionProcess.objects.filter(
+            record_id=self.record_id,
+            version=self.version,
+            divide_time=self.divide_time
+        ).update(done=True)
         
         self.df = pd.read_csv(self.file_name)
         return self.df

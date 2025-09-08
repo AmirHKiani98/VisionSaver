@@ -27,5 +27,9 @@ urlpatterns = [
     path(
         f"{os.getenv('API_IS_DETECTION_IN_PROCESS')}",
         views.check_if_detection_in_process,
-    )
+    ),
+    path(
+        f"{os.getenv('AI_DETECTION_EXISTS')}",
+        views.check_if_detection_exists,
+    ),
 ]

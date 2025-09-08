@@ -122,8 +122,8 @@ const AutoDetection = () => {
     react.useEffect(() => {
         if (!env) return;
         const data = { record_id: recordId, divide_time: accuracy, version: detectionVersion };
-        checkIfDetectingModifiedExists(data);
         checkIfDetectionInProcess(data);
+        checkIfDetectingExists(data);
     }, [env, recordId, accuracy, detectionVersion]);
     
     const checkIfDetectionInProcess = (data) => {
@@ -151,9 +151,8 @@ const AutoDetection = () => {
     }
 
     const checkIfDetectingExists = (data) => {
-        return;
         if (!env || !data) return;
-        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_COUNT_EXISTS}`;
+        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.AI_DETECTION_EXISTS}`;
         fetch(url, {
             method: 'POST',
             headers: {
@@ -163,7 +162,7 @@ const AutoDetection = () => {
         })
         .then(response => response.json())
         .then(data => {
-
+            console.log('Detecting exists data:', data);
             if (data && data.exists) {
                 setDetectionExists(true);
                 setProgress(100); // Set progress to 100% if detecting exists
@@ -288,6 +287,7 @@ const AutoDetection = () => {
             };
         });
     };
+
 
     const handleMouseMove = (e) => {
         if (!isDrawing.current) return;

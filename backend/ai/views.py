@@ -149,6 +149,38 @@ def run_car_detection(request):
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
 
+@csrf_exempt
+def check_if_detection_exists(request):
+    """
+    Check if detection results exist for a specific record and divide time.
+    """
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        record_id = data.get('record_id')
+        divide_time = data.get('divide_time')
+        version = data.get('version', 'v1')
+        
+        try:
+            record = Record.objects.get(id=record_id)
+        except Record.DoesNotExist:
+            return JsonResponse({'error': 'Record not found'}, status=404)
+        
+        from ai.models import AutoDetectionCheckpoint
+        
+        detection_process = DetectionProcess.objects.filter(
+            record=record,
+            divide_time=divide_time,
+            version=version,
+            done=True,
+            terminated=False
+        ).first()
+        
+        if detection_process:
+            return JsonResponse({'exists': True}, status=200)
+        else:
+            return JsonResponse({'exists': False}, status=200)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 @csrf_exempt
 def list_detection_processes(request):
