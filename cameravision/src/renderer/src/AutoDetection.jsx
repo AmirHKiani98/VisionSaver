@@ -409,7 +409,7 @@ const AutoDetection = () => {
             openNotification('error', 'No detections to remove');
             return;
         }
-        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_DELETE_DETECTION}`;
+        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.AI_DELETE_DETECTION}`;
         fetch(url, {
             method: 'POST',
             headers: {

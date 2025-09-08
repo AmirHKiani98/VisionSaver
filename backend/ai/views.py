@@ -174,6 +174,7 @@ def check_if_detection_exists(request):
             done=True,
             terminated=False
         ).first()
+        logger.info(f"Check if detection exists for record {record_id}, divide_time {divide_time}, version {version}: {'exists' if detection_process else 'does not exist'}")
         
         if detection_process:
             return JsonResponse({'exists': True}, status=200)
@@ -264,3 +265,47 @@ def run_modifier_detection(record_id, divide_time, version='v1'):
         divide_time=divide_time,
     )
     return ADZ.get_result()
+
+@csrf_exempt
+def delete_detection(request):
+    """
+    Delete detection results for a specific record and divide time.
+    """
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        record_id = data.get('record_id')
+        divide_time = data.get('divide_time')
+        version = data.get('version', 'v1')
+        
+        try:
+            record = Record.objects.get(id=record_id)
+        except Record.DoesNotExist:
+            return JsonResponse({'error': 'Record not found'}, status=404)
+        
+        from ai.models import AutoDetectionCheckpoint, DetectionProcess, AutoDetection
+        
+        # Delete detection results
+        deleted_count, _ = AutoDetection.objects.filter(
+            record=record,
+            divide_time=divide_time,
+            version=version
+        ).delete()
+        
+        # Optionally, delete related checkpoints and processes
+        AutoDetectionCheckpoint.objects.filter(
+            record=record,
+            divide_time=divide_time,
+            version=version
+        ).delete()
+        
+        DetectionProcess.objects.filter(
+            record=record,
+            divide_time=divide_time,
+            version=version
+        ).delete()
+        
+        logger.info(f"Deleted {deleted_count} detection results for record {record_id}, divide_time {divide_time}, version {version}")
+        
+        return JsonResponse({'status': 'success', 'deleted_count': deleted_count}, status=200)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)

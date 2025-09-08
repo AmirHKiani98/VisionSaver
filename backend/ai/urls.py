@@ -32,4 +32,8 @@ urlpatterns = [
         f"{os.getenv('AI_DETECTION_EXISTS')}",
         views.check_if_detection_exists,
     ),
+    path(
+        f"{os.getenv('AI_DELETE_DETECTION')}",
+        views.delete_detection,
+    ),
 ]
