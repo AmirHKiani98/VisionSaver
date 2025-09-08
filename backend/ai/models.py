@@ -1,4 +1,5 @@
 from django.db import models
+from record.models import Record
 
 # Create your models here.
 
@@ -82,6 +83,7 @@ class AutoDetection(models.Model):
     file_name = models.TextField(help_text="File name associated with the count data.")
     divide_time = models.FloatField(default=0.1, help_text="Time interval for dividing counts.")
     version = models.CharField(max_length=10, default='v1', help_text="Version of the auto counter algorithm.")
+    detection_lines = models.ForeignKey(DetectionLines, on_delete=models.CASCADE, related_name='auto_detections', help_text="Reference to the detection lines used for counting.", null=True, blank=True)
 
 class AutoCount(models.Model):
     """
@@ -94,3 +96,35 @@ class AutoCount(models.Model):
     version = models.CharField(max_length=10, default='v1', help_text="Version of the auto counter algorithm.")
     divide_time = models.FloatField(default=0.1, help_text="Time interval for dividing counts.")
     lines = models.ForeignKey(DetectionLines, on_delete=models.CASCADE, related_name='auto_counts', help_text="Reference to the detection lines used for counting.")
+
+class AutoDetectionCheckpoint(models.Model):
+    """
+    Model to represent checkpoints in the auto detection process.
+    """
+    id = models.AutoField(primary_key=True, help_text="Unique identifier for the auto detection checkpoint.")
+    record = models.ForeignKey('record.Record', on_delete=models.CASCADE, related_name='auto_detection_checkpoints')
+    created_time = models.DateField(help_text="The created date time", auto_now_add=True)
+    version = models.CharField(max_length=10, default='v1', help_text="Version of the auto counter algorithm.")
+    divide_time = models.FloatField(default=0.1, help_text="Time interval for dividing counts.")
+    last_frame_captured = models.IntegerField(default=0, help_text="The last frame number that was processed.")
+    detection_lines = models.ForeignKey(DetectionLines, on_delete=models.CASCADE, related_name='auto_detection_checkpoints', help_text="Reference to the detection lines used for counting.", null=True, blank=True)
+    total_frames = models.IntegerField(default=0, help_text="Total number of frames in the video.")
+    
+class DetectionProcess(models.Model):
+    # Existing fields...
+    id = models.BigAutoField(primary_key=True, help_text="Unique identifier for the detection process.")
+    record = models.ForeignKey(Record, on_delete=models.CASCADE)
+    version = models.CharField(max_length=10)
+    divide_time = models.FloatField()
+    pid = models.CharField(max_length=50, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    done = models.BooleanField(default=False)
+    autodetection_checkpoint = models.ForeignKey(AutoDetectionCheckpoint, on_delete=models.SET_NULL, null=True, blank=True)
+    # Add these new fields
+    terminate_requested = models.BooleanField(default=False)
+    terminate_requested_at = models.DateTimeField(null=True, blank=True)
+    terminated = models.BooleanField(default=False)
+    terminated_at = models.DateTimeField(null=True, blank=True)
+    
+    def __str__(self):
+        return f"Detection process for record {self.record.id}, version {self.version}, divide_time {self.divide_time}"

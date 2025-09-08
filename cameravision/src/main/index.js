@@ -233,13 +233,22 @@ if(!is.dev){
       join(__dirname, '../../../backend/media/**'),
       join(__dirname, '../../../backend/logs/**'),
       join(__dirname, '../../../backend/apps/apache24/apache_logs/**'),
+      join(__dirname, '../../../backend/db.sqlite3'),
+      join(__dirname, '../../../backend/db.sqlite3-*'),  // Add this to ignore journal files
+      '**/db.sqlite3*',  // Add this catch-all pattern for database files
       '**/*.pyc'
-    ]
+    ],
+    ignoreInitial: true
   }).on('change', (changedPath) => {
+    // Add an explicit filter for database files
+    if (changedPath.includes('db.sqlite3') || changedPath.includes('sqlite3-journal')) {
+      console.log(`Ignoring change to database file: ${changedPath}`);
+      return;
+    }
+    
     console.log(`Backend file changed: ${changedPath}, restarting Django...`);
     startDjango();
   });
-  startDjango();
 
   killPort(streamerPort, () => {
     streamerProcess = spawn('python', ['-m', 'uvicorn', 'apps.streamer.asgi_mpeg:app', '--host', streamerDomain, '--port', streamerPort], {

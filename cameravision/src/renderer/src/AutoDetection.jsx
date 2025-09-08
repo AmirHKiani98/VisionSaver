@@ -16,7 +16,7 @@ import {
     Divider,
     Chip
 } from '@mui/material'; 
-import {faPen, faPlus, faEraser, faUpload, faRefresh, faEye, faEyeSlash, faCar, faMagnifyingGlass, faTrash, faCalculator} from '@fortawesome/free-solid-svg-icons';
+import {faPen, faPlus, faEraser, faUpload, faRefresh, faEye, faEyeSlash, faCar, faMagnifyingGlass, faTrash, faCalculator, faStop} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLocation } from 'react-router-dom';
 
@@ -64,6 +64,7 @@ const AutoDetection = () => {
     const [modifiedProgress, setModifiedProgress] = react.useState(0);
     const [modifyingDetectionStarted, setModifyingDetectionStarted] = react.useState(false);
     const [maxTimeUpdated, setMaxTimeUpdated] = react.useState(0);
+    const [detectionInProcess, setDetectionInProcess] = react.useState(false);
 
     const autoHideDuration = 3000;
     const openNotification = (severity, message) => {
@@ -121,13 +122,13 @@ const AutoDetection = () => {
     react.useEffect(() => {
         if (!env) return;
         const data = { record_id: recordId, divide_time: accuracy, version: detectionVersion };
+        checkIfDetectionInProcess(data);
         checkIfDetectingExists(data);
-        checkIfDetectingModifiedExists(data);
-    }, [env, recordId]);
+    }, [env, recordId, accuracy, detectionVersion]);
     
-    const checkIfDetectingExists = (data) => {
+    const checkIfDetectionInProcess = (data) => {
         if (!env || !data) return;
-        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_COUNT_EXISTS}`;
+        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_IS_DETECTION_IN_PROCESS}`;
         fetch(url, {
             method: 'POST',
             headers: {
@@ -137,7 +138,31 @@ const AutoDetection = () => {
         })
         .then(response => response.json())
         .then(data => {
+            console.log('Detection in process data:', data);
+            if (data && data.running) {
+                setDetectingStarted(true);
+                setProgress(data.progress || 0);
+                setDetectionInProcess(true);
+            } else {
+                setDetectingStarted(false);
+                setProgress(0);
+            }
+        })
+    }
 
+    const checkIfDetectingExists = (data) => {
+        if (!env || !data) return;
+        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.AI_DETECTION_EXISTS}`;
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Detecting exists data:', data);
             if (data && data.exists) {
                 setDetectionExists(true);
                 setProgress(100); // Set progress to 100% if detecting exists
@@ -263,6 +288,7 @@ const AutoDetection = () => {
         });
     };
 
+
     const handleMouseMove = (e) => {
         if (!isDrawing.current) return;
         const stage = e.target.getStage();
@@ -348,6 +374,32 @@ const AutoDetection = () => {
         return false;
     }
 
+    const stopDetectionProcess = () => {
+        if (!detectingStarted){
+            openNotification('error', 'No detection process to stop');
+            return;
+        }
+        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.AI_TERMINATE_DETECTION_PROCESS}`;
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ record_id: recordId, divide_time: accuracy, version: detectionVersion }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                openNotification('error', data.error);
+            } else {
+                setDetectingStarted(false);
+                setDetectionInProcess(false);
+                setProgress(0);
+                openNotification('success', 'Detection process stopped successfully');
+            }
+        })
+    }
+
     const handleMouseUp = () => {
         isDrawing.current = false;
     };
@@ -357,7 +409,7 @@ const AutoDetection = () => {
             openNotification('error', 'No detections to remove');
             return;
         }
-        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_DELETE_DETECTION}`;
+        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.AI_DELETE_DETECTION}`;
         fetch(url, {
             method: 'POST',
             headers: {
@@ -459,6 +511,8 @@ const AutoDetection = () => {
                 openNotification('error', data.error);
             } else {
                 setDetectingStarted(true);
+                setDetectionInProcess(true);
+
                 openNotification('success', 'Detecting started successfully');
             }
         })
@@ -473,6 +527,18 @@ const AutoDetection = () => {
         const ws = new window.WebSocket(wsUrl);
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
+            if(data.message){
+                switch (data.message) {
+                    case "DETECTION_STARTED":
+                        
+                        break;
+                    case "DETECTION_AVAILABLE":
+                        setDetectionExists(true);
+                
+                    default:
+                        break;
+                }
+            }
             setDetectingStarted(true);
             if (Math.abs(data.progress - 100) < 1 ){
                 setDetectionExists(true);
@@ -1069,19 +1135,19 @@ const AutoDetection = () => {
                         </div>
                         
                         <div className='flex items-center justify-between w-full'>
-                            <div className='flex flex-col gap-2.5'>
+                            <div className='flex justify-between gap-2.5 w-full'>
                                 <Tooltip title="Run Detection" placement="right">
                                     <span className='h-full'>
                                         <Button
-                                            className={`shadow-lg hover:!bg-main-400 !text-black h-full ${detectionExists ? '!bg-gray-300' : '!bg-green-500 '}`}
+                                            className={`shadow-lg hover:!bg-main-400 !text-black h-full ${(detectionExists || detectingStarted) ? '!bg-gray-300' : '!bg-green-500 '}`}
                                             onClick={startDetecting}
-                                            disabled={detectionExists}
+                                            disabled={detectionExists || detectingStarted}
                                         >
                                             <FontAwesomeIcon icon={faMagnifyingGlass} className='text-center' />
                                         </Button>
                                     </span>
                                 </Tooltip>
-                                <Tooltip title="Show detections" placement="right">
+                                <Tooltip title="Show detections" placement="top">
                                     <span>
                                         <Button
                                             percentage={0}
@@ -1101,111 +1167,33 @@ const AutoDetection = () => {
                                         </Button>
                                     </span>
                                 </Tooltip>
-                                <Tooltip title="Remove detections" placement="right">
-                                    <span className='h-full'>
-                                        <Button
-                                            className={`shadow-lg hover:!bg-main-400 !text-black h-full ${!detectionExists ? '!bg-gray-300' : '!bg-red-500'}`}
-                                            disabled={!detectionExists}
-                                            onClick={removeDetections}
-                                        >
-                                            <FontAwesomeIcon icon={faTrash} className='text-center' />
-                                        </Button>
-                                    </span>
-                                </Tooltip>
-                            </div>
-                            <div className='flex flex-col gap-2.5'>
-                                <Tooltip title="Run Detection Modifier" placement="left">
-                                    <span className='h-full'>
-                                        <Button
-                                            className={`shadow-lg hover:!bg-main-400 !text-black h-full ${modifiedDetectingExists ? '!bg-gray-300' : '!bg-green-500 '}`}
-                                            onClick={runModifier}
-                                            disabled={modifiedDetectingExists}
-                                        >
-                                            <FontAwesomeIcon icon={faCar} className='text-center' />
-                                        </Button>
-                                    </span>
-                                    
-                                </Tooltip>
-                                <Tooltip title="Show modified detections" placement="left">
-                                    <span className='h-full'>
-                                        <Button 
-                                            className={`shadow-lg hover:!bg-main-400 !text-black !h-full ${!modifiedDetectingExists ? '!bg-gray-300' : '!bg-green-500'}`}
-                                            disabled={!modifiedDetectingExists}
-                                            onClick={() =>{
-                                                setShowDetections(false);
-                                                if (showModifiedDetections) {
-                                                    setShowModifiedDetections(false);
-                                                    openNotification('info', 'Modified detections are now hidden');
-                                                } else {
-                                                    setShowModifiedDetections(true);
-                                                    openNotification('info', 'Modified detections are now visible');
-                                                }
-                                            }}
+                                {!detectionInProcess &&
+                                    <Tooltip title="Remove detections" placement="left">
+                                        <span className='h-full'>
+                                            <Button
+                                                className={`shadow-lg hover:!bg-main-400 !text-black h-full ${!detectionExists ? '!bg-gray-300' : '!bg-red-500'}`}
+                                                disabled={!detectionExists}
+                                                onClick={removeDetections}
                                             >
-                                            <FontAwesomeIcon icon={!showModifiedDetections ? faEye : faEyeSlash} className='text-center' />
-                                        </Button>
-                                    </span>
-                                </Tooltip>
-                                <Tooltip title="Remove modified detections" placement="left">
-                                    <span className='h-full'>
-                                        <Button
-                                            className={`shadow-lg hover:!bg-main-400 !text-black h-full ${!modifiedDetectingExists ? '!bg-gray-300' : '!bg-red-500'}`}
-                                            disabled={!modifiedDetectingExists}
-                                            onClick={removeModifiedDetections}
-                                        >
-                                            <FontAwesomeIcon icon={faTrash} className='text-center' />
-                                        </Button>
-                                    </span>
-                                </Tooltip>
+                                                <FontAwesomeIcon icon={faTrash} className='text-center' />
+                                            </Button>
+                                        </span>
+                                    </Tooltip>
+                                }
+                                {detectionInProcess &&
+                                    <Tooltip title="Stop detections" placement="left">
+                                        <span className='h-full'>
+                                            <Button
+                                                className={`shadow-lg hover:!bg-main-400 !text-black h-full ${!detectionInProcess ? '!bg-gray-300' : '!bg-red-500'}`}
+                                                onClick={stopDetectionProcess}
+                                            >
+                                                <FontAwesomeIcon icon={faStop} className='text-center' />
+                                            </Button>
+                                        </span>
+                                    </Tooltip>
+                                }
                             </div>
                             
-                        </div>
-                    </div>
-                    <div>
-                        <Divider
-                            textAlign="left"
-                            sx={{
-                                '&::before, &::after': {
-                                borderColor: 'secondary.light'
-                                }
-                            }}
-                        >
-                            <Chip label="Count" className="!bg-main-400 !text-white !font-bold" />
-                        </Divider>
-                    </div>
-                    <div className='p-2.5 w-full flex justify-between'>
-                        <div>
-                            <Tooltip title="Count" placement="top">
-                                <span>
-                                    <Button
-                                        className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black h-full'
-                                        onClick={startCounting}
-                                    >
-                                        <FontAwesomeIcon icon={faCalculator} />
-                                    </Button>
-                                </span>
-                            </Tooltip>
-                        </div>
-                        <div>
-                            <Tooltip title="Count" placement="top">
-                                <span>
-                                    <Button
-                                        className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black h-full'
-                                        onClick={
-                                            () => {
-                                                setShowDetections(!showDetections);
-                                                if (showDetections) {
-                                                    openNotification('info', 'Counts are now visible');
-                                                } else {   
-                                                    openNotification('info', 'Counts now are visible');
-                                                }
-                                            }
-                                        }
-                                    >
-                                        <FontAwesomeIcon icon={!showDetections ? faEye : faEyeSlash} />
-                                    </Button>
-                                </span>
-                            </Tooltip>
                         </div>
                     </div>
                 </div>

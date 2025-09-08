@@ -11,8 +11,7 @@ import os
 import subprocess
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
-from ai.views import run_modifier_detection
-from ai.models import AutoDetection, ModifiedAutoDetection
+from ai.models import AutoDetection, ModifiedAutoDetection, AutoDetectionCheckpoint
 
 # Create your views here.
 
@@ -453,6 +452,7 @@ def get_car_detections_at_time(request):
     """
     Retrieve car detections for a specific record.
     """
+    logger.debug(f"Request method: {request.method}")
     if request.method == 'POST':
         data = json.loads(request.body)
         record_id = data.get('record_id')
@@ -474,6 +474,7 @@ def get_car_detections_at_time(request):
             return JsonResponse({"error": "The data does not exist"}, status=405)
         
     else:
+        logger.debug("Invalid request method")
         return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 @csrf_exempt
@@ -574,7 +575,13 @@ def remove_detection(request):
         auto_detection = AutoDetection.objects.filter(record_id=record_id, version=version, divide_time=divide_time).first()
         if not auto_detection:
             return JsonResponse({"error": "Auto detection not found"}, status=404)
+        file_path = auto_detection.file_name
+        if os.path.exists(file_path):
+            os.remove(file_path)
         auto_detection.delete()
+        autodetection_checkpoints = AutoDetectionCheckpoint.objects.filter(record_id=record_id, version=version, divide_time=divide_time).first()
+        if autodetection_checkpoints:
+            autodetection_checkpoints.delete()
         return JsonResponse({"message": "Detection removed successfully"}, status=200)
     else:
         return JsonResponse({"error": "Method Not Allowed"}, status=405)

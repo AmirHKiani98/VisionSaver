@@ -27,8 +27,6 @@ class CounterProgressConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.record_id = self.scope['url_route']['kwargs']['record_id']
         self.divide_time = self.scope['url_route']['kwargs']['divide_time']
-        logger.info(f"Received record_id: {self.record_id}")
-        logger.info(f"Received divide_time: {self.divide_time}")
         try:
             dt = float(self.divide_time)
             self.divide_time = f"{dt:.6g}"
@@ -47,7 +45,8 @@ class CounterProgressConsumer(AsyncWebsocketConsumer):
 
     async def send_progress(self, event):
         await self.send(text_data=json.dumps({
-            "progress": event["progress"]
+            "progress": event["progress"],
+            "message": event.get("message", "")
         }))
 
     

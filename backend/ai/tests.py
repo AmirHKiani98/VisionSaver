@@ -138,6 +138,28 @@ class AiAppTestCase(TestCase):
         cv2.imshow("Frame with Detections", self.frame)
         cv2.waitKey(0)
         # Passed and just fine
+    
+    def test_modifier_v2(self):
+        """
+        Test the modifier function in v2.
+        """
+        from ai.detection_modifier_algorithms.v2.model import modifier
+        prev_results = [
+            {'track_id': 1, 'time': 1.0, 'x1': 100, 'y1': 100, 'x2': 200, 'y2': 200, 'cls_id': 0, 'confidence': 0.9},
+            {'track_id': 2, 'time': 1.0, 'x1': 300, 'y1': 300, 'x2': 400, 'y2': 400, 'cls_id': 0, 'confidence': 0.8},
+            {'track_id': 3, 'time': 1.0, 'x1': 500, 'y1': 500, 'x2': 600, 'y2': 600, 'cls_id': 0, 'confidence': 0.85},
+        ]
+        
+        results = [
+            {'track_id': 4, 'time': 2.0, 'x1': 105, 'y1': 105, 'x2': 205, 'y2': 205, 'cls_id': 0, 'confidence': 0.92},
+            {'track_id': 5, 'time': 2.0, 'x1': 305, 'y1': 305, 'x2': 405, 'y2': 405, 'cls_id': 0, 'confidence': 0.82},
+            {'track_id': 6, 'time': 2.0, 'x1': 700, 'y1': 700, 'x2': 800, 'y2': 800, 'cls_id': 0, 'confidence': 0.88},
+        ]
+        modified = modifier(results, prev_results)
+        assert modified[0]['track_id'] == 1  # Should match with prev_results[0]
+        assert modified[1]['track_id'] == 2  # Should match with prev_results[1]
+        assert modified[2]['track_id'] == 6  # No match, should remain the sameren
+
 
     def test_counter(self):
         """
@@ -180,10 +202,17 @@ class AiAppTestCase(TestCase):
         cv2.imshow("Frame with Counting", self.frame)
         cv2.waitKey(0)
         
+    def test_detection_algorithm(self):
+        """
+        Test the DetectionAlgorithm class.
+        """
+        detection_lines = DetectionLines.objects.filter(record_id=self.record_id).first()
+        if not detection_lines:
+            raise ValueError(f"No detection lines found for record ID {self.record_id}")
         
-
-
-        
+        detection_algorithm = DetectionAlgorithm(record_id=self.record_id, divide_time=self.divide_time, version='v1', lines=detection_lines)
+        results = detection_algorithm.read()
+        print(results)
 
 
 

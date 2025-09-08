@@ -23,7 +23,7 @@ from shapely.geometry import Point, Polygon, LineString, box
 from shapely.geometry.base import BaseGeometry
 from shapely.ops import nearest_points
 from shapely.strtree import STRtree
-
+import polars as pl
 logger = settings.APP_LOGGER
 
 
@@ -451,3 +451,39 @@ class Model:
                     line_types[line_key].append(["straight", segs])
         self.line_types = line_types
         return self.line_types
+
+def modifier(results, previous_results, iou_threshold=0.8):
+    """
+    Modify detection results based on previous frame's results.
+    """
+    results_df = pl.DataFrame(results)
+    results_df = results_df.with_columns([
+        pl.struct(pl.col(['x1', 'y1', 'x2', 'y2'])).map_elements(lambda row: Polygon([(row['x1'], row['y1']), (row['x2'], row['y1']), (row['x2'], row['y2']), (row['x1'], row['y2'])])).alias('bbox')
+    ])
+    previous_results_df = pl.DataFrame(previous_results)
+    previous_results_df = previous_results_df.with_columns([
+        pl.struct(pl.col(['x1', 'y1', 'x2', 'y2'])).map_elements(lambda row: Polygon([(row['x1'], row['y1']), (row['x2'], row['y1']), (row['x2'], row['y2']), (row['x1'], row['y2'])])).alias('bbox')
+    ])
+
+
+    # get the rows in the results_df with track_id not in previous_results_df
+    new_detections = results_df.filter(~results_df['track_id'].is_in(previous_results_df['track_id']))
+    rest_detections = results_df.filter(results_df['track_id'].is_in(previous_results_df['track_id']))
+    if not new_detections.is_empty():
+        # Check if the iou of the new detection with any previous detection is > iou_threshold
+        new_rows = []
+        for row in new_detections.iter_rows(named=True):
+            found_match = False
+            for prev_row in previous_results_df.iter_rows(named=True):
+                iou = row['bbox'].intersection(prev_row['bbox']).area / row['bbox'].union(prev_row['bbox']).area
+                if iou > iou_threshold:
+                    row["track_id"] = prev_row["track_id"]
+                    found_match = True
+                    new_rows.append(row)
+                    break
+            if not found_match:
+                new_rows.append(row)
+        new_detections = pl.DataFrame(new_rows)
+    combined_df = pl.concat([rest_detections, new_detections])
+    combined_df = combined_df.drop('bbox')
+    return combined_df.to_dicts()
