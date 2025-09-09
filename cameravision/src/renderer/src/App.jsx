@@ -83,7 +83,7 @@ function App() {
   const lockButtonRef = useRef(null);
   const [shouldAddCronJob, setShouldAddCronJob] = useState(false)
   const [isImportRecordModalOpen, setIsImportRecordModalOpen] = useState(false)
-
+  const [loadingRecords, setLoadingRecords] = useState(true);
   const getQuery = new URLSearchParams(location.search);
   const currentPage = parseInt(getQuery.get('page')) || 1;
   const recordLinkEditModalHandler = () => {
@@ -100,6 +100,21 @@ function App() {
     }
     setOpen(false)
   }
+
+  useEffect(() => {
+    // Calculate the starting index based on the currentPage
+    const newIndex = (currentPage - 1) * recordLinksPerPage;
+    setStartRecordLinkIndex(newIndex);
+  }, [currentPage, recordLinksPerPage]);
+
+  // And also ensure the query param is set correctly on initial load
+  useEffect(() => {
+    if (!getQuery.has('page')) {
+      getQuery.set('page', '1');
+      history.pushState({}, '', `?${getQuery.toString()}`);
+    }
+  }, []);
+
   useEffect(() => {
     if (!env || !env.BACKEND_SERVER_DOMAIN || !env.BACKEND_SERVER_PORT || !env.API_GET_IPS) {
       return; // Return early if env is not set or API endpoint is missing
@@ -179,12 +194,13 @@ function App() {
   }, [env.BACKEND_SERVER_DOMAIN, env.BACKEND_SERVER_PORT, env.GET_RECORD_STATUS, recordLinks]); // Only use stable primitive dependencies
 
   useEffect(() => {
+    setLoadingRecords(true);
     if (env.BACKEND_SERVER_DOMAIN && env.BACKEND_SERVER_PORT && env.API_GET_RECORD_SCHEDULE) {
       const apiLink = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_GET_RECORD_SCHEDULE}`
       fetch(apiLink)
         .then((res) => res.json())
         .then((data) => {
-          console.log('Fetched record schedule:', data)
+          setLoadingRecords(false);
           if (Array.isArray(data)) {
             // camera_url should be changed to cameraUrl
             data = data.map((record) => ({
@@ -215,6 +231,7 @@ function App() {
         .catch((e) => {
           console.error('Error fetching record schedule:', e)
           setRecordLinks([])
+          setLoadingRecords(false);
         })
     }
   }, [env])
@@ -302,6 +319,7 @@ function App() {
     setChannel('quad')
     openNotification('success', 'Camera stream added.')
   }
+
 
   const downloadDB = () => {
     if (!env.BACKEND_SERVER_DOMAIN || !env.BACKEND_SERVER_PORT || !env.API_DOWNLOAD_DB) {
@@ -763,7 +781,12 @@ function App() {
                 <Chip label="Record Links" className="!bg-main-400 !text-white !font-bold" />
               </Divider>
               <List>
-                {recordLinks.length === 0 ? (
+                
+                {loadingRecords ? (
+                  <ListItem className="!bg-main-700 text-white rounded-lg shadow-lg">
+                    <CircularProgress size={24} className="mr-2" /> Loading records...
+                  </ListItem>
+                ) : recordLinks.length === 0 ? (
                   <ListItem className="!bg-main-700 text-white rounded-lg shadow-lg">
                     No records found
                   </ListItem>
