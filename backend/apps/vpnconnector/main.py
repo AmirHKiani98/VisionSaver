@@ -1,4 +1,5 @@
 import platform
+import requests
 if platform.system() == 'Windows':
     import wmi
     import subprocess
@@ -53,6 +54,20 @@ if platform.system() == 'Windows':
         return vpn_names
 
     def connect_to_vpn(): #type: ignore
+        # GUIDELINES:
+        ## VPN should be connected if we don't have access to the APEX page
+        ## NOTE: If at any point, County changes the login page, this will break
+        ##       and we will need to update the logic here.
+        apex_url = "https://hprd.co.hennepin.mn.us"
+        try:
+            response = requests.get(apex_url, timeout=5)
+            if response.status_code == 200:
+                #print("Already connected to APEX page; no VPN connection needed.")
+                return True
+        except requests.RequestException as e:
+            #print(f"Could not reach APEX page: {e}")
+            pass
+        
         vpn_names = list_all_vpn_connections()
         if vpn_names:
             # if the list size is 1 return the first item
@@ -65,6 +80,9 @@ if platform.system() == 'Windows':
                 #print(f"Connecting to VPN: {vpn_name}")
                 success = connect_vpn_wmi(vpn_name)
                 return success
+        else:
+            #print("No VPN connections configured.")
+            return False
         
 
     if __name__ == "__main__":

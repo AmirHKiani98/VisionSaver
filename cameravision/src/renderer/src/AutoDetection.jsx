@@ -16,7 +16,7 @@ import {
     Divider,
     Chip
 } from '@mui/material'; 
-import {faPen, faPlus, faEraser, faUpload, faRefresh, faEye, faEyeSlash, faCar, faMagnifyingGlass, faTrash, faCalculator, faStop} from '@fortawesome/free-solid-svg-icons';
+import {faPen, faPlus, faEraser, faUpload, faRefresh, faEye, faEyeSlash, faCar, faMagnifyingGlass, faTrash, faCalculator, faStop, faClone, faDirections, faArrowRight} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLocation } from 'react-router-dom';
 
@@ -41,7 +41,7 @@ const AutoDetection = () => {
     const [portal, setPortal] = react.useState("");
     const [detectingStarted, setDetectingStarted] = react.useState(false);
     const isDrawing = react.useRef(false);
-    const [tool, setTool] = react.useState('pen'); // 'pen'
+    const [tool, setTool] = react.useState('zone');
     const [videoReady, setVideoReady] = react.useState(false);
     const [videoDisplaySize, setVideoDisplaySize] = react.useState({ width: 1, height: 1 });
     const [open, setOpen] = react.useState(false);
@@ -431,6 +431,7 @@ const AutoDetection = () => {
             openNotification('error', `Error removing detections: ${error.message}`);
         });
     }
+    
     const removeModifiedDetections = () => {
         if (!modifiedDetectingExists){
             openNotification('error', 'No modified detections to remove');
@@ -942,13 +943,20 @@ const AutoDetection = () => {
                                 onChange={(e) => setTool(e.target.value)}
 
                             >
-                                <MenuItem value={'pen'}>
-                                <Typography variant="body1" color="textPrimary">
-                                    Pen
-                                    <FontAwesomeIcon icon={faPen} className="ml-2" />
-                                </Typography>
-                                
+                                <MenuItem value={'zone'}>
+                                    <Typography variant="body1" color="textPrimary">
+                                        Zone
+                                        <FontAwesomeIcon icon={faClone} className="ml-2" />
+                                    </Typography>
                                 </MenuItem>
+
+                                <MenuItem value={'direction'}>
+                                    <Typography variant="body1" color="textPrimary">
+                                        Direction
+                                        <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
+                                    </Typography>
+                                </MenuItem>
+
                                 <MenuItem value={'eraser'}>
                                     <Typography variant="body1" color="textPrimary">
                                         Eraser
