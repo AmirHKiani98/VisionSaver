@@ -141,6 +141,7 @@ class DetectionAlgorithm:
             self.video.set(cv2.CAP_PROP_POS_FRAMES, frame_count)
             print(f"Resuming from frame {frame_count}")
         total_frames = int(self.video.get(cv2.CAP_PROP_FRAME_COUNT))
+        logger.info(f"Starting detection process for record {self.record_id}, version {self.version}, divide_time {self.divide_time}. Total frames: {total_frames}, starting from frame: {frame_count}")
         # TODO: Check if there is frame done in AutoDetectionCheckpoint and resume from there
         batch_size = 200
         df = pd.DataFrame()
