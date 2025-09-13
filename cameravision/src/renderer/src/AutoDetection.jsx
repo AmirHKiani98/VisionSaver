@@ -328,8 +328,8 @@ const AutoDetection = () => {
         let [x, y] = points;
         
         
-        x = x / videoRef.current.videoWidth;
-        y = y / videoRef.current.videoHeight;
+        // x = x / videoRef.current.videoWidth;
+        // y = y / videoRef.current.videoHeight;
         
         
         x = x * stageRef.current.width();
@@ -601,13 +601,14 @@ const AutoDetection = () => {
         const closestTime = times.reduce((prev, curr) => {
             return Math.abs(curr - time) < Math.abs(prev - time) ? curr : prev;
         });
+        if (Math.abs(closestTime - time) > accuracy) {
+            return [];
+        }
 
         // Return detections for closest time
         return detectionsByTime[closestTime] || [];
     }
-    const counterExists = () => {
-        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_COUNTER_EXISTS}`;
-    }
+
     const handleTimeUpdate = () => {
         if (videoRef.current && !seeking) {
             setCurrentTime(videoRef.current.currentTime);
@@ -617,7 +618,6 @@ const AutoDetection = () => {
         if (showDetections && videoRef.current && !showModifiedDetections) {
             if(maxTimeUpdated < videoRef.current.currentTime){
                 const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_GET_COUNTS_AT_TIME}`;
-                console.log(url);
                 setMaxTimeUpdated(10000); // Temporary high value to prevent multiple calls
                 fetch(url, {
                     method: 'POST',
@@ -628,7 +628,7 @@ const AutoDetection = () => {
                 })
                 .then(response => response.json())
                 .then(data => {
-                    if (data && data.counts) {
+                    if (data && data.detections) {
                         const detections = data.detections;
                         const maxTime = data.max_time;
                         setMaxTimeUpdated(maxTime);

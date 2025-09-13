@@ -437,10 +437,10 @@ def get_counts_at_time(request):
                 counts_at_time = df[(df['time'] >= time) & (df['time'] <= time + 10)]
                 max_count_time = counts_at_time['time'].max()
                 if counts_at_time.empty:
-                    return JsonResponse({'counts': [], 'max_time': max_count_time}, status=200)
+                    return JsonResponse({'detections': [], 'max_time': max_count_time}, status=200)
                 
-                counts = counts_at_time.to_dict(orient='records')
-                return JsonResponse({'counts': counts, 'max_time': max_count_time}, status=200)
+                detections = counts_at_time.to_dict(orient='records')
+                return JsonResponse({'detections': detections, 'max_time': max_count_time}, status=200)
             else:
                 return JsonResponse({'error': 'The data does not exist'}, status=405)
         except (AutoDetection.DoesNotExist, ModifiedAutoDetection.DoesNotExist):
