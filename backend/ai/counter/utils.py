@@ -17,9 +17,12 @@ def count_zone(x1, y1, x2, y2, zones):
     point = Point(x_c, y_c)
     in_area = False
     final_line_key = -1
-    print(zones)
     for line_key, zone_points in zones.items(): # type: ignore
-        geom = Polygon(zone_points + [zone_points[0]])  # Close the polygon
+        points = np.asarray(zone_points, dtype=np.float32).reshape(-1, 2)
+        # add closing point if not closed
+        if not np.array_equal(points[0], points[-1]):
+            points = np.vstack([points, points[0]])
+        geom = Polygon(points )
         if geom.contains(point):
                 in_area = True
                 final_line_key = line_key

@@ -318,25 +318,7 @@ const AutoDetection = () => {
         }
         return scaledPoints;
     };
-    const runModifier = () => {
-        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.AI_START_MODIFIER}`;
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ record_id: recordId, version: detectionVersion, divide_time: accuracy }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                openNotification('error', data.error);
-            } else {
-                setModifyingDetectionStarted(true);
-                openNotification('success', 'Counter started successfully');
-            }
-        })
-    }
+    
     const videoPointToScaledPoint = (points) => {
         if (!videoRef.current) {
             return [0, 0];
@@ -429,34 +411,6 @@ const AutoDetection = () => {
         })
         .catch(error => {
             openNotification('error', `Error removing detections: ${error.message}`);
-        });
-    }
-    
-    const removeModifiedDetections = () => {
-        if (!modifiedDetectingExists){
-            openNotification('error', 'No modified detections to remove');
-            return;
-        }
-        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_DELETE_MODIFIED_DETECTION}`;
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ record_id: recordId, divide_time: accuracy, version: detectionVersion }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                openNotification('error', data.error);
-            } else {
-                setModifiedDetectingExists(false);
-                setModifiedProgress(0);
-                openNotification('success', 'Modified detections removed successfully');
-            }
-        })
-        .catch(error => {
-            openNotification('error', `Error removing modified detections: ${error.message}`);
         });
     }
 
@@ -663,6 +617,7 @@ const AutoDetection = () => {
         if (showDetections && videoRef.current && !showModifiedDetections) {
             if(maxTimeUpdated < videoRef.current.currentTime){
                 const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_GET_COUNTS_AT_TIME}`;
+                console.log(url);
                 setMaxTimeUpdated(10000); // Temporary high value to prevent multiple calls
                 fetch(url, {
                     method: 'POST',
@@ -1159,8 +1114,8 @@ const AutoDetection = () => {
                                     <span>
                                         <Button
                                             percentage={0}
-                                            className={`shadow-lg hover:!bg-main-400 !text-black ${!detectionExists ? '!bg-gray-300' : '!bg-green-500'} h-full`}
-                                            disabled={!detectionExists}
+                                            className={`shadow-lg hover:!bg-main-400 !text-black ${(!detectionExists && !detectionInProcess) ? '!bg-gray-300' : '!bg-green-500'} h-full`}
+                                            disabled={!detectionExists && !detectionInProcess}
                                             onClick={() => {
                                                 setShowModifiedDetections(false);
                                                 setShowDetections(!showDetections);

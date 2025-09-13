@@ -8,6 +8,7 @@ from asgiref.sync import async_to_sync
 from django.conf import settings
 from multiprocessing import Pool, cpu_count
 from ai.counter.utils import count_zone, get_line_types
+import traceback
 
 logger = settings.APP_LOGGER
 
@@ -38,5 +39,5 @@ class Counter:
 
         except Exception as e:
             # Avoid noisy worker logging; send a safe fallback
-            print(f"Worker error in count_zones: {e}")
+            logger.error(f"Worker error in count_zones (x1={x1}, y1={y1}, x2={x2}, y2={y2}):\n{print(traceback.format_exc())}")
             return False, -1

@@ -410,78 +410,54 @@ def get_record_counts(request):
 @csrf_exempt
 def get_counts_at_time(request):
     """
-    Get the counts for a specific record at a given time.
-    """
-    if request.method != 'POST':
-        return JsonResponse({"error": "Method Not Allowed"}, status=405)
-    try:
-        data = json.loads(request.body.decode('utf-8'))
-        record_id = data.get('record_id')
-        time = data.get('time')
-        if not record_id or not time:
-            return JsonResponse({"error": "'record_id' and 'time' are required."}, status=400)
-        record = Record.objects.filter(id=record_id).first()
-        if not record:
-            return JsonResponse({"error": "Record not found."}, status=404)
-        from ai.models import AutoDetection
-        auto_count = AutoDetection.objects.filter(record=record).first()
-        if not auto_count:
-            return JsonResponse({"counts": {}}, status=200)
-        counts_file = auto_count.file_name
-        if not os.path.exists(counts_file):
-            return JsonResponse({"counts": {}}, status=200)
-        try:
-            print(counts_file)
-            df = pd.read_csv(counts_file)
-            
-            # Find the closest timestamp to the given time
-            df['time_diff'] = abs(df['time'] - float(time))
-            group = df[df['time_diff'] == df['time_diff'].min()]
-
-            if group.empty:
-                return JsonResponse({"counts": []}, status=200)
-            counts = group.to_dict(orient='records')
-            return JsonResponse({"counts": counts}, status=200)
-        except Exception as file_error:
-            return JsonResponse({"error": f"Failed to read counts file: {str(file_error)}"}, status=500)
-    except Exception as e:
-        return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
-
-@csrf_exempt
-def get_car_detections_at_time(request):
-    """
-    Retrieve car detections for a specific record.
+    Get counts at a specific time for a record.
     """
     logger.debug(f"Request method: {request.method}")
+    
     if request.method == 'POST':
         data = json.loads(request.body)
         record_id = data.get('record_id')
+        time = data.get('time')
+        version = data.get('version', 'v2')
         divide_time = data.get('divide_time', 0.1)
-        version = data.get('version', 'v1')
-        logger.debug(f"Request data: {data}")
-        time = data.get('time', 0)
-        auto_counter_object = AutoDetection.objects.filter(record_id=record_id, divide_time=divide_time, version=version).first()
-        if auto_counter_object:
-            auto_counter = pd.read_csv(auto_counter_object.file_name)
-            auto_counter_range = auto_counter[(auto_counter['time'] >= time) & (auto_counter['time'] <= time + 10)]
-            logger.debug(f"Length of detections in range: {len(auto_counter_range)}")
-            if auto_counter_range.empty:
-                return JsonResponse({"detections": []}, status=200)
-            
-            max_auto_counter_time = auto_counter_range['time'].max()
-            return JsonResponse({"detections": auto_counter_range.to_dict(orient='records'), "max_time": max_auto_counter_time}, status=200)
-        else:
-            return JsonResponse({"error": "The data does not exist"}, status=405)
         
+        logger.debug(f"Request data: {data}")
+        
+        if not record_id or time is None:
+            return JsonResponse({'error': 'Missing required parameters'}, status=400)
+        
+        try:
+            # Try ModifiedAutoDetection first
+            auto_detection = AutoDetection.objects.filter(record_id=record_id, divide_time=divide_time, version=version).first()
+            if auto_detection and os.path.exists(auto_detection.file_name):
+                df = pd.read_csv(auto_detection.file_name)
+                if df.empty:
+                    return JsonResponse({'counts': [], 'max_time': 0}, status=200)
+                
+                counts_at_time = df[(df['time'] >= time) & (df['time'] <= time + 10)]
+                max_count_time = counts_at_time['time'].max()
+                if counts_at_time.empty:
+                    return JsonResponse({'counts': [], 'max_time': max_count_time}, status=200)
+                
+                counts = counts_at_time.to_dict(orient='records')
+                return JsonResponse({'counts': counts, 'max_time': max_count_time}, status=200)
+            else:
+                return JsonResponse({'error': 'The data does not exist'}, status=405)
+        except (AutoDetection.DoesNotExist, ModifiedAutoDetection.DoesNotExist):
+            return JsonResponse({'error': 'No detection data found'}, status=404)
+        except Exception as e:
+            logger.error(f"Error in get_counts_at_time: {e}", exc_info=True)
+            return JsonResponse({'error': str(e)}, status=500)
     else:
-        logger.debug("Invalid request method")
-        return JsonResponse({'error': 'Invalid request method'}, status=405)
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
 
 @csrf_exempt
 def count_exists(request):
     """
     Check if detecting exists for a specific record.
     """
+    logger.debug(f"Request method: {request.method}")
     if request.method != 'POST':
         return JsonResponse({"error": "Method Not Allowed"}, status=405)
     try:
