@@ -91,7 +91,7 @@ def check_if_detection_in_process(request):
             divide_time=divide_time,
             version=version,
             done=False
-        ).first()
+        ).order_by('-created_at').first()
         logger.info(f"Check detection process for record {record_id}, divide_time {divide_time}, version {version}: {'running' if detection_process else 'not running'}")
         if detection_process:
             autodetection_checkpoint = detection_process.autodetection_checkpoint
@@ -127,7 +127,7 @@ def run_car_detection(request):
             divide_time=divide_time,
             version=version,
             done=False
-        ).first()
+        ).order_by("-created_at").first()
         if detection_process:
             return JsonResponse({'error': 'A detection process is already running for this record with the specified divide_time and version.'}, status=400)
 
@@ -173,7 +173,7 @@ def check_if_detection_exists(request):
             version=version,
             done=True,
             terminated=False
-        ).first()
+        ).order_by("-created_at").first()
         logger.info(f"Check if detection exists for record {record_id}, divide_time {divide_time}, version {version}: {'exists' if detection_process else 'does not exist'}")
         
         if detection_process:
@@ -221,18 +221,18 @@ def terminate_detection_process(request):
         
         try:
             # Find the process to terminate
-            process = DetectionProcess.objects.get(
+            process = DetectionProcess.objects.filter(
                 record_id=record_id,
                 divide_time=divide_time,
                 version=version,
                 done=False
-            )
+            ).order_by('-created_at').first()
             
-            logger.debug(f"Found process: {process}, done: {process.done}, pid: {process.pid}")
+            if not process:
+                raise DetectionProcess.DoesNotExist()
             
-            if process.done:
-                logger.debug("Process is already completed")
-                return JsonResponse({'error': 'Process is already completed'}, status=400)
+            
+            
                 
             # Set the termination flag in the database
             process.terminate_requested = True

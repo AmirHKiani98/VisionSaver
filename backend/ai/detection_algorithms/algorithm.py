@@ -148,7 +148,7 @@ class DetectionAlgorithm:
                 if self.process_model.terminate_requested:
                     self.process_model.terminated = True
                     self.process_model.terminated_at =  timezone.now()
-                    self.process_model.done = True
+                    self.process_model.done = False
                     self.process_model.save()
                     logger.info(f"Detection process for record {self.record_id}, version {self.version}, divide_time {self.divide_time} terminated as requested.")
                     break
