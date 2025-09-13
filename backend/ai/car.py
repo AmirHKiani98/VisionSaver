@@ -1,8 +1,24 @@
 class Car:
+    all_cars_available = {}
     
-    def __init__(self,id) -> None:
+    @classmethod
+    def get_instance(cls, id):
+        """Returns an existing car instance or creates a new one"""
+        if id in cls.all_cars_available:
+            return cls.all_cars_available[id]
+        # Create a new instance
+        instance = cls(id, register=True)
+        return instance
+        
+    def __init__(self, id, register=True) -> None:
+        """Initialize a car instance
+        
+        Args:
+            id: The car's unique identifier
+            register: Whether to register this car in the global registry
+        """
         self.id = id
-        self.image = []
+        self.image = [] 
         self.x1 = []
         self.y1 = []
         self.x2 = []
@@ -10,7 +26,9 @@ class Car:
         self.confidence = []
         self.times = []
         self.class_id = []
-    
+        self.how_many_times_not_detected = 0
+        if register:
+            Car.all_cars_available[id] = self
 
     def get_last_image(self):
         if self.image:
@@ -35,10 +53,14 @@ class Car:
     def add_class_id(self, class_id):
         self.class_id.append(class_id)
     
+    def increment_not_detected(self):
+        self.how_many_times_not_detected += 1
 
     def __add__(self, other):
         if isinstance(other, Car):
-            new_car = Car(self.id)
+            # Create a new car instance without registering it
+            new_car = Car(self.id + "_temp", register=False)
+            
             new_car.image = self.image + other.image
             new_car.x1 = self.x1 + other.x1
             new_car.y1 = self.y1 + other.y1
@@ -49,3 +71,23 @@ class Car:
             new_car.class_id = self.class_id + other.class_id
             return new_car
         return NotImplemented
+    
+    def get_df(self):
+        import pandas as pd
+        data = {
+            'x1': self.x1,
+            'y1': self.y1,
+            'x2': self.x2,
+            'y2': self.y2,
+            'confidence': self.confidence,
+            'time': self.times,
+            'class_id': self.class_id
+        }
+        df = pd.DataFrame(data)
+        return df
+
+
+    def get_last_time_added(self):
+        if self.times:
+            return self.times[-1]
+        return None

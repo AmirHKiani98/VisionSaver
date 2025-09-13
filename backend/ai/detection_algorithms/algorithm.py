@@ -37,7 +37,7 @@ class DetectionAlgorithm:
         self.video_height = int(self.video.get(cv2.CAP_PROP_FRAME_HEIGHT))
         if self.detection_lines is None:
             raise ValueError("Detection lines must be provided.")
-        self.line_types = self._get_line_types()
+        self.zones, self.directions = self._get_line_types()
         self.df = pd.DataFrame()
         self.detect = self._import_detect()
         self.last_detection = None
@@ -57,19 +57,22 @@ class DetectionAlgorithm:
     def _import_counter(self):
         import importlib
         module = importlib.import_module(f"ai.counter.{self.version}.main")
-        return getattr(module, "counter")
+        return getattr(module, "Counter")
 
-    def _get_line_types(self, tolerance=0.1):
-            self.line_types = {}
+    def _get_line_types(self):
+            zones = {}
+            directions = {}
             for line_key, list_of_dicts in self.detection_lines.lines.items(): # type: ignore
-                self.line_types[line_key] = []
+                
                 for line_dict in list_of_dicts:
                     points = line_dict.get('points', [])
-                    if points:
-                        points = line_points_to_xy(points, video_width=self.video_width, video_height=self.video_height)  # Normalized to [0,1]
-                        line_type, geom = get_line_types(points, tolerance)
-                        self.line_types[line_key].append((line_type, geom))
-            return self.line_types
+                    if line_dict["tool"] == "direction":
+                        directions[line_key] = points
+                    if line_dict["tool"] == "zone":
+                        zones[line_key] = points
+                        
+
+            return zones, directions
     
     def read(self):
         ret, frame = self.video.read()
@@ -86,17 +89,17 @@ class DetectionAlgorithm:
         raw_current_results = deepcopy(current_results)
         
         # Use modifier if we have previous detections - FIX ORDER HERE
-        if self.last_detection is not None:
-            # Change order - pass current results first, then previous
-            current_results = self.modifier(current_results, self.last_detection)
+        # if self.last_detection is not None:
+        #     # Change order - pass current results first, then previous
+        #     current_results = self.modifier(current_results, self.last_detection)
         
         # Update last_detection for next frame
         self.last_detection = raw_current_results
         
         # Add time and other information
         for index, detection in enumerate(current_results):
-            in_area, final_line_key = self.counter(detection["x1"], detection["y1"], 
-                                                detection["x2"], detection["y2"], self.line_types)
+            in_area, final_line_key = self.counter.count_zones(detection["x1"], detection["y1"], 
+                                                detection["x2"], detection["y2"], self.zones)
             current_results[index]['time'] = time
             current_results[index]['in_area'] = in_area
             current_results[index]['line_index'] = final_line_key
@@ -139,6 +142,7 @@ class DetectionAlgorithm:
         df = pd.DataFrame()
         self._send_ws_progress(0, total_frames, message=os.getenv("COMMAND_DETECTION_STARTED"))
         while True:
+            print(f"Processing frame {frame_count}/{total_frames}")
             if frame_count % 50 == 0:
                 self.process_model.refresh_from_db()
                 if self.process_model.terminate_requested:
@@ -187,6 +191,19 @@ class DetectionAlgorithm:
         self.df = pd.read_csv(self.file_name)
         return self.df
     
+
+    def run_counter(self, df) -> pd.DataFrame:
+        if df.empty:
+            if os.path.isfile(self.file_name):
+                df = pd.read_csv(self.file_name)
+            else:
+                raise ValueError("DataFrame is empty and no file found to read from.")
+        df = self.counter.count_directions(df, self.directions)
+        # Save the updated DataFrame back to CSV
+        df.to_csv(self.file_name, index=False, lineterminator='\n')
+        self.df = df
+        return df
+
     def _send_ws_progress(self, frame_count: int, total_frame: int, message: str | None = None) -> None:
         """
         Fire-and-forget. Safe if Channels/Redis isn't configured (no crash).

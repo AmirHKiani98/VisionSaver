@@ -7,6 +7,7 @@ import os
 from ai.counter.model.main import count_function, get_line_types, line_points_to_xy
 import cv2
 import pandas as pd
+from ai.car import Car
 from ai.models import DetectionLines, AutoDetection
 logging.getLogger('ultralytics').setLevel(logging.WARNING)
 dotenv.load_dotenv(settings.ENV_PATH)
@@ -18,9 +19,9 @@ class AiAppTestCase(TestCase):
         """
         Set up the test case with necessary configurations.
         """
-        self.record_id = 673
+        self.record_id = 4
         self.divide_time = 0.1
-        self.video_time = 1290 # in seconds. There is a white SUV car going left to right at that time
+        self.video_time = 600 # in seconds. There is a white SUV car going left to right at that time
         # Load the video
         self.video_path = f"{settings.MEDIA_ROOT}/{self.record_id}.mp4"
         self.video_capture = cv2.VideoCapture(self.video_path)
@@ -202,7 +203,7 @@ class AiAppTestCase(TestCase):
         cv2.imshow("Frame with Counting", self.frame)
         cv2.waitKey(0)
         
-    def test_detection_algorithm(self):
+    def test_detection_algorithm_read(self):
         """
         Test the DetectionAlgorithm class.
         """
@@ -210,12 +211,54 @@ class AiAppTestCase(TestCase):
         if not detection_lines:
             raise ValueError(f"No detection lines found for record ID {self.record_id}")
         
-        detection_algorithm = DetectionAlgorithm(record_id=self.record_id, divide_time=self.divide_time, version='v1', lines=detection_lines)
-        results = detection_algorithm.read()
-        print(results)
+        detection_algorithm = DetectionAlgorithm(record_id=self.record_id, divide_time=self.divide_time, version='v2', lines=detection_lines)
+        for i in range(100):
+            results = detection_algorithm.read()
+            if results is None:
+                break
 
 
+    def test_detection_algorithm_run(self):
+        """
+        Test the DetectionAlgorithm class.
+        """
+        try:
+            detection_lines = DetectionLines.objects.filter(record_id=self.record_id).first()
+            if not detection_lines:
+                raise ValueError(f"No detection lines found for record ID {self.record_id}")
+            
+            # Set a low frame limit to prevent memory issues
+            detection_algorithm = DetectionAlgorithm(
+                record_id=self.record_id, 
+                divide_time=self.divide_time, 
+                version='v2', 
+                lines=detection_lines, 
+                until=5  # Process just 5 seconds of video for testing
+            )
+            
+            # Run the detection algorithm
+            results = detection_algorithm.run()
+            
+            # Verify we got some results
+            self.assertIsNotNone(results)
+        except Exception as e:
+            # Print detailed error information
+            import traceback
+            traceback.print_exc()
+            self.fail(f"Test failed with exception: {e}")
+        finally:
+            # Clean up resources
+            if 'detection_algorithm' in locals() and hasattr(detection_algorithm, 'video'):
+                detection_algorithm.video.release()
+            
+            # Clear Car registry to prevent memory leaks
+            Car.all_cars_available.clear()
+            
+            # Force garbage collection
+            import gc
+            gc.collect()
 
+    
         
         
             
