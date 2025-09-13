@@ -12,7 +12,7 @@ import subprocess
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 from ai.models import AutoDetection, ModifiedAutoDetection, AutoDetectionCheckpoint
-
+import traceback
 # Create your views here.
 
 
@@ -444,6 +444,7 @@ def get_counts_at_time(request):
             else:
                 return JsonResponse({'error': 'The data does not exist'}, status=405)
         except (AutoDetection.DoesNotExist, ModifiedAutoDetection.DoesNotExist):
+            logger.error(f"Error: {traceback.format_exc()}")
             return JsonResponse({'error': 'No detection data found'}, status=404)
         except Exception as e:
             logger.error(f"Error in get_counts_at_time: {e}", exc_info=True)

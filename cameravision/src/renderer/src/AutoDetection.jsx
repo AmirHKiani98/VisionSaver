@@ -391,7 +391,7 @@ const AutoDetection = () => {
             openNotification('error', 'No detections to remove');
             return;
         }
-        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.AI_DELETE_DETECTION}`;
+        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_DELETE_DETECTION}`;
         fetch(url, {
             method: 'POST',
             headers: {
@@ -628,7 +628,7 @@ const AutoDetection = () => {
                 })
                 .then(response => response.json())
                 .then(data => {
-                    if (data && data.detections) {
+                    if (data && data.counts) {
                         const detections = data.detections;
                         const maxTime = data.max_time;
                         setMaxTimeUpdated(maxTime);

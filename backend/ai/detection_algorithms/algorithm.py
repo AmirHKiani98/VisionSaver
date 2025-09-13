@@ -98,6 +98,10 @@ class DetectionAlgorithm:
         
         # Add time and other information
         for index, detection in enumerate(current_results):
+            detection["x1"] = detection["x1"] / self.video_width
+            detection["y1"] = detection["y1"] / self.video_height
+            detection["x2"] = detection["x2"] / self.video_width
+            detection["y2"] = detection["y2"] / self.video_height
             in_area, final_line_key = self.counter.count_zones(detection["x1"], detection["y1"], 
                                                 detection["x2"], detection["y2"], self.zones)
             current_results[index]['time'] = time

@@ -167,13 +167,12 @@ def check_if_detection_exists(request):
         
         from ai.models import AutoDetectionCheckpoint
         
-        detection_process = DetectionProcess.objects.filter(
+        detection_process = AutoDetectionCheckpoint.objects.filter(
             record=record,
             divide_time=divide_time,
             version=version,
-            done=True,
-            terminated=False
-        ).order_by("-created_at").first()
+            last_frame_captured__gt=0
+        ).first()
         logger.info(f"Check if detection exists for record {record_id}, divide_time {divide_time}, version {version}: {'exists' if detection_process else 'does not exist'}")
         
         if detection_process:
