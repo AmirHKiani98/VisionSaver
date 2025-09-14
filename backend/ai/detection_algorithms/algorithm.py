@@ -7,7 +7,8 @@ import cv2
 import threading
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
-from ai.counter.model.main import line_points_to_xy, get_line_types
+from shapely.geometry import Polygon
+from ai.utils import resample_curve, parallelism_score
 from copy import deepcopy
 import dotenv
 from django.utils import timezone
@@ -75,6 +76,7 @@ class DetectionAlgorithm:
                     if line_dict["tool"] == "direction":
                         directions[line_key].append(points)
                     if line_dict["tool"] == "zone":
+                        
                         zones[line_key].append(points)
             return zones, directions
     
