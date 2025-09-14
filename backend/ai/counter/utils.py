@@ -18,19 +18,18 @@ def count_zone(x1, y1, x2, y2, zones):
     in_area = False
     final_line_key = -1
     for line_key, zone_points in zones.items(): # type: ignore
-        points = np.asarray(zone_points, dtype=np.float32).reshape(-1, 2)
-        # add closing point if not closed
-        if not np.array_equal(points[0], points[-1]):
-            points = np.vstack([points, points[0]])
-        geom = Polygon(points )
-        if geom.contains(point):
-                in_area = True
-                final_line_key = line_key
+        for points in zone_points:
+            points = np.asarray(points, dtype=np.float32).reshape(-1, 2)
+            if not np.array_equal(points[0], points[-1]):
+                points = np.vstack([points, points[0]])
+            geom = Polygon(points )
+            if geom.contains(point):
+                    in_area = True
+                    final_line_key = line_key
+                    break
+            if in_area:
                 break
-        if in_area:
-            break
-
-    return in_area, final_line_key # Example function
+    return in_area, final_line_key
 
 def line_points_to_xy(line_points, video_width, video_height):
     """

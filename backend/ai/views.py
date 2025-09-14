@@ -172,7 +172,6 @@ def check_if_detection_exists(request):
             divide_time=divide_time,
             version=version,
             last_frame_captured__gt=0,
-            terminated=False
         ).first()
         logger.info(f"Check if detection exists for record {record_id}, divide_time {divide_time}, version {version}: {'exists' if detection_process else 'does not exist'}")
         

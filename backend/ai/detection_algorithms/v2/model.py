@@ -70,7 +70,6 @@ def detect(frame):
         xyxy = r.boxes.xyxy.cpu().numpy()
         conf = r.boxes.conf.cpu().numpy()
         cls = r.boxes.cls.cpu().numpy().astype(int) if r.boxes.cls is not None else np.zeros(len(conf), dtype=int)
-        
         for (x1,y1,x2,y2), score, cls_id in zip(xyxy, conf, cls):
             tlwh = (x1, y1, x2 - x1, y2 - y1)
             # Use unit vector as dummy feature

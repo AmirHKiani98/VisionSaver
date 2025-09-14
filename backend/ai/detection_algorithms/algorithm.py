@@ -1,3 +1,4 @@
+from collections import defaultdict
 import os
 import pandas as pd
 from ai.models import AutoDetection, AutoDetectionCheckpoint, DetectionProcess
@@ -19,12 +20,14 @@ class DetectionAlgorithm:
      - Else → instantiate model subclass and call .run() (MP owned by abstract).
              → store/refresh AutoDetection with produced CSV.
     """
-    def __init__(self, record_id, divide_time, version: str = "v1", lines=None):
+    def __init__(self, record_id, divide_time, version: str = "v1", lines=None, detection_time= None, debug: bool = False):
         self.version = version
         self.record_id = record_id
         self.divide_time = divide_time
         self.detection_lines = lines
+        self.debug = debug
         self.file_name = f"{settings.MEDIA_ROOT}/{record_id}_{divide_time}_{version}.csv"
+        self.detection_time = detection_time
         if not os.path.exists(f"{settings.MEDIA_ROOT}/{self.record_id}.mp4"):
             if not os.path.exists(f"{settings.MEDIA_ROOT}/{self.record_id}.avi"):
                 raise FileNotFoundError(f"Video file for record ID {self.record_id} not found.")
@@ -43,6 +46,7 @@ class DetectionAlgorithm:
         self.last_detection = None
         self.modifier = self._import_modifier()
         self.counter = self._import_counter()
+        self.frame = None
             
     def _import_detect(self):
         import importlib
@@ -60,23 +64,35 @@ class DetectionAlgorithm:
         return getattr(module, "Counter")
 
     def _get_line_types(self):
-            zones = {}
-            directions = {}
+            zones = defaultdict(list)
+            directions = defaultdict(list)
             for line_key, list_of_dicts in self.detection_lines.lines.items(): # type: ignore
                 
                 for line_dict in list_of_dicts:
                     points = line_dict.get('points', [])
                     if line_dict["tool"] == "direction":
-                        directions[line_key] = points
+                        directions[line_key].append(points)
                     if line_dict["tool"] == "zone":
-                        zones[line_key] = points
-                        
-
+                        zones[line_key].append(points)
             return zones, directions
     
     def read(self):
+        if self.detection_time is not None:
+            current_frame = int(self.video.get(cv2.CAP_PROP_POS_FRAMES))
+            fps = self.video.get(cv2.CAP_PROP_FPS)
+            target_frame = int(self.detection_time * fps)
+            if current_frame < target_frame:
+                self.video.set(cv2.CAP_PROP_POS_FRAMES, target_frame)
+            else:
+                return None
         ret, frame = self.video.read()
-        
+        self.frame = frame
+        if self.debug:
+            cv2.imshow('Frame', frame)
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                self.video.release()
+                cv2.destroyAllWindows()
+                return None
         if not ret:
             return None
         

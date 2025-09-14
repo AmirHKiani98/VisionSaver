@@ -138,7 +138,6 @@ const AutoDetection = () => {
         })
         .then(response => response.json())
         .then(data => {
-            console.log('Detection in process data:', data);
             if (data && data.running) {
                 setDetectingStarted(true);
                 setProgress(data.progress || 0);
@@ -162,7 +161,6 @@ const AutoDetection = () => {
         })
         .then(response => response.json())
         .then(data => {
-            console.log('Detecting exists data:', data);
             if (data && data.exists) {
                 setDetectionExists(true);
                 setProgress(100); // Set progress to 100% if detecting exists
@@ -286,6 +284,7 @@ const AutoDetection = () => {
                 [selectedPortal]: updatedLines
             };
         });
+        
     };
 
 
@@ -383,6 +382,7 @@ const AutoDetection = () => {
     }
 
     const handleMouseUp = () => {
+        console.log(lines);
         isDrawing.current = false;
     };
 

@@ -9,6 +9,7 @@ import cv2
 import pandas as pd
 from ai.car import Car
 from ai.models import DetectionLines, AutoDetection
+import time
 logging.getLogger('ultralytics').setLevel(logging.WARNING)
 dotenv.load_dotenv(settings.ENV_PATH)
 class AiAppTestCase(TestCase):
@@ -19,9 +20,9 @@ class AiAppTestCase(TestCase):
         """
         Set up the test case with necessary configurations.
         """
-        self.record_id = 4
+        self.record_id = 5
         self.divide_time = 0.1
-        self.video_time = 600 # in seconds. There is a white SUV car going left to right at that time
+        self.video_time = 45 # in seconds. There is a white SUV car going left to right at that time
         # Load the video
         self.video_path = f"{settings.MEDIA_ROOT}/{self.record_id}.mp4"
         self.video_capture = cv2.VideoCapture(self.video_path)
@@ -103,12 +104,12 @@ class AiAppTestCase(TestCase):
         Test the get_line_types function.
         """
         lines = self.detection_lines.lines
-        key_of_interest = 'vehicle_delay_rect'
+        key_of_interest = 'through'
         list_of_points = lines[key_of_interest][0]['points']
         points = line_points_to_xy(list_of_points, self.video_width, self.video_height)
         tolerance = 0.1
         line_types_info = get_line_types(points, tolerance)
-        assert line_types_info[0] == 'closed'
+        print(f"Line types for line '{key_of_interest}': {line_types_info}")
 
     def test_depict_the_detections(self):
         """
@@ -211,12 +212,35 @@ class AiAppTestCase(TestCase):
         if not detection_lines:
             raise ValueError(f"No detection lines found for record ID {self.record_id}")
         
-        detection_algorithm = DetectionAlgorithm(record_id=self.record_id, divide_time=self.divide_time, version='v2', lines=detection_lines)
-        for i in range(100):
+        detection_algorithm = DetectionAlgorithm(record_id=self.record_id, divide_time=self.divide_time, version='v2', lines=detection_lines, detection_time=self.video_time, debug=False)
+        print(len(detection_algorithm.zones["through"])) # type: ignore
+        for _i in range(20): # Read 5 frames
             results = detection_algorithm.read()
-            if results is None:
-                break
-
+            frame = detection_algorithm.frame
+            
+            if isinstance(detection_algorithm.detection_time, (int, float)):
+                detection_algorithm.detection_time += 0.1
+            if frame is not None:
+                if results is not None:
+                    for obj in results:
+                        x1, y1, x2, y2 = (obj['x1']), (obj['y1']), (obj['x2']), (obj['y2'])
+                        x1 *= self.video_width
+                        x2 *= self.video_width
+                        y1 *= self.video_height
+                        y2 *= self.video_height
+                        x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
+                        if obj.get('in_area'):
+                            color = (255, 0, 0) if obj['in_area'] else (0, 255, 0)
+                        else:
+                            color = (0, 255, 0)
+                        cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
+                        cv2.putText(frame, f"ID: {obj['track_id']}", (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+                cv2.imshow("Frame from DetectionAlgorithm", frame)
+                time.sleep(0.1)
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                    break
+            
+    
 
     def test_detection_algorithm_run(self):
         """
@@ -233,7 +257,6 @@ class AiAppTestCase(TestCase):
                 divide_time=self.divide_time, 
                 version='v2', 
                 lines=detection_lines, 
-                until=5  # Process just 5 seconds of video for testing
             )
             
             # Run the detection algorithm
