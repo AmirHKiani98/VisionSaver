@@ -13,6 +13,7 @@ from copy import deepcopy
 import dotenv
 from django.utils import timezone
 from ai.car import Car
+import numpy as np
 dotenv.load_dotenv(settings.ENV_PATH)
 logger = settings.APP_LOGGER
 class DetectionAlgorithm:
@@ -74,10 +75,17 @@ class DetectionAlgorithm:
                 for line_dict in list_of_dicts:
                     points = line_dict.get('points', [])
                     if line_dict["tool"] == "direction":
-                        directions[line_key].append(points)
+                        points = np.asarray(points, dtype=np.float32).reshape(-1, 2)
+                        x = points[:, 0]
+                        y = points[:, 1]
+                        resampled_points = resample_curve(x, y)
+                        directions[line_key].append(resampled_points)
                     if line_dict["tool"] == "zone":
-                        
-                        zones[line_key].append(points)
+                        points = np.asarray(points, dtype=np.float32).reshape(-1, 2)
+                        if not np.array_equal(points[0], points[-1]):
+                            points = np.vstack([points, points[0]])
+                        geom = Polygon(points)
+                        zones[line_key].append(geom)
             return zones, directions
     
     def read(self):
@@ -139,6 +147,8 @@ class DetectionAlgorithm:
         for car in self.cars.values():
             if car.times[-1] < time - 5:
                 car_df = car.get_df()
+                direction = self.counter.find_direction(car_df, self.directions)
+                car_df['direction'] = direction
                 df_to_be_saved.append(car_df)
                 # Mark car for removal
                 cars_to_remove.append(car.id)

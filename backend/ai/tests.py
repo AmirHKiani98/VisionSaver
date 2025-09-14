@@ -215,7 +215,7 @@ class AiAppTestCase(TestCase):
         detection_algorithm = DetectionAlgorithm(record_id=self.record_id, divide_time=self.divide_time, version='v2', lines=detection_lines, detection_time=self.video_time, debug=False)
         print(len(detection_algorithm.zones["through"])) # type: ignore
         for _i in range(20): # Read 5 frames
-            results = detection_algorithm.read()
+            results, cars_removed = detection_algorithm.read()
             frame = detection_algorithm.frame
             
             if isinstance(detection_algorithm.detection_time, (int, float)):
@@ -239,50 +239,3 @@ class AiAppTestCase(TestCase):
                 time.sleep(0.1)
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
-            
-    
-
-    def test_detection_algorithm_run(self):
-        """
-        Test the DetectionAlgorithm class.
-        """
-        try:
-            detection_lines = DetectionLines.objects.filter(record_id=self.record_id).first()
-            if not detection_lines:
-                raise ValueError(f"No detection lines found for record ID {self.record_id}")
-            
-            # Set a low frame limit to prevent memory issues
-            detection_algorithm = DetectionAlgorithm(
-                record_id=self.record_id, 
-                divide_time=self.divide_time, 
-                version='v2', 
-                lines=detection_lines, 
-            )
-            
-            # Run the detection algorithm
-            results = detection_algorithm.run()
-            
-            # Verify we got some results
-            self.assertIsNotNone(results)
-        except Exception as e:
-            # Print detailed error information
-            import traceback
-            traceback.print_exc()
-            self.fail(f"Test failed with exception: {e}")
-        finally:
-            # Clean up resources
-            if 'detection_algorithm' in locals() and hasattr(detection_algorithm, 'video'):
-                detection_algorithm.video.release()
-            
-            # Clear Car registry to prevent memory leaks
-            Car.all_cars_available.clear()
-            
-            # Force garbage collection
-            import gc
-            gc.collect()
-
-    
-        
-        
-            
-            

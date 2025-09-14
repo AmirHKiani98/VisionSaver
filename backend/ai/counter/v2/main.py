@@ -1,15 +1,7 @@
-import os
-import pandas as pd
-import cv2
-import numpy as np
-from ai.counter.model.main import line_points_to_xy
-from channels.layers import get_channel_layer
-from asgiref.sync import async_to_sync
+from shapely.geometry import Point
 from django.conf import settings
-from multiprocessing import Pool, cpu_count
-from ai.counter.utils import count_zone, get_line_types
 import traceback
-
+from ai.utils import resample_curve, parallelism_score
 logger = settings.APP_LOGGER
 
 # ---- GLOBAL set by pool initializer (each worker gets its own copy) ----
@@ -34,20 +26,55 @@ class Counter:
         Reads shared _LINE_TYPES set by _init_pool.
         """
         try:
-            in_area, final_line_key = count_zone(x1, y1, x2, y2, zones)
+            x_c, y_c = (x1 + x2) / 2, (y1 + y2) / 2
+            point = Point(x_c, y_c)
+            in_area = False
+            final_line_key = -1
+            for line_key, geoms in zones.items(): # type: ignore
+                for geom in geoms:
+                    if geom.contains(point):
+                            in_area = True
+                            final_line_key = line_key
+                            break
+                    if in_area:
+                        break
             return in_area, final_line_key
 
         except Exception as e:
             # Avoid noisy worker logging; send a safe fallback
             logger.error(f"Worker error in count_zones (x1={x1}, y1={y1}, x2={x2}, y2={y2}):\n{print(traceback.format_exc())}")
             return False, -1
-    
+
     @staticmethod
-    def find_direction(veh_df, directions):
+    def find_direction(veh_df, directions, threshold=0.7):
         """
         Find direction of each vehicle based on its trajectory.
         veh_df: DataFrame with columns ['frame', 'x', 'y']
         Returns: direction as a string ('left_to_right', 'right_to_left', 'top_to_bottom', 'bottom_to_top', or 'unknown')
         """
+        if veh_df.empty or len(veh_df) < 2:
+            return None
         
+        x1 = veh_df['x1'].values
+        y1 = veh_df['y1'].values
+        x2 = veh_df['x2'].values
+        y2 = veh_df['y2'].values
+        x = (x1 + x2) / 2
+        y = (y1 + y2) / 2
+        x_resampled, y_resampled = resample_curve(x, y, n_points=50)
+        # parallel score
+        for line_key, line_sample_list in directions.items(): # type: ignore
+            for line_sample in line_sample_list:
+                x_line, y_line = line_sample[:, 0], line_sample[:, 1]
+                score = parallelism_score(x, y, x_resampled, y_resampled)
+                # TODO: tune threshold or find the maximum score
+                if score >= threshold:
+                    return line_key
+        return None
+
+        
+        
+        
+        
+
         

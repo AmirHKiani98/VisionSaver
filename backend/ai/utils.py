@@ -5,7 +5,7 @@ dotenv.load_dotenv(settings.ENV_PATH)
 
 logger = settings.APP_LOGGER
 
-def resample_curve(x, y, n_points=200):
+def resample_curve(x, y, n_points=50):
     dx = np.diff(x)
     dy = np.diff(y)
     s = np.sqrt(dx**2 + dy**2)
