@@ -147,8 +147,8 @@ class DetectionAlgorithm:
         for car in self.cars.values():
             if car.times[-1] < time - 5:
                 car_df = car.get_df()
-                direction = self.counter.find_direction(car_df, self.directions)
-                car_df['direction'] = direction
+                # direction = self.counter.find_direction(car_df, self.directions)
+                # car_df['direction'] = direction
                 df_to_be_saved.append(car_df)
                 # Mark car for removal
                 cars_to_remove.append(car.id)

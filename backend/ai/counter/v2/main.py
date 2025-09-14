@@ -2,6 +2,7 @@ from shapely.geometry import Point
 from django.conf import settings
 import traceback
 from ai.utils import resample_curve, parallelism_score
+import numpy as np
 logger = settings.APP_LOGGER
 
 # ---- GLOBAL set by pool initializer (each worker gets its own copy) ----
@@ -65,8 +66,9 @@ class Counter:
         # parallel score
         for line_key, line_sample_list in directions.items(): # type: ignore
             for line_sample in line_sample_list:
+                line_sample = np.asarray(line_sample, dtype=np.float32).reshape(-1, 2)
                 x_line, y_line = line_sample[:, 0], line_sample[:, 1]
-                score = parallelism_score(x, y, x_resampled, y_resampled)
+                score = parallelism_score(x_resampled, y_resampled, x_line, y_line)
                 # TODO: tune threshold or find the maximum score
                 if score >= threshold:
                     return line_key

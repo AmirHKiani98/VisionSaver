@@ -239,3 +239,44 @@ class AiAppTestCase(TestCase):
                 time.sleep(0.1)
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
+
+    def test_detection_algorithm_read_direction(self):
+        """
+        Test the DetectionAlgorithm class for direction detection.
+        """
+        detection_lines = DetectionLines.objects.filter(record_id=self.record_id).first()
+        if not detection_lines:
+            raise ValueError(f"No detection lines found for record ID {self.record_id}")
+        
+        detection_algorithm = DetectionAlgorithm(record_id=self.record_id, divide_time=self.divide_time, version='v2', lines=detection_lines)
+        results, cars_removed = detection_algorithm.read()
+        while True:
+            if len(cars_removed) > 0:
+                print(cars_removed[0].direction[0])
+            frame = detection_algorithm.frame
+            
+            if isinstance(detection_algorithm.detection_time, (int, float)):
+                detection_algorithm.detection_time += 0.1
+            
+            if frame is not None:
+                if results is not None:
+                    for obj in results:
+                        x1, y1, x2, y2 = (obj['x1']), (obj['y1']), (obj['x2']), (obj['y2'])
+                        x1 *= self.video_width
+                        x2 *= self.video_width
+                        y1 *= self.video_height
+                        y2 *= self.video_height
+                        x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
+                        if obj.get('in_area'):
+                            color = (255, 0, 0) if obj['in_area'] else (0, 255, 0)
+                        else:
+                            color = (0, 255, 0)
+                        cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
+                        direction = obj.get('direction', 'N/A')
+                        cv2.putText(frame, f"ID: {obj['track_id']} Dir: {direction}", (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+                cv2.imshow("Frame from DetectionAlgorithm with Direction", frame)
+                time.sleep(0.01)
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                    break
+            
+            results, cars_removed = detection_algorithm.read()
