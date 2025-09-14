@@ -41,3 +41,13 @@ class Counter:
             # Avoid noisy worker logging; send a safe fallback
             logger.error(f"Worker error in count_zones (x1={x1}, y1={y1}, x2={x2}, y2={y2}):\n{print(traceback.format_exc())}")
             return False, -1
+    
+    @staticmethod
+    def find_direction(veh_df, directions):
+        """
+        Find direction of each vehicle based on its trajectory.
+        veh_df: DataFrame with columns ['frame', 'x', 'y']
+        Returns: direction as a string ('left_to_right', 'right_to_left', 'top_to_bottom', 'bottom_to_top', or 'unknown')
+        """
+        
+        

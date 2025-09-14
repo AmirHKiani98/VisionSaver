@@ -11,6 +11,7 @@ from ai.counter.model.main import line_points_to_xy, get_line_types
 from copy import deepcopy
 import dotenv
 from django.utils import timezone
+from ai.car import Car
 dotenv.load_dotenv(settings.ENV_PATH)
 logger = settings.APP_LOGGER
 class DetectionAlgorithm:
@@ -28,6 +29,7 @@ class DetectionAlgorithm:
         self.debug = debug
         self.file_name = f"{settings.MEDIA_ROOT}/{record_id}_{divide_time}_{version}.csv"
         self.detection_time = detection_time
+        self.cars = {}
         if not os.path.exists(f"{settings.MEDIA_ROOT}/{self.record_id}.mp4"):
             if not os.path.exists(f"{settings.MEDIA_ROOT}/{self.record_id}.avi"):
                 raise FileNotFoundError(f"Video file for record ID {self.record_id} not found.")
@@ -84,7 +86,7 @@ class DetectionAlgorithm:
             if current_frame < target_frame:
                 self.video.set(cv2.CAP_PROP_POS_FRAMES, target_frame)
             else:
-                return None
+                return None, []
         ret, frame = self.video.read()
         self.frame = frame
         if self.debug:
@@ -92,9 +94,9 @@ class DetectionAlgorithm:
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 self.video.release()
                 cv2.destroyAllWindows()
-                return None
+                return None, []
         if not ret:
-            return None
+            return None, []
         
         time = self.video.get(cv2.CAP_PROP_POS_MSEC) / 1000.0
         
@@ -123,8 +125,27 @@ class DetectionAlgorithm:
             current_results[index]['time'] = time
             current_results[index]['in_area'] = in_area
             current_results[index]['line_index'] = final_line_key
-            
-        return current_results
+            track_id = detection.get("track_id")
+            if track_id not in self.cars:
+                self.cars[track_id] = Car(track_id)
+            self.cars[track_id].add_coordinates(detection["x1"], detection["y1"], detection["x2"], detection["y2"])
+            self.cars[track_id].add_confidence(detection.get("confidence"))
+            self.cars[track_id].add_time(time)
+            self.cars[track_id].add_class_id(detection.get("cls_id"))
+        df_to_be_saved = []
+        cars_to_remove = []
+        for car in self.cars.values():
+            if car.times[-1] < time - 5:
+                car_df = car.get_df()
+                df_to_be_saved.append(car_df)
+                # Mark car for removal
+                cars_to_remove.append(car.id)
+        
+        # Remove cars after iteration
+        for car_id in cars_to_remove:
+            del self.cars[car_id]
+                
+        return current_results, df_to_be_saved
 
     def run(self) -> pd.DataFrame:
         """
@@ -147,6 +168,9 @@ class DetectionAlgorithm:
             autodetection_checkpoint= checkpoint,
             defaults={
                 'done': False,
+                'terminated': False,
+                "terminate_requested": False,
+                'created_at': timezone.now(),
                 'pid': f"{process_id}:{thread_id}",
             }
         )
@@ -159,9 +183,8 @@ class DetectionAlgorithm:
         total_frames = int(self.video.get(cv2.CAP_PROP_FRAME_COUNT))
         logger.info(f"Starting detection process for record {self.record_id}, version {self.version}, divide_time {self.divide_time}. Total frames: {total_frames}, starting from frame: {frame_count}")
         # TODO: Check if there is frame done in AutoDetectionCheckpoint and resume from there
-        batch_size = 200
-        df = pd.DataFrame()
         self._send_ws_progress(0, total_frames, message=os.getenv("COMMAND_DETECTION_STARTED"))
+
         while True:
             print(f"Processing frame {frame_count}/{total_frames}")
             if frame_count % 50 == 0:
@@ -173,27 +196,43 @@ class DetectionAlgorithm:
                     self.process_model.save()
                     logger.info(f"Detection process for record {self.record_id}, version {self.version}, divide_time {self.divide_time} terminated as requested.")
                     break
-            results = self.read()
+            results, to_save_df = self.read()
         
             if results is None:
                 break
             frame_count += 1
-            df = pd.concat([df, pd.DataFrame(results)], ignore_index=True)
-            
-            if frame_count % batch_size == 0:
-                file_exists = os.path.isfile(self.file_name)
-                with open(self.file_name, 'a') as f:
-                    print(f"Writing to {self.file_name}, frame {frame_count}")
-                    df.to_csv(f, mode='a', header=not file_exists, index=False, lineterminator='\n')
-                    df = pd.DataFrame()  # Clear the DataFrame after writing
-                    f.flush()
-                self._send_ws_progress(frame_count, total_frames, message=os.getenv("COMMAND_DETECTION_AVAILABLE"))
-        if frame_count % batch_size != 0:
-            file_exists = os.path.isfile(self.file_name)
+            if len(to_save_df) == 0:
+                continue
             
             with open(self.file_name, 'a') as f:
-                df.to_csv(f, mode='a', header=not file_exists, index=False, lineterminator='\n')
+                header = not os.path.isfile(self.file_name)
+                for car_df in to_save_df:
+                    car_df.to_csv(f, mode='a', header=header, index=False, lineterminator='\n')
                 f.flush()
+            if frame_count % 200 == 0:
+                self._send_ws_progress(frame_count, total_frames, message=os.getenv("COMMAND_DETECTION_AVAILABLE"))
+            
+            
+            # if frame_count % batch_size == 0:
+            #     file_exists = os.path.isfile(self.file_name)
+            #     with open(self.file_name, 'a') as f:
+            #         print(f"Writing to {self.file_name}, frame {frame_count}")
+            #         df.to_csv(f, mode='a', header=not file_exists, index=False, lineterminator='\n')
+            #         df = pd.DataFrame()  # Clear the DataFrame after writing
+            #         f.flush()
+            #     self._send_ws_progress(frame_count, total_frames, message=os.getenv("COMMAND_DETECTION_AVAILABLE"))
+        # if frame_count % batch_size != 0:
+        #     file_exists = os.path.isfile(self.file_name)
+            
+        #     with open(self.file_name, 'a') as f:
+        #         df.to_csv(f, mode='a', header=not file_exists, index=False, lineterminator='\n')
+        #         f.flush()
+        with open(self.file_name, 'a') as f:
+            header = not os.path.isfile(self.file_name)
+            for car in self.cars.values():
+                car_df = car.get_df()
+                car_df.to_csv(f, mode='a', header=header, index=False, lineterminator='\n')
+            f.flush()
         self._send_ws_progress(total_frames, total_frames, message=os.getenv("COMMAND_DETECTION_COMPLETED"))
         self.video.release()
         
@@ -212,7 +251,7 @@ class DetectionAlgorithm:
         self.df = pd.read_csv(self.file_name)
         return self.df
     
-
+ 
     def run_counter(self, df) -> pd.DataFrame:
         if df.empty:
             if os.path.isfile(self.file_name):
