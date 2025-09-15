@@ -29,6 +29,7 @@ class DetectionAlgorithm:
         self.divide_time = divide_time
         self.detection_lines = lines
         self.debug = debug
+        
         self.file_name = f"{settings.MEDIA_ROOT}/{record_id}_{divide_time}_{version}.csv"
         self.detection_time = detection_time
         self.cars = {}
@@ -44,7 +45,8 @@ class DetectionAlgorithm:
         self.video_height = int(self.video.get(cv2.CAP_PROP_FRAME_HEIGHT))
         if self.detection_lines is None:
             raise ValueError("Detection lines must be provided.")
-        self.zones, self.directions = self._get_line_types()
+        self.cut_zones = self.detection_lines.cut_zones
+        self.zones, self.directions, self.cut_zones_geom = self._get_line_types()
         self.df = pd.DataFrame()
         self.detect = self._import_detect()
         self.last_detection = None
@@ -70,6 +72,7 @@ class DetectionAlgorithm:
     def _get_line_types(self):
             zones = defaultdict(list)
             directions = defaultdict(list)
+            cut_zones = []
             for line_key, list_of_dicts in self.detection_lines.lines.items(): # type: ignore
                 
                 for line_dict in list_of_dicts:
@@ -86,8 +89,28 @@ class DetectionAlgorithm:
                             points = np.vstack([points, points[0]])
                         geom = Polygon(points)
                         zones[line_key].append(geom)
-            return zones, directions
+
+            for points_array in self.cut_zones:
+                points = np.asarray(points_array, dtype=np.float32).reshape(-1, 2)
+                if not np.array_equal(points[0], points[-1]):
+                    points = np.vstack([points, points[0]])
+                # Multiply all x points by video width and y points by video height
+                points[:, 0] = points[:, 0] * self.video_width
+                points[:, 1] = points[:, 1] * self.video_height
+                geom = Polygon(points)
+                cut_zones.append(geom)
+            return zones, directions, cut_zones
     
+    def remove_cut_zones_from_frame(self, frame):
+        if not self.cut_zones_geom:
+            return frame
+        mask = np.ones(frame.shape[:2], dtype="uint8") * 255  # Start with a white mask
+        for polygon in self.cut_zones_geom:
+            pts = np.array(polygon.exterior.coords, dtype=np.int32)
+            cv2.fillPoly(mask, [pts], (0, 0, 0))  # Fill the polygon area with black
+        masked_frame = cv2.bitwise_and(frame, frame, mask=mask)
+        return masked_frame
+
     def read(self):
         if self.detection_time is not None:
             current_frame = int(self.video.get(cv2.CAP_PROP_POS_FRAMES))
@@ -98,6 +121,7 @@ class DetectionAlgorithm:
             else:
                 return None, []
         ret, frame = self.video.read()
+        frame = self.remove_cut_zones_from_frame(frame)
         self.frame = frame
         if self.debug:
             cv2.imshow('Frame', frame)

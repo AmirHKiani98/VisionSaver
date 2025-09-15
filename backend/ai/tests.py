@@ -252,7 +252,7 @@ class AiAppTestCase(TestCase):
         results, cars_removed = detection_algorithm.read()
         while True:
             if len(cars_removed) > 0:
-                print(cars_removed[0].direction[0])
+                print(cars_removed[0].direction[0]) # TODO: Direction doesn't exist.
             frame = detection_algorithm.frame
             
             if isinstance(detection_algorithm.detection_time, (int, float)):
