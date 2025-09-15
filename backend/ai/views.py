@@ -36,12 +36,14 @@ def add_line(request):
             return JsonResponse({'error': 'Record not found'}, status=404)
 
         lines = data.get('lines', {})
+        cut_zones = data.get('cut_zones', [])
         detection_object = DetectionLines.objects.get_or_create(
             record=record
         )
         #logger.warning(f"Adding lines for record ID: {record_id}, lines: {lines}")
         detection_object = detection_object[0]
         detection_object.lines = lines
+        detection_object.cut_zones = cut_zones
         detection_object.save()
 
         return JsonResponse({'status': 'success', 'lines': lines}, status=201)
@@ -64,7 +66,8 @@ def get_lines(request):
                 return JsonResponse({'error': 'Record not found'}, status=404)
             detection_object = DetectionLines.objects.get_or_create(record=record)[0]
             lines = detection_object.lines
-            return JsonResponse({'status': 'success', 'lines': lines}, status=200)
+            cut_zones = detection_object.cut_zones
+            return JsonResponse({'status': 'success', 'lines': lines, 'cut_zones': cut_zones}, status=200)
         except DetectionLines.DoesNotExist:
             #logger.error(f"Detection lines not found for record ID: {record_id}")
             return JsonResponse({'error': 'Detection lines not found for this record'}, status=404)

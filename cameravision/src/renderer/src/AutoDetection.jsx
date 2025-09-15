@@ -17,7 +17,7 @@ import {
     Chip,
     Switch
 } from '@mui/material'; 
-import {faPen, faPlus, faEraser, faUpload, faRefresh, faEye, faEyeSlash, faCar, faMagnifyingGlass, faTrash, faCalculator, faStop, faClone, faDirections, faArrowRight, faCircleInfo} from '@fortawesome/free-solid-svg-icons';
+import {faPen, faPlus, faEraser, faUpload, faRefresh, faEye, faEyeSlash, faCar, faMagnifyingGlass, faTrash, faCalculator, faStop, faClone, faDirections, faArrowRight, faCircleInfo, faVideoSlash} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLocation } from 'react-router-dom';
 
@@ -36,6 +36,7 @@ const AutoDetection = () => {
     const [videoSrc, setVideoSrc] = react.useState('');
     const [pendingSeekTime, setPendingSeekTime] = react.useState(null);
     const stageRef = react.useRef(null);
+    const [cutZoneTool, setCutZoneTool] = react.useState('zone'); // 'draw' or 'erase'
     const [env, setEnv] = react.useState(null);
     const videoRef = react.useRef(null);
     const [lines, setLines] = react.useState({});
@@ -67,13 +68,11 @@ const AutoDetection = () => {
     const [maxTimeUpdated, setMaxTimeUpdated] = react.useState(0);
     const [detectionInProcess, setDetectionInProcess] = react.useState(false);
     const [cutZonesEnabled, setCutZonesEnabled] = react.useState(false);
-    const [cutZonePoints, setCutZonePoints] = react.useState([]);
+    const [cutZonesPoints, setCutZonesPoints] = react.useState([]);
     
     
 
-    const sendCutZones = () => {
-
-    }
+    
 
 
     const autoHideDuration = 3000;
@@ -232,6 +231,7 @@ const AutoDetection = () => {
             if (data.error) {
                 console.error('Error fetching lines:', data.error);
             } else {
+                setCutZonesPoints(data.cut_zones);
                 setLines(data.lines);
             }
         })
@@ -251,6 +251,7 @@ const AutoDetection = () => {
             body: JSON.stringify({
                 record_id: recordId,
                 lines: lines,
+                cut_zones: cutZonesPoints,
             }),
         })
         .then(response => response.json())
@@ -263,59 +264,99 @@ const AutoDetection = () => {
     }
 
     const handleMouseDown = (e) => {
-        if (selectedPortal === '') {
+        if (!cutZonesEnabled && selectedPortal === '') {
             openNotification('error', 'Please select a portal first');
             return;
         }
-        const pos = e.target.getStage().getPointerPosition();
-        const stage = e.target.getStage();
-        const canvasWidth = stage.width();
-        const canvasHeight = stage.height();
+        if(!cutZonesEnabled){
+            const pos = e.target.getStage().getPointerPosition();
+            const stage = e.target.getStage();
+            const canvasWidth = stage.width();
+            const canvasHeight = stage.height();
 
-        if (tool === 'eraser') {
+            if (tool === 'eraser') {
+                setLines(prevLines => {
+                    const updatedLines = [...(prevLines[selectedPortal] || [])];
+                    const filtered = updatedLines.filter(line => !isPointNearLine(line.points, pos.x/canvasWidth, pos.y/canvasHeight));
+                    return {
+                        ...prevLines,
+                        [selectedPortal]: filtered
+                    };
+                });
+                return;
+            }
+            isDrawing.current = true;
             setLines(prevLines => {
                 const updatedLines = [...(prevLines[selectedPortal] || [])];
-                const filtered = updatedLines.filter(line => !isPointNearLine(line.points, pos.x/canvasWidth, pos.y/canvasHeight));
+                // Start a new line with the first point
+                
+                updatedLines.push({ tool, points: [pos.x / canvasWidth, pos.y / canvasHeight] });
                 return {
                     ...prevLines,
-                    [selectedPortal]: filtered
+                    [selectedPortal]: updatedLines
                 };
             });
-            return;
         }
-        isDrawing.current = true;
-        setLines(prevLines => {
-            const updatedLines = [...(prevLines[selectedPortal] || [])];
-            // Start a new line with the first point
-            
-            updatedLines.push({ tool, points: [pos.x / canvasWidth, pos.y / canvasHeight] });
-            return {
-                ...prevLines,
-                [selectedPortal]: updatedLines
-            };
-        });
+        else {
+            const pos = e.target.getStage().getPointerPosition();
+            const stage = e.target.getStage();
+            const canvasWidth = stage.width();
+            const canvasHeight = stage.height();
+            if(tool === 'eraser'){
+                // Erase cut zones if near
+                setCutZonesPoints(prevZones => {
+                    const filteredZones = prevZones.filter(zone => !isPointNearLine(zone, pos.x/canvasWidth, pos.y/canvasHeight));
+                    return filteredZones;
+                });
+                return;
+            }
+
+            isDrawing.current = true;
+            // Cut zones would be a list of lists. Each list is for the current cut zone being drawn.
+            setCutZonesPoints(prevLines => {
+                const updatedPoints = [...prevLines];
+                // Start a new cut zone with the first point
+                updatedPoints.push([pos.x / canvasWidth, pos.y / canvasHeight]);
+                return updatedPoints;
+                
+            });
+        }
         
     };
 
 
     const handleMouseMove = (e) => {
         if (!isDrawing.current) return;
-        const stage = e.target.getStage();
-        const point = stage.getPointerPosition();
-        setLines(prevLines => {
-            const currentLines = [...(prevLines[selectedPortal] || [])];
-            if (currentLines.length === 0) return prevLines; // nothing to update
+        if(!cutZonesEnabled){
+            const stage = e.target.getStage();
+            const point = stage.getPointerPosition();
+            setLines(prevLines => {
+                const currentLines = [...(prevLines[selectedPortal] || [])];
+                if (currentLines.length === 0) return prevLines; // nothing to update
 
-            // Add the new point to the last line
-            const lastLine = { ...currentLines[currentLines.length - 1] };
-            lastLine.points = [...lastLine.points, point.x / stage.width(), point.y / stage.height()];
-            currentLines[currentLines.length - 1] = lastLine;
+                // Add the new point to the last line
+                const lastLine = { ...currentLines[currentLines.length - 1] };
+                lastLine.points = [...lastLine.points, point.x / stage.width(), point.y / stage.height()];
+                currentLines[currentLines.length - 1] = lastLine;
 
-            return {
-                ...prevLines,
-                [selectedPortal]: currentLines
-            };
-        });
+                return {
+                    ...prevLines,
+                    [selectedPortal]: currentLines
+                };
+            });
+        } else {
+            const stage = e.target.getStage();
+            const point = stage.getPointerPosition();
+            setCutZonesPoints(prevPoints => {
+                const currentPoints = [...prevPoints];
+                if (currentPoints.length === 0) return prevPoints; // nothing to update
+                // Add the new point to the last cut zone
+                const lastCutZone = [...currentPoints[currentPoints.length - 1]];
+                lastCutZone.push(point.x / stage.width(), point.y / stage.height());
+                currentPoints[currentPoints.length - 1] = lastCutZone;
+                return currentPoints;
+            });
+        }
     };
     const pointsToScaledPoints = (points) => {
         const scaledPoints = [];
@@ -392,7 +433,7 @@ const AutoDetection = () => {
     }
 
     const handleMouseUp = () => {
-        console.log(lines);
+        console.log(cutZonesPoints);
         isDrawing.current = false;
     };
 
@@ -695,7 +736,14 @@ const AutoDetection = () => {
             }
         }
     };
-
+    react.useEffect(() => {
+        if (tool === 'cutzones') {
+            setCutZonesEnabled(true);
+        }
+        else if (tool !== 'eraser'){
+            setCutZonesEnabled(false);
+        }
+    }, [tool]);
     // Handler for video loadedmetadata
     const handleLoadedMetadata = () => {
         if (videoRef.current) {
@@ -787,7 +835,7 @@ const AutoDetection = () => {
                             onTouchEnd={handleMouseUp}
                         >
                             <Layer>
-                            {lines && lines[selectedPortal] && lines[selectedPortal].map((line, i) => (
+                            {lines && !cutZonesEnabled &&lines[selectedPortal] && lines[selectedPortal].map((line, i) => (
                                 <Line
                                 key={i}
                                 points={pointsToScaledPoints(line.points)}
@@ -799,6 +847,20 @@ const AutoDetection = () => {
                                 globalCompositeOperation={line.tool === 'eraser' ? 'destination-out' : 'source-over'}
                                 />
                             ))}
+                            {cutZonesEnabled && cutZonesPoints.length > 0 && cutZonesPoints.map((zone, i) => (
+                                <Line
+                                key={i}
+                                points={pointsToScaledPoints(zone)}
+                                stroke="#0000ff"
+                                strokeWidth={3}
+                                tension={0.5}
+                                lineCap="round"
+                                lineJoin="round"
+                                globalCompositeOperation={zone.tool === 'eraser' ? 'destination-out' : 'source-over'}
+                                />
+                            ))
+
+                            }
                             {showingDetectionDf.length > 0 && (showDetections || showModifiedDetections) && 
                                 showingDetectionDf.map((obj, idx) => {
                                     
@@ -927,6 +989,12 @@ const AutoDetection = () => {
                                         <FontAwesomeIcon icon={faClone} className="ml-2" />
                                     </Typography>
                                 </MenuItem>
+                                <MenuItem value={'cutzones'}>
+                                    <Typography variant="body1" color="textPrimary">
+                                        Cut Zones
+                                        <FontAwesomeIcon icon={faVideoSlash} className="ml-2" />
+                                    </Typography>
+                                </MenuItem>
 
                                 <MenuItem value={'direction'}>
                                     <Typography variant="body1" color="textPrimary">
@@ -1050,43 +1118,7 @@ const AutoDetection = () => {
                             <FontAwesomeIcon icon={faRefresh} />
                         </Button>
                     </div>
-                    <div>
-                        <Divider
-                            textAlign="left"
-                            sx={{
-                                '&::before, &::after': {
-                                borderColor: 'secondary.light'
-                                }
-                            }}
-                        >
-                            <Chip label="Cut zones" className="!bg-main-400 !text-white !font-bold" />
-                        </Divider>
-                    </div>
-                    <div className='flex flex-row justify-between gap-5 mb-5'>
-                            <div className='flex justify-between items-center gap-2.5'>
-                                <Typography variant="body1" className='text-white'>
-                                    Show Cut Zones
-                                </Typography>
-                            
-                                <Switch
-                                    checked={cutZonesEnabled}
-                                    onChange={(e) => {
-                                        setCutZonesEnabled(e.target.checked);
-                                        setPortal("");
-                                    }}
-                                    color="secondary"
-                                    
-                                />
-                            </div>
-                            <div className="flex justify-center items-center">
-                            <Tooltip title="Send cut zones to the server">
-                                <Button className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black' onClick={sendCutZones}>
-                                    <FontAwesomeIcon icon={faUpload} />
-                                </Button>
-                            </Tooltip>
-                            </div>
-                            
-                    </div>
+                    
                 </div>
                 <div className='flex flex-col gap-5'>
                     <div>
