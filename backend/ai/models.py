@@ -128,3 +128,14 @@ class DetectionProcess(models.Model):
     
     def __str__(self):
         return f"Detection process for record {self.record.id}, version {self.version}, divide_time {self.divide_time}"
+    
+class CutZone(models.Model):
+    """
+    Model to represent a cut zone for vehicle detection.
+    """
+    id = models.AutoField(primary_key=True, help_text="Unique identifier for the cut zone.")
+    record = models.ForeignKey('record.Record', on_delete=models.CASCADE, related_name='cut_zones')
+    name = models.CharField(max_length=100, help_text="Name of the cut zone.")
+    areas = models.JSONField(help_text="Polygon coordinates defining the cut zone.")
+    created_at = models.DateTimeField(auto_now_add=True, help_text="Timestamp when the cut zone was created.")
+    updated_at = models.DateTimeField(auto_now=True, help_text="Timestamp when the cut zone was last updated.")

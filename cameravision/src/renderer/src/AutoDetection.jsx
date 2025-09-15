@@ -14,9 +14,10 @@ import {
     CircularProgress,
     Tooltip,
     Divider,
-    Chip
+    Chip,
+    Switch
 } from '@mui/material'; 
-import {faPen, faPlus, faEraser, faUpload, faRefresh, faEye, faEyeSlash, faCar, faMagnifyingGlass, faTrash, faCalculator, faStop, faClone, faDirections, faArrowRight} from '@fortawesome/free-solid-svg-icons';
+import {faPen, faPlus, faEraser, faUpload, faRefresh, faEye, faEyeSlash, faCar, faMagnifyingGlass, faTrash, faCalculator, faStop, faClone, faDirections, faArrowRight, faCircleInfo} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLocation } from 'react-router-dom';
 
@@ -65,6 +66,15 @@ const AutoDetection = () => {
     const [modifyingDetectionStarted, setModifyingDetectionStarted] = react.useState(false);
     const [maxTimeUpdated, setMaxTimeUpdated] = react.useState(0);
     const [detectionInProcess, setDetectionInProcess] = react.useState(false);
+    const [cutZonesEnabled, setCutZonesEnabled] = react.useState(false);
+    const [cutZonePoints, setCutZonePoints] = react.useState([]);
+    
+    
+
+    const sendCutZones = () => {
+
+    }
+
 
     const autoHideDuration = 3000;
     const openNotification = (severity, message) => {
@@ -879,6 +889,19 @@ const AutoDetection = () => {
             </div>
             <div className="flex-1 flex flex-col h-full bg-main-300 justify-between">
                 <div className="flex flex-col gap-2.5 p-2.5">
+                    
+                    <div>
+                        <Divider
+                            textAlign="left"
+                            sx={{
+                                '&::before, &::after': {
+                                borderColor: 'secondary.light'
+                                }
+                            }}
+                        >
+                            <Chip label="Detection zone" className="!bg-main-400 !text-white !font-bold" />
+                        </Divider>
+                    </div>
                     <div className="grid grid-cols-1 gap-5">
                         <FormControl className="w-full">
                             <InputLabel id="drawing-type-select-label" >
@@ -1026,6 +1049,43 @@ const AutoDetection = () => {
                             {/* <FontAwesomeIcon icon={faPlus} /> */}
                             <FontAwesomeIcon icon={faRefresh} />
                         </Button>
+                    </div>
+                    <div>
+                        <Divider
+                            textAlign="left"
+                            sx={{
+                                '&::before, &::after': {
+                                borderColor: 'secondary.light'
+                                }
+                            }}
+                        >
+                            <Chip label="Cut zones" className="!bg-main-400 !text-white !font-bold" />
+                        </Divider>
+                    </div>
+                    <div className='flex flex-row justify-between gap-5 mb-5'>
+                            <div className='flex justify-between items-center gap-2.5'>
+                                <Typography variant="body1" className='text-white'>
+                                    Show Cut Zones
+                                </Typography>
+                            
+                                <Switch
+                                    checked={cutZonesEnabled}
+                                    onChange={(e) => {
+                                        setCutZonesEnabled(e.target.checked);
+                                        setPortal("");
+                                    }}
+                                    color="secondary"
+                                    
+                                />
+                            </div>
+                            <div className="flex justify-center items-center">
+                            <Tooltip title="Send cut zones to the server">
+                                <Button className='!bg-green-500 shadow-lg hover:!bg-main-400 !text-black' onClick={sendCutZones}>
+                                    <FontAwesomeIcon icon={faUpload} />
+                                </Button>
+                            </Tooltip>
+                            </div>
+                            
                     </div>
                 </div>
                 <div className='flex flex-col gap-5'>
