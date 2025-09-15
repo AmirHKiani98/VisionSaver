@@ -16,6 +16,9 @@ class Car:
         self.times = []
         self.class_id = []
         self.how_many_times_not_detected = 0
+        self.in_area = []
+        self.line_index = []
+        self.zone_index = []
         
 
     def get_last_image(self):
@@ -54,11 +57,22 @@ class Car:
             'confidence': self.confidence,
             'time': self.times,
             'class_id': self.class_id,
-            'track_id': [self.id] * len(self.times)
+            'track_id': [self.id] * len(self.times),
+            'in_area': self.in_area,
+            'line_index': self.line_index,
+            'zone_index': self.zone_index,
         }
         df = pd.DataFrame(data)
         return df
 
+    def add_in_area(self, in_area):
+        self.in_area.append(in_area)
+    
+    def add_line_index(self, line_index):
+        self.line_index.append(line_index)
+    
+    def add_zone_index(self, zone_index):
+        self.zone_index.append(zone_index)
 
     def get_last_time_added(self):
         if self.times:

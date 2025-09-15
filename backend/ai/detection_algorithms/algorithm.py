@@ -43,6 +43,7 @@ class DetectionAlgorithm:
         self.duration = self.video.get(cv2.CAP_PROP_FRAME_COUNT) / self.video.get(cv2.CAP_PROP_FPS)
         self.video_width = int(self.video.get(cv2.CAP_PROP_FRAME_WIDTH))
         self.video_height = int(self.video.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        self.detection_results = pd.DataFrame(columns=['car_id', 'last_time_in_zone', 'line_index'])
         if self.detection_lines is None:
             raise ValueError("Detection lines must be provided.")
         self.cut_zones = self.detection_lines.cut_zones
@@ -74,7 +75,6 @@ class DetectionAlgorithm:
             directions = defaultdict(list)
             cut_zones = []
             for line_key, list_of_dicts in self.detection_lines.lines.items(): # type: ignore
-                
                 for line_dict in list_of_dicts:
                     points = line_dict.get('points', [])
                     if line_dict["tool"] == "direction":
@@ -154,11 +154,12 @@ class DetectionAlgorithm:
             detection["y1"] = detection["y1"] / self.video_height
             detection["x2"] = detection["x2"] / self.video_width
             detection["y2"] = detection["y2"] / self.video_height
-            in_area, final_line_key = self.counter.count_zones(detection["x1"], detection["y1"], 
+            in_area, final_line_key, geom_index = self.counter.count_zones(detection["x1"], detection["y1"], 
                                                 detection["x2"], detection["y2"], self.zones)
             current_results[index]['time'] = time
             current_results[index]['in_area'] = in_area
             current_results[index]['line_index'] = final_line_key
+            current_results[index]['zone_index'] = geom_index
             track_id = detection.get("track_id")
             if track_id not in self.cars:
                 self.cars[track_id] = Car(track_id)
@@ -166,6 +167,9 @@ class DetectionAlgorithm:
             self.cars[track_id].add_confidence(detection.get("confidence"))
             self.cars[track_id].add_time(time)
             self.cars[track_id].add_class_id(detection.get("cls_id"))
+            self.cars[track_id].add_in_area(in_area)
+            self.cars[track_id].add_line_index(final_line_key)
+            self.cars[track_id].add_zone_index(geom_index)
         df_to_be_saved = []
         cars_to_remove = []
         for car in self.cars.values():
@@ -173,6 +177,16 @@ class DetectionAlgorithm:
                 car_df = car.get_df()
                 # direction = self.counter.find_direction(car_df, self.directions)
                 # car_df['direction'] = direction
+                detected_zone_car = car_df[car_df['in_area'] == True]
+                valid_detections = detected_zone_car.dropna(subset=['line_index', 'zone_index'])
+                if not valid_detections.empty:
+                    unique_zone_counts = valid_detections.groupby('line_index')['zone_index'].nunique()
+                    for line_index, actual_zone_count in unique_zone_counts.items():
+                        expected_zone_count = len(self.zones.get(line_index, []))
+                        if actual_zone_count == expected_zone_count and expected_zone_count > 0:
+                            # Find the last time the car was in this zone
+                            last_time_in_zone = valid_detections[valid_detections['line_index'] == line_index]['time'].max()
+                            self.detection_results = pd.concat([self.detection_results, pd.DataFrame([[car.id, last_time_in_zone, line_index]], columns=['car_id', 'last_time_in_zone', 'line_index'])], ignore_index=True)
                 df_to_be_saved.append(car_df)
                 # Mark car for removal
                 cars_to_remove.append(car.id)
@@ -245,30 +259,26 @@ class DetectionAlgorithm:
                 for car_df in to_save_df:
                     car_df.to_csv(f, mode='a', header=header, index=False, lineterminator='\n')
                 f.flush()
+            with open(self.file_name.replace('.csv', '_count.csv'), 'a') as f:
+                header = not os.path.isfile(self.file_name.replace('.csv', '_count.csv'))
+                self.detection_results.to_csv(f, mode='a', header=header, index=False, lineterminator='\n')
+                f.flush()
+                self.detection_results = pd.DataFrame(columns=['car_id', 'last_time_in_zone', 'line_index'])
+
             if frame_count % 200 == 0:
                 self._send_ws_progress(frame_count, total_frames, message=os.getenv("COMMAND_DETECTION_AVAILABLE"))
             
-            
-            # if frame_count % batch_size == 0:
-            #     file_exists = os.path.isfile(self.file_name)
-            #     with open(self.file_name, 'a') as f:
-            #         print(f"Writing to {self.file_name}, frame {frame_count}")
-            #         df.to_csv(f, mode='a', header=not file_exists, index=False, lineterminator='\n')
-            #         df = pd.DataFrame()  # Clear the DataFrame after writing
-            #         f.flush()
-            #     self._send_ws_progress(frame_count, total_frames, message=os.getenv("COMMAND_DETECTION_AVAILABLE"))
-        # if frame_count % batch_size != 0:
-        #     file_exists = os.path.isfile(self.file_name)
-            
-        #     with open(self.file_name, 'a') as f:
-        #         df.to_csv(f, mode='a', header=not file_exists, index=False, lineterminator='\n')
-        #         f.flush()
         with open(self.file_name, 'a') as f:
             header = not os.path.isfile(self.file_name)
             for car in self.cars.values():
                 car_df = car.get_df()
                 car_df.to_csv(f, mode='a', header=header, index=False, lineterminator='\n')
             f.flush()
+        with open(self.file_name.replace('.csv', '_count.csv'), 'a') as f:
+            header = not os.path.isfile(self.file_name.replace('.csv', '_count.csv'))
+            self.detection_results.to_csv(f, mode='a', header=header, index=False, lineterminator='\n')
+            f.flush()
+            self.detection_results = pd.DataFrame(columns=['car_id', 'last_time_in_zone', 'line_index'])
         self._send_ws_progress(total_frames, total_frames, message=os.getenv("COMMAND_DETECTION_COMPLETED"))
         self.video.release()
         

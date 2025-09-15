@@ -31,15 +31,17 @@ class Counter:
             point = Point(x_c, y_c)
             in_area = False
             final_line_key = -1
+            geom_index = -1
             for line_key, geoms in zones.items(): # type: ignore
-                for geom in geoms:
+                for index, geom in enumerate(geoms):
                     if geom.contains(point):
                             in_area = True
                             final_line_key = line_key
+                            geom_index = index
                             break
                     if in_area:
                         break
-            return in_area, final_line_key
+            return in_area, final_line_key, geom_index
 
         except Exception as e:
             # Avoid noisy worker logging; send a safe fallback
