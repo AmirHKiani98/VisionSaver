@@ -275,9 +275,7 @@ class DetectionAlgorithm:
             
         with open(self.file_name, 'a') as f:
             header = not os.path.isfile(self.file_name)
-            for car in self.cars.values():
-                car_df = car.get_df()
-                car_df.to_csv(f, mode='a', header=header, index=False, lineterminator='\n')
+            pd.DataFrame(results).to_csv(f, mode='a', header=header, index=False, lineterminator='\n')
             f.flush()
         with open(self.file_name.replace('.csv', '_count.csv'), 'a') as f:
             header = not os.path.isfile(self.file_name.replace('.csv', '_count.csv'))
