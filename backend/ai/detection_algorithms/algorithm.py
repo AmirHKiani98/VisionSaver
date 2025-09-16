@@ -121,6 +121,10 @@ class DetectionAlgorithm:
             else:
                 return None, []
         ret, frame = self.video.read()
+        
+        if not ret:
+            return None, []
+        
         frame = self.remove_cut_zones_from_frame(frame)
         self.frame = frame
         if self.debug:
@@ -129,8 +133,7 @@ class DetectionAlgorithm:
                 self.video.release()
                 cv2.destroyAllWindows()
                 return None, []
-        if not ret:
-            return None, []
+        
         
         time = self.video.get(cv2.CAP_PROP_POS_MSEC) / 1000.0
         
@@ -186,7 +189,7 @@ class DetectionAlgorithm:
                         if actual_zone_count == expected_zone_count and expected_zone_count > 0:
                             # Find the last time the car was in this zone
                             last_time_in_zone = valid_detections[valid_detections['line_index'] == line_index]['time'].max()
-                            self.detection_results = pd.concat([self.detection_results, pd.DataFrame([[car.id, last_time_in_zone, line_index]], columns=['car_id', 'last_time_in_zone', 'line_index'])], ignore_index=True)
+                            self.detection_results = pd.concat([self.detection_results, pd.DataFrame([[car.id, last_time_in_zone, line_index, car.class_id]], columns=['car_id', 'last_time_in_zone', 'line_index', 'class_id'])], ignore_index=True)
                 df_to_be_saved.append(car_df)
                 # Mark car for removal
                 cars_to_remove.append(car.id)
@@ -251,22 +254,24 @@ class DetectionAlgorithm:
             if results is None:
                 break
             frame_count += 1
+            if frame_count % 200 == 0:
+                self._send_ws_progress(frame_count, total_frames, message=os.getenv("COMMAND_DETECTION_AVAILABLE"))
+            with open(self.file_name, 'a') as f:
+                header = not os.path.isfile(self.file_name)
+                # save current_results (results) to csv
+                pd.DataFrame(results).to_csv(f, mode='a', header=header, index=False, lineterminator='\n')
+                f.flush()
             if len(to_save_df) == 0:
                 continue
             
-            with open(self.file_name, 'a') as f:
-                header = not os.path.isfile(self.file_name)
-                for car_df in to_save_df:
-                    car_df.to_csv(f, mode='a', header=header, index=False, lineterminator='\n')
-                f.flush()
+            
             with open(self.file_name.replace('.csv', '_count.csv'), 'a') as f:
                 header = not os.path.isfile(self.file_name.replace('.csv', '_count.csv'))
                 self.detection_results.to_csv(f, mode='a', header=header, index=False, lineterminator='\n')
-                f.flush()
+                f.flush()   
                 self.detection_results = pd.DataFrame(columns=['car_id', 'last_time_in_zone', 'line_index'])
 
-            if frame_count % 200 == 0:
-                self._send_ws_progress(frame_count, total_frames, message=os.getenv("COMMAND_DETECTION_AVAILABLE"))
+            
             
         with open(self.file_name, 'a') as f:
             header = not os.path.isfile(self.file_name)

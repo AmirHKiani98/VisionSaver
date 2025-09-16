@@ -286,7 +286,13 @@ const RecordEditor = (props) => {
                         </Button>
                     </Link>
                 </div>
-                    <div></div>
+                    <div className="">
+                    <Typography
+                        className="text-3xl font-bold text-white"
+                        >
+                        {recordId}
+                    </Typography>
+                    </div>
                     <Record
                         id={recordId}
                         recordId={recordId}
