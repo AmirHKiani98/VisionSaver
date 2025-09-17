@@ -164,17 +164,18 @@ class DetectionAlgorithm:
             current_results[index]['line_index'] = final_line_key
             current_results[index]['zone_index'] = geom_index
             track_id = detection.get("track_id")
-            if track_id not in self.cars:
-                self.cars[track_id] = Car(track_id)
-            self.cars[track_id].add_coordinates(detection["x1"], detection["y1"], detection["x2"], detection["y2"])
-            self.cars[track_id].add_confidence(detection.get("confidence"))
-            self.cars[track_id].add_time(time)
-            self.cars[track_id].add_class_id(detection.get("cls_id"))
-            self.cars[track_id].add_in_area(in_area)
-            self.cars[track_id].add_line_index(final_line_key)
-            self.cars[track_id].add_zone_index(geom_index)
+            # if track_id not in self.cars:
+            #     self.cars[track_id] = Car(track_id)
+            # self.cars[track_id].add_coordinates(detection["x1"], detection["y1"], detection["x2"], detection["y2"])
+            # self.cars[track_id].add_confidence(detection.get("confidence"))
+            # self.cars[track_id].add_time(time)
+            # self.cars[track_id].add_class_id(detection.get("cls_id"))
+            # self.cars[track_id].add_in_area(in_area)
+            # self.cars[track_id].add_line_index(final_line_key)
+            # self.cars[track_id].add_zone_index(geom_index)
         df_to_be_saved = []
         cars_to_remove = []
+        
         for car in self.cars.values():
             if car.times[-1] < time - 5:
                 car_df = car.get_df()
@@ -256,29 +257,30 @@ class DetectionAlgorithm:
             frame_count += 1
             if frame_count % 200 == 0:
                 self._send_ws_progress(frame_count, total_frames, message=os.getenv("COMMAND_DETECTION_AVAILABLE"))
+            file_exists = os.path.isfile(self.file_name)
             with open(self.file_name, 'a') as f:
-                header = not os.path.isfile(self.file_name)
                 # save current_results (results) to csv
-                pd.DataFrame(results).to_csv(f, mode='a', header=header, index=False, lineterminator='\n')
+                pd.DataFrame(results).to_csv(f, mode='a', header=not file_exists, index=False, lineterminator='\n')
                 f.flush()
             if len(to_save_df) == 0:
                 continue
             
-            
+            header = not os.path.isfile(self.file_name.replace('.csv', '_count.csv'))
             with open(self.file_name.replace('.csv', '_count.csv'), 'a') as f:
-                header = not os.path.isfile(self.file_name.replace('.csv', '_count.csv'))
+                
                 self.detection_results.to_csv(f, mode='a', header=header, index=False, lineterminator='\n')
                 f.flush()   
                 self.detection_results = pd.DataFrame(columns=['car_id', 'last_time_in_zone', 'line_index'])
 
             
-            
+        header = not os.path.isfile(self.file_name)
         with open(self.file_name, 'a') as f:
-            header = not os.path.isfile(self.file_name)
+            
             pd.DataFrame(results).to_csv(f, mode='a', header=header, index=False, lineterminator='\n')
             f.flush()
+        header = not os.path.isfile(self.file_name.replace('.csv', '_count.csv'))
         with open(self.file_name.replace('.csv', '_count.csv'), 'a') as f:
-            header = not os.path.isfile(self.file_name.replace('.csv', '_count.csv'))
+            
             self.detection_results.to_csv(f, mode='a', header=header, index=False, lineterminator='\n')
             f.flush()
             self.detection_results = pd.DataFrame(columns=['car_id', 'last_time_in_zone', 'line_index'])

@@ -58,7 +58,7 @@ tracker = Tracker(metric, max_iou_distance=0.7, max_age=30, n_init=3)
 global_id_map = {}          # {track.track_id: global_id}
 next_global_id = 1
 VEHICLE_CLASS_IDS = {2, 3, 5, 7}
-
+CONFIDENCE_THRESHOLD = 0.5
 def detect(frame):
     global next_global_id
 
@@ -73,6 +73,8 @@ def detect(frame):
         cls = r.boxes.cls.cpu().numpy().astype(int) if r.boxes.cls is not None else np.zeros(len(conf), dtype=int)
         for (x1,y1,x2,y2), score, cls_id in zip(xyxy, conf, cls):
             if cls_id not in VEHICLE_CLASS_IDS:
+                continue
+            if score < CONFIDENCE_THRESHOLD:
                 continue
             tlwh = (x1, y1, x2 - x1, y2 - y1)
             # Use unit vector as dummy feature

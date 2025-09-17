@@ -435,7 +435,7 @@ def get_counts_at_time(request):
                     return JsonResponse({'counts': [], 'max_time': 0}, status=200)
                 
                 counts_at_time = df[(df['time'] >= time) & (df['time'] <= time + 10)]
-                max_count_time = counts_at_time['time'].max()
+                max_count_time = counts_at_time['time'].max() if not counts_at_time.empty else float(time) + 10
                 if counts_at_time.empty:
                     return JsonResponse({'detections': [], 'max_time': max_count_time}, status=200)
                 

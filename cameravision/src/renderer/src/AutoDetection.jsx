@@ -669,7 +669,6 @@ const AutoDetection = () => {
         if (showDetections && videoRef.current && !showModifiedDetections) {
             if(maxTimeUpdated < videoRef.current.currentTime){
                 const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_GET_COUNTS_AT_TIME}`;
-                setMaxTimeUpdated(10000); // Temporary high value to prevent multiple calls
                 fetch(url, {
                     method: 'POST',
                     headers: {
@@ -695,46 +694,7 @@ const AutoDetection = () => {
                 });
             }
         }
-        if (showModifiedDetections && videoRef.current){
-            if(maxTimeUpdated < videoRef.current.currentTime){
-                // Get the modified counts for the current time
-                const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_GET_MODIFIED_DETECTIONS_AT_TIME}`;
-                setMaxTimeUpdated(10000); // Temporary high value to prevent multiple calls
-                fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ record_id: recordId, time: videoRef.current.currentTime, version: detectionVersion, divide_time: accuracy }),
-                })
-                .then(async response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    const text = await response.text();
-                    try {
-                        // Replace NaN with null before parsing
-                        const sanitizedText = text.replace(/: NaN/g, ': null');
-                        return sanitizedText ? JSON.parse(sanitizedText) : { detections: [] };
-                    } catch (error) {
-                        console.error('Error parsing JSON:', error);
-                        return { detections: [] };
-                    }
-                })
-                .then(data => {
-                    if (data && data.detections) {
-                        const df = data.detections;
-                        const maxTime = data.max_time;
-                        setMaxTimeUpdated(maxTime);
-                        setCompleteDf(df);
-                        const closestTimeData = getClosestTimeKey(videoRef.current?.currentTime || 0, df);
-                        setShowingDetectionDf(closestTimeData);
-                    } else {
-                        console.error('No modified counts found in the response');
-                    }
-                })
-            }
-        }
+        
     };
     react.useEffect(() => {
         if (tool === 'cutzones') {
