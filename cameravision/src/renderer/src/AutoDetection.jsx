@@ -17,9 +17,9 @@ import {
     Chip,
     Switch
 } from '@mui/material'; 
-import {faPen, faPlus, faEraser, faUpload, faRefresh, faEye, faEyeSlash, faCar, faMagnifyingGlass, faTrash, faCalculator, faStop, faClone, faDirections, faArrowRight, faCircleInfo, faVideoSlash} from '@fortawesome/free-solid-svg-icons';
+import {faPen, faPlus, faEraser, faUpload, faRefresh, faEye, faEyeSlash, faCar, faMagnifyingGlass, faTrash, faCalculator, faStop, faClone, faDirections, faArrowRight, faCircleInfo, faVideoSlash, faChartBar} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import Notification from './components/Notification';
 import LinearProgressWithLabel from './components/LinearProgressWithLabel';
@@ -1151,17 +1151,35 @@ const AutoDetection = () => {
                         
                         <div className='flex items-center justify-between w-full'>
                             <div className='flex justify-between gap-2.5 w-full'>
-                                <Tooltip title="Run Detection" placement="right">
-                                    <span className='h-full'>
-                                        <Button
-                                            className={`shadow-lg hover:!bg-main-400 !text-black h-full ${(detectionExists || detectingStarted) ? '!bg-gray-300' : '!bg-green-500 '}`}
-                                            onClick={startDetecting}
-                                            disabled={detectionExists || detectingStarted}
-                                        >
-                                            <FontAwesomeIcon icon={faMagnifyingGlass} className='text-center' />
-                                        </Button>
-                                    </span>
-                                </Tooltip>
+                                {!(detectionExists || detectingStarted) &&
+                                    <Tooltip title="Run Detection" placement="right">
+                                        <span className='h-full'>
+                                            <Button
+                                                className={`shadow-lg hover:!bg-main-400 !text-black h-full ${(detectionExists || detectingStarted) ? '!bg-gray-300' : '!bg-green-500 '}`}
+                                                onClick={startDetecting}
+                                                disabled={detectionExists || detectingStarted}
+                                            >
+                                                <FontAwesomeIcon icon={faMagnifyingGlass} className='text-center' />
+                                            </Button>
+                                        </span>
+                                    </Tooltip>
+                                }
+                                {(detectionExists || detectingStarted) &&
+                                    <Tooltip title="Open Counting Page" placement="right">
+                                        <span className='h-full'>
+                                            <Link to={`/counter-results?record-id=${recordId}&version=${detectionVersion}&divide-time=${accuracy}`} className='w-full h-full'>
+                                                <Button
+                                                    className={`shadow-lg hover:!bg-main-400 !text-black h-full !bg-yellow-500`}
+                                                >
+                                                    <FontAwesomeIcon icon={faChartBar} className='text-center' />
+                                                </Button>
+                                            </Link>
+
+                                        </span>
+                                    </Tooltip>
+                                    
+                                }
+
                                 <Tooltip title="Show detections" placement="top">
                                     <span>
                                         <Button

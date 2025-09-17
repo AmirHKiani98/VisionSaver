@@ -11,7 +11,7 @@ import os
 import subprocess
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
-from ai.models import AutoDetection, ModifiedAutoDetection, AutoDetectionCheckpoint
+from ai.models import AutoDetection, ModifiedAutoDetection, AutoDetectionCheckpoint, DetectionLines
 import traceback
 # Create your views here.
 
@@ -580,3 +580,83 @@ def remove_modified_detection(request):
         return JsonResponse({"message": "Modified detection removed successfully"}, status=200)
     else:
         return JsonResponse({"error": "Method Not Allowed"}, status=405)
+
+@csrf_exempt
+def get_counter_manual_results(request):
+    """
+    Get manual counter results for a specific record.
+    """
+    if request.method != 'POST':
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+        record_id = data.get('record_id')
+        if not record_id:
+            return JsonResponse({"error": "'record_id' is required."}, status=400)
+        record = Record.objects.filter(id=record_id).first()
+        if not record:
+            return JsonResponse({"error": "Record not found."}, status=404)
+        auto_detection = AutoDetection.objects.filter(record=record).first()
+        counts_file = auto_detection.file_name
+        if not os.path.exists(counts_file):
+            return JsonResponse({"counts": {}}, status=200)
+        try:
+            detection_lines = DetectionLines.objects.filter(record=record).first()
+            if not detection_lines:
+                return JsonResponse({"error": "Detection lines not found."}, status=404)
+            lines = detection_lines.lines
+            lines_map_length = {
+                zone_name: len(filter(lambda x: x["tool"] == "zone", list_of_points)) for zone_name, list_of_points in lines.items()
+            }
+
+            df = pd.read_csv(counts_file)
+            labels = [] # This is the times
+            datasets = [{
+                "id": 1,
+                "label": 'Auto Detection Counts',
+                "data": []
+            },
+            {
+                "id": 2,
+                "label": 'Manual Counts',
+                "data": []
+            }]
+            # Data should follow this format:
+            # labels: ['Jun', 'Jul', 'Aug']
+            # {
+            #                 labels: ['Jun', 'Jul', 'Aug'],
+            #                 datasets: [
+            #                     {
+            #                         id: 1,
+            #                         label: 'Dataset 1',
+            #                         data: [5, 6, 7],
+            #                     },
+            #                     {
+            #                         id: 2,
+            #                         label: 'Dataset 2',
+            #                         data: [3, 2, 1],
+            #                     },
+            #                 ],
+            #             }
+            df = df.sort_values(["time", "track_id"])
+            groups = df.groupby('track_id')
+            times = []
+            for name, group in groups:
+                detected = group[group["in_area"]]
+                
+                if detected.empty:
+                    continue
+                ount = detected.groupby(["line_index", "zone_index"]).count().reset_index()
+                if subgroup.empty:
+                    continue
+                
+                
+                    
+                
+
+            
+            return JsonResponse({"counts": _dict}, status=200)
+        except Exception as file_error:
+            return JsonResponse({"error": f"Failed to read counts file: {str(file_error)}"}, status=500)
+    except Exception as e:
+        return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)

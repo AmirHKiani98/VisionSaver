@@ -37,15 +37,18 @@
     "@mui/x-date-pickers": "^8.6.0",
     "@tailwindcss/vite": "^4.1.11",
     "apache-arrow": "^21.0.0",
+    "chart.js": "^4.5.0",
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
     "dotenv": "^17.0.0",
     "electron-updater": "^6.3.9",
     "nodejs-polars": "^0.21.1",
+    "react-chartjs-2": "^5.3.0",
     "react-day-picker": "^9.7.0",
     "react-konva": "^19.0.7",
     "react-player": "^3.0.0",
-    "react-router-dom": "^7.6.3"
+    "react-router-dom": "^7.6.3",
+    "victory-native": "^37.3.6"
   },
   "devDependencies": {
     "@babel/runtime": "^7.27.6",

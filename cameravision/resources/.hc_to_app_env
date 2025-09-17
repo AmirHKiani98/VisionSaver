@@ -32,6 +32,7 @@ API_DELETE_DETECTION=api/delete_detection
 API_DELETE_MODIFIED_DETECTION=api/delete_modified_detection
 API_COUNTER_EXISTS=api/counter_exists
 API_IS_DETECTION_IN_PROCESS=api/is_detection_in_process
+API_GET_COUNTER_MANUAL_RESULTS=api/get_counter_manual_results
 # Celery variables
 CELERY_BROKER_DOMAIN=localhost
 CELERY_BROKER_PORT=6379
