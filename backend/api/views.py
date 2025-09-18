@@ -13,7 +13,7 @@ from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 from ai.models import AutoDetection, ModifiedAutoDetection, AutoDetectionCheckpoint, DetectionLines
 import traceback
-from api.utils import get_counter_auto_detection_results
+from api.utils import get_counter_auto_detection_results, get_counter_manual_results
 # Create your views here.
 
 
@@ -583,23 +583,27 @@ def remove_modified_detection(request):
         return JsonResponse({"error": "Method Not Allowed"}, status=405)
 
 @csrf_exempt
-def get_counter_manual_results(request):
+def get_counter_manual_auto_results(request):
     """
     Get manual counter results for a specific record.
     """
     if request.method != 'POST':
         return JsonResponse({"error": "Method Not Allowed"}, status=405)
     try:
+
         data = json.loads(request.body.decode('utf-8'))
         record_id = data.get('record_id')
         if not record_id:
             return JsonResponse({"error": "'record_id' is required."}, status=400)
+
         version = data.get('version')
         if not version:
             return JsonResponse({"error": "'version' is required."}, status=400)
+
         divide_time = data.get('divide_time')
         if not divide_time:
             return JsonResponse({"error": "'divide_time' is required."}, status=400)
+
         try:
             divide_time = float(divide_time)
         except ValueError:
@@ -609,12 +613,14 @@ def get_counter_manual_results(request):
         if not auto_detection_counts:
             return JsonResponse({"error": "Failed to retrieve results."}, status=500)
 
+        manual_results = get_counter_manual_results(record_id)
+        if not manual_results:
+            manual_results = {}
         _dict = {
-            "record_id": record_id,
-            "version": version,
-            "divide_time": divide_time,
-            "auto_detection_counts": auto_detection_counts
+            "auto_detection_counts": auto_detection_counts,
+            "manual_results": manual_results
         }
         return JsonResponse({"counts": _dict}, status=200)
     except Exception as file_error:
         return JsonResponse({"error": f"Failed to read counts file: {str(file_error)}"}, status=500)
+

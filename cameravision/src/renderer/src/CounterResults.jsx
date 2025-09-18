@@ -41,7 +41,7 @@ export default function CounterResults() {
 
     React.useEffect(() => {
         if (!env) return;
-        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_GET_COUNTER_MANUAL_RESULTS}`;
+        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_GET_COUNTER_MANUAL_AUTO_RESULTS}`;
         fetch(url, {
             method: 'POST',
             headers: {
@@ -56,6 +56,7 @@ export default function CounterResults() {
             .then(response => response.json())
             .then(data => {
                 setData(data);
+                console.log('Fetched counter results:', data);
                 // Process the data and update the chart
                 if (ref.current) {
                     ref.current.update();
@@ -64,7 +65,7 @@ export default function CounterResults() {
             .catch(error => {
                 console.error('Error fetching counter results:', error);
             });
-    }, []);
+    }, [env]);
     const config = {
         options: {
             plugins: {

@@ -2,7 +2,9 @@ from collections import defaultdict
 import pandas as pd
 from record.models import Record
 from ai.models import AutoDetection, DetectionLines
+from record.models import RecordLog
 import os
+
 def get_counter_auto_detection_results(record_id, version, divide_time):
     """
     API endpoint to retrieve auto_detection counting results for a specific counter.
@@ -14,7 +16,7 @@ def get_counter_auto_detection_results(record_id, version, divide_time):
     if not record:
         print("No record found")
         return False
-    auto_detection = AutoDetection.objects.filter(record=record).first()
+    auto_detection = AutoDetection.objects.filter(record=record, version=version, divide_time=divide_time).first()
     counts_file = auto_detection.file_name
     if not os.path.exists(counts_file):
         print("Counts file does not exist")
@@ -33,7 +35,7 @@ def get_counter_auto_detection_results(record_id, version, divide_time):
         
         df = df.sort_values(["time", "track_id"])
         groups = df.groupby('track_id')
-        for name, group in groups:
+        for _, group in groups:
             detected = group[group["in_area"]]
             unique_line_indexes = detected["line_index"].unique().tolist()
             for line_index in unique_line_indexes:
@@ -48,3 +50,34 @@ def get_counter_auto_detection_results(record_id, version, divide_time):
     except Exception as e:
         print(e)
         return False
+
+def get_counter_manual_results(record_id,):
+    """
+    API endpoint to retrieve manual counting results for a specific counter.
+    """
+    record = Record.objects.filter(id=record_id).first()
+    if not record:
+        print("No record found")
+        return False
+    
+    record_logs = RecordLog.objects.filter(record=record).order_by('time')
+        
+    if not record_logs.exists():
+        print("No record logs found")
+        return False
+
+    # Making a pandas DataFrame from the record logs
+    df = pd.DataFrame(list(record_logs.values('time', 'turn_movement')), columns=['time', 'turn_movement'])
+    df = df.sort_values(["time"])
+    results = defaultdict(dict)
+    groups = df.groupby('turn_movement')
+
+    for turn_movement, group in groups:
+        for _, row in group.iterrows():
+            time = row['time']
+            if time not in results[turn_movement]:
+                results[turn_movement][time] = 0
+            results[turn_movement][time] += 1
+
+    results = {key: dict(sorted(value.items(), key=lambda item: item[0])) for key, value in results.items()}
+    return results
