@@ -1,18 +1,26 @@
-# from django.test import TestCase
-# from backend.api.views import connect_vpn_wmi
-# import wmi
-# Create your tests here.
-# def connect_vpn_wmi(vpn_name):
-#     c = wmi.WMI()
-#     for conn in c.Win32_NetworkConnection():
-#         if vpn_name.lower() in conn.Name.lower():
-#             print(f"VPN '{vpn_name}' already connected.")
-#             return True
+from django.test import TestCase
+import logging
+import dotenv
+from django.conf import settings
+from api.utils import get_counter_auto_detection_results
+logging.getLogger('ultralytics').setLevel(logging.WARNING)
+dotenv.load_dotenv(settings.ENV_PATH)
 
-#     shell = wmi.WMI(namespace='root\\CIMV2')
-#     shell_obj = shell.Win32_Process
+class ApiTests(TestCase):
+    def setUp(self):
+        # Set up run before every test method.
+        record_id = 4
+        version = "v2"
+        divide_time = 0.1
+        self.record_id = record_id
+        self.version = version
+        self.divide_time = divide_time
 
-#     command = f'rasdial "{vpn_name}"'
-#     result, pid = shell_obj.Create(CommandLine=command)
-#     return result == 0
-# connect_vpn_wmi('HC VPN')
+    def test_get_counter_auto_detection_results(self):
+        # Example test case
+        print("Testing get_counter_auto_detection_results...")
+        results = get_counter_auto_detection_results(self.record_id, self.version, self.divide_time)
+        if results is False:
+            self.fail("get_counter_auto_detection_results returned False")
+        assert isinstance(results, dict)
+        print("Results:", results)
