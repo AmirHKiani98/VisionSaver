@@ -608,19 +608,43 @@ def get_counter_manual_auto_results(request):
             divide_time = float(divide_time)
         except ValueError:
             return JsonResponse({"error": "'divide_time' must be a number."}, status=400)
-
+        
+        labels = set()
         auto_detection_counts = get_counter_auto_detection_results(record_id, version, divide_time)
         if not auto_detection_counts:
             return JsonResponse({"error": "Failed to retrieve results."}, status=500)
+        for line_key, counts_dict in auto_detection_counts.items():
+            for time_key in counts_dict:
+                labels.add(time_key)
+        
+
 
         manual_results = get_counter_manual_results(record_id)
         if not manual_results:
             manual_results = {}
-        _dict = {
-            "auto_detection_counts": auto_detection_counts,
-            "manual_results": manual_results
-        }
-        return JsonResponse({"counts": _dict}, status=200)
+        for turn_movements_key, count_dict in manual_results.items():
+            for time_key in count_dict:
+                labels.add(time_key)
+
+        datasets = []
+        for line_key, counts_dict in auto_detection_counts.items():
+            new_dataset = {"id": len(datasets) + 1, "label": "Auto " + line_key, "data":[]}
+            for time in labels:
+                if time in counts_dict:
+                    new_dataset["data"].append(counts_dict[time])
+                else:
+                    new_dataset["data"].append(0)
+            datasets.append(new_dataset)            
+        for turn_movements_key, count_dict in manual_results.items():
+            new_dataset = {"id": len(datasets) + 1, "label": "Manual " + turn_movements_key, "data":[]}
+            for time in labels:
+                if time in count_dict:
+                    new_dataset["data"].append(count_dict[time])
+                else:
+                    new_dataset["data"].append(0)
+            datasets.append(new_dataset)
+
+        return JsonResponse({"datasets": datasets}, status=200)
     except Exception as file_error:
         return JsonResponse({"error": f"Failed to read counts file: {str(file_error)}"}, status=500)
 
