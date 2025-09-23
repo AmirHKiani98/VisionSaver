@@ -41,7 +41,6 @@ def get_counter_auto_detection_results(record_id, version, divide_time):
             unique_line_indexes = detected["line_index"].unique().tolist()
             for line_index in unique_line_indexes:
                 nu_zone_detected = detected[detected["line_index"] == line_index]["zone_index"].nunique()
-                print(f"line_index: {line_index}, nu_zone_detected: {nu_zone_detected}, required: {lines_map_length.get(line_index, 0)}")
                 if nu_zone_detected == lines_map_length.get(line_index, 0):
                     time = detected[detected["line_index"] == line_index]["time"].max()
                     if time not in results[line_index]:

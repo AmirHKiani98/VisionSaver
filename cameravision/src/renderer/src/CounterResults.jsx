@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Line, Scatter } from 'react-chartjs-2';
+import { Scatter } from 'react-chartjs-2';
 import 'chart.js/auto';
 import {
-    Button, Chip
+    Button, Chip, Slider, Typography, Box
 } from '@mui/material';
 
 function useQuery() {
@@ -19,23 +19,52 @@ export default function CounterResults() {
     const ref = React.useRef();
     const [env, setEnv] = React.useState(null);
     const [totalCounts, setTotalCounts] = React.useState({})
+    const [maxTime, setMaxTime] = React.useState(1200); // Default to reasonable value
+    const [minMaxTime, setMinMaxTime] = React.useState([0, 1200]);
+    const [fullData, setFullData] = React.useState(null); // Store complete dataset
     const [data, setData] = React.useState({
-        labels: ['Loading...'],
         datasets: [
             {
                 id: 1,
                 label: 'Loading...',
-                data: [0],
+                data: [{x: 0, y: 0}],
             },
         ],
     });
     const [loadingData, setLoadingData] = React.useState(true);
 
-    React.useEffect(() => {
+    // Update minMaxTime when maxTime changes
+    useEffect(() => {
+        if (maxTime > 0) {
+            setMinMaxTime([0, Math.ceil(maxTime)]);
+        }
+    }, [maxTime]);
+
+    // Initialize environment
+    useEffect(() => {
         window.env.get().then(setEnv);
     }, []);
 
-    React.useEffect(() => {
+    // Update chart options when time range changes
+    useEffect(() => {
+        if (!fullData) return;
+        
+        // Create a copy of the config
+        const newOptions = { ...config.options };
+        
+        // Update x-axis limits
+        newOptions.scales.x.min = minMaxTime[0];
+        newOptions.scales.x.max = minMaxTime[1];
+        
+        // Update the chart
+        if (ref.current) {
+            ref.current.options = newOptions;
+            ref.current.update();
+        }
+        
+    }, [minMaxTime]);
+
+    useEffect(() => {
         if (!env) return;
         setLoadingData(true);
         
@@ -56,15 +85,49 @@ export default function CounterResults() {
             setLoadingData(false);
 
             if(responseData.datasets) {
-                // Generate labels if they're missing
+                // Add colors to datasets for better visualization
+                const colors = ['rgba(75,192,192,1)', 'rgba(255,99,132,1)', 
+                                'rgba(54,162,235,1)', 'rgba(255,206,86,1)'];
                 
+                const enhancedDatasets = responseData.datasets.map((dataset, i) => ({
+                    ...dataset,
+                    backgroundColor: colors[i % colors.length],
+                    pointRadius: 6,
+                    pointHoverRadius: 8,
+                    borderColor: colors[i % colors.length]
+                }));
                 
+                // Store complete dataset for reference
+                setFullData({
+                    datasets: enhancedDatasets
+                });
+                
+                // Set active dataset
                 setData({
-                    datasets: responseData.datasets
+                    datasets: enhancedDatasets
                 });
 
-                setTotalCounts(responseData.total_counts);
-                console.log(responseData.total_counts);
+                // Set total counts if available
+                if (responseData.total_counts) {
+                    setTotalCounts(responseData.total_counts);
+                }
+                
+                // Find max time from the data
+                let maxT = 0;
+                enhancedDatasets.forEach(ds => {
+                    ds.data.forEach(point => {
+                        if (point.x > maxT) maxT = point.x;
+                    });
+                });
+                
+                // Use either provided max_time or calculated max
+                const finalMaxTime = Math.max(
+                    responseData.max_time || 0, 
+                    maxT || 0, 
+                    1200
+                );
+                
+                setMaxTime(Math.ceil(finalMaxTime));
 
             } else {
                 console.error("Invalid data format received:", responseData);
@@ -98,10 +161,19 @@ export default function CounterResults() {
                         size: 18,
                         weight: 'bold'
                     }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `${context.dataset.label}: ${context.parsed.y} at time ${context.parsed.x.toFixed(1)}s`;
+                        }
+                    }
                 }
             },
             scales: {
                 x: {
+                    type: 'linear',
+                    position: 'bottom',
                     title: {
                         display: true,
                         text: 'Time (seconds)',
@@ -112,7 +184,9 @@ export default function CounterResults() {
                     },
                     ticks: {
                         color: 'black'
-                    }
+                    },
+                    min: minMaxTime[0],
+                    max: minMaxTime[1]
                 },
                 y: {
                     title: {
@@ -124,15 +198,24 @@ export default function CounterResults() {
                         }
                     },
                     ticks: {
-                        color: 'black'
-                    }
+                        color: 'black',
+                        stepSize: 1
+                    },
+                    beginAtZero: true,
+                    suggestedMax: 2 // Give space above the points
+                }
+            },
+            elements: {
+                point: {
+                    radius: 6,
+                    hoverRadius: 8
                 }
             }
         }
     };
 
     return (
-        <div className="p-5 flex flex-col h-screen gap-5">
+        <div className="p-5 flex flex-col h-screen gap-5 overflow-auto">
             <Button
                 className="max-w-10"
                 onClick={() => window.history.back()}
@@ -164,6 +247,24 @@ export default function CounterResults() {
                                 <Chip label="No counts available" className="m-1" />
                             )}
                         </div>
+                        <Box sx={{ mt: 2, mx: 2 }}>
+                            
+                            <Slider
+                                className="mt-2"
+                                aria-label="Time Range"
+                                value={minMaxTime}
+                                onChange={(event, newValue) => setMinMaxTime(newValue)}
+                                valueLabelDisplay="auto"
+                                valueLabelFormat={value => `${value}s`}
+                                min={0}
+                                max={Math.ceil(maxTime)}
+                                step={1}
+                            />
+                            <div className="flex justify-between text-xs">
+                                <span>0s</span>
+                                <span>{Math.ceil(maxTime)}s</span>
+                            </div>
+                        </Box>
                     </div>
                 )}
             </div>

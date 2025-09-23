@@ -11,7 +11,7 @@ import os
 import subprocess
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
-from ai.models import AutoDetection, ModifiedAutoDetection, AutoDetectionCheckpoint, DetectionLines
+from ai.models import AutoDetection, AutoDetectionCheckpoint, DetectionProcess, ModifiedAutoDetection
 import traceback
 from api.utils import get_counter_auto_detection_results, get_counter_manual_results
 # Create your views here.
@@ -551,12 +551,14 @@ def remove_detection(request):
         version = data.get('version', 'v1')
         divide_time = data.get('divide_time', 0.1)
         auto_detection = AutoDetection.objects.filter(record_id=record_id, version=version, divide_time=divide_time).first()
-        if not auto_detection:
-            return JsonResponse({"error": "Auto detection not found"}, status=404)
-        file_path = auto_detection.file_name
-        if os.path.exists(file_path):
-            os.remove(file_path)
-        auto_detection.delete()
+        if auto_detection:
+            file_path = auto_detection.file_name
+            if os.path.exists(file_path):
+                os.remove(file_path)
+            auto_detection.delete()
+        detection_process = DetectionProcess.objects.filter(record_id=record_id, version=version, divide_time=divide_time).first()
+        if detection_process:
+            detection_process.delete()
         autodetection_checkpoints = AutoDetectionCheckpoint.objects.filter(record_id=record_id, version=version, divide_time=divide_time).first()
         if autodetection_checkpoints:
             autodetection_checkpoints.delete()
@@ -599,7 +601,7 @@ def get_counter_manual_auto_results(request):
         version = data.get('version')
         if not version:
             return JsonResponse({"error": "'version' is required."}, status=400)
-
+    
         divide_time = data.get('divide_time')
         if not divide_time:
             return JsonResponse({"error": "'divide_time' is required."}, status=400)
@@ -615,7 +617,7 @@ def get_counter_manual_auto_results(request):
         
         datasets = []
         total_counts = {}
-
+        max_time = float("-inf")
         manual_results = get_counter_manual_results(record_id)
         if not manual_results:
             manual_results = {}
@@ -626,6 +628,8 @@ def get_counter_manual_auto_results(request):
             for time, count in counts_dict.items():
                 total_counts[line_key] += count
                 new_dataset["data"].append({"x": time, "y": count})
+                if time > max_time:
+                    max_time = time
             datasets.append(new_dataset)
         
         for turn_movements_key, count_dict in manual_results.items():
@@ -634,9 +638,11 @@ def get_counter_manual_auto_results(request):
             for time, count in count_dict.items():
                 total_counts[turn_movements_key] += count
                 new_dataset["data"].append({"x": time, "y": count})
+                if time > max_time:
+                    max_time = time
             datasets.append(new_dataset)
 
-        return JsonResponse({"datasets": datasets, "total_counts": total_counts}, status=200)
+        return JsonResponse({"datasets": datasets, "total_counts": total_counts, "max_time": max_time}, status=200)
 
         # for turn_movements_key, count_dict in manual_results.items():
         #     for time_key in count_dict:
