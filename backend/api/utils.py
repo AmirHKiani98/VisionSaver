@@ -35,11 +35,13 @@ def get_counter_auto_detection_results(record_id, version, divide_time):
         
         df = df.sort_values(["time", "track_id"])
         groups = df.groupby('track_id')
+        
         for _, group in groups:
             detected = group[group["in_area"]]
             unique_line_indexes = detected["line_index"].unique().tolist()
             for line_index in unique_line_indexes:
                 nu_zone_detected = detected[detected["line_index"] == line_index]["zone_index"].nunique()
+                print(f"line_index: {line_index}, nu_zone_detected: {nu_zone_detected}, required: {lines_map_length.get(line_index, 0)}")
                 if nu_zone_detected == lines_map_length.get(line_index, 0):
                     time = detected[detected["line_index"] == line_index]["time"].max()
                     if time not in results[line_index]:

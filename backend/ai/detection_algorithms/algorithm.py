@@ -54,7 +54,19 @@ class DetectionAlgorithm:
         self.modifier = self._import_modifier()
         self.counter = self._import_counter()
         self.frame = None
+    
+
+    def _has_header(self, path):
+        """
+        Checks if the file exists and has content with headers already
+        """
+        if not os.path.exists(path) or os.path.getsize(path) == 0:
+            return False
             
+        with open(path, "r") as f:
+            # Read the first line and check if it looks like a header
+            first_line = f.readline().strip()
+            return first_line != "" and "," in first_line and not all(c.isdigit() or c in ".,- " for c in first_line)
     def _import_detect(self):
         import importlib
         module = importlib.import_module(f"ai.detection_algorithms.{self.version}.model")
@@ -231,14 +243,21 @@ class DetectionAlgorithm:
         frame_count = 0
         if checkpoint:
             frame_count = checkpoint.last_frame_captured
-            # Seek to the right position
             self.video.set(cv2.CAP_PROP_POS_FRAMES, frame_count)
             print(f"Resuming from frame {frame_count}")
         total_frames = int(self.video.get(cv2.CAP_PROP_FRAME_COUNT))
-        logger.info(f"Starting detection process for record {self.record_id}, version {self.version}, divide_time {self.divide_time}. Total frames: {total_frames}, starting from frame: {frame_count}")
-        # TODO: Check if there is frame done in AutoDetectionCheckpoint and resume from there
+        logger.info(f"Starting detection process for record {self.record_id}, version {self.version}, divide_time {self.divide_time}")
         self._send_ws_progress(0, total_frames, message=os.getenv("COMMAND_DETECTION_STARTED"))
-
+        
+        # IMPORTANT: Check if files already exist BEFORE trying to write anything
+        main_file_exists = os.path.exists(self.file_name) and os.path.getsize(self.file_name) > 0
+        count_file = self.file_name.replace('.csv', '_count.csv')
+        count_file_exists = os.path.exists(count_file) and os.path.getsize(count_file) > 0
+        
+        # Keep track if we've written headers yet in this run
+        headers_written = main_file_exists
+        count_headers_written = count_file_exists
+        
         while True:
             print(f"Processing frame {frame_count}/{total_frames}")
             if frame_count % 50 == 0:
@@ -254,52 +273,61 @@ class DetectionAlgorithm:
         
             if results is None:
                 break
-            frame_count += 1
-            if frame_count % 200 == 0:
-                self._send_ws_progress(frame_count, total_frames, message=os.getenv("COMMAND_DETECTION_AVAILABLE"))
-            file_exists = os.path.isfile(self.file_name)
-            with open(self.file_name, 'a') as f:
-                # save current_results (results) to csv
-                pd.DataFrame(results).to_csv(f, mode='a', header=not file_exists, index=False, lineterminator='\n')
-                f.flush()
-            if len(to_save_df) == 0:
-                continue
-            
-            header = not os.path.isfile(self.file_name.replace('.csv', '_count.csv'))
-            with open(self.file_name.replace('.csv', '_count.csv'), 'a') as f:
                 
-                self.detection_results.to_csv(f, mode='a', header=header, index=False, lineterminator='\n')
-                f.flush()   
-                self.detection_results = pd.DataFrame(columns=['car_id', 'last_time_in_zone', 'line_index'])
-
+            frame_count += 1
             
-        header = not os.path.isfile(self.file_name)
-        with open(self.file_name, 'a') as f:
+            # Write results if not empty
+            if results:
+                # The key fix: Only write headers if they haven't been written yet
+                pd.DataFrame(results).to_csv(
+                    self.file_name, 
+                    mode='a',
+                    header=not headers_written,  # Only write headers if they haven't been written
+                    index=False
+                )
+                # After writing, mark headers as written
+                headers_written = True
             
-            pd.DataFrame(results).to_csv(f, mode='a', header=header, index=False, lineterminator='\n')
-            f.flush()
-        header = not os.path.isfile(self.file_name.replace('.csv', '_count.csv'))
-        with open(self.file_name.replace('.csv', '_count.csv'), 'a') as f:
-            
-            self.detection_results.to_csv(f, mode='a', header=header, index=False, lineterminator='\n')
-            f.flush()
-            self.detection_results = pd.DataFrame(columns=['car_id', 'last_time_in_zone', 'line_index'])
+            # Process count data if available
+            if len(to_save_df) > 0 and not self.detection_results.empty:
+                # Same logic for count file
+                self.detection_results.to_csv(
+                    count_file,
+                    mode='a',
+                    header=not count_headers_written,  # Only write headers if they haven't been written
+                    index=False
+                )
+                # After writing, mark count headers as written
+                count_headers_written = True
+                # Reset the detection results
+                self.detection_results = pd.DataFrame(columns=['car_id', 'last_time_in_zone', 'line_index', 'class_id'])
+        
+            # ... rest of the code ...
+        
+        # After the loop, finalize everything
         self._send_ws_progress(total_frames, total_frames, message=os.getenv("COMMAND_DETECTION_COMPLETED"))
         self.video.release()
         
+        # Create or update records
         AutoDetection.objects.update_or_create(
             record_id=self.record_id,
             version=self.version,
             divide_time=self.divide_time,
             file_name=self.file_name
         )
+        
         DetectionProcess.objects.filter(
             record_id=self.record_id,
             version=self.version,
             divide_time=self.divide_time
         ).update(done=True)
         
-        self.df = pd.read_csv(self.file_name)
+        # Read back the data
+        if os.path.exists(self.file_name):
+            self.df = pd.read_csv(self.file_name)
+        else:
+            self.df = pd.DataFrame()
+        
         return self.df
     
  

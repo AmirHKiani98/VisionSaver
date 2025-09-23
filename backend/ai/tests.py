@@ -20,8 +20,8 @@ class AiAppTestCase(TestCase):
         """
         Set up the test case with necessary configurations.
         """
-        self.record_id = 5
-        self.divide_time = 0.1
+        self.record_id = 4
+        self.divide_time = 0.05
         self.video_time = 45 # in seconds. There is a white SUV car going left to right at that time
         # Load the video
         self.video_path = f"{settings.MEDIA_ROOT}/{self.record_id}.mp4"
@@ -214,7 +214,7 @@ class AiAppTestCase(TestCase):
         
         detection_algorithm = DetectionAlgorithm(record_id=self.record_id, divide_time=self.divide_time, version='v2', lines=detection_lines, detection_time=self.video_time, debug=False)
         print(len(detection_algorithm.zones["through"])) # type: ignore
-        for _i in range(20): # Read 5 frames
+        while True:
             results, cars_removed = detection_algorithm.read()
             frame = detection_algorithm.frame
             
@@ -236,7 +236,6 @@ class AiAppTestCase(TestCase):
                         cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
                         cv2.putText(frame, f"ID: {obj['track_id']}", (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
                 cv2.imshow("Frame from DetectionAlgorithm", frame)
-                time.sleep(0.1)
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
 

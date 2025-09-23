@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Line, Scatter } from 'react-chartjs-2';
 import 'chart.js/auto';
 import {
-    Button
+    Button, Chip
 } from '@mui/material';
 
 function useQuery() {
@@ -18,6 +18,7 @@ export default function CounterResults() {
     const divideTime = query.get('divide-time');
     const ref = React.useRef();
     const [env, setEnv] = React.useState(null);
+    const [totalCounts, setTotalCounts] = React.useState({})
     const [data, setData] = React.useState({
         labels: ['Loading...'],
         datasets: [
@@ -53,27 +54,18 @@ export default function CounterResults() {
         .then(response => response.json())
         .then(responseData => {
             setLoadingData(false);
+
             if(responseData.datasets) {
                 // Generate labels if they're missing
-                const labels = responseData.labels || 
-                    (responseData.datasets[0]?.data.map((_, i) => i.toString()) || []);
                 
-                // Convert data format for scatter plot
-                const scatterDatasets = responseData.datasets.map(dataset => {
-                    return {
-                        ...dataset,
-                        // Convert array data to scatter format with x,y coordinates
-                        data: dataset.data.map((y, index) => ({
-                            x: parseInt(labels[index]),  // Use the label as x-value (time)
-                            y: y                         // Use the count as y-value
-                        }))
-                    };
-                });
                 
                 setData({
-                    datasets: scatterDatasets
+                    datasets: responseData.datasets
                 });
-                console.log("Scatter data loaded:", { datasets: scatterDatasets });
+
+                setTotalCounts(responseData.total_counts);
+                console.log(responseData.total_counts);
+
             } else {
                 console.error("Invalid data format received:", responseData);
             }
@@ -140,11 +132,9 @@ export default function CounterResults() {
     };
 
     return (
-        <div className="p-5 flex flex-col h-screen">
+        <div className="p-5 flex flex-col h-screen gap-5">
             <Button
-                className="max-w-10 mb-4"
-                variant="contained"
-                color="primary"
+                className="max-w-10"
                 onClick={() => window.history.back()}
             >
                 Back
@@ -155,14 +145,25 @@ export default function CounterResults() {
                         <p className="text-lg font-bold">Loading data...</p>
                     </div>
                 ) : (
-                    <div className="flex justify-center h-full">
-                        <Scatter
-                            ref={ref}
-                            datasetIdKey='id'
-                            data={data}
-                            options={config.options}
-                            height={400}
-                        />
+                    <div className="flex flex-col h-full flex-1">
+                        <div className="flex flex-1 justify-center h-full">
+                            <Scatter
+                                ref={ref}
+                                datasetIdKey='id'
+                                data={data}
+                                options={config.options}
+                                height={400}
+                            />
+                        </div>
+                        <div className="min-h-10 w-full flex justify-center items-center flex-wrap gap-2">
+                            {totalCounts && Object.keys(totalCounts).length > 0 ? (
+                                Object.entries(totalCounts).map(([key, value], index) => (
+                                    <Chip key={index} label={`${key}: ${value}`} className="m-1" />
+                                ))
+                            ) : (
+                                <Chip label="No counts available" className="m-1" />
+                            )}
+                        </div>
                     </div>
                 )}
             </div>

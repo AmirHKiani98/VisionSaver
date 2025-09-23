@@ -448,7 +448,7 @@ def get_counts_at_time(request):
             logger.error(f"Error: {traceback.format_exc()}")
             return JsonResponse({'error': 'No detection data found'}, status=404)
         except Exception as e:
-            logger.error(f"Error in get_counts_at_time: {e}", exc_info=True)
+            logger.error(f"Error in get_counts_at_time: {traceback.format_exc()}")
             return JsonResponse({'error': str(e)}, status=500)
     else:
         return JsonResponse({'error': 'Method not allowed'}, status=405)
@@ -609,40 +609,55 @@ def get_counter_manual_auto_results(request):
         except ValueError:
             return JsonResponse({"error": "'divide_time' must be a number."}, status=400)
         
-        labels = set()
         auto_detection_counts = get_counter_auto_detection_results(record_id, version, divide_time)
         if not auto_detection_counts:
             return JsonResponse({"error": "Failed to retrieve results."}, status=500)
-        for line_key, counts_dict in auto_detection_counts.items():
-            for time_key in counts_dict:
-                labels.add(time_key)
         
-
+        datasets = []
+        total_counts = {}
 
         manual_results = get_counter_manual_results(record_id)
         if not manual_results:
             manual_results = {}
-        for turn_movements_key, count_dict in manual_results.items():
-            for time_key in count_dict:
-                labels.add(time_key)
-
-        datasets = []
+        
         for line_key, counts_dict in auto_detection_counts.items():
             new_dataset = {"id": len(datasets) + 1, "label": "Auto " + line_key, "data":[]}
-            for time in labels:
-                if time in counts_dict:
-                    new_dataset["data"].append(counts_dict[time])
-                else:
-                    new_dataset["data"].append(0)
-            datasets.append(new_dataset)            
+            total_counts[line_key] = 0
+            for time, count in counts_dict.items():
+                total_counts[line_key] += count
+                new_dataset["data"].append({"x": time, "y": count})
+            datasets.append(new_dataset)
+        
         for turn_movements_key, count_dict in manual_results.items():
             new_dataset = {"id": len(datasets) + 1, "label": "Manual " + turn_movements_key, "data":[]}
-            for time in labels:
-                if time in count_dict:
-                    new_dataset["data"].append(count_dict[time])
-                else:
-                    new_dataset["data"].append(0)
+            total_counts[turn_movements_key] = 0
+            for time, count in count_dict.items():
+                total_counts[turn_movements_key] += count
+                new_dataset["data"].append({"x": time, "y": count})
             datasets.append(new_dataset)
+
+        return JsonResponse({"datasets": datasets, "total_counts": total_counts}, status=200)
+
+        # for turn_movements_key, count_dict in manual_results.items():
+        #     for time_key in count_dict:
+        #         labels.add(time_key)
+
+        # for line_key, counts_dict in auto_detection_counts.items():
+        #     new_dataset = {"id": len(datasets) + 1, "label": "Auto " + line_key, "data":[]}
+        #     for time in labels:
+        #         if time in counts_dict:
+        #             new_dataset["data"].append(counts_dict[time])
+        #         else:
+        #             new_dataset["data"].append(0)
+        #     datasets.append(new_dataset)            
+        # for turn_movements_key, count_dict in manual_results.items():
+        #     new_dataset = {"id": len(datasets) + 1, "label": "Manual " + turn_movements_key, "data":[]}
+        #     for time in labels:
+        #         if time in count_dict:
+        #             new_dataset["data"].append(count_dict[time])
+        #         else:
+        #             new_dataset["data"].append(0)
+        #     datasets.append(new_dataset)
 
         return JsonResponse({"datasets": datasets}, status=200)
     except Exception as file_error:
