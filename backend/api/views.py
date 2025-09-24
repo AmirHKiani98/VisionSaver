@@ -15,6 +15,8 @@ import numpy as np
 from ai.models import AutoDetection, AutoDetectionCheckpoint, DetectionProcess, ModifiedAutoDetection
 import traceback
 from api.utils import get_counter_auto_detection_results, get_counter_manual_results, get_movement_index
+import cv2
+import base64
 # Create your views here.
 
 
@@ -776,3 +778,38 @@ def get_counter_manual_auto_results(request):
         logger.error(f"Failed to process results: {str(file_error)}", exc_info=True)
         return JsonResponse({"error": f"Failed to process results: {str(file_error)}"}, status=500)
 
+@csrf_exempt
+def get_frame_at_time(request):
+    if request.method != 'POST':
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+        record_id = data.get('record_id')
+        time = data.get('time')
+        if record_id is None or time is None:
+            return JsonResponse({"error": "'record_id' and 'time' are required."}, status=400)
+        record = Record.objects.filter(id=record_id).first()
+        if not record:
+            return JsonResponse({"error": "Record not found."}, status=404)
+        video_path = os.path.join(settings.MEDIA_ROOT, f"{record_id}.mp4")
+        if not os.path.exists(video_path):
+            return JsonResponse({"error": "Video file not found."}, status=404)
+        
+        # Use OpenCV to capture the frame at the specified time
+        cap = cv2.VideoCapture(video_path)
+        fps = cap.get(cv2.CAP_PROP_FPS)
+        frame_number = int(fps * float(time))
+        cap.set(cv2.CAP_PROP_POS_FRAMES, frame_number)
+        ret, frame = cap.read()
+        cap.release()
+        
+        if not ret:
+            return JsonResponse({"error": "Could not retrieve frame."}, status=500)
+        
+        # Encode the frame as JPEG
+        _, buffer = cv2.imencode('.jpg', frame)
+        jpg_as_text = base64.b64encode(buffer).decode('utf-8')
+        
+        return JsonResponse({"frame": jpg_as_text}, status=200)
+    except Exception as e:
+        return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)

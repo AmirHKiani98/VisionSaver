@@ -22,6 +22,9 @@ export default function CounterResults() {
     const [maxTime, setMaxTime] = React.useState(1200); // Default to reasonable value
     const [minMaxTime, setMinMaxTime] = React.useState([0, 1200]);
     const [fullData, setFullData] = React.useState(null); // Store complete dataset
+    const [frameImage, setFrameImage] = React.useState(null);
+    const [frameTime, setFrameTime] = React.useState(null);
+    const [loadingFrame, setLoadingFrame] = React.useState(false);
     const [data, setData] = React.useState({
         datasets: [
             {
@@ -181,6 +184,54 @@ export default function CounterResults() {
 
     const config = {
         options: {
+            onClick: (e, elements, chart) => {
+                var timeOfInterest = 0;
+                var noOfElements = 0;
+                for (const element of elements) {
+                    
+                    const datasetIndex = element.datasetIndex;
+                    const index = element.index;
+                    const dataset = chart.data.datasets[datasetIndex];
+                    const point = dataset.data[index];
+                    timeOfInterest += point.x;
+                    noOfElements += 1;
+                }
+                const avgTime = noOfElements > 0 ? (timeOfInterest / noOfElements) : 0;
+                if (avgTime > 0 && env) {
+                    setFrameTime(avgTime);
+                    setFrameImage(null); // Clear previous image
+                    setLoadingFrame(true);
+                    const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_GET_FRAME_AT_TIME}`;
+                    fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            record_id: recordId,
+                            divide_time: divideTime,
+                            version: version,
+                            time: avgTime
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(responseData => {
+                        if (responseData.frame) {
+                            // Open a new window to display the image
+                            setFrameImage(`data:image/jpeg;base64,${responseData.frame}`);
+                            setLoadingFrame(false);
+                        } else if (responseData.error) {
+                            alert(`Error: ${responseData.error}`);
+                        } else {
+                            alert('Unexpected response from server.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching frame at time:', error);
+                        alert('Error fetching frame at selected time.');
+                    });
+                }
+            },
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
@@ -277,6 +328,19 @@ export default function CounterResults() {
                                 options={config.options}
                                 height={400}
                             />
+                            {frameImage && (
+                                
+                                <div className="mt-2 absolute top-5 right-5 bg-white p-1 border border-gray-300 rounded">
+                                    <img width={300} height={300} src={frameImage} alt={`Frame`} />
+                                </div>
+                            )}
+                            {loadingFrame && (
+                                <div className="mt-2 absolute top-5 right-5 bg-white p-2 border border-gray-300 rounded flex items-center justify-center" style={{ width: '300px', height: '300px' }}>
+                                    <Typography variant="body1" color="textSecondary">
+                                        Loading frame...
+                                    </Typography>
+                                </div>
+                            )}
                         </div>
                         <div className="min-h-10 w-full flex justify-center items-center flex-wrap gap-2">
                             {totalCounts && Object.keys(totalCounts).length > 0 ? (

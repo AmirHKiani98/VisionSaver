@@ -82,5 +82,9 @@ urlpatterns = [
     path(
         f"{os.getenv('API_GET_COUNTER_MANUAL_AUTO_RESULTS')}",
         views.get_counter_manual_auto_results,
-    )
+    ),
+    path(
+        f"{os.getenv('API_GET_FRAME_AT_TIME')}",
+        views.get_frame_at_time,
+    ),
 ]
