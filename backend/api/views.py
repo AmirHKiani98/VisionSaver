@@ -11,9 +11,10 @@ import os
 import subprocess
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
+import numpy as np
 from ai.models import AutoDetection, AutoDetectionCheckpoint, DetectionProcess, ModifiedAutoDetection
 import traceback
-from api.utils import get_counter_auto_detection_results, get_counter_manual_results
+from api.utils import get_counter_auto_detection_results, get_counter_manual_results, get_movement_index
 # Create your views here.
 
 
@@ -587,12 +588,11 @@ def remove_modified_detection(request):
 @csrf_exempt
 def get_counter_manual_auto_results(request):
     """
-    Get manual counter results for a specific record.
+    Get manual and auto counter results for a specific record.
     """
     if request.method != 'POST':
         return JsonResponse({"error": "Method Not Allowed"}, status=405)
     try:
-
         data = json.loads(request.body.decode('utf-8'))
         record_id = data.get('record_id')
         if not record_id:
@@ -621,51 +621,158 @@ def get_counter_manual_auto_results(request):
         manual_results = get_counter_manual_results(record_id)
         if not manual_results:
             manual_results = {}
-        
+            
+        # Process auto detection counts
+        auto_df_dict = {"time": [], "count": [], "line": []}
         for line_key, counts_dict in auto_detection_counts.items():
             new_dataset = {"id": len(datasets) + 1, "label": "Auto " + line_key, "data":[]}
-            total_counts[line_key] = 0
-            for time, count in counts_dict.items():
-                total_counts[line_key] += count
-                new_dataset["data"].append({"x": time, "y": count})
-                if time > max_time:
-                    max_time = time
+            total_counts["Auto " + line_key] = 0
+            for time_str, count in counts_dict.items():
+                time_float = float(time_str)
+                total_counts["Auto " + line_key] += count
+                new_dataset["data"].append({"x": time_float, "y": count})
+                for _ in range(count):
+                    auto_df_dict["time"].append(time_float)
+                    auto_df_dict["count"].append(1)  # Each point represents 1 count
+                    auto_df_dict["line"].append(get_movement_index(line_key))
+                
+                if time_float > max_time:
+                    max_time = time_float
+                        
             datasets.append(new_dataset)
+            
+        auto_df = pd.DataFrame(auto_df_dict)
         
+        # Process manual results
+        manual_df_dict = {"time": [], "count": [], "line": []}
         for turn_movements_key, count_dict in manual_results.items():
             new_dataset = {"id": len(datasets) + 1, "label": "Manual " + turn_movements_key, "data":[]}
-            total_counts[turn_movements_key] = 0
-            for time, count in count_dict.items():
-                total_counts[turn_movements_key] += count
-                new_dataset["data"].append({"x": time, "y": count})
-                if time > max_time:
-                    max_time = time
+            total_counts["Manual " + turn_movements_key] = 0
+            
+            for time_str, count in count_dict.items():
+                time_float = float(time_str)
+                total_counts["Manual " + turn_movements_key] += count
+                new_dataset["data"].append({"x": time_float, "y": count})
+                for _ in range(count):
+                    manual_df_dict["time"].append(time_float)
+                    manual_df_dict["count"].append(1)
+                    manual_df_dict["line"].append(get_movement_index(turn_movements_key))
+                
+                if time_float > max_time:
+                    max_time = time_float
+                        
             datasets.append(new_dataset)
+            
+        manual_df = pd.DataFrame(manual_df_dict)
+        
+        # Initialize metrics to track matching performance
+        matches = 0
+        missed_detections = 0
+        false_positives = 0
 
-        return JsonResponse({"datasets": datasets, "total_counts": total_counts, "max_time": max_time}, status=200)
+        # Safety check for empty DataFrames
+        if manual_df.empty or auto_df.empty:
+            # No comparison possible, return just the datasets we have
+            return JsonResponse({
+                "datasets": datasets,
+                "total_counts": total_counts,
+                "max_time": max_time,
+                "missed_detections": [],
+                "false_positives": [],
+                "metrics": {
+                    "matches": 0,
+                    "missed_detections": 0 if manual_df.empty else len(manual_df),
+                    "false_positives": 0 if auto_df.empty else len(auto_df),
+                    "recall": 0,
+                    "precision": 0,
+                    "f1_score": 0
+                }
+            }, status=200)
 
-        # for turn_movements_key, count_dict in manual_results.items():
-        #     for time_key in count_dict:
-        #         labels.add(time_key)
+        # Keep track of which rows have been matched
+        manual_matched = np.zeros(len(manual_df), dtype=bool)
+        auto_matched = np.zeros(len(auto_df), dtype=bool)
 
-        # for line_key, counts_dict in auto_detection_counts.items():
-        #     new_dataset = {"id": len(datasets) + 1, "label": "Auto " + line_key, "data":[]}
-        #     for time in labels:
-        #         if time in counts_dict:
-        #             new_dataset["data"].append(counts_dict[time])
-        #         else:
-        #             new_dataset["data"].append(0)
-        #     datasets.append(new_dataset)            
-        # for turn_movements_key, count_dict in manual_results.items():
-        #     new_dataset = {"id": len(datasets) + 1, "label": "Manual " + turn_movements_key, "data":[]}
-        #     for time in labels:
-        #         if time in count_dict:
-        #             new_dataset["data"].append(count_dict[time])
-        #         else:
-        #             new_dataset["data"].append(0)
-        #     datasets.append(new_dataset)
+        # Time threshold for considering a match (in seconds)
+        time_difference_threshold = 3
 
-        return JsonResponse({"datasets": datasets}, status=200)
+        # Direction/line match requirement
+        require_direction_match = True
+
+        # For each manual detection, find the closest auto detection within the time threshold
+        for manual_idx, manual_row in manual_df.iterrows():
+            manual_time = manual_row["time"]
+            manual_line = manual_row["line"]
+            
+            # Calculate time differences for all auto detections
+            time_diffs = np.abs(auto_df["time"] - manual_time)
+            
+            # Create masks for filtering
+            time_mask = time_diffs <= time_difference_threshold
+            unmatched_mask = ~auto_matched
+            
+            # Add direction matching if required
+            if require_direction_match:
+                direction_mask = auto_df["line"] == manual_line
+                match_mask = time_mask & direction_mask & unmatched_mask
+            else:
+                match_mask = time_mask & unmatched_mask
+            
+            # Find matches
+            if np.any(match_mask):
+                # Get indices where the mask is True
+                match_indices = np.where(match_mask)[0]
+                
+                # Find the one with minimum time difference
+                if len(match_indices) > 0:
+                    time_diffs_subset = time_diffs.iloc[match_indices]
+                    best_match_idx = match_indices[np.argmin(time_diffs_subset)]
+                    
+                    # Mark as matched
+                    matches += 1
+                    manual_matched[manual_idx] = True
+                    auto_matched[best_match_idx] = True
+            else:
+                # No match found - this is a missed detection
+                missed_detections += 1
+
+        # Count false positives (auto detections without manual counterparts)
+        false_positives = np.sum(~auto_matched)
+
+        # Calculate metrics
+        total_manual_counts = len(manual_df)
+        total_auto_counts = len(auto_df)
+        recall = matches / total_manual_counts if total_manual_counts > 0 else 0
+        precision = matches / total_auto_counts if total_auto_counts > 0 else 0
+        f1_score = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0
+
+        # Generate "not found" list for visualization
+        not_found_manual = []
+        for idx, row in manual_df[~manual_matched].iterrows():
+            not_found_manual.append({"x": row["time"], "y": 1, "type": "missed_detection"})
+
+        not_found_auto = []
+        for idx, row in auto_df[~auto_matched].iterrows():
+            not_found_auto.append({"x": row["time"], "y": 1, "type": "false_positive"})
+
+        # Return results
+        return JsonResponse({
+            "datasets": datasets,
+            "total_counts": total_counts,
+            "max_time": max_time,
+            "missed_detections": not_found_manual,
+            "false_positives": not_found_auto,
+            "metrics": {
+                "matches": int(matches),
+                "missed_detections": int(missed_detections),
+                "false_positives": int(false_positives),
+                "recall": float(recall),
+                "precision": float(precision),
+                "f1_score": float(f1_score)
+            }
+        }, status=200)
+        
     except Exception as file_error:
-        return JsonResponse({"error": f"Failed to read counts file: {str(file_error)}"}, status=500)
+        logger.error(f"Failed to process results: {str(file_error)}", exc_info=True)
+        return JsonResponse({"error": f"Failed to process results: {str(file_error)}"}, status=500)
 

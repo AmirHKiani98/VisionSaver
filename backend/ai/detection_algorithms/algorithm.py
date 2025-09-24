@@ -259,7 +259,7 @@ class DetectionAlgorithm:
         count_headers_written = count_file_exists
         
         while True:
-            print(f"Processing frame {frame_count}/{total_frames}")
+            # print(f"Processing frame {frame_count}/{total_frames}")
             if frame_count % 50 == 0:
                 self.process_model.refresh_from_db()
                 if self.process_model.terminate_requested:
@@ -275,7 +275,8 @@ class DetectionAlgorithm:
                 break
                 
             frame_count += 1
-            
+            if frame_count % 200 == 0:
+                self._send_ws_progress(frame_count, total_frames, message=os.getenv("COMMAND_DETECTION_AVAILABLE"))
             # Write results if not empty
             if results:
                 # The key fix: Only write headers if they haven't been written yet
@@ -368,5 +369,6 @@ class DetectionAlgorithm:
                 }
             )
             async_to_sync(channel_layer.group_send)(group, payload)
+            print(f"Updating the progress for detection_progress_{self.record_id}_{self.divide_time}_{self.version}: {progress}")
         except Exception as e:
             logger.error(f"[WebSocket] Error sending progress: {e}")

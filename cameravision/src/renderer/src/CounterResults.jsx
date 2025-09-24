@@ -88,6 +88,43 @@ export default function CounterResults() {
                 // Add colors to datasets for better visualization
                 const colors = ['rgba(75,192,192,1)', 'rgba(255,99,132,1)', 
                                 'rgba(54,162,235,1)', 'rgba(255,206,86,1)'];
+                // Add vertical highlight areas for false_positives and missed_detections
+                const areaDatasets = [];
+
+                const addAreaDatasets = (points, color, label) => {
+                    if (!Array.isArray(points)) return;
+                    points.forEach((point, idx) => {
+                        areaDatasets.push({
+                            type: 'line',
+                            label: `${label} ${idx + 1}`,
+                            data: [
+                                { x: point.x - 3, y: 0 },
+                                
+                                { x: point.x + 3, y: 0 },
+                               
+                                { x: point.x - 3, y: 5 },
+                                { x: point.x + 3, y: 5 },
+                                
+                            ],
+                            borderColor: color,
+                            borderWidth: 0,
+                            backgroundColor: color,
+                            fill: true,
+                            pointRadius: 0,
+                            pointHoverRadius: 0,
+                            order: 0,
+                            showLine: true,
+                            stepped: false,
+                            segment: {
+                                borderDash: [2, 2]
+                            }
+                        });
+                        
+                    });
+                };
+
+                addAreaDatasets(responseData.missed_detections, 'rgba(54, 162, 235, 0.4)', 'Missed Detection');
+                addAreaDatasets(responseData.false_positives, 'rgba(255, 99, 132, 0.4)', 'False Positive');
                 
                 const enhancedDatasets = responseData.datasets.map((dataset, i) => ({
                     ...dataset,
@@ -97,14 +134,17 @@ export default function CounterResults() {
                     borderColor: colors[i % colors.length]
                 }));
                 
+                // Combine the enhanced datasets with the area datasets
+                const allDatasets = [...enhancedDatasets, ...areaDatasets];
+                
                 // Store complete dataset for reference
                 setFullData({
-                    datasets: enhancedDatasets
+                    datasets: allDatasets
                 });
                 
                 // Set active dataset
                 setData({
-                    datasets: enhancedDatasets
+                    datasets: allDatasets
                 });
 
                 // Set total counts if available

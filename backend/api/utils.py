@@ -5,6 +5,15 @@ from ai.models import AutoDetection, DetectionLines
 from record.models import RecordLog
 import os
 
+def get_movement_index(movement):
+    if "through" in movement.lower():
+        return 0
+    elif "left" in movement.lower():
+        return 1
+    elif "right" in movement.lower():
+        return 2
+    return -1 
+
 def get_counter_auto_detection_results(record_id, version, divide_time):
     """
     API endpoint to retrieve auto_detection counting results for a specific counter.

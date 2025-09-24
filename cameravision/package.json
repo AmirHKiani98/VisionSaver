@@ -38,6 +38,7 @@
     "@tailwindcss/vite": "^4.1.11",
     "apache-arrow": "^21.0.0",
     "chart.js": "^4.5.0",
+    "chartjs-plugin-annotation": "^3.1.0",
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
     "dotenv": "^17.0.0",
