@@ -329,7 +329,6 @@ export default function CounterResults() {
                                 height={400}
                             />
                             {frameImage && (
-                                
                                 <div className="mt-2 absolute top-5 right-5 bg-white p-1 border border-gray-300 rounded">
                                     <img width={300} height={300} src={frameImage} alt={`Frame`} />
                                 </div>
