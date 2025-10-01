@@ -14,12 +14,13 @@ def get_movement_index(movement):
         return 2
     return -1 
 
-def get_counter_auto_detection_results(record_id, version, divide_time):
+def get_counter_auto_detection_results(record_id, version, divide_time, min_time=0, max_time=0):
     """
     API endpoint to retrieve auto_detection counting results for a specific counter.
     Expects a GET request with 'counter_id' as a query parameter.
     """
     if not record_id:
+        print("Record id", record_id)
         return False
     record = Record.objects.filter(id=record_id).first()
     if not record:
@@ -41,7 +42,7 @@ def get_counter_auto_detection_results(record_id, version, divide_time):
         }
         results = defaultdict(dict)
         df = pd.read_csv(counts_file)
-        
+        df = df[(df['time'] >= min_time) & (df['time'] <= max_time)]
         df = df.sort_values(["time", "track_id"])
         groups = df.groupby('track_id')
         
@@ -58,10 +59,12 @@ def get_counter_auto_detection_results(record_id, version, divide_time):
         results = {key: dict(sorted(value.items(), key=lambda item: item[0])) for key, value in results.items()}
         return results
     except Exception as e:
-        print(e)
+        import traceback
+        tb = traceback.format_exec()
+        print(tb)
         return False
 
-def get_counter_manual_results(record_id,):
+def get_counter_manual_results(record_id,min_time=0, max_time=0):
     """
     API endpoint to retrieve manual counting results for a specific counter.
     """
@@ -78,6 +81,7 @@ def get_counter_manual_results(record_id,):
 
     # Making a pandas DataFrame from the record logs
     df = pd.DataFrame(list(record_logs.values('time', 'turn_movement')), columns=['time', 'turn_movement'])
+    df = df[(df["time"] >= min_time) & (df["time"] <= max_time)]
     df = df.sort_values(["time"])
     results = defaultdict(dict)
     groups = df.groupby('turn_movement')

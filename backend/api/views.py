@@ -612,16 +612,17 @@ def get_counter_manual_auto_results(request):
             divide_time = float(divide_time)
         except ValueError:
             return JsonResponse({"error": "'divide_time' must be a number."}, status=400)
-        
-        auto_detection_counts = get_counter_auto_detection_results(record_id, version, divide_time)
-        if not auto_detection_counts:
+        max_time = data.get('max_time', 0)
+        min_time = data.get('min_time', 0)
+        auto_detection_counts = get_counter_auto_detection_results(record_id, version, divide_time, min_time, max_time)
+        if isinstance(auto_detection_counts, bool) and not auto_detection_counts:
             return JsonResponse({"error": "Failed to retrieve results."}, status=500)
         
         datasets = []
         total_counts = {}
         max_time = float("-inf")
-        manual_results = get_counter_manual_results(record_id)
-        if not manual_results:
+        manual_results = get_counter_manual_results(record_id, min_time, max_time)
+        if isinstance(manual_results, bool) and not manual_results:
             manual_results = {}
             
         # Process auto detection counts
@@ -678,7 +679,7 @@ def get_counter_manual_auto_results(request):
             return JsonResponse({
                 "datasets": datasets,
                 "total_counts": total_counts,
-                "max_time": max_time,
+                "max_time": max_time if max_time != float("-inf") else 0,
                 "missed_detections": [],
                 "false_positives": [],
                 "metrics": {
@@ -758,10 +759,11 @@ def get_counter_manual_auto_results(request):
             not_found_auto.append({"x": row["time"], "y": 1, "type": "false_positive"})
 
         # Return results
+       
         return JsonResponse({
             "datasets": datasets,
             "total_counts": total_counts,
-            "max_time": max_time,
+            "max_time": max_time if max_time != float("-inf") else 0,
             "missed_detections": not_found_manual,
             "false_positives": not_found_auto,
             "metrics": {
@@ -774,9 +776,11 @@ def get_counter_manual_auto_results(request):
             }
         }, status=200)
         
-    except Exception as file_error:
-        logger.error(f"Failed to process results: {str(file_error)}", exc_info=True)
-        return JsonResponse({"error": f"Failed to process results: {str(file_error)}"}, status=500)
+    except Exception as e:
+        import traceback
+        tb = traceback.format_exc()
+        logger.error(f"Failed to process results: {str(e)}\nTraceback:\n{tb}")
+        return JsonResponse({"error": f"Failed to process results: {str(e)}", "traceback": tb}, status=500)
 
 @csrf_exempt
 def get_frame_at_time(request):
@@ -813,3 +817,36 @@ def get_frame_at_time(request):
         return JsonResponse({"frame": jpg_as_text}, status=200)
     except Exception as e:
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
+
+@csrf_exempt
+def get_total_time(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body.decode('utf-8'))
+            record_id = data.get('record_id')
+            if record_id is None:
+                return JsonResponse({"error": "'record_id' is required."}, status=400)
+            record = Record.objects.filter(id=record_id).first()
+            if not record:
+                return JsonResponse({"error": "Record not found."}, status=404)
+            video_path = os.path.join(settings.MEDIA_ROOT, f"{record_id}.mp4")
+            if not os.path.exists(video_path):
+                return JsonResponse({"error": "Video file not found."}, status=404)
+            
+            # Use OpenCV to get the total duration of the video
+            cap = cv2.VideoCapture(video_path)
+            fps = cap.get(cv2.CAP_PROP_FPS)
+            frame_count = cap.get(cv2.CAP_PROP_FRAME_COUNT)
+            cap.release()
+            
+            if fps == 0:
+                return JsonResponse({"error": "Could not retrieve video information."}, status=500)
+            
+            total_time = frame_count / fps
+            
+            return JsonResponse({"duration": total_time}, status=200)
+        except Exception as e:
+            return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
+
+    else:
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)

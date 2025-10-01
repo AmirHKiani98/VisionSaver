@@ -19,8 +19,9 @@ export default function CounterResults() {
     const ref = React.useRef();
     const [env, setEnv] = React.useState(null);
     const [totalCounts, setTotalCounts] = React.useState({})
+    const [totalTime, setTotalTime] = React.useState(0)
     const [maxTime, setMaxTime] = React.useState(1200); // Default to reasonable value
-    const [minMaxTime, setMinMaxTime] = React.useState([0, 1200]);
+    const [minTime, setMinTime] = React.useState(0)
     const [fullData, setFullData] = React.useState(null); // Store complete dataset
     const [frameImage, setFrameImage] = React.useState(null);
     const [frameTime, setFrameTime] = React.useState(null);
@@ -37,16 +38,39 @@ export default function CounterResults() {
     const [loadingData, setLoadingData] = React.useState(true);
 
     // Update minMaxTime when maxTime changes
-    useEffect(() => {
-        if (maxTime > 0) {
-            setMinMaxTime([0, Math.ceil(maxTime)]);
-        }
-    }, [maxTime]);
 
     // Initialize environment
     useEffect(() => {
         window.env.get().then(setEnv);
     }, []);
+
+    useEffect(() => {
+        if (!env) return;
+        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_GET_DURATION_TIME}`;
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                record_id: recordId,
+            })
+        }).then(async response => {
+            if (!response.ok) {
+                return response.text().then(text => {
+                    console.error("Server error response:", text);
+                    throw new Error(`Server returned ${response.status}: ${text}`);
+                });
+            }
+            return response.json();
+        }).then(responseData => {
+            if(responseData)                
+            setTotalTime(responseData.duration)
+            setMaxTime(Math.min(responseData.duration, 1000))
+        }).catch(error => {
+            console.error('Error fetching duration time:', error);
+        })
+    }, [env])
 
     // Update chart options when time range changes
     useEffect(() => {
@@ -56,8 +80,8 @@ export default function CounterResults() {
         const newOptions = { ...config.options };
         
         // Update x-axis limits
-        newOptions.scales.x.min = minMaxTime[0];
-        newOptions.scales.x.max = minMaxTime[1];
+        newOptions.scales.x.min = minTime;
+        newOptions.scales.x.max = maxTime;
         
         // Update the chart
         if (ref.current) {
@@ -65,7 +89,7 @@ export default function CounterResults() {
             ref.current.update();
         }
         
-    }, [minMaxTime]);
+    }, [minTime, maxTime]);
 
     useEffect(() => {
         if (!env) return;
@@ -80,13 +104,24 @@ export default function CounterResults() {
             body: JSON.stringify({
                 record_id: recordId,
                 version: version,
-                divide_time: divideTime
+                divide_time: divideTime,
+                min_time: minTime,
+                max_time: maxTime
             })
         })
-        .then(response => response.json())
+        .then(async response => {
+            // First check if response is ok
+            if (!response.ok) {
+                return response.text().then(text => {
+                    console.error("Server error response:", text);
+                    throw new Error(`Server returned ${response.status}: ${text}`);
+                });
+            }
+            return response.json();
+        })
         .then(responseData => {
             setLoadingData(false);
-
+            console.log(responseData)
             if(responseData.datasets) {
                 // Add colors to datasets for better visualization
                 const colors = ['rgba(75,192,192,1)', 'rgba(255,99,132,1)', 
@@ -164,14 +199,6 @@ export default function CounterResults() {
                 });
                 
                 // Use either provided max_time or calculated max
-                const finalMaxTime = Math.max(
-                    responseData.max_time || 0, 
-                    maxT || 0, 
-                    1200
-                );
-                
-                setMaxTime(Math.ceil(finalMaxTime));
-
             } else {
                 console.error("Invalid data format received:", responseData);
             }
@@ -276,8 +303,8 @@ export default function CounterResults() {
                     ticks: {
                         color: 'black'
                     },
-                    min: minMaxTime[0],
-                    max: minMaxTime[1]
+                    min: minTime,
+                    max: maxTime
                 },
                 y: {
                     title: {
@@ -355,12 +382,15 @@ export default function CounterResults() {
                             <Slider
                                 className="mt-2"
                                 aria-label="Time Range"
-                                value={minMaxTime}
-                                onChange={(event, newValue) => setMinMaxTime(newValue)}
+                                value={[minTime, maxTime]}
+                                onChange={(event, newValue) => {
+                                    setMinTime(newValue[0]);
+                                    setMaxTime(newValue[1]);
+                                }}
                                 valueLabelDisplay="auto"
                                 valueLabelFormat={value => `${value}s`}
                                 min={0}
-                                max={Math.ceil(maxTime)}
+                                max={Math.ceil(totalTime)}
                                 step={1}
                             />
                             <div className="flex justify-between text-xs">
