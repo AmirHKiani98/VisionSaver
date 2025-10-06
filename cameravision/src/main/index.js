@@ -232,6 +232,7 @@ if(!is.dev){
     ignored: [
       join(__dirname, '../../../backend/media/**'),
       join(__dirname, '../../../backend/logs/**'),
+      join(__dirname, '../../../backend/logs/django.log'),
       join(__dirname, '../../../backend/apps/apache24/apache_logs/**'),
       join(__dirname, '../../../backend/db.sqlite3'),
       join(__dirname, '../../../backend/db.sqlite3-*'),  // Add this to ignore journal files
@@ -240,6 +241,7 @@ if(!is.dev){
     ],
     ignoreInitial: true
   }).on('change', (changedPath) => {
+    console.log(join(__dirname, '../../../backend/logs/**'))
     // Add an explicit filter for database files
     if (changedPath.includes('db.sqlite3') || changedPath.includes('sqlite3-journal')) {
       console.log(`Ignoring change to database file: ${changedPath}`);
