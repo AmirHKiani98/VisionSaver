@@ -446,7 +446,22 @@ def get_counts_at_time(request):
                 detections = counts_at_time.to_dict(orient='records')
                 return JsonResponse({'detections': detections, 'max_time': max_count_time}, status=200)
             else:
-                return JsonResponse({'error': 'The data does not exist'}, status=405)
+                auto_detection_checkpoint = AutoDetectionCheckpoint.objects.filter(record_id=record_id, divide_time=divide_time, version=version).first()
+                if auto_detection_checkpoint:
+                    file_name = f"{settings.MEDIA_ROOT}/{record_id}_{divide_time}_{version}.csv"
+                    df = pd.read_csv(file_name)
+                    if df.empty:
+                        return JsonResponse({'counts': [], 'max_time': 0}, status=200)
+                    
+                    counts_at_time = df[(df['time'] >= time) & (df['time'] <= time + 10)]
+                    max_count_time = counts_at_time['time'].max() if not counts_at_time.empty else float(time) + 10
+                    if counts_at_time.empty:
+                        return JsonResponse({'detections': [], 'max_time': max_count_time}, status=200)
+                    
+                    detections = counts_at_time.to_dict(orient='records')
+                    return JsonResponse({'detections': detections, 'max_time': max_count_time}, status=200)
+                else:
+                    return JsonResponse({'error': 'The data does not exist'}, status=405)
         except (AutoDetection.DoesNotExist, ModifiedAutoDetection.DoesNotExist):
             logger.error(f"Error: {traceback.format_exc()}")
             return JsonResponse({'error': 'No detection data found'}, status=404)

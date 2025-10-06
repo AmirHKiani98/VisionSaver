@@ -1,7 +1,5 @@
-import react, { version } from 'react';
-import React from 'react';
+import react from 'react';
 import { Stage, Layer, Line, Rect, Text} from 'react-konva';
-import { tableFromArrays, tableFromJSON } from 'apache-arrow';
 
 import {
     Select,
@@ -59,7 +57,7 @@ const AutoDetection = () => {
     const [showingDetectionDf, setShowingDetectionDf] = react.useState([]);
     const [showDetections, setShowDetections] = react.useState(false);
     const [detectionExists, setDetectionExists] = react.useState(false);
-    const [accuracy, setAccuracy] = react.useState(0.1); // Default accuracy value
+    const [accuracy, setAccuracy] = react.useState(0.05); // Default accuracy value
     const [detectionVersion, setDetectionVersion] = react.useState('v2');
     const [showModifiedDetections, setShowModifiedDetections] = react.useState(false);
     const [modifiedDetectingExists, setModifiedDetectingExists] = react.useState(false);
@@ -433,7 +431,6 @@ const AutoDetection = () => {
     }
 
     const handleMouseUp = () => {
-        console.log(cutZonesPoints);
         isDrawing.current = false;
     };
 
@@ -529,11 +526,9 @@ const AutoDetection = () => {
 
     react.useEffect(() => {
         if (!env || !recordId || !accuracy || !detectionVersion) return;
-        console.log(recordId, accuracy, detectionVersion);
         const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/detection_progress/${recordId}/${accuracy}/${detectionVersion}/`;
         const ws = new window.WebSocket(wsUrl);
         ws.onmessage = (event) => {
-            console.log(event.data);
             const data = JSON.parse(event.data);
             if(data.message){
                 switch (data.message) {
@@ -541,7 +536,7 @@ const AutoDetection = () => {
                         
                         break;
                     case "DETECTION_AVAILABLE":
-                        // setDetectionExists(true);
+                        setDetectionExists(true);
                     default:
                         break;
                 }
@@ -559,68 +554,6 @@ const AutoDetection = () => {
 
         return () => ws.close();
     }, [env, recordId, accuracy, detectionVersion]);
-
-    // react.useEffect(() => {
-    //     if (!env || !recordId || !accuracy || !detectionVersion) return;
-    //     const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/actual_counter_progress/${recordId}/${accuracy}/${detectionVersion}/`;
-    //     const ws = new window.WebSocket(wsUrl);
-    //     ws.onmessage = (event) => {
-    //         const data = JSON.parse(event.data);
-    //         setDetectingStarted(true);
-    //         if (Math.abs(data.progress - 100) < 1 ){
-    //             setDetectionExists(true);
-    //             setProgress(100); // Set progress to 100% if detecting exists
-    //             setDetectingStarted(false);
-    //         }
-    //         if (data.progress !== undefined) setProgress(data.progress);
-    //     }
-    //     ws.onclose = () => { /* Optionally handle close */ };
-    //     ws.onerror = (e) => { /* Optionally handle error */ };
-    //     return () => ws.close();
-    // }, [env, recordId, accuracy, detectionVersion]);
-
-
-    // react.useEffect(() => {
-    //     if (!env || !recordId || !accuracy) return;
-    //     const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/modification_progress/${recordId}/${accuracy}/${detectionVersion}/`;
-    //     const ws = new window.WebSocket(wsUrl);
-    //     ws.onmessage = (event) => {
-    //         const data = JSON.parse(event.data);
-
-    //         if (Math.abs((data.progress * 100) - 100) < 1 ){
-    //             setModifiedDetectingExists(true);
-    //             setModifiedProgress(100); // Set progress to 100% if modified detecting exists
-    //         }
-    //         if (data.progress !== undefined) setModifiedProgress(data.progress * 100);
-    //         if (data.message){
-    //             openNotification('info', data.message);
-    //         }
-    //     }
-    // }, [env, recordId, accuracy, detectionVersion]);
-
-
-    react.useEffect(() => {
-        if (!env) return;
-        if (!videoRef.current) return;
-        fetch(`http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.GET_RECORD_TURN_URL}/${recordId}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    openNotification('error', data.error);
-                } else {
-                    let checkpoint = Number(data.checkpoint);
-                    setPendingSeekTime(checkpoint);
-                }
-            })
-            .catch(error => {
-                openNotification('error', `Error fetching record logs: ${error.message}`);
-            });
-    }, [recordId, env, videoRef]);
 
     react.useEffect(() => {
         if (!recordId) {
@@ -828,7 +761,7 @@ const AutoDetection = () => {
                                     let [x1, y1] = videoPointToScaledPoint([obj.x1, obj.y1]);
                                     let [x2, y2] = videoPointToScaledPoint([obj.x2, obj.y2]);
                                     return (
-                                        <React.Fragment key={idx}>
+                                        <react.Fragment key={idx}>
                                             <Rect
                                                 x={Math.ceil(x1)}
                                                 y={Math.ceil(y1)}
@@ -846,7 +779,7 @@ const AutoDetection = () => {
                                                 fill="#00ff00"
                                                 fontStyle="bold"
                                             />
-                                        </React.Fragment>
+                                        </react.Fragment>
                                     );
                                 })
                             }

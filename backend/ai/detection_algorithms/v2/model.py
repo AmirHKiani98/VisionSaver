@@ -47,12 +47,12 @@ class IoUOnlyMetric(object):
         
     def distance(self, features, targets):
         """Return a cost matrix that ensures appearance features aren't used."""
-        cost_matrix = np.ones((len(targets), len(features))) * 0.5  # Cost above threshold
+        cost_matrix = np.ones((len(targets), len(features))) * 0.2  # Cost above threshold
         return cost_matrix
 
 # Use IoU-only metric for tracking
-metric = NearestNeighborDistanceMetric("cosine", 0.2)
-tracker = Tracker(metric, max_iou_distance=0.7, max_age=30, n_init=3)
+metric = NearestNeighborDistanceMetric("cosine", 0.45, budget=100)
+tracker = Tracker(metric, max_iou_distance=0.7, max_age=80, n_init=3)
 
 # Global map from DeepSORT's internal IDs -> your global 1..m IDs
 global_id_map = {}          # {track.track_id: global_id}
@@ -74,8 +74,8 @@ def detect(frame):
         for (x1,y1,x2,y2), score, cls_id in zip(xyxy, conf, cls):
             if cls_id not in VEHICLE_CLASS_IDS:
                 continue
-            if score < CONFIDENCE_THRESHOLD:
-                continue
+            # if score < CONFIDENCE_THRESHOLD:
+            #     continue
             tlwh = (x1, y1, x2 - x1, y2 - y1)
             # Use unit vector as dummy feature
             detections.append(Detection(tlwh=tlwh, confidence=score, feature=dummy_feature))
