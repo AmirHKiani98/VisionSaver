@@ -44,6 +44,26 @@ class Record(models.Model):
         null=True,
         help_text="The user or system assigned to handle this Record."
     )
+    direction = models.CharField(
+        max_length=50,
+        choices=[
+            ("eastbount", "eb"),
+            ("westbound", "wb"),
+            ("northbound", "nb"),
+            ("southbound", "sb"),
+            ('east', "eb"),
+            ("west", "wb"),
+            ("north", "nb"),
+            ("south", "sb"),
+            ("e", "eb"),
+            ("w", "wb"),
+            ("n", "nb"),
+            ("s", "sb")
+        ],
+        blank=True,
+        null=True,
+        help_text="The direction of the record, e.g., eastbound, westbound, northbound, southbound."
+    )
     def __str__(self):
         return (
             f"Record from {self.camera_url} starting at {self.start_time} "

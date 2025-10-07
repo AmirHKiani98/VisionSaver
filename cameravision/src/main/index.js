@@ -241,10 +241,8 @@ if(!is.dev){
     ],
     ignoreInitial: true
   }).on('change', (changedPath) => {
-    console.log(join(__dirname, '../../../backend/logs/**'))
     // Add an explicit filter for database files
-    if (changedPath.includes('db.sqlite3') || changedPath.includes('sqlite3-journal')) {
-      console.log(`Ignoring change to database file: ${changedPath}`);
+    if (changedPath.includes('db.sqlite3') || changedPath.includes('sqlite3-journal') || changedPath.includes('media') || changedPath.includes("/logs/")) {
       return;
     }
     

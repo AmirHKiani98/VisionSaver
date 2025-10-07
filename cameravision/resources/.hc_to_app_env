@@ -12,6 +12,8 @@ GET_RECORD_STATUS=record/get_record_status
 GET_RECORD_NOTES=record/get_record_notes
 SET_RECORD_FINISHED_STATUS=record/set_record_finished_status
 ADD_RECORD_NOTE_URL=record/add_record_note
+SET_RECORD_DIRECTION=record/set_record_direction
+GET_RECORD_DIRECTION=record/get_record_direction
 REMOVE_RECORD_LOG=record/remove_log
 APACHE_PORT=54321
 # API variables
@@ -62,7 +64,6 @@ AI_UPDATE_DETECTION_PROGRESS=ai/update_detection_progress
 AI_START_COUNTER=ai/start_counting
 AI_TERMINATE_DETECTION_PROCESS=ai/terminate_detection_process
 AI_DETECTION_EXISTS=ai/detection_exists
-AI_DELETE_DETECTION=ai/
 # Commands
 COMMAND_DETECTION_STARTED=DETECTION_STARTED
 COMMAND_DETECTION_COMPLETED=DETECTION_COMPLETED
