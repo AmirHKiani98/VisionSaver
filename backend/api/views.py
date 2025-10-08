@@ -69,9 +69,14 @@ def store_record_schedule(request):
                 },
                 status=400
             )
-
+        camera_id = re.findall(r'cam(\d+)', camera_url)
+        if camera_id:
+            camera_id = camera_id[0]
+        else:
+            camera_id = "NA"
         Record.objects.create(
             camera_url=camera_url,
+            camera_id=camera_id,
             duration=duration,
             start_time=start_time,
             token=token,

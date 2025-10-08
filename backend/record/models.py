@@ -12,20 +12,11 @@ class Record(models.Model):
     camera_id = models.CharField(
         max_length=50,
         help_text="The id of the camera inside the RTSP stream.",
-        default='0',
+        default='NA',
         blank=True,
         null=True
     )
 
-    def save(self, *args, **kwargs):
-        if (not self.camera_id or self.camera_id == '0') and self.camera_url:
-            # Extract camera id from camera_url (e.g., 'rtsp://.../cam1' -> '1')
-            match = re.search(r'/cam(\d+)', self.camera_url)
-            if match:
-                self.camera_id = match.group(1)
-            else:
-                self.camera_id = '0'
-        super().save(*args, **kwargs)
     start_time = models.DateTimeField(
         help_text="The time when the Record started."
     )
