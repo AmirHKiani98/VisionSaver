@@ -17,6 +17,8 @@ import traceback
 from api.utils import get_counter_auto_detection_results, get_counter_manual_results, get_movement_index
 import cv2
 import base64
+from record.ISSApi import ISSApi
+from datetime import timedelta
 # Create your views here.
 
 
@@ -634,14 +636,18 @@ def get_counter_manual_auto_results(request):
             return JsonResponse({"error": "'divide_time' must be a number."}, status=400)
         max_time = data.get('max_time', 0)
         min_time = data.get('min_time', 0)
+        record = Record.objects.filter(id=record_id).first()
+        if not record:
+            return JsonResponse({"error": "Record not found."}, status=404)
         auto_detection_counts = get_counter_auto_detection_results(record_id, version, divide_time, min_time, max_time)
         if isinstance(auto_detection_counts, bool) and not auto_detection_counts:
             return JsonResponse({"error": "Failed to retrieve results."}, status=500)
         
         datasets = []
         total_counts = {}
-        max_time = float("-inf")
+        
         manual_results = get_counter_manual_results(record_id, min_time, max_time)
+
         if isinstance(manual_results, bool) and not manual_results:
             manual_results = {}
             
@@ -721,6 +727,76 @@ def get_counter_manual_auto_results(request):
 
         # Direction/line match requirement
         require_direction_match = True
+        api_start_time = record.start_time + timedelta(seconds=min_time)
+        adding_time = 0
+        if max_time != float("-inf"):
+            adding_time = max_time
+        api_end_time = api_start_time + timedelta(seconds=adding_time)
+        iss_api_df = pd.DataFrame({})
+        if record.camera_id != 0:
+            ip = re.findall(r"rtsp://(\d+\.\d+\.\d+\.\d+)", record.camera_url)[0]
+            iss_api = ISSApi(ip=ip, camera_number=record.camera_id, start_time=api_start_time, end_time=api_end_time)
+            iss_api_df = iss_api.get_detections_pandas()
+        
+        iss_df_dict = {"time": [], "count": [], "line": []}
+        if not iss_api_df.empty:
+            # Convert ISO timestamps to seconds from start_time
+            for _, row in iss_api_df.iterrows():
+                # Parse timestamp and convert to seconds from start_time
+                iss_timestamp = pd.to_datetime(row['time'])
+                seconds_from_start = (iss_timestamp - record.start_time.replace(tzinfo=iss_timestamp.tzinfo)).total_seconds()
+                
+                # Only include if within time range
+                if seconds_from_start >= min_time and (max_time == 0 or seconds_from_start <= max_time):
+                    # Map ISS direction to line index
+                    direction = row['direction']
+                    line_index = 0  # Default
+                    if direction == "left":
+                        line_index = 1
+                    elif direction == "through":
+                        line_index = 2
+                    elif direction == "right":
+                        line_index = 3
+                    
+                    # Add to dataset
+                    iss_df_dict["time"].append(seconds_from_start)
+                    iss_df_dict["count"].append(1)
+                    iss_df_dict["line"].append(line_index)
+                    
+                    # Get the zone name for labeling
+
+                    
+                    # Update total counts
+                    count_key = f"ISS {direction}"
+                    total_counts[count_key] = total_counts.get(count_key, 0) + 1
+            
+            # Create datasets for visualization
+            if iss_df_dict["time"]:
+                iss_df = pd.DataFrame(iss_df_dict)
+                
+                # Group by time (rounded to nearest second) and line
+                iss_counts = iss_df.groupby([iss_df['time'].round(0), 'line']).size().reset_index(name='count')
+                
+                # Create datasets for each direction
+                for line_idx in iss_counts['line'].unique():
+                    direction_name = "unknown"
+                    if line_idx == 1:
+                        direction_name = "left"
+                    elif line_idx == 2:
+                        direction_name = "through"
+                    elif line_idx == 3:
+                        direction_name = "right"
+                    
+                    line_data = iss_counts[iss_counts['line'] == line_idx]
+                    
+                    new_dataset = {
+                        "id": len(datasets) + 1,
+                        "label": f"ISS {direction_name}",
+                        "data": [{"x": float(row['time']), "y": int(row['count'])} for _, row in line_data.iterrows()],
+                        "borderColor": "rgba(75, 192, 75, 1)",  # Green for ISS data
+                        "backgroundColor": "rgba(75, 192, 75, 0.2)"
+                    }
+                    datasets.append(new_dataset)
 
         # For each manual detection, find the closest auto detection within the time threshold
         for manual_idx, manual_row in manual_df.iterrows():
@@ -777,6 +853,9 @@ def get_counter_manual_auto_results(request):
         not_found_auto = []
         for idx, row in auto_df[~auto_matched].iterrows():
             not_found_auto.append({"x": row["time"], "y": 1, "type": "false_positive"})
+        
+        
+
 
         # Return results
        

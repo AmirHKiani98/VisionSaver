@@ -242,7 +242,7 @@ if(!is.dev){
     ignoreInitial: true
   }).on('change', (changedPath) => {
     // Add an explicit filter for database files
-    if (changedPath.includes('db.sqlite3') || changedPath.includes('sqlite3-journal') || changedPath.includes('media') || changedPath.includes("/logs/")) {
+    if (changedPath.includes('db.sqlite3') || changedPath.includes('sqlite3-journal') || changedPath.includes('media') || changedPath.includes("/logs/") || changedPath.includes('.pyc')) {
       return;
     }
     

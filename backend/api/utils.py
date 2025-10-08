@@ -81,7 +81,10 @@ def get_counter_manual_results(record_id,min_time=0, max_time=0):
 
     # Making a pandas DataFrame from the record logs
     df = pd.DataFrame(list(record_logs.values('time', 'turn_movement')), columns=['time', 'turn_movement'])
+    
+    # print("times", df["time"])
     df = df[(df["time"] >= min_time) & (df["time"] <= max_time)]
+    print("Length after", df.shape)
     df = df.sort_values(["time"])
     results = defaultdict(dict)
     groups = df.groupby('turn_movement')
