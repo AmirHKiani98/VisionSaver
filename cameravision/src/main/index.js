@@ -29,8 +29,13 @@ if (is.dev) {
 } else {
   httpdConfPath = path.resolve(process.resourcesPath, 'backend', 'startbackend', '_internal', 'backend', 'apps', 'apache24', 'conf', 'httpd.conf');
   apacheRoot = path.resolve(process.resourcesPath, 'backend', 'startbackend', '_internal', 'backend', 'apps', 'apache24');
-  mediaPath = path.resolve(process.resourcesPath, 'backend', 'media');
+  mediaPath = path.resolve(process.resourcesPath, 'backend','startbackend', '_internal', 'backend', 'media');
 }
+
+console.log('Apache config path:', httpdConfPath);
+console.log('Apache config exists:', fs.existsSync(httpdConfPath));
+console.log('Apache root:', apacheRoot);
+console.log('Media path:', mediaPath);
 
 // Read httpd.conf
 let conf = fs.readFileSync(httpdConfPath, 'utf8');
@@ -71,12 +76,35 @@ let apacheExe;
 if (is.dev) {
   apacheExe = path.resolve(__dirname, '../../../backend/apps/apache24/bin/httpd.exe');
 } else {
+  // Try the primary path first
   apacheExe = path.resolve(process.resourcesPath, 'backend', 'startbackend', '_internal', 'backend', 'apps', 'apache24', 'bin', 'httpd.exe');
+  
+  // If it doesn't exist, try alternative paths
+  if (!fs.existsSync(apacheExe)) {
+    // Try without the startbackend folder
+    const altPath1 = path.resolve(process.resourcesPath, 'backend', '_internal', 'backend', 'apps', 'apache24', 'bin', 'httpd.exe');
+    // Try with different internal folder name
+    const altPath2 = path.resolve(process.resourcesPath, 'backend', 'startbackend', 'internal', 'backend', 'apps', 'apache24', 'bin', 'httpd.exe');
+    
+    if (fs.existsSync(altPath1)) {
+      apacheExe = altPath1;
+    } else if (fs.existsSync(altPath2)) {
+      apacheExe = altPath2;
+    }
+  }
 }
+
+console.log('Apache executable path:', apacheExe);
+console.log('Apache executable exists:', fs.existsSync(apacheExe));
 
 // Function to start Apache
 function startApache() {
   if (!apacheProcess || apacheProcess.killed) {
+    if (!fs.existsSync(apacheExe)) {
+      console.error('Apache executable not found at:', apacheExe);
+      return;
+    }
+    
     apacheProcess = spawn(apacheExe, ['-f', httpdConfPath], {
       // detached: true, // removed
       stdio: 'ignore',
@@ -204,15 +232,33 @@ const backendBinary = is.dev
   : join(
       process.resourcesPath,
       'backend',
-      process.platform === 'darwin' ? 'startbackend' : 'startbackend/startbackend.exe' // TODO: fix this for mac packaging as well
+      process.platform === 'darwin' ? 'startbackend' : 'startbackend/startbackend.exe' // Fixed: removed extra startbackend/ folder
     )
 if(!is.dev){
+  console.log('Starting Django backend from:', backendBinary);
   djangoProcess = spawn(backendBinary, [], {
     cwd: is.dev
       ? join(frontRoot, 'resources', 'backend')
       : join(process.resourcesPath, 'backend'),
-    stdio: 'ignore',
+    stdio: ['ignore', 'pipe', 'pipe'], // Change from 'ignore' to capture output
     windowsHide: true
+  });
+  
+  // Add error handling
+  djangoProcess.stdout.on('data', (data) => {
+    console.log('Django stdout:', data.toString());
+  });
+  
+  djangoProcess.stderr.on('data', (data) => {
+    console.log('Django stderr:', data.toString());
+  });
+  
+  djangoProcess.on('error', (err) => {
+    console.error('Django process error:', err);
+  });
+  
+  djangoProcess.on('exit', (code) => {
+    console.log('Django process exited with code:', code);
   });
 } else {
   // Run django from backend directory
@@ -267,20 +313,20 @@ if(!is.dev){
 
 // --- Apache config update script ---
 function updateApacheConfig() {
-  // Get APACHE_PORT from env or default to 54321
   const apachePort = process.env.APACHE_PORT || '54321';
-  // Get absolute path of apache24
-  const apacheRootAbs = path.resolve(__dirname, '../../../backend/apps/apache24');
-  // Path to httpd.conf
-  const confPath = path.resolve(apacheRootAbs, 'conf/httpd.conf');
-  // Read config
+
+  const confPath = httpdConfPath;         // ✅ use the resolved path
+  const srvRoot  = apacheRoot;            // ✅ use the resolved path
+
+  if (!fs.existsSync(confPath)) {
+    console.error('[updateApacheConfig] httpd.conf not found at:', confPath);
+    return; // or throw
+  }
+
   let confText = fs.readFileSync(confPath, 'utf8');
-  // Replace SRVROOT
-  confText = confText.replace(/Define SRVROOT .*/g, `Define SRVROOT "${apacheRootAbs.replace(/\\/g, '/')}` + '"');
-  // Replace Listen and ServerName
+  confText = confText.replace(/Define SRVROOT .*/g, `Define SRVROOT "${srvRoot.replace(/\\/g, '/')}"`);
   confText = confText.replace(/Listen .*/g, `Listen 127.0.0.1:${apachePort}`);
   confText = confText.replace(/ServerName .*/g, `ServerName localhost:${apachePort}`);
-  // Write back
   fs.writeFileSync(confPath, confText, 'utf8');
 }
 

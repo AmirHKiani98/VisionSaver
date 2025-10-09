@@ -33,6 +33,9 @@ PYINSTALLER_ARGS=(
   --collect-all requests
   --collect-all uvicorn
   --collect-all channels
+  --collect-all concurrent_log_handler
+  --collect-all django
+  --collect-all asgiref
   --copy-metadata requests
   --copy-metadata django
   --copy-metadata django-cors-headers
@@ -40,6 +43,8 @@ PYINSTALLER_ARGS=(
   --copy-metadata python-dotenv
   --copy-metadata uvicorn
   --copy-metadata channels
+  --copy-metadata concurrent-log-handler
+  --copy-metadata asgiref
 )
 
 
@@ -57,3 +62,10 @@ echo "🧼 Cleaning up..."
 rm -rf dist build "$BINARY_NAME.spec"
 
 echo "✅ Done! Backend is ready."
+if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
+  echo "Press any key to continue..."
+  read -n 1 -s
+else
+  echo "Press Enter to continue..."
+  read
+fi

@@ -17,7 +17,7 @@ fi
 # Build with code signing disabled
 echo "Building for Windows (without code signing)..."
 npm run build
-npx electron-builder --win --dir --config.win.sign=false
+CSC_IDENTITY_AUTO_DISCOVERY=false npx electron-builder --win --dir --config.win.signAndEditExecutable=false
 
 echo "Build process completed."
 
