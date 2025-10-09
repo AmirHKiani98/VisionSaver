@@ -36,6 +36,14 @@ PYINSTALLER_ARGS=(
   --collect-all concurrent_log_handler
   --collect-all django
   --collect-all asgiref
+  --collect-all fastapi
+  --collect-all starlette
+  --collect-all ultralytics
+  --collect-all torch
+  --collect-all torchvision
+  --collect-all PIL
+  --collect-all numpy
+  --collect-all cv2
   --copy-metadata requests
   --copy-metadata django
   --copy-metadata django-cors-headers
@@ -45,6 +53,13 @@ PYINSTALLER_ARGS=(
   --copy-metadata channels
   --copy-metadata concurrent-log-handler
   --copy-metadata asgiref
+  --copy-metadata fastapi
+  --copy-metadata starlette
+  --copy-metadata ultralytics
+  --copy-metadata torch
+  --copy-metadata torchvision
+  --copy-metadata Pillow
+  --copy-metadata numpy
 )
 
 
