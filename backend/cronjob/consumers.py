@@ -1,8 +1,13 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
 from django.conf import settings
+import logging
+import sys
 
-logger = settings.APP_LOGGER
+# Safe console logger that won't block async code
+def safe_log(level, message):
+    # Print directly to stderr instead of using the Django logger
+    print(f"[WebSocket {level}] {message}", file=sys.stderr)
 class ProgressConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.record_id = self.scope['url_route']['kwargs']['record_id']
@@ -31,7 +36,7 @@ class CounterProgressConsumer(AsyncWebsocketConsumer):
             dt = float(self.divide_time)
             self.divide_time = f"{dt:.6g}"
         except Exception:
-            logger.error(f"Invalid divide_time format: {self.divide_time}")
+            safe_log("ERROR", f"Invalid divide_time format: {self.divide_time}")
         self.version = self.scope['url_route']['kwargs']['version']
         self.group_name = f"detection_progress_{self.record_id}_{self.divide_time}_{self.version}"
 

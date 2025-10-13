@@ -44,6 +44,7 @@ PYINSTALLER_ARGS=(
   --collect-all PIL
   --collect-all numpy
   --collect-all cv2
+  
   --copy-metadata requests
   --copy-metadata django
   --copy-metadata django-cors-headers
@@ -60,6 +61,11 @@ PYINSTALLER_ARGS=(
   --copy-metadata torchvision
   --copy-metadata Pillow
   --copy-metadata numpy
+  
+  --hidden-import=wmi
+  --hidden-import=pythoncom
+  --hidden-import=pywintypes
+  --hidden-import=win32com.client
 )
 
 

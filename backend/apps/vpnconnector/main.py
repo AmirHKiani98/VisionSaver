@@ -1,99 +1,178 @@
+import os
 import platform
+import subprocess
+import time
+import logging
+from typing import List, Optional
+
 import requests
-if platform.system() == 'Windows':
-    import wmi
-    import subprocess
-    import time
-    import pythoncom
-    # Create your tests here
-    def set_tunnel_type_ikve2(vpn_name):
-        """Force the VPN connection to use IKEv2 protocol."""
-        cmd = f'Set-VpnConnection -Name "{vpn_name}" -TunnelType IKEv2 -Force'
-        subprocess.run(['powershell', '-Command', cmd], capture_output=True)
 
-    def connect_vpn_wmi(vpn_name):
-        pythoncom.CoInitialize()
+LOG = logging.getLogger(__name__)
 
-        try:
-            c = wmi.WMI()
-            #print(f"Checking existing VPN connections for '{vpn_name}'...")
-            for conn in c.Win32_NetworkConnection():
-                #print(f"Checking connection: {conn.Name}")
-                if vpn_name.lower() in conn.Name.lower():
-                    #print(f"VPN '{vpn_name}' already connected.")
-                    return True
-            #print(f"Setting VPN '{vpn_name}' to use IKEv2 protocol.")
-            set_tunnel_type_ikve2(vpn_name)
-            
-            command = ['rasdial', vpn_name]
-            #print(f"Connecting to VPN '{vpn_name}' with command: {' '.join(command)}")
-            start_time = time.time()
-            result = subprocess.run(command, capture_output=True, text=True, check=True)
-            elapsed_time = time.time() - start_time
-            #print(f"VPN connection command executed in {elapsed_time:.2f} seconds.")
-            #print("Output:")
-            #print(result.stdout)
+
+def _ps(cmd: str) -> subprocess.CompletedProcess:
+    return subprocess.run(
+        ["powershell", "-NoProfile", "-NonInteractive", "-Command", cmd],
+        capture_output=True,
+        text=True,
+        timeout=20,
+    )
+
+
+def _list_vpn_names_via_ps() -> List[str]:
+    cp = _ps('Get-VpnConnection | Select-Object -ExpandProperty Name')
+    if cp.returncode != 0:
+        LOG.warning("Get-VpnConnection failed: %s", cp.stderr.strip())
+        return []
+    return [line.strip() for line in cp.stdout.splitlines() if line.strip()]
+
+
+def _rasdial_connected_names() -> List[str]:
+    # 'rasdial' (no args) shows current connections if any
+    cp = subprocess.run(["rasdial"], capture_output=True, text=True, timeout=15)
+    out = cp.stdout or ""
+    names: List[str] = []
+    for line in out.splitlines():
+        # Typical: "No connections" or lists connection names + details
+        line = line.strip()
+        if not line or "No connections" in line:
+            continue
+        # Heuristic: connection name is the first non-empty line not starting with spaces
+        names.append(line)
+    return names
+
+
+def _set_tunnel_type_ikev2(vpn_name: str) -> None:
+    cmd = f'Set-VpnConnection -Name "{vpn_name}" -TunnelType IKEv2 -Force -PassThru | Out-Null'
+    _ps(cmd)
+
+
+def _connect_vpn_rasdial(vpn_name: str) -> bool:
+    start = time.time()
+    try:
+        cp = subprocess.run(["rasdial", vpn_name], capture_output=True, text=True, timeout=60, check=False)
+        if cp.returncode == 0:
             return True
-        except subprocess.CalledProcessError as e:
-            elapsed_time = time.time() - start_time
-            #print(f"Failed to connect to VPN '{vpn_name}'. Error code: {e.returncode}")
-            #print("Error output:")
-            #print(e.stderr)
+        LOG.warning("rasdial returned %s: %s", cp.returncode, cp.stdout.strip() or cp.stderr.strip())
+        # Some systems need credentials stored; if needed, extend to rasdial name user pass
+        return False
+    except Exception as e:
+        LOG.exception("rasdial connect failed: %s", e)
+        return False
+    finally:
+        LOG.debug("rasdial connect elapsed: %.2fs", time.time() - start)
+
+
+def _is_vpn_connected(vpn_name: str) -> bool:
+    # Fast path: rasdial output
+    connected = _rasdial_connected_names()
+    if any(vpn_name.lower() in n.lower() for n in connected):
+        return True
+
+    # Slow path: WMI (best-effort)
+    try:
+        import pythoncom  # type: ignore
+        pythoncom.CoInitialize()
+        try:
+            try:
+                import wmi  # type: ignore
+                c = wmi.WMI()
+            except Exception as e1:
+                # Alternate COM path if 'wmi' wrapper fails
+                import win32com.client  # type: ignore
+                loc = win32com.client.Dispatch("WbemScripting.SWbemLocator")
+                svc = loc.ConnectServer(".", "root\\cimv2")
+                c = svc  # Provide a similar interface below
+                # Query via SWbemServices
+                q = 'SELECT Name FROM Win32_NetworkConnection'
+                for conn in c.ExecQuery(q):
+                    name = getattr(conn, "Name", "") or ""
+                    if vpn_name.lower() in name.lower():
+                        return True
+                return False
+
+            # Using python-wmi object model
+            for conn in c.Win32_NetworkConnection():
+                name = getattr(conn, "Name", "") or ""
+                if vpn_name.lower() in name.lower():
+                    return True
             return False
         finally:
             pythoncom.CoUninitialize()
-    def list_all_vpn_connections():
-        """List all VPN connections configured on the system."""
-        cmd = 'Get-VpnConnection | Select-Object -ExpandProperty Name'
-        result = subprocess.run(['powershell', '-Command', cmd], capture_output=True, text=True)
-        vpn_names = [line.strip() for line in result.stdout.splitlines() if line.strip()]
-        #print("Configured VPN connections:")
+    except Exception as e:
+        LOG.warning("WMI check unavailable: %s", e)
+        return False
+
+
+def _connect_vpn_windows(vpn_name: str) -> bool:
+    # Ensure IKEv2 (ignore failures)
+    try:
+        _set_tunnel_type_ikev2(vpn_name)
+    except Exception as e:
+        LOG.debug("Set-VpnConnection IKEv2 skipped: %s", e)
+
+    # Already connected?
+    if _is_vpn_connected(vpn_name):
+        return True
+
+    # Try rasdial connect
+    if _connect_vpn_rasdial(vpn_name):
+        return True
+
+    # Best-effort: retry once after brief pause
+    time.sleep(2)
+    return _connect_vpn_rasdial(vpn_name)
+
+
+def _choose_vpn_name(vpn_names: List[str]) -> Optional[str]:
+    if not vpn_names:
+        return None
+    if len(vpn_names) == 1:
+        return vpn_names[0]
+    # pick best match
+    prefs = ("HC", "Hennepin County", "Hennepin", "County")
+    for p in prefs:
         for name in vpn_names:
-            #print(f"- {name}")
-            pass
-        return vpn_names
+            if p.lower() in name.lower():
+                return name
+    # fallback: first
+    return vpn_names[0]
 
-    def connect_to_vpn(): #type: ignore
-        # GUIDELINES:
-        ## VPN should be connected if we don't have access to the APEX page
-        ## NOTE: If at any point, County changes the login page, this will break
-        ##       and we will need to update the logic here.
-        apex_url = "https://hprd.co.hennepin.mn.us"
-        try:
-            response = requests.get(apex_url, timeout=5)
-            if response.status_code == 200:
-                #print("Already connected to APEX page; no VPN connection needed.")
-                return True
-        except requests.RequestException as e:
-            #print(f"Could not reach APEX page: {e}")
-            pass
-        
-        vpn_names = list_all_vpn_connections()
-        if vpn_names:
-            # if the list size is 1 return the first item
-            if len(vpn_names) == 1:
-                vpn_name = vpn_names[0]
-            else:
-                # otherwise, return the closest match to 'HC', 'Hennepin County' or 'Hennepin' or 'County
-                vpn_name = next((name for name in vpn_names if 'HC' in name or 'Hennepin County' in name or 'Hennepin' in name or 'County' in name), None)
-            if vpn_name:
-                #print(f"Connecting to VPN: {vpn_name}")
-                success = connect_vpn_wmi(vpn_name)
-                return success
-        else:
-            #print("No VPN connections configured.")
-            return False
-        
 
-    if __name__ == "__main__":
-        # Example usage
-        if connect_to_vpn():
-            #print("VPN connection established successfully.")
-            pass
-        else:
-            #print("Failed to establish VPN connection.")
-            pass
-else:
-    def connect_to_vpn():
-        return
-    #print("This script is designed to run on Windows systems only.")
+def _apex_reachable(url: str = "https://hprd.co.hennepin.mn.us", timeout: float = 5.0) -> bool:
+    try:
+        r = requests.get(url, timeout=timeout)
+        return r.status_code == 200
+    except Exception:
+        return False
+
+
+def connect_to_vpn() -> bool:
+    """
+    Entry-point used by the app. Never raises; returns False on failure.
+    Keeps imports + COM init lazy so the module is safe to import at Django startup.
+    """
+    if platform.system() != "Windows":
+        return True  # Non-Windows environments don't need VPN; don't block app start.
+
+    # If APEX is already reachable, skip VPN
+    if _apex_reachable():
+        return True
+
+    vpn_names = _list_vpn_names_via_ps()
+    vpn_name = _choose_vpn_name(vpn_names)
+    if not vpn_name:
+        LOG.warning("No VPN connections configured.")
+        return False
+
+    ok = _connect_vpn_windows(vpn_name)
+    if not ok:
+        LOG.warning("Failed to connect to VPN '%s'", vpn_name)
+        return False
+
+    # Verify APEX after connect (best effort)
+    if _apex_reachable(timeout=8.0):
+        return True
+
+    LOG.warning("VPN connected but target still unreachable.")
+    return False
