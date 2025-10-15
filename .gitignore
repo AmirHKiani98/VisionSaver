@@ -163,3 +163,6 @@ _pycache_
 cameravision/resources/media/582.mkv
 .gitignore
 cameravision/resources/media/582.mp4
+
+# temp
+temp

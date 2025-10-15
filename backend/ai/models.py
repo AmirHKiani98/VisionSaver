@@ -56,6 +56,13 @@ class DetectionLines(models.Model):
             
         }
 
+    def default_cut_zones(): # type: ignore
+        return []
+    cut_zones = models.JSONField(
+        default=default_cut_zones,
+        help_text="Polygon coordinates defining the cut zones."
+    )
+
     lines = models.JSONField(
         default=default_lines,
         help_text="Coordinates of the detection lines."

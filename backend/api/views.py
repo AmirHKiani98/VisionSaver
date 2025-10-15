@@ -11,8 +11,14 @@ import os
 import subprocess
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
-from ai.models import AutoDetection, ModifiedAutoDetection, AutoDetectionCheckpoint
-
+import numpy as np
+from ai.models import AutoDetection, AutoDetectionCheckpoint, DetectionProcess, ModifiedAutoDetection
+import traceback
+from api.utils import get_counter_auto_detection_results, get_counter_manual_results, get_movement_index
+import cv2
+import base64
+from record.ISSApi import ISSApi
+from datetime import timedelta
 # Create your views here.
 
 
@@ -65,9 +71,14 @@ def store_record_schedule(request):
                 },
                 status=400
             )
-
+        camera_id = re.findall(r'cam(\d+)', camera_url)
+        if camera_id:
+            camera_id = camera_id[0]
+        else:
+            camera_id = "NA"
         Record.objects.create(
             camera_url=camera_url,
+            camera_id=camera_id,
             duration=duration,
             start_time=start_time,
             token=token,
@@ -410,78 +421,70 @@ def get_record_counts(request):
 @csrf_exempt
 def get_counts_at_time(request):
     """
-    Get the counts for a specific record at a given time.
-    """
-    if request.method != 'POST':
-        return JsonResponse({"error": "Method Not Allowed"}, status=405)
-    try:
-        data = json.loads(request.body.decode('utf-8'))
-        record_id = data.get('record_id')
-        time = data.get('time')
-        if not record_id or not time:
-            return JsonResponse({"error": "'record_id' and 'time' are required."}, status=400)
-        record = Record.objects.filter(id=record_id).first()
-        if not record:
-            return JsonResponse({"error": "Record not found."}, status=404)
-        from ai.models import AutoDetection
-        auto_count = AutoDetection.objects.filter(record=record).first()
-        if not auto_count:
-            return JsonResponse({"counts": {}}, status=200)
-        counts_file = auto_count.file_name
-        if not os.path.exists(counts_file):
-            return JsonResponse({"counts": {}}, status=200)
-        try:
-            print(counts_file)
-            df = pd.read_csv(counts_file)
-            
-            # Find the closest timestamp to the given time
-            df['time_diff'] = abs(df['time'] - float(time))
-            group = df[df['time_diff'] == df['time_diff'].min()]
-
-            if group.empty:
-                return JsonResponse({"counts": []}, status=200)
-            counts = group.to_dict(orient='records')
-            return JsonResponse({"counts": counts}, status=200)
-        except Exception as file_error:
-            return JsonResponse({"error": f"Failed to read counts file: {str(file_error)}"}, status=500)
-    except Exception as e:
-        return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
-
-@csrf_exempt
-def get_car_detections_at_time(request):
-    """
-    Retrieve car detections for a specific record.
+    Get counts at a specific time for a record.
     """
     logger.debug(f"Request method: {request.method}")
+    
     if request.method == 'POST':
         data = json.loads(request.body)
         record_id = data.get('record_id')
+        time = data.get('time')
+        version = data.get('version', 'v2')
         divide_time = data.get('divide_time', 0.1)
-        version = data.get('version', 'v1')
-        logger.debug(f"Request data: {data}")
-        time = data.get('time', 0)
-        auto_counter_object = AutoDetection.objects.filter(record_id=record_id, divide_time=divide_time, version=version).first()
-        if auto_counter_object:
-            auto_counter = pd.read_csv(auto_counter_object.file_name)
-            auto_counter_range = auto_counter[(auto_counter['time'] >= time) & (auto_counter['time'] <= time + 10)]
-            logger.debug(f"Length of detections in range: {len(auto_counter_range)}")
-            if auto_counter_range.empty:
-                return JsonResponse({"detections": []}, status=200)
-            
-            max_auto_counter_time = auto_counter_range['time'].max()
-            return JsonResponse({"detections": auto_counter_range.to_dict(orient='records'), "max_time": max_auto_counter_time}, status=200)
-        else:
-            return JsonResponse({"error": "The data does not exist"}, status=405)
         
+        logger.debug(f"Request data: {data}")
+        
+        if not record_id or time is None:
+            return JsonResponse({'error': 'Missing required parameters'}, status=400)
+        
+        try:
+            # Try ModifiedAutoDetection first
+            auto_detection = AutoDetection.objects.filter(record_id=record_id, divide_time=divide_time, version=version).first()
+            if auto_detection and os.path.exists(auto_detection.file_name):
+                df = pd.read_csv(auto_detection.file_name)
+                if df.empty:
+                    return JsonResponse({'counts': [], 'max_time': 0}, status=200)
+                
+                counts_at_time = df[(df['time'] >= time) & (df['time'] <= time + 10)]
+                max_count_time = counts_at_time['time'].max() if not counts_at_time.empty else float(time) + 10
+                if counts_at_time.empty:
+                    return JsonResponse({'detections': [], 'max_time': max_count_time}, status=200)
+                
+                detections = counts_at_time.to_dict(orient='records')
+                return JsonResponse({'detections': detections, 'max_time': max_count_time}, status=200)
+            else:
+                auto_detection_checkpoint = AutoDetectionCheckpoint.objects.filter(record_id=record_id, divide_time=divide_time, version=version).first()
+                if auto_detection_checkpoint:
+                    file_name = f"{settings.MEDIA_ROOT}/{record_id}_{divide_time}_{version}.csv"
+                    df = pd.read_csv(file_name)
+                    if df.empty:
+                        return JsonResponse({'counts': [], 'max_time': 0}, status=200)
+                    
+                    counts_at_time = df[(df['time'] >= time) & (df['time'] <= time + 10)]
+                    max_count_time = counts_at_time['time'].max() if not counts_at_time.empty else float(time) + 10
+                    if counts_at_time.empty:
+                        return JsonResponse({'detections': [], 'max_time': max_count_time}, status=200)
+                    
+                    detections = counts_at_time.to_dict(orient='records')
+                    return JsonResponse({'detections': detections, 'max_time': max_count_time}, status=200)
+                else:
+                    return JsonResponse({'error': 'The data does not exist'}, status=405)
+        except (AutoDetection.DoesNotExist, ModifiedAutoDetection.DoesNotExist):
+            logger.error(f"Error: {traceback.format_exc()}")
+            return JsonResponse({'error': 'No detection data found'}, status=404)
+        except Exception as e:
+            logger.error(f"Error in get_counts_at_time: {traceback.format_exc()}")
+            return JsonResponse({'error': str(e)}, status=500)
     else:
-        logger.debug("Invalid request method")
-        return JsonResponse({'error': 'Invalid request method'}, status=405)
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
 
 @csrf_exempt
 def count_exists(request):
     """
     Check if detecting exists for a specific record.
     """
+    logger.debug(f"Request method: {request.method}")
     if request.method != 'POST':
         return JsonResponse({"error": "Method Not Allowed"}, status=405)
     try:
@@ -573,12 +576,14 @@ def remove_detection(request):
         version = data.get('version', 'v1')
         divide_time = data.get('divide_time', 0.1)
         auto_detection = AutoDetection.objects.filter(record_id=record_id, version=version, divide_time=divide_time).first()
-        if not auto_detection:
-            return JsonResponse({"error": "Auto detection not found"}, status=404)
-        file_path = auto_detection.file_name
-        if os.path.exists(file_path):
-            os.remove(file_path)
-        auto_detection.delete()
+        if auto_detection:
+            file_path = auto_detection.file_name
+            if os.path.exists(file_path):
+                os.remove(file_path)
+            auto_detection.delete()
+        detection_process = DetectionProcess.objects.filter(record_id=record_id, version=version, divide_time=divide_time).first()
+        if detection_process:
+            detection_process.delete()
         autodetection_checkpoints = AutoDetectionCheckpoint.objects.filter(record_id=record_id, version=version, divide_time=divide_time).first()
         if autodetection_checkpoints:
             autodetection_checkpoints.delete()
@@ -601,5 +606,346 @@ def remove_modified_detection(request):
             return JsonResponse({"error": "Modified auto detection not found"}, status=404)
         modified_auto_detection.delete()
         return JsonResponse({"message": "Modified detection removed successfully"}, status=200)
+    else:
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)
+
+@csrf_exempt
+def get_counter_manual_auto_results(request):
+    """
+    Get manual and auto counter results for a specific record.
+    """
+    if request.method != 'POST':
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+        record_id = data.get('record_id')
+        if not record_id:
+            return JsonResponse({"error": "'record_id' is required."}, status=400)
+
+        version = data.get('version')
+        if not version:
+            return JsonResponse({"error": "'version' is required."}, status=400)
+    
+        divide_time = data.get('divide_time')
+        if not divide_time:
+            return JsonResponse({"error": "'divide_time' is required."}, status=400)
+
+        try:
+            divide_time = float(divide_time)
+        except ValueError:
+            return JsonResponse({"error": "'divide_time' must be a number."}, status=400)
+        max_time = data.get('max_time', 0)
+        min_time = data.get('min_time', 0)
+        record = Record.objects.filter(id=record_id).first()
+        if not record:
+            return JsonResponse({"error": "Record not found."}, status=404)
+        auto_detection_counts = get_counter_auto_detection_results(record_id, version, divide_time, min_time, max_time)
+        if isinstance(auto_detection_counts, bool) and not auto_detection_counts:
+            return JsonResponse({"error": "Failed to retrieve results."}, status=500)
+        
+        datasets = []
+        total_counts = {}
+        
+        manual_results = get_counter_manual_results(record_id, min_time, max_time)
+
+        if isinstance(manual_results, bool) and not manual_results:
+            manual_results = {}
+            
+        # Process auto detection counts
+        auto_df_dict = {"time": [], "count": [], "line": []}
+        for line_key, counts_dict in auto_detection_counts.items():
+            new_dataset = {"id": len(datasets) + 1, "label": "Auto " + line_key, "data":[]}
+            total_counts["Auto " + line_key] = 0
+            for time_str, count in counts_dict.items():
+                time_float = float(time_str)
+                total_counts["Auto " + line_key] += count
+                new_dataset["data"].append({"x": time_float, "y": count})
+                for _ in range(count):
+                    auto_df_dict["time"].append(time_float)
+                    auto_df_dict["count"].append(1)  # Each point represents 1 count
+                    auto_df_dict["line"].append(get_movement_index(line_key))
+                
+                if time_float > max_time:
+                    max_time = time_float
+                        
+            datasets.append(new_dataset)
+            
+        auto_df = pd.DataFrame(auto_df_dict)
+        
+        # Process manual results
+        manual_df_dict = {"time": [], "count": [], "line": []}
+        for turn_movements_key, count_dict in manual_results.items():
+            new_dataset = {"id": len(datasets) + 1, "label": "Manual " + turn_movements_key, "data":[]}
+            total_counts["Manual " + turn_movements_key] = 0
+            
+            for time_str, count in count_dict.items():
+                time_float = float(time_str)
+                total_counts["Manual " + turn_movements_key] += count
+                new_dataset["data"].append({"x": time_float, "y": count})
+                for _ in range(count):
+                    manual_df_dict["time"].append(time_float)
+                    manual_df_dict["count"].append(1)
+                    manual_df_dict["line"].append(get_movement_index(turn_movements_key))
+                
+                if time_float > max_time:
+                    max_time = time_float
+                        
+            datasets.append(new_dataset)
+            
+        manual_df = pd.DataFrame(manual_df_dict)
+        
+        # Initialize metrics to track matching performance
+        matches = 0
+        missed_detections = 0
+        false_positives = 0
+
+        # Safety check for empty DataFrames
+        if manual_df.empty or auto_df.empty:
+            # No comparison possible, return just the datasets we have
+            return JsonResponse({
+                "datasets": datasets,
+                "total_counts": total_counts,
+                "max_time": max_time if max_time != float("-inf") else 0,
+                "missed_detections": [],
+                "false_positives": [],
+                "metrics": {
+                    "matches": 0,
+                    "missed_detections": 0 if manual_df.empty else len(manual_df),
+                    "false_positives": 0 if auto_df.empty else len(auto_df),
+                    "recall": 0,
+                    "precision": 0,
+                    "f1_score": 0
+                }
+            }, status=200)
+
+        # Keep track of which rows have been matched
+        manual_matched = np.zeros(len(manual_df), dtype=bool)
+        auto_matched = np.zeros(len(auto_df), dtype=bool)
+
+        # Time threshold for considering a match (in seconds)
+        time_difference_threshold = 3
+
+        # Direction/line match requirement
+        require_direction_match = True
+        api_start_time = record.start_time + timedelta(seconds=min_time)
+        adding_time = 0
+        if max_time != float("-inf"):
+            adding_time = max_time
+        api_end_time = api_start_time + timedelta(seconds=adding_time)
+        iss_api_df = pd.DataFrame({})
+        if record.camera_id != 0:
+            ip = re.findall(r"rtsp://(\d+\.\d+\.\d+\.\d+)", record.camera_url)[0]
+            iss_api = ISSApi(ip=ip, camera_number=record.camera_id, start_time=api_start_time, end_time=api_end_time)
+            iss_api_df = iss_api.get_detections_pandas()
+        
+        iss_df_dict = {"time": [], "count": [], "line": []}
+        if not iss_api_df.empty:
+            # Convert ISO timestamps to seconds from start_time
+            for _, row in iss_api_df.iterrows():
+                # Parse timestamp and convert to seconds from start_time
+                iss_timestamp = pd.to_datetime(row['time'])
+                seconds_from_start = (iss_timestamp - record.start_time.replace(tzinfo=iss_timestamp.tzinfo)).total_seconds()
+                
+                # Only include if within time range
+                if seconds_from_start >= min_time and (max_time == 0 or seconds_from_start <= max_time):
+                    # Map ISS direction to line index
+                    direction = row['direction']
+                    line_index = 0  # Default
+                    if direction == "left":
+                        line_index = 1
+                    elif direction == "through":
+                        line_index = 2
+                    elif direction == "right":
+                        line_index = 3
+                    
+                    # Add to dataset
+                    iss_df_dict["time"].append(seconds_from_start)
+                    iss_df_dict["count"].append(1)
+                    iss_df_dict["line"].append(line_index)
+                    
+                    # Get the zone name for labeling
+
+                    
+                    # Update total counts
+                    count_key = f"ISS {direction}"
+                    total_counts[count_key] = total_counts.get(count_key, 0) + 1
+            
+            # Create datasets for visualization
+            if iss_df_dict["time"]:
+                iss_df = pd.DataFrame(iss_df_dict)
+                
+                # Group by time (rounded to nearest second) and line
+                iss_counts = iss_df.groupby([iss_df['time'].round(0), 'line']).size().reset_index(name='count')
+                
+                # Create datasets for each direction
+                for line_idx in iss_counts['line'].unique():
+                    direction_name = "unknown"
+                    if line_idx == 1:
+                        direction_name = "left"
+                    elif line_idx == 2:
+                        direction_name = "through"
+                    elif line_idx == 3:
+                        direction_name = "right"
+                    
+                    line_data = iss_counts[iss_counts['line'] == line_idx]
+                    
+                    new_dataset = {
+                        "id": len(datasets) + 1,
+                        "label": f"ISS {direction_name}",
+                        "data": [{"x": float(row['time']), "y": int(row['count'])} for _, row in line_data.iterrows()],
+                        "borderColor": "rgba(75, 192, 75, 1)",  # Green for ISS data
+                        "backgroundColor": "rgba(75, 192, 75, 0.2)"
+                    }
+                    datasets.append(new_dataset)
+
+        # For each manual detection, find the closest auto detection within the time threshold
+        for manual_idx, manual_row in manual_df.iterrows():
+            manual_time = manual_row["time"]
+            manual_line = manual_row["line"]
+            
+            # Calculate time differences for all auto detections
+            time_diffs = np.abs(auto_df["time"] - manual_time)
+            
+            # Create masks for filtering
+            time_mask = time_diffs <= time_difference_threshold
+            unmatched_mask = ~auto_matched
+            
+            # Add direction matching if required
+            if require_direction_match:
+                direction_mask = auto_df["line"] == manual_line
+                match_mask = time_mask & direction_mask & unmatched_mask
+            else:
+                match_mask = time_mask & unmatched_mask
+            
+            # Find matches
+            if np.any(match_mask):
+                # Get indices where the mask is True
+                match_indices = np.where(match_mask)[0]
+                
+                # Find the one with minimum time difference
+                if len(match_indices) > 0:
+                    time_diffs_subset = time_diffs.iloc[match_indices]
+                    best_match_idx = match_indices[np.argmin(time_diffs_subset)]
+                    
+                    # Mark as matched
+                    matches += 1
+                    manual_matched[manual_idx] = True
+                    auto_matched[best_match_idx] = True
+            else:
+                # No match found - this is a missed detection
+                missed_detections += 1
+
+        # Count false positives (auto detections without manual counterparts)
+        false_positives = np.sum(~auto_matched)
+
+        # Calculate metrics
+        total_manual_counts = len(manual_df)
+        total_auto_counts = len(auto_df)
+        recall = matches / total_manual_counts if total_manual_counts > 0 else 0
+        precision = matches / total_auto_counts if total_auto_counts > 0 else 0
+        f1_score = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0
+
+        # Generate "not found" list for visualization
+        not_found_manual = []
+        for idx, row in manual_df[~manual_matched].iterrows():
+            not_found_manual.append({"x": row["time"], "y": 1, "type": "missed_detection"})
+
+        not_found_auto = []
+        for idx, row in auto_df[~auto_matched].iterrows():
+            not_found_auto.append({"x": row["time"], "y": 1, "type": "false_positive"})
+        
+        
+
+
+        # Return results
+       
+        return JsonResponse({
+            "datasets": datasets,
+            "total_counts": total_counts,
+            "max_time": max_time if max_time != float("-inf") else 0,
+            "missed_detections": not_found_manual,
+            "false_positives": not_found_auto,
+            "metrics": {
+                "matches": int(matches),
+                "missed_detections": int(missed_detections),
+                "false_positives": int(false_positives),
+                "recall": float(recall),
+                "precision": float(precision),
+                "f1_score": float(f1_score)
+            }
+        }, status=200)
+        
+    except Exception as e:
+        import traceback
+        tb = traceback.format_exc()
+        logger.error(f"Failed to process results: {str(e)}\nTraceback:\n{tb}")
+        return JsonResponse({"error": f"Failed to process results: {str(e)}", "traceback": tb}, status=500)
+
+@csrf_exempt
+def get_frame_at_time(request):
+    if request.method != 'POST':
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+        record_id = data.get('record_id')
+        time = data.get('time')
+        if record_id is None or time is None:
+            return JsonResponse({"error": "'record_id' and 'time' are required."}, status=400)
+        record = Record.objects.filter(id=record_id).first()
+        if not record:
+            return JsonResponse({"error": "Record not found."}, status=404)
+        video_path = os.path.join(settings.MEDIA_ROOT, f"{record_id}.mp4")
+        if not os.path.exists(video_path):
+            return JsonResponse({"error": "Video file not found."}, status=404)
+        
+        # Use OpenCV to capture the frame at the specified time
+        cap = cv2.VideoCapture(video_path)
+        fps = cap.get(cv2.CAP_PROP_FPS)
+        frame_number = int(fps * float(time))
+        cap.set(cv2.CAP_PROP_POS_FRAMES, frame_number)
+        ret, frame = cap.read()
+        cap.release()
+        
+        if not ret:
+            return JsonResponse({"error": "Could not retrieve frame."}, status=500)
+        
+        # Encode the frame as JPEG
+        _, buffer = cv2.imencode('.jpg', frame)
+        jpg_as_text = base64.b64encode(buffer).decode('utf-8')
+        
+        return JsonResponse({"frame": jpg_as_text}, status=200)
+    except Exception as e:
+        return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
+
+@csrf_exempt
+def get_total_time(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body.decode('utf-8'))
+            record_id = data.get('record_id')
+            if record_id is None:
+                return JsonResponse({"error": "'record_id' is required."}, status=400)
+            record = Record.objects.filter(id=record_id).first()
+            if not record:
+                return JsonResponse({"error": "Record not found."}, status=404)
+            video_path = os.path.join(settings.MEDIA_ROOT, f"{record_id}.mp4")
+            if not os.path.exists(video_path):
+                return JsonResponse({"error": "Video file not found."}, status=404)
+            
+            # Use OpenCV to get the total duration of the video
+            cap = cv2.VideoCapture(video_path)
+            fps = cap.get(cv2.CAP_PROP_FPS)
+            frame_count = cap.get(cv2.CAP_PROP_FRAME_COUNT)
+            cap.release()
+            
+            if fps == 0:
+                return JsonResponse({"error": "Could not retrieve video information."}, status=500)
+            
+            total_time = frame_count / fps
+            
+            return JsonResponse({"duration": total_time}, status=200)
+        except Exception as e:
+            return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
+
     else:
         return JsonResponse({"error": "Method Not Allowed"}, status=405)

@@ -9,6 +9,11 @@ files:
   - '!{.eslintcache,eslint.config.mjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
   - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
   - resources/.hc_to_app_env
+extraResources:
+  - from: "../backend"
+    to: "backend"
+    filter:
+      - "**/*"
 asarUnpack:
   - resources/**
 win:

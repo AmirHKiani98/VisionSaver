@@ -14,16 +14,18 @@ if [ -d "out" ]; then
   rm -rf out
 fi
 
-# Detect the operating system and run the appropriate build command
-if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
-  echo "Building for Windows..."
-  npm run build:win:portable
-elif [[ "$OSTYPE" == "darwin"* ]]; then
-  echo "Building for macOS..."
-  npm run build:mac:portable
-else
-  echo "Unsupported operating system: $OSTYPE"
-  exit 1
-fi
+# Build with code signing disabled
+echo "Building for Windows (without code signing)..."
+npm run build
+CSC_IDENTITY_AUTO_DISCOVERY=false npx electron-builder --win --dir --config.win.signAndEditExecutable=false
 
 echo "Build process completed."
+
+# Add pause at the end to keep the window open
+if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
+  echo "Press any key to continue..."
+  read -n 1 -s
+else
+  echo "Press Enter to continue..."
+  read
+fi

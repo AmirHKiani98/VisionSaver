@@ -447,3 +447,43 @@ def set_record_finished_status(request):
             return JsonResponse({"error": "Record not found."}, status=404)
     except Exception as e:
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
+    
+@csrf_exempt
+def set_record_direction(request):
+    """
+    Setting the direction of the record
+    """
+    if request.method != 'POST':
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+        record_id = data.get('record_id')
+        direction = data.get('direction')
+
+        if not record_id or not direction:
+            return JsonResponse({"error": "'record_id' and 'direction' are required."}, status=400)
+        direction = direction.lower()
+        record = Record.objects.get(id=record_id)
+        record.direction = direction
+        record.save()
+        return JsonResponse({"message": "Record direction updated successfully."}, status=200)
+    except Exception as e:
+        return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
+
+@csrf_exempt
+def get_record_direction(request):
+    """
+    Get the direction and send it to the front end
+    """
+    if request.method != "POST":
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)
+    
+    try:
+        data = json.loads(request.body.decode("utf-8"))
+        record_id = data.get('record_id')
+        if not record_id:
+             return JsonResponse({"error": "'record_id' is required."}, status=400)
+        record = Record.objects.get(id=record_id)
+        return JsonResponse({"direction": record.direction}, status=200)
+    except Exception as e:
+        return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)

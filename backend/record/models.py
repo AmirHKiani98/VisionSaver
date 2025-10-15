@@ -1,4 +1,5 @@
 from django.db import models
+import re
 
 # Create your models here.
 
@@ -8,6 +9,14 @@ class Record(models.Model):
     """
     id = models.AutoField(primary_key=True, help_text="Unique identifier for the Record.")
     camera_url = models.URLField(max_length=200, help_text="The camera_url of the RTSP stream.")
+    camera_id = models.CharField(
+        max_length=50,
+        help_text="The id of the camera inside the RTSP stream.",
+        default='NA',
+        blank=True,
+        null=True
+    )
+
     start_time = models.DateTimeField(
         help_text="The time when the Record started."
     )
@@ -43,6 +52,26 @@ class Record(models.Model):
         blank=True,
         null=True,
         help_text="The user or system assigned to handle this Record."
+    )
+    direction = models.CharField(
+        max_length=50,
+        choices=[
+            ("eastbount", "eb"),
+            ("westbound", "wb"),
+            ("northbound", "nb"),
+            ("southbound", "sb"),
+            ('east', "eb"),
+            ("west", "wb"),
+            ("north", "nb"),
+            ("south", "sb"),
+            ("e", "eb"),
+            ("w", "wb"),
+            ("n", "nb"),
+            ("s", "sb")
+        ],
+        blank=True,
+        null=True,
+        help_text="The direction of the record, e.g., eastbound, westbound, northbound, southbound."
     )
     def __str__(self):
         return (

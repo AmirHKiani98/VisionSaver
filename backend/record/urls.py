@@ -61,5 +61,16 @@ urlpatterns = [
         f"{os.getenv('SET_RECORD_FINISHED_STATUS') or 'set_record_finished'}",
         views.set_record_finished_status,
         name=os.getenv('SET_RECORD_FINISHED_STATUS') or 'set_record_finished'
-    )
+    ),
+    path(
+        f"{os.getenv('SET_RECORD_DIRECTION') or 'set_record_direction'}",
+        views.set_record_direction,
+        name=os.getenv('SET_RECORD_DIRECTION') or 'set_record_direction'
+    ),
+    path(
+        f"{os.getenv('GET_RECORD_DIRECTION') or 'get_record_direction'}",
+        views.get_record_direction,
+        name=os.getenv('GET_RECORD_DIRECTION') or 'get_record_direction'
+    ),
+
 ]

@@ -1,7 +1,5 @@
-import react, { version } from 'react';
-import React from 'react';
+import react from 'react';
 import { Stage, Layer, Line, Rect, Text} from 'react-konva';
-import { tableFromArrays, tableFromJSON } from 'apache-arrow';
 
 import {
     Select,
@@ -14,11 +12,12 @@ import {
     CircularProgress,
     Tooltip,
     Divider,
-    Chip
+    Chip,
+    Switch
 } from '@mui/material'; 
-import {faPen, faPlus, faEraser, faUpload, faRefresh, faEye, faEyeSlash, faCar, faMagnifyingGlass, faTrash, faCalculator, faStop} from '@fortawesome/free-solid-svg-icons';
+import {faPen, faPlus, faEraser, faUpload, faRefresh, faEye, faEyeSlash, faCar, faMagnifyingGlass, faTrash, faCalculator, faStop, faClone, faDirections, faArrowRight, faCircleInfo, faVideoSlash, faChartBar} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import Notification from './components/Notification';
 import LinearProgressWithLabel from './components/LinearProgressWithLabel';
@@ -35,13 +34,14 @@ const AutoDetection = () => {
     const [videoSrc, setVideoSrc] = react.useState('');
     const [pendingSeekTime, setPendingSeekTime] = react.useState(null);
     const stageRef = react.useRef(null);
+    const [cutZoneTool, setCutZoneTool] = react.useState('zone'); // 'draw' or 'erase'
     const [env, setEnv] = react.useState(null);
     const videoRef = react.useRef(null);
     const [lines, setLines] = react.useState({});
     const [portal, setPortal] = react.useState("");
     const [detectingStarted, setDetectingStarted] = react.useState(false);
     const isDrawing = react.useRef(false);
-    const [tool, setTool] = react.useState('pen'); // 'pen'
+    const [tool, setTool] = react.useState('zone');
     const [videoReady, setVideoReady] = react.useState(false);
     const [videoDisplaySize, setVideoDisplaySize] = react.useState({ width: 1, height: 1 });
     const [open, setOpen] = react.useState(false);
@@ -57,7 +57,7 @@ const AutoDetection = () => {
     const [showingDetectionDf, setShowingDetectionDf] = react.useState([]);
     const [showDetections, setShowDetections] = react.useState(false);
     const [detectionExists, setDetectionExists] = react.useState(false);
-    const [accuracy, setAccuracy] = react.useState(0.1); // Default accuracy value
+    const [accuracy, setAccuracy] = react.useState(0.05); // Default accuracy value
     const [detectionVersion, setDetectionVersion] = react.useState('v2');
     const [showModifiedDetections, setShowModifiedDetections] = react.useState(false);
     const [modifiedDetectingExists, setModifiedDetectingExists] = react.useState(false);
@@ -65,6 +65,13 @@ const AutoDetection = () => {
     const [modifyingDetectionStarted, setModifyingDetectionStarted] = react.useState(false);
     const [maxTimeUpdated, setMaxTimeUpdated] = react.useState(0);
     const [detectionInProcess, setDetectionInProcess] = react.useState(false);
+    const [cutZonesEnabled, setCutZonesEnabled] = react.useState(false);
+    const [cutZonesPoints, setCutZonesPoints] = react.useState([]);
+    
+    
+
+    
+
 
     const autoHideDuration = 3000;
     const openNotification = (severity, message) => {
@@ -138,7 +145,6 @@ const AutoDetection = () => {
         })
         .then(response => response.json())
         .then(data => {
-            console.log('Detection in process data:', data);
             if (data && data.running) {
                 setDetectingStarted(true);
                 setProgress(data.progress || 0);
@@ -162,7 +168,6 @@ const AutoDetection = () => {
         })
         .then(response => response.json())
         .then(data => {
-            console.log('Detecting exists data:', data);
             if (data && data.exists) {
                 setDetectionExists(true);
                 setProgress(100); // Set progress to 100% if detecting exists
@@ -224,6 +229,7 @@ const AutoDetection = () => {
             if (data.error) {
                 console.error('Error fetching lines:', data.error);
             } else {
+                setCutZonesPoints(data.cut_zones);
                 setLines(data.lines);
             }
         })
@@ -243,6 +249,7 @@ const AutoDetection = () => {
             body: JSON.stringify({
                 record_id: recordId,
                 lines: lines,
+                cut_zones: cutZonesPoints,
             }),
         })
         .then(response => response.json())
@@ -255,58 +262,99 @@ const AutoDetection = () => {
     }
 
     const handleMouseDown = (e) => {
-        if (selectedPortal === '') {
+        if (!cutZonesEnabled && selectedPortal === '') {
             openNotification('error', 'Please select a portal first');
             return;
         }
-        const pos = e.target.getStage().getPointerPosition();
-        const stage = e.target.getStage();
-        const canvasWidth = stage.width();
-        const canvasHeight = stage.height();
+        if(!cutZonesEnabled){
+            const pos = e.target.getStage().getPointerPosition();
+            const stage = e.target.getStage();
+            const canvasWidth = stage.width();
+            const canvasHeight = stage.height();
 
-        if (tool === 'eraser') {
+            if (tool === 'eraser') {
+                setLines(prevLines => {
+                    const updatedLines = [...(prevLines[selectedPortal] || [])];
+                    const filtered = updatedLines.filter(line => !isPointNearLine(line.points, pos.x/canvasWidth, pos.y/canvasHeight));
+                    return {
+                        ...prevLines,
+                        [selectedPortal]: filtered
+                    };
+                });
+                return;
+            }
+            isDrawing.current = true;
             setLines(prevLines => {
                 const updatedLines = [...(prevLines[selectedPortal] || [])];
-                const filtered = updatedLines.filter(line => !isPointNearLine(line.points, pos.x/canvasWidth, pos.y/canvasHeight));
+                // Start a new line with the first point
+                
+                updatedLines.push({ tool, points: [pos.x / canvasWidth, pos.y / canvasHeight] });
                 return {
                     ...prevLines,
-                    [selectedPortal]: filtered
+                    [selectedPortal]: updatedLines
                 };
             });
-            return;
         }
-        isDrawing.current = true;
-        setLines(prevLines => {
-            const updatedLines = [...(prevLines[selectedPortal] || [])];
-            // Start a new line with the first point
-            
-            updatedLines.push({ tool, points: [pos.x / canvasWidth, pos.y / canvasHeight] });
-            return {
-                ...prevLines,
-                [selectedPortal]: updatedLines
-            };
-        });
+        else {
+            const pos = e.target.getStage().getPointerPosition();
+            const stage = e.target.getStage();
+            const canvasWidth = stage.width();
+            const canvasHeight = stage.height();
+            if(tool === 'eraser'){
+                // Erase cut zones if near
+                setCutZonesPoints(prevZones => {
+                    const filteredZones = prevZones.filter(zone => !isPointNearLine(zone, pos.x/canvasWidth, pos.y/canvasHeight));
+                    return filteredZones;
+                });
+                return;
+            }
+
+            isDrawing.current = true;
+            // Cut zones would be a list of lists. Each list is for the current cut zone being drawn.
+            setCutZonesPoints(prevLines => {
+                const updatedPoints = [...prevLines];
+                // Start a new cut zone with the first point
+                updatedPoints.push([pos.x / canvasWidth, pos.y / canvasHeight]);
+                return updatedPoints;
+                
+            });
+        }
+        
     };
 
 
     const handleMouseMove = (e) => {
         if (!isDrawing.current) return;
-        const stage = e.target.getStage();
-        const point = stage.getPointerPosition();
-        setLines(prevLines => {
-            const currentLines = [...(prevLines[selectedPortal] || [])];
-            if (currentLines.length === 0) return prevLines; // nothing to update
+        if(!cutZonesEnabled){
+            const stage = e.target.getStage();
+            const point = stage.getPointerPosition();
+            setLines(prevLines => {
+                const currentLines = [...(prevLines[selectedPortal] || [])];
+                if (currentLines.length === 0) return prevLines; // nothing to update
 
-            // Add the new point to the last line
-            const lastLine = { ...currentLines[currentLines.length - 1] };
-            lastLine.points = [...lastLine.points, point.x / stage.width(), point.y / stage.height()];
-            currentLines[currentLines.length - 1] = lastLine;
+                // Add the new point to the last line
+                const lastLine = { ...currentLines[currentLines.length - 1] };
+                lastLine.points = [...lastLine.points, point.x / stage.width(), point.y / stage.height()];
+                currentLines[currentLines.length - 1] = lastLine;
 
-            return {
-                ...prevLines,
-                [selectedPortal]: currentLines
-            };
-        });
+                return {
+                    ...prevLines,
+                    [selectedPortal]: currentLines
+                };
+            });
+        } else {
+            const stage = e.target.getStage();
+            const point = stage.getPointerPosition();
+            setCutZonesPoints(prevPoints => {
+                const currentPoints = [...prevPoints];
+                if (currentPoints.length === 0) return prevPoints; // nothing to update
+                // Add the new point to the last cut zone
+                const lastCutZone = [...currentPoints[currentPoints.length - 1]];
+                lastCutZone.push(point.x / stage.width(), point.y / stage.height());
+                currentPoints[currentPoints.length - 1] = lastCutZone;
+                return currentPoints;
+            });
+        }
     };
     const pointsToScaledPoints = (points) => {
         const scaledPoints = [];
@@ -318,25 +366,7 @@ const AutoDetection = () => {
         }
         return scaledPoints;
     };
-    const runModifier = () => {
-        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.AI_START_MODIFIER}`;
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ record_id: recordId, version: detectionVersion, divide_time: accuracy }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                openNotification('error', data.error);
-            } else {
-                setModifyingDetectionStarted(true);
-                openNotification('success', 'Counter started successfully');
-            }
-        })
-    }
+    
     const videoPointToScaledPoint = (points) => {
         if (!videoRef.current) {
             return [0, 0];
@@ -346,8 +376,8 @@ const AutoDetection = () => {
         let [x, y] = points;
         
         
-        x = x / videoRef.current.videoWidth;
-        y = y / videoRef.current.videoHeight;
+        // x = x / videoRef.current.videoWidth;
+        // y = y / videoRef.current.videoHeight;
         
         
         x = x * stageRef.current.width();
@@ -409,7 +439,7 @@ const AutoDetection = () => {
             openNotification('error', 'No detections to remove');
             return;
         }
-        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.AI_DELETE_DETECTION}`;
+        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_DELETE_DETECTION}`;
         fetch(url, {
             method: 'POST',
             headers: {
@@ -429,33 +459,6 @@ const AutoDetection = () => {
         })
         .catch(error => {
             openNotification('error', `Error removing detections: ${error.message}`);
-        });
-    }
-    const removeModifiedDetections = () => {
-        if (!modifiedDetectingExists){
-            openNotification('error', 'No modified detections to remove');
-            return;
-        }
-        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_DELETE_MODIFIED_DETECTION}`;
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ record_id: recordId, divide_time: accuracy, version: detectionVersion }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                openNotification('error', data.error);
-            } else {
-                setModifiedDetectingExists(false);
-                setModifiedProgress(0);
-                openNotification('success', 'Modified detections removed successfully');
-            }
-        })
-        .catch(error => {
-            openNotification('error', `Error removing modified detections: ${error.message}`);
         });
     }
 
@@ -534,7 +537,6 @@ const AutoDetection = () => {
                         break;
                     case "DETECTION_AVAILABLE":
                         setDetectionExists(true);
-                
                     default:
                         break;
                 }
@@ -552,68 +554,6 @@ const AutoDetection = () => {
 
         return () => ws.close();
     }, [env, recordId, accuracy, detectionVersion]);
-
-    react.useEffect(() => {
-        if (!env || !recordId || !accuracy || !detectionVersion) return;
-        const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/actual_counter_progress/${recordId}/${accuracy}/${detectionVersion}/`;
-        const ws = new window.WebSocket(wsUrl);
-        ws.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            setDetectingStarted(true);
-            if (Math.abs(data.progress - 100) < 1 ){
-                setDetectionExists(true);
-                setProgress(100); // Set progress to 100% if detecting exists
-                setDetectingStarted(false);
-            }
-            if (data.progress !== undefined) setProgress(data.progress);
-        }
-        ws.onclose = () => { /* Optionally handle close */ };
-        ws.onerror = (e) => { /* Optionally handle error */ };
-        return () => ws.close();
-    }, [env, recordId, accuracy, detectionVersion]);
-
-
-    react.useEffect(() => {
-        if (!env || !recordId || !accuracy) return;
-        const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/modification_progress/${recordId}/${accuracy}/${detectionVersion}/`;
-        const ws = new window.WebSocket(wsUrl);
-        ws.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-
-            if (Math.abs((data.progress * 100) - 100) < 1 ){
-                setModifiedDetectingExists(true);
-                setModifiedProgress(100); // Set progress to 100% if modified detecting exists
-            }
-            if (data.progress !== undefined) setModifiedProgress(data.progress * 100);
-            if (data.message){
-                openNotification('info', data.message);
-            }
-        }
-    }, [env, recordId, accuracy, detectionVersion]);
-
-
-    react.useEffect(() => {
-        if (!env) return;
-        if (!videoRef.current) return;
-        fetch(`http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.GET_RECORD_TURN_URL}/${recordId}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    openNotification('error', data.error);
-                } else {
-                    let checkpoint = Number(data.checkpoint);
-                    setPendingSeekTime(checkpoint);
-                }
-            })
-            .catch(error => {
-                openNotification('error', `Error fetching record logs: ${error.message}`);
-            });
-    }, [recordId, env, videoRef]);
 
     react.useEffect(() => {
         if (!recordId) {
@@ -646,13 +586,14 @@ const AutoDetection = () => {
         const closestTime = times.reduce((prev, curr) => {
             return Math.abs(curr - time) < Math.abs(prev - time) ? curr : prev;
         });
+        if (Math.abs(closestTime - time) > accuracy) {
+            return [];
+        }
 
         // Return detections for closest time
         return detectionsByTime[closestTime] || [];
     }
-    const counterExists = () => {
-        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_COUNTER_EXISTS}`;
-    }
+
     const handleTimeUpdate = () => {
         if (videoRef.current && !seeking) {
             setCurrentTime(videoRef.current.currentTime);
@@ -662,7 +603,6 @@ const AutoDetection = () => {
         if (showDetections && videoRef.current && !showModifiedDetections) {
             if(maxTimeUpdated < videoRef.current.currentTime){
                 const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_GET_COUNTS_AT_TIME}`;
-                setMaxTimeUpdated(10000); // Temporary high value to prevent multiple calls
                 fetch(url, {
                     method: 'POST',
                     headers: {
@@ -688,48 +628,16 @@ const AutoDetection = () => {
                 });
             }
         }
-        if (showModifiedDetections && videoRef.current){
-            if(maxTimeUpdated < videoRef.current.currentTime){
-                // Get the modified counts for the current time
-                const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_GET_MODIFIED_DETECTIONS_AT_TIME}`;
-                setMaxTimeUpdated(10000); // Temporary high value to prevent multiple calls
-                fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ record_id: recordId, time: videoRef.current.currentTime, version: detectionVersion, divide_time: accuracy }),
-                })
-                .then(async response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    const text = await response.text();
-                    try {
-                        // Replace NaN with null before parsing
-                        const sanitizedText = text.replace(/: NaN/g, ': null');
-                        return sanitizedText ? JSON.parse(sanitizedText) : { detections: [] };
-                    } catch (error) {
-                        console.error('Error parsing JSON:', error);
-                        return { detections: [] };
-                    }
-                })
-                .then(data => {
-                    if (data && data.detections) {
-                        const df = data.detections;
-                        const maxTime = data.max_time;
-                        setMaxTimeUpdated(maxTime);
-                        setCompleteDf(df);
-                        const closestTimeData = getClosestTimeKey(videoRef.current?.currentTime || 0, df);
-                        setShowingDetectionDf(closestTimeData);
-                    } else {
-                        console.error('No modified counts found in the response');
-                    }
-                })
-            }
-        }
+        
     };
-
+    react.useEffect(() => {
+        if (tool === 'cutzones') {
+            setCutZonesEnabled(true);
+        }
+        else if (tool !== 'eraser'){
+            setCutZonesEnabled(false);
+        }
+    }, [tool]);
     // Handler for video loadedmetadata
     const handleLoadedMetadata = () => {
         if (videoRef.current) {
@@ -821,7 +729,7 @@ const AutoDetection = () => {
                             onTouchEnd={handleMouseUp}
                         >
                             <Layer>
-                            {lines && lines[selectedPortal] && lines[selectedPortal].map((line, i) => (
+                            {lines && !cutZonesEnabled &&lines[selectedPortal] && lines[selectedPortal].map((line, i) => (
                                 <Line
                                 key={i}
                                 points={pointsToScaledPoints(line.points)}
@@ -833,13 +741,27 @@ const AutoDetection = () => {
                                 globalCompositeOperation={line.tool === 'eraser' ? 'destination-out' : 'source-over'}
                                 />
                             ))}
+                            {cutZonesEnabled && cutZonesPoints.length > 0 && cutZonesPoints.map((zone, i) => (
+                                <Line
+                                key={i}
+                                points={pointsToScaledPoints(zone)}
+                                stroke="#0000ff"
+                                strokeWidth={3}
+                                tension={0.5}
+                                lineCap="round"
+                                lineJoin="round"
+                                globalCompositeOperation={zone.tool === 'eraser' ? 'destination-out' : 'source-over'}
+                                />
+                            ))
+
+                            }
                             {showingDetectionDf.length > 0 && (showDetections || showModifiedDetections) && 
                                 showingDetectionDf.map((obj, idx) => {
                                     
                                     let [x1, y1] = videoPointToScaledPoint([obj.x1, obj.y1]);
                                     let [x2, y2] = videoPointToScaledPoint([obj.x2, obj.y2]);
                                     return (
-                                        <React.Fragment key={idx}>
+                                        <react.Fragment key={idx}>
                                             <Rect
                                                 x={Math.ceil(x1)}
                                                 y={Math.ceil(y1)}
@@ -857,7 +779,7 @@ const AutoDetection = () => {
                                                 fill="#00ff00"
                                                 fontStyle="bold"
                                             />
-                                        </React.Fragment>
+                                        </react.Fragment>
                                     );
                                 })
                             }
@@ -923,6 +845,19 @@ const AutoDetection = () => {
             </div>
             <div className="flex-1 flex flex-col h-full bg-main-300 justify-between">
                 <div className="flex flex-col gap-2.5 p-2.5">
+                    
+                    <div>
+                        <Divider
+                            textAlign="left"
+                            sx={{
+                                '&::before, &::after': {
+                                borderColor: 'secondary.light'
+                                }
+                            }}
+                        >
+                            <Chip label="Detection zone" className="!bg-main-400 !text-white !font-bold" />
+                        </Divider>
+                    </div>
                     <div className="grid grid-cols-1 gap-5">
                         <FormControl className="w-full">
                             <InputLabel id="drawing-type-select-label" >
@@ -942,13 +877,26 @@ const AutoDetection = () => {
                                 onChange={(e) => setTool(e.target.value)}
 
                             >
-                                <MenuItem value={'pen'}>
-                                <Typography variant="body1" color="textPrimary">
-                                    Pen
-                                    <FontAwesomeIcon icon={faPen} className="ml-2" />
-                                </Typography>
-                                
+                                <MenuItem value={'zone'}>
+                                    <Typography variant="body1" color="textPrimary">
+                                        Zone
+                                        <FontAwesomeIcon icon={faClone} className="ml-2" />
+                                    </Typography>
                                 </MenuItem>
+                                <MenuItem value={'cutzones'}>
+                                    <Typography variant="body1" color="textPrimary">
+                                        Cut Zones
+                                        <FontAwesomeIcon icon={faVideoSlash} className="ml-2" />
+                                    </Typography>
+                                </MenuItem>
+
+                                <MenuItem value={'direction'}>
+                                    <Typography variant="body1" color="textPrimary">
+                                        Direction
+                                        <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
+                                    </Typography>
+                                </MenuItem>
+
                                 <MenuItem value={'eraser'}>
                                     <Typography variant="body1" color="textPrimary">
                                         Eraser
@@ -1064,6 +1012,7 @@ const AutoDetection = () => {
                             <FontAwesomeIcon icon={faRefresh} />
                         </Button>
                     </div>
+                    
                 </div>
                 <div className='flex flex-col gap-5'>
                     <div>
@@ -1136,23 +1085,41 @@ const AutoDetection = () => {
                         
                         <div className='flex items-center justify-between w-full'>
                             <div className='flex justify-between gap-2.5 w-full'>
-                                <Tooltip title="Run Detection" placement="right">
-                                    <span className='h-full'>
-                                        <Button
-                                            className={`shadow-lg hover:!bg-main-400 !text-black h-full ${(detectionExists || detectingStarted) ? '!bg-gray-300' : '!bg-green-500 '}`}
-                                            onClick={startDetecting}
-                                            disabled={detectionExists || detectingStarted}
-                                        >
-                                            <FontAwesomeIcon icon={faMagnifyingGlass} className='text-center' />
-                                        </Button>
-                                    </span>
-                                </Tooltip>
+                                {!(detectionExists || detectingStarted) &&
+                                    <Tooltip title="Run Detection" placement="right">
+                                        <span className='h-full'>
+                                            <Button
+                                                className={`shadow-lg hover:!bg-main-400 !text-black h-full ${(detectionExists || detectingStarted) ? '!bg-gray-300' : '!bg-green-500 '}`}
+                                                onClick={startDetecting}
+                                                disabled={detectionExists || detectingStarted}
+                                            >
+                                                <FontAwesomeIcon icon={faMagnifyingGlass} className='text-center' />
+                                            </Button>
+                                        </span>
+                                    </Tooltip>
+                                }
+                                {(detectionExists) &&
+                                    <Tooltip title="Open Counting Page" placement="right">
+                                        <span className='h-full'>
+                                            <Link to={`/counter-results?record-id=${recordId}&version=${detectionVersion}&divide-time=${accuracy}`} className='w-full h-full'>
+                                                <Button
+                                                    className={`shadow-lg hover:!bg-main-400 !text-black h-full !bg-yellow-500`}
+                                                >
+                                                    <FontAwesomeIcon icon={faChartBar} className='text-center' />
+                                                </Button>
+                                            </Link>
+
+                                        </span>
+                                    </Tooltip>
+                                    
+                                }
+
                                 <Tooltip title="Show detections" placement="top">
                                     <span>
                                         <Button
                                             percentage={0}
-                                            className={`shadow-lg hover:!bg-main-400 !text-black ${!detectionExists ? '!bg-gray-300' : '!bg-green-500'} h-full`}
-                                            disabled={!detectionExists}
+                                            className={`shadow-lg hover:!bg-main-400 !text-black ${(!detectionExists && !detectionInProcess) ? '!bg-gray-300' : '!bg-green-500'} h-full`}
+                                            disabled={!detectionExists && !detectionInProcess}
                                             onClick={() => {
                                                 setShowModifiedDetections(false);
                                                 setShowDetections(!showDetections);

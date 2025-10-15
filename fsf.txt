@@ -1,0 +1,12 @@
+
+[dotenv@17.0.0] injecting env (61) from resources\.hc_to_app_env – 🔐 encrypt with dotenvx: https://dotenvx.com
+Apache config path: H:\GitHub\VisionSaver\dist - Copy\v1.0.1\win-unpacked\resources\backend\apps\apache24\conf\httpd.conf
+Apache config exists: false
+Apache root: H:\GitHub\VisionSaver\dist - Copy\v1.0.1\win-unpacked\resources\backend\apps\apache24
+Media path: H:\GitHub\VisionSaver\dist - Copy\v1.0.1\win-unpacked\resources\backend\media
+Apache executable path: H:\GitHub\VisionSaver\dist - Copy\v1.0.1\win-unpacked\resources\backend\apps\apache24\bin\httpd.exe
+Apache executable exists: false
+[dotenv@17.0.0] injecting env (61) from resources\.hc_to_app_env – 🔐 encrypt with dotenvx: https://dotenvx.com
+Starting Django backend from: H:\GitHub\VisionSaver\dist - Copy\v1.0.1\win-unpacked\resources\backend\startbackend.exe
+🪪 Apache disabled (APACHE_ENABLED!=1)
+⏳ Waiting for backend and streamer up to 90s ...

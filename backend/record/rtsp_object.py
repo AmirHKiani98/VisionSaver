@@ -5,7 +5,6 @@ import os
 import cv2
 import dotenv
 import subprocess
-from apps.vpnconnector.main import connect_to_vpn
 # --- Ensure Django settings are configured before importing settings ---
 from django.conf import settings
 
@@ -18,7 +17,14 @@ progress_re = re.compile(r'time=(\d{2}:\d{2}:\d{2}\.\d{2})')
 # ----------------------------------------------------------------------
 dotenv.load_dotenv(settings.ENV_PATH)
 logger = settings.APP_LOGGER
-
+def ensure_vpn():
+    try:
+        from apps.vpnconnector.main import connect_to_vpn
+        return connect_to_vpn()
+    except Exception as e:
+        import logging
+        logging.exception("VPN init skipped: %s", e)
+        return False
 def broadcast_progress(record_id: str, progress: str, recording: bool = False, converting: bool = False):
     channel_layer = get_channel_layer()
     group_name = f"recording_progress_{record_id}"
@@ -131,7 +137,7 @@ class RTSPObject:
         return output_path
     
     def record(self, duration_minutes: int, output_path: str, record_id):
-        result = connect_to_vpn()
+        result = ensure_vpn()
         if not result:
             logger.error("Failed to connect to VPN. Cannot proceed with recording.")
             return False

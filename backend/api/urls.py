@@ -57,7 +57,7 @@ urlpatterns = [
     ),
     path(
         f"{os.getenv('API_GET_COUNTS_AT_TIME')}",
-        views.get_car_detections_at_time,
+        views.get_counts_at_time,
     ),
     path(
         f"{os.getenv('API_COUNT_EXISTS')}",
@@ -79,4 +79,16 @@ urlpatterns = [
         f"{os.getenv('API_DELETE_MODIFIED_DETECTION')}",
         views.remove_modified_detection,
     ),
+    path(
+        f"{os.getenv('API_GET_COUNTER_MANUAL_AUTO_RESULTS')}",
+        views.get_counter_manual_auto_results,
+    ),
+    path(
+        f"{os.getenv('API_GET_FRAME_AT_TIME')}",
+        views.get_frame_at_time,
+    ),
+    path(
+        f"{os.getenv('API_GET_DURATION_TIME')}",
+        views.get_total_time
+    )
 ]

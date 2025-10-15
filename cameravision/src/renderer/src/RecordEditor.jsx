@@ -4,11 +4,16 @@ import {
     Button,
     Divider,
     Chip,
-    TextField
+    TextField,
+    Select,
+    FormControl,
+    InputLabel,
+    MenuItem
 } from '@mui/material';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight, faClone, faEraser, faVideoSlash } from '@fortawesome/free-solid-svg-icons';1
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Notification from './components/Notification';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
@@ -20,6 +25,7 @@ function useQuery() {
 }
 import Record from './components/Record';
 import { Typography } from "@material-tailwind/react";
+import { config } from "dotenv";
 const RecordEditor = (props) => {
 
     const [env, setEnv] = react.useState(props.env || null);
@@ -45,6 +51,7 @@ const RecordEditor = (props) => {
     const videoRef = react.useRef(null);
     const [allTurns, setAllTurns] = react.useState([]);
     const [pendingSeekTime, setPendingSeekTime] = react.useState(null);
+    const [configuration, setConfiguration] = react.useState("none");
     react.useEffect(() => {
         if (!allTurns || allTurns.length === 0) {
             setLeftTurns(0);
@@ -146,6 +153,50 @@ const RecordEditor = (props) => {
                 }
             })
     }, [env]);
+    react.useEffect(() => {
+        if (!env) return;
+        fetch(`http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.GET_RECORD_DIRECTION}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                record_id: recordId
+            })
+        }).then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    openNotification('error', data.error);
+                } else {
+                    setConfiguration(data.direction);
+                }
+            })
+            .catch(error => {
+                openNotification('error', `Error fetching record direction: ${error.message}`);
+            });
+    }, [env])
+
+    const uploadDirection = (direction) => {
+        if (!env) return;
+        fetch(`http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.SET_RECORD_DIRECTION}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                record_id: recordId,
+                direction: direction
+            })
+        }).then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    openNotification('error', data.error);
+                } else {
+                    setConfiguration(direction);
+                    openNotification('success', 'Direction updated successfully.');
+                }
+            })
+    }
 
     const addRecordNote = (note) => {
         fetch(`http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.ADD_RECORD_NOTE_URL}`, {
@@ -286,7 +337,13 @@ const RecordEditor = (props) => {
                         </Button>
                     </Link>
                 </div>
-                    <div></div>
+                    <div className="">
+                    <Typography
+                        className="text-3xl font-bold text-white"
+                        >
+                        {recordId}
+                    </Typography>
+                    </div>
                     <Record
                         id={recordId}
                         recordId={recordId}
@@ -515,7 +572,67 @@ const RecordEditor = (props) => {
                                 
                             </div>
                         </div>
-                    
+                        
+                    </div>
+                    <div>
+                        <div className="flex flex-col gap-2">
+                            <Divider textAlign="left" sx={{
+                                "&::before, &::after": {
+                                    borderColor: "secondary.light",
+                                },
+                            }}>
+                                <Chip label="Configuration" className="!bg-main-400 !text-white !font-bold" />
+                            </Divider>
+                        </div>
+                        <div className="p-2.5">
+                            <FormControl className="w-full m-2">
+                                <InputLabel id="drawing-type-select-label" >
+                                    <Typography variant="body1" className='text-white'>
+                                        Direction
+                                    </Typography>
+                                </InputLabel>
+                                <Select
+                                    labelId="drawing-type-select-label"
+                                    id="demo-simple-select"
+                                    value={configuration}
+                                    className='shadow-lg bg-main-400'
+                                    sx={{
+                                        color: 'primary.white'
+                                    }}
+                                    label="Direction"
+                                    onChange={(e) => uploadDirection(e.target.value)}
+
+                                >   
+                                    <MenuItem value={'none'}>
+                                        <Typography variant="body1" color="textPrimary">
+                                            None
+                                        </Typography>
+                                    </MenuItem>
+                                    <MenuItem value={'east'}>
+                                        <Typography variant="body1" color="textPrimary">
+                                            Eastbound
+                                        </Typography>
+                                    </MenuItem>
+                                    <MenuItem value={'west'}>
+                                        <Typography variant="body1" color="textPrimary">
+                                            Westbound
+                                        </Typography>
+                                    </MenuItem>
+
+                                    <MenuItem value={'north'}>
+                                        <Typography variant="body1" color="textPrimary">
+                                            Northbound
+                                        </Typography>
+                                    </MenuItem>
+
+                                    <MenuItem value={'south'}>
+                                        <Typography variant="body1" color="textPrimary">
+                                            Southbound
+                                        </Typography>
+                                    </MenuItem>
+                                </Select>
+                            </FormControl>
+                        </div>
                     </div>
                     
                 </div>

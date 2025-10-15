@@ -1,8 +1,13 @@
 class Car:
-    
-    def __init__(self,id) -> None:
+        
+    def __init__(self, id) -> None:
+        """Initialize a car instance
+        
+        Args:
+            id: The car's unique identifier
+        """
         self.id = id
-        self.image = []
+        self.image = [] 
         self.x1 = []
         self.y1 = []
         self.x2 = []
@@ -10,7 +15,11 @@ class Car:
         self.confidence = []
         self.times = []
         self.class_id = []
-    
+        self.how_many_times_not_detected = 0
+        self.in_area = []
+        self.line_index = []
+        self.zone_index = []
+        
 
     def get_last_image(self):
         if self.image:
@@ -35,17 +44,37 @@ class Car:
     def add_class_id(self, class_id):
         self.class_id.append(class_id)
     
+    def increment_not_detected(self):
+        self.how_many_times_not_detected += 1
+    
+    def get_df(self):
+        import pandas as pd
+        data = {
+            'x1': self.x1,
+            'y1': self.y1,
+            'x2': self.x2,
+            'y2': self.y2,
+            'confidence': self.confidence,
+            'time': self.times,
+            'class_id': self.class_id,
+            'track_id': [self.id] * len(self.times),
+            'in_area': self.in_area,
+            'line_index': self.line_index,
+            'zone_index': self.zone_index,
+        }
+        df = pd.DataFrame(data)
+        return df
 
-    def __add__(self, other):
-        if isinstance(other, Car):
-            new_car = Car(self.id)
-            new_car.image = self.image + other.image
-            new_car.x1 = self.x1 + other.x1
-            new_car.y1 = self.y1 + other.y1
-            new_car.x2 = self.x2 + other.x2
-            new_car.y2 = self.y2 + other.y2
-            new_car.confidence = self.confidence + other.confidence
-            new_car.times = self.times + other.times
-            new_car.class_id = self.class_id + other.class_id
-            return new_car
-        return NotImplemented
+    def add_in_area(self, in_area):
+        self.in_area.append(in_area)
+    
+    def add_line_index(self, line_index):
+        self.line_index.append(line_index)
+    
+    def add_zone_index(self, zone_index):
+        self.zone_index.append(zone_index)
+
+    def get_last_time_added(self):
+        if self.times:
+            return self.times[-1]
+        return None

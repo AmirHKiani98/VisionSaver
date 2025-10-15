@@ -36,12 +36,14 @@ def add_line(request):
             return JsonResponse({'error': 'Record not found'}, status=404)
 
         lines = data.get('lines', {})
+        cut_zones = data.get('cut_zones', [])
         detection_object = DetectionLines.objects.get_or_create(
             record=record
         )
         #logger.warning(f"Adding lines for record ID: {record_id}, lines: {lines}")
         detection_object = detection_object[0]
         detection_object.lines = lines
+        detection_object.cut_zones = cut_zones
         detection_object.save()
 
         return JsonResponse({'status': 'success', 'lines': lines}, status=201)
@@ -64,7 +66,8 @@ def get_lines(request):
                 return JsonResponse({'error': 'Record not found'}, status=404)
             detection_object = DetectionLines.objects.get_or_create(record=record)[0]
             lines = detection_object.lines
-            return JsonResponse({'status': 'success', 'lines': lines}, status=200)
+            cut_zones = detection_object.cut_zones
+            return JsonResponse({'status': 'success', 'lines': lines, 'cut_zones': cut_zones}, status=200)
         except DetectionLines.DoesNotExist:
             #logger.error(f"Detection lines not found for record ID: {record_id}")
             return JsonResponse({'error': 'Detection lines not found for this record'}, status=404)
@@ -91,7 +94,7 @@ def check_if_detection_in_process(request):
             divide_time=divide_time,
             version=version,
             done=False
-        ).first()
+        ).order_by('-created_at').first()
         logger.info(f"Check detection process for record {record_id}, divide_time {divide_time}, version {version}: {'running' if detection_process else 'not running'}")
         if detection_process:
             autodetection_checkpoint = detection_process.autodetection_checkpoint
@@ -127,7 +130,7 @@ def run_car_detection(request):
             divide_time=divide_time,
             version=version,
             done=False
-        ).first()
+        ).order_by("-created_at").first()
         if detection_process:
             return JsonResponse({'error': 'A detection process is already running for this record with the specified divide_time and version.'}, status=400)
 
@@ -167,12 +170,11 @@ def check_if_detection_exists(request):
         
         from ai.models import AutoDetectionCheckpoint
         
-        detection_process = DetectionProcess.objects.filter(
+        detection_process = AutoDetectionCheckpoint.objects.filter(
             record=record,
             divide_time=divide_time,
             version=version,
-            done=True,
-            terminated=False
+            last_frame_captured__gt=0,
         ).first()
         logger.info(f"Check if detection exists for record {record_id}, divide_time {divide_time}, version {version}: {'exists' if detection_process else 'does not exist'}")
         
@@ -221,18 +223,16 @@ def terminate_detection_process(request):
         
         try:
             # Find the process to terminate
-            process = DetectionProcess.objects.get(
+            process = DetectionProcess.objects.filter(
                 record_id=record_id,
                 divide_time=divide_time,
                 version=version,
                 done=False
-            )
+            ).order_by('-created_at').first()
             
-            logger.debug(f"Found process: {process}, done: {process.done}, pid: {process.pid}")
+            if not process:
+                raise DetectionProcess.DoesNotExist()
             
-            if process.done:
-                logger.debug("Process is already completed")
-                return JsonResponse({'error': 'Process is already completed'}, status=400)
                 
             # Set the termination flag in the database
             process.terminate_requested = True
@@ -265,47 +265,3 @@ def run_modifier_detection(record_id, divide_time, version='v1'):
         divide_time=divide_time,
     )
     return ADZ.get_result()
-
-@csrf_exempt
-def delete_detection(request):
-    """
-    Delete detection results for a specific record and divide time.
-    """
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        record_id = data.get('record_id')
-        divide_time = data.get('divide_time')
-        version = data.get('version', 'v1')
-        
-        try:
-            record = Record.objects.get(id=record_id)
-        except Record.DoesNotExist:
-            return JsonResponse({'error': 'Record not found'}, status=404)
-        
-        from ai.models import AutoDetectionCheckpoint, DetectionProcess, AutoDetection
-        
-        # Delete detection results
-        deleted_count, _ = AutoDetection.objects.filter(
-            record=record,
-            divide_time=divide_time,
-            version=version
-        ).delete()
-        
-        # Optionally, delete related checkpoints and processes
-        AutoDetectionCheckpoint.objects.filter(
-            record=record,
-            divide_time=divide_time,
-            version=version
-        ).delete()
-        
-        DetectionProcess.objects.filter(
-            record=record,
-            divide_time=divide_time,
-            version=version
-        ).delete()
-        
-        logger.info(f"Deleted {deleted_count} detection results for record {record_id}, divide_time {divide_time}, version {version}")
-        
-        return JsonResponse({'status': 'success', 'deleted_count': deleted_count}, status=200)
-    else:
-        return JsonResponse({'error': 'Invalid request method'}, status=405)

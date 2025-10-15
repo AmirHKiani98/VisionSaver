@@ -13,7 +13,7 @@ ENV_PATH = get_env_path()
 dotenv.load_dotenv(ENV_PATH)
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'processor.settings')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "processor.settings")
 
 # 🔁 Factory-compatible ASGI application
 def create_app():
@@ -31,3 +31,6 @@ def create_app():
             URLRouter(websocket_urlpatterns)
         ),
     })
+
+# ✅ Make `application` also available for Uvicorn (non-factory mode)
+application = create_app()
