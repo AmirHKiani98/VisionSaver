@@ -208,6 +208,7 @@ function App() {
               recordsId: record.records_id || [], // Ensure recordsId is set correctly
               cameraUrl: record.camera_url || record.cameraUrl // Ensure cameraUrl is set correctly
             }))
+            console.log(data);
             setRecordLinks(data)
           } else if (data.records) {
             console.log('Fetched records:', data.records)

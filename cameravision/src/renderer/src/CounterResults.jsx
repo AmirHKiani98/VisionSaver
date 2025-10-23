@@ -35,6 +35,9 @@ export default function CounterResults() {
             },
         ],
     });
+    const COLOR_AUTO = 'rgba(75,192,192,0.8)';      // Teal
+    const COLOR_MANUAL = 'rgba(255,99,132,0.8)';    // Red
+    const COLOR_ISS = 'rgba(75,192,75,0.9)';        // Green
     const [loadingData, setLoadingData] = React.useState(true);
 
     // Update minMaxTime when maxTime changes
@@ -164,13 +167,24 @@ export default function CounterResults() {
                 addAreaDatasets(responseData.missed_detections, 'rgba(54, 162, 235, 0.4)', 'Missed Detection');
                 addAreaDatasets(responseData.false_positives, 'rgba(255, 99, 132, 0.4)', 'False Positive');
                 
-                const enhancedDatasets = responseData.datasets.map((dataset, i) => ({
-                    ...dataset,
-                    backgroundColor: colors[i % colors.length],
-                    pointRadius: 6,
-                    pointHoverRadius: 8,
-                    borderColor: colors[i % colors.length]
-                }));
+                // Define colors for each type
+                
+
+                const enhancedDatasets = responseData.datasets.map((dataset) => {
+                    let color = COLOR_AUTO; // Default to Auto
+                    if (dataset.label && dataset.label.toLowerCase().includes('manual')) {
+                        color = COLOR_MANUAL;
+                    } else if (dataset.label && dataset.label.toLowerCase().includes('iss')) {
+                        color = COLOR_ISS;
+                    }
+                    return {
+                        ...dataset,
+                        backgroundColor: color,
+                        borderColor: color,
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    };
+                });
                 
                 // Combine the enhanced datasets with the area datasets
                 const allDatasets = [...enhancedDatasets, ...areaDatasets];
@@ -371,15 +385,30 @@ export default function CounterResults() {
                         </div>
                         <div className="min-h-10 w-full flex justify-center items-center flex-wrap gap-2">
                             {totalCounts && Object.keys(totalCounts).length > 0 ? (
-                                Object.entries(totalCounts).map(([key, value], index) => (
-                                    <Chip key={index} label={`${key}: ${value}`} className="m-1" />
-                                ))
+                                Object.entries(totalCounts).map(([key, value], index) => {
+                                    let chipStyle = {};
+                                    const lowerKey = key.toLowerCase();
+                                    if (lowerKey.includes('auto')) {
+                                        chipStyle = { backgroundColor: COLOR_AUTO };
+                                    } else if (lowerKey.includes('manual')) {
+                                        chipStyle = { backgroundColor: COLOR_MANUAL };
+                                    } else if (lowerKey.includes('iss')) {
+                                        chipStyle = { backgroundColor: COLOR_ISS};
+                                    }
+                                    return (
+                                        <Chip 
+                                            key={index} 
+                                            label={`${key}: ${value}`} 
+                                            className="m-1" 
+                                            style={chipStyle}
+                                        />
+                                    );
+                                })
                             ) : (
                                 <Chip label="No counts available" className="m-1" />
                             )}
                         </div>
                         <Box sx={{ mt: 2, mx: 2 }}>
-                            
                             <Slider
                                 className="mt-2"
                                 aria-label="Time Range"

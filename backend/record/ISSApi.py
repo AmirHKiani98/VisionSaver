@@ -17,13 +17,10 @@ class ISSApi():
         using the arguments to form a url like: http://192.168.42.169/api/v1/cameras/1/detections?start-time=2025-05-10T12:00:00&end-time=2025-05-11T13:00:00
         """
         url = f"http://{self.ip}/api/v1/cameras/{self.camera_number}/detections"
-        
         params = {
             "start-time": self.start_time.strftime("%Y-%m-%dT%H:%M:%S"),
             "end-time": self.end_time.strftime("%Y-%m-%dT%H:%M:%S")
         }
-        
-        
         try:
             response = requests.get(url, params=params)
             response.raise_for_status()  # Raise an error for bad responses
@@ -43,4 +40,6 @@ class ISSApi():
         pandas_df["direction"] = pandas_df["direction"].apply(
             lambda x: "through" if x == "Through" else "left" if x == "LeftTurn" else "right" if x == "RightTurn" else x
         )
+        pandas_df = pandas_df[~pandas_df["zoneName"].str.contains("ADV")]
+        print(pandas_df.shape)
         return pandas_df
