@@ -269,7 +269,8 @@ export default function CounterResults() {
                         font: {
                             weight: 'bold'
                         }
-                    }
+                    },
+                    display: false
                 },
                 title: {
                     display: true,

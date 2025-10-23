@@ -134,7 +134,7 @@ def get_record_schedule(request):
             finished_detecting_all=('finished_detecting', lambda x: all(x) if len(x) > 0 else False),
             records_id=('id', lambda x: sorted(list(x)))
         ).reset_index(drop=True)
-        
+        print(grouped_records["start_time"])
 
         records = grouped_records.to_dict(orient='records')
 
