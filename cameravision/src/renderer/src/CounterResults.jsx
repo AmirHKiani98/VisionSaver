@@ -124,7 +124,6 @@ export default function CounterResults() {
         })
         .then(responseData => {
             setLoadingData(false);
-            console.log(responseData)
             if(responseData.datasets) {
                 // Add colors to datasets for better visualization
                 const colors = ['rgba(75,192,192,1)', 'rgba(255,99,132,1)', 
@@ -298,7 +297,12 @@ export default function CounterResults() {
                 tooltip: {
                     callbacks: {
                         label: function(context) {
-                            return `${context.dataset.label}: ${context.parsed.y} at time ${context.parsed.x.toFixed(1)}s`;
+                            const point = context.raw; // This is the data object for the point
+                            let label = `${context.dataset.label}: ${context.parsed.y} at time ${context.parsed.x.toFixed(1)}s`;
+                            if (point.veh_ids && Array.isArray(point.veh_ids)) {
+                                label += ` | Vehicle IDs: [${point.veh_ids.join(', ')}]`;
+                            }
+                            return label;
                         }
                     }
                 }

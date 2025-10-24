@@ -656,10 +656,12 @@ def get_counter_manual_auto_results(request):
         for line_key, counts_dict in auto_detection_counts.items():
             new_dataset = {"id": len(datasets) + 1, "label": "Auto " + line_key, "data":[]}
             total_counts["Auto " + line_key] = 0
-            for time_str, count in counts_dict.items():
+            for time_str, list_of_result in counts_dict.items():
                 time_float = float(time_str)
+                count = list_of_result[0]
                 total_counts["Auto " + line_key] += count
-                new_dataset["data"].append({"x": time_float, "y": count})
+                print(list_of_result[1])
+                new_dataset["data"].append({"x": time_float, "y": count, "veh_ids": list_of_result[1]})
                 for _ in range(count):
                     auto_df_dict["time"].append(time_float)
                     auto_df_dict["count"].append(1)  # Each point represents 1 count

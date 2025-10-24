@@ -54,8 +54,9 @@ def get_counter_auto_detection_results(record_id, version, divide_time, min_time
                 if nu_zone_detected == lines_map_length.get(line_index, 0):
                     time = detected[detected["line_index"] == line_index]["time"].max()
                     if time not in results[line_index]:
-                        results[line_index][time] = 0
-                    results[line_index][time] += 1
+                        results[line_index][time] = [0, []]
+                    results[line_index][time][0] += 1
+                    results[line_index][time][1].append(int(group["track_id"].iloc[0]))
         results = {key: dict(sorted(value.items(), key=lambda item: item[0])) for key, value in results.items()}
         return results
     except Exception as e:
@@ -95,6 +96,7 @@ def get_counter_manual_results(record_id,min_time=0, max_time=0):
             if time not in results[turn_movement]:
                 results[turn_movement][time] = 0
             results[turn_movement][time] += 1
+            
 
     results = {key: dict(sorted(value.items(), key=lambda item: item[0])) for key, value in results.items()}
     return results

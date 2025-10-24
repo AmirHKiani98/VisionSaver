@@ -20,9 +20,9 @@ class AiAppTestCase(TestCase):
         """
         Set up the test case with necessary configurations.
         """
-        self.record_id = 4
+        self.record_id = 90
         self.divide_time = 0.05
-        self.video_time = 45 # in seconds. There is a white SUV car going left to right at that time
+        self.video_time = 275 # in seconds. There is a white SUV car going left to right at that time
         # Load the video
         self.video_path = f"{settings.MEDIA_ROOT}/{self.record_id}.mp4"
         self.video_capture = cv2.VideoCapture(self.video_path)
