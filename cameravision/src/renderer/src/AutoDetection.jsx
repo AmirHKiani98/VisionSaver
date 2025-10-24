@@ -799,6 +799,12 @@ const AutoDetection = () => {
                             setSeeking(true);
                             setCurrentTime(value);
                         }}
+                        onTouchStart={() => {
+                            if (videoRef.current) setMaxTimeUpdated(videoRef.current.currentTime);
+                        }}
+                        onMouseDown={() => {
+                            if (videoRef.current) setMaxTimeUpdated(videoRef.current.currentTime);
+                        }}
                         className='flex-1'
                         onChangeCommitted={(e, value) => {
                             setSeeking(false);
@@ -808,6 +814,10 @@ const AutoDetection = () => {
                         }}
                         />
                     <div className='flex items-center gap-2.5'>
+                        <p>{videoRef.current ? 
+                                `${Math.floor(videoRef.current.currentTime / 60)}:${String(Math.floor(videoRef.current.currentTime % 60)).padStart(2, '0')}` 
+                                : "0:00"}
+                            </p>
                         <PlayStop
                             videoRef={videoRef}
                             setCurrentTime={setCurrentTime}
