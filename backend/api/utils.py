@@ -43,6 +43,8 @@ def get_counter_auto_detection_results(record_id, version, divide_time, min_time
         results = defaultdict(dict)
         df = pd.read_csv(counts_file)
         df = df[(df['time'] >= min_time) & (df['time'] <= max_time)]
+        THRESHOLD = 0.5
+        df = df[df["confidence"] >= THRESHOLD]
         df = df.sort_values(["time", "track_id"])
         groups = df.groupby('track_id')
         

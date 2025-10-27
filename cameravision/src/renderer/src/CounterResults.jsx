@@ -136,7 +136,7 @@ export default function CounterResults() {
                     points.forEach((point, idx) => {
                         areaDatasets.push({
                             type: 'line',
-                            label: `${label} ${idx + 1}`,
+                            label: `${label}`,
                             data: [
                                 { x: point.x - 3, y: 0 },
                                 
@@ -281,9 +281,41 @@ export default function CounterResults() {
                         color: 'black',
                         font: {
                             weight: 'bold'
+                        },
+                        generateLabels: (chart) => {
+                            // Only one legend for Missed Detection (blue) and one for False Positive (red)
+                            const labels = [];
+                            // Find first Missed Detection area dataset
+                            const missed = chart.data.datasets.find(ds => ds.label === 'Missed Detection');
+                            if (missed) {
+                                const missedCount = chart.data.datasets
+                                    .filter(ds => ds.label === 'Missed Detection')
+                                    .reduce((count, ds) => count + (ds.data.length / 4), 0);
+                                labels.push({
+                                    text: `Missed Detection (${Math.round(missedCount)})`,
+                                    fillStyle: missed.backgroundColor || 'rgba(54, 162, 235, 0.4)',
+                                    strokeStyle: missed.borderColor || 'rgba(54, 162, 235, 1)',
+                                    hidden: missed.hidden,
+                                    datasetIndex: chart.data.datasets.indexOf(missed)
+                                });
+                            }
+                            // Find first False Positive area dataset
+                            const falsePos = chart.data.datasets.find(ds => ds.label === 'False Positive');
+                            if (falsePos) {
+                                const falsePosCount = chart.data.datasets
+                                    .filter(ds => ds.label === 'False Positive')
+                                    .reduce((count, ds) => count + (ds.data.length / 4), 0);
+                                labels.push({
+                                    text: `False Positive (${Math.round(falsePosCount)})`,
+                                    fillStyle: falsePos.backgroundColor || 'rgba(255, 99, 132, 0.4)',
+                                    strokeStyle: falsePos.borderColor || 'rgba(255, 99, 132, 1)',
+                                    hidden: falsePos.hidden,
+                                    datasetIndex: chart.data.datasets.indexOf(falsePos)
+                                });
+                            }
+                            return labels;
                         }
                     },
-                    display: false
                 },
                 title: {
                     display: true,

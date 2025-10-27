@@ -448,8 +448,8 @@ if (!is.dev) {
       changedPath.includes('.pyc')
     ) return
 
-    console.log(`Backend file changed: ${changedPath}, restarting Django...`)
-    startDjango()
+    // console.log(`Backend file changed: ${changedPath}, restarting Django...`)
+    // startDjango()
   })
 
   // Dev streamer
