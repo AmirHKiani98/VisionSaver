@@ -426,31 +426,24 @@ if (!is.dev) {
   }
 
   startDjango()
-
-  chokidar.watch(join(__dirname, '../../../backend'), {
+  const watchPaths = [
+    join(__dirname, '../../../backend'),
+  ]
+  const watcher = chokidar.watch(watchPaths, {
+    // ignore SQLite lock/journal/wal/shm files and dotfiles
     ignored: [
-      join(__dirname, '../../../backend/media/**'),
-      join(__dirname, '../../../backend/logs/**'),
-      join(__dirname, '../../../backend/logs/django.log'),
-      join(__dirname, '../../../backend/apps/apache24/apache_logs/**'),
-      join(__dirname, '../../../backend/db.sqlite3'),
-      join(__dirname, '../../../backend/db.sqlite3-*'),
-      '**/db.sqlite3*',
-      '**/*.pyc'
+      /(^|[\/\\])\../, // dotfiles
+      /.*db\.sqlite3(-journal|-wal|-shm)?$/i,
+      /.*\.sqlite3(-journal|-wal|-shm)?$/i
     ],
-    ignoreInitial: true
-  }).on('change', (changedPath) => {
-    if (
-      changedPath.includes('db.sqlite3') ||
-      changedPath.includes('sqlite3-journal') ||
-      changedPath.includes('media') ||
-      changedPath.includes('/logs/') ||
-      changedPath.includes('.pyc')
-    ) return
-
-    // console.log(`Backend file changed: ${changedPath}, restarting Django...`)
-    // startDjango()
-  })
+    ignoreInitial: true,
+    usePolling: false,
+    awaitWriteFinish: {
+      stabilityThreshold: 2000,
+      pollInterval: 100
+    },
+    persistent: true
+  });
 
   // Dev streamer
   killPort(streamerPort, () => {
@@ -843,6 +836,9 @@ function handleExit() {
 process.on('SIGINT', handleExit)
 process.on('SIGTERM', handleExit)
 process.on('exit', stopApache)
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+});
 
 app.on('activate', () => {
   const wins = BrowserWindow.getAllWindows()
