@@ -550,24 +550,29 @@ function App() {
       <div className="min-h-full min-w-full flex px-5 py-2.5">
         <div className="text-white flex flex-col w-full items-center gap-2">
           <div className="flex flex-row justify-between items-center w-full mb-2.5">
-            <Tooltip title="Download database" placement="right"
-              slotProps={{
-                popper: {
-                  modifiers: [
-                    {
-                      name: 'offset',
-                      options: {
-                        offset: [0, 5],
+            <div className="flex flex-row gap-2.5 items-center">
+              <Tooltip title="Download database" placement="bottom"
+                slotProps={{
+                  popper: {
+                    modifiers: [
+                      {
+                        name: 'offset',
+                        options: {
+                          offset: [0, 5],
+                        },
                       },
-                    },
-                  ],
-                }
-              }}
-            >
-              <Button variant="contained" className='bg-main-400 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700' onClick={downloadDB}>
-                <FontAwesomeIcon icon={faDownload} />
-              </Button>
-            </Tooltip>
+                    ],
+                  }
+                }}
+              >
+                <Button variant="contained" className='bg-main-400 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700' onClick={downloadDB}>
+                  <FontAwesomeIcon icon={faDownload} />
+                </Button>
+              </Tooltip>
+              <Tooltip title="Download all the results" placement="right" >
+                
+              </Tooltip>
+            </div>
             <Typography className="text-white text-2xl font-bold">
               CameraVision
             </Typography>

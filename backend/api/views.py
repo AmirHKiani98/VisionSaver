@@ -133,7 +133,6 @@ def get_record_schedule(request):
             finished_detecting_all=('finished_detecting', lambda x: all(x) if len(x) > 0 else False),
             records_id=('id', lambda x: sorted(list(x)))
         ).reset_index(drop=True)
-        print(grouped_records["start_time"])
 
         records = grouped_records.to_dict(orient='records')
 
@@ -659,7 +658,6 @@ def get_counter_manual_auto_results(request):
                 time_float = float(time_str)
                 count = list_of_result[0]
                 total_counts["Auto " + line_key] += count
-                print(list_of_result[1])
                 new_dataset["data"].append({"x": time_float, "y": count, "veh_ids": list_of_result[1]})
                 for _ in range(count):
                     auto_df_dict["time"].append(time_float)

@@ -61,9 +61,8 @@ def get_counter_auto_detection_results(record_id, version, divide_time, min_time
                     results[line_index][time][0] += 1
                     total += 1
                     results[line_index][time][1].append(int(group["track_id"].iloc[0]))
-        results["total"] = total
         results = {key: dict(sorted(value.items(), key=lambda item: item[0])) for key, value in results.items()}
-        return results
+        return results, total
     except Exception as e:
         import traceback
         tb = traceback.format_exec()
@@ -110,14 +109,14 @@ def get_iss_detections_json(record_id, min_time=0, max_time=0):
     min_time: the minimum `seconds` that should be added to the start time of the recording
     max_time: the maximum `seconds` that should be added to the end time of the record
     """
-    record = Record.objects.filter(id=record_id)
+    record = Record.objects.filter(id=record_id).first()
     if not record:
         return False, 0
     ip = get_ip_from_rtsp(record.camera_url)
     record_start_time = record.start_time
     record_start_time = record_start_time + timedelta(seconds=min_time)
     record_end_time = record.start_time + timedelta(minutes=record.duration) + timedelta(seconds=max_time)
-    url = f"http://{ip}/api/v1/cameras/{record.camera_number}/detections"
+    url = f"http://{ip}/api/v1/cameras/{record.camera_id}/detections"
     params = {
         "start-time": record_start_time.strftime("%Y-%m-%dT%H:%M:%S"),
         "end-time": record_end_time.strftime("%Y-%m-%dT%H:%M:%S")
@@ -142,5 +141,5 @@ def get_iss_detections_pandas(record_id, min_time=0, max_time=0):
         lambda x: "through" if x == "Through" else "left" if x == "LeftTurn" else "right" if x == "RightTurn" else x
     )
     pandas_df = pandas_df[~pandas_df["zoneName"].str.contains("ADV")]
-    total = pandas_df.shape0
+    total = pandas_df.shape[0]
     return pandas_df, total
