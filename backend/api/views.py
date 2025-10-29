@@ -3,7 +3,6 @@ from django.http import JsonResponse
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from record.models import Record, RecordLog
-from collections import defaultdict
 import re
 import pandas as pd
 from django.utils.dateparse import parse_datetime
@@ -14,11 +13,11 @@ from asgiref.sync import async_to_sync
 import numpy as np
 from ai.models import AutoDetection, AutoDetectionCheckpoint, DetectionProcess, ModifiedAutoDetection
 import traceback
-from api.utils import get_counter_auto_detection_results, get_counter_manual_results, get_movement_index
+from api.utils import get_counter_auto_detection_results, get_counter_manual_results, get_movement_index, get_iss_detections_pandas
 import cv2
 import base64
-from record.ISSApi import ISSApi
-from datetime import timedelta
+from django.http import FileResponse
+import tempfile
 # Create your views here.
 
 
@@ -91,12 +90,12 @@ def store_record_schedule(request):
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
 
 def parse_camera_url(url):
-            match = re.match(r'rtsp://([^/]+)/(.+)', url)
-            if match:
-                ip = match.group(1)
-                stream = match.group(2)
-                return ip, stream
-            return url, ""
+    match = re.match(r'rtsp://([^/]+)/(.+)', url)
+    if match:
+        ip = match.group(1)
+        stream = match.group(2)
+        return ip, stream
+    return url, ""
 @csrf_exempt
 def get_record_schedule(request):
     """
@@ -639,14 +638,14 @@ def get_counter_manual_auto_results(request):
         record = Record.objects.filter(id=record_id).first()
         if not record:
             return JsonResponse({"error": "Record not found."}, status=404)
-        auto_detection_counts = get_counter_auto_detection_results(record_id, version, divide_time, min_time, max_time)
+        auto_detection_counts, _ = get_counter_auto_detection_results(record_id, version, divide_time, min_time, max_time)
         if isinstance(auto_detection_counts, bool) and not auto_detection_counts:
             return JsonResponse({"error": "Failed to retrieve results."}, status=500)
         
         datasets = []
         total_counts = {}
         
-        manual_results = get_counter_manual_results(record_id, min_time, max_time)
+        manual_results, _ = get_counter_manual_results(record_id, min_time, max_time)
 
         if isinstance(manual_results, bool) and not manual_results:
             manual_results = {}
@@ -729,16 +728,9 @@ def get_counter_manual_auto_results(request):
 
         # Direction/line match requirement
         require_direction_match = True
-        api_start_time = record.start_time + timedelta(seconds=min_time)
-        adding_time = 0
-        if max_time != float("-inf"):
-            adding_time = max_time
-        api_end_time = api_start_time + timedelta(seconds=adding_time)
-        iss_api_df = pd.DataFrame({})
-        if record.camera_id != 0:
-            ip = re.findall(r"rtsp://(\d+\.\d+\.\d+\.\d+)", record.camera_url)[0]
-            iss_api = ISSApi(ip=ip, camera_number=record.camera_id, start_time=api_start_time, end_time=api_end_time)
-            iss_api_df = iss_api.get_detections_pandas()
+        # Pass 0 if max_time is float("-inf")
+        max_time_to_pass = 0 if max_time == float("-inf") else max_time
+        iss_api_df, _ = get_iss_detections_pandas(record_id, min_time, max_time_to_pass)
         
         iss_df_dict = {"time": [], "count": [], "line": []}
         if not iss_api_df.empty:
@@ -752,13 +744,7 @@ def get_counter_manual_auto_results(request):
                 if seconds_from_start >= min_time and (max_time == 0 or seconds_from_start <= max_time):
                     # Map ISS direction to line index
                     direction = row['direction']
-                    line_index = 0  # Default
-                    if direction == "left":
-                        line_index = 1
-                    elif direction == "through":
-                        line_index = 2
-                    elif direction == "right":
-                        line_index = 3
+                    line_index = get_movement_index(direction)
                     
                     # Add to dataset
                     iss_df_dict["time"].append(seconds_from_start)
@@ -879,6 +865,7 @@ def get_counter_manual_auto_results(request):
         
     except Exception as e:
         import traceback
+
         tb = traceback.format_exc()
         logger.error(f"Failed to process results: {str(e)}\nTraceback:\n{tb}")
         return JsonResponse({"error": f"Failed to process results: {str(e)}", "traceback": tb}, status=500)
@@ -951,3 +938,59 @@ def get_total_time(request):
 
     else:
         return JsonResponse({"error": "Method Not Allowed"}, status=405)
+
+@csrf_exempt
+def get_all_available_results_excel(request):
+    """
+    Get the results of all available records with counts in Excel format
+    """
+    if request.method == "POST":
+        
+        data = json.loads(request.body.decode('utf-8'))
+        version = data.get("version")
+        if not version:
+            return JsonResponse({"error": "'version' is not provided"}, status=400)
+        divide_time = data.get("divide_time")
+        if not divide_time:
+            return JsonResponse({"error": "'divide_time' is not provided"}, status=400)
+        
+
+        records = Record.objects.filter(done=1)
+
+        results_dict = {"url":[] , "manaul_count": [], "auto_count": [], "iss_count":[], "auto_error":[], "iss_error": []}
+        for record in records:
+            record_id = record.id
+            manual_counts, manaul_total = get_counter_manual_results(record_id)
+            auto_counts, auto_total = get_counter_auto_detection_results(record_id, version, divide_time)
+            iss_api_df, iss_total = get_iss_detections_pandas(record_id, 0, 0)
+            if isinstance(auto_counts, bool) and not auto_counts:
+                auto_total = 0
+            if isinstance(manual_counts, bool) and not manual_counts:
+                manaul_total = 0
+            results_dict["url"].append(record.camera_url)
+            results_dict["manual_count"].append(manaul_total)
+            results_dict["auto_counts"].append(auto_total)
+            results_dict["iss_counts"].append(iss_total)
+            results_dict["auto_error"].append(round((abs(auto_counts - manaul_total)/manaul_total)*10000)/100)
+            results_dict["iss_error"].append(round((abs(iss_api_df.shape[0] - manaul_total)/manaul_total)*10000)/100)
+        
+        df = pd.DataFrame(results_dict)
+        styled_df = df.style.background_gradient(subset=['auto_error', 'iss_error'], cmap='BuGn').set_properties(**{'height': '30px'})
+        # create temp file
+        with tempfile.NamedTemporaryFile(suffix='.xlsx', delete=False) as tmp:
+            # Save styled DataFrame to Excel
+            styled_df.to_excel(tmp.name, engine='openpyxl', index=False)
+            tmp_path = tmp.name
+
+        # Return the file as a response
+        response = FileResponse(
+            open(tmp_path, 'rb'),
+            as_attachment=True,
+            filename='detection_results.xlsx'
+        )
+        response["Content-Disposition"] = f'attachment; filename="results_{version}_{divide_time}.xlsx"'
+        return response
+
+    else:
+        return JsonResponse({"error": "Method Not Allowed"}, status=405) 
+    
