@@ -23,7 +23,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { TimePicker } from '@mui/x-date-pickers/TimePicker'
-import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
+import GetAllAvailableResults from "./components/GetAllAvailableResults"
 
 // MUI - Core
 import {
@@ -59,6 +59,7 @@ function App() {
   const [startRecordLinkIndex, setStartRecordLinkIndex] = useState(0)
   const [time, setTime] = useState(oneHourFromNow)
   const [protocol, setProtocol] = useState('RTSP')
+  const [isGetAllAvailableResultsExcelOpen, setIsGetAllAvailableResultsExcelOpen] = useState(false)
   const [ip, setIp] = useState('192.168.')
   const [channel, setChannel] = useState('quad')
   const [duration, setDuration] = useState(30) // Duration in minutes
@@ -971,6 +972,14 @@ function App() {
           aria-describedby="parent-modal-description"
         >
             <ImportComponent></ImportComponent>
+        </Modal>
+        <Modal
+            open={isGetAllAvailableResultsExcelOpen}
+            onClose={() => setIsGetAllAvailableResultsExcelOpen(false)}
+            aria-labelledby="parent-modal-title2"
+            aria-describedby="parent-modal-description"
+          >
+          <GetAllAvailableResults></GetAllAvailableResults>
         </Modal>
     </div>
   )

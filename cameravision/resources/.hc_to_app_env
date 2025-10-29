@@ -37,6 +37,7 @@ API_IS_DETECTION_IN_PROCESS=api/is_detection_in_process
 API_GET_COUNTER_MANUAL_AUTO_RESULTS=api/get_counter_manual_auto_results
 API_GET_FRAME_AT_TIME=api/get_frame_at_time
 API_GET_DURATION_TIME=api/get_duration_time
+API_GET_ALL_AVAILABLE_RESULTS_EXCEL=api/get_all_available_results_excel
 # Celery variables
 CELERY_BROKER_DOMAIN=localhost
 CELERY_BROKER_PORT=6379
