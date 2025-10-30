@@ -17,6 +17,7 @@ import {
   faUnlock,
   faCloudArrowDown
 } from '@fortawesome/free-solid-svg-icons'
+import { BrowserUpdated } from "@mui/icons-material"
 import { useRef } from 'react';
 // MUI - Pickers
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -94,6 +95,8 @@ function App() {
   useEffect(() => {
     window.env.get().then(setEnv)
   }, [])
+
+  
 
   const closeNotification = (event, reason) => {
     if (reason === 'clickaway') {
@@ -570,7 +573,10 @@ function App() {
                 </Button>
               </Tooltip>
               <Tooltip title="Download all the results" placement="right" >
-                
+                <Button variant="contained" className='bg-main-400 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700' onClick={()=>{setIsGetAllAvailableResultsExcelOpen(true)}}>
+                  <BrowserUpdated />
+                </Button>
+
               </Tooltip>
             </div>
             <Typography className="text-white text-2xl font-bold">
@@ -984,7 +990,7 @@ function App() {
             aria-labelledby="parent-modal-title2"
             aria-describedby="parent-modal-description"
           >
-          <GetAllAvailableResults></GetAllAvailableResults>
+          <GetAllAvailableResults onClose={() => {setIsGetAllAvailableResultsExcelOpen(false)}}></GetAllAvailableResults>
         </Modal>
     </div>
   )

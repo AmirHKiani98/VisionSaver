@@ -434,7 +434,8 @@ if (!is.dev) {
     ignored: [
       /(^|[\/\\])\../, // dotfiles
       /.*db\.sqlite3(-journal|-wal|-shm)?$/i,
-      /.*\.sqlite3(-journal|-wal|-shm)?$/i
+      /.*\.sqlite3(-journal|-wal|-shm)?$/i,
+      /(.*\.pyc$)/i
     ],
     ignoreInitial: true,
     usePolling: false,
@@ -444,6 +445,11 @@ if (!is.dev) {
     },
     persistent: true
   });
+  watcher.on("change", path => {
+    startDjango();
+    console.log("Restarted django for change in ", path)
+  })
+
 
   // Dev streamer
   killPort(streamerPort, () => {

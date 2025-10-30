@@ -30,6 +30,8 @@ def get_counter_auto_detection_results(record_id, version, divide_time, min_time
     if not record:
         return False, 0
     auto_detection = AutoDetection.objects.filter(record=record, version=version, divide_time=divide_time).first()
+    if not auto_detection:
+        return False, 0
     counts_file = auto_detection.file_name
     if not os.path.exists(counts_file):
         return False, 0
@@ -135,8 +137,10 @@ def get_iss_detections_pandas(record_id, min_time=0, max_time=0):
     """
     data_json = get_iss_detections_json(record_id, min_time, max_time)
     if data_json is None:
-        return pd.DataFrame()
+        return pd.DataFrame(), 0
     pandas_df = pd.DataFrame(data_json)
+    if pandas_df.empty:
+        return pandas_df, 0
     pandas_df["direction"] = pandas_df["direction"].apply(
         lambda x: "through" if x == "Through" else "left" if x == "LeftTurn" else "right" if x == "RightTurn" else x
     )

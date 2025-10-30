@@ -18,6 +18,7 @@ import cv2
 import base64
 from django.http import FileResponse
 import tempfile
+import time
 # Create your views here.
 
 
@@ -955,11 +956,25 @@ def get_all_available_results_excel(request):
 
         records = Record.objects.filter(done=1)
 
-        results_dict = {"url":[] , "manaul_count": [], "auto_count": [], "iss_count":[], "auto_error":[], "iss_error": []}
-        for record in records:
+        results_dict = {"url":[] , "manual_count": [], "auto_count": [], "iss_count":[], "auto_error":[], "iss_error": []}
+        channel_layer = get_channel_layer()
+        group_name = f"downloading_results_progress"
+        length = len(records)
+        for index, record in enumerate(records):
             record_id = record.id
+            
             manual_counts, manaul_total = get_counter_manual_results(record_id)
             auto_counts, auto_total = get_counter_auto_detection_results(record_id, version, divide_time)
+            print(index)
+            async_to_sync(channel_layer.group_send)(
+                group_name,
+                {
+                    "type": "send.progress",
+                    "progress": index/length,
+                }
+            )
+            if index%10 == 0:
+                time.sleep(2)
             iss_api_df, iss_total = get_iss_detections_pandas(record_id, 0, 0)
             if isinstance(auto_counts, bool) and not auto_counts:
                 auto_total = 0
@@ -967,10 +982,16 @@ def get_all_available_results_excel(request):
                 manaul_total = 0
             results_dict["url"].append(record.camera_url)
             results_dict["manual_count"].append(manaul_total)
-            results_dict["auto_counts"].append(auto_total)
-            results_dict["iss_counts"].append(iss_total)
-            results_dict["auto_error"].append(round((abs(auto_counts - manaul_total)/manaul_total)*10000)/100)
-            results_dict["iss_error"].append(round((abs(iss_api_df.shape[0] - manaul_total)/manaul_total)*10000)/100)
+            results_dict["auto_count"].append(auto_total)
+            results_dict["iss_count"].append(iss_total)
+            if manaul_total == 0:
+                auto_error = 0
+                iss_error = 0
+            else:
+                auto_error = round((abs(auto_counts - manaul_total)/manaul_total)*10000)/100
+                iss_error = round((abs(iss_api_df.shape[0] - manaul_total)/manaul_total)*10000)/100
+            results_dict["auto_error"].append(auto_error)
+            results_dict["iss_error"].append(iss_error)
         
         df = pd.DataFrame(results_dict)
         styled_df = df.style.background_gradient(subset=['auto_error', 'iss_error'], cmap='BuGn').set_properties(**{'height': '30px'})
