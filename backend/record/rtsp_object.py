@@ -5,6 +5,7 @@ import os
 import cv2
 import dotenv
 import subprocess
+import time
 # --- Ensure Django settings are configured before importing settings ---
 from django.conf import settings
 
@@ -137,10 +138,11 @@ class RTSPObject:
         return output_path
     
     def record(self, duration_minutes: int, output_path: str, record_id):
-        result = ensure_vpn()
-        if not result:
-            logger.error("Failed to connect to VPN. Cannot proceed with recording.")
+        # Initial VPN check
+        if not ensure_vpn():
+            logger.error("Failed to connect to VPN initially. Cannot proceed with recording.")
             return False
+
         logger.debug(f"Starting recording for {duration_minutes} minutes to {output_path}")
         duration_seconds = duration_minutes * 60
         ffmpeg_env = str(settings.FFMPEG_PATH)
@@ -160,7 +162,7 @@ class RTSPObject:
             logger.error(f"FFmpeg executable not found at: {ffmpeg_path}")
             logger.error(f"Path to BASE_DIR: {str(settings.BASE_DIR)}")
             logger.error(f"FFMPEG Env: {ffmpeg_env}")
-            raise FileNotFoundError(f"FFmpeg executable not found at: {ffmpeg_path}")
+            raise FileNotFoundException(f"FFmpeg executable not found at: {ffmpeg_path}")
         # Adjust output extension according to method
         abs_output_path = os.path.splitext(abs_output_path)[0] + ".mkv"
         # Copy method for simple public RTSP
@@ -197,39 +199,79 @@ class RTSPObject:
 
         try:
             logger.debug(f"Running FFmpeg command: {' '.join(preferred_cmd)}")
-            creation_flags = 0x08000000  # This hides the window in Windows
+            creation_flags = 0x08000000
             process = subprocess.Popen(preferred_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, creationflags=creation_flags)
-            # Add timestamp when recording starts
-            
+
             if process.stderr is not None:
                 recording_started = False
                 recording_finished = False
+                no_data_count = 0  # Track consecutive no-data readings
+                last_progress_time = time.time()
+
                 for line in process.stderr:
-                    # Check if recording has started
-                    if not recording_started and "Press [q] to stop" in line:
-                        FFMPEGLog.objects.create(
-                            record_id=record_id,
-                            log_type='record_started_at',
-                        )
-                        recording_started = True
-                    
-                    # Check if recording has finished
-                    if not recording_finished and "video:" in line and "audio:" in line and "subtitle:" in line:
-                        FFMPEGLog.objects.create(
-                            record_id=record_id,
-                            log_type='record_finished_at',
-                        )
-                        recording_finished = True
-                    
-                    # Track progress
+                    # Connection issue detection - common ffmpeg error messages
+                    if any(x in line.lower() for x in [
+                        "connection refused", "connection reset",
+                        "error occurred", "client_loop: send disconnect",
+                        "no route to host", "network is unreachable",
+                        "end of file", "404 not found", "timeout"
+                    ]):
+                        logger.warning(f"Detected potential connection issue: {line.strip()}")
+                        # Try VPN reconnection
+                        if ensure_vpn():
+                            logger.info("VPN reconnected successfully")
+                            FFMPEGLog.objects.create(
+                                record_id=record_id,
+                                log_type='vpn_reconnect_success'
+                            )
+                        else:
+                            logger.error("VPN reconnection failed")
+                            FFMPEGLog.objects.create(
+                                record_id=record_id,
+                                log_type='vpn_reconnect_failed'
+                            )
+
+                    # Check for no progress
                     match = progress_re.search(line)
                     if match:
+                        last_progress_time = time.time()
+                        no_data_count = 0  # Reset counter when we get progress
                         timestamp = match.group(1)
                         h, m, s = timestamp.split(':')
                         seconds = float(s)
                         timestamps_to_seconds = int(h) * 3600 + int(m) * 60 + seconds
                         percentage = timestamps_to_seconds/(duration_minutes * 60)
                         broadcast_progress(str(record_id), str(percentage), recording=True, converting=False)
+                    else:
+                        # If no progress in line, increment counter
+                        no_data_count += 1
+                        # If we haven't seen progress in a while, check VPN
+                        if no_data_count > 50 or (time.time() - last_progress_time) > 5:
+                            logger.warning("No progress detected, checking VPN status")
+                            if ensure_vpn():
+                                no_data_count = 0  # Reset counter after successful check
+                            else:
+                                logger.error("VPN connection lost during recording")
+                                FFMPEGLog.objects.create(
+                                    record_id=record_id,
+                                    log_type='vpn_lost_during_record'
+                                )
+
+                    # Existing recording start/finish detection
+                    if not recording_started and "Press [q] to stop" in line:
+                        FFMPEGLog.objects.create(
+                            record_id=record_id,
+                            log_type='record_started_at'
+                        )
+                        recording_started = True
+                    
+                    if not recording_finished and "video:" in line and "audio:" in line and "subtitle:" in line:
+                        FFMPEGLog.objects.create(
+                            record_id=record_id,
+                            log_type='record_finished_at'
+                        )
+                        recording_finished = True
+
             else:
                 pass
                 logger.warning("FFmpeg stderr is None, no progress updates will be sent.")
