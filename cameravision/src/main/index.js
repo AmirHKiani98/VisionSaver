@@ -426,31 +426,30 @@ if (!is.dev) {
   }
 
   startDjango()
-
-  chokidar.watch(join(__dirname, '../../../backend'), {
+  const watchPaths = [
+    join(__dirname, '../../../backend'),
+  ]
+  const watcher = chokidar.watch(watchPaths, {
+    // ignore SQLite lock/journal/wal/shm files and dotfiles
     ignored: [
-      join(__dirname, '../../../backend/media/**'),
-      join(__dirname, '../../../backend/logs/**'),
-      join(__dirname, '../../../backend/logs/django.log'),
-      join(__dirname, '../../../backend/apps/apache24/apache_logs/**'),
-      join(__dirname, '../../../backend/db.sqlite3'),
-      join(__dirname, '../../../backend/db.sqlite3-*'),
-      '**/db.sqlite3*',
-      '**/*.pyc'
+      /(^|[\/\\])\../, // dotfiles
+      /.*db\.sqlite3(-journal|-wal|-shm)?$/i,
+      /.*\.sqlite3(-journal|-wal|-shm)?$/i,
+      /(.*\.pyc$)/i
     ],
-    ignoreInitial: true
-  }).on('change', (changedPath) => {
-    if (
-      changedPath.includes('db.sqlite3') ||
-      changedPath.includes('sqlite3-journal') ||
-      changedPath.includes('media') ||
-      changedPath.includes('/logs/') ||
-      changedPath.includes('.pyc')
-    ) return
-
-    console.log(`Backend file changed: ${changedPath}, restarting Django...`)
-    startDjango()
+    ignoreInitial: true,
+    usePolling: false,
+    awaitWriteFinish: {
+      stabilityThreshold: 2000,
+      pollInterval: 100
+    },
+    persistent: true
+  });
+  watcher.on("change", path => {
+    // startDjango();
+    console.log("Restarted django for change in ", path)
   })
+
 
   // Dev streamer
   killPort(streamerPort, () => {
@@ -661,8 +660,8 @@ app.whenReady().then(async () => {
 # Minimal Apache configuration
 Define SRVROOT "${apacheRoot.replace(/\\/g, '/')}"
 ServerRoot "${apacheRoot.replace(/\\/g, '/')}"
-Listen 80
-ServerName localhost:80
+Listen ${process.env.APACHE_PORT || 54321}
+ServerName localhost:${process.env.APACHE_PORT || 54321}
 
 # Load required modules
 LoadModule access_compat_module modules/mod_access_compat.so
@@ -680,12 +679,31 @@ LoadModule http2_module modules/mod_http2.so
 
 DocumentRoot "${apacheRoot.replace(/\\/g, '/')}/htdocs"
 
+# Media directory configuration
 Alias /media/ "${mediaPath.replace(/\\/g, '/')}/"
 <Directory "${mediaPath.replace(/\\/g, '/')}/">
     Options Indexes FollowSymLinks
     AllowOverride None
     Require all granted
+    
+    # Add proper headers for video streaming
+    <FilesMatch "\\.(mp4|mkv|webm)$">
+        Header set Content-Type "video/mp4"
+        Header set Accept-Ranges bytes
+    </FilesMatch>
+    
+    # Enable byte range requests
+    Header set Accept-Ranges bytes
+    
+    # Fix CORS issues
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept, Range"
 </Directory>
+
+# Add proper MIME types
+AddType video/mp4 .mp4
+AddType video/webm .webm
+AddType video/x-matroska .mkv
 
 ProxyPass /api/ http://${backendDomain}:${backendPort}/api/
 ProxyPassReverse /api/ http://${backendDomain}:${backendPort}/api/
@@ -824,6 +842,9 @@ function handleExit() {
 process.on('SIGINT', handleExit)
 process.on('SIGTERM', handleExit)
 process.on('exit', stopApache)
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+});
 
 app.on('activate', () => {
   const wins = BrowserWindow.getAllWindows()

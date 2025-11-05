@@ -90,5 +90,9 @@ urlpatterns = [
     path(
         f"{os.getenv('API_GET_DURATION_TIME')}",
         views.get_total_time
+    ),
+    path(
+        f"{os.getenv('API_GET_ALL_AVAILABLE_RESULTS_EXCEL')}",
+        views.get_all_available_results_excel
     )
 ]

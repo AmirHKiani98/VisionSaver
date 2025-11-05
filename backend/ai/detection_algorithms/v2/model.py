@@ -52,7 +52,7 @@ class IoUOnlyMetric(object):
 
 # Use IoU-only metric for tracking
 metric = NearestNeighborDistanceMetric("cosine", 0.45, budget=100)
-tracker = Tracker(metric, max_iou_distance=0.7, max_age=80, n_init=3)
+tracker = Tracker(metric, max_iou_distance=0.9, max_age=10, n_init=3)
 
 # Global map from DeepSORT's internal IDs -> your global 1..m IDs
 global_id_map = {}          # {track.track_id: global_id}

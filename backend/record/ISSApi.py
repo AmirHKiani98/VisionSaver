@@ -40,4 +40,6 @@ class ISSApi():
         pandas_df["direction"] = pandas_df["direction"].apply(
             lambda x: "through" if x == "Through" else "left" if x == "LeftTurn" else "right" if x == "RightTurn" else x
         )
+        pandas_df = pandas_df[~pandas_df["zoneName"].str.contains("ADV")]
+        print(pandas_df.shape)
         return pandas_df

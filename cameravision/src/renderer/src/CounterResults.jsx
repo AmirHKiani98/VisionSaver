@@ -35,6 +35,9 @@ export default function CounterResults() {
             },
         ],
     });
+    const COLOR_AUTO = 'rgba(75,192,192,0.8)';      // Teal
+    const COLOR_MANUAL = 'rgba(255,99,132,0.8)';    // Red
+    const COLOR_ISS = 'rgba(75,192,75,0.9)';        // Green
     const [loadingData, setLoadingData] = React.useState(true);
 
     // Update minMaxTime when maxTime changes
@@ -121,7 +124,6 @@ export default function CounterResults() {
         })
         .then(responseData => {
             setLoadingData(false);
-            console.log(responseData)
             if(responseData.datasets) {
                 // Add colors to datasets for better visualization
                 const colors = ['rgba(75,192,192,1)', 'rgba(255,99,132,1)', 
@@ -134,7 +136,7 @@ export default function CounterResults() {
                     points.forEach((point, idx) => {
                         areaDatasets.push({
                             type: 'line',
-                            label: `${label} ${idx + 1}`,
+                            label: `${label}`,
                             data: [
                                 { x: point.x - 3, y: 0 },
                                 
@@ -164,13 +166,24 @@ export default function CounterResults() {
                 addAreaDatasets(responseData.missed_detections, 'rgba(54, 162, 235, 0.4)', 'Missed Detection');
                 addAreaDatasets(responseData.false_positives, 'rgba(255, 99, 132, 0.4)', 'False Positive');
                 
-                const enhancedDatasets = responseData.datasets.map((dataset, i) => ({
-                    ...dataset,
-                    backgroundColor: colors[i % colors.length],
-                    pointRadius: 6,
-                    pointHoverRadius: 8,
-                    borderColor: colors[i % colors.length]
-                }));
+                // Define colors for each type
+                
+
+                const enhancedDatasets = responseData.datasets.map((dataset) => {
+                    let color = COLOR_AUTO; // Default to Auto
+                    if (dataset.label && dataset.label.toLowerCase().includes('manual')) {
+                        color = COLOR_MANUAL;
+                    } else if (dataset.label && dataset.label.toLowerCase().includes('iss')) {
+                        color = COLOR_ISS;
+                    }
+                    return {
+                        ...dataset,
+                        backgroundColor: color,
+                        borderColor: color,
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    };
+                });
                 
                 // Combine the enhanced datasets with the area datasets
                 const allDatasets = [...enhancedDatasets, ...areaDatasets];
@@ -268,8 +281,41 @@ export default function CounterResults() {
                         color: 'black',
                         font: {
                             weight: 'bold'
+                        },
+                        generateLabels: (chart) => {
+                            // Only one legend for Missed Detection (blue) and one for False Positive (red)
+                            const labels = [];
+                            // Find first Missed Detection area dataset
+                            const missed = chart.data.datasets.find(ds => ds.label === 'Missed Detection');
+                            if (missed) {
+                                const missedCount = chart.data.datasets
+                                    .filter(ds => ds.label === 'Missed Detection')
+                                    .reduce((count, ds) => count + (ds.data.length / 4), 0);
+                                labels.push({
+                                    text: `Missed Detection (${Math.round(missedCount)})`,
+                                    fillStyle: missed.backgroundColor || 'rgba(54, 162, 235, 0.4)',
+                                    strokeStyle: missed.borderColor || 'rgba(54, 162, 235, 1)',
+                                    hidden: missed.hidden,
+                                    datasetIndex: chart.data.datasets.indexOf(missed)
+                                });
+                            }
+                            // Find first False Positive area dataset
+                            const falsePos = chart.data.datasets.find(ds => ds.label === 'False Positive');
+                            if (falsePos) {
+                                const falsePosCount = chart.data.datasets
+                                    .filter(ds => ds.label === 'False Positive')
+                                    .reduce((count, ds) => count + (ds.data.length / 4), 0);
+                                labels.push({
+                                    text: `False Positive (${Math.round(falsePosCount)})`,
+                                    fillStyle: falsePos.backgroundColor || 'rgba(255, 99, 132, 0.4)',
+                                    strokeStyle: falsePos.borderColor || 'rgba(255, 99, 132, 1)',
+                                    hidden: falsePos.hidden,
+                                    datasetIndex: chart.data.datasets.indexOf(falsePos)
+                                });
+                            }
+                            return labels;
                         }
-                    }
+                    },
                 },
                 title: {
                     display: true,
@@ -283,7 +329,12 @@ export default function CounterResults() {
                 tooltip: {
                     callbacks: {
                         label: function(context) {
-                            return `${context.dataset.label}: ${context.parsed.y} at time ${context.parsed.x.toFixed(1)}s`;
+                            const point = context.raw; // This is the data object for the point
+                            let label = `${context.dataset.label}: ${context.parsed.y} at time ${context.parsed.x.toFixed(1)}s`;
+                            if (point.veh_ids && Array.isArray(point.veh_ids)) {
+                                label += ` | Vehicle IDs: [${point.veh_ids.join(', ')}]`;
+                            }
+                            return label;
                         }
                     }
                 }
@@ -370,15 +421,30 @@ export default function CounterResults() {
                         </div>
                         <div className="min-h-10 w-full flex justify-center items-center flex-wrap gap-2">
                             {totalCounts && Object.keys(totalCounts).length > 0 ? (
-                                Object.entries(totalCounts).map(([key, value], index) => (
-                                    <Chip key={index} label={`${key}: ${value}`} className="m-1" />
-                                ))
+                                Object.entries(totalCounts).map(([key, value], index) => {
+                                    let chipStyle = {};
+                                    const lowerKey = key.toLowerCase();
+                                    if (lowerKey.includes('auto')) {
+                                        chipStyle = { backgroundColor: COLOR_AUTO };
+                                    } else if (lowerKey.includes('manual')) {
+                                        chipStyle = { backgroundColor: COLOR_MANUAL };
+                                    } else if (lowerKey.includes('iss')) {
+                                        chipStyle = { backgroundColor: COLOR_ISS};
+                                    }
+                                    return (
+                                        <Chip 
+                                            key={index} 
+                                            label={`${key}: ${value}`} 
+                                            className="m-1" 
+                                            style={chipStyle}
+                                        />
+                                    );
+                                })
                             ) : (
                                 <Chip label="No counts available" className="m-1" />
                             )}
                         </div>
                         <Box sx={{ mt: 2, mx: 2 }}>
-                            
                             <Slider
                                 className="mt-2"
                                 aria-label="Time Range"
