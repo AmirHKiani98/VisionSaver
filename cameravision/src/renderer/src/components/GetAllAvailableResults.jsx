@@ -1,4 +1,4 @@
-import {Typography, Button, LinearProgress } from "@mui/material";
+import {Typography, Button, LinearProgress, FormControl, InputLabel, Select, MenuItem, TextField } from "@mui/material";
 import { Close, BrowserUpdated } from "@mui/icons-material"
 
 import { useState, useEffect } from "react"
@@ -51,7 +51,7 @@ export default function GetAllAvailableResults({onClose}){
             const ws = new window.WebSocket(wsUrl);
             ws.onmessage = (event) => {
                 const data = JSON.parse(event.data);
-                
+                console.log("Progress update:", data.progress);
                 if (Math.abs(data.progress - 100) < 1 ){
                 }
                 if (data.progress !== undefined) setProgress(data.progress);
@@ -67,12 +67,57 @@ export default function GetAllAvailableResults({onClose}){
                 Download All Available Results
             </Typography>
             <div className="flex flex-row justify-between items-center">
-                
+                <FormControl>
+                    <InputLabel id="protocol-select-label">
+                        <Typography className="text-white">Version</Typography>
+                    </InputLabel>
+                    <Select
+                        labelId="protocol-select-label"
+                        id="select-protocol"
+                        color="primary.white"
+                        className="shadow-lg !py-0 w-32 bg-main-400"
+                        value={version}
+                        sx={{
+                        color: 'primary.white'
+                        }}
+                        onChange={(e) => setVersion(e.target.value)}
+                    >
+                        <MenuItem value="1">V1</MenuItem>
+                        <MenuItem value="2">V2</MenuItem>
+                    </Select>
+                    
+                </FormControl>
+                <TextField
+                    id="outlined-number"
+                    type="number"
+                    className="bg-main-400 w-1/3 rounded-md"
+                    slotProps={{
+                        inputLabel: {
+                            shrink: true
+                        },
+                        htmlInput: {
+                            step: "0.01",
+                            min: "0"
+                        }
+                    }}
+                    value={divideTime}
+                    onChange={(e) => {
+                        const value = e.target.value
+                        if (value >= 0) {
+                            setDivideTime(value)
+                        } else {
+                            openNotification('error', 'Frame must be a positive number.')
+                        }
+                    }}
+                    label={<Typography className="text-white">Frame</Typography>}
+                />
                 
             </div>
-            <div className="flex w-full">
-                <LinearProgress value={progress*100} className="w-full h-full"/>
-            </div>
+            {progress > 0 && progress < 100 && (
+                <div className="flex w-full">
+                    <LinearProgress variant="determinate" value={progress*100} className="w-full h-full"/>
+                </div>
+            )}
             <div className="flex flex-row justify-between items-center">
                 <Button component="label"
                     role={undefined}
@@ -96,5 +141,5 @@ export default function GetAllAvailableResults({onClose}){
                 
             </div>
         </div>
-        )
+    )
 }
