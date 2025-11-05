@@ -6,7 +6,7 @@ import { useState, useEffect } from "react"
 export default function GetAllAvailableResults({onClose}){
 
     const [env, setEnv] = useState(null)
-    const [version, setVersion] = useState(2)
+    const [version, setVersion] = useState('v2')
     const [divideTime, setDivideTime] = useState(0.05)
     const [progress, setProgress] = useState(0)
 
@@ -82,8 +82,8 @@ export default function GetAllAvailableResults({onClose}){
                         }}
                         onChange={(e) => setVersion(e.target.value)}
                     >
-                        <MenuItem value="1">V1</MenuItem>
-                        <MenuItem value="2">V2</MenuItem>
+                        <MenuItem value="v1">V1</MenuItem>
+                        <MenuItem value="v2">V2</MenuItem>
                     </Select>
                     
                 </FormControl>

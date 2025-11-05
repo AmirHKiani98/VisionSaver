@@ -962,7 +962,6 @@ def get_all_available_results_excel(request):
         length = len(records)
         for index, record in enumerate(records):
             record_id = record.id
-            
             (manual_counts, manaul_total), (auto_counts, auto_total), (iss_api_df, iss_total) = get_results_comparison_df(record_id, version, divide_time)
             async_to_sync(channel_layer.group_send)(
                 group_name,
@@ -973,7 +972,6 @@ def get_all_available_results_excel(request):
             )
             if index%10 == 0:
                 time.sleep(2)
-            
             if isinstance(auto_counts, bool) and not auto_counts:
                 auto_total = 0
             if isinstance(manual_counts, bool) and not manual_counts:
@@ -986,7 +984,7 @@ def get_all_available_results_excel(request):
                 auto_error = 0
                 iss_error = 0
             else:
-                auto_error = round((abs(auto_counts - manaul_total)/manaul_total)*10000)/100
+                auto_error = round((abs(auto_total - manaul_total)/manaul_total)*10000)/100
                 iss_error = round((abs(iss_api_df.shape[0] - manaul_total)/manaul_total)*10000)/100
             results_dict["auto_error"].append(auto_error)
             results_dict["iss_error"].append(iss_error)

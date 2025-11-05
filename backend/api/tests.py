@@ -9,7 +9,7 @@ dotenv.load_dotenv(settings.ENV_PATH)
 class ApiTests(TestCase):
     def setUp(self):
         # Set up run before every test method.
-        record_id = 20
+        record_id = 147
         version = "v2"
         divide_time = 0.05
         self.record_id = record_id
