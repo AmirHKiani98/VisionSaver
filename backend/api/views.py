@@ -956,7 +956,7 @@ def get_all_available_results_excel(request):
 
         records = Record.objects.filter(done=1)
 
-        results_dict = {"url":[] , "manual_count": [], "auto_count": [], "iss_count":[], "auto_error":[], "iss_error": []}
+        results_dict = {"url":[], "record_id": [], "manual_count": [], "auto_count": [], "iss_count":[], "auto_error":[], "iss_error": []}
         channel_layer = get_channel_layer()
         group_name = f"downloading_results_progress"
         length = len(records)
@@ -967,11 +967,11 @@ def get_all_available_results_excel(request):
                 group_name,
                 {
                     "type": "send.progress",
-                    "progress": index/length,
+                    "progress": (index+1)/length,
                 }
             )
-            if index%10 == 0:
-                time.sleep(2)
+            if index%1 == 0:
+                time.sleep(1)
             if isinstance(auto_counts, bool) and not auto_counts:
                 auto_total = 0
             if isinstance(manual_counts, bool) and not manual_counts:
@@ -980,17 +980,80 @@ def get_all_available_results_excel(request):
             results_dict["manual_count"].append(manaul_total)
             results_dict["auto_count"].append(auto_total)
             results_dict["iss_count"].append(iss_total)
+            results_dict["record_id"].append(record_id)
             if manaul_total == 0:
-                auto_error = 0
-                iss_error = 0
+                auto_error = "N/A"
+                iss_error = "N/A"
             else:
-                auto_error = round((abs(auto_total - manaul_total)/manaul_total)*10000)/100
-                iss_error = round((abs(iss_api_df.shape[0] - manaul_total)/manaul_total)*10000)/100
+                if auto_total == 0:
+                    auto_error = "N/A"
+                else:
+                    auto_error = round((abs(auto_total - manaul_total)/manaul_total)*10000)/100
+                if iss_api_df.shape[0] == 0:
+                    iss_error = "N/A"
+                else:
+                    iss_error = round((abs(iss_api_df.shape[0] - manaul_total)/manaul_total)*10000)/100
             results_dict["auto_error"].append(auto_error)
             results_dict["iss_error"].append(iss_error)
         
         df = pd.DataFrame(results_dict)
-        styled_df = df.style.background_gradient(subset=['auto_error', 'iss_error'], cmap='BuGn').set_properties(**{'height': '30px'})
+
+        # Keep original columns so we can highlight "N/A" values
+        orig_df = df.copy()
+
+        # Make a numeric copy of the error columns for background_gradient (coerce "N/A" -> NaN)
+        df_numeric = df.copy()
+        df_numeric['auto_error'] = pd.to_numeric(df_numeric['auto_error'], errors='coerce')
+        df_numeric['iss_error'] = pd.to_numeric(df_numeric['iss_error'], errors='coerce')
+
+        # Create a function to highlight N/A values in yellow using the original DataFrame
+        def highlight_na_col(col):
+            col_name = col.name
+            return ['background-color: yellow' if orig_df.at[i, col_name] == "N/A" else '' for i in col.index]
+        
+        def color_gradient(val):
+            try:
+                f = float(val)
+            except Exception:
+                return ''
+            if np.isnan(f):
+                return ''
+
+            threshold = 20.0
+            max_val = 100.0
+
+            if f <= threshold:
+                # 0 .. threshold : green -> yellow
+                ratio = f / threshold  # 0..1
+                red = int(round(255 * ratio))
+                green = 255
+            else:
+                # threshold .. max_val : yellow -> red
+                ratio = min((f - threshold) / (max_val - threshold), 1.0)  # 0..1
+                red = 255
+                green = int(round(255 * (1 - ratio)))
+
+                # values above max_val -> darker red
+                if f > max_val:
+                    extra = min((f - max_val) / max_val, 1.0)
+                    factor = 1.0 - 0.5 * extra
+                    red = int(round(red * factor))
+                    green = int(round(green * factor))
+
+            # clamp and format as hex (openpyxl/pandas expects hex colors)
+            red = max(0, min(255, red))
+            green = max(0, min(255, green))
+            hex_color = f'#{red:02x}{green:02x}00'
+            return f'background-color: {hex_color};'
+
+        # Apply custom gradient (hex colors) and keep N/A highlighting
+        styled_df = (
+            df_numeric.style
+                .applymap(color_gradient, subset=['auto_error', 'iss_error'])
+                .apply(highlight_na_col, subset=['auto_error', 'iss_error'])
+                .set_properties(**{'height': '30px', "width": "100px"})
+        )
+
         # create temp file
         with tempfile.NamedTemporaryFile(suffix='.xlsx', delete=False) as tmp:
             # Save styled DataFrame to Excel
@@ -1007,5 +1070,5 @@ def get_all_available_results_excel(request):
         return response
 
     else:
-        return JsonResponse({"error": "Method Not Allowed"}, status=405) 
-    
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)
+
