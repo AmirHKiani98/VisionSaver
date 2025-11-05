@@ -130,6 +130,8 @@ def get_record_schedule(request):
             in_process=('in_process', 'first'),
             done=('done', 'first'),
             token=('token', 'first'),
+            record_min_id=("id", lambda x :min(list(x))),
+            record_max_id=("id", lambda x: max(list(x))),
             intersection=('intersection', lambda x: sorted(list(set(x))) if not pd.isnull(x).all() else []),
             finished_detecting_all=('finished_detecting', lambda x: all(x) if len(x) > 0 else False),
             records_id=('id', lambda x: sorted(list(x)))

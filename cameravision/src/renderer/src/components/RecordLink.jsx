@@ -242,28 +242,32 @@ const RecordLink = (props) => {
             aria-disabled={!props.done}
           >
             <ListItemButton className="flex flex-row gap-10" disabled={!props.done}>
-              <div className="flex flex-col">
-                <Typography className="text-white">Start at:</Typography>
-                <Typography className="text-gray-400">{formatDateTime(props.startTime)}</Typography>
+              <div className="flex !flex-col !justify-between !h-full">
+                <Typography className="text-white !h-full">Start at:</Typography>
+                <Typography className="text-gray-400 !text-sm">{formatDateTime(props.startTime)}</Typography>
               </div>
-              <div className="flex flex-col">
+              <div className="flex flex-col !justify-between !h-full">
                 <Typography className="text-white">Duration</Typography>
-                <Typography className="text-gray-400">{props.duration}</Typography>
+                <Typography className="text-gray-400 !text-sm">{props.duration}</Typography>
               </div>
-              <div className="flex flex-col">
+              <div className="flex flex-col !justify-between !h-full">
+                <Typography className="text-white">Record Min - Max</Typography>
+                <Typography className="text-gray-400 !text-sm">{props.recordMinId} - {props.recordMaxId}</Typography>
+              </div>
+              <div className="flex flex-col !justify-between !h-full">
                 {(
                   <>
                     <Typography className="text-white">Ip</Typography>
-                    <Typography className="text-gray-400">{props.ip}</Typography>
+                    <Typography className="text-gray-400 !text-sm">{props.ip}</Typography>
                   </>
                 )}
               </div>
             </ListItemButton>
           </Link>
-              </Tooltip>
+        </Tooltip>
 
-        </ListItem>
-      </ContextMenu>
+    </ListItem>
+  </ContextMenu>
   )
 }
 

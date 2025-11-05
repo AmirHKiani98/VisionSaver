@@ -222,6 +222,8 @@ function App() {
               cameraUrl: record.camera_url || record.cameraUrl, // Ensure cameraUrl is set correctly
               startTime: record.start_time || record.startTime,
               inProcess: record.in_process || record.inProcess,
+              recordMinId: record.record_min_id || record.recordMinId,
+              recordMaxId: record.record_max_id || record.recordMaxId,
               finishedDetectingAll: record.finished_detecting_all || record.finishedDetectingAll,
               ip: record.ip || [], // Bad naming. It should have been ips
               recordsId: record.records_id || [], // Ensure recordsId is set correctly
@@ -611,7 +613,7 @@ function App() {
             </Tooltip>
           </div>
           <div className="flex-col md:flex md:flex-row w-full gap-10">
-            <div className="flex flex-col w-full lg:w-1/2 gap-5">
+            <div className="flex flex-col w-full lg:w-2/3 gap-5">
               <form
                 id="camera-stream-form"
                 className="flex flex-col justify-between w-full"
@@ -826,6 +828,8 @@ function App() {
                           onRemove={() => onRemoveRecord(record.token)}
                           inProcess={record.inProcess}
                           recordsId={record.recordsId}
+                          recordMinId={record.recordMinId}
+                          recordMaxId={record.recordMaxId}
                           done={record.done}
                           ip={record.ip}
                           modalHandler={recordLinkEditModalHandler}
@@ -865,7 +869,7 @@ function App() {
                 />
               </div>
             </div>
-            <div className="w-full lg:w-1/2 min-h-full overflow-auto">              {visions && visions.length > 0 ? (
+            <div className="w-full lg:w-1/3 min-h-full overflow-auto">              {visions && visions.length > 0 ? (
                 <VisionContainer>
                   {visions.map((visionProps, idx) => (
                     <Vision img key={visionProps.id} {...visionProps} />
