@@ -13,7 +13,7 @@ from asgiref.sync import async_to_sync
 import numpy as np
 from ai.models import AutoDetection, AutoDetectionCheckpoint, DetectionProcess, ModifiedAutoDetection
 import traceback
-from api.utils import get_counter_auto_detection_results, get_counter_manual_results, get_movement_index, get_iss_detections_pandas
+from api.utils import get_counter_auto_detection_results, get_counter_manual_results, get_movement_index, get_iss_detections_pandas, get_results_comparison_df
 import cv2
 import base64
 from django.http import FileResponse
@@ -963,7 +963,7 @@ def get_all_available_results_excel(request):
         for index, record in enumerate(records):
             record_id = record.id
             
-            
+            (manual_counts, manaul_total), (auto_counts, auto_total), (iss_api_df, iss_total) = get_results_comparison_df(record_id, version, divide_time)
             async_to_sync(channel_layer.group_send)(
                 group_name,
                 {
@@ -973,7 +973,7 @@ def get_all_available_results_excel(request):
             )
             if index%10 == 0:
                 time.sleep(2)
-        
+            
             if isinstance(auto_counts, bool) and not auto_counts:
                 auto_total = 0
             if isinstance(manual_counts, bool) and not manual_counts:
