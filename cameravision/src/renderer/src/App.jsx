@@ -554,7 +554,7 @@ function App() {
         <div className="text-white flex flex-col w-full items-center gap-2">
           <div className="flex flex-row justify-between items-center w-full mb-2.5">
             <div className="flex flex-row gap-2.5 items-center">
-              <Tooltip title="Download database" placement="bottom"
+              <Tooltip title="Download all the results" placement="bottom"
                 slotProps={{
                   popper: {
                     modifiers: [
@@ -568,16 +568,16 @@ function App() {
                   }
                 }}
               >
-                <Button variant="contained" className='bg-main-400 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700' onClick={downloadDB}>
+                <Button variant="contained" className='bg-main-400 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700' onClick={()=>{setIsGetAllAvailableResultsExcelOpen(true)}}>
                   <FontAwesomeIcon icon={faDownload} />
                 </Button>
               </Tooltip>
-              <Tooltip title="Download all the results" placement="right" >
+              {/* <Tooltip title="Download all the results" placement="right" >
                 <Button variant="contained" className='bg-main-400 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700' onClick={()=>{setIsGetAllAvailableResultsExcelOpen(true)}}>
                   <BrowserUpdated />
                 </Button>
 
-              </Tooltip>
+              </Tooltip> */}
             </div>
             <Typography className="text-white text-2xl font-bold">
               CameraVision

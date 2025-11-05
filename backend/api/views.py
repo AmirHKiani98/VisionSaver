@@ -963,9 +963,7 @@ def get_all_available_results_excel(request):
         for index, record in enumerate(records):
             record_id = record.id
             
-            manual_counts, manaul_total = get_counter_manual_results(record_id)
-            auto_counts, auto_total = get_counter_auto_detection_results(record_id, version, divide_time)
-            print(index)
+            
             async_to_sync(channel_layer.group_send)(
                 group_name,
                 {
@@ -975,7 +973,7 @@ def get_all_available_results_excel(request):
             )
             if index%10 == 0:
                 time.sleep(2)
-            iss_api_df, iss_total = get_iss_detections_pandas(record_id, 0, 0)
+        
             if isinstance(auto_counts, bool) and not auto_counts:
                 auto_total = 0
             if isinstance(manual_counts, bool) and not manual_counts:

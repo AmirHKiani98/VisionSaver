@@ -45,6 +45,8 @@ def get_counter_auto_detection_results(record_id, version, divide_time, min_time
         }
         results = defaultdict(dict)
         df = pd.read_csv(counts_file)
+        if max_time == 0:
+            max_time = float("inf")
         df = df[(df['time'] >= min_time) & (df['time'] <= max_time)]
         THRESHOLD = 0.5
         df = df[df["confidence"] >= THRESHOLD]
@@ -87,6 +89,8 @@ def get_counter_manual_results(record_id,min_time=0, max_time=0):
     df = pd.DataFrame(list(record_logs.values('time', 'turn_movement')), columns=['time', 'turn_movement'])
     
     # print("times", df["time"])
+    if max_time == 0:
+        max_time = float("inf")
     df = df[(df["time"] >= min_time) & (df["time"] <= max_time)]
 
     df = df.sort_values(["time"])
@@ -101,7 +105,6 @@ def get_counter_manual_results(record_id,min_time=0, max_time=0):
             results[turn_movement][time] += 1
             total += 1
 
-
     results = {key: dict(sorted(value.items(), key=lambda item: item[0])) for key, value in results.items()}
     return results, total
 
@@ -113,7 +116,7 @@ def get_iss_detections_json(record_id, min_time=0, max_time=0):
     """
     record = Record.objects.filter(id=record_id).first()
     if not record:
-        return False, 0
+        return False
     ip = get_ip_from_rtsp(record.camera_url)
     record_start_time = record.start_time
     record_start_time = record_start_time + timedelta(seconds=min_time)
@@ -136,9 +139,11 @@ def get_iss_detections_pandas(record_id, min_time=0, max_time=0):
     Get the detections from this class using get_detections_json but format it into a pandas dataframe
     """
     data_json = get_iss_detections_json(record_id, min_time, max_time)
+
     if data_json is None:
         return pd.DataFrame(), 0
     pandas_df = pd.DataFrame(data_json)
+    
     if pandas_df.empty:
         return pandas_df, 0
     pandas_df["direction"] = pandas_df["direction"].apply(
@@ -147,3 +152,9 @@ def get_iss_detections_pandas(record_id, min_time=0, max_time=0):
     pandas_df = pandas_df[~pandas_df["zoneName"].str.contains("ADV")]
     total = pandas_df.shape[0]
     return pandas_df, total
+
+def get_results_comparison_df(record_id, version, divide_time, min_time=0, max_time=0):
+    manual_counts, manaul_total = get_counter_manual_results(record_id, min_time=min_time, max_time=max_time)
+    auto_counts, auto_total = get_counter_auto_detection_results(record_id, version, divide_time, min_time=min_time, max_time=max_time)
+    iss_api_df, iss_total = get_iss_detections_pandas(record_id, min_time, max_time)
+    return (manual_counts, manaul_total), (auto_counts, auto_total), (iss_api_df, iss_total)
