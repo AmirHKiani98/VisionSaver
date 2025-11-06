@@ -140,10 +140,13 @@ if (is.dev) {
   }
 }
 
-console.log('Apache config path:', httpdConfPath)
-console.log('Apache config exists:', fs.existsSync(httpdConfPath))
-console.log('Apache root:', apacheRoot)
-console.log('Media path:', mediaPath)
+function ensureApacheLogsDir() {
+  const logsDir = path.join(apacheRoot, 'logs')
+  if (!fs.existsSync(logsDir)) {
+    fs.mkdirSync(logsDir)
+    console.log('✅ Created Apache logs directory at', logsDir)
+  }
+}
 
 // Function to update Apache configuration
 function updateApacheConfig() {
@@ -185,6 +188,7 @@ ProxyPassReverse /api/ http://${backendDomain}:${backendPort}/api/
 }
 
 try {
+  ensureApacheLogsDir()
   updateApacheConfig()
 } catch (e) {
   console.error('❌ updateApacheConfig failed:', e)
@@ -206,8 +210,6 @@ if (is.dev) {
   apacheExe = possiblePaths.find(p => fs.existsSync(p)) || possiblePaths[0]
 }
 
-console.log('Apache executable path:', apacheExe)
-console.log('Apache executable exists:', fs.existsSync(apacheExe))
 
 function startApache() {
   if (apacheProcess && !apacheProcess.killed) return

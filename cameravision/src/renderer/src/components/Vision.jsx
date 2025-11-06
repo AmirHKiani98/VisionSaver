@@ -91,7 +91,8 @@ const Vision = (props) => {
                     const videoEl = e.target
                     const error = videoEl.error
                     if (error && error.code === 4) {
-                      setSrc(src + '/?mp4=true')
+                      // replace mp4 with mkv in src
+                      setSrc(src.replace('mp4', 'mkv'))
                     } else {
                       setLoading(false)
                       setError(true)

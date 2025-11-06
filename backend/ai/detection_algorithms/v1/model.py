@@ -11,7 +11,7 @@ def detect(frame):
     import torch  # Import here to avoid global import issues
 
     # Preprocess the frame
-    res = model.track(frame, verbose=False)[0]
+    res = model.track(frame, verbose=False, device=0)[0]
     # Process detection results
     try:
         # Check if CUDA is available and use it if possible, otherwise use CPU

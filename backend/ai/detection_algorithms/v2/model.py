@@ -5,6 +5,8 @@ from ai.detection_algorithms.v2.deepsort.nn_matching import NearestNeighborDista
 import numpy as np
 import sys
 import os
+import torch
+GPU_AVAILABLE = torch.cuda.is_available()
 
 # Suppress YOLO output
 class SuppressOutput:
@@ -24,6 +26,9 @@ class SuppressOutput:
 # Load model with suppressed output
 with SuppressOutput():
     model = YOLO("yolov8n.pt")
+    if GPU_AVAILABLE:
+        model.to('cuda')
+        print("Using GPU for YOLOv8 inference.")
     
 # Create a unit dummy feature vector instead of all zeros
 # This avoids division by zero in cosine distance calculation
@@ -64,7 +69,10 @@ def detect(frame):
 
     # YOLO detections with suppressed output
     with SuppressOutput():
-        r = model(frame, verbose=False)[0]
+        if GPU_AVAILABLE:
+            r = model(frame, verbose=False, device=0)[0]
+        else:
+            r = model(frame, verbose=False)[0]
         
     detections = []
     if r.boxes is not None and len(r.boxes) > 0:
