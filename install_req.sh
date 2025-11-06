@@ -4,12 +4,12 @@
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Create and activate virtual environment
-python -m venv "$SCRIPT_DIR/venv"
+python -m venv "$SCRIPT_DIR/.venv"
 
 if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
-    source "$SCRIPT_DIR/venv/Scripts/activate"
+    source "$SCRIPT_DIR/.venv/Scripts/activate"
 else
-    source "$SCRIPT_DIR/venv/bin/activate"
+    source "$SCRIPT_DIR/.venv/bin/activate"
 fi
 
 # Install requirements
@@ -27,6 +27,6 @@ fi
 # Install frontend packages
 cd "$SCRIPT_DIR/cameravision" || exit
 echo "Installing frontend packages..."
-npm install
+npm install --ignore-scripts
 
 echo "Installation completed successfully!"
