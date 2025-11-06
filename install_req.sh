@@ -19,7 +19,7 @@ pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cu12
 # Install frontend packages
 cd "$SCRIPT_DIR/cameravision" || exit
 echo "Installing frontend packages..."
-export ELECTRON_SKIP_BINARY_DOWNLOAD=1
+
 npm install
 
 echo "Installation completed successfully!"
