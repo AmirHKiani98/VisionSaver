@@ -14,6 +14,8 @@ import dotenv
 from django.utils import timezone
 from ai.car import Car
 import numpy as np
+import torch
+GPU_AVAILABLE = torch.cuda.is_available()
 dotenv.load_dotenv(settings.ENV_PATH)
 logger = settings.APP_LOGGER
 class DetectionAlgorithm:
@@ -29,7 +31,9 @@ class DetectionAlgorithm:
         self.divide_time = divide_time
         self.detection_lines = lines
         self.debug = debug
-        
+        self.device = 0 if GPU_AVAILABLE else 'cpu'
+
+
         self.file_name = f"{settings.MEDIA_ROOT}/{record_id}_{divide_time}_{version}.csv"
         self.detection_time = detection_time
         self.cars = {}
@@ -150,7 +154,7 @@ class DetectionAlgorithm:
         time = self.video.get(cv2.CAP_PROP_POS_MSEC) / 1000.0
         
         # Get detections from current frame
-        current_results = self.detect(frame)
+        current_results = self.detect(frame, device=self.device)
         
         # Make a copy for tracking
         raw_current_results = deepcopy(current_results)

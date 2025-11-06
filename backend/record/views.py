@@ -110,6 +110,7 @@ def get_records_url(request, token):
         for record_id, record_path in records_path.items():
             
             if not os.path.exists(record_path):
+                logger.warning(f"Recorded file does not exist: {record_path}")
                 continue
             domain = os.getenv('BACKEND_SERVER_DOMAIN')
             apache_port = os.getenv('APACHE_PORT', None)

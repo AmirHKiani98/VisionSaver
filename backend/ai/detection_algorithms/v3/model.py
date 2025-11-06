@@ -64,7 +64,7 @@ global_id_map = {}          # {track.track_id: global_id}
 next_global_id = 1
 VEHICLE_CLASS_IDS = {2, 3, 5, 7}
 CONFIDENCE_THRESHOLD = 0.5
-def detect(frame, device='cpu'):
+def detect(frame, device=0):
     global next_global_id
 
     # YOLO detections with suppressed output
