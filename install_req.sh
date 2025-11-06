@@ -14,20 +14,12 @@ fi
 
 # Install requirements
 pip install -r "$SCRIPT_DIR/requirements.txt"
-
-# Check if NVIDIA GPU is available
-if command -v nvidia-smi &> /dev/null; then
-    echo "GPU detected. Installing PyTorch with CUDA support..."
-    pip uninstall torch torchvision -y
-    pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cu126
-else
-    echo "No GPU detected. Skipping PyTorch GPU installation."
-fi
+pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cu126
 
 # Install frontend packages
 cd "$SCRIPT_DIR/cameravision" || exit
 echo "Installing frontend packages..."
 export ELECTRON_SKIP_BINARY_DOWNLOAD=1
-npm install --no-optional
+npm install
 
 echo "Installation completed successfully!"
