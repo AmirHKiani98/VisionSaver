@@ -6,8 +6,28 @@ import numpy as np
 import sys
 import os
 import torch
-GPU_AVAILABLE = torch.cuda.is_available()
-print("GPU availability:", GPU_AVAILABLE)
+
+# Try CUDA first (NVIDIA)
+if torch.cuda.is_available():
+    DEVICE = torch.device("cuda")
+    GPU_BACKEND = "cuda"
+
+# Try DirectML (AMD, Intel) if available
+elif torch.backends.mps.is_available():  # macOS Metal backend
+    DEVICE = torch.device("mps")
+    GPU_BACKEND = "mps"
+
+else:
+    try:
+        import torch_directml # type: ignore
+        DEVICE = torch_directml.device()
+        GPU_BACKEND = "directml"
+    except ImportError:
+        DEVICE = torch.device("cpu")
+        GPU_BACKEND = "cpu"
+
+print(f"Selected backend: {GPU_BACKEND}")
+GPU_AVAILABLE = GPU_BACKEND != "cpu"
 # Suppress YOLO output
 class SuppressOutput:
     def __enter__(self):
@@ -26,9 +46,11 @@ class SuppressOutput:
 # Load model with suppressed output
 with SuppressOutput():
     model = YOLO("yolov8n.pt")
-    if GPU_AVAILABLE:
-        model.to('cuda')
-        print("Using GPU for YOLOv8 inference.")
+    if GPU_AVAILABLE and GPU_BACKEND in {"cuda", "mps"}:
+        model.to(DEVICE)
+    elif GPU_BACKEND == "directml":
+        # DirectML requires running the model directly on that device handle
+        model.to(DEVICE)
     
 # Create a unit dummy feature vector instead of all zeros
 # This avoids division by zero in cosine distance calculation

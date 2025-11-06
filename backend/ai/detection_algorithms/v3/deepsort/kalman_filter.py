@@ -1,8 +1,8 @@
 # vim: expandtab:ts=4:sw=4
-import numpy as np
-import scipy.linalg
 import torch
-DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+from ai.device_picker import pick_backend
+_backend = pick_backend()
+DEVICE = torch.device('cuda') if _backend == 'cuda' else torch.device('cpu')
 
 """
 Table for the 0.95 quantile of the chi-square distribution with N degrees of

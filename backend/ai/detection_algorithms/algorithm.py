@@ -15,7 +15,12 @@ from django.utils import timezone
 from ai.car import Car
 import numpy as np
 import torch
-GPU_AVAILABLE = torch.cuda.is_available()
+from ai.device_picker import pick_backend, gpu_summary_string
+
+backend = pick_backend()        # 'cuda' | 'dml' | 'cpu'
+print("GPU:", gpu_summary_string())
+print("Selected backend:", backend)
+
 dotenv.load_dotenv(settings.ENV_PATH)
 logger = settings.APP_LOGGER
 class DetectionAlgorithm:
@@ -31,7 +36,7 @@ class DetectionAlgorithm:
         self.divide_time = divide_time
         self.detection_lines = lines
         self.debug = debug
-        self.device = 0 if GPU_AVAILABLE else 'cpu'
+        self.device = 0 if backend=="cuda" else backend
 
 
         self.file_name = f"{settings.MEDIA_ROOT}/{record_id}_{divide_time}_{version}.csv"

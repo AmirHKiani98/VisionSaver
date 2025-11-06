@@ -1,10 +1,10 @@
 # vim: expandtab:ts=4:sw=4
 from __future__ import absolute_import
 import numpy as np
-from . import linear_assignment
 import torch
-DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
+from ai.device_picker import pick_backend
+_backend = pick_backend()
+DEVICE = torch.device('cuda') if _backend == 'cuda' else torch.device('cpu')
 def iou(bbox, candidates):
     """Computer intersection over union.
 

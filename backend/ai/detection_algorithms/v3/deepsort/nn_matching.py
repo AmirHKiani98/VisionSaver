@@ -1,9 +1,10 @@
 # nn_matching.py (GPU-enabled distances, no CuPy)
 # vim: expandtab:ts=4:sw=4
-import numpy as np
 import torch
 
-DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+from ai.device_picker import pick_backend
+_backend = pick_backend()
+DEVICE = torch.device('cuda') if _backend == 'cuda' else torch.device('cpu')
 
 def _pdist(a, b):
     """Pair-wise squared distances on GPU (torch)."""
