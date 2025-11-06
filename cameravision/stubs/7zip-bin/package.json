@@ -1,0 +1,6 @@
+{
+  "name": "7zip-bin",
+  "version": "0.0.0-stub",
+  "description": "Local stub to avoid downloading 7za.exe",
+  "main": "index.js"
+}
