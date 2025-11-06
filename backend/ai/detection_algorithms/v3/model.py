@@ -7,7 +7,7 @@ import sys
 import os
 import torch
 GPU_AVAILABLE = torch.cuda.is_available()
-
+print("GPU availability:", GPU_AVAILABLE)
 # Suppress YOLO output
 class SuppressOutput:
     def __enter__(self):

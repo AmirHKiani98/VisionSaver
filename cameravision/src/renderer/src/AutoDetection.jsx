@@ -1073,6 +1073,11 @@ const AutoDetection = () => {
                                             v2
                                         </Typography>
                                     </MenuItem>
+                                    <MenuItem value="v3">
+                                        <Typography variant="body1" color="textPrimary">
+                                            v3
+                                        </Typography>
+                                    </MenuItem>
                                 </Select>
                             </FormControl>
                             <TextField

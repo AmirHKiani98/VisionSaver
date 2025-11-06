@@ -136,7 +136,7 @@ def run_car_detection(request):
 
 
         # Send initial progress update to confirm WebSocket is working
-        logger.info(f"Starting car detection for record {record_id} with divide_time {divide_time}")
+        logger.info(f"Starting car detection for record {record_id} with divide_time {divide_time} with version {version}")
         detection_lines = DetectionLines.objects.filter(record=record)
         if not detection_lines.exists():
             return JsonResponse({'error': 'No detection lines found for this record. Please add lines before running detection.'}, status=400)
