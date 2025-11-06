@@ -705,6 +705,7 @@ const AutoDetection = () => {
                         <Video
                         ref={videoRef}
                         src={videoSrc}
+                        setSrc={setVideoSrc}
                         setLoading={setVideoReady}
                         onTimeUpdate={handleTimeUpdate}
                         onLoadedMetadata={handleLoadedMetadata}

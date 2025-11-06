@@ -1,6 +1,17 @@
 {
   "name": "7zip-bin",
-  "version": "0.0.0-stub",
-  "description": "Local stub to avoid downloading 7za.exe",
-  "main": "index.js"
+  "description": "7-Zip precompiled binaries",
+  "version": "5.2.0",
+  "files": [
+    "*.js",
+    "7x.sh",
+    "index.d.ts"
+  ],
+  "license": "MIT",
+  "repository": "develar/7zip-bin",
+  "keywords": [
+    "7zip",
+    "7z",
+    "7za"
+  ]
 }

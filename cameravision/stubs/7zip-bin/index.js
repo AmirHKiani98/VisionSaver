@@ -1,10 +1,7 @@
-// Minimal safe API: return null paths so consumers can handle absence.
-module.exports = {
-  path7za: null,
-  path7z: null,
-  path: () => null,
-  getPath: () => null,
-  platform: process.platform,
-  // helper for backwards compatibility
-  get7zipPath: () => null
-};
+const path = require("path")
+
+function getPath() {
+    return "7za"
+}
+exports.path7za = getPath()
+exports.path7x = path.join(__dirname, "7x.sh")

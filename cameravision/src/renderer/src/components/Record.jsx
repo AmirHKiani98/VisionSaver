@@ -247,6 +247,7 @@ const Record = forwardRef((props, ref) => {
             <Video
                 ref={videoRef}
                 src={src}
+                setSrc={setSrc}
                 setError={setError}
                 setLoading={setLoading}
                 canvas={props.canvas}
@@ -255,7 +256,8 @@ const Record = forwardRef((props, ref) => {
                   const videoEl = e.target
                   const error = videoEl.error
                   if (error && error.code === 4) {
-                    setSrc(src + '/?mp4=true')
+                    console.warn('Video format not supported, trying fallback mp4=false', src)
+                    setSrc(src.replace('mp4', 'mkv'))
                   } else {
                     setLoading(false)
                     setError(true)

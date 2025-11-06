@@ -3,6 +3,7 @@ import React, { useRef } from 'react';
 const Video = React.forwardRef((props, ref) => {
     const {
         src,
+        setSrc,
         setLoading,
         setError,
         ...rest
@@ -19,6 +20,12 @@ const Video = React.forwardRef((props, ref) => {
                 const videoEl = e.target;
                 const errorObj = videoEl.error;
                 if (errorObj && errorObj.code === 4) {
+                    // Check if setSrc exists before calling it
+                    if (typeof setSrc === 'function') {
+                        setSrc(src.replace('mp4', 'mkv'));
+                    } else {
+                        console.warn('setSrc prop is not provided to Video component');
+                    }
                     // setSrc(src + '/?mp4=true'); // Only if you have setSrc in scope
                 } else {
                     setLoading && setLoading(false);
