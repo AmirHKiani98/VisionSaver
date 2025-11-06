@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Export environment variable to skip Electron binary download
+
 # Activate virtual environment
 source .venv/Scripts/activate
 

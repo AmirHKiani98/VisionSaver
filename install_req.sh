@@ -27,6 +27,7 @@ fi
 # Install frontend packages
 cd "$SCRIPT_DIR/cameravision" || exit
 echo "Installing frontend packages..."
-npm install --ignore-scripts
+export ELECTRON_SKIP_BINARY_DOWNLOAD=1
+npm install --no-optional
 
 echo "Installation completed successfully!"

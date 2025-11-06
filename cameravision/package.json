@@ -116,5 +116,8 @@
     "linux": {
       "target": "AppImage"
     }
+  },
+  "overrides": {
+    "7zip-bin": "file:./stubs/7zip-bin"
   }
 }
