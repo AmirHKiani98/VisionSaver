@@ -2,7 +2,7 @@ from ultralytics import YOLO
 from ai.detection_algorithms.v2.deepsort.tracker import Tracker
 from ai.detection_algorithms.v2.deepsort.detection import Detection
 from ai.detection_algorithms.v2.deepsort.nn_matching import NearestNeighborDistanceMetric
-import cupy as np
+import numpy as np
 import sys
 import os
 import torch

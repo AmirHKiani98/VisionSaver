@@ -51,7 +51,7 @@ class DetectionAlgorithm:
         self.df = pd.DataFrame()
         self.detect = self._import_detect()
         self.last_detection = None
-        self.modifier = self._import_modifier()
+        # self.modifier = self._import_modifier()
         self.counter = self._import_counter()
         self.frame = None
     

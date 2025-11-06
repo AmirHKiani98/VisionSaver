@@ -23,6 +23,7 @@ class AiAppTestCase(TestCase):
         self.record_id = 90
         self.divide_time = 0.05
         self.video_time = 275 # in seconds. There is a white SUV car going left to right at that time
+        self.version = "v3"
         # Load the video
         self.video_path = f"{settings.MEDIA_ROOT}/{self.record_id}.mp4"
         self.video_capture = cv2.VideoCapture(self.video_path)
@@ -211,8 +212,8 @@ class AiAppTestCase(TestCase):
         detection_lines = DetectionLines.objects.filter(record_id=self.record_id).first()
         if not detection_lines:
             raise ValueError(f"No detection lines found for record ID {self.record_id}")
-        
-        detection_algorithm = DetectionAlgorithm(record_id=self.record_id, divide_time=self.divide_time, version='v2', lines=detection_lines, detection_time=self.video_time, debug=False)
+
+        detection_algorithm = DetectionAlgorithm(record_id=self.record_id, divide_time=self.divide_time, version=self.version, lines=detection_lines, detection_time=self.video_time, debug=False)
         print(len(detection_algorithm.zones["through"])) # type: ignore
         while True:
             results, cars_removed = detection_algorithm.read()
@@ -247,7 +248,7 @@ class AiAppTestCase(TestCase):
         if not detection_lines:
             raise ValueError(f"No detection lines found for record ID {self.record_id}")
         
-        detection_algorithm = DetectionAlgorithm(record_id=self.record_id, divide_time=self.divide_time, version='v2', lines=detection_lines)
+        detection_algorithm = DetectionAlgorithm(record_id=self.record_id, divide_time=self.divide_time, version=self.version, lines=detection_lines)
         results, cars_removed = detection_algorithm.read()
         while True:
             if len(cars_removed) > 0:
