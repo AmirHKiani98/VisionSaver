@@ -57,8 +57,10 @@ def get_counter_auto_detection_results(record_id, version, divide_time, min_time
             detected = group[group["in_area"]]
             unique_line_indexes = detected["line_index"].unique().tolist()
             for line_index in unique_line_indexes:
-                nu_zone_detected = detected[detected["line_index"] == line_index]["zone_index"].nunique()
-                if nu_zone_detected == lines_map_length.get(line_index, 0):
+                zone_detected = detected[detected["line_index"] == line_index]["zone_index"].unique()
+                if len(zone_detected) == lines_map_length.get(line_index, 0) and list(zone_detected) == sorted(zone_detected):
+                    # Check the sort of the nu_zone_detected too
+                    # e.g. [2, 1, 3] is not accetable. Only [1,2,3]
                     time = detected[detected["line_index"] == line_index]["time"].max()
                     if time not in results[line_index]:
                         results[line_index][time] = [0, []]

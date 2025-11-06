@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Activate virtual environment
+source .venv/Scripts/activate
+
 # Navigate to the cameravision directory
 cd cameravision || exit
 
