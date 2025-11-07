@@ -19,6 +19,32 @@ def get_movement_index(movement):
         return 2
     return -1 
 
+def get_auto_detection_results_from_df(auto_df, min_time=0, max_time=0, lines_map_length=None):
+    results = defaultdict(dict)
+    auto_df = auto_df[(auto_df['time'] >= min_time) & (auto_df['time'] <= max_time)]
+    THRESHOLD = 0.5
+    auto_df = auto_df[auto_df["confidence"] >= THRESHOLD]
+    auto_df = auto_df.sort_values(["time", "track_id"])
+    groups = auto_df.groupby('track_id')
+    total = 0
+    for _, group in groups:
+        detected = group[group["in_area"]]
+        unique_line_indexes = detected["line_index"].unique().tolist()
+        for line_index in unique_line_indexes:
+            zone_detected = detected[detected["line_index"] == line_index]["zone_index"].unique()
+            if len(zone_detected) == lines_map_length.get(line_index, 0) and list(zone_detected) == sorted(zone_detected):
+                # Check the sort of the nu_zone_detected too
+                # e.g. [2, 1, 3] is not accetable. Only [1,2,3]
+                time = detected[detected["line_index"] == line_index]["time"].max()
+                if time not in results[line_index]:
+                    results[line_index][time] = [0, [], []]
+                results[line_index][time][0] += 1
+                total += 1
+                results[line_index][time][1].append(int(group["track_id"].iloc[0]))
+                results[line_index][time][2].append(group["cls_id"].iloc[0])
+    results = {key: dict(sorted(value.items(), key=lambda item: item[0])) for key, value in results.items()}
+    return results, total
+
 def get_counter_auto_detection_results(record_id, version, divide_time, min_time=0, max_time=0):
     """
     API endpoint to retrieve auto_detection counting results for a specific counter.
@@ -43,36 +69,16 @@ def get_counter_auto_detection_results(record_id, version, divide_time, min_time
         lines_map_length = {
             zone_name: len(list(filter(lambda x: x["tool"] == "zone", list_of_points))) for zone_name, list_of_points in lines.items()
         }
-        results = defaultdict(dict)
+        
         df = pd.read_csv(counts_file)
         if max_time == 0:
             max_time = float("inf")
-        df = df[(df['time'] >= min_time) & (df['time'] <= max_time)]
-        THRESHOLD = 0.5
-        df = df[df["confidence"] >= THRESHOLD]
-        df = df.sort_values(["time", "track_id"])
-        groups = df.groupby('track_id')
-        total = 0
-        for _, group in groups:
-            detected = group[group["in_area"]]
-            unique_line_indexes = detected["line_index"].unique().tolist()
-            for line_index in unique_line_indexes:
-                zone_detected = detected[detected["line_index"] == line_index]["zone_index"].unique()
-                if len(zone_detected) == lines_map_length.get(line_index, 0) and list(zone_detected) == sorted(zone_detected):
-                    # Check the sort of the nu_zone_detected too
-                    # e.g. [2, 1, 3] is not accetable. Only [1,2,3]
-                    time = detected[detected["line_index"] == line_index]["time"].max()
-                    if time not in results[line_index]:
-                        results[line_index][time] = [0, []]
-                    results[line_index][time][0] += 1
-                    total += 1
-                    results[line_index][time][1].append(int(group["track_id"].iloc[0]))
-        results = {key: dict(sorted(value.items(), key=lambda item: item[0])) for key, value in results.items()}
-        return results, total
+        return get_auto_detection_results_from_df(df, min_time, max_time, lines_map_length)
     except Exception as e:
         import traceback
         tb = traceback.format_exec()
         return False, 0
+
 
 def get_counter_manual_results(record_id,min_time=0, max_time=0):
     """
