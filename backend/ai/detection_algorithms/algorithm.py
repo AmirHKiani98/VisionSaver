@@ -43,10 +43,10 @@ class DetectionAlgorithm:
         self.detection_time = detection_time
         self.cars = {}
         if not os.path.exists(f"{settings.MEDIA_ROOT}/{self.record_id}.mp4"):
-            if not os.path.exists(f"{settings.MEDIA_ROOT}/{self.record_id}.avi"):
+            if not os.path.exists(f"{settings.MEDIA_ROOT}/{self.record_id}.mkv"):
                 raise FileNotFoundError(f"Video file for record ID {self.record_id} not found.")
             else:
-                self.video = cv2.VideoCapture(f"{settings.MEDIA_ROOT}/{self.record_id}.avi")
+                self.video = cv2.VideoCapture(f"{settings.MEDIA_ROOT}/{self.record_id}.mkv")
         else:
             self.video = cv2.VideoCapture(f"{settings.MEDIA_ROOT}/{self.record_id}.mp4")
         self.duration = self.video.get(cv2.CAP_PROP_FRAME_COUNT) / self.video.get(cv2.CAP_PROP_FPS)
