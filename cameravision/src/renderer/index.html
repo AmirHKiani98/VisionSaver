@@ -3,13 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <title>CamArchive</title>
+    <!-- Development-time CSP: allow local camera snapshots. Remove/lock down before production. -->
     <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self';
-          img-src 'self' data: blob: http://localhost:5051 http://localhost:2501;
-          connect-src 'self' ws: http://localhost:5051;
-          media-src 'self' blob: http://localhost:5051 http://localhost:54321;
-          style-src 'self' 'unsafe-inline';
-        ">
+        content="default-src 'self'; img-src 'self' data: blob: http://localhost:5051 http://localhost:2501 http://192.168.47.201 http:; connect-src 'self' ws: http://localhost:5051 http://192.168.47.201; media-src 'self' blob: http://localhost:5051 http://localhost:54321; style-src 'self' 'unsafe-inline';">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="Accept" content="video/webm">
     <link rel="stylesheet" href="./src/assets/output.css">

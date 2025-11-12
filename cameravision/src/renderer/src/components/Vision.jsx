@@ -6,7 +6,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlay, faStop } from '@fortawesome/free-solid-svg-icons'
 const Vision = (props) => {
   const [src, setSrc] = React.useState(props.src || '')
-
+  const [displayedSrc, setDisplayedSrc] = React.useState(props.src || '')
+  // props.ip is provided by the parent; local ip state not used
+  const snapshotIntervalRef = React.useRef(null)
+  const fetcherTimeoutRef = React.useRef(null)
+  const bufferRef = React.useRef([]) // holds preloaded Image objects
+  const firstFrameLoadedRef = React.useRef(false)
 
   React.useImperativeHandle(
     props.innerRef,
@@ -26,6 +31,135 @@ const Vision = (props) => {
     setError(false)
   }, [src])
   const videoRef = React.useRef(null)
+
+  // Poll snapshot endpoint every 50ms when requested
+  React.useEffect(() => {
+    if (!props.snapshot) return
+    if (!props.ip || !props.cameraId) return
+
+    // start polling with a preloader Image to get clearer errors and avoid
+    // rendering partial failed images. Use a small backoff when errors occur.
+    setLoading(true)
+    setError(false)
+
+  const fetchInterval = Number(props.fetchInterval) || Number(props.snapshotInterval) || 50
+  const displayInterval = Number(props.displayInterval) || 50
+  const bufferMax = Number(props.bufferSize) || 5
+  let fetchIntervalMs = fetchInterval
+    let consecutiveErrors = 0
+    let cancelled = false
+
+    const loadSnapshot = () => {
+      if (cancelled) return
+      // don't overfill the buffer
+      if (bufferRef.current.length >= bufferMax) return
+      const url = `http://${props.ip}/api/v1/cameras/${props.cameraId}/snapshot?t=${Date.now()}`
+
+      // Preload via Image element (avoids fetch/CORS issues) and push into buffer on load
+      const img = new window.Image()
+      img.decoding = 'async'
+      if (props.snapshotWithCredentials) {
+        img.crossOrigin = 'use-credentials'
+      } else {
+        img.crossOrigin = 'anonymous'
+      }
+
+      img.onload = () => {
+        if (cancelled) return
+        consecutiveErrors = 0
+        fetchIntervalMs = fetchInterval
+        // push into buffer (keep small FIFO)
+        bufferRef.current.push(img)
+        // if displayedSrc is empty (first frame), immediately display
+        if (!displayedSrc) {
+          const first = bufferRef.current.shift()
+          if (first) {
+            setDisplayedSrc(first.src)
+            setLoading(false)
+            setError(false)
+            firstFrameLoadedRef.current = true
+          }
+        }
+      }
+
+      img.onerror = (ev) => {
+        if (cancelled) return
+        consecutiveErrors += 1
+        setLoading(false)
+        setError(true)
+        console.warn(`Snapshot load error (#${consecutiveErrors})`, { url, ev })
+        // exponential backoff (capped)
+        fetchIntervalMs = Math.min(2000, fetchInterval * Math.pow(2, Math.min(consecutiveErrors, 6)))
+
+        // diagnostic fetch to surface status codes when possible
+        if (consecutiveErrors === 1) {
+          fetch(url, { method: 'GET', credentials: props.snapshotWithCredentials ? 'include' : 'omit' })
+            .then((res) => {
+              console.info('Snapshot diagnostic fetch response', res.status, res.statusText, res.headers)
+              return res.blob()
+            })
+            .then((blob) => console.info('Snapshot diagnostic fetch blob size', blob.size))
+            .catch((ferr) => console.warn('Snapshot diagnostic fetch failed (likely CORS/mixed-content):', ferr))
+        }
+      }
+
+      img.src = url
+    }
+
+
+    // start immediate load
+    loadSnapshot()
+
+    // fetcher: keep filling buffer
+    const startFetcher = () => {
+      if (cancelled) return
+      loadSnapshot()
+      fetcherTimeoutRef.current = setTimeout(startFetcher, fetchIntervalMs)
+    }
+    startFetcher()
+
+    // display loop: pull from buffer and display at a steady rate
+    let displayTimer = null
+    const startDisplayLoop = () => {
+      displayTimer = setInterval(() => {
+        if (cancelled) return
+        const nextImg = bufferRef.current.shift()
+        if (nextImg) {
+          setDisplayedSrc(nextImg.src)
+          setLoading(false)
+          setError(false)
+          firstFrameLoadedRef.current = true
+        } else {
+          // buffer empty -> if we have already shown a first frame, keep showing it
+          // otherwise show the loading indicator until the first frame arrives
+          if (!firstFrameLoadedRef.current) {
+            setLoading(true)
+          } else {
+            // keep loading false so the last displayed frame remains visible
+            setLoading(false)
+          }
+        }
+      }, displayInterval)
+    }
+    startDisplayLoop()
+
+    return () => {
+      cancelled = true
+      if (fetcherTimeoutRef.current) {
+        clearTimeout(fetcherTimeoutRef.current)
+        fetcherTimeoutRef.current = null
+      }
+      if (snapshotIntervalRef.current) {
+        clearTimeout(snapshotIntervalRef.current)
+        snapshotIntervalRef.current = null
+      }
+      if (displayTimer) {
+        clearInterval(displayTimer)
+      }
+      // clear buffer
+      bufferRef.current.length = 0
+    }
+  }, [props.snapshot, props.ip, props.cameraId])
 
   const handlePlayPause = () => {
     if (!videoRef.current) return
@@ -62,7 +196,20 @@ const Vision = (props) => {
               <div className="text-red-600 text-center p-2">Stream unavailable</div>
             </div>
           )}
-          {props.img ? (
+          {props.snapshot ? (
+            <img
+              className="w-full h-full"
+              id={props.id}
+              src={displayedSrc}
+              alt="Vision Snapshot"
+              style={{ display: loading || error || !displayedSrc ? 'none' : 'block' }}
+              onLoad={() => setLoading(false)}
+              onError={() => {
+                setLoading(false)
+                setError(true)
+              }}
+            />
+          ) : props.img ? (
             <img
               className="w-full h-full"
               id={props.id}

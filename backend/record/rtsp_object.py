@@ -12,7 +12,7 @@ from django.conf import settings
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 import re
-from django.utils import timezone
+
 from record.models import FFMPEGLog
 progress_re = re.compile(r'time=(\d{2}:\d{2}:\d{2}\.\d{2})')
 # ----------------------------------------------------------------------
@@ -162,7 +162,7 @@ class RTSPObject:
             logger.error(f"FFmpeg executable not found at: {ffmpeg_path}")
             logger.error(f"Path to BASE_DIR: {str(settings.BASE_DIR)}")
             logger.error(f"FFMPEG Env: {ffmpeg_env}")
-            raise FileNotFoundException(f"FFmpeg executable not found at: {ffmpeg_path}")
+            raise FileNotFoundError(f"FFmpeg executable not found at: {ffmpeg_path}")
         # Adjust output extension according to method
         abs_output_path = os.path.splitext(abs_output_path)[0] + ".mkv"
         # Copy method for simple public RTSP

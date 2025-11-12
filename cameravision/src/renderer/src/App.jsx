@@ -250,12 +250,14 @@ function App() {
   const addStream = (cameraUrl, id, index) => {
     setLoadingVideos(false);
     const streamUrl = `http://${env.STREAM_SERVER_DOMAIN}:${env.STREAM_SERVER_PORT}/${env.MJPEG_STREAM_URL}/?url=${cameraUrl}`
-
+    const parts = String(id).split('-')
+    const cameraId = parts[1] ?? parts[0] ?? ''
     const newVisionInfo = {
       src: streamUrl,
       ip: ip,
       cameraUrl: cameraUrl,
       id: `camera-${id}`,
+      cameraId: cameraId,
       onRemove: removeStreamHandler
     }
     setVisions((prev) => [...prev, newVisionInfo])
@@ -872,7 +874,7 @@ function App() {
             <div className="w-full lg:w-1/3 min-h-full overflow-auto">              {visions && visions.length > 0 ? (
                 <VisionContainer>
                   {visions.map((visionProps, idx) => (
-                    <Vision img key={visionProps.id} {...visionProps} />
+                    <Vision img key={visionProps.id} {...visionProps} snapshot />
                   ))}
                 </VisionContainer>
               ) : (
