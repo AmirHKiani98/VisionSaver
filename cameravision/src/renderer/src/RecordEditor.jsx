@@ -168,7 +168,8 @@ const RecordEditor = (props) => {
                 if (data.error) {
                     openNotification('error', data.error);
                 } else {
-                    setConfiguration(data.direction);
+                    // Ensure configuration is never set to null which breaks MUI Select
+                    setConfiguration(data.direction ?? 'none');
                 }
             })
             .catch(error => {
@@ -594,7 +595,8 @@ const RecordEditor = (props) => {
                                 <Select
                                     labelId="drawing-type-select-label"
                                     id="demo-simple-select"
-                                    value={configuration}
+                                    // coerce null/undefined to a safe value for MUI
+                                    value={configuration ?? 'none'}
                                     className='shadow-lg bg-main-400'
                                     sx={{
                                         color: 'primary.white'
