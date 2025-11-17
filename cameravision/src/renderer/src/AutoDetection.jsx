@@ -58,7 +58,7 @@ const AutoDetection = () => {
     const [showDetections, setShowDetections] = react.useState(false);
     const [detectionExists, setDetectionExists] = react.useState(false);
     const [accuracy, setAccuracy] = react.useState(0.05); // Default accuracy value
-    const [detectionVersion, setDetectionVersion] = react.useState('v2');
+    const [detectionVersion, setDetectionVersion] = react.useState('v3');
     const [showModifiedDetections, setShowModifiedDetections] = react.useState(false);
     const [modifiedDetectingExists, setModifiedDetectingExists] = react.useState(false);
     const [modifiedProgress, setModifiedProgress] = react.useState(0);
