@@ -15,7 +15,8 @@ const Video = React.forwardRef((props, ref) => {
             src={src}
             onLoadedMetadata={props.onLoadedMetadata}
             onTimeUpdate={props.onTimeUpdate}
-            onLoadedData={() => setLoading && setLoading(true)}
+                // Call parent's onLoadedData if provided; otherwise do nothing here.
+                onLoadedData={props.onLoadedData}
             onError={(e) => {
                 const videoEl = e.target;
                 const errorObj = videoEl.error;

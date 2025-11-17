@@ -223,8 +223,8 @@ const Vision = (props) => {
               }}
             />
           ) : props.video ? (
-            <div className="relative w-full h-full flex flex-col items-center justify-center">
-              <Link to={`/record?record_id=${props.id}&token=${props.token}`}>
+            <div className="relative w-full h-full flex flex-col items-center justify-center p-2.5">
+              <Link to={`/record?record_id=${props.id}&token=${props.token}`} className="shadow-lg rounded-lg overflow-hidden">
                 <video
                   className="w-full h-full object-contain"
                   id={props.id}
