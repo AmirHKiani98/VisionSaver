@@ -448,7 +448,10 @@ if (!is.dev) {
     persistent: true
   });
   watcher.on("change", path => {
-    // startDjango();
+    if (typeof path !== 'string') return;
+    const p = path.toLowerCase();
+    if (!p.endsWith('.py')) return;
+    startDjango();
     console.log("Restarted django for change in ", path)
   })
 

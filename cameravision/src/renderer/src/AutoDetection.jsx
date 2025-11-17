@@ -218,6 +218,7 @@ const AutoDetection = () => {
             console.error('No record ID provided in the URL');
             return;
         }
+
         fetch(`http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.AI_GET_LINES}`, {
             method: 'POST',
             headers: {
@@ -226,10 +227,12 @@ const AutoDetection = () => {
             body: JSON.stringify({ record_id: recordId, divide_time: 0.1 }),
         }).then(response => response.json())
         .then(data => {
+            console.log(data)
             if (data.error) {
                 console.error('Error fetching lines:', data.error);
             } else {
                 setCutZonesPoints(data.cut_zones);
+                
                 setLines(data.lines);
             }
         })
@@ -707,6 +710,7 @@ const AutoDetection = () => {
                         src={videoSrc}
                         setSrc={setVideoSrc}
                         setLoading={setVideoReady}
+                        onLoadedData={() => setVideoReady(true)}
                         onTimeUpdate={handleTimeUpdate}
                         onLoadedMetadata={handleLoadedMetadata}
                         style={{ pointerEvents: 'none', width: '100%', height: 'auto', display: 'block' }}
