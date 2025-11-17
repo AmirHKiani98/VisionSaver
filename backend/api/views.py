@@ -886,7 +886,9 @@ def get_frame_at_time(request):
             return JsonResponse({"error": "Record not found."}, status=404)
         video_path = os.path.join(settings.MEDIA_ROOT, f"{record_id}.mp4")
         if not os.path.exists(video_path):
-            return JsonResponse({"error": "Video file not found."}, status=404)
+            video_path = os.path.join(settings.MEDIA_ROOT, f"{record_id}.mkv")
+            if not os.path.exists(video_path):
+                return JsonResponse({"error": "Video file not found."}, status=404)
         
         # Use OpenCV to capture the frame at the specified time
         cap = cv2.VideoCapture(video_path)
@@ -920,7 +922,9 @@ def get_total_time(request):
                 return JsonResponse({"error": "Record not found."}, status=404)
             video_path = os.path.join(settings.MEDIA_ROOT, f"{record_id}.mp4")
             if not os.path.exists(video_path):
-                return JsonResponse({"error": "Video file not found."}, status=404)
+                video_path = os.path.join(settings.MEDIA_ROOT, f"{record_id}.mkv")
+                if not os.path.exists(video_path):
+                    return JsonResponse({"error": "Video file not found."}, status=404)
             
             # Use OpenCV to get the total duration of the video
             cap = cv2.VideoCapture(video_path)
