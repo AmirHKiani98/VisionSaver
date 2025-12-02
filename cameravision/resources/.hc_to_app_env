@@ -12,6 +12,8 @@ GET_RECORD_STATUS=record/get_record_status
 GET_RECORD_NOTES=record/get_record_notes
 SET_RECORD_FINISHED_STATUS=record/set_record_finished_status
 ADD_RECORD_NOTE_URL=record/add_record_note
+SET_RECORD_DIRECTION=record/set_record_direction
+GET_RECORD_DIRECTION=record/get_record_direction
 REMOVE_RECORD_LOG=record/remove_log
 APACHE_PORT=54321
 # API variables
@@ -31,6 +33,11 @@ API_MODIFIED_DETECTION_EXISTS=api/modified_detection_exists
 API_DELETE_DETECTION=api/delete_detection
 API_DELETE_MODIFIED_DETECTION=api/delete_modified_detection
 API_COUNTER_EXISTS=api/counter_exists
+API_IS_DETECTION_IN_PROCESS=api/is_detection_in_process
+API_GET_COUNTER_MANUAL_AUTO_RESULTS=api/get_counter_manual_auto_results
+API_GET_FRAME_AT_TIME=api/get_frame_at_time
+API_GET_DURATION_TIME=api/get_duration_time
+API_GET_ALL_AVAILABLE_RESULTS_EXCEL=api/get_all_available_results_excel
 # Celery variables
 CELERY_BROKER_DOMAIN=localhost
 CELERY_BROKER_PORT=6379
@@ -56,3 +63,15 @@ AI_START_DETECTING=ai/start_detecting
 AI_START_MODIFIER=ai/start_modifier
 AI_UPDATE_DETECTION_PROGRESS=ai/update_detection_progress
 AI_START_COUNTER=ai/start_counting
+AI_TERMINATE_DETECTION_PROCESS=ai/terminate_detection_process
+AI_DETECTION_EXISTS=ai/detection_exists
+# Commands
+COMMAND_DETECTION_STARTED=DETECTION_STARTED
+COMMAND_DETECTION_COMPLETED=DETECTION_COMPLETED
+COMMAND_DETECTION_AVAILABLE=DETECTION_AVAILABLE
+# AZURE
+AZURE_BLOB_ACCOUNT_URL=https://stgmdwdls.blob.core.windows.net
+AZURE_BLOB_CONTAINER=publicworks-fs
+AZURE_TENANT_ID=8aefdf9f-8780-46bf-8fb7-4c924653a8be
+# APACHE
+APACHE_ENABLED=1

@@ -5,6 +5,8 @@ from ai.detection_algorithms.v2.deepsort.nn_matching import NearestNeighborDista
 import numpy as np
 import sys
 import os
+import torch
+GPU_AVAILABLE = torch.cuda.is_available()
 
 # Suppress YOLO output
 class SuppressOutput:
@@ -24,6 +26,9 @@ class SuppressOutput:
 # Load model with suppressed output
 with SuppressOutput():
     model = YOLO("yolov8n.pt")
+    if GPU_AVAILABLE:
+        model.to('cuda')
+        print("Using GPU for YOLOv8 inference.")
     
 # Create a unit dummy feature vector instead of all zeros
 # This avoids division by zero in cosine distance calculation
@@ -47,31 +52,38 @@ class IoUOnlyMetric(object):
         
     def distance(self, features, targets):
         """Return a cost matrix that ensures appearance features aren't used."""
-        cost_matrix = np.ones((len(targets), len(features))) * 0.5  # Cost above threshold
+        cost_matrix = np.ones((len(targets), len(features))) * 0.2  # Cost above threshold
         return cost_matrix
 
 # Use IoU-only metric for tracking
-metric = IoUOnlyMetric(matching_threshold=0.4)
-tracker = Tracker(metric, max_iou_distance=0.7, max_age=30, n_init=3)
+metric = NearestNeighborDistanceMetric("cosine", 0.45, budget=100)
+tracker = Tracker(metric, max_iou_distance=0.9, max_age=10, n_init=3)
 
 # Global map from DeepSORT's internal IDs -> your global 1..m IDs
 global_id_map = {}          # {track.track_id: global_id}
 next_global_id = 1
-
-def detect(frame):
+VEHICLE_CLASS_IDS = {2, 3, 5, 7}
+CONFIDENCE_THRESHOLD = 0.5
+def detect(frame, device=None):
     global next_global_id
 
     # YOLO detections with suppressed output
     with SuppressOutput():
-        r = model(frame, verbose=False)[0]
+        if GPU_AVAILABLE:
+            r = model(frame, verbose=False, device=0)[0]
+        else:
+            r = model(frame, verbose=False)[0]
         
     detections = []
     if r.boxes is not None and len(r.boxes) > 0:
         xyxy = r.boxes.xyxy.cpu().numpy()
         conf = r.boxes.conf.cpu().numpy()
         cls = r.boxes.cls.cpu().numpy().astype(int) if r.boxes.cls is not None else np.zeros(len(conf), dtype=int)
-        
         for (x1,y1,x2,y2), score, cls_id in zip(xyxy, conf, cls):
+            if cls_id not in VEHICLE_CLASS_IDS:
+                continue
+            # if score < CONFIDENCE_THRESHOLD:
+            #     continue
             tlwh = (x1, y1, x2 - x1, y2 - y1)
             # Use unit vector as dummy feature
             detections.append(Detection(tlwh=tlwh, confidence=score, feature=dummy_feature))
@@ -94,9 +106,7 @@ def detect(frame):
         x1, y1, x2, y2 = t.to_tlbr().astype(float)  # tlbr from Track
         
         # Extract class ID if available (from most recent detection)
-        cls_id = 0  # Default
-        if hasattr(t, 'last_detection') and hasattr(t.last_detection, 'cls_id'):
-            cls_id = t.last_detection.cls_id
+        cls_id = t.cls_id
 
         tracked_objects.append({
             "track_id": gid,       # 1..m across all frames
@@ -105,6 +115,6 @@ def detect(frame):
             "x2": float(x2), 
             "y2": float(y2),
             "cls_id": int(cls_id),
-            "confidence": float(t.confidence) if hasattr(t, 'confidence') else 1.0
+            "confidence": t.confidence
         })
     return tracked_objects

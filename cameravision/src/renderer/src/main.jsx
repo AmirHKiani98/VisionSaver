@@ -29,6 +29,7 @@ import App from './App'
 import Recording from './Recording'
 import RecordEditor from './RecordEditor'
 import AutoDetection from './AutoDetection'
+import CounterResults from "./CounterResults"
 
 // Assign Tailwind and custom CSS classes to the body
 const rootElement = document.getElementById('root')
@@ -43,6 +44,7 @@ createRoot(document.getElementById('root')).render(
           <Route path="/editor" element={<Recording />} />
           <Route path="/record" element={<RecordEditor />} />
           <Route path="/auto-counter" element={<AutoDetection />} />
+          <Route path="/counter-results" element={<CounterResults />} />
         </Routes>
       </HashRouter>
     </ThemeProvider>

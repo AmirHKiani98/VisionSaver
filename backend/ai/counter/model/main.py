@@ -16,18 +16,18 @@ def count_function(x1, y1, x2, y2, line_types):
     x_c, y_c = (x1 + x2) / 2, (y1 + y2) / 2
     point = Point(x_c, y_c)
     in_area = False
-    line_idx = -1
+    final_line_key = -1
 
     for line_key, line_type_list in line_types.items(): # type: ignore
         for line_type, geom in line_type_list:
             if line_type == 'closed' and geom.contains(point):
                 in_area = True
-                line_idx = line_key
+                final_line_key = line_key
                 break
         if in_area:
             break
 
-    return in_area, line_idx # Example function
+    return in_area, final_line_key # Example function
 
 def line_points_to_xy(line_points, video_width, video_height):
     """

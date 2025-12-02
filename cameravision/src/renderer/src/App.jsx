@@ -17,13 +17,14 @@ import {
   faUnlock,
   faCloudArrowDown
 } from '@fortawesome/free-solid-svg-icons'
+import { BrowserUpdated } from "@mui/icons-material"
 import { useRef } from 'react';
 // MUI - Pickers
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { TimePicker } from '@mui/x-date-pickers/TimePicker'
-import SystemUpdateAltIcon from '@mui/icons-material/SystemUpdateAlt';
+import GetAllAvailableResults from "./components/GetAllAvailableResults"
 
 // MUI - Core
 import {
@@ -59,6 +60,7 @@ function App() {
   const [startRecordLinkIndex, setStartRecordLinkIndex] = useState(0)
   const [time, setTime] = useState(oneHourFromNow)
   const [protocol, setProtocol] = useState('RTSP')
+  const [isGetAllAvailableResultsExcelOpen, setIsGetAllAvailableResultsExcelOpen] = useState(false)
   const [ip, setIp] = useState('192.168.')
   const [channel, setChannel] = useState('quad')
   const [duration, setDuration] = useState(30) // Duration in minutes
@@ -83,7 +85,7 @@ function App() {
   const lockButtonRef = useRef(null);
   const [shouldAddCronJob, setShouldAddCronJob] = useState(false)
   const [isImportRecordModalOpen, setIsImportRecordModalOpen] = useState(false)
-
+  const [loadingRecords, setLoadingRecords] = useState(true);
   const getQuery = new URLSearchParams(location.search);
   const currentPage = parseInt(getQuery.get('page')) || 1;
   const recordLinkEditModalHandler = () => {
@@ -94,12 +96,29 @@ function App() {
     window.env.get().then(setEnv)
   }, [])
 
+  
+
   const closeNotification = (event, reason) => {
     if (reason === 'clickaway') {
       return
     }
     setOpen(false)
   }
+
+  useEffect(() => {
+    // Calculate the starting index based on the currentPage
+    const newIndex = (currentPage - 1) * recordLinksPerPage;
+    setStartRecordLinkIndex(newIndex);
+  }, [currentPage, recordLinksPerPage]);
+
+  // And also ensure the query param is set correctly on initial load
+  useEffect(() => {
+    if (!getQuery.has('page')) {
+      getQuery.set('page', '1');
+      history.pushState({}, '', `?${getQuery.toString()}`);
+    }
+  }, []);
+
   useEffect(() => {
     if (!env || !env.BACKEND_SERVER_DOMAIN || !env.BACKEND_SERVER_PORT || !env.API_GET_IPS) {
       return; // Return early if env is not set or API endpoint is missing
@@ -179,12 +198,13 @@ function App() {
   }, [env.BACKEND_SERVER_DOMAIN, env.BACKEND_SERVER_PORT, env.GET_RECORD_STATUS, recordLinks]); // Only use stable primitive dependencies
 
   useEffect(() => {
+    setLoadingRecords(true);
     if (env.BACKEND_SERVER_DOMAIN && env.BACKEND_SERVER_PORT && env.API_GET_RECORD_SCHEDULE) {
       const apiLink = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_GET_RECORD_SCHEDULE}`
       fetch(apiLink)
         .then((res) => res.json())
         .then((data) => {
-          console.log('Fetched record schedule:', data)
+          setLoadingRecords(false);
           if (Array.isArray(data)) {
             // camera_url should be changed to cameraUrl
             data = data.map((record) => ({
@@ -192,6 +212,7 @@ function App() {
               recordsId: record.records_id || [], // Ensure recordsId is set correctly
               cameraUrl: record.camera_url || record.cameraUrl // Ensure cameraUrl is set correctly
             }))
+            console.log(data);
             setRecordLinks(data)
           } else if (data.records) {
             console.log('Fetched records:', data.records)
@@ -201,6 +222,8 @@ function App() {
               cameraUrl: record.camera_url || record.cameraUrl, // Ensure cameraUrl is set correctly
               startTime: record.start_time || record.startTime,
               inProcess: record.in_process || record.inProcess,
+              recordMinId: record.record_min_id || record.recordMinId,
+              recordMaxId: record.record_max_id || record.recordMaxId,
               finishedDetectingAll: record.finished_detecting_all || record.finishedDetectingAll,
               ip: record.ip || [], // Bad naming. It should have been ips
               recordsId: record.records_id || [], // Ensure recordsId is set correctly
@@ -215,6 +238,7 @@ function App() {
         .catch((e) => {
           console.error('Error fetching record schedule:', e)
           setRecordLinks([])
+          setLoadingRecords(false);
         })
     }
   }, [env])
@@ -226,12 +250,14 @@ function App() {
   const addStream = (cameraUrl, id, index) => {
     setLoadingVideos(false);
     const streamUrl = `http://${env.STREAM_SERVER_DOMAIN}:${env.STREAM_SERVER_PORT}/${env.MJPEG_STREAM_URL}/?url=${cameraUrl}`
-
+    const parts = String(id).split('-')
+    const cameraId = parts[1] ?? parts[0] ?? ''
     const newVisionInfo = {
       src: streamUrl,
       ip: ip,
       cameraUrl: cameraUrl,
       id: `camera-${id}`,
+      cameraId: cameraId,
       onRemove: removeStreamHandler
     }
     setVisions((prev) => [...prev, newVisionInfo])
@@ -302,6 +328,7 @@ function App() {
     setChannel('quad')
     openNotification('success', 'Camera stream added.')
   }
+
 
   const downloadDB = () => {
     if (!env.BACKEND_SERVER_DOMAIN || !env.BACKEND_SERVER_PORT || !env.API_DOWNLOAD_DB) {
@@ -530,24 +557,32 @@ function App() {
       <div className="min-h-full min-w-full flex px-5 py-2.5">
         <div className="text-white flex flex-col w-full items-center gap-2">
           <div className="flex flex-row justify-between items-center w-full mb-2.5">
-            <Tooltip title="Download database" placement="right"
-              slotProps={{
-                popper: {
-                  modifiers: [
-                    {
-                      name: 'offset',
-                      options: {
-                        offset: [0, 5],
+            <div className="flex flex-row gap-2.5 items-center">
+              <Tooltip title="Download all the results" placement="bottom"
+                slotProps={{
+                  popper: {
+                    modifiers: [
+                      {
+                        name: 'offset',
+                        options: {
+                          offset: [0, 5],
+                        },
                       },
-                    },
-                  ],
-                }
-              }}
-            >
-              <Button variant="contained" className='bg-main-400 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700' onClick={downloadDB}>
-                <FontAwesomeIcon icon={faDownload} />
-              </Button>
-            </Tooltip>
+                    ],
+                  }
+                }}
+              >
+                <Button variant="contained" className='bg-main-400 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700' onClick={()=>{setIsGetAllAvailableResultsExcelOpen(true)}}>
+                  <FontAwesomeIcon icon={faDownload} />
+                </Button>
+              </Tooltip>
+              {/* <Tooltip title="Download all the results" placement="right" >
+                <Button variant="contained" className='bg-main-400 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700' onClick={()=>{setIsGetAllAvailableResultsExcelOpen(true)}}>
+                  <BrowserUpdated />
+                </Button>
+
+              </Tooltip> */}
+            </div>
             <Typography className="text-white text-2xl font-bold">
               CameraVision
             </Typography>
@@ -580,7 +615,7 @@ function App() {
             </Tooltip>
           </div>
           <div className="flex-col md:flex md:flex-row w-full gap-10">
-            <div className="flex flex-col w-full lg:w-1/2 gap-5">
+            <div className="flex flex-col w-full lg:w-2/3 gap-5">
               <form
                 id="camera-stream-form"
                 className="flex flex-col justify-between w-full"
@@ -763,7 +798,12 @@ function App() {
                 <Chip label="Record Links" className="!bg-main-400 !text-white !font-bold" />
               </Divider>
               <List>
-                {recordLinks.length === 0 ? (
+                
+                {loadingRecords ? (
+                  <ListItem className="!bg-main-700 text-white rounded-lg shadow-lg">
+                    <CircularProgress size={24} className="mr-2" /> Loading records...
+                  </ListItem>
+                ) : recordLinks.length === 0 ? (
                   <ListItem className="!bg-main-700 text-white rounded-lg shadow-lg">
                     No records found
                   </ListItem>
@@ -790,6 +830,8 @@ function App() {
                           onRemove={() => onRemoveRecord(record.token)}
                           inProcess={record.inProcess}
                           recordsId={record.recordsId}
+                          recordMinId={record.recordMinId}
+                          recordMaxId={record.recordMaxId}
                           done={record.done}
                           ip={record.ip}
                           modalHandler={recordLinkEditModalHandler}
@@ -829,10 +871,10 @@ function App() {
                 />
               </div>
             </div>
-            <div className="w-full lg:w-1/2 min-h-full overflow-auto">              {visions && visions.length > 0 ? (
+            <div className="w-full lg:w-1/3 min-h-full overflow-auto">              {visions && visions.length > 0 ? (
                 <VisionContainer>
                   {visions.map((visionProps, idx) => (
-                    <Vision img key={visionProps.id} {...visionProps} />
+                    <Vision img key={visionProps.id} {...visionProps} snapshot />
                   ))}
                 </VisionContainer>
               ) : (
@@ -947,6 +989,14 @@ function App() {
           aria-describedby="parent-modal-description"
         >
             <ImportComponent></ImportComponent>
+        </Modal>
+        <Modal
+            open={isGetAllAvailableResultsExcelOpen}
+            onClose={() => setIsGetAllAvailableResultsExcelOpen(false)}
+            aria-labelledby="parent-modal-title2"
+            aria-describedby="parent-modal-description"
+          >
+          <GetAllAvailableResults onClose={() => {setIsGetAllAvailableResultsExcelOpen(false)}}></GetAllAvailableResults>
         </Modal>
     </div>
   )

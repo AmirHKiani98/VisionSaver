@@ -297,9 +297,12 @@ LOGGING = {
 
 # Import and initialize the global logger
 # Global logger instance 
-from .logger import Logger
+# from .logger import Logger
 
-APP_LOGGER = Logger(BASE_DIR)
+# APP_LOGGER = Logger(BASE_DIR)
 
 ASGI_APPLICATION = 'processor.asgi.application'
+import logging
 
+APP_LOGGER_NAME = "cameravision"
+APP_LOGGER = logging.getLogger(APP_LOGGER_NAME)

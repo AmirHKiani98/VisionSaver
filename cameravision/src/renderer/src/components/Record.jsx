@@ -132,13 +132,78 @@ const Record = forwardRef((props, ref) => {
   react.useEffect(() => {
     const video = videoRef.current
     if (!video) return
-    const handleTimeUpdate = () => setCurrentTime(video.currentTime)
+    const handleTimeUpdate = () => {
+      setCurrentTime(video.currentTime)
+    }
     const handleLoadedMetadata = () => setDuration(video.duration)
+
+    // Additional playback stall/resume helpers
+    const handleWaiting = () => {
+      console.warn('Video waiting event, attempting to resume')
+      // try to resume playback
+      setTimeout(() => {
+        try {
+          video.play().catch((err) => console.warn('play() failed on waiting:', err))
+        } catch (err) {
+          console.warn('Error calling play() on waiting:', err)
+        }
+      }, 200)
+    }
+
+    const handleStalled = () => {
+      console.warn('Video stalled event')
+      try {
+        video.play().catch((err) => console.warn('play() failed on stalled:', err))
+      } catch (err) {
+        console.warn('Error calling play() on stalled:', err)
+      }
+    }
+
+    const handleError = (e) => {
+      console.error('Video element error event', e)
+      setError(true)
+    }
+
     video.addEventListener('timeupdate', handleTimeUpdate)
     video.addEventListener('loadedmetadata', handleLoadedMetadata)
+    video.addEventListener('waiting', handleWaiting)
+    video.addEventListener('stalled', handleStalled)
+    video.addEventListener('error', handleError)
+
+    // Watchdog: detect if playback isn't advancing and attempt to nudge
+    let lastSeen = video.currentTime || 0
+    let stuckAttempts = 0
+    const watchdog = setInterval(() => {
+      if (!video || video.paused || video.readyState < 2) {
+        // if paused or not enough data, don't treat as stuck
+        lastSeen = video.currentTime || 0
+        return
+      }
+      const now = video.currentTime || 0
+      if (Math.abs(now - lastSeen) < 0.05) {
+        stuckAttempts += 1
+        console.warn(`Playback appears stalled (attempt ${stuckAttempts}). currentTime=${now} readyState=${video.readyState}`)
+        try {
+          // try a tiny seek forward/back to unstick
+          const newTime = Math.min(video.duration || now + 0.1, now + 0.01)
+          video.currentTime = newTime
+          video.play().catch((err) => console.warn('play() failed in watchdog:', err))
+        } catch (err) {
+          console.warn('Watchdog nudge failed:', err)
+        }
+      } else {
+        stuckAttempts = 0
+      }
+      lastSeen = now
+    }, 4000)
+
     return () => {
       video.removeEventListener('timeupdate', handleTimeUpdate)
       video.removeEventListener('loadedmetadata', handleLoadedMetadata)
+      video.removeEventListener('waiting', handleWaiting)
+      video.removeEventListener('stalled', handleStalled)
+      video.removeEventListener('error', handleError)
+      clearInterval(watchdog)
     }
   }, [src])
 
@@ -149,10 +214,16 @@ const Record = forwardRef((props, ref) => {
     return `${minutes < 10 ? '0' : ''}${minutes}:${secs < 10 ? '0' : ''}${secs}`
   }
 
-  const handleSliderChange = (e) => {
-    const value = Number(e.target.value)
+  // MUI Slider calls onChange(event, value). Accept both forms for safety.
+  const handleSliderChange = (e, val) => {
+    const value = Number(typeof val !== 'undefined' ? val : e?.target?.value ?? 0)
+    if (!isFinite(value)) return
     if (videoRef.current) {
-      videoRef.current.currentTime = value
+      try {
+        videoRef.current.currentTime = value
+      } catch (err) {
+        console.warn('Failed to set currentTime on video element', err)
+      }
     }
     setCurrentTime(value)
   }
@@ -188,22 +259,7 @@ const Record = forwardRef((props, ref) => {
       video.removeEventListener('pause', handlePause)
     }
   }, [src])
-  // Set keybinds
-  react.useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === ' ' && document.activeElement.tagName !== 'TEXTAREA' && document.activeElement.tagName !== 'INPUT') {
-        e.preventDefault(); // Prevent scrolling
-        handlePlayPause();
-      }
-      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-        e.preventDefault(); // Prevent seeking with arrow keys
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [isPlaying])
+  // (Keybinds are handled below — keep a single listener to avoid duplicates.)
   
   react.useEffect(() => {
     const handleKeyDown = (e) => {
@@ -247,6 +303,7 @@ const Record = forwardRef((props, ref) => {
             <Video
                 ref={videoRef}
                 src={src}
+                setSrc={setSrc}
                 setError={setError}
                 setLoading={setLoading}
                 canvas={props.canvas}
@@ -255,7 +312,8 @@ const Record = forwardRef((props, ref) => {
                   const videoEl = e.target
                   const error = videoEl.error
                   if (error && error.code === 4) {
-                    setSrc(src + '/?mp4=true')
+                    console.warn('Video format not supported, trying fallback mp4=false', src)
+                    setSrc(src.replace('mp4', 'mkv'))
                   } else {
                     setLoading(false)
                     setError(true)
