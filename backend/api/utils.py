@@ -25,7 +25,16 @@ def get_auto_detection_results_from_df(auto_df, min_time=0, max_time=0, lines_ma
     THRESHOLD = 0.5
     auto_df = auto_df[auto_df["confidence"] >= THRESHOLD]
     auto_df = auto_df.sort_values(["time", "track_id"])
-    groups = auto_df.groupby('track_id')
+    grouped = auto_df.groupby('track_id')['time'].agg(['min', 'max'])
+    grouped['duration'] = grouped["max"] - grouped["min"]
+    grouped = grouped.reset_index()
+
+
+    grouped = grouped[grouped["duration"] > 2]
+    track_ids_of_interest = grouped["track_id"].unique()
+
+    filtered_df = auto_df[auto_df['track_id'].isin(track_ids_of_interest)]
+    groups = filtered_df.groupby("track_id")
     total = 0
     for _, group in groups:
         detected = group[group["in_area"]]
