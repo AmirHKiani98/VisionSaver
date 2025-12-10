@@ -1066,6 +1066,11 @@ const AutoDetection = () => {
                                     label="Detection Version"
                                     onChange={(e) =>{
                                         const data = { record_id: recordId, divide_time: accuracy, version: e.target.value }
+                                        if (e.target.value === 'v3'){
+                                            setTool('zone');
+                                        } else if (e.target.value === 'v4'){
+                                            setTool('direction');
+                                        }
                                         checkIfDetectingExists(data);
                                         checkIfDetectingModifiedExists(data);
                                         setDetectionVersion(e.target.value)
