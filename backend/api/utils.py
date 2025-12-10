@@ -78,6 +78,7 @@ def get_auto_detection_results_from_df_lines(auto_df, min_time=0, max_time=600, 
     groups = filtered_df.groupby("track_id")
     total = 0
     for _, group in groups:
+        print("_", _)
         # Sort by time to ensure correct order
         group = group.sort_values("time")
         # Make sure the max time - min time > 2 seconds
@@ -88,21 +89,31 @@ def get_auto_detection_results_from_df_lines(auto_df, min_time=0, max_time=600, 
         xc = (group["x1"] + group["x2"]) / 2
         yc = (group["y1"] + group["y2"]) / 2
         time = group["time"].max()
+        final_line_key = None
+        final_line_key_mean_degree_angle = float("inf")
         for line_key, line_points in lines.items():
 
 
             line_x = line_points["x"]
             line_y = line_points["y"]
-            score = curve_parallelity(xc.values, yc.values, np.array(line_x), np.array(line_y))
+            mean_degree_angle = curve_parallelity(xc.values, yc.values, np.array(line_x), np.array(line_y))
             PARALLELITY_THRESHOLD = 0.9
-            if score <= PARALLELITY_THRESHOLD:
+            
+            if abs(mean_degree_angle) > 45:
                 continue
-            if time not in results[line_key]:
-                results[line_key][time] = [0, [], []]
-            results[line_key][time][0] += 1
+            
+            if mean_degree_angle < final_line_key_mean_degree_angle:
+                final_line_key_mean_degree_angle = mean_degree_angle
+                final_line_key = line_key
+            
+        if final_line_key is not None:
+            print(f"Track ID {_} - final_line_key {final_line_key} - final_line_key_mean_degree_angle: {final_line_key_mean_degree_angle}", end=" | ")
+            if time not in results[final_line_key]:
+                results[final_line_key][time] = [0, [], []]  
+            results[final_line_key][time][0] += 1
             total += 1
-            results[line_key][time][1].append(int(group["track_id"].iloc[0]))
-            results[line_key][time][2].append(group["cls_id"].iloc[0])
+            results[final_line_key][time][1].append(int(group["track_id"].iloc[0]))
+            results[final_line_key][time][2].append(group["cls_id"].iloc[0])
     results = {key: dict(sorted(value.items(), key=lambda item: item[0])) for key, value in results.items()}
     return results, total
 
@@ -129,6 +140,8 @@ def curve_parallelity(x1, y1, x2, y2):
     angles = np.arccos(cos_sim)
 
     mean_angle = np.mean(angles)
+    # mean angle in degrees
+    mean_angle = np.degrees(mean_angle)
     return mean_angle
 
 
@@ -144,7 +157,7 @@ def resample_points(x, y, num_points):
     if n == num_points:
         return x, y
     
-    pts = np.vstack([x, y], axis=1)
+    pts = np.stack([x, y], axis=1)
     diffs = np.diff(pts, axis=0)
     seg_lengths = np.sqrt((diffs**2)).sum(axis=1)
     cumdist = np.insert(np.cumsum(seg_lengths), 0, 0)
@@ -187,7 +200,6 @@ def get_counter_auto_detection_results(record_id, version, divide_time, min_time
                 "y": [point for tool in list_of_points for idx, point in enumerate(tool["points"]) if idx % 2 == 1 and tool["tool"] == "direction"],
             } for line_name, list_of_points in lines.items()
         }
-        print("lines_direction", lines_direction    )
         df = pd.read_csv(counts_file)
         if max_time == 0:
             max_time = 600
@@ -218,7 +230,6 @@ def get_counter_manual_results(record_id,min_time=0, max_time=0):
     # Making a pandas DataFrame from the record logs
     df = pd.DataFrame(list(record_logs.values('time', 'turn_movement')), columns=['time', 'turn_movement'])
     
-    # print("times", df["time"])
     if max_time == 0:
         max_time = float("inf")
     df = df[(df["time"] >= min_time) & (df["time"] <= max_time)]
