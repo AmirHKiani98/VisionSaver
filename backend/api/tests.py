@@ -32,3 +32,15 @@ class ApiTests(TestCase):
         # assert manual_total > 0
         # assert auto_total > 0
         # assert iss_total > 0
+
+
+    def test_curve_parallelity(self):
+        from ai.utils import parallelism_score
+        import numpy as np
+        # Two parallel lines
+        x1 = np.linspace(0, 100, num=50)
+        y1 = x1 * 2 + 5
+        x2 = np.linspace(0, 10, num=50)
+        y2 = x2 * (-2) + 5
+        score_parallel = parallelism_score(x1, y1, x2, y2)
+        print("Parallel lines score:", score_parallel)

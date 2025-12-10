@@ -6,7 +6,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from record.models import Record
 from ai.models import DetectionProcess
-from ai.detection_modifier_algorithms.algorithm import AlgorithmModificationDetection
 from ai.detection_algorithms.algorithm import DetectionAlgorithm
 
 # Create your views here.
@@ -255,13 +254,3 @@ def terminate_detection_process(request):
     else:
         logger.debug("Invalid request method")
         return JsonResponse({'error': 'Invalid request method'}, status=405)
-def run_modifier_detection(record_id, divide_time, version='v1'):
-    """
-    Retrieve auto counter for a specific record and divide time.
-    """
-    ADZ = AlgorithmModificationDetection(
-        version=version,
-        record_id=record_id,
-        divide_time=divide_time,
-    )
-    return ADZ.get_result()

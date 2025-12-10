@@ -7,6 +7,7 @@ from datetime import timedelta
 import requests
 import os
 import re
+import numpy as np
 
 def get_ip_from_rtsp(rtsp_link):
     return re.findall(r"rtsp://(\d+\.\d+\.\d+\.\d+)", rtsp_link)[0]
@@ -19,7 +20,7 @@ def get_movement_index(movement):
         return 2
     return -1 
 
-def get_auto_detection_results_from_df(auto_df, min_time=0, max_time=0, lines_map_length=None):
+def get_auto_detection_results_from_df_zones(auto_df, min_time=0, max_time=600, lines_map_length=None):
     results = defaultdict(dict)
     auto_df = auto_df[(auto_df['time'] >= min_time) & (auto_df['time'] <= max_time)]
     THRESHOLD = 0.5
@@ -54,6 +55,95 @@ def get_auto_detection_results_from_df(auto_df, min_time=0, max_time=0, lines_ma
     results = {key: dict(sorted(value.items(), key=lambda item: item[0])) for key, value in results.items()}
     return results, total
 
+
+def get_auto_detection_results_from_df_lines(auto_df, min_time=0, max_time=600, lines=None):
+    if lines is None:
+        raise ValueError("Lines parameter is required for line-based detection results.")
+    # lines format: {line_key: list_of_points}
+
+    results = defaultdict(dict)
+    auto_df = auto_df[(auto_df['time'] >= min_time) & (auto_df['time'] <= max_time)]
+    THRESHOLD = 0.5
+    auto_df = auto_df[auto_df["confidence"] >= THRESHOLD]
+    auto_df = auto_df.sort_values(["time", "track_id"])
+    grouped = auto_df.groupby('track_id')['time'].agg(['min', 'max'])
+    grouped['duration'] = grouped["max"] - grouped["min"]
+    grouped = grouped.reset_index()
+
+
+    grouped = grouped[grouped["duration"] > 2]
+    track_ids_of_interest = grouped["track_id"].unique()
+
+    filtered_df = auto_df[auto_df['track_id'].isin(track_ids_of_interest)]
+    groups = filtered_df.groupby("track_id")
+    total = 0
+    for _, group in groups:
+        # Sort by time to ensure correct order
+        group = group.sort_values("time")
+        # Make sure the max time - min time > 2 seconds
+        max_time = group["time"].max()
+        min_time = group["time"].min()
+        if (max_time - min_time) <= 2:
+            continue
+        xc = (group["x1"] + group["x2"]) / 2
+        yc = (group["y1"] + group["y2"]) / 2
+        for line_key, line_points in lines.items():
+
+
+            line_x = line_points["x"]
+            line_y = line_points["y"]
+            score = curve_parallelity(xc.values, yc.values, np.array(line_x), np.array(line_y))
+            PARALLELITY_THRESHOLD = 0.9
+            
+
+
+def compute_tangents(x, y):
+    x = np.asarray(x); y = np.asarray(y)
+    dx = np.diff(x)
+    dy = np.diff(y)
+    tangents = np.stack([dx, dy], axis=1)
+    norms = np.linalg.norm(tangents, axis=1, keepdims=True)
+    return tangents / (norms + 1e-9)
+
+def curve_parallelity(x1, y1, x2, y2):
+    if len(x1) != len(y1) or len(x2) != len(y2) or len(x1) < 2:
+        raise ValueError("Input curves must have the same length and contain at least two points.")
+    resample_size = max(len(x1), len(x2))
+    x1, y1 = resample_points(x1, y1, resample_size)
+    x2, y2 = resample_points(x2, y2, resample_size)
+    T1 = compute_tangents(x1, y1)
+    T2 = compute_tangents(x2, y2)
+
+    cos_sim = np.sum(T1 * T2, axis=1)
+    
+    angles = np.arccos(cos_sim)
+
+    mean_angle = np.mean(angles)
+    return mean_angle
+
+
+def resample_points(x, y, num_points):
+    x = np.asarray(x, dtype=np.float32)
+    y = np.asarray(y, dtype=np.float32)
+
+    n = len(x)
+    m = len(y)
+    if n != m or n < 2:
+        raise ValueError("x and y must have the same length and contain at least two points.")
+    
+    if n == num_points:
+        return x, y
+    
+    pts = np.vstack([x, y], axis=1)
+    diffs = np.diff(pts, axis=0)
+    seg_lengths = np.sqrt((diffs**2)).sum(axis=1)
+    cumdist = np.insert(np.cumsum(seg_lengths), 0, 0)
+
+    new_dist = np.linspace(0, cumdist[-1], num_points)
+    new_x = np.interp(new_dist, cumdist, x)
+    new_y = np.interp(new_dist, cumdist, y)
+    return new_x, new_y
+
 def get_counter_auto_detection_results(record_id, version, divide_time, min_time=0, max_time=0):
     """
     API endpoint to retrieve auto_detection counting results for a specific counter.
@@ -81,8 +171,8 @@ def get_counter_auto_detection_results(record_id, version, divide_time, min_time
         
         df = pd.read_csv(counts_file)
         if max_time == 0:
-            max_time = float("inf")
-        return get_auto_detection_results_from_df(df, min_time, max_time, lines_map_length)
+            max_time = 600
+        return get_auto_detection_results_from_df_zones(df, min_time, max_time, lines_map_length)
     except Exception as e:
         import traceback
         tb = traceback.format_exec()

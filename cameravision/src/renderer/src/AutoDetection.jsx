@@ -891,24 +891,29 @@ const AutoDetection = () => {
                                 label="Drawer"
                                 onChange={(e) => setTool(e.target.value)}
 
-                            >
+                            >   
+                            {detectionVersion === 'v3' &&(
                                 <MenuItem value={'zone'}>
                                     <Typography variant="body1" color="textPrimary">
                                         Zone
                                         <FontAwesomeIcon icon={faClone} className="ml-2" />
                                     </Typography>
                                 </MenuItem>
-                                <MenuItem value={'cutzones'}>
-                                    <Typography variant="body1" color="textPrimary">
-                                        Cut Zones
-                                        <FontAwesomeIcon icon={faVideoSlash} className="ml-2" />
-                                    </Typography>
-                                </MenuItem>
+                             )}
 
+                             {detectionVersion === 'v4' &&(
                                 <MenuItem value={'direction'}>
                                     <Typography variant="body1" color="textPrimary">
                                         Direction
                                         <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
+                                    </Typography>
+                                </MenuItem>
+                             )}
+                                    
+                                <MenuItem value={'cutzones'}>
+                                    <Typography variant="body1" color="textPrimary">
+                                        Cut Zones
+                                        <FontAwesomeIcon icon={faVideoSlash} className="ml-2" />
                                     </Typography>
                                 </MenuItem>
 
@@ -1043,7 +1048,7 @@ const AutoDetection = () => {
                         </Divider>
                     </div>
                     <div className='flex flex-col items-center gap-2.5 p-2.5'>
-                        <div className='w-full grid grid-cols-2 gap-2.5'>
+                        <div className='w-full grid'>
                             <FormControl className="w-full">
                                 <InputLabel id="counter-version-select-label">
                                     <Typography variant="body1" className='text-white'>
@@ -1067,40 +1072,20 @@ const AutoDetection = () => {
                                         }
                                     }
                                 >
-                                    <MenuItem value="v1">
-                                        <Typography variant="body1" color="textPrimary">
-                                            v1
-                                        </Typography>
-                                    </MenuItem>
-                                    <MenuItem value="v2">
-                                        <Typography variant="body1" color="textPrimary">
-                                            v2
-                                        </Typography>
-                                    </MenuItem>
+                                    
                                     <MenuItem value="v3">
                                         <Typography variant="body1" color="textPrimary">
-                                            v3
+                                            Yolo + DeepSORT
+                                        </Typography>
+                                    </MenuItem>
+                                    <MenuItem value="v4">
+                                        <Typography variant="body1" color="textPrimary">
+                                            Curve
                                         </Typography>
                                     </MenuItem>
                                 </Select>
                             </FormControl>
-                            <TextField
-                                variant="outlined"
-                                value={accuracy}
-                                type="number"
-                                onChange={(e) => {
-                                    setAccuracy(e.target.value)
-                                    const data = {record_id: recordId, divide_time: e.target.value, version: detectionVersion};
-                                    checkIfDetectingExists(data);
-                                    checkIfDetectingModifiedExists(data);
-                                }}
-                                className='shadow-lg bg-main-400'
-                                focused
-                                sx={{
-                                    color: 'primary.white'
-                                }}
-                                label={<Typography className="text-white">Frame</Typography>}
-                            />
+                            
                         </div>
                         
                         <div className='flex items-center justify-between w-full'>
