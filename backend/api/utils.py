@@ -87,6 +87,7 @@ def get_auto_detection_results_from_df_lines(auto_df, min_time=0, max_time=600, 
             continue
         xc = (group["x1"] + group["x2"]) / 2
         yc = (group["y1"] + group["y2"]) / 2
+        time = group["time"].max()
         for line_key, line_points in lines.items():
 
 
@@ -94,7 +95,16 @@ def get_auto_detection_results_from_df_lines(auto_df, min_time=0, max_time=600, 
             line_y = line_points["y"]
             score = curve_parallelity(xc.values, yc.values, np.array(line_x), np.array(line_y))
             PARALLELITY_THRESHOLD = 0.9
-            
+            if score <= PARALLELITY_THRESHOLD:
+                continue
+            if time not in results[line_key]:
+                results[line_key][time] = [0, [], []]
+            results[line_key][time][0] += 1
+            total += 1
+            results[line_key][time][1].append(int(group["track_id"].iloc[0]))
+            results[line_key][time][2].append(group["cls_id"].iloc[0])
+    results = {key: dict(sorted(value.items(), key=lambda item: item[0])) for key, value in results.items()}
+    return results, total
 
 
 def compute_tangents(x, y):
@@ -168,14 +178,27 @@ def get_counter_auto_detection_results(record_id, version, divide_time, min_time
         lines_map_length = {
             zone_name: len(list(filter(lambda x: x["tool"] == "zone", list_of_points))) for zone_name, list_of_points in lines.items()
         }
-        
+        # lines format: {line_name: [{"tool": "zone"/"direction", "points": [...]}, ...]}
+        # points format: [x1, y1, x2, y2, ...]
+        # we want: {line_name: {"x": [...], "y": [...]} }
+        lines_direction = {
+            line_name: {
+                "x": [point for tool in list_of_points for idx, point in enumerate(tool["points"]) if idx % 2 == 0 and tool["tool"] == "direction"],
+                "y": [point for tool in list_of_points for idx, point in enumerate(tool["points"]) if idx % 2 == 1 and tool["tool"] == "direction"],
+            } for line_name, list_of_points in lines.items()
+        }
+        print("lines_direction", lines_direction    )
         df = pd.read_csv(counts_file)
         if max_time == 0:
             max_time = 600
-        return get_auto_detection_results_from_df_zones(df, min_time, max_time, lines_map_length)
+        if version == "v3":
+            return get_auto_detection_results_from_df_zones(df, min_time, max_time, lines_map_length)
+        elif version == "v4":
+            return get_auto_detection_results_from_df_lines(df, min_time, max_time, lines_direction)
     except Exception as e:
         import traceback
-        tb = traceback.format_exec()
+        tb = traceback.format_exc()
+        print(tb)
         return False, 0
 
 
