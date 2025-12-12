@@ -94,5 +94,9 @@ urlpatterns = [
     path(
         f"{os.getenv('API_GET_ALL_AVAILABLE_RESULTS_EXCEL')}",
         views.get_all_available_results_excel
+    ),
+    path(
+        f"{os.getenv('API_DOWNLOAD_MANUAL_COUNT_EXCEL')}",
+        views.download_manual_count_excel
     )
 ]

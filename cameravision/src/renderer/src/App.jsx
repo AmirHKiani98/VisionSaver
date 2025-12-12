@@ -17,7 +17,6 @@ import {
   faUnlock,
   faCloudArrowDown
 } from '@fortawesome/free-solid-svg-icons'
-import { BrowserUpdated } from "@mui/icons-material"
 import { useRef } from 'react';
 // MUI - Pickers
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'

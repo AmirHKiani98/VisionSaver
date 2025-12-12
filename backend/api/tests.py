@@ -2,7 +2,7 @@ from django.test import TestCase
 import logging
 import dotenv
 from django.conf import settings
-from api.utils import get_counter_auto_detection_results, get_results_comparison_df, get_manual_counting_excel, get_auto_detection_counting_excel
+from api.utils import get_counter_auto_detection_results, get_results_comparison_df, get_manual_counting_excel, get_auto_detection_counting_excel, get_manual_count_excel_with_direction
 logging.getLogger('ultralytics').setLevel(logging.WARNING)
 dotenv.load_dotenv(settings.ENV_PATH)
 
@@ -53,3 +53,8 @@ class ApiTests(TestCase):
     def test_auto_raw_counts(self):
         auto_counts = get_auto_detection_counting_excel(self.record_id, self.version, self.divide_time)
         print("Auto raw counts:\n", auto_counts)
+
+    def test_manual_count_excel_with_direction(self):
+        excel_data = get_manual_count_excel_with_direction(self.record_id)
+        print(excel_data)
+        print("Manual count Excel data with direction retrieved successfully.")

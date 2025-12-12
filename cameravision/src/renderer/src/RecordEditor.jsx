@@ -10,8 +10,7 @@ import {
     InputLabel,
     MenuItem
 } from '@mui/material';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight, faClone, faEraser, faVideoSlash } from '@fortawesome/free-solid-svg-icons';1
+import DownloadIcon from '@mui/icons-material/Download';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Notification from './components/Notification';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -289,6 +288,32 @@ const RecordEditor = (props) => {
         }
     };
 
+    const downloadManualCountExcel = () => {
+        if (!env) return;
+        fetch(`http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_DOWNLOAD_MANUAL_COUNT_EXCEL}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                record_id: recordId
+            })
+        }).then(response => response.blob())
+          .then(blob => {
+              const url = window.URL.createObjectURL(new Blob([blob]));
+              const link = document.createElement('a');
+              link.href = url;
+              link.setAttribute('download', `manual_count_${recordId}.xlsx`);
+              document.body.appendChild(link);
+              link.click();
+              link.parentNode.removeChild(link);
+          })
+          .catch(error => {
+              openNotification('error', `Error downloading Excel: ${error.message}`);
+          });
+          
+    }
+
 
     
 
@@ -562,6 +587,9 @@ const RecordEditor = (props) => {
                                     >
                                         
                                         <AddIcon />
+                                    </Button>
+                                    <Button variant="contained" className='!bg-main-400 !text-white !font-bold hover:!bg-main-500 active:!bg-main-600 !shadow-none' onClick={downloadManualCountExcel}>
+                                        <DownloadIcon />
                                     </Button>
                                     <Button className="!bg-green-500 !text-white !font-bold hover:!bg-main-500 active:!bg-main-600"
                                     onClick={recordFinishedHandler}

@@ -442,3 +442,33 @@ def get_iss_detections_counting_excel(record_id, min_time=0, max_time=0):
         
     results = results.sort_values("interval_start").fillna(0)
     return results
+
+
+def get_manual_count_excel_with_direction(record_id):
+    try:
+        record = Record.objects.filter(id=record_id).first()
+        if not record:
+            return None
+        direction = record.direction or "N/A"
+        excel_df = get_manual_counting_excel(record_id)
+
+        if excel_df is None or excel_df.empty:
+            return excel_df
+
+        # Create MultiIndex columns with the direction as top-level, but
+        # flatten them before returning so pandas can write to Excel with
+        # index=False (pandas cannot write MultiIndex columns with index=False).
+        excel_df.columns = pd.MultiIndex.from_product([[direction], excel_df.columns])
+
+        # Flatten MultiIndex columns into single-level strings, e.g. "{direction} {col}"
+        flat_columns = [
+            " ".join(map(str, col)).strip() if isinstance(col, (list, tuple)) else str(col)
+            for col in excel_df.columns
+        ]
+        excel_df_flat = excel_df.copy()
+        excel_df_flat.columns = flat_columns
+        return excel_df_flat
+    except Exception as exc:
+        # Surface the error to logs so caller can debug
+        print("Error in get_manual_count_excel_with_direction:", repr(exc))
+        return None
