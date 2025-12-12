@@ -416,14 +416,17 @@ def get_iss_detections_counting_excel(record_id, min_time=0, max_time=0):
     iss_api_df, _ = get_iss_detections_pandas(record_id, min_time, max_time)
     if iss_api_df.empty:
         raise ValueError("No ISS API detection results found.")
-    
-    results = pd.DataFrame({"time":[]})
+    record = Record.objects.filter(id=record_id).first()
+    if not record:
+        raise ValueError("Record not found.")
+    start_time = record.start_time
+    results = pd.DataFrame({"interval_start":[]})
     movement_groups = iss_api_df.groupby("direction")
     for movement, group in movement_groups:
         results_before_df = {"time":[], "count":[]}
         time_counts = group['time'].value_counts().sort_index()
         for time, count in time_counts.items():
-            results_before_df["time"].append(timedelta(seconds=time))
+            results_before_df["time"].append(start_time + timedelta(seconds=time))
             results_before_df["count"].append(count)
         results_df_for_movement = pd.DataFrame(results_before_df)
         raw_results_df_for_movement = get_counting_raw(results_df_for_movement)
@@ -433,10 +436,9 @@ def get_iss_detections_counting_excel(record_id, min_time=0, max_time=0):
         results = pd.merge(
             results,
             raw_results_df_for_movement[["interval_start", movement + " Count"]],
-            left_on="time",
-            right_on="interval_start",
+            on="interval_start",
             how="outer"
-        ).drop(columns=["interval_start"])
+        )
         
-    results = results.sort_values("time").fillna(0)
+    results = results.sort_values("interval_start").fillna(0)
     return results
