@@ -2,14 +2,14 @@ from django.test import TestCase
 import logging
 import dotenv
 from django.conf import settings
-from api.utils import get_counter_auto_detection_results, get_results_comparison_df, get_manual_counting_excel
+from api.utils import get_counter_auto_detection_results, get_results_comparison_df, get_manual_counting_excel, get_auto_detection_counting_excel
 logging.getLogger('ultralytics').setLevel(logging.WARNING)
 dotenv.load_dotenv(settings.ENV_PATH)
 
 class ApiTests(TestCase):
     def setUp(self):
         # Set up run before every test method.
-        record_id = 91
+        record_id = 92
         version = "v4"
         divide_time = 0.05
         self.record_id = record_id
@@ -48,4 +48,8 @@ class ApiTests(TestCase):
 
     def test_manual_raw_counts(self):
         raw_counts = get_manual_counting_excel(self.record_id)
-        print("Manual raw counts:", raw_counts["time"])
+        print("Manual raw counts:\n", raw_counts)
+
+    def test_auto_raw_counts(self):
+        auto_counts = get_auto_detection_counting_excel(self.record_id, self.version, self.divide_time)
+        print("Auto raw counts:\n", auto_counts)

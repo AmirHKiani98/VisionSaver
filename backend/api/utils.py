@@ -177,19 +177,24 @@ def get_counter_auto_detection_results(record_id, version, divide_time, min_time
     Expects a GET request with 'counter_id' as a query parameter.
     """
     if not record_id:
+        print("record_id is required")
         return False, 0
     record = Record.objects.filter(id=record_id).first()
     if not record:
+        print("record not found")
         return False, 0
     auto_detection = AutoDetection.objects.filter(record=record, version=version, divide_time=divide_time).first()
     if not auto_detection:
+        print("auto_detection not found")
         return False, 0
     counts_file = auto_detection.file_name
     if not os.path.exists(counts_file):
+        print("counts_file not found")
         return False, 0
     try:
         detection_lines = DetectionLines.objects.filter(record=record).first()
         if not detection_lines:
+            print("detection_lines not found")
             return False, 0
         lines = detection_lines.lines
         lines_map_length = {
@@ -307,6 +312,7 @@ def get_results_comparison_df(record_id, version, divide_time, min_time=0, max_t
 
 
 def get_counting_raw(df):
+    
     if df.empty:
         return pd.DataFrame()
     columns = ["time", "count"]
@@ -316,9 +322,10 @@ def get_counting_raw(df):
     
     # time column should be datatype (datetime64[ns])
     if not pd.api.types.is_datetime64_any_dtype(df["time"]):
-        df["time"] = pd.to_datetime(df["time"], errors='coerce')
+        df["time"] = pd.to_datetime(df["time"]).dt.tz_localize(None)
     
-
+    df["time"] = pd.to_datetime(df["time"]).dt.tz_localize(None)
+    
     # Divide the whole day into 15-minute intervals. Beginning from 00:00 to 23.45. But we need to
     # keep this in the US format: PM and AM
     df["hour"] = df["time"].dt.hour
@@ -331,10 +338,10 @@ def get_counting_raw(df):
         .size()
         .reindex(pd.date_range(start, end, freq="15min"), fill_value=0)
     )
+    
     result = counts.reset_index()
     result.columns = ["interval_start", "count"]
     result["label"] = result["interval_start"].dt.strftime("%I:%M %p")
-
     return result
 
 
@@ -345,45 +352,50 @@ def get_manual_counting_excel(record_id):
         raise ValueError("Record not found.")
     start_time = record.start_time
     manual_results, manual_total = get_counter_manual_results(record_id)
-    results = pd.DataFrame({"time":[]})
+    final_results = pd.DataFrame({"interval_start":[]})
     for line_key, line_data in manual_results.items():
         results_before_df = {"time":[], "count":[]}
         for time, count in line_data.items():
             results_before_df["time"].append(start_time + timedelta(seconds=time))
-            print(start_time + timedelta(seconds=time))
+            # print(start_time + timedelta(seconds=time))
             results_before_df["count"].append(count)
+        results_before_df["time"] = (
+            pd.Series(results_before_df["time"])
+            .dt.tz_localize(None)
+        )
         results_df_for_line_key = pd.DataFrame(results_before_df)
         raw_results_df_for_line_key = get_counting_raw(results_df_for_line_key)
         raw_results_df_for_line_key = raw_results_df_for_line_key.rename(
             columns={"count": line_key + " Count"}
         )
         raw_results_df_for_line_key["interval_start"] = pd.to_datetime(raw_results_df_for_line_key["interval_start"])
-        results["time"] = pd.to_datetime(results["time"], errors='coerce')
-        # Ensure both columns have the same timezone awareness
-        results["time"] = pd.to_datetime(results["time"], errors='coerce').dt.tz_localize(None)
-        raw_results_df_for_line_key["interval_start"] = pd.to_datetime(raw_results_df_for_line_key["interval_start"]).dt.tz_localize(None)
-        
-        results = pd.merge(
-            results,
+        final_results = pd.merge(
+            final_results,
             raw_results_df_for_line_key[["interval_start", line_key + " Count"]],
-            left_on="time",
-            right_on="interval_start",
+            on="interval_start",
             how="outer"
-        ).drop(columns=["interval_start"])
+        )
         
     
-    results = results.sort_values("time").fillna(0)
+    results = final_results.sort_values("interval_start")
+    numeric_cols = results.select_dtypes(include="number").columns
+    results[numeric_cols] = results[numeric_cols].fillna(0)
     return results
 
 def get_auto_detection_counting_excel(record_id, version, divide_time):
     auto_results, total = get_counter_auto_detection_results(record_id, version, divide_time)
     if not auto_results:
         raise ValueError("No auto detection results found.")
-    results = pd.DataFrame({"time":[]})
+    record = Record.objects.filter(id=record_id).first()
+    if not record:
+        raise ValueError("Record not found.")
+    start_time = record.start_time
+    results = pd.DataFrame({"interval_start":[]})
+    
     for line_key, line_data in auto_results.items():
         results_before_df = {"time":[], "count":[]}
         for time, data in line_data.items():
-            results_before_df["time"].append(timedelta(seconds=time))
+            results_before_df["time"].append(start_time + timedelta(seconds=time))
             results_before_df["count"].append(data[0])
         results_df_for_line_key = pd.DataFrame(results_before_df)
         raw_results_df_for_line_key = get_counting_raw(results_df_for_line_key)
@@ -393,12 +405,11 @@ def get_auto_detection_counting_excel(record_id, version, divide_time):
         results = pd.merge(
             results,
             raw_results_df_for_line_key[["interval_start", line_key + " Count"]],
-            left_on="time",
-            right_on="interval_start",
+            on="interval_start",
             how="outer"
-        ).drop(columns=["interval_start"])
+        )
     
-    results = results.sort_values("time").fillna(0)
+    results = results.sort_values("interval_start").fillna(0)
     return results
 
 def get_iss_detections_counting_excel(record_id, min_time=0, max_time=0):
