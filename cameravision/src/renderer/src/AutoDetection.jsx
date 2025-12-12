@@ -277,7 +277,8 @@ const AutoDetection = () => {
 
             if (tool === 'eraser') {
                 setLines(prevLines => {
-                    const updatedLines = [...(prevLines[selectedPortal] || [])];
+                    // Only keep lines with the current tool
+                    const updatedLines = [...(prevLines[selectedPortal] || [])].filter(line => line.tool === tool);
                     const filtered = updatedLines.filter(line => !isPointNearLine(line.points, pos.x/canvasWidth, pos.y/canvasHeight));
                     return {
                         ...prevLines,
@@ -306,7 +307,7 @@ const AutoDetection = () => {
             if(tool === 'eraser'){
                 // Erase cut zones if near
                 setCutZonesPoints(prevZones => {
-                    const filteredZones = prevZones.filter(zone => !isPointNearLine(zone, pos.x/canvasWidth, pos.y/canvasHeight));
+                    const filteredZones = prevZones.filter(line => line.tool === tool).filter(zone => !isPointNearLine(zone, pos.x/canvasWidth, pos.y/canvasHeight));
                     return filteredZones;
                 });
                 return;
@@ -734,18 +735,20 @@ const AutoDetection = () => {
                             onTouchEnd={handleMouseUp}
                         >
                             <Layer>
-                            {lines && !cutZonesEnabled &&lines[selectedPortal] && lines[selectedPortal].map((line, i) => (
-                                <Line
-                                key={i}
-                                points={pointsToScaledPoints(line.points)}
-                                stroke="#df4b26"
-                                strokeWidth={5}
-                                tension={0.5}
-                                lineCap="round"
-                                lineJoin="round"
-                                globalCompositeOperation={line.tool === 'eraser' ? 'destination-out' : 'source-over'}
-                                />
-                            ))}
+                            {lines && !cutZonesEnabled && lines[selectedPortal] && lines[selectedPortal].map((line, i) =>
+                                
+                                    <Line
+                                        key={i}
+                                        points={pointsToScaledPoints(line.points)}
+                                        stroke="#df4b26"
+                                        strokeWidth={5}
+                                        tension={0.5}
+                                        lineCap="round"
+                                        lineJoin="round"
+                                        globalCompositeOperation={line.tool === 'eraser' ? 'destination-out' : 'source-over'}
+                                    />
+                                
+                            )}
                             {cutZonesEnabled && cutZonesPoints.length > 0 && cutZonesPoints.map((zone, i) => (
                                 <Line
                                 key={i}

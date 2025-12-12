@@ -661,7 +661,7 @@ def get_counter_manual_auto_results(request):
                 time_float = float(time_str)
                 count = list_of_result[0]
                 total_counts["Auto " + line_key] += count
-                new_dataset["data"].append({"x": time_float, "y": count, "veh_ids": list_of_result[1]})
+                new_dataset["data"].append({"x": time_float, "y": count, "veh_ids": list_of_result[1], "label": list_of_result[3]})
                 for _ in range(count):
                     auto_df_dict["time"].append(time_float)
                     auto_df_dict["count"].append(1)  # Each point represents 1 count

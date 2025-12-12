@@ -20,10 +20,10 @@ class AiAppTestCase(TestCase):
         """
         Set up the test case with necessary configurations.
         """
-        self.record_id = 90
+        self.record_id = 92
         self.divide_time = 0.05
-        self.video_time = 275 # in seconds. There is a white SUV car going left to right at that time
-        self.version = "v3"
+        self.video_time = 255 # in seconds. There is a white SUV car going left to right at that time
+        self.version = "v4"
         # Load the video
         self.video_path = f"{settings.MEDIA_ROOT}/{self.record_id}.mp4"
         self.video_capture = cv2.VideoCapture(self.video_path)
@@ -214,9 +214,8 @@ class AiAppTestCase(TestCase):
             raise ValueError(f"No detection lines found for record ID {self.record_id}")
 
         detection_algorithm = DetectionAlgorithm(record_id=self.record_id, divide_time=self.divide_time, version=self.version, lines=detection_lines, detection_time=self.video_time, debug=False)
-        print(len(detection_algorithm.zones["through"])) # type: ignore
         while True:
-            results, cars_removed = detection_algorithm.read()
+            results, __annotations__ = detection_algorithm.read()
             frame = detection_algorithm.frame
             
             if isinstance(detection_algorithm.detection_time, (int, float)):

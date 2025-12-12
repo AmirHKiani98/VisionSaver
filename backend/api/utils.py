@@ -47,11 +47,12 @@ def get_auto_detection_results_from_df_zones(auto_df, min_time=0, max_time=600, 
                 # e.g. [2, 1, 3] is not accetable. Only [1,2,3]
                 time = detected[detected["line_index"] == line_index]["time"].max()
                 if time not in results[line_index]:
-                    results[line_index][time] = [0, [], []]
+                    results[line_index][time] = [0, [], [], []]
                 results[line_index][time][0] += 1
                 total += 1
                 results[line_index][time][1].append(int(group["track_id"].iloc[0]))
                 results[line_index][time][2].append(group["cls_id"].iloc[0])
+                results[line_index][time][3].append(f"")
     results = {key: dict(sorted(value.items(), key=lambda item: item[0])) for key, value in results.items()}
     return results, total
 
@@ -78,7 +79,7 @@ def get_auto_detection_results_from_df_lines(auto_df, min_time=0, max_time=600, 
     groups = filtered_df.groupby("track_id")
     total = 0
     for _, group in groups:
-        print("_", _)
+        # print("_", _)
         # Sort by time to ensure correct order
         group = group.sort_values("time")
         # Make sure the max time - min time > 2 seconds
@@ -97,23 +98,26 @@ def get_auto_detection_results_from_df_lines(auto_df, min_time=0, max_time=600, 
             line_x = line_points["x"]
             line_y = line_points["y"]
             mean_degree_angle = curve_parallelity(xc.values, yc.values, np.array(line_x), np.array(line_y))
-            PARALLELITY_THRESHOLD = 0.9
-            
+            print(f"Track ID {_} - mean_angle_ {mean_degree_angle} max_time: {max_time}")
             if abs(mean_degree_angle) > 45:
                 continue
             
             if mean_degree_angle < final_line_key_mean_degree_angle:
                 final_line_key_mean_degree_angle = mean_degree_angle
                 final_line_key = line_key
-            
+        
+        print()
+        print()
+        print()
         if final_line_key is not None:
-            print(f"Track ID {_} - final_line_key {final_line_key} - final_line_key_mean_degree_angle: {final_line_key_mean_degree_angle}", end=" | ")
+            
             if time not in results[final_line_key]:
-                results[final_line_key][time] = [0, [], []]  
+                results[final_line_key][time] = [0, [], [], []]  
             results[final_line_key][time][0] += 1
             total += 1
             results[final_line_key][time][1].append(int(group["track_id"].iloc[0]))
             results[final_line_key][time][2].append(group["cls_id"].iloc[0])
+            results[final_line_key][time][3].append(f"{final_line_key_mean_degree_angle:.2f}")
     results = {key: dict(sorted(value.items(), key=lambda item: item[0])) for key, value in results.items()}
     return results, total
 
@@ -299,3 +303,122 @@ def get_results_comparison_df(record_id, version, divide_time, min_time=0, max_t
     auto_counts, auto_total = get_counter_auto_detection_results(record_id, version, divide_time, min_time=min_time, max_time=max_time)
     iss_api_df, iss_total = get_iss_detections_pandas(record_id, min_time, max_time)
     return (manual_counts, manaul_total), (auto_counts, auto_total), (iss_api_df, iss_total)
+
+
+
+def get_counting_raw(df):
+    if df.empty:
+        return pd.DataFrame()
+    columns = ["time", "count"]
+    for column in columns:
+        if column not in df.columns:
+            raise ValueError(f"Column '{column}' not found in DataFrame.")
+    
+    # time column should be datatype (datetime64[ns])
+    if not np.issubdtype(df["time"].dtype, np.datetime64):
+        df["time"] = pd.to_datetime(df["time"], errors='coerce')
+    
+
+    # Divide the whole day into 15-minute intervals. Beginning from 00:00 to 23.45. But we need to
+    # keep this in the US format: PM and AM
+    df["hour"] = df["time"].dt.hour
+    df["minute"] = df["time"].dt.minute
+    start = df["time"].min().floor("15min")
+    end = df["time"].max().ceil("15min")
+    df["interval"] = df["time"].dt.floor("15min")
+    counts = (
+        df.groupby("interval")
+        .size()
+        .reset_index(pd.date_range(start, end, freq="15min"), fill_value=0)
+    )
+    result = counts.reset_index()
+    result.columns = ["interval_start", "count"]
+    result["label"] = result["interval_start"].dt.strftime("%I:%M %p")
+
+    return result
+
+
+def get_manual_counting_excel(record_id):
+
+    record = Record.objects.filter(id=record_id).first()
+    if not record:
+        raise ValueError("Record not found.")
+    start_time = record.start_time
+    manual_results, manual_total = get_counter_manual_results(record_id)
+    results = pd.DataFrame({"time":[]})
+    for line_key, line_data in manual_results.items():
+        results_before_df = {"time":[], "count":[]}
+        for time, count in line_data.items():
+            results_before_df["time"].append(start_time + timedelta(seconds=time))
+            results_before_df["count"].append(count)
+        results_df_for_line_key = pd.DataFrame(results_before_df)
+        raw_results_df_for_line_key = get_counting_raw(results_df_for_line_key)
+        raw_results_df_for_line_key = raw_results_df_for_line_key.rename(
+            columns={"count": line_key + " Count"}
+        )
+        results = pd.merge(
+            results,
+            raw_results_df_for_line_key[["interval_start", line_key + " Count"]],
+            left_on="time",
+            right_on="interval_start",
+            how="outer"
+        ).drop(columns=["interval_start"])
+        
+    
+    results = results.sort_values("time").fillna(0)
+    return results
+
+def get_auto_detection_counting_excel(record_id, version, divide_time):
+    auto_results, total = get_counter_auto_detection_results(record_id, version, divide_time)
+    if not auto_results:
+        raise ValueError("No auto detection results found.")
+    results = pd.DataFrame({"time":[]})
+    for line_key, line_data in auto_results.items():
+        results_before_df = {"time":[], "count":[]}
+        for time, data in line_data.items():
+            results_before_df["time"].append(timedelta(seconds=time))
+            results_before_df["count"].append(data[0])
+        results_df_for_line_key = pd.DataFrame(results_before_df)
+        raw_results_df_for_line_key = get_counting_raw(results_df_for_line_key)
+        raw_results_df_for_line_key = raw_results_df_for_line_key.rename(
+            columns={"count": line_key + " Count"}
+        )
+        results = pd.merge(
+            results,
+            raw_results_df_for_line_key[["interval_start", line_key + " Count"]],
+            left_on="time",
+            right_on="interval_start",
+            how="outer"
+        ).drop(columns=["interval_start"])
+    
+    results = results.sort_values("time").fillna(0)
+    return results
+
+def get_iss_detections_counting_excel(record_id, min_time=0, max_time=0):
+    iss_api_df, _ = get_iss_detections_pandas(record_id, min_time, max_time)
+    if iss_api_df.empty:
+        raise ValueError("No ISS API detection results found.")
+    
+    results = pd.DataFrame({"time":[]})
+    movement_groups = iss_api_df.groupby("direction")
+    for movement, group in movement_groups:
+        results_before_df = {"time":[], "count":[]}
+        time_counts = group['time'].value_counts().sort_index()
+        for time, count in time_counts.items():
+            results_before_df["time"].append(timedelta(seconds=time))
+            results_before_df["count"].append(count)
+        results_df_for_movement = pd.DataFrame(results_before_df)
+        raw_results_df_for_movement = get_counting_raw(results_df_for_movement)
+        raw_results_df_for_movement = raw_results_df_for_movement.rename(
+            columns={"count": movement + " Count"}
+        )
+        results = pd.merge(
+            results,
+            raw_results_df_for_movement[["interval_start", movement + " Count"]],
+            left_on="time",
+            right_on="interval_start",
+            how="outer"
+        ).drop(columns=["interval_start"])
+        
+    results = results.sort_values("time").fillna(0)
+    return results

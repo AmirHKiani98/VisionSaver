@@ -332,7 +332,7 @@ export default function CounterResults() {
                             const point = context.raw; // This is the data object for the point
                             let label = `${context.dataset.label}: ${context.parsed.y} at time ${context.parsed.x.toFixed(1)}s`;
                             if (point.veh_ids && Array.isArray(point.veh_ids)) {
-                                label += ` | Vehicle IDs: [${point.veh_ids.join(', ')}]`;
+                                label += ` | Vehicle IDs: [${point.veh_ids.join(', ')}] | Label: ${point.label.join(', ')}`;
                             }
                             return label;
                         }
@@ -413,7 +413,7 @@ export default function CounterResults() {
                             )}
                             {loadingFrame && (
                                 <div className="mt-2 absolute top-5 right-5 bg-white p-2 border border-gray-300 rounded flex items-center justify-center" style={{ width: '300px', height: '300px' }}>
-                                    <Typography variant="body1" color="textSecondary">
+                                       <Typography variant="body1" color="textSecondary">
                                         Loading frame...
                                     </Typography>
                                 </div>
