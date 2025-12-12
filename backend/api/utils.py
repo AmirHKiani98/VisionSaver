@@ -315,7 +315,7 @@ def get_counting_raw(df):
             raise ValueError(f"Column '{column}' not found in DataFrame.")
     
     # time column should be datatype (datetime64[ns])
-    if not np.issubdtype(df["time"].dtype, np.datetime64):
+    if not pd.api.types.is_datetime64_any_dtype(df["time"]):
         df["time"] = pd.to_datetime(df["time"], errors='coerce')
     
 
@@ -329,7 +329,7 @@ def get_counting_raw(df):
     counts = (
         df.groupby("interval")
         .size()
-        .reset_index(pd.date_range(start, end, freq="15min"), fill_value=0)
+        .reindex(pd.date_range(start, end, freq="15min"), fill_value=0)
     )
     result = counts.reset_index()
     result.columns = ["interval_start", "count"]
@@ -350,12 +350,19 @@ def get_manual_counting_excel(record_id):
         results_before_df = {"time":[], "count":[]}
         for time, count in line_data.items():
             results_before_df["time"].append(start_time + timedelta(seconds=time))
+            print(start_time + timedelta(seconds=time))
             results_before_df["count"].append(count)
         results_df_for_line_key = pd.DataFrame(results_before_df)
         raw_results_df_for_line_key = get_counting_raw(results_df_for_line_key)
         raw_results_df_for_line_key = raw_results_df_for_line_key.rename(
             columns={"count": line_key + " Count"}
         )
+        raw_results_df_for_line_key["interval_start"] = pd.to_datetime(raw_results_df_for_line_key["interval_start"])
+        results["time"] = pd.to_datetime(results["time"], errors='coerce')
+        # Ensure both columns have the same timezone awareness
+        results["time"] = pd.to_datetime(results["time"], errors='coerce').dt.tz_localize(None)
+        raw_results_df_for_line_key["interval_start"] = pd.to_datetime(raw_results_df_for_line_key["interval_start"]).dt.tz_localize(None)
+        
         results = pd.merge(
             results,
             raw_results_df_for_line_key[["interval_start", line_key + " Count"]],
