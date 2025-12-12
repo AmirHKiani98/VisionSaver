@@ -167,3 +167,7 @@ cameravision/resources/media/582.mp4
 # temp
 temp
 backend/db.sqlite3
+
+
+augmented_vehicle_movements.csv
+vehicle_movements.csv
