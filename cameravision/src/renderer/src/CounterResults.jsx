@@ -419,31 +419,46 @@ export default function CounterResults() {
                                 </div>
                             )}
                         </div>
-                        <div className="min-h-10 w-full flex justify-center items-center flex-wrap gap-2">
+                        
+                        <div className="min-h-10 w-full flex flex-col justify-center items-center gap-4">
                             {totalCounts && Object.keys(totalCounts).length > 0 ? (
-                                Object.entries(totalCounts).map(([key, value], index) => {
-                                    let chipStyle = {};
-                                    const lowerKey = key.toLowerCase();
-                                    if (lowerKey.includes('auto')) {
-                                        chipStyle = { backgroundColor: COLOR_AUTO };
-                                    } else if (lowerKey.includes('manual')) {
-                                        chipStyle = { backgroundColor: COLOR_MANUAL };
-                                    } else if (lowerKey.includes('iss')) {
-                                        chipStyle = { backgroundColor: COLOR_ISS};
-                                    }
-                                    return (
-                                        <Chip 
-                                            key={index} 
-                                            label={`${key}: ${value}`} 
-                                            className="m-1" 
-                                            style={chipStyle}
-                                        />
-                                    );
-                                })
+                                Object.entries(
+                                    Object.entries(totalCounts).reduce((acc, [key, value]) => {
+                                        const groupKey = key.split(' ')[0]; // Get prefix like 'Auto', 'Manual', 'ISS'
+                                        if (!acc[groupKey]) acc[groupKey] = [];
+                                        acc[groupKey].push([key, value]);
+                                        return acc;
+                                    }, {})
+                                ).map(([group, items]) => (
+                                    <div key={group} className="flex flex-wrap justify-center items-center gap-2 w-full">
+                                        {items
+                                            .sort((a, b) => a[0].localeCompare(b[0])) // Sort by key alphabetically
+                                            .map(([key, value], index) => {
+                                                let chipStyle = {};
+                                                const lowerKey = key.toLowerCase();
+                                                if (lowerKey.includes('auto')) {
+                                                    chipStyle = { backgroundColor: COLOR_AUTO };
+                                                } else if (lowerKey.includes('manual')) {
+                                                    chipStyle = { backgroundColor: COLOR_MANUAL };
+                                                } else if (lowerKey.includes('iss')) {
+                                                    chipStyle = { backgroundColor: COLOR_ISS };
+                                                }
+                                                return (
+                                                    <Chip
+                                                        key={`${group}-${index}`}
+                                                        label={`${key}: ${value}`}
+                                                        className="m-1"
+                                                        style={chipStyle}
+                                                    />
+                                                );
+                                            })}
+                                    </div>
+                                ))
                             ) : (
                                 <Chip label="No counts available" className="m-1" />
                             )}
                         </div>
+
                         <Box sx={{ mt: 2, mx: 2 }}>
                             <Slider
                                 className="mt-2"
