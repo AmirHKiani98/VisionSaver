@@ -1089,12 +1089,31 @@ def download_manual_count_excel(request):
         record_id = data.get('record_id')
         if not record_id:
             return JsonResponse({"error": "'record_id' is required."}, status=400)
-        
-        excel_df = get_manual_count_excel_with_direction(record_id)
-        # Download
+
+        excel_obj = get_manual_count_excel_with_direction(record_id)
+
+        # create temp file and write depending on returned object type
         with tempfile.NamedTemporaryFile(suffix='.xlsx', delete=False) as tmp:
-            excel_df.to_excel(tmp.name, engine='openpyxl', index=False)
             tmp_path = tmp.name
+
+        if excel_obj is None:
+            return JsonResponse({"error": "No data to export."}, status=404)
+
+        # If pandas DataFrame -> use to_excel; if openpyxl Workbook -> save directly
+        try:
+            import pandas as _pd  # local import to avoid shadowing
+            if isinstance(excel_obj, _pd.DataFrame):
+                excel_obj.to_excel(tmp_path, engine='openpyxl', index=False)
+            else:
+                # assume openpyxl.Workbook
+                excel_obj.save(tmp_path)
+        except Exception:
+            # fallback: if object has 'save' method (workbook), call it
+            if hasattr(excel_obj, "save"):
+                excel_obj.save(tmp_path)
+            else:
+                return JsonResponse({"error": "Unsupported excel object returned."}, status=500)
+
         response = FileResponse(
             open(tmp_path, 'rb'),
             as_attachment=True,

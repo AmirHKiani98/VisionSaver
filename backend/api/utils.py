@@ -8,6 +8,9 @@ import requests
 import os
 import re
 import numpy as np
+import openpyxl
+from openpyxl.utils import get_column_letter
+from openpyxl.styles import Alignment
 
 def get_ip_from_rtsp(rtsp_link):
     return re.findall(r"rtsp://(\d+\.\d+\.\d+\.\d+)", rtsp_link)[0]
@@ -445,30 +448,70 @@ def get_iss_detections_counting_excel(record_id, min_time=0, max_time=0):
 
 
 def get_manual_count_excel_with_direction(record_id):
-    try:
-        record = Record.objects.filter(id=record_id).first()
-        if not record:
-            return None
-        direction = record.direction or "N/A"
-        excel_df = get_manual_counting_excel(record_id)
+    """
+    Write manual counting results to an Excel file with a two-row header:
+    - Row 1: empty first cell, then a merged cell with the direction spanning all data columns
+    - Row 2: actual column names (time, <Direction> Count, ...)
+    This avoids pandas' MultiIndex->Excel limitation by writing headers with openpyxl.
+    """
+    record = Record.objects.filter(id=record_id).first()
+    if not record:
+        raise ValueError("Record not found.")
+    direction = record.direction or "N/A"
 
-        if excel_df is None or excel_df.empty:
-            return excel_df
+    excel_df = get_manual_counting_excel(record_id)
+    if excel_df is None or excel_df.empty:
+        return excel_df
 
-        # Create MultiIndex columns with the direction as top-level, but
-        # flatten them before returning so pandas can write to Excel with
-        # index=False (pandas cannot write MultiIndex columns with index=False).
-        excel_df.columns = pd.MultiIndex.from_product([[direction], excel_df.columns])
+    # Ensure 'time' column name (some helpers call it 'interval_start')
+    # prefer 'time' if present, otherwise rename 'interval_start' -> 'time' for output
+    if "interval_start" in excel_df.columns and "time" not in excel_df.columns:
+        excel_df = excel_df.rename(columns={"interval_start": "time"})
 
-        # Flatten MultiIndex columns into single-level strings, e.g. "{direction} {col}"
-        flat_columns = [
-            " ".join(map(str, col)).strip() if isinstance(col, (list, tuple)) else str(col)
-            for col in excel_df.columns
-        ]
-        excel_df_flat = excel_df.copy()
-        excel_df_flat.columns = flat_columns
-        return excel_df_flat
-    except Exception as exc:
-        # Surface the error to logs so caller can debug
-        print("Error in get_manual_count_excel_with_direction:", repr(exc))
-        return None
+    # Prepare header groups: we'll put the 'direction' header above all columns except the first ('time')
+    cols = excel_df.columns.tolist()
+    if len(cols) < 1:
+        raise ValueError("DataFrame has no columns to write.")
+
+    # Build workbook and worksheet
+    wb = openpyxl.Workbook()
+    ws = wb.active
+
+    # Row 1: first cell empty, merge remaining columns under direction
+    first_data_col = 2  # column 1 will be 'time'
+    last_data_col = first_data_col + (len(cols) - 1) - 1 + 1  # compute inclusive last column index
+    # write empty top-left cell
+    ws.cell(row=1, column=1, value="")
+    # merge and write direction if there are data columns
+    if len(cols) > 1:
+        start_col_letter = get_column_letter(first_data_col)
+        end_col_letter = get_column_letter(first_data_col + len(cols) - 2)
+        merge_range = f"{start_col_letter}1:{end_col_letter}1"
+        ws.merge_cells(merge_range)
+        ws[f"{start_col_letter}1"] = direction
+        ws[f"{start_col_letter}1"].alignment = Alignment(horizontal="center", vertical="center")
+    else:
+        # Only time column -> write direction above time (even though user wanted empty top-left,
+        # in case of single column we keep top-left empty)
+        pass
+
+    # Row 2: write actual column names
+    for j, col_name in enumerate(cols, start=1):
+        cell = ws.cell(row=2, column=j, value=str(col_name))
+        cell.alignment = Alignment(horizontal="center", vertical="center")
+
+    # Row 3+: write data rows
+    # Ensure pandas datetimes become python datetimes
+    excel_df_copy = excel_df.copy()
+    for c in excel_df_copy.select_dtypes(include=["datetime", "datetimetz"]).columns:
+        excel_df_copy[c] = pd.to_datetime(excel_df_copy[c]).dt.tz_localize(None)
+
+    for i, row in enumerate(excel_df_copy.itertuples(index=False), start=3):
+        for j, value in enumerate(row, start=1):
+            ws.cell(row=i, column=j, value=value)
+
+    # Optionally set column widths
+    for i, col in enumerate(cols, start=1):
+        col_letter = get_column_letter(i)
+        ws.column_dimensions[col_letter].width = max(12, min(30, len(str(col)) + 2))
+    return wb
