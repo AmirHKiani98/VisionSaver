@@ -273,7 +273,10 @@ def get_iss_detections_json(record_id, min_time=0, max_time=0):
     ip = get_ip_from_rtsp(record.camera_url)
     record_start_time = record.start_time
     record_start_time = record_start_time + timedelta(seconds=min_time)
-    record_end_time = record.start_time + timedelta(minutes=record.duration) + timedelta(seconds=max_time)
+    # TODO check this part right here:
+    if max_time == 0:
+        max_time = record.duration * 60
+    record_end_time = record.start_time + timedelta(seconds=max_time)
     url = f"http://{ip}/api/v1/cameras/{record.camera_id}/detections"
     params = {
         "start-time": record_start_time.strftime("%Y-%m-%dT%H:%M:%S"),
@@ -581,6 +584,7 @@ def get_auto_iss_count_excel_with_direction(record_id, version, divide_time):
     write_df_with_direction_header(ws_auto, auto_excel_df, direction)
     write_df_with_direction_header(ws_iss, iss_excel_df, direction)
     return wb
+    
 
 def get_multiple_manual_counting_excel(records_ids):
     """
@@ -757,5 +761,375 @@ def get_multiple_manual_counting_excel(records_ids):
         for r in range(1, last_data_row + 1):
             for c in range(start_idx, end_idx + 1):
                 ws.cell(row=r, column=c).border = border
+    ws_summary = wb.create_sheet(title="Manual Summary")
+    ws_summary.append()
+    return wb
+
+
+def get_multiple_iss_counting_excel(records_ids):
+    """
+    Get the same results as get_manual_count_excel_with_direction for each of the records
+    and merge them based on the time. They should be like the following:
+    | EMPTY | Direction 1 (with a1 columns)| Direction 2 (with a2 columns) | ... | Direction n (an) columns |
+    | EMPTY | Count movement 1 | Count movement 2 | ... | Count movement a1  ...| | Count movement 1 | ... | Count movement an |
+    | Time | Count | Count | ... | Count |
+    ...
+    """
+    combined_results = pd.DataFrame({"time":[]})
+    directions = []
+    record_column_info = []  # will store tuples (direction, num_cols, col_names)
+    for record_id in records_ids:
+        record = Record.objects.filter(id=record_id).first()
+        if not record:
+            continue
+        direction = record.direction or "N/A"
+        excel_df = get_iss_detections_counting_excel(record_id)
+        if excel_df is None or excel_df.empty:
+            continue
+        if "interval_start" in excel_df.columns and "time" not in excel_df.columns:
+            excel_df = excel_df.rename(columns={"interval_start": "time"})
+        # count data columns for this record (exclude 'time')
+        data_cols = [c for c in excel_df.columns if c != "time"]
+        record_column_info.append((direction, len(data_cols), data_cols, record_id))
+        directions.append(direction)
+        # Rename columns to include direction to avoid collisions
+        renamed_columns = {
+            col: f"{direction} {col}" if col != "time" else col for col in excel_df.columns
+        }
+        excel_df = excel_df.rename(columns=renamed_columns)
+        combined_results = pd.merge(
+            combined_results,
+            excel_df,
+            on="time",
+            how="outer"
+        )
+    if combined_results.empty:
+        raise ValueError("No valid manual counting results found for the provided record IDs.")
+
+    # ensure time is datetime and sort
+    if "time" in combined_results.columns:
+        combined_results["time"] = pd.to_datetime(combined_results["time"])
+    combined_results = combined_results.sort_values("time").reset_index(drop=True)
+
+    # Now write to Excel with two-row header and styling
+    wb = openpyxl.Workbook()
+    ws = wb.active
+
+    # quick style objects
+    from openpyxl.styles import PatternFill, Border, Side, Font
+    thin = Side(border_style="thin", color="000000")
+    border = Border(left=thin, right=thin, top=thin, bottom=thin)
+    time_fill = PatternFill(start_color="FFF2CC", end_color="FFF2CC", fill_type="solid")  # light yellow
+    fills = [
+        PatternFill(start_color="DDEBF7", end_color="DDEBF7", fill_type="solid"),  # light blue
+        PatternFill(start_color="F2F2F2", end_color="F2F2F2", fill_type="solid"),  # light gray
+        PatternFill(start_color="E2EFDA", end_color="E2EFDA", fill_type="solid"),  # light green
+        PatternFill(start_color="FCE4D6", end_color="FCE4D6", fill_type="solid"),  # light peach
+    ]
+
+    # Row 1: first cell empty
+    ws.cell(row=1, column=1, value="")
+    # Determine columns per direction group (order in combined_results.columns)
+    cols = combined_results.columns.tolist()
+    # Build mapping of direction -> (start_col_index, end_col_index, num_cols, record_id)
+    mapping = []
+    col_index = 1
+    # find indices for 'time' then subsequent columns
+    # ensure time is first; if not, move it to first in ordering
+    if cols[0] != "time" and "time" in cols:
+        cols.remove("time")
+        cols.insert(0, "time")
+    # calculate contiguous groups for each record using record_column_info order
+    current_col = 2  # excel column index for first data column
+    for direction, num_cols, data_cols, record_id in record_column_info:
+        if num_cols == 0:
+            continue
+        # find the actual column names in combined_results corresponding to this direction
+        full_col_names = [f"{direction} {c}" for c in data_cols]
+        # find contiguous block start by searching for first occurrence among cols
+        found_indices = [cols.index(name) + 1 for name in full_col_names if name in cols]
+        if not found_indices:
+            continue
+        start_idx = min(found_indices)
+        end_idx = max(found_indices)
+        # store mapping as 1-based excel col indices
+        mapping.append((direction, start_idx, end_idx, num_cols, record_id))
+    # If mapping empty, try fallback: group by prefix direction in column order
+    if not mapping:
+        # scan cols and group by prefix before first space
+        idx = 2
+        seen_dirs = set()
+        for c in cols[1:]:
+            parts = str(c).split(" ", 1)
+            dir_name = parts[0]
+            if dir_name not in seen_dirs:
+                # count how many consecutive columns start with this dir_name
+                group_cols = [cc for cc in cols[1:] if str(cc).startswith(dir_name + " ")]
+                if not group_cols:
+                    continue
+                start_idx = cols.index(group_cols[0]) + 1
+                end_idx = cols.index(group_cols[-1]) + 1
+                mapping.append((dir_name, start_idx, end_idx, len(group_cols), None))
+                seen_dirs.add(dir_name)
+
+    # Row 1: merge and write direction headers with alternating fills and borders per record block
+    for idx, (direction, start_idx, end_idx, num_cols, record_id) in enumerate(mapping):
+        start_letter = get_column_letter(start_idx)
+        end_letter = get_column_letter(end_idx)
+        merge_range = f"{start_letter}1:{end_letter}1"
+        ws.merge_cells(merge_range)
+        cell = ws.cell(row=1, column=start_idx, value=direction)
+        cell.alignment = Alignment(horizontal="center", vertical="center")
+        fill = fills[idx % len(fills)]
+        # apply fill to merged header range
+        for col in range(start_idx, end_idx + 1):
+            hcell = ws.cell(row=1, column=col)
+            hcell.fill = fill
+            hcell.border = border
+            hcell.font = Font(bold=True)
+        # set column widths: total width 90 spread over the group's columns
+        per_col_width = 90.0 / max(1, num_cols)
+        for col in range(start_idx, end_idx + 1):
+            letter = get_column_letter(col)
+            ws.column_dimensions[letter].width = per_col_width
+
+    # time column styling and width
+    time_col_idx = cols.index("time") + 1 if "time" in cols else 1
+    time_letter = get_column_letter(time_col_idx)
+    ws.cell(row=1, column=time_col_idx).fill = time_fill  # top-left may be empty but color the cell
+    ws.cell(row=2, column=time_col_idx).fill = time_fill
+    ws.column_dimensions[time_letter].width = 20
+
+    # Row 2: actual column names
+    for j, col_name in enumerate(cols, start=1):
+        cell = ws.cell(row=2, column=j, value=str(col_name))
+        cell.alignment = Alignment(horizontal="center", vertical="center")
+        # apply time fill
+        if j == time_col_idx:
+            cell.fill = time_fill
+        else:
+            # find which record block this column belongs to and apply corresponding fill
+            for idx, (direction, start_idx, end_idx, num_cols, record_id) in enumerate(mapping):
+                if start_idx <= j <= end_idx:
+                    cell.fill = fills[idx % len(fills)]
+                    break
+        cell.border = border
+
+    # Row 3+: data rows
+    combined_results_copy = combined_results.copy()
+    for c in combined_results_copy.select_dtypes(include=["datetime", "datetimetz"]).columns:
+        combined_results_copy[c] = pd.to_datetime(combined_results_copy[c]).dt.tz_localize(None)
+    n_rows = combined_results_copy.shape[0]
+    for i, row in enumerate(combined_results_copy.itertuples(index=False), start=3):
+        for j, value in enumerate(row, start=1):
+            cell = ws.cell(row=i, column=j, value=value)
+            # apply border
+            cell.border = border
+            # apply time column fill
+            if j == time_col_idx:
+                cell.fill = time_fill
+            else:
+                # fill by record block
+                for idx, (direction, start_idx, end_idx, num_cols, record_id) in enumerate(mapping):
+                    if start_idx <= j <= end_idx:
+                        cell.fill = fills[idx % len(fills)]
+                        break
+
+    # Also add outer border around each record block (including header rows + data rows)
+    last_data_row = 2 + n_rows
+    for idx, (_, start_idx, end_idx, _, _) in enumerate(mapping):
+        for r in range(1, last_data_row + 1):
+            for c in range(start_idx, end_idx + 1):
+                ws.cell(row=r, column=c).border = border
+    ws_summary = wb.create_sheet(title="Manual Summary")
+    ws_summary.append()
+    return wb
+
+
+
+def get_multiple_auto_counting_excel(records_ids):
+    """
+    Aggregate auto-detection counting results by (version, divide_time).
+    Produce one sheet per unique (version, divide_time) containing merged
+    results for records that share that pair. Each sheet groups columns
+    by record.direction (same styling as manual export).
+    """
+    # gather dfs per (version, divide_time)
+    groups = {}  # (version, divide_time) -> list of tuples (record_id, direction, df)
+    for record_id in records_ids:
+        auto_detections = AutoDetection.objects.filter(record_id=record_id)
+        for auto_detection in auto_detections:
+            version = auto_detection.version
+            divide_time = auto_detection.divide_time
+            try:
+                excel_df = get_auto_detection_counting_excel(record_id, version, divide_time)
+            except Exception:
+                excel_df = None
+            if excel_df is None or excel_df.empty:
+                continue
+            # normalize time column name
+            if "interval_start" in excel_df.columns and "time" not in excel_df.columns:
+                excel_df = excel_df.rename(columns={"interval_start": "time"})
+            record = Record.objects.filter(id=record_id).first()
+            direction = (record.direction or "N/A") if record else "N/A"
+            key = (version, divide_time)
+            groups.setdefault(key, []).append((record_id, direction, excel_df.copy()))
+
+    if not groups:
+        raise ValueError("No valid auto detection results found for the provided record IDs.")
+
+    wb = openpyxl.Workbook()
+    # keep default sheet to remove later if unused
+    default_sheet = wb.active
+    created_any = False
+
+    # styling helpers reused from manual exporter
+    from openpyxl.styles import PatternFill, Border, Side, Font
+    thin = Side(border_style="thin", color="000000")
+    border = Border(left=thin, right=thin, top=thin, bottom=thin)
+    time_fill = PatternFill(start_color="FFF2CC", end_color="FFF2CC", fill_type="solid")
+    fills = [
+        PatternFill(start_color="DDEBF7", end_color="DDEBF7", fill_type="solid"),
+        PatternFill(start_color="F2F2F2", end_color="F2F2F2", fill_type="solid"),
+        PatternFill(start_color="E2EFDA", end_color="E2EFDA", fill_type="solid"),
+        PatternFill(start_color="FCE4D6", end_color="FCE4D6", fill_type="solid"),
+    ]
+
+    def write_group_sheet(title, records_list):
+        """
+        records_list: list of (record_id, direction, df)
+        returns: created worksheet
+        """
+        combined = pd.DataFrame({"time": []})
+        record_column_info = []
+        directions = []
+        for record_id, direction, df in records_list:
+            # ensure time column present
+            if "interval_start" in df.columns and "time" not in df.columns:
+                df = df.rename(columns={"interval_start": "time"})
+            data_cols = [c for c in df.columns if c != "time"]
+            record_column_info.append((direction, len(data_cols), data_cols, record_id))
+            directions.append(direction)
+            # rename to avoid collisions
+            renamed = {col: f"{direction} {col}" if col != "time" else col for col in df.columns}
+            df2 = df.rename(columns=renamed)
+            combined = pd.merge(combined, df2, on="time", how="outer")
+        if combined.empty:
+            return None
+
+        # normalize time dtype and sort
+        if "time" in combined.columns:
+            combined["time"] = pd.to_datetime(combined["time"])
+        combined = combined.sort_values("time").reset_index(drop=True)
+
+        ws = wb.create_sheet(title=title[:31])
+        # Row1 blank cell
+        ws.cell(row=1, column=1, value="")
+        cols = combined.columns.tolist()
+        # ensure time first
+        if cols and cols[0] != "time" and "time" in cols:
+            cols.remove("time"); cols.insert(0, "time")
+
+        # build mapping as in manual function
+        mapping = []
+        for direction, num_cols, data_cols, record_id in record_column_info:
+            if num_cols == 0:
+                continue
+            full_col_names = [f"{direction} {c}" for c in data_cols]
+            found_indices = [cols.index(name) + 1 for name in full_col_names if name in cols]
+            if not found_indices:
+                continue
+            mapping.append((direction, min(found_indices), max(found_indices), num_cols, record_id))
+        if not mapping:
+            # fallback grouping by prefix
+            seen = set()
+            for c in cols[1:]:
+                prefix = str(c).split(" ", 1)[0]
+                if prefix in seen:
+                    continue
+                group_cols = [cc for cc in cols[1:] if str(cc).startswith(prefix + " ")]
+                if not group_cols:
+                    continue
+                start_idx = cols.index(group_cols[0]) + 1
+                end_idx = cols.index(group_cols[-1]) + 1
+                mapping.append((prefix, start_idx, end_idx, len(group_cols), None))
+                seen.add(prefix)
+
+        # write merged headers per mapping
+        for idx, (direction, start_idx, end_idx, num_cols, rid) in enumerate(mapping):
+            start_letter = get_column_letter(start_idx)
+            end_letter = get_column_letter(end_idx)
+            ws.merge_cells(f"{start_letter}1:{end_letter}1")
+            cell = ws.cell(row=1, column=start_idx, value=direction)
+            cell.alignment = Alignment(horizontal="center", vertical="center")
+            fill = fills[idx % len(fills)]
+            for col in range(start_idx, end_idx + 1):
+                hcell = ws.cell(row=1, column=col)
+                hcell.fill = fill; hcell.border = border; hcell.font = Font(bold=True)
+                ws.column_dimensions[get_column_letter(col)].width = max(8, 90.0 / max(1, num_cols))
+
+        # time column styling
+        time_col_idx = cols.index("time") + 1 if "time" in cols else 1
+        ws.cell(row=1, column=time_col_idx).fill = time_fill
+        ws.cell(row=2, column=time_col_idx).fill = time_fill
+        ws.column_dimensions[get_column_letter(time_col_idx)].width = 20
+
+        # row2 header names
+        for j, col_name in enumerate(cols, start=1):
+            cell = ws.cell(row=2, column=j, value=str(col_name))
+            cell.alignment = Alignment(horizontal="center", vertical="center")
+            if j == time_col_idx:
+                cell.fill = time_fill
+            else:
+                for idx, (_, start_idx, end_idx, _, _) in enumerate(mapping):
+                    if start_idx <= j <= end_idx:
+                        cell.fill = fills[idx % len(fills)]; break
+            cell.border = border
+
+        # data rows
+        combined_copy = combined.copy()
+        for c in combined_copy.select_dtypes(include=["datetime", "datetimetz"]).columns:
+            combined_copy[c] = pd.to_datetime(combined_copy[c]).dt.tz_localize(None)
+        for i, row in enumerate(combined_copy.itertuples(index=False), start=3):
+            for j, value in enumerate(row, start=1):
+                cell = ws.cell(row=i, column=j, value=value)
+                cell.border = border
+                if j == time_col_idx:
+                    cell.fill = time_fill
+                else:
+                    for idx, (_, start_idx, end_idx, _, _) in enumerate(mapping):
+                        if start_idx <= j <= end_idx:
+                            cell.fill = fills[idx % len(fills)]; break
+        last_row = 2 + combined_copy.shape[0]
+        # outer border per group
+        for (_, start_idx, end_idx, _, _) in mapping:
+            for r in range(1, last_row + 1):
+                for c in range(start_idx, end_idx + 1):
+                    ws.cell(row=r, column=c).border = border
+
+        return ws
+
+    # Create a sheet per (version, divide_time) group
+    summary_rows = [["Sheet Name", "Version", "Divide Time", "Records Included"]]
+    for (version, divide_time), recs in groups.items():
+        sheet_title = f"Auto_v{version}_d{divide_time}"
+        created_ws = write_group_sheet(sheet_title, recs)
+        if created_ws is not None:
+            created_any = True
+            summary_rows.append([created_ws.title, version, divide_time, ", ".join(str(rid) for rid, _, _ in recs)])
+
+    # add summary sheet
+    ws_summary = wb.create_sheet(title="Auto Summary")
+    for r in summary_rows:
+        ws_summary.append(r)
+    for i in range(1, len(summary_rows[0]) + 1):
+        ws_summary.column_dimensions[get_column_letter(i)].width = 30
+
+    # remove default sheet if unused
+    if not created_any and default_sheet and default_sheet.title == "Sheet":
+        # keep summary only
+        pass
+    elif default_sheet and default_sheet.title == "Sheet":
+        wb.remove(default_sheet)
 
     return wb
