@@ -22,7 +22,7 @@ else:
     activate_script = "source " + os.path.join(venv_path, "bin", "activate")
     shell = True
     pip_cmd = f"{activate_script} && pip install -r {os.path.join(SCRIPT_DIR, 'requirements.txt')}"
-print("Installing requirements.txt...")
+print("Retrieving requirements.txt...")
 if DEBUG:
     subprocess.run(pip_cmd, shell=shell, executable=None if not platform.system() == "Windows" else None, check=True)
 
@@ -138,20 +138,24 @@ def find_compatible_pytorch_version(cuda_available=False, cuda_version=None):
 pytorch_version, install_command = find_compatible_pytorch_version(cuda_exists, cuda_version)
 if install_command:
     print(f"Recommended PyTorch version: {pytorch_version}")
-    print(f"Installation command: {install_command}")
+    print(f"Retriveing pytorch command: {install_command}")
 
 
 
 
 if install_command:
     torch_cmd = f"{activate_script} && {install_command}"
-    print("Checking pytorch installation...")
+    print("Checking pytorch availability...")
     if DEBUG:
         subprocess.run(torch_cmd, shell=shell, executable=None if not platform.system() == "Windows" else None, check=True)
     else:
         subprocess.run(torch_cmd, shell=shell, executable=None if not platform.system() == "Windows" else None, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
-# Install frontend packages
+
+print("Retrieving necessary information process completed successfully!")
+
+
+# Retrive frontend packages
 frontend_dir = os.path.join(SCRIPT_DIR, "cameravision")
 if os.path.isdir(frontend_dir):
     npm_install_cmd = f"{activate_script} && cd {frontend_dir} && npm install"
@@ -162,14 +166,13 @@ if os.path.isdir(frontend_dir):
 else:
     print(f"Frontend directory not found: {frontend_dir}")
 
-# run the npm build command
+print("Starting the tool ...")
 if os.path.isdir(frontend_dir):
     npm_build_cmd = f"{activate_script} && cd {frontend_dir} && npm run dev"
     if DEBUG:
         subprocess.run(npm_build_cmd, shell=shell, executable=None if not platform.system() == "Windows" else None, check=True)
     else:
         subprocess.run(npm_build_cmd, shell=shell, executable=None if not platform.system() == "Windows" else None, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-print("Installation completed successfully!")
 
 
 
