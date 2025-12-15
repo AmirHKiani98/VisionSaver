@@ -13,7 +13,7 @@ from asgiref.sync import async_to_sync
 import numpy as np
 from ai.models import AutoDetection, AutoDetectionCheckpoint, DetectionProcess, ModifiedAutoDetection
 import traceback
-from api.utils import get_counter_auto_detection_results, get_counter_manual_results, get_movement_index, get_iss_detections_pandas, get_results_comparison_df, get_manual_count_excel_with_direction
+from api.utils import get_counter_auto_detection_results, get_counter_manual_results, get_movement_index, get_iss_detections_pandas, get_results_comparison_df, get_manual_count_excel_with_direction, get_auto_iss_count_excel_with_direction
 import cv2
 import base64
 from django.http import FileResponse
@@ -1120,6 +1120,54 @@ def download_manual_count_excel(request):
             filename=f'manual_count_{record_id}.xlsx'
         )
         response["Content-Disposition"] = f'attachment; filename="manual_count_{record_id}.xlsx"'
+        return response
+    except Exception as e:
+        print(f"Error: {traceback.format_exc()}")
+        return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
+
+@csrf_exempt
+def download_auto_iss_count_excel(request):
+    if request.method != "POST":
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)
+
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+        record_id = data.get('record_id')
+        version = data.get('version')
+        divide_time = data.get('divide_time')
+        if not record_id:
+            return JsonResponse({"error": "'record_id' is required."}, status=400)
+
+        excel_obj = get_auto_iss_count_excel_with_direction(record_id, version, divide_time)
+
+        # create temp file and write depending on returned object type
+        with tempfile.NamedTemporaryFile(suffix='.xlsx', delete=False) as tmp:
+            tmp_path = tmp.name
+
+        if excel_obj is None:
+            return JsonResponse({"error": "No data to export."}, status=404)
+
+        # If pandas DataFrame -> use to_excel; if openpyxl Workbook -> save directly
+        try:
+            import pandas as _pd  # local import to avoid shadowing
+            if isinstance(excel_obj, _pd.DataFrame):
+                excel_obj.to_excel(tmp_path, engine='openpyxl', index=False)
+            else:
+                # assume openpyxl.Workbook
+                excel_obj.save(tmp_path)
+        except Exception:
+            # fallback: if object has 'save' method (workbook), call it
+            if hasattr(excel_obj, "save"):
+                excel_obj.save(tmp_path)
+            else:
+                return JsonResponse({"error": "Unsupported excel object returned."}, status=500)
+
+        response = FileResponse(
+            open(tmp_path, 'rb'),
+            as_attachment=True,
+            filename=f'auto_iss_count_{record_id}.xlsx'
+        )
+        response["Content-Disposition"] = f'attachment; filename="auto_iss_count_{record_id}.xlsx"'
         return response
     except Exception as e:
         print(f"Error: {traceback.format_exc()}")

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import DownloadIcon from '@mui/icons-material/Download';
 import { Scatter } from 'react-chartjs-2';
 import 'chart.js/auto';
 import {
@@ -41,7 +42,43 @@ export default function CounterResults() {
     const [loadingData, setLoadingData] = React.useState(true);
 
     // Update minMaxTime when maxTime changes
-
+    const downloadAutoISSExcels = () => {
+        if (!env) return;
+        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_DOWNLOAD_AUTO_ISS_EXCELS}`;
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                record_id: recordId,
+                version: version,
+                divide_time: divideTime
+            })
+        })
+        .then(async response => {
+            if (!response.ok) {
+                return response.text().then(text => {
+                    console.error("Server error response:", text);
+                    throw new Error(`Server returned ${response.status}: ${text}`);
+                });
+            }
+            return response.blob();
+        })
+        .then(blob => {
+            // Create a link to download the file
+            const url = window.URL.createObjectURL(new Blob([blob]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `counter_auto_iss_results_record_${recordId}.zip`);
+            document.body.appendChild(link);
+            link.click();
+            link.parentNode.removeChild(link);
+        })
+        .catch(error => {
+            console.error('Error downloading excels:', error);
+        });
+    }
     // Initialize environment
     useEffect(() => {
         window.env.get().then(setEnv);
@@ -385,12 +422,17 @@ export default function CounterResults() {
 
     return (
         <div className="p-5 flex flex-col h-screen gap-5 overflow-auto">
-            <Button
-                className="max-w-10"
-                onClick={() => window.history.back()}
-            >
-                Back
-            </Button>
+            <div classname="flex items-center justify-between">
+                <Button
+                    className="max-w-10"
+                    onClick={() => window.history.back()}
+                >
+                    Back
+                </Button>
+                <Button onClick={downloadAutoISSExcels}>
+                    <DownloadIcon />
+                </Button>
+            </div>
             <div className="flex-1 w-full shadow-xl bg-white/20 backdrop-blur-2xl rounded-lg p-5">
                 {loadingData ? (
                     <div className="flex items-center justify-center h-full">

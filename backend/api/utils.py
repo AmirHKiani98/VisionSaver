@@ -303,6 +303,7 @@ def get_iss_detections_pandas(record_id, min_time=0, max_time=0):
         lambda x: "through" if x == "Through" else "left" if x == "LeftTurn" else "right" if x == "RightTurn" else x
     )
     pandas_df = pandas_df[~pandas_df["zoneName"].str.contains("ADV")]
+    print(pandas_df)
     total = pandas_df.shape[0]
     return pandas_df, total
 
@@ -429,6 +430,7 @@ def get_iss_detections_counting_excel(record_id, min_time=0, max_time=0):
         results_before_df = {"time":[], "count":[]}
         time_counts = group['time'].value_counts().sort_index()
         for time, count in time_counts.items():
+            print(time)
             results_before_df["time"].append(start_time + timedelta(seconds=time))
             results_before_df["count"].append(count)
         results_df_for_movement = pd.DataFrame(results_before_df)
@@ -514,4 +516,69 @@ def get_manual_count_excel_with_direction(record_id):
     for i, col in enumerate(cols, start=1):
         col_letter = get_column_letter(i)
         ws.column_dimensions[col_letter].width = max(12, min(30, len(str(col)) + 2))
+    return wb
+
+
+def get_auto_iss_count_excel_with_direction(record_id, version, divide_time):
+    """
+    Get an excel with two sheets:
+    -- First sheet is auto excel results from get_auto_detection_counting_excel
+    -- Seconds sheet is ISS excel results from get_iss_detections_counting_excel
+    This avoids pandas' MultiIndex->Excel limitation by writing headers with openpyxl.
+    """
+    record = Record.objects.filter(id=record_id).first()
+    if not record:
+        raise ValueError("Record not found.")
+    direction = record.direction or "N/A"
+
+    auto_excel_df = get_auto_detection_counting_excel(record_id, version, divide_time)
+    iss_excel_df = get_iss_detections_counting_excel(record_id)
+
+    if auto_excel_df is None or auto_excel_df.empty:
+        raise ValueError("No auto detection counting results found.")
+    if iss_excel_df is None or iss_excel_df.empty:
+        raise ValueError("No ISS detection counting results found.")
+
+    # Prepare workbook
+    wb = openpyxl.Workbook()
+    ws_auto = wb.active
+    ws_auto.title = "Auto Detection Counts"
+    ws_iss = wb.create_sheet(title="ISS Detection Counts")
+
+    # Helper to write a DataFrame to a worksheet with two-row header
+    def write_df_with_direction_header(ws, df, direction):
+        # Ensure 'time' column name (some helpers call it 'interval_start')
+        if "interval_start" in df.columns and "time" not in df.columns:
+            df = df.rename(columns={"interval_start": "time"})
+
+        cols = df.columns.tolist()
+        if len(cols) < 1:
+            raise ValueError("DataFrame has no columns to write.")
+
+        # Row 1: first cell empty, merge remaining columns under direction
+        first_data_col = 2  # column 1 will be 'time'
+        last_data_col = first_data_col + (len(cols) - 1) - 1 + 1  # compute inclusive last column index
+        ws.cell(row=1, column=1, value="")
+        if len(cols) > 1:
+            start_col_letter = get_column_letter(first_data_col)
+            end_col_letter = get_column_letter(first_data_col + len(cols) - 2)
+            merge_range = f"{start_col_letter}1:{end_col_letter}1"
+            ws.merge_cells(merge_range)
+            ws[f"{start_col_letter}1"] = direction
+            ws[f"{start_col_letter}1"].alignment = Alignment(horizontal="center", vertical="center")
+
+        # Row 2: write actual column names
+        for j, col_name in enumerate(cols, start=1):
+            cell = ws.cell(row=2, column=j, value=str(col_name))
+            cell.alignment = Alignment(horizontal="center", vertical="center")
+        # Row 3+: write data rows
+        df_copy = df.copy()
+        for c in df_copy.select_dtypes(include=["datetime", "datetimetz"]).columns:
+            df_copy[c] = pd.to_datetime(df_copy[c]).dt.tz_localize(None)
+        for i, row in enumerate(df_copy.itertuples(index=False), start=3):
+            for j, value in enumerate(row, start=1):
+                ws.cell(row=i, column=j, value=value)
+
+    write_df_with_direction_header(ws_auto, auto_excel_df, direction)
+    write_df_with_direction_header(ws_iss, iss_excel_df, direction)
     return wb
