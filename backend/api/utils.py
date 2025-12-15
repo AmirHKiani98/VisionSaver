@@ -430,8 +430,7 @@ def get_iss_detections_counting_excel(record_id, min_time=0, max_time=0):
         results_before_df = {"time":[], "count":[]}
         time_counts = group['time'].value_counts().sort_index()
         for time, count in time_counts.items():
-            print(time)
-            results_before_df["time"].append(start_time + timedelta(seconds=time))
+            results_before_df["time"].append(start_time)
             results_before_df["count"].append(count)
         results_df_for_movement = pd.DataFrame(results_before_df)
         raw_results_df_for_movement = get_counting_raw(results_df_for_movement)

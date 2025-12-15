@@ -12,10 +12,9 @@ import {
     CircularProgress,
     Tooltip,
     Divider,
-    Chip,
-    Switch
+    Chip
 } from '@mui/material'; 
-import {faPen, faPlus, faEraser, faUpload, faRefresh, faEye, faEyeSlash, faCar, faMagnifyingGlass, faTrash, faCalculator, faStop, faClone, faDirections, faArrowRight, faCircleInfo, faVideoSlash, faChartBar} from '@fortawesome/free-solid-svg-icons';
+import {faPlus, faEraser, faUpload, faRefresh, faEye, faEyeSlash, faMagnifyingGlass, faTrash, faDownload, faStop, faClone, faArrowRight, faVideoSlash, faChartBar} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -124,7 +123,36 @@ const AutoDetection = () => {
             clearInterval(pixelRatioInterval);
         };
     }, [videoRef]);
-
+    const downloadResults = () => {
+        if (!env) return;
+        const url = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_DOWNLOAD_AUTO_ISS_EXCELS}`;
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ record_id: recordId, divide_time: accuracy, version: detectionVersion }),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.blob();
+        })
+        .then(blob => {
+            const downloadUrl = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = downloadUrl;
+            a.download = `detection_results_record_${recordId}.xlsx`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(downloadUrl);
+        })
+        .catch(error => {
+            console.error('Error downloading results:', error);
+        });
+    }
 
     react.useEffect(() => {
         if (!env) return;
@@ -1121,6 +1149,20 @@ const AutoDetection = () => {
                                                     <FontAwesomeIcon icon={faChartBar} className='text-center' />
                                                 </Button>
                                             </Link>
+
+                                        </span>
+                                    </Tooltip>
+                                    
+                                }
+                                {(detectionExists) &&
+                                    <Tooltip title="Download Results" placement="right">
+                                        <span className='h-full'>
+                                                <Button
+                                                    className={`shadow-lg hover:!bg-main-400 !text-black h-full !bg-main-200`}
+                                                    onClick={downloadResults}
+                                                >
+                                                    <FontAwesomeIcon icon={faDownload} className='text-center' />
+                                                </Button>
 
                                         </span>
                                     </Tooltip>
