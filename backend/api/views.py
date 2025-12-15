@@ -17,13 +17,15 @@ from api.utils import (
     get_counter_auto_detection_results, get_counter_manual_results, 
     get_movement_index, get_iss_detections_pandas, 
     get_results_comparison_df, get_manual_count_excel_with_direction, 
-    get_auto_iss_count_excel_with_direction, get_multiple_manual_counting_excel
+    get_auto_iss_count_excel_with_direction, get_multiple_manual_counting_excel,
+    get_multiple_iss_counting_excel, get_multiple_auto_counting_excel
 )
 import cv2
 import base64
 from django.http import FileResponse
 import tempfile
 import time
+import openpyxl
 # Create your views here.
 
 
@@ -1203,7 +1205,27 @@ def download_all_same_token_records_manual_count_excels(request):
             if rec.direction is None or rec.direction.strip() == "":
                 return JsonResponse({"error": f"Record ID {rec.id} does not have a direction set."}, status=400)
         list_of_ids = finished_detecting_records.values_list('id', flat=True)
-        wb = get_multiple_manual_counting_excel(list_of_ids)
+        wb_manual = get_multiple_manual_counting_excel(list_of_ids)
+        wb_iss = get_multiple_iss_counting_excel(list_of_ids)
+        wb_auto = get_multiple_auto_counting_excel(list_of_ids)
+        # Put all sheets into one workbook with different sheet names
+        wb = openpyxl.Workbook()
+        # Remove the default sheet created with a new workbook
+        default_sheet = wb.active
+        wb.remove(default_sheet)
+        # Add manual counting sheet
+        manual_sheet = wb_manual.active
+        manual_sheet.title = "Manual Counting"
+        wb.add_sheet(manual_sheet)
+        # Add ISS counting sheet
+        iss_sheet = wb_iss.active
+        iss_sheet.title = "ISS Counting"
+        wb.add_sheet(iss_sheet)
+        # Add Auto counting sheet (has multiple sheets)
+        for sheet_name in wb_auto.sheetnames:
+            auto_sheet = wb_auto[sheet_name]
+            wb.add_sheet(auto_sheet)
+
         with tempfile.NamedTemporaryFile(suffix='.xlsx', delete=False) as tmp:
             tmp_path = tmp.name
             wb.save(tmp_path)
