@@ -102,5 +102,9 @@ urlpatterns = [
     path(
         f"{os.getenv('API_DOWNLOAD_AUTO_ISS_EXCELS')}",
         views.download_auto_iss_count_excel
+    ),
+    path(
+        f"{os.getenv('API_DOWNLOAD_ALL_SAME_TOKEN_RECORDS_MANUAL_COUNT_EXCELS')}",
+        views.download_all_same_token_records_manual_count_excels
     )
 ]

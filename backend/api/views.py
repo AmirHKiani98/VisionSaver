@@ -13,7 +13,12 @@ from asgiref.sync import async_to_sync
 import numpy as np
 from ai.models import AutoDetection, AutoDetectionCheckpoint, DetectionProcess, ModifiedAutoDetection
 import traceback
-from api.utils import get_counter_auto_detection_results, get_counter_manual_results, get_movement_index, get_iss_detections_pandas, get_results_comparison_df, get_manual_count_excel_with_direction, get_auto_iss_count_excel_with_direction
+from api.utils import (
+    get_counter_auto_detection_results, get_counter_manual_results, 
+    get_movement_index, get_iss_detections_pandas, 
+    get_results_comparison_df, get_manual_count_excel_with_direction, 
+    get_auto_iss_count_excel_with_direction, get_multiple_manual_counting_excel
+)
 import cv2
 import base64
 from django.http import FileResponse
@@ -1172,3 +1177,44 @@ def download_auto_iss_count_excel(request):
     except Exception as e:
         print(f"Error: {traceback.format_exc()}")
         return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
+
+@csrf_exempt
+def download_all_same_token_records_manual_count_excels(request):
+    if request.method != "POST":
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)
+    
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+        token = data.get('token')
+        
+        record = Record.objects.filter(token=token)
+
+        # if nothing found, return error
+        if not record.exists(): 
+            return JsonResponse({"error": "No records found for the provided token."}, status=404)
+        
+        # if there is no record for which the manual counting (shown by finished_detecting = True) is not done, return error
+        finished_detecting_records = record.filter(finished_detecting=True)
+        if not finished_detecting_records.exists():
+            return JsonResponse({"error": "No records with completed manual counting found for the provided token."}, status=404)
+
+        # the finished detecting records do not have a direction set for them (and it's null), return error:
+        for rec in finished_detecting_records:
+            if rec.direction is None or rec.direction.strip() == "":
+                return JsonResponse({"error": f"Record ID {rec.id} does not have a direction set."}, status=400)
+        list_of_ids = finished_detecting_records.values_list('id', flat=True)
+        wb = get_multiple_manual_counting_excel(list_of_ids)
+        with tempfile.NamedTemporaryFile(suffix='.xlsx', delete=False) as tmp:
+            tmp_path = tmp.name
+            wb.save(tmp_path)
+        response = FileResponse(
+            open(tmp_path, 'rb'),
+            as_attachment=True,
+            filename=f'manual_counting_{token}.xlsx'
+        )
+        response["Content-Disposition"] = f'attachment; filename="manual_counting_{token}.xlsx"'
+        return response
+    except:
+        print(f"Error: {traceback.format_exc()}")
+        return JsonResponse({"error": "An error occurred while processing the request."}, status=500)
+

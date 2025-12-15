@@ -4,8 +4,10 @@ import Vision from './components/Vision';
 import VisionContainer from './components/VisionContainer';
 import {
     Button,
-    Link
+    Tooltip,
 } from '@mui/material';
+import DownloadIcon from '@mui/icons-material/Download';
+
 import { useLocation } from 'react-router-dom';
 import Notification from './components/Notification';
 import { useNavigate } from 'react-router-dom';
@@ -71,6 +73,39 @@ function Recording() {
         }
     }, [env, token]);
 
+    const downloadAllmanualCountExcels = () => {
+        if (!env) return;
+        const backendUrl = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_DOWNLOAD_ALL_SAME_TOKEN_RECORDS_MANUAL_COUNT_EXCELS}`;
+        console.log("Downloading all manual count excels from:", backendUrl);
+        fetch(backendUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ token: token }),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.blob();
+        })
+        .then(blob => {
+            const url = window.URL.createObjectURL(new Blob([blob]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `manual_count_results_${token}.zip`);
+            document.body.appendChild(link);
+            link.click();
+            link.parentNode.removeChild(link);
+            openNotification('success', 'Download started successfully.');
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+            openNotification('error', 'Failed to start download.');
+        });
+    }
+
     const openNotification = (severity, message) => {
         setSeverity(severity);
         setMessage(message);
@@ -83,6 +118,8 @@ function Recording() {
         }
         setOpen(false);
     };
+
+    
     return (
         <>
         <div className='relative w-full h-full flex flex-col items-center'>
@@ -108,6 +145,17 @@ function Recording() {
                     <div className="text-white text-center w-full py-10">No visions available.</div>
                 )}
             </VisionContainer>
+            <div className='flex justify-center items-center'>
+                <Tooltip title="Download All Results" placement="top">
+                    <Button
+                        className={`shadow-lg hover:!bg-main-400 !text-black h-full !bg-main-200`}
+                        onClick={downloadAllmanualCountExcels}
+                        >
+                        <DownloadIcon className='text-center' />
+                    </Button>
+                </Tooltip>
+
+            </div>
         </div>
         <Notification
             open={open}

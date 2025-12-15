@@ -581,3 +581,72 @@ def get_auto_iss_count_excel_with_direction(record_id, version, divide_time):
     write_df_with_direction_header(ws_auto, auto_excel_df, direction)
     write_df_with_direction_header(ws_iss, iss_excel_df, direction)
     return wb
+
+def get_multiple_manual_counting_excel(records_ids):
+    """
+    Get the same results as get_manual_count_excel_with_direction for each of the records
+    and merge them based on the time. They should be like the following:
+    | EMPTY | Direction 1 (with a1 columns)| Direction 2 (with a2 columns) | ... | Direction n (an) columns |
+    | EMPTY | Count movement 1 | Count movement 2 | ... | Count movement a1  ...| | Count movement 1 | ... | Count movement an |
+    | Time | Count | Count | ... | Count |
+    ...
+    """
+    combined_results = pd.DataFrame({"time":[]})
+    directions = []
+    for record_id in records_ids:
+        record = Record.objects.filter(id=record_id).first()
+        if not record:
+            continue
+        direction = record.direction or "N/A"
+        directions.append(direction)
+        excel_df = get_manual_counting_excel(record_id)
+        if excel_df is None or excel_df.empty:
+            continue
+        if "interval_start" in excel_df.columns and "time" not in excel_df.columns:
+            excel_df = excel_df.rename(columns={"interval_start": "time"})
+        # Rename columns to include direction
+        renamed_columns = {
+            col: f"{direction} {col}" if col != "time" else col for col in excel_df.columns
+        }
+        excel_df = excel_df.rename(columns=renamed_columns)
+        combined_results = pd.merge(
+            combined_results,
+            excel_df,
+            on="time",
+            how="outer"
+        )
+    if combined_results.empty:
+        raise ValueError("No valid manual counting results found for the provided record IDs.")
+
+    # Now write to Excel with two-row header
+    wb = openpyxl.Workbook()
+    ws = wb.active
+
+    # Row 1: first cell empty, then merged cells for each direction
+    ws.cell(row=1, column=1, value="")
+    current_col = 2
+    for direction in directions:
+        direction_cols = [col for col in combined_results.columns if col.startswith(direction) and col != "time"]
+        if not direction_cols:
+            continue
+        start_col_letter = get_column_letter(current_col)
+        end_col_letter = get_column_letter(current_col + len(direction_cols) - 1)
+        merge_range = f"{start_col_letter}1:{end_col_letter}1"
+        ws.merge_cells(merge_range)
+        ws[f"{start_col_letter}1"] = direction
+        ws[f"{start_col_letter}1"].alignment = Alignment(horizontal="center", vertical="center")
+        current_col += len(direction_cols)
+
+    # Row 2: actual column names
+    for j, col_name in enumerate(combined_results.columns, start=1):
+        cell = ws.cell(row=2, column=j, value=str(col_name))
+        cell.alignment = Alignment(horizontal="center", vertical="center")
+
+    # Row 3+: data rows
+    combined_results_copy = combined_results.copy()
+    for c in combined_results_copy.select_dtypes(include=["datetime", "datetimetz"]).columns:
+        combined_results_copy[c] = pd.to_datetime(combined_results_copy[c]).dt.tz_localize(None)
+    for i, row in enumerate(combined_results_copy.itertuples(index=False), start=3):
+        for j, value in enumerate(row, start=1):
+            ws.cell(row=i, column=j, value=value)
+    return wb
