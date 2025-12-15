@@ -1213,18 +1213,56 @@ def download_all_same_token_records_manual_count_excels(request):
         # Remove the default sheet created with a new workbook
         default_sheet = wb.active
         wb.remove(default_sheet)
-        # Add manual counting sheet
-        manual_sheet = wb_manual.active
-        manual_sheet.title = "Manual Counting"
-        wb.add_sheet(manual_sheet)
-        # Add ISS counting sheet
-        iss_sheet = wb_iss.active
-        iss_sheet.title = "ISS Counting"
-        wb.add_sheet(iss_sheet)
-        # Add Auto counting sheet (has multiple sheets)
-        for sheet_name in wb_auto.sheetnames:
-            auto_sheet = wb_auto[sheet_name]
-            wb.add_sheet(auto_sheet)
+
+        def copy_sheet_to_workbook(src_ws, dst_wb, dst_title=None):
+            dst_title = dst_title or src_ws.title
+            dst_ws = dst_wb.create_sheet(title=dst_title[:31])
+            # copy column widths
+            for col, dim in src_ws.column_dimensions.items():
+                try:
+                    dst_ws.column_dimensions[col].width = dim.width
+                except Exception:
+                    pass
+            # copy row heights
+            for idx, rd in src_ws.row_dimensions.items():
+                try:
+                    dst_ws.row_dimensions[idx].height = rd.height
+                except Exception:
+                    pass
+            # copy merged cells
+            for merged in list(src_ws.merged_cells.ranges):
+                try:
+                    dst_ws.merge_cells(str(merged))
+                except Exception:
+                    pass
+            # copy cell values and basic style attrs
+            for row in src_ws.iter_rows():
+                for cell in row:
+                    new_cell = dst_ws.cell(row=cell.row, column=cell.column, value=cell.value)
+                    try:
+                        if cell.has_style:
+                            new_cell.font = cell.font
+                            new_cell.border = cell.border
+                            new_cell.fill = cell.fill
+                            new_cell.number_format = cell.number_format
+                            new_cell.protection = cell.protection
+                            new_cell.alignment = cell.alignment
+                    except Exception:
+                        # ignore style copy errors
+                        pass
+            return dst_ws
+
+        # Copy all manual workbook sheets
+        for src_ws in wb_manual.worksheets:
+            copy_sheet_to_workbook(src_ws, wb, dst_title=f"Manual - {src_ws.title}")
+
+        # Copy all ISS workbook sheets
+        for src_ws in wb_iss.worksheets:
+            copy_sheet_to_workbook(src_ws, wb, dst_title=f"ISS - {src_ws.title}")
+
+        # Copy all Auto workbook sheets
+        for src_ws in wb_auto.worksheets:
+            copy_sheet_to_workbook(src_ws, wb, dst_title=f"Auto - {src_ws.title}")
 
         with tempfile.NamedTemporaryFile(suffix='.xlsx', delete=False) as tmp:
             tmp_path = tmp.name
@@ -1232,9 +1270,9 @@ def download_all_same_token_records_manual_count_excels(request):
         response = FileResponse(
             open(tmp_path, 'rb'),
             as_attachment=True,
-            filename=f'manual_counting_{token}.xlsx'
+            filename=f'all_info_{token}.xlsx'
         )
-        response["Content-Disposition"] = f'attachment; filename="manual_counting_{token}.xlsx"'
+        response["Content-Disposition"] = f'attachment; filename="all_info_{token}.xlsx"'
         return response
     except:
         print(f"Error: {traceback.format_exc()}")

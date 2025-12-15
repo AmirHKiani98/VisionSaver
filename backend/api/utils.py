@@ -761,8 +761,6 @@ def get_multiple_manual_counting_excel(records_ids):
         for r in range(1, last_data_row + 1):
             for c in range(start_idx, end_idx + 1):
                 ws.cell(row=r, column=c).border = border
-    ws_summary = wb.create_sheet(title="Manual Summary")
-    ws_summary.append()
     return wb
 
 
@@ -941,8 +939,6 @@ def get_multiple_iss_counting_excel(records_ids):
         for r in range(1, last_data_row + 1):
             for c in range(start_idx, end_idx + 1):
                 ws.cell(row=r, column=c).border = border
-    ws_summary = wb.create_sheet(title="Manual Summary")
-    ws_summary.append()
     return wb
 
 

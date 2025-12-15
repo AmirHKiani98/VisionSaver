@@ -11,6 +11,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import { useLocation } from 'react-router-dom';
 import Notification from './components/Notification';
 import { useNavigate } from 'react-router-dom';
+import { CircularProgress } from '@mui/material';
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
@@ -23,6 +24,7 @@ function Recording() {
     const [severity, setSeverity] = React.useState("info");
     const [message, setMessage] = React.useState("Note archived");
     const [open, setOpen] = React.useState(false);
+    const [isDownloading, setIsDownloading] = React.useState(false);
     const navigate = useNavigate();
     const token = query.get('token');
 
@@ -76,7 +78,7 @@ function Recording() {
     const downloadAllmanualCountExcels = () => {
         if (!env) return;
         const backendUrl = `http://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/${env.API_DOWNLOAD_ALL_SAME_TOKEN_RECORDS_MANUAL_COUNT_EXCELS}`;
-        console.log("Downloading all manual count excels from:", backendUrl);
+        setIsDownloading(true);
         fetch(backendUrl, {
             method: 'POST',
             headers: {
@@ -91,16 +93,18 @@ function Recording() {
             return response.blob();
         })
         .then(blob => {
+            setIsDownloading(false);
             const url = window.URL.createObjectURL(new Blob([blob]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', `manual_count_results.xlsx`);
+            link.setAttribute('download', `all_info.xlsx`);
             document.body.appendChild(link);
             link.click();
             link.parentNode.removeChild(link);
             openNotification('success', 'Download started successfully.');
         })
         .catch(error => {
+            setIsDownloading(false);
             console.error('There was a problem with the fetch operation:', error);
             openNotification('error', 'Failed to start download.');
         });
@@ -148,10 +152,14 @@ function Recording() {
             <div className='flex justify-center items-center'>
                 <Tooltip title="Download All Results" placement="top">
                     <Button
-                        className={`shadow-lg hover:!bg-main-400 !text-black h-full !bg-main-200`}
+                        className={`shadow-lg hover:!bg-main-400 !text-black h-full !bg-main-100`}
                         onClick={downloadAllmanualCountExcels}
                         >
-                        <DownloadIcon className='text-center' />
+                            {isDownloading ? (
+                                <CircularProgress size={24} className="text-center color-main-500" />
+                            ) : (
+                                <DownloadIcon className='text-center' />
+                            )}
                     </Button>
                 </Tooltip>
 
