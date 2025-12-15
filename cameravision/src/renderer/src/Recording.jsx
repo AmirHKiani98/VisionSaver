@@ -94,7 +94,7 @@ function Recording() {
             const url = window.URL.createObjectURL(new Blob([blob]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', `manual_count_results_${token}.zip`);
+            link.setAttribute('download', `manual_count_results.xlsx`);
             document.body.appendChild(link);
             link.click();
             link.parentNode.removeChild(link);
