@@ -18,7 +18,7 @@ from api.utils import (
     get_movement_index, get_iss_detections_pandas, 
     get_results_comparison_df, get_manual_count_excel_with_direction, 
     get_auto_iss_count_excel_with_direction, get_multiple_manual_counting_excel,
-    get_multiple_iss_counting_excel, get_multiple_auto_counting_excel
+    get_multiple_iss_counting_excel, get_multiple_auto_counting_excel, compare_two_df
 )
 import cv2
 import base64
@@ -26,6 +26,7 @@ from django.http import FileResponse
 import tempfile
 import time
 import openpyxl
+import datetime as _dt
 # Create your views here.
 
 
@@ -1205,51 +1206,139 @@ def download_all_same_token_records_manual_count_excels(request):
             if rec.direction is None or rec.direction.strip() == "":
                 return JsonResponse({"error": f"Record ID {rec.id} does not have a direction set."}, status=400)
         list_of_ids = finished_detecting_records.values_list('id', flat=True)
-        wb_manual = get_multiple_manual_counting_excel(list_of_ids)
-        wb_iss = get_multiple_iss_counting_excel(list_of_ids)
-        wb_auto = get_multiple_auto_counting_excel(list_of_ids)
+        wb_manual, all_manual_dfs = get_multiple_manual_counting_excel(list_of_ids)
+        wb_iss, all_iss_dfs  = get_multiple_iss_counting_excel(list_of_ids)
+        wb_auto, all_auto_dfs = get_multiple_auto_counting_excel(list_of_ids)
+        all_compared_wbs = []
+
+        # Inside your per-record loop where you build compared_wb:
+        # (example location in your code)
+        for record_id, manaul_df in all_manual_dfs.items():
+            if record_id in all_iss_dfs:
+                iss_df = all_iss_dfs[record_id]
+                compared_wb = compare_two_df(manaul_df, iss_df)  # returns openpyxl.Workbook
+                if compared_wb:
+                    all_compared_wbs.append(("manual_vs_iss", record_id, compared_wb))
+            for auto_df_key, auto_df in all_auto_dfs.items():
+                # if auto_df_key format contains record_id, adjust parsing accordingly
+                auto_record_id = str(auto_df_key).split("_")[0]
+                if str(record_id) == str(auto_record_id):
+                    compared_wb = compare_two_df(manaul_df, auto_df)
+                    if compared_wb:
+                        all_compared_wbs.append(("manual_vs_auto", record_id, compared_wb))
+        
         # Put all sheets into one workbook with different sheet names
         wb = openpyxl.Workbook()
         # Remove the default sheet created with a new workbook
         default_sheet = wb.active
         wb.remove(default_sheet)
-
+        
         def copy_sheet_to_workbook(src_ws, dst_wb, dst_title=None):
             dst_title = dst_title or src_ws.title
             dst_ws = dst_wb.create_sheet(title=dst_title[:31])
+
             # copy column widths
             for col, dim in src_ws.column_dimensions.items():
                 try:
                     dst_ws.column_dimensions[col].width = dim.width
                 except Exception:
                     pass
+
             # copy row heights
             for idx, rd in src_ws.row_dimensions.items():
                 try:
                     dst_ws.row_dimensions[idx].height = rd.height
                 except Exception:
                     pass
+
             # copy merged cells
             for merged in list(src_ws.merged_cells.ranges):
                 try:
                     dst_ws.merge_cells(str(merged))
                 except Exception:
                     pass
-            # copy cell values and basic style attrs
+
+            # copy panes/freeze
+            try:
+                dst_ws.sheet_view = src_ws.sheet_view
+            except Exception:
+                pass
+
+            # copy row/column visibility, outline levels
+            try:
+                for idx, rd in src_ws.row_dimensions.items():
+                    try:
+                        dst_ws.row_dimensions[idx].hidden = rd.hidden
+                        dst_ws.row_dimensions[idx].outlineLevel = rd.outlineLevel
+                    except Exception:
+                        pass
+                for col, cd in src_ws.column_dimensions.items():
+                    try:
+                        dst_ws.column_dimensions[col].hidden = cd.hidden
+                        dst_ws.column_dimensions[col].outlineLevel = cd.outlineLevel
+                    except Exception:
+                        pass
+            except Exception:
+                pass
+
+            # copy cell values and styles
+            from copy import copy as _copy
             for row in src_ws.iter_rows():
                 for cell in row:
                     new_cell = dst_ws.cell(row=cell.row, column=cell.column, value=cell.value)
                     try:
-                        if cell.has_style:
-                            new_cell.font = cell.font
-                            new_cell.border = cell.border
-                            new_cell.fill = cell.fill
+                        # copy common style attributes (use copy to preserve objects)
+                        try:
+                            new_cell.font = _copy(cell.font)
+                        except Exception:
+                            pass
+                        try:
+                            new_cell.border = _copy(cell.border)
+                        except Exception:
+                            pass
+                        try:
+                            new_cell.fill = _copy(cell.fill)
+                        except Exception:
+                            pass
+                        try:
+                            new_cell.alignment = _copy(cell.alignment)
+                        except Exception:
+                            pass
+                        try:
+                            new_cell.protection = _copy(cell.protection)
+                        except Exception:
+                            pass
+                        # number format (string)
+                        try:
                             new_cell.number_format = cell.number_format
-                            new_cell.protection = cell.protection
-                            new_cell.alignment = cell.alignment
+                        except Exception:
+                            pass
+
+                        # copy comment
+                        try:
+                            if cell.comment is not None:
+                                new_cell.comment = _copy(cell.comment)
+                        except Exception:
+                            pass
+
+                        # copy hyperlink
+                        try:
+                            if cell.hyperlink is not None:
+                                new_cell.hyperlink = _copy(cell.hyperlink)
+                        except Exception:
+                            pass
+
+                        # attempt to copy internal style object (best-effort)
+                        try:
+                            if hasattr(cell, "_style"):
+                                new_cell._style = _copy(cell._style)
+                        except Exception:
+                            pass
+
                     except Exception:
-                        # ignore style copy errors
+                        # ignore cell-level copy errors to keep operation resilient
                         pass
+
             return dst_ws
 
         # Copy all manual workbook sheets
@@ -1263,6 +1352,55 @@ def download_all_same_token_records_manual_count_excels(request):
         # Copy all Auto workbook sheets
         for src_ws in wb_auto.worksheets:
             copy_sheet_to_workbook(src_ws, wb, dst_title=f"Auto - {src_ws.title}")
+        # sheetnames is a list of strings
+        used_titles = set(wb.sheetnames) if hasattr(wb, "sheetnames") else set()
+        
+        def _make_wb_datetimes_naive(workbook):
+            """Convert any timezone-aware datetimes in the workbook cells to tz-naive datetimes
+            (Excel requires tzinfo to be None). We convert to UTC then drop tzinfo.
+            """
+            for ws in workbook.worksheets:
+                for row in ws.iter_rows():
+                    for cell in row:
+                        try:
+                            val = cell.value
+                            if isinstance(val, _dt.datetime):
+                                if val.tzinfo is not None:
+                                    # convert to UTC then remove tzinfo
+                                    try:
+                                        naive = val.astimezone(_dt.timezone.utc).replace(tzinfo=None)
+                                    except Exception:
+                                        # fallback: just remove tzinfo (best-effort)
+                                        naive = val.replace(tzinfo=None)
+                                    cell.value = naive
+                        except Exception:
+                            # Keep robust: ignore any conversion errors per-cell
+                            pass
+        for cmp_type, rid, cmp_wb in all_compared_wbs:
+            # cmp_wb is expected to be an openpyxl.Workbook
+            for src_ws in cmp_wb.worksheets:
+                # build a base title like "Compare [type] rec:<id> - <sheetname>"
+                base_title = f"Compare {cmp_type} rec{rid} {src_ws.title}"
+                # make title safe and <=31 chars
+                title = base_title[:31]
+                # ensure uniqueness
+                suffix = 1
+                while title in used_titles:
+                    # leave room for suffix
+                    suffix_str = f"_{suffix}"
+                    max_base = 31 - len(suffix_str)
+                    title = (base_title[:max_base] + suffix_str)[:31]
+                    suffix += 1
+                used_titles.add(title)
+
+                # copy sheet preserving styles using your helper
+                copy_sheet_to_workbook(src_ws, wb, dst_title=title)
+        # Ensure there are no timezone-aware datetimes in cells (Excel doesn't support tz-aware datetimes)
+        try:
+            _make_wb_datetimes_naive(wb)
+        except Exception:
+            # if anything goes wrong here, continue and let openpyxl raise on save if necessary
+            pass
 
         with tempfile.NamedTemporaryFile(suffix='.xlsx', delete=False) as tmp:
             tmp_path = tmp.name

@@ -348,6 +348,7 @@ def get_counting_raw(df):
     
     result = counts.reset_index()
     result.columns = ["interval_start", "count"]
+    result["interval_start"] = result["interval_start"].dt.tz_localize("UTC").dt.tz_convert("America/Chicago")
     result["label"] = result["interval_start"].dt.strftime("%I:%M %p")
     return result
 
@@ -598,12 +599,14 @@ def get_multiple_manual_counting_excel(records_ids):
     combined_results = pd.DataFrame({"time":[]})
     directions = []
     record_column_info = []  # will store tuples (direction, num_cols, col_names)
+    all_dfs = {}
     for record_id in records_ids:
         record = Record.objects.filter(id=record_id).first()
         if not record:
             continue
-        direction = record.direction or "N/A"
+        direction = record.direction or f"N/A direction of record_id {record_id}"
         excel_df = get_manual_counting_excel(record_id)
+        all_dfs[record_id] = excel_df
         if excel_df is None or excel_df.empty:
             continue
         if "interval_start" in excel_df.columns and "time" not in excel_df.columns:
@@ -761,7 +764,7 @@ def get_multiple_manual_counting_excel(records_ids):
         for r in range(1, last_data_row + 1):
             for c in range(start_idx, end_idx + 1):
                 ws.cell(row=r, column=c).border = border
-    return wb
+    return wb, all_dfs
 
 
 def get_multiple_iss_counting_excel(records_ids):
@@ -776,12 +779,14 @@ def get_multiple_iss_counting_excel(records_ids):
     combined_results = pd.DataFrame({"time":[]})
     directions = []
     record_column_info = []  # will store tuples (direction, num_cols, col_names)
+    all_dfs = {}
     for record_id in records_ids:
         record = Record.objects.filter(id=record_id).first()
         if not record:
             continue
-        direction = record.direction or "N/A"
+        direction = record.direction or f"N/A direction of record_id {record_id}"
         excel_df = get_iss_detections_counting_excel(record_id)
+        all_dfs[record_id] = excel_df
         if excel_df is None or excel_df.empty:
             continue
         if "interval_start" in excel_df.columns and "time" not in excel_df.columns:
@@ -939,7 +944,7 @@ def get_multiple_iss_counting_excel(records_ids):
         for r in range(1, last_data_row + 1):
             for c in range(start_idx, end_idx + 1):
                 ws.cell(row=r, column=c).border = border
-    return wb
+    return wb, all_dfs
 
 
 
@@ -952,6 +957,7 @@ def get_multiple_auto_counting_excel(records_ids):
     """
     # gather dfs per (version, divide_time)
     groups = {}  # (version, divide_time) -> list of tuples (record_id, direction, df)
+    all_dfs = {}
     for record_id in records_ids:
         auto_detections = AutoDetection.objects.filter(record_id=record_id)
         for auto_detection in auto_detections:
@@ -959,6 +965,7 @@ def get_multiple_auto_counting_excel(records_ids):
             divide_time = auto_detection.divide_time
             try:
                 excel_df = get_auto_detection_counting_excel(record_id, version, divide_time)
+                all_dfs[str(record_id) + "_" + str(version) + "_" + str(divide_time)] = excel_df
             except Exception:
                 excel_df = None
             if excel_df is None or excel_df.empty:
@@ -1128,4 +1135,139 @@ def get_multiple_auto_counting_excel(records_ids):
     elif default_sheet and default_sheet.title == "Sheet":
         wb.remove(default_sheet)
 
-    return wb
+    return wb, all_dfs
+
+
+def compare_two_df(df1, df2):
+    """
+    Compare two dataframes where df1 is ground-truth and df2 is the one to check.
+    Only compare columns that contain one of the movement keywords: "left", "right", "through".
+    Columns are expected to be named like "<direction> <movement> ...", e.g. "east left Count".
+    Output: openpyxl.Workbook with two sheets:
+      - "Comparison Summary": per-matched-column totals and error metrics
+      - "Per-Time Differences": time-aligned row-by-row differences for matched columns
+    """
+    from openpyxl import Workbook
+
+    # normalize time column name
+    def _ensure_time(df):
+        if "time" in df.columns:
+            d = df.copy()
+        elif "interval_start" in df.columns:
+            d = df.rename(columns={"interval_start": "time"}).copy()
+        else:
+            raise ValueError("Input DataFrame must contain 'time' or 'interval_start' column.")
+        d["time"] = pd.to_datetime(d["time"], errors="coerce")
+        return d
+
+    A = _ensure_time(df1)
+    B = _ensure_time(df2)
+
+    # lower-case column name mapping (original -> lower)
+    def _has_movement(col):
+        low = str(col).lower()
+        return any(k in low for k in ("left", "right", "through"))
+
+    cols_a = [c for c in A.columns if c != "time" and _has_movement(c)]
+    cols_b = [c for c in B.columns if c != "time" and _has_movement(c)]
+
+    if not cols_a:
+        raise ValueError("No movement columns found in ground-truth (df1).")
+
+    # parse direction and movement from column name
+    def _parse(col):
+        s = str(col).strip()
+        low = s.lower()
+        movement = next((k for k in ("left", "right", "through") if k in low), None)
+        # assume direction is first token before a space
+        parts = s.split()
+        direction = parts[0] if parts else s
+        return direction.strip().lower(), movement
+
+    # build matches: for each col in A find best matching col in B (same direction & movement)
+    matches = []
+    for ca in cols_a:
+        dir_a, mov_a = _parse(ca)
+        # exact candidate: contains same direction token and movement token
+        cand = next((cb for cb in cols_b if dir_a in str(cb).lower() and (mov_a in str(cb).lower() if mov_a else True)), None)
+        if not cand:
+            # fallback: any column that contains the movement token
+            cand = next((cb for cb in cols_b if mov_a and mov_a in str(cb).lower()), None)
+        matches.append((ca, cand, dir_a, mov_a))
+
+    # merge on time (outer) and compute diffs
+    merged = pd.merge(A[["time"] + cols_a], B[["time"] + (cols_b if cols_b else [])], on="time", how="outer", suffixes=("_A", "_B"))
+    merged = merged.sort_values("time").reset_index(drop=True)
+
+    # Replace NaNs in numeric columns with 0 for diff computation
+    for c in merged.columns:
+        if c == "time":
+            continue
+        merged[c] = pd.to_numeric(merged[c], errors="coerce").fillna(0.0)
+
+    summary_rows = [["Column_A", "Column_B", "Direction", "Movement", "Total_A", "Total_B", "Total_Diff (A-B)", "Sum_Abs_Diff", "MSE", "Pct_Diff_vs_A"]]
+    per_time_frames = []
+
+    for ca, cb, direction, movement in matches:
+        key_a = ca if ca in merged.columns else f"{ca}_A" if f"{ca}_A" in merged.columns else None
+        key_b = None
+        if cb:
+            key_b = cb if cb in merged.columns else f"{cb}_B" if f"{cb}_B" in merged.columns else None
+        if key_a is None:
+            # cannot compute without A
+            continue
+        if key_b is None:
+            # create zero column for B
+            merged[f"__zero_{ca}__"] = 0.0
+            key_b = f"__zero_{ca}__"
+
+        diff_col = f"{direction} {movement or ''} Diff ({ca} - {cb or 'MISSING'})"
+        merged[diff_col] = merged[key_a].astype(float) - merged[key_b].astype(float)
+
+        total_a = float(merged[key_a].sum())
+        total_b = float(merged[key_b].sum())
+        total_diff = total_a - total_b
+        sum_abs = float(merged[diff_col].abs().sum())
+        mse = float((merged[diff_col] ** 2).mean())
+        pct = (total_diff / total_a * 100.0) if total_a != 0 else (float("inf") if total_diff != 0 else 0.0)
+
+        summary_rows.append([ca, cb or "", direction, movement or "", total_a, total_b, total_diff, sum_abs, mse, pct])
+        per_time_frames.append(merged[["time", diff_col]].copy())
+
+    # build output workbook
+    out_wb = Workbook()
+    try:
+        out_wb.remove(out_wb.active)
+    except Exception:
+        pass
+
+    ws_sum = out_wb.create_sheet(title="Comparison Summary")
+    for r in summary_rows:
+        ws_sum.append(r)
+    # autosize columns
+    for i in range(1, len(summary_rows[0]) + 1):
+        try:
+            ws_sum.column_dimensions[get_column_letter(i)].width = 18
+        except Exception:
+            pass
+
+    if per_time_frames:
+        merged_pt = per_time_frames[0].copy()
+        for dfp in per_time_frames[1:]:
+            merged_pt = pd.merge(merged_pt, dfp, on="time", how="outer")
+        merged_pt = merged_pt.sort_values("time").reset_index(drop=True)
+        ws_pt = out_wb.create_sheet(title="Per-Time Differences")
+        # header
+        headers = merged_pt.columns.tolist()
+        ws_pt.append(headers)
+        # rows
+        for row in merged_pt.itertuples(index=False):
+            ws_pt.append(list(row))
+        for i in range(1, len(headers) + 1):
+            try:
+                ws_pt.column_dimensions[get_column_letter(i)].width = 18
+            except Exception:
+                pass
+
+    return out_wb
+    
