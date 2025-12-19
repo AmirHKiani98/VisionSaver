@@ -30,7 +30,7 @@ def all_complete_results_from_record(record_id, version=None, divide_time=None):
     """
     record = Record.objects.filter(record_id=record_id)
     if not record:
-        
+        pass
 
     iss_detections, total = get_iss_detections_pandas(record_id)
     manual_counts, manual_total = get_counter_manual_results(record_id)
