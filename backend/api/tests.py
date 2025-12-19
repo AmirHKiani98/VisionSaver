@@ -66,3 +66,10 @@ class ApiTests(TestCase):
         
         
         print(all_dfs_in_one)
+    
+    
+    def test_get_complete_results_for_multiple_record(self):
+        from api.utils import get_complete_results_for_multiple_record
+        record_ids = [92, 93, 94, 95]
+        final_result = get_complete_results_for_multiple_record(record_ids)
+        print(final_result)

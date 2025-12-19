@@ -78,7 +78,13 @@ def get_complete_results_for_multiple_record(record_ids):
     for record_id in record_ids:
         record_result = all_complete_results_from_record(record_id)
         final_result = pd.concat([final_result, record_result], ignore_index=True)
+    
+    # Time should be converted into Central Timezone
+    final_result["time"] = pd.to_datetime(final_result["time"]).dt.tz_localize("UTC").dt.tz_convert("America/Chicago")
+    print(final_result)
     return final_result
+
+
 
 
 def copy_sheet_to_workbook(src_ws_or_wb, dst_wb, dst_title=None):
