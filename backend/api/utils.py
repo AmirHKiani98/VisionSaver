@@ -23,6 +23,130 @@ def get_movement_index(movement):
         return 2
     return -1 
 
+
+def all_complete_results_from_record(record_id, version=None, divide_time=None):
+    """
+    Get the excel pandas file from data
+    """
+    record = Record.objects.filter(record_id=record_id)
+    if not record:
+        
+
+    iss_detections, total = get_iss_detections_pandas(record_id)
+    manual_counts, manual_total = get_counter_manual_results(record_id)
+    auto_counts, auto_total = get_counter_auto_detection_results(record_id, version, divide_time)
+
+
+def copy_sheet_to_workbook(src_ws_or_wb, dst_wb, dst_title=None):
+    """
+    Copy a worksheet or all worksheets from a workbook into dst_wb.
+    - src_ws_or_wb: openpyxl.worksheet.worksheet.Worksheet OR openpyxl.workbook.workbook.Workbook
+    - dst_title: for a single sheet copy, used as sheet title; for workbook input, used as prefix.
+    Returns list of created worksheets (or single worksheet wrapped in list).
+    """
+    from copy import copy as _copy
+    import openpyxl
+
+    def _copy_one(src_ws, dst_wb, title):
+        title = (title or src_ws.title)[:31]
+        dst_ws = dst_wb.create_sheet(title=title)
+        # copy column widths
+        for col, dim in src_ws.column_dimensions.items():
+            try:
+                dst_ws.column_dimensions[col].width = dim.width
+            except Exception:
+                pass
+        # copy row heights
+        for idx, rd in src_ws.row_dimensions.items():
+            try:
+                dst_ws.row_dimensions[idx].height = rd.height
+            except Exception:
+                pass
+        # copy merged cells
+        for merged in list(src_ws.merged_cells.ranges):
+            try:
+                dst_ws.merge_cells(str(merged))
+            except Exception:
+                pass
+        # copy panes/freeze
+        try:
+            dst_ws.sheet_view = src_ws.sheet_view
+        except Exception:
+            pass
+        # copy row/column visibility, outline levels
+        try:
+            for idx, rd in src_ws.row_dimensions.items():
+                try:
+                    dst_ws.row_dimensions[idx].hidden = rd.hidden
+                    dst_ws.row_dimensions[idx].outlineLevel = rd.outlineLevel
+                except Exception:
+                    pass
+            for col, cd in src_ws.column_dimensions.items():
+                try:
+                    dst_ws.column_dimensions[col].hidden = cd.hidden
+                    dst_ws.column_dimensions[col].outlineLevel = cd.outlineLevel
+                except Exception:
+                    pass
+        except Exception:
+            pass
+        # copy cells
+        for row in src_ws.iter_rows():
+            for cell in row:
+                new_cell = dst_ws.cell(row=cell.row, column=cell.column, value=cell.value)
+                try:
+                    if cell.has_style:
+                        try: new_cell.font = _copy(cell.font)
+                        except Exception: pass
+                        try: new_cell.border = _copy(cell.border)
+                        except Exception: pass
+                        try: new_cell.fill = _copy(cell.fill)
+                        except Exception: pass
+                        try: new_cell.alignment = _copy(cell.alignment)
+                        except Exception: pass
+                        try: new_cell.protection = _copy(cell.protection)
+                        except Exception: pass
+                        try: new_cell.number_format = cell.number_format
+                        except Exception: pass
+                    try:
+                        if cell.comment is not None:
+                            new_cell.comment = _copy(cell.comment)
+                    except Exception:
+                        pass
+                    try:
+                        if cell.hyperlink is not None:
+                            new_cell.hyperlink = _copy(cell.hyperlink)
+                    except Exception:
+                        pass
+                    try:
+                        if hasattr(cell, "_style"):
+                            new_cell._style = _copy(cell._style)
+                    except Exception:
+                        pass
+                except Exception:
+                    pass
+        return dst_ws
+
+    created = []
+    # detect workbook vs worksheet
+    try:
+        is_wb = hasattr(src_ws_or_wb, "worksheets")
+    except Exception:
+        is_wb = False
+
+    if is_wb:
+        prefix = (dst_title or "").strip()
+        for ws in src_ws_or_wb.worksheets:
+            # build title; if prefix provided, use prefix + " - " + sheetname
+            if prefix:
+                candidate = f"{prefix} - {ws.title}"
+            else:
+                candidate = ws.title
+            created.append(_copy_one(ws, dst_wb, candidate))
+    else:
+        # single worksheet
+        created.append(_copy_one(src_ws_or_wb, dst_wb, dst_title))
+    return created
+
 def get_auto_detection_results_from_df_zones(auto_df, min_time=0, max_time=600, lines_map_length=None):
     results = defaultdict(dict)
     auto_df = auto_df[(auto_df['time'] >= min_time) & (auto_df['time'] <= max_time)]
@@ -365,7 +489,7 @@ def get_manual_counting_excel(record_id):
         results_before_df = {"time":[], "count":[]}
         for time, count in line_data.items():
             results_before_df["time"].append(start_time + timedelta(seconds=time))
-            # print(start_time + timedelta(seconds=time))
+           # print(start_time + timedelta(seconds=time)) 
             results_before_df["count"].append(count)
         results_before_df["time"] = (
             pd.Series(results_before_df["time"])
@@ -533,10 +657,10 @@ def get_auto_iss_count_excel_with_direction(record_id, version, divide_time):
     if not record:
         raise ValueError("Record not found.")
     direction = record.direction or "N/A"
-
+    finished_detecting = record.finished_detecting
     auto_excel_df = get_auto_detection_counting_excel(record_id, version, divide_time)
     iss_excel_df = get_iss_detections_counting_excel(record_id)
-
+    
     if auto_excel_df is None or auto_excel_df.empty:
         raise ValueError("No auto detection counting results found.")
     if iss_excel_df is None or iss_excel_df.empty:
@@ -581,11 +705,43 @@ def get_auto_iss_count_excel_with_direction(record_id, version, divide_time):
         for i, row in enumerate(df_copy.itertuples(index=False), start=3):
             for j, value in enumerate(row, start=1):
                 ws.cell(row=i, column=j, value=value)
-
+    
     write_df_with_direction_header(ws_auto, auto_excel_df, direction)
     write_df_with_direction_header(ws_iss, iss_excel_df, direction)
+    # Get comparison with Actual results
+    
+    if finished_detecting:
+        manual_counts_excel = get_manual_counting_excel(record_id)
+        manual_counts_excel = manual_counts_excel.rename(columns={"interval_start": "time", "turn_movement": "portal"})
+        # Comparison with Auto
+        transposed_manual_counts = transpose_df(manual_counts_excel, direction)
+        transposed_auto_counts = transpose_df(auto_excel_df.rename(columns={"interval_start": "time"}), direction)
+        transposed_iss_counts = transpose_df(iss_excel_df.rename(columns={"interval_start": "time"}), direction)
+        auto_comparison = compare_two_df(transposed_manual_counts, transposed_auto_counts)
+        # Comparison with ISS
+        iss_comparison = compare_two_df(transposed_manual_counts, transposed_iss_counts)
+
+        # Write comparison sheets
+        
+        copy_sheet_to_workbook(auto_comparison, wb, "Manual vs Auto Comparison")
+        copy_sheet_to_workbook(iss_comparison, wb, "Manual vs ISS Comparison")
+        
+            
     return wb
     
+def transpose_df(df, direction):
+    all_dfs_in_one = pd.DataFrame({"time": [], "direction":[], "count":[], "portal": []})
+    for col in df.columns:
+        if col == "time" or col == "interval_start":
+            continue
+        temp_df = pd.DataFrame()
+        temp_df["time"] = df["time"] if "time" in df.columns else df["interval_start"]
+        temp_df["direction"] = direction
+        temp_df["portal"] = col
+        temp_df["count"] = df[col]
+        if not temp_df.empty and not temp_df.isna().all().all():
+            all_dfs_in_one = pd.concat([all_dfs_in_one, temp_df], ignore_index=True)
+    return all_dfs_in_one
 
 def get_multiple_manual_counting_excel(records_ids):
     """
@@ -600,12 +756,17 @@ def get_multiple_manual_counting_excel(records_ids):
     directions = []
     record_column_info = []  # will store tuples (direction, num_cols, col_names)
     all_dfs = {}
+    all_dfs_in_one = pd.DataFrame()
+
     for record_id in records_ids:
         record = Record.objects.filter(id=record_id).first()
         if not record:
             continue
         direction = record.direction or f"N/A direction of record_id {record_id}"
+        
         excel_df = get_manual_counting_excel(record_id)
+        excel_transposed_df = transpose_df(excel_df, direction)
+        all_dfs_in_one = pd.concat([all_dfs_in_one, excel_transposed_df], ignore_index=True)
         all_dfs[record_id] = excel_df
         if excel_df is None or excel_df.empty:
             continue
@@ -764,7 +925,7 @@ def get_multiple_manual_counting_excel(records_ids):
         for r in range(1, last_data_row + 1):
             for c in range(start_idx, end_idx + 1):
                 ws.cell(row=r, column=c).border = border
-    return wb, all_dfs
+    return wb, all_dfs_in_one
 
 
 def get_multiple_iss_counting_excel(records_ids):
@@ -780,12 +941,15 @@ def get_multiple_iss_counting_excel(records_ids):
     directions = []
     record_column_info = []  # will store tuples (direction, num_cols, col_names)
     all_dfs = {}
+    all_dfs_in_one = pd.DataFrame()
     for record_id in records_ids:
         record = Record.objects.filter(id=record_id).first()
         if not record:
             continue
         direction = record.direction or f"N/A direction of record_id {record_id}"
         excel_df = get_iss_detections_counting_excel(record_id)
+        excel_transposed_df = transpose_df(excel_df, direction)
+        all_dfs_in_one = pd.concat([all_dfs_in_one, excel_transposed_df], ignore_index=True)
         all_dfs[record_id] = excel_df
         if excel_df is None or excel_df.empty:
             continue
@@ -944,7 +1108,7 @@ def get_multiple_iss_counting_excel(records_ids):
         for r in range(1, last_data_row + 1):
             for c in range(start_idx, end_idx + 1):
                 ws.cell(row=r, column=c).border = border
-    return wb, all_dfs
+    return wb, all_dfs_in_one
 
 
 
@@ -958,25 +1122,29 @@ def get_multiple_auto_counting_excel(records_ids):
     # gather dfs per (version, divide_time)
     groups = {}  # (version, divide_time) -> list of tuples (record_id, direction, df)
     all_dfs = {}
+    all_dfs_in_one = pd.DataFrame()
     for record_id in records_ids:
-        auto_detections = AutoDetection.objects.filter(record_id=record_id)
-        for auto_detection in auto_detections:
-            version = auto_detection.version
-            divide_time = auto_detection.divide_time
-            try:
-                excel_df = get_auto_detection_counting_excel(record_id, version, divide_time)
-                all_dfs[str(record_id) + "_" + str(version) + "_" + str(divide_time)] = excel_df
-            except Exception:
-                excel_df = None
-            if excel_df is None or excel_df.empty:
-                continue
-            # normalize time column name
-            if "interval_start" in excel_df.columns and "time" not in excel_df.columns:
-                excel_df = excel_df.rename(columns={"interval_start": "time"})
-            record = Record.objects.filter(id=record_id).first()
-            direction = (record.direction or "N/A") if record else "N/A"
-            key = (version, divide_time)
-            groups.setdefault(key, []).append((record_id, direction, excel_df.copy()))
+        auto_detection = AutoDetection.objects.filter(record_id=record_id).order_by("-id").first()
+    
+        version = auto_detection.version
+        divide_time = auto_detection.divide_time
+        try:
+            excel_df = get_auto_detection_counting_excel(record_id, version, divide_time)
+            all_dfs_in_one = pd.concat([all_dfs_in_one, transpose_df(excel_df, f"Record {record_id}")], ignore_index=True)
+            all_dfs[str(record_id) + "_" + str(version) + "_" + str(divide_time)] = excel_df
+            
+
+        except Exception:
+            excel_df = None
+        if excel_df is None or excel_df.empty:
+            continue
+        # normalize time column name
+        if "interval_start" in excel_df.columns and "time" not in excel_df.columns:
+            excel_df = excel_df.rename(columns={"interval_start": "time"})
+        record = Record.objects.filter(id=record_id).first()
+        direction = (record.direction or "N/A") if record else "N/A"
+        key = (version, divide_time)
+        groups.setdefault(key, []).append((record_id, direction, excel_df.copy()))
 
     if not groups:
         raise ValueError("No valid auto detection results found for the provided record IDs.")
@@ -1135,139 +1303,190 @@ def get_multiple_auto_counting_excel(records_ids):
     elif default_sheet and default_sheet.title == "Sheet":
         wb.remove(default_sheet)
 
-    return wb, all_dfs
+    return wb, all_dfs_in_one
 
 
-def compare_two_df(df1, df2):
+def compare_two_df(df1, df2, df1_name="Ground Truth", df2_name="To Check"):
     """
-    Compare two dataframes where df1 is ground-truth and df2 is the one to check.
-    Only compare columns that contain one of the movement keywords: "left", "right", "through".
-    Columns are expected to be named like "<direction> <movement> ...", e.g. "east left Count".
-    Output: openpyxl.Workbook with two sheets:
-      - "Comparison Summary": per-matched-column totals and error metrics
-      - "Per-Time Differences": time-aligned row-by-row differences for matched columns
+    df1 and df2 should have these columns: time, direction, count, portal
+    Compare counts by (time, direction, portal). Return an openpyxl.Workbook
+    with the same visual layout as the other exporters:
+      - row1: merged direction headings
+      - row2: portal/metric column names (e.g. "through abs", "through rel")
+      - rows: time-aligned differences (abs and relative)
     """
-    from openpyxl import Workbook
-
-    # normalize time column name
-    def _ensure_time(df):
-        if "time" in df.columns:
-            d = df.copy()
-        elif "interval_start" in df.columns:
-            d = df.rename(columns={"interval_start": "time"}).copy()
+    # helpers
+    def get_portal_index(portal):
+        portal_lower = str(portal).lower()
+        if "through" in portal_lower:
+            return 0
+        elif "left" in portal_lower:
+            return 1
+        elif "right" in portal_lower:
+            return 2
         else:
-            raise ValueError("Input DataFrame must contain 'time' or 'interval_start' column.")
-        d["time"] = pd.to_datetime(d["time"], errors="coerce")
-        return d
+            return -1
+    def get_portal_name(portal_index):
+        return {0: "through", 1: "left", 2: "right"}.get(portal_index, "unknown")
 
-    A = _ensure_time(df1)
-    B = _ensure_time(df2)
+    # defensive copies
+    a = df1.copy()
+    b = df2.copy()
 
-    # lower-case column name mapping (original -> lower)
-    def _has_movement(col):
-        low = str(col).lower()
-        return any(k in low for k in ("left", "right", "through"))
+    # normalize time column name if needed
+    if "interval_start" in a.columns and "time" not in a.columns:
+        a = a.rename(columns={"interval_start": "time"})
+    if "interval_start" in b.columns and "time" not in b.columns:
+        b = b.rename(columns={"interval_start": "time"})
+    if "time" not in a.columns or "time" not in b.columns:
+        raise ValueError("Both inputs must contain a 'time' (or 'interval_start') column.")
 
-    cols_a = [c for c in A.columns if c != "time" and _has_movement(c)]
-    cols_b = [c for c in B.columns if c != "time" and _has_movement(c)]
+    a["time"] = pd.to_datetime(a["time"], errors="coerce")
+    b["time"] = pd.to_datetime(b["time"], errors="coerce")
 
-    if not cols_a:
-        raise ValueError("No movement columns found in ground-truth (df1).")
+    # portal index / name
+    a["portal_index"] = a["portal"].apply(get_portal_index)
+    b["portal_index"] = b["portal"].apply(get_portal_index)
+    a["portal_name"] = a["portal_index"].apply(get_portal_name)
+    b["portal_name"] = b["portal_index"].apply(get_portal_name)
 
-    # parse direction and movement from column name
-    def _parse(col):
-        s = str(col).strip()
-        low = s.lower()
-        movement = next((k for k in ("left", "right", "through") if k in low), None)
-        # assume direction is first token before a space
-        parts = s.split()
-        direction = parts[0] if parts else s
-        return direction.strip().lower(), movement
+    # filter invalid portals
+    a = a[a["portal_index"] != -1]
+    b = b[b["portal_index"] != -1]
 
-    # build matches: for each col in A find best matching col in B (same direction & movement)
-    matches = []
-    for ca in cols_a:
-        dir_a, mov_a = _parse(ca)
-        # exact candidate: contains same direction token and movement token
-        cand = next((cb for cb in cols_b if dir_a in str(cb).lower() and (mov_a in str(cb).lower() if mov_a else True)), None)
-        if not cand:
-            # fallback: any column that contains the movement token
-            cand = next((cb for cb in cols_b if mov_a and mov_a in str(cb).lower()), None)
-        matches.append((ca, cand, dir_a, mov_a))
+    # aggregate counts by time,direction,portal_name (in case of multiple rows)
+    agg_a = a.groupby(["time", "direction", "portal_name"], as_index=False)["count"].sum().rename(columns={"count": f"count_{df1_name}"})
+    agg_b = b.groupby(["time", "direction", "portal_name"], as_index=False)["count"].sum().rename(columns={"count": f"count_{df2_name}"})
 
-    # merge on time (outer) and compute diffs
-    merged = pd.merge(A[["time"] + cols_a], B[["time"] + (cols_b if cols_b else [])], on="time", how="outer", suffixes=("_A", "_B"))
-    merged = merged.sort_values("time").reset_index(drop=True)
+    merged = pd.merge(agg_a, agg_b, on=["time", "direction", "portal_name"], how="outer")
+    merged[f"count_{df1_name}"] = merged[f"count_{df1_name}"].fillna(0).astype(float)
+    merged[f"count_{df2_name}"] = merged[f"count_{df2_name}"].fillna(0).astype(float)
 
-    # Replace NaNs in numeric columns with 0 for diff computation
-    for c in merged.columns:
-        if c == "time":
+    merged["abs_difference"] = (merged[f"count_{df1_name}"] - merged[f"count_{df2_name}"]).abs()
+    # relative difference as abs / ground-truth (df1); None when ground truth is zero
+    merged["relative_difference"] = merged.apply(
+        lambda r: (r["abs_difference"] / r[f"count_{df1_name}"]) if r[f"count_{df1_name}"] != 0 else None,
+        axis=1
+    )
+
+    if merged.empty:
+        # return an empty workbook with a single sheet reporting no data
+        wb_empty = openpyxl.Workbook()
+        ws = wb_empty.active
+        ws.title = "Comparison (empty)"
+        ws.append(["No comparable data found"])
+        return wb_empty
+
+    # build wide dataframe: index = time, for each direction produce portal metric columns
+    times = sorted(merged["time"].dropna().unique())
+    wide = pd.DataFrame({"time": times})
+    directions = merged["direction"].dropna().unique().tolist()
+
+    for direction in directions:
+        sub = merged[merged["direction"] == direction]
+        portals = sub["portal_name"].dropna().unique().tolist()
+        for portal in portals:
+            s_abs = sub[sub["portal_name"] == portal][["time", "abs_difference"]].set_index("time").reindex(times)["abs_difference"]
+            s_rel = sub[sub["portal_name"] == portal][["time", "relative_difference"]].set_index("time").reindex(times)["relative_difference"]
+            col_abs = f"{direction} {portal} abs"
+            col_rel = f"{direction} {portal} rel"
+            wide[col_abs] = s_abs.values
+            wide[col_rel] = s_rel.values
+
+    # replace NaN with 0 for abs, keep None for relative where appropriate -> convert to floats
+    wide = wide.sort_values("time").reset_index(drop=True)
+    # convert timezone-aware datetimes to naive to be safe for Excel
+    for c in wide.select_dtypes(include=["datetime", "datetimetz"]).columns:
+        wide[c] = pd.to_datetime(wide[c]).dt.tz_localize(None)
+
+    # create workbook and sheet with the same style as other exporters
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "Comparison"
+
+    from openpyxl.styles import PatternFill, Border, Side, Font
+    thin = Side(border_style="thin", color="000000")
+    border = Border(left=thin, right=thin, top=thin, bottom=thin)
+    time_fill = PatternFill(start_color="FFF2CC", end_color="FFF2CC", fill_type="solid")
+    fills = [
+        PatternFill(start_color="DDEBF7", end_color="DDEBF7", fill_type="solid"),
+        PatternFill(start_color="F2F2F2", end_color="F2F2F2", fill_type="solid"),
+        PatternFill(start_color="E2EFDA", end_color="E2EFDA", fill_type="solid"),
+        PatternFill(start_color="FCE4D6", end_color="FCE4D6", fill_type="solid"),
+    ]
+
+    # prepare columns order: ensure time first
+    cols = wide.columns.tolist()
+    if cols[0] != "time":
+        cols.remove("time")
+        cols.insert(0, "time")
+
+    # Build mapping for directions: determine for each direction how many columns it has
+    mapping = []
+    for idx, direction in enumerate(directions):
+        # count how many cols belong to this direction
+        dir_cols = [c for c in cols if c != "time" and str(c).startswith(f"{direction} ")]
+        if not dir_cols:
             continue
-        merged[c] = pd.to_numeric(merged[c], errors="coerce").fillna(0.0)
+        start_idx = cols.index(dir_cols[0]) + 1  # 1-based excel col index
+        end_idx = cols.index(dir_cols[-1]) + 1
+        mapping.append((direction, start_idx, end_idx, len(dir_cols)))
 
-    summary_rows = [["Column_A", "Column_B", "Direction", "Movement", "Total_A", "Total_B", "Total_Diff (A-B)", "Sum_Abs_Diff", "MSE", "Pct_Diff_vs_A"]]
-    per_time_frames = []
+    # Row1: first cell empty then merged direction headings
+    ws.cell(row=1, column=1, value="")
+    for idx, (direction, start_idx, end_idx, num_cols) in enumerate(mapping):
+        start_letter = get_column_letter(start_idx)
+        end_letter = get_column_letter(end_idx)
+        if start_idx <= end_idx:
+            ws.merge_cells(f"{start_letter}1:{end_letter}1")
+            hcell = ws.cell(row=1, column=start_idx, value=direction)
+            hcell.alignment = Alignment(horizontal="center", vertical="center")
+            fill = fills[idx % len(fills)]
+            for col in range(start_idx, end_idx + 1):
+                ccell = ws.cell(row=1, column=col)
+                ccell.fill = fill
+                ccell.border = border
+                ccell.font = Font(bold=True)
+                ws.column_dimensions[get_column_letter(col)].width = max(10, 90.0 / max(1, num_cols))
 
-    for ca, cb, direction, movement in matches:
-        key_a = ca if ca in merged.columns else f"{ca}_A" if f"{ca}_A" in merged.columns else None
-        key_b = None
-        if cb:
-            key_b = cb if cb in merged.columns else f"{cb}_B" if f"{cb}_B" in merged.columns else None
-        if key_a is None:
-            # cannot compute without A
-            continue
-        if key_b is None:
-            # create zero column for B
-            merged[f"__zero_{ca}__"] = 0.0
-            key_b = f"__zero_{ca}__"
+    # time column styling and width
+    time_col_idx = cols.index("time") + 1
+    ws.cell(row=1, column=time_col_idx).fill = time_fill
+    ws.cell(row=2, column=time_col_idx).fill = time_fill
+    ws.column_dimensions[get_column_letter(time_col_idx)].width = 20
 
-        diff_col = f"{direction} {movement or ''} Diff ({ca} - {cb or 'MISSING'})"
-        merged[diff_col] = merged[key_a].astype(float) - merged[key_b].astype(float)
+    # Row2: actual column names
+    for j, col_name in enumerate(cols, start=1):
+        cell = ws.cell(row=2, column=j, value=str(col_name))
+        cell.alignment = Alignment(horizontal="center", vertical="center")
+        if j == time_col_idx:
+            cell.fill = time_fill
+        else:
+            for idx, (_, start_idx, end_idx, _) in enumerate(mapping):
+                if start_idx <= j <= end_idx:
+                    cell.fill = fills[idx % len(fills)]
+                    break
+        cell.border = border
 
-        total_a = float(merged[key_a].sum())
-        total_b = float(merged[key_b].sum())
-        total_diff = total_a - total_b
-        sum_abs = float(merged[diff_col].abs().sum())
-        mse = float((merged[diff_col] ** 2).mean())
-        pct = (total_diff / total_a * 100.0) if total_a != 0 else (float("inf") if total_diff != 0 else 0.0)
+    # Data rows starting at row3
+    for i, row in enumerate(wide.itertuples(index=False), start=3):
+        for j, value in enumerate(row, start=1):
+            cell = ws.cell(row=i, column=j, value=value)
+            cell.border = border
+            if j == time_col_idx:
+                cell.fill = time_fill
+            else:
+                for idx, (_, start_idx, end_idx, _) in enumerate(mapping):
+                    if start_idx <= j <= end_idx:
+                        cell.fill = fills[idx % len(fills)]
+                        break
 
-        summary_rows.append([ca, cb or "", direction, movement or "", total_a, total_b, total_diff, sum_abs, mse, pct])
-        per_time_frames.append(merged[["time", diff_col]].copy())
+    # Outer border for each direction block
+    last_data_row = 2 + wide.shape[0]
+    for _, start_idx, end_idx, _ in mapping:
+        for r in range(1, last_data_row + 1):
+            for c in range(start_idx, end_idx + 1):
+                ws.cell(row=r, column=c).border = border
 
-    # build output workbook
-    out_wb = Workbook()
-    try:
-        out_wb.remove(out_wb.active)
-    except Exception:
-        pass
-
-    ws_sum = out_wb.create_sheet(title="Comparison Summary")
-    for r in summary_rows:
-        ws_sum.append(r)
-    # autosize columns
-    for i in range(1, len(summary_rows[0]) + 1):
-        try:
-            ws_sum.column_dimensions[get_column_letter(i)].width = 18
-        except Exception:
-            pass
-
-    if per_time_frames:
-        merged_pt = per_time_frames[0].copy()
-        for dfp in per_time_frames[1:]:
-            merged_pt = pd.merge(merged_pt, dfp, on="time", how="outer")
-        merged_pt = merged_pt.sort_values("time").reset_index(drop=True)
-        ws_pt = out_wb.create_sheet(title="Per-Time Differences")
-        # header
-        headers = merged_pt.columns.tolist()
-        ws_pt.append(headers)
-        # rows
-        for row in merged_pt.itertuples(index=False):
-            ws_pt.append(list(row))
-        for i in range(1, len(headers) + 1):
-            try:
-                ws_pt.column_dimensions[get_column_letter(i)].width = 18
-            except Exception:
-                pass
-
-    return out_wb
+    return wb
     

@@ -58,3 +58,11 @@ class ApiTests(TestCase):
         excel_data = get_manual_count_excel_with_direction(self.record_id)
         print(excel_data)
         print("Manual count Excel data with direction retrieved successfully.")
+    
+    def test_get_multiple_manual_counting_excel(self):
+        from api.utils import get_multiple_manual_counting_excel
+        record_ids = [92, 93, 94, 95]
+        excel_data, all_dfs_in_one = get_multiple_manual_counting_excel(record_ids)
+        
+        
+        print(all_dfs_in_one)

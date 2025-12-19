@@ -70,7 +70,7 @@ export default function CounterResults() {
             const url = window.URL.createObjectURL(new Blob([blob]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', `counter_auto_iss_results_record_${recordId}.zip`);
+            link.setAttribute('download', `counter_auto_iss_results_record_${recordId}.xlsx`);
             document.body.appendChild(link);
             link.click();
             link.parentNode.removeChild(link);

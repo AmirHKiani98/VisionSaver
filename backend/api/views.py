@@ -18,7 +18,8 @@ from api.utils import (
     get_movement_index, get_iss_detections_pandas, 
     get_results_comparison_df, get_manual_count_excel_with_direction, 
     get_auto_iss_count_excel_with_direction, get_multiple_manual_counting_excel,
-    get_multiple_iss_counting_excel, get_multiple_auto_counting_excel, compare_two_df
+    get_multiple_iss_counting_excel, get_multiple_auto_counting_excel, compare_two_df,
+    copy_sheet_to_workbook
 )
 import cv2
 import base64
@@ -894,7 +895,7 @@ def get_frame_at_time(request):
             return JsonResponse({"error": "Record not found."}, status=404)
         video_path = os.path.join(settings.MEDIA_ROOT, f"{record_id}.mp4")
         if not os.path.exists(video_path):
-            video_path = os.path.join(settings.MEDIA_ROOT, f"{record_id}.mkv")
+            video_path = os.path.join(settings.MEDIA_ROOT, f"{record_id}.mkv");
             if not os.path.exists(video_path):
                 return JsonResponse({"error": "Video file not found."}, status=404)
         
@@ -1209,148 +1210,47 @@ def download_all_same_token_records_manual_count_excels(request):
         wb_manual, all_manual_dfs = get_multiple_manual_counting_excel(list_of_ids)
         wb_iss, all_iss_dfs  = get_multiple_iss_counting_excel(list_of_ids)
         wb_auto, all_auto_dfs = get_multiple_auto_counting_excel(list_of_ids)
+        # Create a single comparison for ALL provided record_ids (use the aggregated DataFrames
+        # returned by the get_multiple_* helpers). df1 is ground-truth (manual).
         all_compared_wbs = []
-
-        # Inside your per-record loop where you build compared_wb:
-        # (example location in your code)
-        for record_id, manaul_df in all_manual_dfs.items():
-            if record_id in all_iss_dfs:
-                iss_df = all_iss_dfs[record_id]
-                compared_wb = compare_two_df(manaul_df, iss_df)  # returns openpyxl.Workbook
-                if compared_wb:
-                    all_compared_wbs.append(("manual_vs_iss", record_id, compared_wb))
-            for auto_df_key, auto_df in all_auto_dfs.items():
-                # if auto_df_key format contains record_id, adjust parsing accordingly
-                auto_record_id = str(auto_df_key).split("_")[0]
-                if str(record_id) == str(auto_record_id):
-                    compared_wb = compare_two_df(manaul_df, auto_df)
-                    if compared_wb:
-                        all_compared_wbs.append(("manual_vs_auto", record_id, compared_wb))
-        
+        try:
+            # manual vs ISS (aggregated)
+            if isinstance(all_manual_dfs, pd.DataFrame) and isinstance(all_iss_dfs, pd.DataFrame) and not all_manual_dfs.empty and not all_iss_dfs.empty:
+                cmp_wb = compare_two_df(all_manual_dfs, all_iss_dfs, df1_name="Manual", df2_name="ISS")
+                if cmp_wb:
+                    all_compared_wbs.append(("manual_vs_iss_all", "all", cmp_wb))
+            # manual vs Auto (aggregated)
+            if isinstance(all_manual_dfs, pd.DataFrame) and isinstance(all_auto_dfs, pd.DataFrame) and not all_manual_dfs.empty and not all_auto_dfs.empty:
+                cmp_wb2 = compare_two_df(all_manual_dfs, all_auto_dfs, df1_name="Manual", df2_name="Auto")
+                if cmp_wb2:
+                    all_compared_wbs.append(("manual_vs_auto_all", "all", cmp_wb2))
+        except Exception:
+            # keep function robust; skip comparisons on error
+            pass
         # Put all sheets into one workbook with different sheet names
         wb = openpyxl.Workbook()
         # Remove the default sheet created with a new workbook
         default_sheet = wb.active
         wb.remove(default_sheet)
         
-        def copy_sheet_to_workbook(src_ws, dst_wb, dst_title=None):
-            dst_title = dst_title or src_ws.title
-            dst_ws = dst_wb.create_sheet(title=dst_title[:31])
-
-            # copy column widths
-            for col, dim in src_ws.column_dimensions.items():
-                try:
-                    dst_ws.column_dimensions[col].width = dim.width
-                except Exception:
-                    pass
-
-            # copy row heights
-            for idx, rd in src_ws.row_dimensions.items():
-                try:
-                    dst_ws.row_dimensions[idx].height = rd.height
-                except Exception:
-                    pass
-
-            # copy merged cells
-            for merged in list(src_ws.merged_cells.ranges):
-                try:
-                    dst_ws.merge_cells(str(merged))
-                except Exception:
-                    pass
-
-            # copy panes/freeze
-            try:
-                dst_ws.sheet_view = src_ws.sheet_view
-            except Exception:
-                pass
-
-            # copy row/column visibility, outline levels
-            try:
-                for idx, rd in src_ws.row_dimensions.items():
-                    try:
-                        dst_ws.row_dimensions[idx].hidden = rd.hidden
-                        dst_ws.row_dimensions[idx].outlineLevel = rd.outlineLevel
-                    except Exception:
-                        pass
-                for col, cd in src_ws.column_dimensions.items():
-                    try:
-                        dst_ws.column_dimensions[col].hidden = cd.hidden
-                        dst_ws.column_dimensions[col].outlineLevel = cd.outlineLevel
-                    except Exception:
-                        pass
-            except Exception:
-                pass
-
-            # copy cell values and styles
-            from copy import copy as _copy
-            for row in src_ws.iter_rows():
-                for cell in row:
-                    new_cell = dst_ws.cell(row=cell.row, column=cell.column, value=cell.value)
-                    try:
-                        # copy common style attributes (use copy to preserve objects)
-                        try:
-                            new_cell.font = _copy(cell.font)
-                        except Exception:
-                            pass
-                        try:
-                            new_cell.border = _copy(cell.border)
-                        except Exception:
-                            pass
-                        try:
-                            new_cell.fill = _copy(cell.fill)
-                        except Exception:
-                            pass
-                        try:
-                            new_cell.alignment = _copy(cell.alignment)
-                        except Exception:
-                            pass
-                        try:
-                            new_cell.protection = _copy(cell.protection)
-                        except Exception:
-                            pass
-                        # number format (string)
-                        try:
-                            new_cell.number_format = cell.number_format
-                        except Exception:
-                            pass
-
-                        # copy comment
-                        try:
-                            if cell.comment is not None:
-                                new_cell.comment = _copy(cell.comment)
-                        except Exception:
-                            pass
-
-                        # copy hyperlink
-                        try:
-                            if cell.hyperlink is not None:
-                                new_cell.hyperlink = _copy(cell.hyperlink)
-                        except Exception:
-                            pass
-
-                        # attempt to copy internal style object (best-effort)
-                        try:
-                            if hasattr(cell, "_style"):
-                                new_cell._style = _copy(cell._style)
-                        except Exception:
-                            pass
-
-                    except Exception:
-                        # ignore cell-level copy errors to keep operation resilient
-                        pass
-
-            return dst_ws
+        
 
         # Copy all manual workbook sheets
         for src_ws in wb_manual.worksheets:
+            if "summary" in src_ws.title.lower():
+                continue
             copy_sheet_to_workbook(src_ws, wb, dst_title=f"Manual - {src_ws.title}")
 
         # Copy all ISS workbook sheets
         for src_ws in wb_iss.worksheets:
+            if "summary" in src_ws.title.lower():
+                continue
             copy_sheet_to_workbook(src_ws, wb, dst_title=f"ISS - {src_ws.title}")
 
         # Copy all Auto workbook sheets
         for src_ws in wb_auto.worksheets:
+            if "summary" in src_ws.title.lower():
+                continue
             copy_sheet_to_workbook(src_ws, wb, dst_title=f"Auto - {src_ws.title}")
         # sheetnames is a list of strings
         used_titles = set(wb.sheetnames) if hasattr(wb, "sheetnames") else set()
