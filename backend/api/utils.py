@@ -87,9 +87,6 @@ def get_complete_results_for_multiple_record(record_ids):
     
     return final_result
 
-
-
-
 def copy_sheet_to_workbook(src_ws_or_wb, dst_wb, dst_title=None):
     """
     Copy a worksheet or all worksheets from a workbook into dst_wb.
