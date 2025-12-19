@@ -29,7 +29,7 @@ def all_complete_results_from_record(record_id):
     Get the excel pandas file from data
     """
     result = pd.DataFrame({"time": [], "count": [], "turn_movement": [], "type": [], "approach_direction": []})
-    record = Record.objects.filter(record_id=record_id)
+    record = Record.objects.filter(id=record_id).first()
     if record is None:
         return result
     approach_direction = record.direction or f"N/A, Record {record_id}"
@@ -40,7 +40,7 @@ def all_complete_results_from_record(record_id):
     if not auto_record:
         auto_counts, _ = get_counter_auto_detection_results(record_id, auto_record.version, auto_record.divide_time)
     else:
-        auto_counts = None, 0
+        auto_counts = {}
     if iss_detections is None or iss_detections.empty:
         iss_detections["count"] = 1
         iss_detections["turn_movement"] = iss_detections["direction"]
@@ -60,6 +60,7 @@ def all_complete_results_from_record(record_id):
                     "type": ["manual"],
                     "approach_direction": [approach_direction]
                 })], ignore_index=True)
+
     if auto_counts:
         for movement, data in auto_counts.items():
             for time, count_data in data.items():
@@ -80,8 +81,10 @@ def get_complete_results_for_multiple_record(record_ids):
         final_result = pd.concat([final_result, record_result], ignore_index=True)
     
     # Time should be converted into Central Timezone
-    final_result["time"] = pd.to_datetime(final_result["time"]).dt.tz_localize("UTC").dt.tz_convert("America/Chicago")
-    print(final_result)
+    if not pd.api.types.is_datetime64tz_dtype(final_result["time"]):
+        final_result["time"] = pd.to_datetime(final_result["time"]).dt.tz_localize("UTC")
+    final_result["time"] = final_result["time"].dt.tz_convert("America/Chicago")
+    
     return final_result
 
 
