@@ -24,7 +24,7 @@ def get_movement_index(movement):
     return -1 
 
 
-def all_complete_results_from_record(record_id, version=None, divide_time=None):
+def all_complete_results_from_record(record_id):
     """
     Get the excel pandas file from data
     """
@@ -34,9 +34,13 @@ def all_complete_results_from_record(record_id, version=None, divide_time=None):
         return result
     approach_direction = record.direction or f"N/A, Record {record_id}"
     start_time = record.start_time
-    iss_detections, total = get_iss_detections_pandas(record_id)
-    manual_counts, manual_total = get_counter_manual_results(record_id)
-    auto_counts, auto_total = get_counter_auto_detection_results(record_id, version, divide_time)
+    iss_detections, _ = get_iss_detections_pandas(record_id)
+    manual_counts, _ = get_counter_manual_results(record_id)
+    auto_record = AutoDetection.objects.filter(record=record).first()
+    if not auto_record:
+        auto_counts, _ = get_counter_auto_detection_results(record_id, auto_record.version, auto_record.divide_time)
+    else:
+        auto_counts = None, 0
     if iss_detections is None or iss_detections.empty:
         iss_detections["count"] = 1
         iss_detections["turn_movement"] = iss_detections["direction"]
@@ -68,7 +72,13 @@ def all_complete_results_from_record(record_id, version=None, divide_time=None):
                 })], ignore_index=True)
     
     return result
-    
+
+def get_complete_results_for_multiple_record(record_ids):
+    final_result = pd.DataFrame({"time": [], "count": [], "turn_movement": [], "type": [], "approach_direction": []})
+    for record_id in record_ids:
+        record_result = all_complete_results_from_record(record_id)
+        final_result = pd.concat([final_result, record_result], ignore_index=True)
+    return final_result
 
 
 def copy_sheet_to_workbook(src_ws_or_wb, dst_wb, dst_title=None):
