@@ -28,13 +28,47 @@ def all_complete_results_from_record(record_id, version=None, divide_time=None):
     """
     Get the excel pandas file from data
     """
+    result = pd.DataFrame({"time": [], "count": [], "turn_movement": [], "type": [], "approach_direction": []})
     record = Record.objects.filter(record_id=record_id)
-    if not record:
-        pass
-
+    if record is None:
+        return result
+    approach_direction = record.direction or f"N/A, Record {record_id}"
+    start_time = record.start_time
     iss_detections, total = get_iss_detections_pandas(record_id)
     manual_counts, manual_total = get_counter_manual_results(record_id)
     auto_counts, auto_total = get_counter_auto_detection_results(record_id, version, divide_time)
+    if iss_detections is None or iss_detections.empty:
+        iss_detections["count"] = 1
+        iss_detections["turn_movement"] = iss_detections["direction"]
+        iss_detections["type"] = "iss"
+        iss_detections["approach_direction"] = approach_direction
+        iss_detections = iss_detections[["time", "count", "turn_movement", "type", "approach_direction"]]
+        # Append to result
+        result = pd.concat([result, iss_detections], ignore_index=True)
+    
+    if manual_counts:
+        for movement, data in manual_counts.items():
+            for time, count in data.items():
+                result = pd.concat([result, pd.DataFrame({
+                    "time": [start_time + timedelta(seconds=time)],
+                    "count": [count],
+                    "turn_movement": [movement],
+                    "type": ["manual"],
+                    "approach_direction": [approach_direction]
+                })], ignore_index=True)
+    if auto_counts:
+        for movement, data in auto_counts.items():
+            for time, count_data in data.items():
+                result = pd.concat([result, pd.DataFrame({
+                    "time": [start_time + timedelta(seconds=time)],
+                    "count": [count_data[0]],
+                    "turn_movement": [movement],
+                    "type": ["auto"],
+                    "approach_direction": [approach_direction]
+                })], ignore_index=True)
+    
+    return result
+    
 
 
 def copy_sheet_to_workbook(src_ws_or_wb, dst_wb, dst_title=None):
