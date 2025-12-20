@@ -71,8 +71,83 @@ def all_complete_results_from_record(record_id):
                     "type": ["auto"],
                     "approach_direction": [approach_direction]
                 })], ignore_index=True)
-    
+    result["interval"] = result["time"].apply(bucketize_time)
     return result
+
+
+def get_complete_df_from_multiple_records(record_ids):
+    final_result = pd.DataFrame({"time": [], "count": [], "turn_movement": [], "type": [], "approach_direction": []})
+    for record_id in record_ids:
+        record_result = all_complete_results_from_record(record_id)
+        final_result = pd.concat([final_result, record_result], ignore_index=True)
+    return final_result
+
+def complete_categorized_df_to_wb(df, title=""):
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = f"Turn movements {title}"
+    # First row: empty | direction 1 | direction 2 | ...
+    # Seconds row: Time | |Movement Type 1| |Movement Type 2| |Movement Type 3|| ...|...| ... || ...    
+    # Third row onwards: |Time 1 | Count | Count | Count | ... | ... | ... || ... | ... |
+    columns_should_exist = ["interval", "count", "turn_movement", "type", "approach_direction"]
+    for column in columns_should_exist:
+        if column not in df.columns:
+            raise ValueError(f"Column '{column}' not found in DataFrame.")
+    
+    df = df.sort_values(["interval"])
+    grouped = df.groupby(["interval", "approach_direction", "turn_movement", "type"]).agg({'count': 'sum'})
+    grouped = grouped.reset_index()
+    grouped = grouped.sort_values(["interval", "approach_direction", "turn_movement","type"])
+
+    time_interval_row_mapping = {interval: idx + 3 for idx, interval in enumerate(sorted(grouped["interval"].unique().tolist()))}
+    # Build header rows
+    
+    # Build Time:
+    grouped_by_type = grouped.groupby("type")
+    for type_name, type_group in grouped_by_type:
+        # Create sheet for each type
+        ws = wb.create_sheet(title=f"{type_name} {title}")
+        ws.cell(row=1, column=1, value="")
+        ws.cell(row=2, column=1, value="Time")
+        for interval, row_idx in time_interval_row_mapping.items():
+            ws.cell(row=row_idx, column=1, value=interval.strftime("%I:%M %p"))
+        
+        col_idx = 2
+        type_df_grouped_by_approach_direction = type_group.groupby("approach_direction")
+        for approach_direction, approach_group in type_df_grouped_by_approach_direction:
+            # Merge cells for approach direction
+            start_col_letter = get_column_letter(col_idx)
+            num_movements = len(approach_group["turn_movement"].unique().tolist())
+            end_col_letter = get_column_letter(col_idx + num_movements - 1)
+            merge_range = f"{start_col_letter}1:{end_col_letter}1"
+            ws.merge_cells(merge_range)
+            ws[f"{start_col_letter}1"] = approach_direction
+            ws[f"{start_col_letter}1"].alignment = Alignment(horizontal="center", vertical="center")
+            # Write movement types
+            movement_types = approach_group["turn_movement"].unique().tolist()
+            for movement in movement_types:
+                ws.cell(row=2, column=col_idx, value=movement)
+                # Fill in counts
+                movement_data = approach_group[approach_group["turn_movement"] == movement]
+                for _, row in movement_data.iterrows():
+                    interval = row["interval"]
+                    count = row["count"]
+                    row_idx = time_interval_row_mapping[interval]
+                    ws.cell(row=row_idx, column=col_idx, value=count)
+                col_idx += 1
+    return wb
+            
+            
+    
+    # Buil
+
+        
+        
+    
+
+def bucketize_time(time):
+    minute = (time.minute // 15) * 15
+    return time.replace(minute=minute, second=0, microsecond=0)
 
 def get_complete_results_for_multiple_record(record_ids):
     final_result = pd.DataFrame({"time": [], "count": [], "turn_movement": [], "type": [], "approach_direction": []})
@@ -86,6 +161,8 @@ def get_complete_results_for_multiple_record(record_ids):
     final_result["time"] = final_result["time"].dt.tz_convert("America/Chicago")
     
     return final_result
+
+
 
 def copy_sheet_to_workbook(src_ws_or_wb, dst_wb, dst_title=None):
     """

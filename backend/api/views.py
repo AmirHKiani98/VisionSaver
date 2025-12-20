@@ -17,9 +17,8 @@ from api.utils import (
     get_counter_auto_detection_results, get_counter_manual_results, 
     get_movement_index, get_iss_detections_pandas, 
     get_results_comparison_df, get_manual_count_excel_with_direction, 
-    get_auto_iss_count_excel_with_direction, get_multiple_manual_counting_excel,
-    get_multiple_iss_counting_excel, get_multiple_auto_counting_excel, compare_two_df,
-    copy_sheet_to_workbook
+    get_auto_iss_count_excel_with_direction, get_complete_df_from_multiple_records,
+    complete_categorized_df_to_wb
 )
 import cv2
 import base64
@@ -1207,100 +1206,8 @@ def download_all_same_token_records_manual_count_excels(request):
             if rec.direction is None or rec.direction.strip() == "":
                 return JsonResponse({"error": f"Record ID {rec.id} does not have a direction set."}, status=400)
         list_of_ids = finished_detecting_records.values_list('id', flat=True)
-        wb_manual, all_manual_dfs = get_multiple_manual_counting_excel(list_of_ids)
-        wb_iss, all_iss_dfs  = get_multiple_iss_counting_excel(list_of_ids)
-        wb_auto, all_auto_dfs = get_multiple_auto_counting_excel(list_of_ids)
-        # Create a single comparison for ALL provided record_ids (use the aggregated DataFrames
-        # returned by the get_multiple_* helpers). df1 is ground-truth (manual).
-        all_compared_wbs = []
-        try:
-            # manual vs ISS (aggregated)
-            if isinstance(all_manual_dfs, pd.DataFrame) and isinstance(all_iss_dfs, pd.DataFrame) and not all_manual_dfs.empty and not all_iss_dfs.empty:
-                cmp_wb = compare_two_df(all_manual_dfs, all_iss_dfs, df1_name="Manual", df2_name="ISS")
-                if cmp_wb:
-                    all_compared_wbs.append(("manual_vs_iss_all", "all", cmp_wb))
-            # manual vs Auto (aggregated)
-            if isinstance(all_manual_dfs, pd.DataFrame) and isinstance(all_auto_dfs, pd.DataFrame) and not all_manual_dfs.empty and not all_auto_dfs.empty:
-                cmp_wb2 = compare_two_df(all_manual_dfs, all_auto_dfs, df1_name="Manual", df2_name="Auto")
-                if cmp_wb2:
-                    all_compared_wbs.append(("manual_vs_auto_all", "all", cmp_wb2))
-        except Exception:
-            # keep function robust; skip comparisons on error
-            pass
-        # Put all sheets into one workbook with different sheet names
-        wb = openpyxl.Workbook()
-        # Remove the default sheet created with a new workbook
-        default_sheet = wb.active
-        wb.remove(default_sheet)
-        
-        
-
-        # Copy all manual workbook sheets
-        for src_ws in wb_manual.worksheets:
-            if "summary" in src_ws.title.lower():
-                continue
-            copy_sheet_to_workbook(src_ws, wb, dst_title=f"Manual - {src_ws.title}")
-
-        # Copy all ISS workbook sheets
-        for src_ws in wb_iss.worksheets:
-            if "summary" in src_ws.title.lower():
-                continue
-            copy_sheet_to_workbook(src_ws, wb, dst_title=f"ISS - {src_ws.title}")
-
-        # Copy all Auto workbook sheets
-        for src_ws in wb_auto.worksheets:
-            if "summary" in src_ws.title.lower():
-                continue
-            copy_sheet_to_workbook(src_ws, wb, dst_title=f"Auto - {src_ws.title}")
-        # sheetnames is a list of strings
-        used_titles = set(wb.sheetnames) if hasattr(wb, "sheetnames") else set()
-        
-        def _make_wb_datetimes_naive(workbook):
-            """Convert any timezone-aware datetimes in the workbook cells to tz-naive datetimes
-            (Excel requires tzinfo to be None). We convert to UTC then drop tzinfo.
-            """
-            for ws in workbook.worksheets:
-                for row in ws.iter_rows():
-                    for cell in row:
-                        try:
-                            val = cell.value
-                            if isinstance(val, _dt.datetime):
-                                if val.tzinfo is not None:
-                                    # convert to UTC then remove tzinfo
-                                    try:
-                                        naive = val.astimezone(_dt.timezone.utc).replace(tzinfo=None)
-                                    except Exception:
-                                        # fallback: just remove tzinfo (best-effort)
-                                        naive = val.replace(tzinfo=None)
-                                    cell.value = naive
-                        except Exception:
-                            # Keep robust: ignore any conversion errors per-cell
-                            pass
-        for cmp_type, rid, cmp_wb in all_compared_wbs:
-            # cmp_wb is expected to be an openpyxl.Workbook
-            for src_ws in cmp_wb.worksheets:
-                # build a base title like "Compare [type] rec:<id> - <sheetname>"
-                base_title = f"Compare {cmp_type} rec{rid} {src_ws.title}"
-                # make title safe and <=31 chars
-                title = base_title[:31]
-                # ensure uniqueness
-                suffix = 1
-                while title in used_titles:
-                    # leave room for suffix
-                    suffix_str = f"_{suffix}"
-                    max_base = 31 - len(suffix_str)
-                    title = (base_title[:max_base] + suffix_str)[:31]
-                    suffix += 1
-                used_titles.add(title)
-
-                # copy sheet preserving styles using your helper
-                copy_sheet_to_workbook(src_ws, wb, dst_title=title)
-        # Ensure there are no timezone-aware datetimes in cells (Excel doesn't support tz-aware datetimes)
-        try:
-            _make_wb_datetimes_naive(wb)
-        except Exception:
-            # if anything goes wrong here, continue and let openpyxl raise on save if necessary
-            pass
+        complete_df = get_complete_df_from_multiple_records(list_of_ids)
+        wb = complete_categorized_df_to_wb(complete_df)
 
         with tempfile.NamedTemporaryFile(suffix='.xlsx', delete=False) as tmp:
             tmp_path = tmp.name
