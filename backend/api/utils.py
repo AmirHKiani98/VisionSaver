@@ -23,6 +23,15 @@ def get_movement_index(movement):
         return 2
     return -1 
 
+def consistent_direction(movement):
+    if "through" in movement.lower():
+        return "through"
+    elif "left" in movement.lower():
+        return "left"
+    elif "right" in movement.lower():
+        return "right"
+    return "unknown"
+
 
 def all_complete_results_from_record(record_id):
     """
@@ -37,26 +46,26 @@ def all_complete_results_from_record(record_id):
     iss_detections, _ = get_iss_detections_pandas(record_id)
     manual_counts, _ = get_counter_manual_results(record_id)
     auto_record = AutoDetection.objects.filter(record=record).first()
-    if not auto_record:
+    if auto_record:
         auto_counts, _ = get_counter_auto_detection_results(record_id, auto_record.version, auto_record.divide_time)
     else:
         auto_counts = {}
-    if iss_detections is None or iss_detections.empty:
+    if iss_detections is not None and not iss_detections.empty:
         iss_detections["count"] = 1
-        iss_detections["turn_movement"] = iss_detections["direction"]
+        iss_detections["turn_movement"] = iss_detections["direction"].apply(consistent_direction)
         iss_detections["type"] = "iss"
         iss_detections["approach_direction"] = approach_direction
         iss_detections = iss_detections[["time", "count", "turn_movement", "type", "approach_direction"]]
+        iss_detections["time"] = pd.to_datetime(iss_detections["time"]).dt.tz_convert("UTC")
         # Append to result
         result = pd.concat([result, iss_detections], ignore_index=True)
-    
     if manual_counts:
         for movement, data in manual_counts.items():
             for time, count in data.items():
                 result = pd.concat([result, pd.DataFrame({
                     "time": [start_time + timedelta(seconds=time)],
                     "count": [count],
-                    "turn_movement": [movement],
+                    "turn_movement": [consistent_direction(movement)],
                     "type": ["manual"],
                     "approach_direction": [approach_direction]
                 })], ignore_index=True)
@@ -67,11 +76,12 @@ def all_complete_results_from_record(record_id):
                 result = pd.concat([result, pd.DataFrame({
                     "time": [start_time + timedelta(seconds=time)],
                     "count": [count_data[0]],
-                    "turn_movement": [movement],
+                    "turn_movement": [consistent_direction(movement)],
                     "type": ["auto"],
                     "approach_direction": [approach_direction]
                 })], ignore_index=True)
     result["interval"] = result["time"].apply(bucketize_time)
+
     return result
 
 
@@ -80,12 +90,13 @@ def get_complete_df_from_multiple_records(record_ids):
     for record_id in record_ids:
         record_result = all_complete_results_from_record(record_id)
         final_result = pd.concat([final_result, record_result], ignore_index=True)
+
     return final_result
 
 def complete_categorized_df_to_wb(df, title=""):
+    
     wb = openpyxl.Workbook()
     ws = wb.active
-    ws.title = f"Turn movements {title}"
     # First row: empty | direction 1 | direction 2 | ...
     # Seconds row: Time | |Movement Type 1| |Movement Type 2| |Movement Type 3|| ...|...| ... || ...    
     # Third row onwards: |Time 1 | Count | Count | Count | ... | ... | ... || ... | ... |
@@ -98,36 +109,129 @@ def complete_categorized_df_to_wb(df, title=""):
     grouped = df.groupby(["interval", "approach_direction", "turn_movement", "type"]).agg({'count': 'sum'})
     grouped = grouped.reset_index()
     grouped = grouped.sort_values(["interval", "approach_direction", "turn_movement","type"])
-
-    time_interval_row_mapping = {interval: idx + 3 for idx, interval in enumerate(sorted(grouped["interval"].unique().tolist()))}
-    # Build header rows
     
-    # Build Time:
+    comparison_df = pd.DataFrame({})
+    # Prepare comparison_df
+    manual_df = grouped[grouped['type'] == 'manual'].copy()
+    auto_df = grouped[grouped['type'] == 'auto'].copy()
+    iss_df = grouped[grouped['type'] == 'iss'].copy()
+
+    for index, row in auto_df.iterrows():
+        interval = row['interval']
+        approach_direction = row['approach_direction']
+        turn_movement = row['turn_movement']
+        auto_count = row['count']
+        
+        manual_count = manual_df[
+            (manual_df['interval'] == interval) & 
+            (manual_df['approach_direction'] == approach_direction) & 
+            (manual_df['turn_movement'] == turn_movement)
+        ]
+        if not manual_count.empty:
+            manual_count = manual_count.iloc[0]['count']
+            # avoid division by zero
+            if manual_count != 0:
+                difference_percentage = abs(auto_count - manual_count) / manual_count
+            else:
+                difference_percentage = None
+            comparison_df = pd.concat([comparison_df, pd.DataFrame({
+                'interval': [interval],
+                'approach_direction': [approach_direction],
+                'turn_movement': [turn_movement],
+                'count': [difference_percentage],
+                'type': ['auto_vs_manual']
+            })], ignore_index=True)
+
+    for index, row in iss_df.iterrows():
+        interval = row['interval']
+        approach_direction = row['approach_direction']
+        turn_movement = row['turn_movement']
+        iss_count = row['count']
+        
+        manual_count = manual_df[
+            (manual_df['interval'] == interval) & 
+            (manual_df['approach_direction'] == approach_direction) & 
+            (manual_df['turn_movement'] == turn_movement)
+        ]
+        if not manual_count.empty:
+            manual_count = manual_count.iloc[0]['count']
+            if manual_count != 0:
+                difference_percentage = abs(iss_count - manual_count) / manual_count
+            else:
+                difference_percentage = None
+            comparison_df = pd.concat([comparison_df, pd.DataFrame({
+                'interval': [interval],
+                'approach_direction': [approach_direction],
+                'turn_movement': [turn_movement],
+                'count': [difference_percentage],
+                'type': ['iss_vs_manual']
+            })], ignore_index=True)
+    
+    # build mapping of interval -> target excel row
+    unique_intervals = sorted(grouped["interval"].unique().tolist())
+    time_interval_row_mapping = {interval: idx + 3 for idx, interval in enumerate(unique_intervals)}
+
+    # Styling helpers (match other exporters)
+    from openpyxl.styles import PatternFill, Border, Side, Font
+    from openpyxl.formatting.rule import ColorScaleRule
+    thin = Side(border_style="thin", color="000000")
+    border = Border(left=thin, right=thin, top=thin, bottom=thin)
+    time_fill = PatternFill(start_color="FFF2CC", end_color="FFF2CC", fill_type="solid")
+    fills = [
+        PatternFill(start_color="DDEBF7", end_color="DDEBF7", fill_type="solid"),
+        PatternFill(start_color="F2F2F2", end_color="F2F2F2", fill_type="solid"),
+        PatternFill(start_color="E2EFDA", end_color="E2EFDA", fill_type="solid"),
+        PatternFill(start_color="FCE4D6", end_color="FCE4D6", fill_type="solid"),
+    ]
+    bold_font = Font(bold=True)
+
+    # Build Time rows once for all sheets (we'll reuse the same intervals)
+    # For each 'type' create a sheet with grouped layout
     grouped_by_type = grouped.groupby("type")
-    for type_name, type_group in grouped_by_type:
+    for type_idx, (type_name, type_group) in enumerate(grouped_by_type):
         # Create sheet for each type
-        ws = wb.create_sheet(title=f"{type_name} {title}")
+        ws = wb.create_sheet(title=f"{type_name} {title}"[:31])
+        # top-left empty cell
         ws.cell(row=1, column=1, value="")
         ws.cell(row=2, column=1, value="Time")
+        # fill time column values
         for interval, row_idx in time_interval_row_mapping.items():
-            ws.cell(row=row_idx, column=1, value=interval.strftime("%I:%M %p"))
-        
+            # ensure interval is datetime-like and tz-naive for Excel
+            try:
+                ts = pd.to_datetime(interval)
+                if hasattr(ts, "tzinfo") and ts.tzinfo is not None:
+                    ts = ts.tz_convert("UTC").tz_localize(None)
+                ws.cell(row=row_idx, column=1, value=ts.strftime("%I:%M %p"))
+            except Exception:
+                ws.cell(row=row_idx, column=1, value=str(interval))
+
+        # build columns grouped by approach_direction
         col_idx = 2
         type_df_grouped_by_approach_direction = type_group.groupby("approach_direction")
+        # Collect mapping for styling (approach_direction -> start_col, end_col, num_movements)
+        mapping = []
         for approach_direction, approach_group in type_df_grouped_by_approach_direction:
-            # Merge cells for approach direction
-            start_col_letter = get_column_letter(col_idx)
-            num_movements = len(approach_group["turn_movement"].unique().tolist())
-            end_col_letter = get_column_letter(col_idx + num_movements - 1)
+            movement_types = list(approach_group["turn_movement"].unique())
+            num_movements = len(movement_types)
+            if num_movements == 0:
+                continue
+            start_col = col_idx
+            end_col = col_idx + num_movements - 1
+            # Merge cells for approach direction header (row1)
+            start_col_letter = get_column_letter(start_col)
+            end_col_letter = get_column_letter(end_col)
             merge_range = f"{start_col_letter}1:{end_col_letter}1"
-            ws.merge_cells(merge_range)
+            try:
+                ws.merge_cells(merge_range)
+            except Exception:
+                pass
             ws[f"{start_col_letter}1"] = approach_direction
             ws[f"{start_col_letter}1"].alignment = Alignment(horizontal="center", vertical="center")
-            # Write movement types
-            movement_types = approach_group["turn_movement"].unique().tolist()
+            # write movement types on row2 and fill in counts
             for movement in movement_types:
-                ws.cell(row=2, column=col_idx, value=movement)
-                # Fill in counts
+                cell = ws.cell(row=2, column=col_idx, value=movement)
+                cell.alignment = Alignment(horizontal="center", vertical="center")
+                # Fill counts for this movement
                 movement_data = approach_group[approach_group["turn_movement"] == movement]
                 for _, row in movement_data.iterrows():
                     interval = row["interval"]
@@ -135,15 +239,120 @@ def complete_categorized_df_to_wb(df, title=""):
                     row_idx = time_interval_row_mapping[interval]
                     ws.cell(row=row_idx, column=col_idx, value=count)
                 col_idx += 1
-    return wb
-            
-            
-    
-    # Buil
+            mapping.append((approach_direction, start_col, end_col, num_movements))
+        # Apply styling: fills, borders, column widths
+        # time column styling
+        time_col_idx = 1
+        ws.cell(row=1, column=time_col_idx).fill = time_fill
+        ws.cell(row=2, column=time_col_idx).fill = time_fill
+        ws.column_dimensions[get_column_letter(time_col_idx)].width = 20
 
-        
-        
-    
+        # apply fills to merged headers and second row and set column widths
+        for idx, (approach_direction, start_idx, end_idx, num_cols) in enumerate(mapping):
+            fill = fills[idx % len(fills)]
+            for col in range(start_idx, end_idx + 1):
+                # header row (row1) cells inside merged area
+                hcell = ws.cell(row=1, column=col)
+                hcell.fill = fill
+                hcell.border = border
+                hcell.font = bold_font
+                # second row header
+                h2 = ws.cell(row=2, column=col)
+                h2.fill = fill
+                h2.border = border
+                # set width per column (spread 90 units)
+                ws.column_dimensions[get_column_letter(col)].width = max(8, 90.0 / max(1, num_cols))
+        # set border/time fill for time header cells
+        ws.cell(row=1, column=1).border = border
+        ws.cell(row=2, column=1).border = border
+
+        # Data rows: write row cells and apply fills/borders
+        for interval, row_idx in time_interval_row_mapping.items():
+            for col in range(1, col_idx):
+                value = ws.cell(row=row_idx, column=col).value
+                cell = ws.cell(row=row_idx, column=col, value=value)
+                cell.border = border
+                if col == time_col_idx:
+                    cell.fill = time_fill
+                else:
+                    # find fill based on mapping block
+                    for idx, (_, start_idx, end_idx, _) in enumerate(mapping):
+                        if start_idx <= col <= end_idx:
+                            cell.fill = fills[idx % len(fills)]
+                            break
+
+        # Outer border for each approach_direction block (header + data rows)
+        last_data_row = 2 + len(time_interval_row_mapping)
+        for _, start_idx, end_idx, _ in mapping:
+            for r in range(1, last_data_row + 1):
+                for c in range(start_idx, end_idx + 1):
+                    ws.cell(row=r, column=c).border = border
+
+    # --- Add comparison sheets (Auto and ISS) with percentage and color scale ---
+    def _write_comparison_sheet(sheet_title, comp_df):
+        ws_cmp = wb.create_sheet(title=sheet_title[:31])
+        if comp_df.empty:
+            ws_cmp.append(["No comparison data"])
+            return ws_cmp
+        # columns: interval, approach_direction, turn_movement, count (percentage)
+        headers = ["Time", "Approach Direction", "Turn Movement", "Difference"]
+        for j, h in enumerate(headers, start=1):
+            cell = ws_cmp.cell(row=1, column=j, value=h)
+            cell.alignment = Alignment(horizontal="center", vertical="center")
+            cell.font = bold_font
+            cell.border = border
+            if j == 1:
+                ws_cmp.column_dimensions[get_column_letter(j)].width = 20
+            else:
+                ws_cmp.column_dimensions[get_column_letter(j)].width = 18
+
+        # write rows
+        rows = []
+        for _, r in comp_df.iterrows():
+            interval = r["interval"]
+            try:
+                ts = pd.to_datetime(interval)
+                if hasattr(ts, "tzinfo") and ts.tzinfo is not None:
+                    ts = ts.tz_convert("UTC").tz_localize(None)
+                tval = ts.strftime("%Y-%m-%d %I:%M %p")
+            except Exception:
+                tval = str(interval)
+            diff = r["count"] if pd.notna(r["count"]) else None
+            rows.append([tval, r.get("approach_direction", ""), r.get("turn_movement", ""), diff])
+        for i, row in enumerate(rows, start=2):
+            for j, v in enumerate(row, start=1):
+                cell = ws_cmp.cell(row=i, column=j, value=v)
+                cell.border = border
+                if j == 4:
+                    # difference column: set percent format when value present
+                    if v is not None:
+                        try:
+                            cell.value = float(v)
+                            cell.number_format = "0.00%"
+                        except Exception:
+                            pass
+
+        # apply color scale to Difference column (col 4)
+        last_row = 1 + len(rows)
+        diff_col_letter = get_column_letter(4)
+        rule = ColorScaleRule(
+            start_type='num', start_value=0, start_color="63BE7B",    # green
+            mid_type='num', mid_value=0.5, mid_color="FFEB84",         # yellow
+            end_type='num', end_value=1.0, end_color="FF0000"          # red at 100%
+        )
+        try:
+            ws_cmp.conditional_formatting.add(f"{diff_col_letter}2:{diff_col_letter}{last_row}", rule)
+        except Exception:
+            pass
+        return ws_cmp
+
+    auto_comp = comparison_df[comparison_df["type"] == "auto_vs_manual"].copy() if not comparison_df.empty else pd.DataFrame()
+    iss_comp = comparison_df[comparison_df["type"] == "iss_vs_manual"].copy() if not comparison_df.empty else pd.DataFrame()
+
+    _write_comparison_sheet("Auto Comparison", auto_comp)
+    _write_comparison_sheet("ISS Comparison", iss_comp)
+
+    return wb
 
 def bucketize_time(time):
     minute = (time.minute // 15) * 15
@@ -274,8 +483,12 @@ def copy_sheet_to_workbook(src_ws_or_wb, dst_wb, dst_title=None):
         created.append(_copy_one(src_ws_or_wb, dst_wb, dst_title))
     return created
 
-def get_auto_detection_results_from_df_zones(auto_df, min_time=0, max_time=600, lines_map_length=None):
+def get_auto_detection_results_from_df_zones(auto_df, min_time=0, max_time=0, lines_map_length=None):
     results = defaultdict(dict)
+    if max_time == 0:
+        max_time = auto_df['time'].max()
+    
+    print("Max time set to", max_time)
     auto_df = auto_df[(auto_df['time'] >= min_time) & (auto_df['time'] <= max_time)]
     THRESHOLD = 0.5
     auto_df = auto_df[auto_df["confidence"] >= THRESHOLD]
@@ -311,11 +524,13 @@ def get_auto_detection_results_from_df_zones(auto_df, min_time=0, max_time=600, 
     return results, total
 
 
-def get_auto_detection_results_from_df_lines(auto_df, min_time=0, max_time=600, lines=None):
+def get_auto_detection_results_from_df_lines(auto_df, min_time=0, max_time=0, lines=None):
     if lines is None:
         raise ValueError("Lines parameter is required for line-based detection results.")
     # lines format: {line_key: list_of_points}
-
+    if max_time == 0:
+        max_time = auto_df['time'].max()
+    print("Max time set to", max_time)
     results = defaultdict(dict)
     auto_df = auto_df[(auto_df['time'] >= min_time) & (auto_df['time'] <= max_time)]
     THRESHOLD = 0.5
@@ -352,7 +567,6 @@ def get_auto_detection_results_from_df_lines(auto_df, min_time=0, max_time=600, 
             line_x = line_points["x"]
             line_y = line_points["y"]
             mean_degree_angle = curve_parallelity(xc.values, yc.values, np.array(line_x), np.array(line_y))
-            print(f"Track ID {_} - mean_angle_ {mean_degree_angle} max_time: {max_time}")
             if abs(mean_degree_angle) > 45:
                 continue
             
@@ -360,9 +574,7 @@ def get_auto_detection_results_from_df_lines(auto_df, min_time=0, max_time=600, 
                 final_line_key_mean_degree_angle = mean_degree_angle
                 final_line_key = line_key
         
-        print()
-        print()
-        print()
+        
         if final_line_key is not None:
             
             if time not in results[final_line_key]:
@@ -464,16 +676,14 @@ def get_counter_auto_detection_results(record_id, version, divide_time, min_time
             } for line_name, list_of_points in lines.items()
         }
         df = pd.read_csv(counts_file)
-        if max_time == 0:
-            max_time = 600
-        if version == "v3":
+        if version == "v3" or version == "v2":
             return get_auto_detection_results_from_df_zones(df, min_time, max_time, lines_map_length)
         elif version == "v4":
             return get_auto_detection_results_from_df_lines(df, min_time, max_time, lines_direction)
+        return False, 0
     except Exception as e:
         import traceback
         tb = traceback.format_exc()
-        print(tb)
         return False, 0
 
 
@@ -557,7 +767,6 @@ def get_iss_detections_pandas(record_id, min_time=0, max_time=0):
         lambda x: "through" if x == "Through" else "left" if x == "LeftTurn" else "right" if x == "RightTurn" else x
     )
     pandas_df = pandas_df[~pandas_df["zoneName"].str.contains("ADV")]
-    print(pandas_df)
     total = pandas_df.shape[0]
     return pandas_df, total
 

@@ -73,3 +73,17 @@ class ApiTests(TestCase):
         record_ids = [92, 93, 94, 95]
         final_result = get_complete_results_for_multiple_record(record_ids)
         print(final_result)
+
+
+    def test_complete_categorized_df_to_wb(self):
+        from api.utils import complete_categorized_df_to_wb
+        from api.utils import get_complete_results_for_multiple_record
+        from io import BytesIO
+        record_ids = [92, 93, 94, 95]
+        final_result = get_complete_results_for_multiple_record(record_ids)
+        wb = complete_categorized_df_to_wb(final_result)
+        # print(wb)
+        # Save to a BytesIO stream to simulate file saving
+        with open("test_complete_categorized_results.xlsx", "wb") as f:
+            wb.save(f)
+        print("Excel workbook for complete categorized results created successfully.")
