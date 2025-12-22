@@ -96,7 +96,11 @@ def get_complete_df_from_multiple_records(record_ids):
 def complete_categorized_df_to_wb(df, title=""):
     
     wb = openpyxl.Workbook()
-    ws = wb.active
+    try:
+        default = wb.active
+        wb.remove(default)
+    except Exception:
+        pass
     # First row: empty | direction 1 | direction 2 | ...
     # Seconds row: Time | |Movement Type 1| |Movement Type 2| |Movement Type 3|| ...|...| ... || ...    
     # Third row onwards: |Time 1 | Count | Count | Count | ... | ... | ... || ... | ... |
@@ -349,8 +353,8 @@ def complete_categorized_df_to_wb(df, title=""):
     auto_comp = comparison_df[comparison_df["type"] == "auto_vs_manual"].copy() if not comparison_df.empty else pd.DataFrame()
     iss_comp = comparison_df[comparison_df["type"] == "iss_vs_manual"].copy() if not comparison_df.empty else pd.DataFrame()
 
-    _write_comparison_sheet("Auto Comparison", auto_comp)
-    _write_comparison_sheet("ISS Comparison", iss_comp)
+    _write_comparison_sheet("Auto vs Manual Comparison", auto_comp)
+    _write_comparison_sheet("ISS vs Manual Comparison", iss_comp)
 
     return wb
 

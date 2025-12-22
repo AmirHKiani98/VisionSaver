@@ -127,12 +127,24 @@ function Recording() {
     return (
         <>
         <div className='relative w-full h-full flex flex-col items-center'>
-            <div className="absolute top-5 left-5 z-10">
+            <div className="absolute flex justify-center items-center gap-5 top-5 left-5 z-10">
                 <Button onClick={() =>{
                     navigate(-1);
                 }}>
                     Back
                 </Button>
+                <Tooltip title="Download All Results" placement="top">
+                    <Button
+                        className={`shadow-lg hover:!bg-main-400 !text-black h-full !bg-main-100`}
+                        onClick={downloadAllmanualCountExcels}
+                        >
+                            {isDownloading ? (
+                                <CircularProgress size={24} className="text-center color-main-500" />
+                            ) : (
+                                <DownloadIcon className='text-center' />
+                            )}
+                    </Button>
+                </Tooltip>
             </div>
             <div className='flex items-center p-2.5 gap-2.5'>
                 
@@ -150,18 +162,7 @@ function Recording() {
                 )}
             </VisionContainer>
             <div className='flex justify-center items-center'>
-                <Tooltip title="Download All Results" placement="top">
-                    <Button
-                        className={`shadow-lg hover:!bg-main-400 !text-black h-full !bg-main-100`}
-                        onClick={downloadAllmanualCountExcels}
-                        >
-                            {isDownloading ? (
-                                <CircularProgress size={24} className="text-center color-main-500" />
-                            ) : (
-                                <DownloadIcon className='text-center' />
-                            )}
-                    </Button>
-                </Tooltip>
+                
 
             </div>
         </div>
