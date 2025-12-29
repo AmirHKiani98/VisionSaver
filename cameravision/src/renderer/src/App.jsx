@@ -89,16 +89,47 @@ function App() {
   const [isImportRecordModalOpen, setIsImportRecordModalOpen] = useState(false)
   const [loadingRecords, setLoadingRecords] = useState(true);
   const getQuery = new URLSearchParams(location.search);
+  const [checkingStarted, setCheckingStarted] = useState(false);
+  const [checkCameraProgress, setCheckCameraProgress] = useState(0);
+  const [checkCameraVersion, setCheckCameraVersion] = useState('v1');
+  const [badSignals, setBadSignals] = useState([]);
   const currentPage = parseInt(getQuery.get('page')) || 1;
   const recordLinkEditModalHandler = () => {
     setIsRecordLinkEditModalOpen(!isRecordLinkEditModalOpen)
   }
-
+  
   useEffect(() => {
     window.env.get().then(setEnv)
   }, [])
 
-  
+  useEffect(() => {
+    if (!env.BACKEND_SERVER_DOMAIN || !env.BACKEND_SERVER_PORT) {
+      return; // Return early if env is not set
+    }
+    const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/checking_camera/${checkCameraVersion}/`;
+    const socket = new WebSocket(wsUrl);
+    socket.onmessage = function(event) {
+        const messageData = JSON.parse(event.data);
+        if (messageData.progress !== undefined) {
+            setCheckCameraProgress(messageData.progress);
+        }
+        if (messageData.potential_camera !== undefined) {
+            // If potential_camera doesn't exist in badSignals, add it
+            setBadSignals(prevBadSignals => {
+                if (!prevBadSignals.includes(messageData.potential_camera)) {
+                    return [...prevBadSignals, messageData.potential_camera];
+                }
+                return prevBadSignals;
+            });
+        }
+        if (messageData.remove_potential_camera !== undefined) {
+            setBadSignals(prevBadSignals => prevBadSignals.filter(cam => cam !== messageData.remove_potential_camera));
+        }
+    };
+    socket.onclose = function(event) {
+        console.log("WebSocket closed:", event);
+    };
+  }, [env]);
 
   const closeNotification = (event, reason) => {
     if (reason === 'clickaway') {
@@ -1023,7 +1054,7 @@ function App() {
           aria-labelledby="parent-modal-title"
           aria-describedby="parent-modal-description"
         >
-            <CameraChecker></CameraChecker>
+            <CameraChecker checkingStarted={checkingStarted} setCheckingStarted={setCheckingStarted} checkCameraProgress={checkCameraProgress} setCheckCameraProgress={setCheckCameraProgress} checkCameraVersion={checkCameraVersion} setCheckCameraVersion={setCheckCameraVersion} badSignals={badSignals} setBadSignals={setBadSignals}></CameraChecker>
         </Modal>
         <Modal
             open={isGetAllAvailableResultsExcelOpen}

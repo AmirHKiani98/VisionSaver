@@ -1,11 +1,8 @@
 import React from 'react'
 import {LinearProgress, Box, Typography, Button} from '@mui/material';
-export default function CameraChecker() {
+export default function CameraChecker({checkingStarted, setCheckingStarted, checkCameraProgress, setCheckCameraProgress, checkCameraVersion, setCheckCameraVersion, badSignals, setBadSignals}) {
     const [env, setEnv] = React.useState({});
-    const [progress, setProgress] = React.useState(0);
-    const [checkingStarted, setCheckingStarted] = React.useState(false);
-    const [version, setVersion] = React.useState('v1');
-    const [badSignals, setBadSignals] = React.useState([]);
+    
     React.useEffect(() => {
         // Get the env
         window.env.get().then(setEnv)
@@ -19,36 +16,14 @@ export default function CameraChecker() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({version: version})
+            body: JSON.stringify({version: checkCameraVersion})
         }).then(response => response.json())
           .then(data => {
             if (data.status == 200) {
                 console.log("Camera check started successfully:", data);
                 setCheckingStarted(true);
                 // Start listening to WebSocket for progress updates
-                const wsUrl = `ws://${env.BACKEND_SERVER_DOMAIN}:${env.BACKEND_SERVER_PORT}/ws/checking_camera/${version}/`;
-                const socket = new WebSocket(wsUrl);
-                socket.onmessage = function(event) {
-                    const messageData = JSON.parse(event.data);
-                    if (messageData.progress !== undefined) {
-                        setProgress(messageData.progress);
-                    }
-                    if (messageData.potential_camera !== undefined) {
-                        // If potential_camera doesn't exist in badSignals, add it
-                        setBadSignals(prevBadSignals => {
-                            if (!prevBadSignals.includes(messageData.potential_camera)) {
-                                return [...prevBadSignals, messageData.potential_camera];
-                            }
-                            return prevBadSignals;
-                        });
-                    }
-                    if (messageData.remove_potential_camera !== undefined) {
-                        setBadSignals(prevBadSignals => prevBadSignals.filter(cam => cam !== messageData.remove_potential_camera));
-                    }
-                };
-                socket.onclose = function(event) {
-                    console.log("WebSocket closed:", event);
-                };
+                
             } else {
                 console.error('Error starting camera check:', data);
             }
@@ -65,7 +40,7 @@ export default function CameraChecker() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({version: version})
+            body: JSON.stringify({version: checkCameraVersion})
         }).then(response => response.json())
           .then(data => {
             if (data.status == 200) {
@@ -76,7 +51,7 @@ export default function CameraChecker() {
             }
         );
         setCheckingStarted(false);
-        setProgress(0);
+        setCheckCameraProgress(0);
     }
 
 
@@ -98,9 +73,9 @@ export default function CameraChecker() {
                     <Typography variant="h6" color="white" gutterBottom>
                         Checking Camera Progress
                     </Typography>
-                    <LinearProgress variant="determinate" value={progress} />
+                    <LinearProgress variant="determinate" value={checkCameraProgress} />
                     <Typography variant="body2" color="white" align="center">
-                        {`${Math.round(progress)}%`}
+                        {`${Math.round(checkCameraProgress)}%`}
                     </Typography>
                 </Box>
                 <div>

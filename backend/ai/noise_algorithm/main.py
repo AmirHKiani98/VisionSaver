@@ -8,17 +8,22 @@ from collections import defaultdict
 CANCEL_REQUESTED = set()
 
 def request_cancel(version: str):
-    CANCEL_REQUESTED.add(str(version))
+    # CANCEL_REQUESTED.add(str(version))
+    pass
 
 def clear_cancel(version: str):
-    CANCEL_REQUESTED.discard(str(version))
+    # CANCEL_REQUESTED.discard(str(version))
+    pass
 
-def get_frame_from_url(ip: str, vendor: str, streams_api:str):
+def get_frame_from_url(ip: str, vendor: str, streams_api:dict):
     """
     Capture a single frame from an IP camera URL
     """
     import cv2
+    vendor = vendor.lower()
     if vendor not in streams_api:
+        print(f"Unsupported vendor: {vendor}")
+        print(f"Supported vendors: {list(streams_api.keys())}")
         raise ValueError("Unsupported vendor")
     url = streams_api[vendor].format(ip=ip)
     
@@ -37,13 +42,14 @@ def get_urls_from_file():
     file_address = r"L:\TO_Traffic\TMC\TMCGIS\compelete_intersections.csv"
     df = pd.read_csv(file_address)
     df = df[(df["Device DNS"].str.contains("-tap")) | (df["Device DNS"].str.contains("-ptz"))]
-    return df[["IP Address", "Signal ID", "Longitude", "Latitude", "Vendor"]].rename(columns={
+    df = df[["IP Address", "Signal ID", "Longitude", "Latitude", "Vendor"]].rename(columns={
         "IP Address": "ip",
         "Signal ID": "signal_id",
         "Longitude": "longitude",
         "Latitude": "latitude",
         "Vendor": "vendor"
     })
+    return df
 
 def run_noise_detection(version="v1"):
     version = str(version)
@@ -62,16 +68,20 @@ def run_noise_detection(version="v1"):
     runs = 5
     channel_layer = get_channel_layer()
     group_name = f"checking_camera_progress_{version}"  # matches consumer
+    urls_length = len(urls)
+    max_number = urls_length * runs
+    ran_number = 0
     for run in range(runs):
         if version in CANCEL_REQUESTED:
             break
         for index, row in urls.iterrows():
-            if version in CANCEL_REQUESTED:
-                break
-            progress = (index + run * len(urls)) / (len(urls) * runs) * 100
+            # if version in CANCEL_REQUESTED:
+            #     break
+            ran_number += 1
+            progress = int((ran_number / max_number) * 100)
             if channel_layer is not None:
                 async_to_sync(channel_layer.group_send)(group_name, {"type": "send_progress", "progress": progress})
-            time.sleep(0.10)  # To avoid overwhelming the cameras
+            time.sleep(0.01)  # To avoid overwhelming the cameras
             try:
                 frame = get_frame_from_url(row["ip"], row["vendor"], streams_api)
                 noise_level = model.noise_detection(frame)
@@ -80,10 +90,11 @@ def run_noise_detection(version="v1"):
                 print(f"Signal ID: {row['signal_id']}, Noise Level: {noise_level}, New Avg: {new_avg}")
                 results[row["signal_id"]] = [new_avg, count + 1]
                 if avg > 0.5 and new_avg <= 0.5 and channel_layer is not None:
-                    async_to_sync(channel_layer.group_send)(group_name, {"type": "send_progress", "remove_potential_camera": row["signal_id"]})
+                    async_to_sync(channel_layer.group_send)(group_name, {"type": "send_progress","progress": progress, "remove_potential_camera": row["signal_id"]})
                 elif new_avg >= 0.5 and avg <= 0.5 and channel_layer is not None:
-                    async_to_sync(channel_layer.group_send)(group_name, {"type": "send_progress", "potential_camera": row["signal_id"]})
+                    async_to_sync(channel_layer.group_send)(group_name, {"type": "send_progress","progress": progress, "potential_camera": row["signal_id"]})
             except Exception as e:
+                print(f"Error processing Signal ID {row['signal_id']}: {e}")
                 errors.append({
                     "signal_id": row["signal_id"],
                     "ip": row["ip"],
