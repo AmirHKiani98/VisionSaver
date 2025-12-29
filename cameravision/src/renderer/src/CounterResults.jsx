@@ -429,9 +429,9 @@ export default function CounterResults() {
                 >
                     Back
                 </Button>
-                <Button onClick={downloadAutoISSExcels}>
+                {/* <Button onClick={downloadAutoISSExcels}>
                     <DownloadIcon />
-                </Button>
+                </Button> */}
             </div>
             <div className="flex-1 w-full shadow-xl bg-white/20 backdrop-blur-2xl rounded-lg p-5">
                 {loadingData ? (

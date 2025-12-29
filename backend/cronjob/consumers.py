@@ -163,3 +163,37 @@ class DownloadingResultsProgress(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({
             'progress': progress
         }))
+class CheckingCameraProgress(AsyncWebsocketConsumer):
+    async def connect(self):
+        self.version = self.scope['url_route']['kwargs']['version']
+        self.group_name = f"checking_camera_progress_{self.version}"
+        
+        # Join group
+        if self.channel_layer is not None:
+            await self.channel_layer.group_add(
+                self.group_name,
+                self.channel_name
+            )
+        
+        await self.accept()
+    
+    async def disconnect(self, close_code):
+        # Leave group
+        if self.channel_layer is not None:
+            await self.channel_layer.group_discard(
+                self.group_name,
+                self.channel_name
+            )
+    
+    async def send_progress(self, event):
+        """
+        Handler for send_progress message type.
+        """
+        progress = event['progress']
+        
+        # Send message to WebSocket
+        await self.send(text_data=json.dumps({
+            'progress': progress,
+            'potential_camera': event.get('potential_camera', ''),
+            'remove_potential_camera': event.get('remove_potential_camera', '')
+        }))

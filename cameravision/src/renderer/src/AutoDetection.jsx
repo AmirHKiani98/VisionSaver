@@ -1155,7 +1155,7 @@ const AutoDetection = () => {
                                     
                                 }
                                 {(detectionExists) &&
-                                    <Tooltip title="Download Results" placement="right">
+                                    {/* <Tooltip title="Download Results" placement="right">
                                         <span className='h-full'>
                                                 <Button
                                                     className={`shadow-lg hover:!bg-main-400 !text-black h-full !bg-main-200`}
@@ -1165,7 +1165,7 @@ const AutoDetection = () => {
                                                 </Button>
 
                                         </span>
-                                    </Tooltip>
+                                    </Tooltip> */}
                                     
                                 }
 

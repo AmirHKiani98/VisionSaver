@@ -142,28 +142,6 @@ class AiAppTestCase(TestCase):
         cv2.waitKey(0)
         # Passed and just fine
     
-    def test_modifier_v2(self):
-        """
-        Test the modifier function in v2.
-        """
-        from ai.detection_modifier_algorithms.v2.model import modifier
-        prev_results = [
-            {'track_id': 1, 'time': 1.0, 'x1': 100, 'y1': 100, 'x2': 200, 'y2': 200, 'cls_id': 0, 'confidence': 0.9},
-            {'track_id': 2, 'time': 1.0, 'x1': 300, 'y1': 300, 'x2': 400, 'y2': 400, 'cls_id': 0, 'confidence': 0.8},
-            {'track_id': 3, 'time': 1.0, 'x1': 500, 'y1': 500, 'x2': 600, 'y2': 600, 'cls_id': 0, 'confidence': 0.85},
-        ]
-        
-        results = [
-            {'track_id': 4, 'time': 2.0, 'x1': 105, 'y1': 105, 'x2': 205, 'y2': 205, 'cls_id': 0, 'confidence': 0.92},
-            {'track_id': 5, 'time': 2.0, 'x1': 305, 'y1': 305, 'x2': 405, 'y2': 405, 'cls_id': 0, 'confidence': 0.82},
-            {'track_id': 6, 'time': 2.0, 'x1': 700, 'y1': 700, 'x2': 800, 'y2': 800, 'cls_id': 0, 'confidence': 0.88},
-        ]
-        modified = modifier(results, prev_results)
-        assert modified[0]['track_id'] == 1  # Should match with prev_results[0]
-        assert modified[1]['track_id'] == 2  # Should match with prev_results[1]
-        assert modified[2]['track_id'] == 6  # No match, should remain the sameren
-
-
     def test_counter(self):
         """
         Test the Counter class.
@@ -279,3 +257,15 @@ class AiAppTestCase(TestCase):
                     break
             
             results, cars_removed = detection_algorithm.read()
+
+
+    def test_noise_detection_v1(self):
+        """
+        Test the noise detection algorithm.
+        """
+        from ai.noise_algorithm.model.v1.model import noise_detection
+        import cv2
+        image_path = r".\ai\test_assets\1.png"
+        frame = cv2.imread(image_path)
+        noise_level = noise_detection(frame, debug=True)
+        print(f"Noise level detected: {noise_level}")

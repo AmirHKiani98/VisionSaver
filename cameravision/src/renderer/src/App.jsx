@@ -15,7 +15,8 @@ import {
   faXmark,
   faLock,
   faUnlock,
-  faCloudArrowDown
+  faCloudArrowDown,
+  faSearchLocation
 } from '@fortawesome/free-solid-svg-icons'
 import { useRef } from 'react';
 // MUI - Pickers
@@ -24,6 +25,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { TimePicker } from '@mui/x-date-pickers/TimePicker'
 import GetAllAvailableResults from "./components/GetAllAvailableResults"
+import CameraChecker from './components/CameraChecker'
 
 // MUI - Core
 import {
@@ -64,6 +66,7 @@ function App() {
   const [channel, setChannel] = useState('quad')
   const [duration, setDuration] = useState(30) // Duration in minutes
   const [cleared, setCleared] = useState(false)
+  const [isNoiseDetectionOpen, setIsNoiseDetectionOpen] = useState(false)
   const [visions, setVisions] = useState([])
   const [severity, setSeverity] = useState('info')
   const [message, setMessage] = useState('Note archived')
@@ -585,33 +588,58 @@ function App() {
             <Typography className="text-white text-2xl font-bold">
               CameraVision
             </Typography>
-            <Tooltip title="Add Camera Stream" placement="left"
-              slotProps={{
-                popper: {
-                  modifiers: [
-                    {
-                      name: 'offset',
-                      options: {
-                        offset: [0, 5],
+            <div className="flex flex-row gap-2.5 items-center">
+              <Tooltip title="Keep-alive mode" placement="left"
+                slotProps={{
+                  popper: {
+                    modifiers: [
+                      {
+                        name: 'offset',
+                        options: {
+                          offset: [0, 5],
+                        },
                       },
-                    },
-                  ],
+                    ],
+                  }
+                }}>
+              <Button
+                ref={lockButtonRef} 
+                variant="contained"
+                className='bg-main-400 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700'
+                onClick={() => setTurnOnMode()
                 }
-              }}>
-            <Button
-              ref={lockButtonRef} 
-              variant="contained"
-              className='bg-main-400 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700'
-              onClick={() => setTurnOnMode()
-              }
-              >
-              {isLocked ? (
-                <FontAwesomeIcon icon={faLock} />
-              ) : (
-                <FontAwesomeIcon icon={faUnlock} />
-              )}
-            </Button>
-            </Tooltip>
+                >
+                {isLocked ? (
+                  <FontAwesomeIcon icon={faLock} />
+                ) : (
+                  <FontAwesomeIcon icon={faUnlock} />
+                )}
+              </Button>
+              </Tooltip>
+              <Tooltip title="Check Camera's View" placement="bottom"
+                slotProps={{
+                  popper: {
+                    modifiers: [
+                      {
+                        name: 'offset',
+                        options: {
+                          offset: [0, 5],
+                        },
+                      },
+                    ],
+                  }
+                }}>
+              <Button
+                ref={lockButtonRef} 
+                variant="contained"
+                className='bg-main-400 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700'
+                onClick={() => {setIsNoiseDetectionOpen(true)}}
+                >
+                <FontAwesomeIcon icon={faSearchLocation} />
+              </Button>
+              </Tooltip>
+              
+            </div>
           </div>
           <div className="flex-col md:flex md:flex-row w-full gap-10">
             <div className="flex flex-col w-full lg:w-2/3 gap-5">
@@ -988,6 +1016,14 @@ function App() {
           aria-describedby="parent-modal-description"
         >
             <ImportComponent></ImportComponent>
+        </Modal>
+        <Modal
+          open={isNoiseDetectionOpen}
+          onClose={() => setIsNoiseDetectionOpen(false)}
+          aria-labelledby="parent-modal-title"
+          aria-describedby="parent-modal-description"
+        >
+            <CameraChecker></CameraChecker>
         </Modal>
         <Modal
             open={isGetAllAvailableResultsExcelOpen}

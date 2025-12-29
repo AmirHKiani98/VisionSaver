@@ -8,13 +8,11 @@ import threading
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from shapely.geometry import Polygon
-from ai.utils import resample_curve, parallelism_score
+from ai.utils import resample_curve
 from copy import deepcopy
 import dotenv
 from django.utils import timezone
-from ai.car import Car
 import numpy as np
-import torch
 from ai.device_picker import pick_backend, gpu_summary_string
 
 backend = pick_backend()        # 'cuda' | 'dml' | 'cpu'

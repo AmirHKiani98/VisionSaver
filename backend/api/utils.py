@@ -1829,4 +1829,3 @@ def compare_two_df(df1, df2, df1_name="Ground Truth", df2_name="To Check"):
                 ws.cell(row=r, column=c).border = border
 
     return wb
-    

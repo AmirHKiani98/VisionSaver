@@ -11,7 +11,8 @@ import subprocess
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 import numpy as np
-from ai.models import AutoDetection, AutoDetectionCheckpoint, DetectionProcess, ModifiedAutoDetection
+from ai.models import AutoDetection, AutoDetectionCheckpoint, DetectionProcess, ModifiedAutoDetection, NoiseDetectionProcess
+from ai.noise_algorithm.main import run_noise_detection, request_cancel, clear_cancel
 import traceback
 from api.utils import (
     get_counter_auto_detection_results, get_counter_manual_results, 
@@ -1223,3 +1224,33 @@ def download_all_same_token_records_manual_count_excels(request):
         print(f"Error: {traceback.format_exc()}")
         return JsonResponse({"error": "An error occurred while processing the request."}, status=500)
 
+
+@csrf_exempt
+def start_checking_camera(request):
+    if request.method != 'POST':
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)
+    try:
+        import threading
+        data = json.loads(request.body or "{}")
+        version = data.get('version', 'v1')
+        clear_cancel(version)
+        t = threading.Thread(target=run_noise_detection, args=(version,))
+        t.daemon = True
+        t.start()
+        return JsonResponse({"status": 200, "message": "Camera check started"}, status=200)
+    except Exception:
+        return JsonResponse({"error": "Invalid request data"}, status=400)
+
+@csrf_exempt
+def cancel_checking_camera(request):
+    if request.method != 'POST':
+        return JsonResponse({"error": "Method Not Allowed"}, status=405)
+    try:
+        data = json.loads(request.body or "{}")
+        version = data.get('version', 'v1')
+        request_cancel(version)
+        return JsonResponse({"status": 200, "message": "Camera check cancelled"}, status=200)
+    except Exception:
+        return JsonResponse({"error": "Invalid request data"}, status=400)
+        
+        

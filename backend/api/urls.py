@@ -106,5 +106,13 @@ urlpatterns = [
     path(
         f"{os.getenv('API_DOWNLOAD_ALL_SAME_TOKEN_RECORDS_MANUAL_COUNT_EXCELS')}",
         views.download_all_same_token_records_manual_count_excels
-    )
+    ),
+    path(
+        f"{os.getenv('API_START_CHECKING_CAMERA')}",
+        views.start_checking_camera
+    ),
+    path(
+        f"{os.getenv('API_CANCEL_CHECKING_CAMERA')}",
+         views.cancel_checking_camera
+    ),
 ]

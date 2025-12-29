@@ -135,3 +135,18 @@ class DetectionProcess(models.Model):
     
     def __str__(self):
         return f"Detection process for record {self.record.id}, version {self.version}, divide_time {self.divide_time}"
+
+
+class NoiseDetectionProcess(models.Model):
+    # Existing fields...
+    id = models.BigAutoField(primary_key=True, help_text="Unique identifier for the noise detection process.")
+    version = models.CharField(max_length=10)
+    pid = models.CharField(max_length=50, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    done = models.BooleanField(default=False)
+    # Add these new fields
+    terminated = models.BooleanField(default=False)
+    terminated_at = models.DateTimeField(null=True, blank=True)
+    
+    def __str__(self):
+        return f"Noise detection process for record {self.record.id}, version {self.version}"
