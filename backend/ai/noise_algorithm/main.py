@@ -22,8 +22,6 @@ def get_frame_from_url(ip: str, vendor: str, streams_api:dict):
     import cv2
     vendor = vendor.lower()
     if vendor not in streams_api:
-        print(f"Unsupported vendor: {vendor}")
-        print(f"Supported vendors: {list(streams_api.keys())}")
         raise ValueError("Unsupported vendor")
     url = streams_api[vendor].format(ip=ip)
     
@@ -87,7 +85,6 @@ def run_noise_detection(version="v1"):
                 noise_level = model.noise_detection(frame)
                 avg, count = results[row["signal_id"]]
                 new_avg = (avg * count + noise_level) / (count + 1)
-                print(f"Signal ID: {row['signal_id']}, Noise Level: {noise_level}, New Avg: {new_avg}")
                 results[row["signal_id"]] = [new_avg, count + 1]
                 if avg > 0.5 and new_avg <= 0.5 and channel_layer is not None:
                     async_to_sync(channel_layer.group_send)(group_name, {"type": "send_progress","progress": progress, "remove_potential_camera": row["signal_id"]})
