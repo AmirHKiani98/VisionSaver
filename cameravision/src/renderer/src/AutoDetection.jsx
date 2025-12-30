@@ -1154,20 +1154,7 @@ const AutoDetection = () => {
                                     </Tooltip>
                                     
                                 }
-                                {(detectionExists) &&
-                                    {/* <Tooltip title="Download Results" placement="right">
-                                        <span className='h-full'>
-                                                <Button
-                                                    className={`shadow-lg hover:!bg-main-400 !text-black h-full !bg-main-200`}
-                                                    onClick={downloadResults}
-                                                >
-                                                    <FontAwesomeIcon icon={faDownload} className='text-center' />
-                                                </Button>
-
-                                        </span>
-                                    </Tooltip> */}
-                                    
-                                }
+                                
 
                                 <Tooltip title="Show detections" placement="top">
                                     <span>
