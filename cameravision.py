@@ -16,8 +16,9 @@ DEBUG = True
 
 shell = True
 if platform.system() == "Windows":
-    activate_script = os.path.join(venv_path, "Scripts", "activate.bat")
-    pip_cmd = f"{activate_script} && pip install -r {os.path.join(SCRIPT_DIR, 'requirements.txt')}"
+    activate_script = f'"{os.path.join(venv_path, "Scripts", "activate.bat")}"'
+    requirements_path = f'"{os.path.join(SCRIPT_DIR, "requirements.txt")}"'
+    pip_cmd = f'{activate_script} && pip install -r {requirements_path}'
 else:
     activate_script = "source " + os.path.join(venv_path, "bin", "activate")
     shell = True
@@ -178,5 +179,5 @@ if os.path.isdir(frontend_dir):
 
 
 
-            
+
 
