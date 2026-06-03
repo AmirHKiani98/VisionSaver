@@ -464,6 +464,19 @@ const AutoDetection = () => {
 
     const handleMouseUp = () => {
         isDrawing.current = false;
+        if (tool === 'crossing_line' && !cutZonesEnabled && selectedPortal !== '') {
+            setLines(prevLines => {
+                const currentLines = [...(prevLines[selectedPortal] || [])];
+                if (currentLines.length === 0) return prevLines;
+                const lastLine = { ...currentLines[currentLines.length - 1] };
+                const pts = lastLine.points;
+                if (pts.length >= 4) {
+                    lastLine.points = [pts[0], pts[1], pts[pts.length - 2], pts[pts.length - 1]];
+                    currentLines[currentLines.length - 1] = lastLine;
+                }
+                return { ...prevLines, [selectedPortal]: currentLines };
+            });
+        }
     };
 
     const removeDetections = () => {
@@ -764,18 +777,18 @@ const AutoDetection = () => {
                         >
                             <Layer>
                             {lines && !cutZonesEnabled && lines[selectedPortal] && lines[selectedPortal].map((line, i) =>
-                                
+
                                     <Line
                                         key={i}
                                         points={pointsToScaledPoints(line.points)}
-                                        stroke="#df4b26"
+                                        stroke={line.tool === 'crossing_line' ? '#f59e0b' : '#df4b26'}
                                         strokeWidth={5}
-                                        tension={0.5}
+                                        tension={line.tool === 'crossing_line' ? 0 : 0.5}
                                         lineCap="round"
                                         lineJoin="round"
                                         globalCompositeOperation={line.tool === 'eraser' ? 'destination-out' : 'source-over'}
                                     />
-                                
+
                             )}
                             {cutZonesEnabled && cutZonesPoints.length > 0 && cutZonesPoints.map((zone, i) => (
                                 <Line
@@ -936,6 +949,15 @@ const AutoDetection = () => {
                                 <MenuItem value={'direction'}>
                                     <Typography variant="body1" color="textPrimary">
                                         Direction
+                                        <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
+                                    </Typography>
+                                </MenuItem>
+                             )}
+
+                             {detectionVersion === 'v5' &&(
+                                <MenuItem value={'crossing_line'}>
+                                    <Typography variant="body1" color="textPrimary">
+                                        Crossing Line
                                         <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
                                     </Typography>
                                 </MenuItem>
@@ -1101,6 +1123,8 @@ const AutoDetection = () => {
                                             setTool('zone');
                                         } else if (e.target.value === 'v4'){
                                             setTool('direction');
+                                        } else if (e.target.value === 'v5'){
+                                            setTool('crossing_line');
                                         }
                                         checkIfDetectingExists(data);
                                         checkIfDetectingModifiedExists(data);
@@ -1117,6 +1141,11 @@ const AutoDetection = () => {
                                     <MenuItem value="v4">
                                         <Typography variant="body1" color="textPrimary">
                                             Curve
+                                        </Typography>
+                                    </MenuItem>
+                                    <MenuItem value="v5">
+                                        <Typography variant="body1" color="textPrimary">
+                                            YOLO11 + ByteTrack (Line Crossing)
                                         </Typography>
                                     </MenuItem>
                                 </Select>

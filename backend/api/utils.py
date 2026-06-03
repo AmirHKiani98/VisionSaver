@@ -641,6 +641,78 @@ def resample_points(x, y, num_points):
     new_y = np.interp(new_dist, cumdist, y)
     return new_x, new_y
 
+def _segments_intersect(p1, p2, p3, p4):
+    """Return True if segment p1->p2 intersects segment p3->p4."""
+    def _cross2d(a, b):
+        return a[0] * b[1] - a[1] * b[0]
+    d1 = (p2[0] - p1[0], p2[1] - p1[1])
+    d2 = (p4[0] - p3[0], p4[1] - p3[1])
+    denom = _cross2d(d1, d2)
+    if abs(denom) < 1e-10:
+        return False
+    diff = (p3[0] - p1[0], p3[1] - p1[1])
+    t = _cross2d(diff, d2) / denom
+    u = _cross2d(diff, d1) / denom
+    return 0.0 <= t <= 1.0 and 0.0 <= u <= 1.0
+
+
+def get_auto_detection_results_from_df_crossings(auto_df, min_time=0, max_time=0, crossing_lines=None):
+    """
+    v5 aggregation: for each track, walk its centroid path frame-by-frame and record
+    the first time it crosses each drawn crossing_line segment.
+    crossing_lines: {line_key: {"x": [x1, x2], "y": [y1, y2]}}  (normalized 0-1 coords)
+    """
+    if crossing_lines is None:
+        raise ValueError("crossing_lines required for v5")
+    if max_time == 0:
+        max_time = auto_df["time"].max()
+    results = defaultdict(dict)
+    auto_df = auto_df[(auto_df["time"] >= min_time) & (auto_df["time"] <= max_time)]
+    auto_df = auto_df[auto_df["confidence"] >= 0.3]
+    auto_df = auto_df.sort_values(["track_id", "time"])
+
+    dur = auto_df.groupby("track_id")["time"].agg(["min", "max"])
+    dur["duration"] = dur["max"] - dur["min"]
+    valid_ids = dur[dur["duration"] > 2].index
+    auto_df = auto_df[auto_df["track_id"].isin(valid_ids)]
+
+    total = 0
+    crossed = set()  # (track_id, line_key) — count each pair only once
+
+    for track_id, group in auto_df.groupby("track_id"):
+        group = group.sort_values("time")
+        cx = ((group["x1"] + group["x2"]) / 2).values
+        cy = ((group["y1"] + group["y2"]) / 2).values
+        times = group["time"].values
+        cls_ids = group["cls_id"].values
+
+        for i in range(1, len(cx)):
+            p1 = (cx[i - 1], cy[i - 1])
+            p2 = (cx[i], cy[i])
+            for line_key, line_data in crossing_lines.items():
+                if (track_id, line_key) in crossed:
+                    continue
+                xs = line_data.get("x", [])
+                ys = line_data.get("y", [])
+                if len(xs) < 2 or len(ys) < 2:
+                    continue
+                p3 = (xs[0], ys[0])
+                p4 = (xs[-1], ys[-1])
+                if _segments_intersect(p1, p2, p3, p4):
+                    crossed.add((track_id, line_key))
+                    t = float(times[i])
+                    if t not in results[line_key]:
+                        results[line_key][t] = [0, [], [], []]
+                    results[line_key][t][0] += 1
+                    results[line_key][t][1].append(int(track_id))
+                    results[line_key][t][2].append(int(cls_ids[i]))
+                    results[line_key][t][3].append("")
+                    total += 1
+
+    results = {k: dict(sorted(v.items())) for k, v in results.items()}
+    return results, total
+
+
 def get_counter_auto_detection_results(record_id, version, divide_time, min_time=0, max_time=0):
     """
     API endpoint to retrieve auto_detection counting results for a specific counter.
@@ -684,6 +756,15 @@ def get_counter_auto_detection_results(record_id, version, divide_time, min_time
             return get_auto_detection_results_from_df_zones(df, min_time, max_time, lines_map_length)
         elif version == "v4":
             return get_auto_detection_results_from_df_lines(df, min_time, max_time, lines_direction)
+        elif version == "v5":
+            lines_crossing = {
+                line_name: {
+                    "x": [pt for tool in list_of_points for idx, pt in enumerate(tool["points"]) if idx % 2 == 0 and tool["tool"] == "crossing_line"],
+                    "y": [pt for tool in list_of_points for idx, pt in enumerate(tool["points"]) if idx % 2 == 1 and tool["tool"] == "crossing_line"],
+                }
+                for line_name, list_of_points in lines.items()
+            }
+            return get_auto_detection_results_from_df_crossings(df, min_time, max_time, lines_crossing)
         return False, 0
     except Exception as e:
         import traceback
