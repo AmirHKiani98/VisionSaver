@@ -27,9 +27,12 @@ from django.conf import settings
 logger = settings.APP_LOGGER
 
 # --- MAIN JOB LOOP ---
+PRE_TRIGGER_SECONDS = 90  # Pre-trigger recordings this many seconds before scheduled start
+
 def job_checker():
     from record.models import Record
     from django.utils import timezone
+    from datetime import timedelta
     from django.db.utils import OperationalError, ProgrammingError
 
     if settings.JOB_CHECKER_ENABLED:
@@ -42,8 +45,14 @@ def job_checker():
             try:
                 now = timezone.now()
                 os.makedirs(settings.MEDIA_ROOT, exist_ok=True)
-                records = Record.objects.filter(done=False, in_process=False, start_time__lte=now)
-                
+                # Pick up records that are within the pre-trigger window OR already past due.
+                # in_process=True is set immediately below, so each record is only triggered once.
+                records = Record.objects.filter(
+                    done=False,
+                    in_process=False,
+                    start_time__lte=now + timedelta(seconds=PRE_TRIGGER_SECONDS)
+                )
+
                 for record in records:
                     #logger.info(f"Processing record: {record.id} from {record.camera_url}")
                     record.in_process = True
@@ -54,7 +63,8 @@ def job_checker():
                         "record_id": record.id,
                         "camera_url": record.camera_url,
                         "duration": record.duration,
-                        "output_file": output_file
+                        "output_file": output_file,
+                        "start_time": record.start_time.isoformat(),
                     }
 
                     post_url = f"http://{os.getenv('BACKEND_SERVER_DOMAIN')}:{os.getenv('BACKEND_SERVER_PORT')}/{os.getenv('RECORD_FUNCTION_NAME')}/"
@@ -76,7 +86,7 @@ def job_checker():
                 #logger.error(f"Unhandled error in job loop: {e}")
                 pass
 
-            time.sleep(10)
+            time.sleep(2)
 
     except KeyboardInterrupt:
         #print("\n[INFO] Cronjob interrupted by user. Exiting gracefully.")

@@ -1,5 +1,6 @@
 import os
 import json
+import time as _time
 from django.http import JsonResponse, FileResponse
 from django.http import HttpResponseNotFound
 import dotenv
@@ -8,27 +9,66 @@ from django.views.decorators.csrf import csrf_exempt
 import threading
 # Import settings django
 from django.conf import settings
-from record.rtsp_object import RTSPObject
+from record.rtsp_object import RTSPObject, ensure_vpn
 from django.utils import timezone
 
 logger = settings.APP_LOGGER
-def record_rtsp_task(record_id, camera_url, duration, output_file):
+
+def _wait_until_start(scheduled_start, record_id):
+    """
+    Sleep until scheduled_start, calling ensure_vpn() every 10 s during the
+    wait so the VPN is established before FFmpeg fires.  Returns immediately
+    if start_time is already past.
+    """
+    from django.utils.dateparse import parse_datetime
+    import datetime
+
+    if isinstance(scheduled_start, str):
+        scheduled_start = parse_datetime(scheduled_start)
+
+    if scheduled_start is None:
+        return
+
+    # Make naive datetimes timezone-aware (UTC) so .timestamp() is comparable.
+    if scheduled_start.tzinfo is None:
+        scheduled_start = scheduled_start.replace(tzinfo=datetime.timezone.utc)
+
+    deadline = scheduled_start.timestamp()
+    VPN_POLL = 10  # seconds between VPN keep-alive checks
+
+    while True:
+        remaining = deadline - _time.time()
+        if remaining <= 0:
+            break
+
+        logger.info(f"Record {record_id}: {remaining:.1f}s until scheduled start — pre-warming VPN")
+        try:
+            ensure_vpn()
+        except Exception as exc:
+            logger.warning(f"Record {record_id}: VPN pre-warm error (non-fatal): {exc}")
+
+        sleep_for = min(VPN_POLL, remaining)
+        if sleep_for > 0:
+            _time.sleep(sleep_for)
+
+
+def record_rtsp_task(record_id, camera_url, duration, output_file, start_time=None):
 
     #print(f"Starting recording task for record ID {record_id}")
     try:
         record = Record.objects.filter(id=record_id)
 
         os.makedirs(os.path.dirname(output_file), exist_ok=True)
+
+        # Wait until the scheduled start time, using the pre-trigger window to
+        # establish the VPN connection so FFmpeg fires on the exact second.
+        if start_time:
+            _wait_until_start(start_time, record_id)
+
         rtsp_obj = RTSPObject(camera_url)
         record.update(in_process=True, done=False, error=None, finished_detecting=False)
         rtsp_obj.record(duration, output_file, record_id)
         record.update(in_process=False, done=True, error=None)
-
-        # if done:
-        #     Record.objects.filter(id=record_id).update(done=True, error="", in_process=False)
-        # else:
-        #     Record.objects.filter(id=record_id).update(done=False, error=f"File doesn't exist at {output_file}", in_process=False)
-        #     # #logger.error(f"Recording file doesn't exist: {output_file}")
 
     except Exception as e:
         import traceback
@@ -38,7 +78,6 @@ def record_rtsp_task(record_id, camera_url, duration, output_file):
     #print(f"Finished recording for record ID {record_id}")
 
 # Create your views here.
-from .rtsp_object import RTSPObject
 from django.db.models import Max
 from django.conf import settings
 # Load environment variables
@@ -60,6 +99,7 @@ def start_record_rtsp(request):
         camera_url = data.get('camera_url')
         duration = data.get('duration', 60)  # Default to 60 seconds if not provided
         output_file = data.get('output_file', f"{settings.MEDIA_ROOT}/{record_id}.mkv")
+        start_time = data.get('start_time')  # ISO string from cronjob; None for manual starts
         # #logger.info(f"Starting recording for record ID {record_id} at {camera_url} for {duration} seconds.")
         if not record_id or not camera_url:
             # #logger.error("Missing 'record_id' or 'camera_url' in request data.")
@@ -75,7 +115,7 @@ def start_record_rtsp(request):
         # Start the recording in a separate thread
         threading.Thread(
             target=record_rtsp_task,
-            args=(record.id, camera_url, duration, output_file)
+            args=(record.id, camera_url, duration, output_file, start_time)
         ).start()
         # #logger.info(f"Started recording for record ID {record.id} at {camera_url} for {duration} seconds.")
         return JsonResponse({"message": "Recording started successfully.", "record_id": record.id}, status=200)
