@@ -14,11 +14,17 @@ from django.utils import timezone
 
 logger = settings.APP_LOGGER
 
+# FFmpeg needs this many seconds to negotiate an RTSP stream before it starts
+# writing data. We stop the VPN pre-warm loop this many seconds before the
+# scheduled start so FFmpeg's connection overhead falls inside the lead window.
+FFMPEG_STARTUP_LEAD_SECS = 20
+
+
 def _wait_until_start(scheduled_start, record_id):
     """
-    Sleep until scheduled_start, calling ensure_vpn() every 10 s during the
-    wait so the VPN is established before FFmpeg fires.  Returns immediately
-    if start_time is already past.
+    Sleep until (scheduled_start - FFMPEG_STARTUP_LEAD_SECS), calling
+    ensure_vpn() every 10 s so VPN is warm before FFmpeg fires.
+    Returns immediately if start_time is already past.
     """
     from django.utils.dateparse import parse_datetime
     import datetime
@@ -29,19 +35,21 @@ def _wait_until_start(scheduled_start, record_id):
     if scheduled_start is None:
         return
 
-    # Make naive datetimes timezone-aware (UTC) so .timestamp() is comparable.
     if scheduled_start.tzinfo is None:
         scheduled_start = scheduled_start.replace(tzinfo=datetime.timezone.utc)
 
-    deadline = scheduled_start.timestamp()
-    VPN_POLL = 10  # seconds between VPN keep-alive checks
+    # Stop FFMPEG_STARTUP_LEAD_SECS early so FFmpeg negotiates the RTSP stream
+    # during the lead window instead of adding to the post-start-time delay.
+    deadline = scheduled_start.timestamp() - FFMPEG_STARTUP_LEAD_SECS
+    VPN_POLL = 10
 
     while True:
         remaining = deadline - _time.time()
         if remaining <= 0:
             break
 
-        logger.info(f"Record {record_id}: {remaining:.1f}s until scheduled start — pre-warming VPN")
+        wall_remaining = remaining + FFMPEG_STARTUP_LEAD_SECS
+        logger.info(f"Record {record_id}: {wall_remaining:.1f}s until scheduled start — pre-warming VPN")
         try:
             ensure_vpn()
         except Exception as exc:
@@ -67,7 +75,8 @@ def record_rtsp_task(record_id, camera_url, duration, output_file, start_time=No
 
         rtsp_obj = RTSPObject(camera_url)
         record.update(in_process=True, done=False, error=None, finished_detecting=False)
-        rtsp_obj.record(duration, output_file, record_id)
+        # vpn_ready=True when start_time was provided: VPN was pre-warmed in _wait_until_start
+        rtsp_obj.record(duration, output_file, record_id, vpn_ready=bool(start_time))
         record.update(in_process=False, done=True, error=None)
 
     except Exception as e:

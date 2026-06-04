@@ -45,39 +45,28 @@ def broadcast_progress(record_id: str, progress: str, recording: bool = False, c
 
 class RTSPObject:
     def __init__(self, url: str, record_type: str = 'supervisor'):
-        """
-        Initialize the RTSPObject with the given URL.
-        
-        :param url: The RTSP stream URL.
-        """
         self.url = url
-        self.cap = cv2.VideoCapture(url)
+        self._cap = None  # lazy — cv2.VideoCapture on an RTSP URL blocks for 10-15 s;
+                          # record() uses FFmpeg directly so we defer this until read_frame() is called
         self.record_type = record_type
-        # if not self.cap.isOpened():
-        #     raise ValueError(f"Could not open RTSP stream at {url}")
-    
+
+    @property
+    def cap(self):
+        if self._cap is None:
+            self._cap = cv2.VideoCapture(self.url)
+        return self._cap
+
     def read_frame(self):
-        """
-        Read a frame from the RTSP stream.
-        
-        :return: The frame read from the stream, or None if no frame is available.
-        """
         ret, frame = self.cap.read()
         if not ret:
             return None
         return frame
-    
+
     def release(self):
-        """
-        Release the RTSP stream.
-        """
-        if self.cap.isOpened():
-            self.cap.release()
-    
+        if self._cap is not None and self._cap.isOpened():
+            self._cap.release()
+
     def __del__(self):
-        """
-        Destructor to ensure the RTSP stream is released when the object is deleted.
-        """
         self.release()
     def transcode_to_mp4(self, input_path, record_id, duration_minutes):
         """
@@ -137,11 +126,12 @@ class RTSPObject:
         )
         return output_path
     
-    def record(self, duration_minutes: int, output_path: str, record_id):
-        # Initial VPN check
-        if not ensure_vpn():
-            logger.error("Failed to connect to VPN initially. Cannot proceed with recording.")
-            return False
+    def record(self, duration_minutes: int, output_path: str, record_id, vpn_ready: bool = False):
+        # Skip the VPN check when the caller already pre-warmed VPN (saves ~5 s at start time).
+        if not vpn_ready:
+            if not ensure_vpn():
+                logger.error("Failed to connect to VPN initially. Cannot proceed with recording.")
+                return False
 
         logger.debug(f"Starting recording for {duration_minutes} minutes to {output_path}")
         duration_seconds = duration_minutes * 60
