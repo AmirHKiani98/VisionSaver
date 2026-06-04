@@ -464,7 +464,7 @@ const AutoDetection = () => {
 
     const handleMouseUp = () => {
         isDrawing.current = false;
-        if (tool === 'crossing_line' && !cutZonesEnabled && selectedPortal !== '') {
+        if (['crossing_line', 'entry_line', 'exit_line'].includes(tool) && !cutZonesEnabled && selectedPortal !== '') {
             setLines(prevLines => {
                 const currentLines = [...(prevLines[selectedPortal] || [])];
                 if (currentLines.length === 0) return prevLines;
@@ -781,9 +781,14 @@ const AutoDetection = () => {
                                     <Line
                                         key={i}
                                         points={pointsToScaledPoints(line.points)}
-                                        stroke={line.tool === 'crossing_line' ? '#f59e0b' : '#df4b26'}
+                                        stroke={
+                                            line.tool === 'crossing_line' ? '#f59e0b' :
+                                            line.tool === 'entry_line' ? '#22c55e' :
+                                            line.tool === 'exit_line' ? '#ef4444' :
+                                            '#df4b26'
+                                        }
                                         strokeWidth={5}
-                                        tension={line.tool === 'crossing_line' ? 0 : 0.5}
+                                        tension={['crossing_line','entry_line','exit_line'].includes(line.tool) ? 0 : 0.5}
                                         lineCap="round"
                                         lineJoin="round"
                                         globalCompositeOperation={line.tool === 'eraser' ? 'destination-out' : 'source-over'}
@@ -962,6 +967,23 @@ const AutoDetection = () => {
                                     </Typography>
                                 </MenuItem>
                              )}
+
+                             {detectionVersion === 'v6' &&(
+                                <MenuItem value={'entry_line'}>
+                                    <Typography variant="body1" color="textPrimary" style={{color:'#22c55e'}}>
+                                        Entry Line (approach)
+                                        <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
+                                    </Typography>
+                                </MenuItem>
+                             )}
+                             {detectionVersion === 'v6' &&(
+                                <MenuItem value={'exit_line'}>
+                                    <Typography variant="body1" color="textPrimary" style={{color:'#ef4444'}}>
+                                        Exit Line (destination)
+                                        <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
+                                    </Typography>
+                                </MenuItem>
+                             )}
                                     
                                 <MenuItem value={'cutzones'}>
                                     <Typography variant="body1" color="textPrimary">
@@ -1125,6 +1147,8 @@ const AutoDetection = () => {
                                             setTool('direction');
                                         } else if (e.target.value === 'v5'){
                                             setTool('crossing_line');
+                                        } else if (e.target.value === 'v6'){
+                                            setTool('entry_line');
                                         }
                                         checkIfDetectingExists(data);
                                         checkIfDetectingModifiedExists(data);
@@ -1146,6 +1170,11 @@ const AutoDetection = () => {
                                     <MenuItem value="v5">
                                         <Typography variant="body1" color="textPrimary">
                                             YOLO11 + ByteTrack (Line Crossing)
+                                        </Typography>
+                                    </MenuItem>
+                                    <MenuItem value="v6">
+                                        <Typography variant="body1" color="textPrimary">
+                                            YOLO11 + ByteTrack (OD Tracking)
                                         </Typography>
                                     </MenuItem>
                                 </Select>

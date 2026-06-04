@@ -713,6 +713,94 @@ def get_auto_detection_results_from_df_crossings(auto_df, min_time=0, max_time=0
     return results, total
 
 
+def get_auto_detection_results_from_df_od(auto_df, min_time=0, max_time=0, od_lines=None, match_window=30):
+    """
+    v6 aggregation: Origin-Destination tracking.
+
+    A vehicle is counted for a portal only when its centroid path crosses that
+    portal's entry line AND then its exit line within match_window seconds.
+    This handles shared lanes correctly — two portals can share the same entry
+    line position but point to different exit lines, so the exit determines which
+    movement is counted.
+
+    od_lines: {
+        portal_name: {
+            "entry": {"x": [x1, x2], "y": [y1, y2]},
+            "exit":  {"x": [x1, x2], "y": [y1, y2]}
+        }
+    }
+    Coordinates are normalised 0-1 (matching the per-frame CSV).
+    match_window: seconds allowed between entry and exit crossings.
+    """
+    if od_lines is None:
+        raise ValueError("od_lines required for v6")
+    if max_time == 0:
+        max_time = auto_df["time"].max()
+    results = defaultdict(dict)
+    auto_df = auto_df[(auto_df["time"] >= min_time) & (auto_df["time"] <= max_time)]
+    auto_df = auto_df[auto_df["confidence"] >= 0.3]
+    auto_df = auto_df.sort_values(["track_id", "time"])
+
+    # Vehicles must be tracked for at least 1 s (shorter than v5 — intersection
+    # crossings can be quick).
+    dur = auto_df.groupby("track_id")["time"].agg(["min", "max"])
+    dur["duration"] = dur["max"] - dur["min"]
+    valid_ids = dur[dur["duration"] > 1].index
+    auto_df = auto_df[auto_df["track_id"].isin(valid_ids)]
+
+    total = 0
+    counted = set()  # (track_id, portal) — count each pair once
+
+    for track_id, group in auto_df.groupby("track_id"):
+        group = group.sort_values("time")
+        cx = ((group["x1"] + group["x2"]) / 2).values
+        cy = ((group["y1"] + group["y2"]) / 2).values
+        times = group["time"].values
+        cls_ids = group["cls_id"].values
+
+        for portal, lines_pair in od_lines.items():
+            if (track_id, portal) in counted:
+                continue
+            entry_line = lines_pair.get("entry")
+            exit_line = lines_pair.get("exit")
+            if not entry_line or not exit_line:
+                continue
+
+            ep3 = (entry_line["x"][0], entry_line["y"][0])
+            ep4 = (entry_line["x"][-1], entry_line["y"][-1])
+            xp3 = (exit_line["x"][0], exit_line["y"][0])
+            xp4 = (exit_line["x"][-1], exit_line["y"][-1])
+
+            entry_time = None
+
+            for i in range(1, len(cx)):
+                p1 = (cx[i - 1], cy[i - 1])
+                p2 = (cx[i], cy[i])
+
+                if entry_time is None:
+                    if _segments_intersect(p1, p2, ep3, ep4):
+                        entry_time = times[i]
+                    continue  # Don't check exit until entry is confirmed
+
+                if times[i] - entry_time > match_window:
+                    break  # Vehicle never reached exit — not counted
+
+                if _segments_intersect(p1, p2, xp3, xp4):
+                    counted.add((track_id, portal))
+                    t = float(times[i])
+                    if t not in results[portal]:
+                        results[portal][t] = [0, [], [], []]
+                    results[portal][t][0] += 1
+                    results[portal][t][1].append(int(track_id))
+                    results[portal][t][2].append(int(cls_ids[i]))
+                    results[portal][t][3].append("")
+                    total += 1
+                    break
+
+    results = {k: dict(sorted(v.items())) for k, v in results.items()}
+    return results, total
+
+
 def get_counter_auto_detection_results(record_id, version, divide_time, min_time=0, max_time=0):
     """
     API endpoint to retrieve auto_detection counting results for a specific counter.
@@ -765,6 +853,21 @@ def get_counter_auto_detection_results(record_id, version, divide_time, min_time
                 for line_name, list_of_points in lines.items()
             }
             return get_auto_detection_results_from_df_crossings(df, min_time, max_time, lines_crossing)
+        elif version == "v6":
+            def _extract_line(tool_type, tools_list):
+                for t in tools_list:
+                    if t["tool"] == tool_type and len(t["points"]) >= 4:
+                        pts = t["points"]
+                        return {"x": [pts[0], pts[2]], "y": [pts[1], pts[3]]}
+                return None
+
+            od_lines = {}
+            for portal_name, tools_list in lines.items():
+                entry = _extract_line("entry_line", tools_list)
+                exit_ = _extract_line("exit_line", tools_list)
+                if entry and exit_:
+                    od_lines[portal_name] = {"entry": entry, "exit": exit_}
+            return get_auto_detection_results_from_df_od(df, min_time, max_time, od_lines)
         return False, 0
     except Exception as e:
         import traceback
