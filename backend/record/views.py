@@ -17,7 +17,7 @@ logger = settings.APP_LOGGER
 # FFmpeg needs this many seconds to negotiate an RTSP stream before it starts
 # writing data. We stop the VPN pre-warm loop this many seconds before the
 # scheduled start so FFmpeg's connection overhead falls inside the lead window.
-FFMPEG_STARTUP_LEAD_SECS = 20
+FFMPEG_STARTUP_LEAD_SECS = 30
 
 
 def _wait_until_start(scheduled_start, record_id):
