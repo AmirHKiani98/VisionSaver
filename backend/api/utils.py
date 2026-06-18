@@ -852,19 +852,29 @@ def _portal_for_movement(movement, portal_names):
     return None
 
 
-def get_auto_detection_results_from_df_trajectory(auto_df, min_time=0, max_time=0, portal_names=None):
+def get_auto_detection_results_from_df_trajectory(auto_df, min_time=0, max_time=0, portal_names=None, zone_polygons=None):
     """
     v7 aggregation: Trajectory-based movement classification.
 
-    No lines are required. Each vehicle's full centroid path is classified as
-    left / through / right based on the angular change between its entry and
-    exit heading vectors. Results are assigned to the portal whose name
-    contains the matching movement keyword (left / through|thru / right).
+    The user draws a Zone polygon covering the intersection area for any portal.
+    Only vehicles whose centroid path passes through at least one of those zones
+    are classified. This prevents parked cars or cross-street traffic from being
+    counted.
 
-    portal_names: list of portal name strings from DetectionLines.lines.keys()
+    Each vehicle's path is classified as left / through / right based on the
+    angular change between its entry and exit heading vectors, then assigned to
+    the portal whose name contains the matching movement keyword.
+
+    portal_names:   list of portal name strings from DetectionLines.lines.keys()
+    zone_polygons:  list of shapely Polygon objects (normalized coords) built
+                    from all "zone" tool entries across all portals.
     """
+    from shapely.geometry import Polygon as ShapelyPolygon, Point as ShapelyPoint
+
     if portal_names is None:
         portal_names = []
+    if zone_polygons is None:
+        zone_polygons = []
     if max_time == 0:
         max_time = auto_df['time'].max()
 
@@ -885,6 +895,15 @@ def get_auto_detection_results_from_df_trajectory(auto_df, min_time=0, max_time=
         cy = ((group['y1'] + group['y2']) / 2).values
         times = group['time'].values
         cls_ids = group['cls_id'].values
+
+        # If zones are defined, require at least one centroid inside any zone
+        if zone_polygons:
+            in_zone = any(
+                any(poly.contains(ShapelyPoint(x, y)) for poly in zone_polygons)
+                for x, y in zip(cx, cy)
+            )
+            if not in_zone:
+                continue
 
         centroids = list(zip(cx.tolist(), cy.tolist()))
         movement = _classify_movement(centroids)
@@ -976,8 +995,16 @@ def get_counter_auto_detection_results(record_id, version, divide_time, min_time
                     od_lines[portal_name] = {"entry": entry, "exit": exit_}
             return get_auto_detection_results_from_df_od(df, min_time, max_time, od_lines)
         elif version == "v7":
+            from shapely.geometry import Polygon as ShapelyPolygon
             portal_names = list(lines.keys())
-            return get_auto_detection_results_from_df_trajectory(df, min_time, max_time, portal_names)
+            zone_polygons = []
+            for tools_list in lines.values():
+                for tool_entry in tools_list:
+                    if tool_entry.get("tool") == "zone":
+                        pts = np.array(tool_entry["points"], dtype=np.float64).reshape(-1, 2)
+                        if len(pts) >= 3:
+                            zone_polygons.append(ShapelyPolygon(pts.tolist()))
+            return get_auto_detection_results_from_df_trajectory(df, min_time, max_time, portal_names, zone_polygons)
         return False, 0
     except Exception as e:
         import traceback

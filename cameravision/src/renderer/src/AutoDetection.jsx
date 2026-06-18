@@ -924,10 +924,14 @@ const AutoDetection = () => {
                     </div>
                     {detectionVersion === 'v7' && (
                         <div className='rounded-lg p-3 text-sm text-white' style={{backgroundColor:'#1e3a5f', border:'1px solid #3b82f6'}}>
-                            <div className='font-bold mb-1' style={{color:'#60a5fa'}}>Trajectory Mode — No Drawing Required</div>
-                            <div>Each vehicle's path is automatically classified as <span style={{color:'#4ade80'}}>left</span>, <span style={{color:'#facc15'}}>through</span>, or <span style={{color:'#f87171'}}>right</span> based on how much its heading changes.</div>
-                            <div className='mt-2'>Name your portals with <b>left</b>, <b>through</b>, or <b>right</b> in the name (e.g. Left_Lane, Through_Lane, Right_Lane) so counts are mapped correctly.</div>
-                            <div className='mt-2 text-xs' style={{color:'#94a3b8'}}>Optional: draw Cut Zones to exclude areas like parked cars or cross-street traffic.</div>
+                            <div className='font-bold mb-1' style={{color:'#60a5fa'}}>Trajectory Mode — How to use</div>
+                            <ol className='list-decimal list-inside space-y-1 mt-1'>
+                                <li>Select a portal (e.g. Left_Lane, Through_Lane, Right_Lane)</li>
+                                <li>Use the <b>Zone</b> tool to draw a polygon covering the full intersection area</li>
+                                <li>Only vehicles whose path passes through that zone will be classified</li>
+                            </ol>
+                            <div className='mt-2'>Each vehicle is auto-classified as <span style={{color:'#4ade80'}}>left</span>, <span style={{color:'#facc15'}}>through</span>, or <span style={{color:'#f87171'}}>right</span> based on how much its heading changes through the intersection.</div>
+                            <div className='mt-2 text-xs' style={{color:'#94a3b8'}}>Portal names must contain "left", "through"/"thru", or "right" for counts to map correctly.</div>
                         </div>
                     )}
                     <div className="grid grid-cols-1 gap-5">
@@ -949,7 +953,7 @@ const AutoDetection = () => {
                                 onChange={(e) => setTool(e.target.value)}
 
                             >   
-                            {detectionVersion === 'v3' &&(
+                            {(detectionVersion === 'v3' || detectionVersion === 'v7') &&(
                                 <MenuItem value={'zone'}>
                                     <Typography variant="body1" color="textPrimary">
                                         Zone
@@ -1158,7 +1162,7 @@ const AutoDetection = () => {
                                         } else if (e.target.value === 'v6'){
                                             setTool('entry_line');
                                         } else if (e.target.value === 'v7'){
-                                            setTool('cutzones');
+                                            setTool('zone');
                                         }
                                         checkIfDetectingExists(data);
                                         checkIfDetectingModifiedExists(data);
