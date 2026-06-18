@@ -801,6 +801,113 @@ def get_auto_detection_results_from_df_od(auto_df, min_time=0, max_time=0, od_li
     return results, total
 
 
+def _classify_movement(centroids, n_sample=8, through_threshold_deg=35):
+    """
+    Classify a vehicle's movement as 'left', 'through', or 'right' from its
+    centroid path (list of (x, y) tuples in normalized coords, chronological).
+
+    Strategy:
+      - entry vector  = direction of travel over the first n_sample steps
+      - exit vector   = direction of travel over the last  n_sample steps
+      - angle between them  → small means through
+      - 2D cross product sign → determines left vs right
+
+    Cross-product convention (image coords, y-axis points DOWN):
+      entry × exit > 0  →  clockwise turn in image  →  right turn from driver
+      entry × exit < 0  →  counter-clockwise         →  left  turn from driver
+    This is consistent for all four cardinal approach directions.
+    """
+    if len(centroids) < n_sample * 2:
+        return 'unknown'
+
+    pts = np.array(centroids, dtype=np.float64)
+    entry = pts[n_sample - 1] - pts[0]
+    exit_v = pts[-1] - pts[-n_sample]
+
+    entry_mag = np.linalg.norm(entry)
+    exit_mag = np.linalg.norm(exit_v)
+    if entry_mag < 1e-6 or exit_mag < 1e-6:
+        return 'unknown'
+
+    cos_angle = np.clip(np.dot(entry, exit_v) / (entry_mag * exit_mag), -1.0, 1.0)
+    angle_deg = float(np.degrees(np.arccos(cos_angle)))
+
+    if angle_deg < through_threshold_deg:
+        return 'through'
+
+    cross = float(entry[0]) * float(exit_v[1]) - float(entry[1]) * float(exit_v[0])
+    return 'right' if cross > 0 else 'left'
+
+
+def _portal_for_movement(movement, portal_names):
+    """Return the first portal whose name contains the movement keyword."""
+    for name in portal_names:
+        lower = name.lower()
+        if movement == 'through' and ('through' in lower or 'thru' in lower):
+            return name
+        if movement == 'left' and 'left' in lower:
+            return name
+        if movement == 'right' and 'right' in lower:
+            return name
+    return None
+
+
+def get_auto_detection_results_from_df_trajectory(auto_df, min_time=0, max_time=0, portal_names=None):
+    """
+    v7 aggregation: Trajectory-based movement classification.
+
+    No lines are required. Each vehicle's full centroid path is classified as
+    left / through / right based on the angular change between its entry and
+    exit heading vectors. Results are assigned to the portal whose name
+    contains the matching movement keyword (left / through|thru / right).
+
+    portal_names: list of portal name strings from DetectionLines.lines.keys()
+    """
+    if portal_names is None:
+        portal_names = []
+    if max_time == 0:
+        max_time = auto_df['time'].max()
+
+    results = defaultdict(dict)
+    auto_df = auto_df[(auto_df['time'] >= min_time) & (auto_df['time'] <= max_time)]
+    auto_df = auto_df[auto_df['confidence'] >= 0.3]
+    auto_df = auto_df.sort_values(['track_id', 'time'])
+
+    dur = auto_df.groupby('track_id')['time'].agg(['min', 'max'])
+    dur['duration'] = dur['max'] - dur['min']
+    valid_ids = dur[dur['duration'] > 2].index
+    auto_df = auto_df[auto_df['track_id'].isin(valid_ids)]
+
+    total = 0
+    for track_id, group in auto_df.groupby('track_id'):
+        group = group.sort_values('time')
+        cx = ((group['x1'] + group['x2']) / 2).values
+        cy = ((group['y1'] + group['y2']) / 2).values
+        times = group['time'].values
+        cls_ids = group['cls_id'].values
+
+        centroids = list(zip(cx.tolist(), cy.tolist()))
+        movement = _classify_movement(centroids)
+        if movement == 'unknown':
+            continue
+
+        portal = _portal_for_movement(movement, portal_names)
+        if portal is None:
+            portal = movement  # fall back to movement keyword so results still appear
+
+        t = float(times[-1])
+        if t not in results[portal]:
+            results[portal][t] = [0, [], [], []]
+        results[portal][t][0] += 1
+        results[portal][t][1].append(int(track_id))
+        results[portal][t][2].append(int(cls_ids[-1]))
+        results[portal][t][3].append(movement)
+        total += 1
+
+    results = {k: dict(sorted(v.items())) for k, v in results.items()}
+    return results, total
+
+
 def get_counter_auto_detection_results(record_id, version, divide_time, min_time=0, max_time=0):
     """
     API endpoint to retrieve auto_detection counting results for a specific counter.
@@ -823,10 +930,10 @@ def get_counter_auto_detection_results(record_id, version, divide_time, min_time
         return False, 0
     try:
         detection_lines = DetectionLines.objects.filter(record=record).first()
-        if not detection_lines:
+        if not detection_lines and version != "v7":
             print("detection_lines not found")
             return False, 0
-        lines = detection_lines.lines
+        lines = detection_lines.lines if detection_lines else {}
         lines_map_length = {
             zone_name: len(list(filter(lambda x: x["tool"] == "zone", list_of_points))) for zone_name, list_of_points in lines.items()
         }
@@ -868,6 +975,9 @@ def get_counter_auto_detection_results(record_id, version, divide_time, min_time
                 if entry and exit_:
                     od_lines[portal_name] = {"entry": entry, "exit": exit_}
             return get_auto_detection_results_from_df_od(df, min_time, max_time, od_lines)
+        elif version == "v7":
+            portal_names = list(lines.keys())
+            return get_auto_detection_results_from_df_trajectory(df, min_time, max_time, portal_names)
         return False, 0
     except Exception as e:
         import traceback

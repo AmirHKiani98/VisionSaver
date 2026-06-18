@@ -922,6 +922,14 @@ const AutoDetection = () => {
                             <Chip label="Detection zone" className="!bg-main-400 !text-white !font-bold" />
                         </Divider>
                     </div>
+                    {detectionVersion === 'v7' && (
+                        <div className='rounded-lg p-3 text-sm text-white' style={{backgroundColor:'#1e3a5f', border:'1px solid #3b82f6'}}>
+                            <div className='font-bold mb-1' style={{color:'#60a5fa'}}>Trajectory Mode — No Drawing Required</div>
+                            <div>Each vehicle's path is automatically classified as <span style={{color:'#4ade80'}}>left</span>, <span style={{color:'#facc15'}}>through</span>, or <span style={{color:'#f87171'}}>right</span> based on how much its heading changes.</div>
+                            <div className='mt-2'>Name your portals with <b>left</b>, <b>through</b>, or <b>right</b> in the name (e.g. Left_Lane, Through_Lane, Right_Lane) so counts are mapped correctly.</div>
+                            <div className='mt-2 text-xs' style={{color:'#94a3b8'}}>Optional: draw Cut Zones to exclude areas like parked cars or cross-street traffic.</div>
+                        </div>
+                    )}
                     <div className="grid grid-cols-1 gap-5">
                         <FormControl className="w-full">
                             <InputLabel id="drawing-type-select-label" >
@@ -1149,6 +1157,8 @@ const AutoDetection = () => {
                                             setTool('crossing_line');
                                         } else if (e.target.value === 'v6'){
                                             setTool('entry_line');
+                                        } else if (e.target.value === 'v7'){
+                                            setTool('cutzones');
                                         }
                                         checkIfDetectingExists(data);
                                         checkIfDetectingModifiedExists(data);
@@ -1175,6 +1185,11 @@ const AutoDetection = () => {
                                     <MenuItem value="v6">
                                         <Typography variant="body1" color="textPrimary">
                                             YOLO11 + ByteTrack (OD Tracking)
+                                        </Typography>
+                                    </MenuItem>
+                                    <MenuItem value="v7">
+                                        <Typography variant="body1" color="textPrimary">
+                                            YOLO11 + ByteTrack (Trajectory)
                                         </Typography>
                                     </MenuItem>
                                 </Select>
