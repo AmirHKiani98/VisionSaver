@@ -3,7 +3,7 @@ import pandas as pd
 from record.models import Record
 from ai.models import AutoDetection, DetectionLines
 from record.models import RecordLog
-from datetime import timedelta
+from datetime import timedelta, timezone as dt_timezone
 import requests
 import os
 import re
@@ -1049,31 +1049,38 @@ def get_counter_manual_results(record_id,min_time=0, max_time=0):
 
 def get_iss_detections_json(record_id, min_time=0, max_time=0):
     """
-    using the arguments to form a url like: http://192.168.42.169/api/v1/cameras/1/detections?start-time=2025-05-10T12:00:00&end-time=2025-05-11T13:00:00
-    min_time: the minimum `seconds` that should be added to the start time of the recording
-    max_time: the maximum `seconds` that should be added to the end time of the record
+    Fetches detections from the ISS vendor API for the recording time window.
+    URL form: http://{ip}/api/v1/cameras/{camera_id}/detections?start-time=...&end-time=...
+    Times are sent in UTC with 'Z' suffix so the ISS device interprets them unambiguously.
+    min_time / max_time are offsets in seconds from the record start.
     """
     record = Record.objects.filter(id=record_id).first()
     if not record:
         return False
+
     ip = get_ip_from_rtsp(record.camera_url)
-    record_start_time = record.start_time
-    record_start_time = record_start_time + timedelta(seconds=min_time)
-    # TODO check this part right here:
+
+    # record.start_time is always UTC-aware (Django USE_TZ=True)
+    start_utc = record.start_time + timedelta(seconds=min_time)
     if max_time == 0:
+        # duration is stored in minutes
         max_time = record.duration * 60
-    record_end_time = record.start_time + timedelta(seconds=max_time)
+    end_utc = record.start_time + timedelta(seconds=max_time)
+
     url = f"http://{ip}/api/v1/cameras/{record.camera_id}/detections"
     params = {
-        "start-time": record_start_time.strftime("%Y-%m-%dT%H:%M:%S"),
-        "end-time": record_end_time.strftime("%Y-%m-%dT%H:%M:%S")
+        "start-time": start_utc.strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "end-time":   end_utc.strftime("%Y-%m-%dT%H:%M:%SZ"),
     }
+    print(f"[ISS] GET {url} params={params}")
     try:
-        response = requests.get(url, params=params)
-        response.raise_for_status() 
-        return response.json()["detections"] 
+        response = requests.get(url, params=params, timeout=10)
+        response.raise_for_status()
+        detections = response.json().get("detections", [])
+        print(f"[ISS] received {len(detections)} detections")
+        return detections
     except requests.RequestException as e:
-        print(f"Error fetching detections: {e}")
+        print(f"[ISS] Error fetching detections: {e}")
         return None
 
 def get_iss_detections_pandas(record_id, min_time=0, max_time=0):
