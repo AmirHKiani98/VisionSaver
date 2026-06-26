@@ -8,15 +8,15 @@ const theme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      light: '#a5b4fc', // indigo-300
-      main:  '#6366f1', // indigo-500
-      dark:  '#4338ca', // indigo-700
-      contrastText: '#fff'
+      light: '#99f6e4', // teal-200
+      main:  '#2dd4bf', // teal-400
+      dark:  '#0f766e', // teal-700
+      contrastText: '#000'
     },
     secondary: {
-      light: '#67e8f9', // cyan-300
-      main:  '#22d3ee', // cyan-400
-      dark:  '#0891b2', // cyan-600
+      light: '#6ee7b7', // emerald-300
+      main:  '#10b981', // emerald-500
+      dark:  '#065f46', // emerald-800
       contrastText: '#000'
     },
     white: {

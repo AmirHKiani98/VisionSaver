@@ -8,35 +8,34 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Slate-based neutrals — replaces old flat navy blues
+        // Dark charcoal-teal neutrals
         main: {
-          100: '#f1f5f9', // slate-100  — lightest text / labels
-          200: '#cbd5e1', // slate-300  — secondary text
-          300: '#94a3b8', // slate-400  — muted text
-          400: '#475569', // slate-600  — input backgrounds
-          500: '#334155', // slate-700  — cards / surfaces
-          600: '#1e293b', // slate-800  — sidebar / panels
-          700: '#0f172a', // slate-900  — deep background
-          800: '#080f1e', // near-black
-          900: '#040810', // deepest
+          100: '#ccfbf1', // teal-100 — lightest labels
+          200: '#99f6e4', // teal-200 — secondary text
+          300: '#5eead4', // teal-300 — muted accent
+          400: '#1e3333', // dark teal-charcoal — input backgrounds
+          500: '#152626', // surfaces
+          600: '#0f1e1e', // sidebar panels
+          700: '#0a1414', // deep background
+          800: '#060d0d', // near-black
+          900: '#030808', // deepest
         },
-        // Vivid accent palette
+        // Accent palette
         accent: {
-          indigo:  '#6366f1', // indigo-500
-          violet:  '#8b5cf6', // violet-500
-          cyan:    '#22d3ee', // cyan-400
-          emerald: '#10b981', // emerald-500
-          amber:   '#f59e0b', // amber-500
-          rose:    '#f43f5e', // rose-500
+          teal:    '#2dd4bf', // teal-400   — primary
+          emerald: '#10b981', // emerald-500 — secondary/success
+          cyan:    '#22d3ee', // cyan-400   — highlight
+          amber:   '#f59e0b', // amber-500  — warning
+          rose:    '#f43f5e', // rose-500   — error/recording
         },
       },
       backdropBlur: {
         xs: '2px',
       },
       boxShadow: {
-        glass:  '0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06)',
-        glow:   '0 0 20px rgba(99,102,241,0.3)',
-        card:   '0 4px 24px rgba(0,0,0,0.4)',
+        glass: '0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.04)',
+        glow:  '0 0 24px rgba(45,212,191,0.25)',
+        card:  '0 4px 24px rgba(0,0,0,0.4)',
       },
     },
   },

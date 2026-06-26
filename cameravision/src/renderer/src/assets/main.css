@@ -4,82 +4,67 @@
 
 @layer base {
     :root {
-        /* Slate neutrals */
-        --color-main-100: #f1f5f9;
-        --color-main-200: #cbd5e1;
-        --color-main-300: #94a3b8;
-        --color-main-400: #475569;
-        --color-main-500: #334155;
-        --color-main-600: #1e293b;
-        --color-main-700: #0f172a;
-        --color-main-800: #080f1e;
-        --color-main-900: #040810;
-
-        /* Vivid accents */
-        --accent-indigo:  #6366f1;
-        --accent-violet:  #8b5cf6;
-        --accent-cyan:    #22d3ee;
-        --accent-emerald: #10b981;
-        --accent-amber:   #f59e0b;
-        --accent-rose:    #f43f5e;
+        --teal:    #2dd4bf;
+        --emerald: #10b981;
+        --amber:   #f59e0b;
+        --rose:    #f43f5e;
     }
 
     * {
         scrollbar-width: thin;
-        scrollbar-color: rgba(99,102,241,0.4) transparent;
+        scrollbar-color: rgba(45,212,191,0.35) transparent;
     }
     *::-webkit-scrollbar { width: 5px; height: 5px; }
     *::-webkit-scrollbar-track { background: transparent; }
     *::-webkit-scrollbar-thumb {
-        background: rgba(99,102,241,0.4);
+        background: rgba(45,212,191,0.35);
         border-radius: 9999px;
     }
     *::-webkit-scrollbar-thumb:hover {
-        background: rgba(99,102,241,0.7);
+        background: rgba(45,212,191,0.65);
     }
 }
 
 @layer components {
 
-    /* ── Page background ────────────────────────── */
+    /* ── Page background ──────────────────────── */
     .page-bg {
         min-height: 100vh;
         background:
-            radial-gradient(ellipse 70% 55% at 15% 0%,   rgba(99,102,241,0.35) 0%, transparent 55%),
-            radial-gradient(ellipse 55% 45% at 85% 100%,  rgba(34,211,238,0.22) 0%, transparent 55%),
-            radial-gradient(ellipse 50% 35% at 50% 50%,  rgba(139,92,246,0.12) 0%, transparent 65%),
-            linear-gradient(180deg, #111827 0%, #0d1424 100%);
+            radial-gradient(ellipse 65% 50% at 10% -5%,  rgba(45,212,191,0.18) 0%, transparent 55%),
+            radial-gradient(ellipse 55% 40% at 90% 105%, rgba(16,185,129,0.14) 0%, transparent 55%),
+            linear-gradient(180deg, #0d1117 0%, #0a1212 100%);
     }
 
-    /* ── Glass card ─────────────────────────────── */
+    /* ── Glass card ───────────────────────────── */
     .glass {
-        background: rgba(17, 24, 39, 0.60);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border: 1px solid rgba(99,102,241,0.30);
-        box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.07);
+        background: rgba(10, 20, 20, 0.72);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border: 1px solid rgba(45,212,191,0.22);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.04);
     }
 
-    /* Lighter inner card (nested inside .glass) */
+    /* Lighter nested card */
     .glass-light {
-        background: rgba(30, 41, 59, 0.50);
+        background: rgba(15, 30, 30, 0.55);
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
-        border: 1px solid rgba(99,102,241,0.20);
+        border: 1px solid rgba(45,212,191,0.15);
     }
 
-    /* ── Section chip / divider label ───────────── */
+    /* ── Section divider chip ─────────────────── */
     .section-chip {
-        background: rgba(99,102,241,0.15) !important;
-        color: #a5b4fc !important;
-        border: 1px solid rgba(99,102,241,0.3) !important;
+        background: rgba(45,212,191,0.12) !important;
+        color: #2dd4bf !important;
+        border: 1px solid rgba(45,212,191,0.30) !important;
         font-weight: 600 !important;
         letter-spacing: 0.07em !important;
         font-size: 0.7rem !important;
         text-transform: uppercase !important;
     }
 
-    /* ── Status pill ─────────────────────────────── */
+    /* ── Status pill ──────────────────────────── */
     .status-pill {
         display: inline-flex;
         align-items: center;
@@ -91,7 +76,7 @@
         letter-spacing: 0.04em;
     }
 
-    /* ── Icon button ─────────────────────────────── */
+    /* ── Icon / action button ─────────────────── */
     .icon-btn {
         display: flex;
         align-items: center;
@@ -100,21 +85,21 @@
         height: 2rem;
         padding: 0 0.5rem;
         border-radius: 0.5rem;
-        border: 1px solid rgba(99,102,241,0.25);
-        background: rgba(99,102,241,0.12);
+        border: 1px solid rgba(45,212,191,0.25);
+        background: rgba(45,212,191,0.08);
         color: #e2e8f0;
         cursor: pointer;
         transition: all 0.15s ease;
     }
     .icon-btn:hover {
-        background: rgba(99,102,241,0.3);
-        border-color: rgba(99,102,241,0.5);
-        color: #fff;
+        background: rgba(45,212,191,0.22);
+        border-color: rgba(45,212,191,0.55);
+        color: #2dd4bf;
     }
 
-    /* ── Accent glow border (for active/selected) ── */
+    /* ── Teal glow ring (active/selected) ──────── */
     .glow-border {
-        border: 1px solid rgba(99,102,241,0.5);
-        box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
+        border: 1px solid rgba(45,212,191,0.50);
+        box-shadow: 0 0 0 3px rgba(45,212,191,0.10);
     }
 }

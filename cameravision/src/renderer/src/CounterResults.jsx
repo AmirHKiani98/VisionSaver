@@ -432,10 +432,10 @@ export default function CounterResults() {
 
     const sourceColor = (group) => {
         const g = group.toLowerCase();
-        // Auto → vivid indigo, Manual → rose, ISS/other → cyan
-        if (g.includes('auto'))   return { bg: 'rgba(99,102,241,0.15)', border: 'rgba(99,102,241,0.50)', text: '#818cf8' };
-        if (g.includes('manual')) return { bg: 'rgba(244,63,94,0.15)',  border: 'rgba(244,63,94,0.50)',  text: '#fb7185' };
-        return { bg: 'rgba(34,211,238,0.12)', border: 'rgba(34,211,238,0.45)', text: '#22d3ee' };
+        // Auto → teal, Manual → rose, ISS → emerald
+        if (g.includes('auto'))   return { bg: 'rgba(45,212,191,0.12)',  border: 'rgba(45,212,191,0.45)',  text: '#2dd4bf' };
+        if (g.includes('manual')) return { bg: 'rgba(244,63,94,0.12)',   border: 'rgba(244,63,94,0.45)',   text: '#fb7185' };
+        return                           { bg: 'rgba(16,185,129,0.12)',   border: 'rgba(16,185,129,0.45)',  text: '#10b981' };
     };
 
     return (
@@ -529,7 +529,7 @@ export default function CounterResults() {
                                 min={0}
                                 max={Math.ceil(totalTime)}
                                 step={1}
-                                sx={{ color: '#5c83b7' }}
+                                sx={{ color: '#2dd4bf' }}
                             />
                             <div className="flex justify-between text-main-200 text-xs">
                                 <span>0s</span>
