@@ -742,13 +742,20 @@ def get_counter_manual_auto_results(request):
         max_time_to_pass = 0 if max_time == float("-inf") else max_time
         iss_api_df, _ = get_iss_detections_pandas(record_id, min_time, max_time_to_pass)
         
+        # record.start_time is UTC-aware. Normalise it to a UTC-aware pandas Timestamp
+        # so we can safely subtract any ISS timestamp (which may or may not carry tzinfo).
+        record_start_utc = pd.Timestamp(record.start_time).tz_convert("UTC")
+
         iss_df_dict = {"time": [], "count": [], "line": []}
         if not iss_api_df.empty:
-            # Convert ISO timestamps to seconds from start_time
             for _, row in iss_api_df.iterrows():
-                # Parse timestamp and convert to seconds from start_time
                 iss_timestamp = pd.to_datetime(row['time'])
-                seconds_from_start = (iss_timestamp - record.start_time.replace(tzinfo=iss_timestamp.tzinfo)).total_seconds()
+                # Make both sides UTC-aware for a clean subtraction
+                if iss_timestamp.tzinfo is None:
+                    iss_timestamp = iss_timestamp.tz_localize("UTC")
+                else:
+                    iss_timestamp = iss_timestamp.tz_convert("UTC")
+                seconds_from_start = (iss_timestamp - record_start_utc).total_seconds()
                 
                 # Only include if within time range
                 if seconds_from_start >= min_time and (max_time == 0 or seconds_from_start <= max_time):
@@ -776,13 +783,14 @@ def get_counter_manual_auto_results(request):
                 iss_counts = iss_df.groupby([iss_df['time'].round(0), 'line']).size().reset_index(name='count')
                 
                 # Create datasets for each direction
+                # get_movement_index: 0=through, 1=left, 2=right, -1=unknown
                 for line_idx in iss_counts['line'].unique():
                     direction_name = "unknown"
-                    if line_idx == 1:
+                    if line_idx == 0:
+                        direction_name = "through"
+                    elif line_idx == 1:
                         direction_name = "left"
                     elif line_idx == 2:
-                        direction_name = "through"
-                    elif line_idx == 3:
                         direction_name = "right"
                     
                     line_data = iss_counts[iss_counts['line'] == line_idx]
