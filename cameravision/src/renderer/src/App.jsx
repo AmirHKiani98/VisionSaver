@@ -586,97 +586,43 @@ function App() {
   }, [time, shouldAddCronJob]);
 
   return (
-    <div className='flex flex-col justify-between min-h-screen min-w-full'>
-      <div className="min-h-full min-w-full flex px-5 py-2.5">
-        <div className="text-white flex flex-col w-full items-center gap-2">
-          <div className="flex flex-row justify-between items-center w-full mb-2.5">
-            <div className="flex flex-row gap-2.5 items-center">
-              <Tooltip title="Download all the results" placement="bottom"
-                slotProps={{
-                  popper: {
-                    modifiers: [
-                      {
-                        name: 'offset',
-                        options: {
-                          offset: [0, 5],
-                        },
-                      },
-                    ],
-                  }
-                }}
-              >
-                <Button variant="contained" className='bg-main-400 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700' onClick={()=>{setIsGetAllAvailableResultsExcelOpen(true)}}>
-                  <FontAwesomeIcon icon={faDownload} />
-                </Button>
-              </Tooltip>
-              {/* <Tooltip title="Download all the results" placement="right" >
-                <Button variant="contained" className='bg-main-400 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700' onClick={()=>{setIsGetAllAvailableResultsExcelOpen(true)}}>
-                  <BrowserUpdated />
-                </Button>
+    <div className='page-bg flex flex-col justify-between min-h-screen min-w-full'>
+      {/* ── Header ── */}
+      <header className="glass sticky top-0 z-50 w-full flex items-center justify-between px-5 py-3">
+        <div className="flex items-center gap-2.5">
+          <Tooltip title="Download all results">
+            <button className="icon-btn text-white" onClick={() => setIsGetAllAvailableResultsExcelOpen(true)}>
+              <FontAwesomeIcon icon={faDownload} size="sm" />
+            </button>
+          </Tooltip>
+        </div>
 
-              </Tooltip> */}
-            </div>
-            <Typography className="text-white text-2xl font-bold">
-              CameraVision
-            </Typography>
-            <div className="flex flex-row gap-2.5 items-center">
-              <Tooltip title="Keep-alive mode" placement="left"
-                slotProps={{
-                  popper: {
-                    modifiers: [
-                      {
-                        name: 'offset',
-                        options: {
-                          offset: [0, 5],
-                        },
-                      },
-                    ],
-                  }
-                }}>
-              <Button
-                ref={lockButtonRef} 
-                variant="contained"
-                className='bg-main-400 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700'
-                onClick={() => setTurnOnMode()
-                }
-                >
-                {isLocked ? (
-                  <FontAwesomeIcon icon={faLock} />
-                ) : (
-                  <FontAwesomeIcon icon={faUnlock} />
-                )}
-              </Button>
-              </Tooltip>
-              <Tooltip title="Check Camera's View" placement="bottom"
-                slotProps={{
-                  popper: {
-                    modifiers: [
-                      {
-                        name: 'offset',
-                        options: {
-                          offset: [0, 5],
-                        },
-                      },
-                    ],
-                  }
-                }}>
-              <Button
-                ref={lockButtonRef} 
-                variant="contained"
-                className='bg-main-400 rounded-lg shadow-xl p-2.5 w-10 active:shadow-none active:bg-main-700'
-                onClick={() => {setIsNoiseDetectionOpen(true)}}
-                >
-                <FontAwesomeIcon icon={faSearchLocation} />
-              </Button>
-              </Tooltip>
-              
-            </div>
-          </div>
-          <div className="flex-col md:flex md:flex-row w-full gap-10">
-            <div className="flex flex-col w-full lg:w-2/3 gap-5">
+        <div className="flex flex-col items-center leading-tight">
+          <span className="text-white font-bold text-xl tracking-wide">VisionSaver</span>
+          <span className="text-main-200 text-xs tracking-widest uppercase">Turning Movement Counts</span>
+        </div>
+
+        <div className="flex items-center gap-2.5">
+          <Tooltip title="Keep-alive mode">
+            <button ref={lockButtonRef} className="icon-btn text-white" onClick={setTurnOnMode}>
+              <FontAwesomeIcon icon={isLocked ? faLock : faUnlock} size="sm" />
+            </button>
+          </Tooltip>
+          <Tooltip title="Check Camera's View">
+            <button className="icon-btn text-white" onClick={() => setIsNoiseDetectionOpen(true)}>
+              <FontAwesomeIcon icon={faSearchLocation} size="sm" />
+            </button>
+          </Tooltip>
+        </div>
+      </header>
+
+      <div className="min-h-full min-w-full flex px-5 py-4">
+        <div className="text-white flex flex-col w-full items-center gap-4">
+          <div className="flex-col md:flex md:flex-row w-full gap-6">
+            <div className="flex flex-col w-full lg:w-2/3 gap-4">
               <form
                 id="camera-stream-form"
-                className="flex flex-col justify-between w-full"
+                className="glass rounded-xl p-4 flex flex-col justify-between w-full"
                 action="#"
               >
                 <div className='flex flex-col gap-2.5 rounded-lg'>
@@ -845,46 +791,34 @@ function App() {
                   </div>
                 </div>
               </div>
-              <Divider
-                textAlign="left"
-                sx={{
-                  '&::before, &::after': {
-                    borderColor: 'secondary.light'
-                  }
-                }}
-              >
-                <Chip label="Record Links" className="!bg-main-400 !text-white !font-bold" />
-              </Divider>
-              <List>
-                
-                {loadingRecords ? (
-                  <ListItem className="!bg-main-700 text-white rounded-lg shadow-lg">
-                    <CircularProgress size={24} className="mr-2" /> Loading records...
-                  </ListItem>
-                ) : recordLinks.length === 0 ? (
-                  <ListItem className="!bg-main-700 text-white rounded-lg shadow-lg">
-                    No records found
-                  </ListItem>
-                ) : (
-                  recordLinks
-                    .slice(startRecordLinkIndex, startRecordLinkIndex + recordLinksPerPage)
-                    .sort((a, b) => new Date(b.startTime) - new Date(a.startTime))
-                    .map((record, idx) => {
-                      const isFirst = idx === 0;
-                      const isLast =
-                        idx === Math.min(recordLinksPerPage, recordLinks.length - startRecordLinkIndex) - 1;
-                      let roundedClass = '';
-                      if (isFirst) roundedClass += ' rounded-t-md';
-                      if (isLast) roundedClass += ' rounded-b-md';
+              {/* ── Record Links ── */}
+              <div className="glass rounded-xl overflow-hidden">
+                <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
+                  <span className="text-white font-semibold text-sm tracking-wide uppercase">Scheduled Recordings</span>
+                  <span className="text-main-200 text-xs">{recordLinks.length} total</span>
+                </div>
 
-                      return (
+                {loadingRecords ? (
+                  <div className="flex items-center gap-3 px-4 py-6 text-main-200">
+                    <CircularProgress size={18} className="!text-main-300" />
+                    <span className="text-sm">Loading records…</span>
+                  </div>
+                ) : recordLinks.length === 0 ? (
+                  <div className="px-4 py-8 text-center text-main-200 text-sm">
+                    No recordings scheduled yet
+                  </div>
+                ) : (
+                  <List disablePadding>
+                    {recordLinks
+                      .slice(startRecordLinkIndex, startRecordLinkIndex + recordLinksPerPage)
+                      .sort((a, b) => new Date(b.startTime) - new Date(a.startTime))
+                      .map((record) => (
                         <RecordLink
+                          key={record.token}
                           token={record.token}
                           startTime={record.startTime}
                           duration={record.duration}
                           finishedDetectingAll={record.finishedDetectingAll}
-                          key={record.token} // Use record.token as the unique key
-                          roundedClass={roundedClass}
                           onRemove={() => onRemoveRecord(record.token)}
                           inProcess={record.inProcess}
                           recordsId={record.recordsId}
@@ -892,65 +826,59 @@ function App() {
                           recordMaxId={record.recordMaxId}
                           done={record.done}
                           ip={record.ip}
+                          isInMainPage
                           modalHandler={recordLinkEditModalHandler}
                           modalRecordLinkTokenSetter={setCurrentRecordLinkEditToken}
                           setEditTime={setEditTime}
                           setEditDuration={setEditDuration}
                           intersectionsNames={record.intersection || []}
                         />
-                      );
-                    })
+                      ))}
+                  </List>
                 )}
-              </List>
-              <div className="flex justify-center p-2.5">
-                <Pagination
-                  count={Math.ceil(recordLinks.length / recordLinksPerPage)}
-                  page={currentPage}
-                  onChange={(event, value) => {
-                    const newIndex = (value - 1) * recordLinksPerPage
-                    setStartRecordLinkIndex(newIndex)
-                    getQuery.set('page', value)
-                    history.pushState({}, '', `?${getQuery.toString()}`)
-                  }}
-                  shape="rounded"
-                  color="primary"
-                  sx={{
-                    '& .MuiPaginationItem-root': {
-                      color: '#fff' // Set text color to white
-                    },
-                    '& .Mui-selected': {
-                      color: '#fff', // Selected page number
-                      backgroundColor: 'primary.main'
-                    },
-                    '& .MuiPaginationItem-ellipsis': {
-                      color: '#fff' // Ellipsis color
-                    }
-                  }}
-                />
+
+                {recordLinks.length > recordLinksPerPage && (
+                  <div className="flex justify-center py-3 border-t border-white/10">
+                    <Pagination
+                      count={Math.ceil(recordLinks.length / recordLinksPerPage)}
+                      page={currentPage}
+                      onChange={(_, value) => {
+                        setStartRecordLinkIndex((value - 1) * recordLinksPerPage)
+                        getQuery.set('page', value)
+                        history.pushState({}, '', `?${getQuery.toString()}`)
+                      }}
+                      shape="rounded"
+                      color="primary"
+                      size="small"
+                      sx={{
+                        '& .MuiPaginationItem-root': { color: '#fff' },
+                        '& .Mui-selected': { color: '#fff', backgroundColor: 'primary.main' },
+                        '& .MuiPaginationItem-ellipsis': { color: '#fff' },
+                      }}
+                    />
+                  </div>
+                )}
               </div>
             </div>
-            <div className="w-full lg:w-1/3 min-h-full overflow-auto">              {visions && visions.length > 0 ? (
+
+            {/* ── Camera preview ── */}
+            <div className="w-full lg:w-1/3 min-h-full overflow-auto">
+              {visions && visions.length > 0 ? (
                 <VisionContainer>
-                  {visions.map((visionProps, idx) => (
+                  {visions.map((visionProps) => (
                     <Vision img key={visionProps.id} {...visionProps} snapshot />
                   ))}
                 </VisionContainer>
+              ) : loadingVideos ? (
+                <div className="glass rounded-xl w-full h-72 flex flex-col items-center justify-center gap-3">
+                  <CircularProgress size={28} className="!text-main-300" />
+                  <span className="text-main-200 text-sm">Loading stream…</span>
+                </div>
               ) : (
-                loadingVideos ? (
-                  <div
-                    id="no-camera-alert"
-                    className="w-full h-96 col-span-2 bg-main-700 rounded-lg shadow-lg flex items-center justify-center "
-                  >
-                    <CircularProgress className="text-white" />
-                  </div>
-                ) : (
-                  <div
-                    id="no-camera-alert"
-                    className="w-full h-96 col-span-2 bg-main-700 rounded-lg shadow-lg flex items-center justify-center "
-                  >
-                    <p className="text-white text-center">No video stream selected</p>
-                  </div>
-                )
+                <div className="glass rounded-xl w-full h-72 flex flex-col items-center justify-center gap-3">
+                  <FontAwesomeIcon icon={faVideo} className="text-main-400 text-3xl" />
+                  <p className="text-main-200 text-sm">No camera stream selected</p>
+                </div>
               )}
             </div>
           </div>
@@ -964,7 +892,7 @@ function App() {
           aria-labelledby="parent-modal-title"
           aria-describedby="parent-modal-description"
         >
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-[400px] bg-main-500 shadow-2xl p-5 rounded-lg flex flex-col gap-5">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-w-[400px] glass rounded-xl p-5 flex flex-col gap-5">
             <div className="flex flex-row gap-2.5">
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DatePicker

@@ -17,8 +17,21 @@ module.exports =  {
           600: '#20497e',
           700: '#18375e',
           800: '#122846',
-          900: '#113c66',
+          900: '#0c1e35',
         },
+        accent: {
+          blue:   '#3b82f6',
+          green:  '#22c55e',
+          yellow: '#f59e0b',
+          red:    '#ef4444',
+        },
+      },
+      backdropBlur: {
+        xs: '2px',
+      },
+      boxShadow: {
+        glass: '0 8px 32px 0 rgba(0,0,0,0.37)',
+        card:  '0 4px 24px rgba(0,0,0,0.3)',
       },
     },
   },

@@ -732,20 +732,14 @@ const AutoDetection = () => {
 
     
     return (
-        <div className='w-screen h-screen flex items-center justify-center'>
-            <div className='absolute top-5 left-5 z-10'>
-                <Button onClick={() => {
-                    window.history.back();
-                }
-                }>
-                    Back
-                </Button>
+        <div className='page-bg w-screen h-screen flex items-center justify-center'>
+            <div className='absolute top-4 left-4 z-10'>
+                <button className="icon-btn text-white px-3 text-sm" onClick={() => window.history.back()}>
+                    ← Back
+                </button>
             </div>
             <div className='w-2/3 p-5'>
-                <div className='flex items-center justify-between mb-5 gap-5'>
-                    
-                </div>
-                <div className="relative bg-gray-800 rounded-lg shadow-lg overflow-hidden" ref={containerRef}>
+                <div className="relative rounded-xl shadow-glass overflow-hidden border border-white/10" ref={containerRef}>
                     {videoSrc ? (
                         <Video
                         ref={videoRef}
@@ -907,19 +901,14 @@ const AutoDetection = () => {
                     )}
                 </div>
             </div>
-            <div className="flex-1 flex flex-col h-full bg-main-300 justify-between">
-                <div className="flex flex-col gap-2.5 p-2.5">
-                    
+            <div className="flex-1 flex flex-col h-full bg-main-900 justify-between border-l border-white/10">
+                <div className="flex flex-col gap-3 p-3">
                     <div>
                         <Divider
                             textAlign="left"
-                            sx={{
-                                '&::before, &::after': {
-                                borderColor: 'secondary.light'
-                                }
-                            }}
+                            sx={{ '&::before, &::after': { borderColor: 'rgba(255,255,255,0.15)' } }}
                         >
-                            <Chip label="Detection zone" className="!bg-main-400 !text-white !font-bold" />
+                            <Chip label="Detection Zone" className="section-chip" />
                         </Divider>
                     </div>
                     {detectionVersion === 'v7' && (
@@ -945,7 +934,7 @@ const AutoDetection = () => {
                                 labelId="drawing-type-select-label"
                                 id="demo-simple-select"
                                 value={tool}
-                                className='shadow-lg bg-main-400'
+                                className='shadow-lg !bg-main-800'
                                 sx={{
                                     color: 'primary.white'
                                 }}
@@ -1023,7 +1012,7 @@ const AutoDetection = () => {
                                 variant="outlined"
                                 value={portalInput}
                                 onChange={(e) => setPortalInput(e.target.value)}
-                                className='shadow-lg bg-main-400'
+                                className='shadow-lg !bg-main-800'
                                 sx={{
                                     color: 'primary.white'
                                 }}
@@ -1131,7 +1120,7 @@ const AutoDetection = () => {
                                 }
                             }}
                         >
-                            <Chip label="Detection" className="!bg-main-400 !text-white !font-bold" />
+                            <Chip label="Detection" className="section-chip" />
                         </Divider>
                     </div>
                     <div className='flex flex-col items-center gap-2.5 p-2.5'>
@@ -1146,7 +1135,7 @@ const AutoDetection = () => {
                                     labelId="counter-version-select-label"
                                     id="counter-version-select"
                                     value={detectionVersion}
-                                    className='shadow-lg bg-main-400'
+                                    className='shadow-lg !bg-main-800'
                                     sx={{
                                         color: 'primary.white'
                                     }}

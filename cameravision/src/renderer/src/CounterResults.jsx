@@ -420,110 +420,124 @@ export default function CounterResults() {
         }
     };
 
+    // Group counts by source (Auto / Manual / ISS)
+    const groupedCounts = totalCounts
+        ? Object.entries(totalCounts).reduce((acc, [key, value]) => {
+              const group = key.split(' ')[0];
+              if (!acc[group]) acc[group] = [];
+              acc[group].push([key, value]);
+              return acc;
+          }, {})
+        : {};
+
+    const sourceColor = (group) => {
+        const g = group.toLowerCase();
+        if (g.includes('auto')) return { bg: 'rgba(75,192,192,0.15)', border: 'rgba(75,192,192,0.6)', text: '#4bc0c0' };
+        if (g.includes('manual')) return { bg: 'rgba(255,99,132,0.15)', border: 'rgba(255,99,132,0.6)', text: '#ff6384' };
+        return { bg: 'rgba(75,192,75,0.15)', border: 'rgba(75,192,75,0.6)', text: '#4bc04b' };
+    };
+
     return (
-        <div className="p-5 flex flex-col h-screen gap-5 overflow-auto">
-            <div classname="flex items-center justify-between">
-                <Button
-                    className="max-w-10"
-                    onClick={() => window.history.back()}
-                >
-                    Back
-                </Button>
-                {/* <Button onClick={downloadAutoISSExcels}>
-                    <DownloadIcon />
-                </Button> */}
+        <div className="page-bg p-5 flex flex-col min-h-screen gap-4 overflow-auto">
+            {/* Header */}
+            <div className="flex items-center gap-3">
+                <button className="icon-btn text-white" onClick={() => window.history.back()}>
+                    ←
+                </button>
+                <div>
+                    <h1 className="text-white font-bold text-lg leading-tight">Detection Results</h1>
+                    <p className="text-main-200 text-xs">Record #{recordId} · {version} · {divideTime}s intervals</p>
+                </div>
+                <div className="ml-auto">
+                    <button
+                        className="icon-btn text-white px-3 text-xs flex items-center gap-1.5"
+                        onClick={downloadAutoISSExcels}
+                    >
+                        <DownloadIcon sx={{ fontSize: 14 }} /> Export Excel
+                    </button>
+                </div>
             </div>
-            <div className="flex-1 w-full shadow-xl bg-white/20 backdrop-blur-2xl rounded-lg p-5">
-                {loadingData ? (
-                    <div className="flex items-center justify-center h-full">
-                        <p className="text-lg font-bold">Loading data...</p>
-                    </div>
-                ) : (
-                    <div className="flex flex-col h-full flex-1">
-                        <div className="flex flex-1 justify-center h-full">
-                            <Scatter
-                                ref={ref}
-                                datasetIdKey='id'
-                                data={data}
-                                options={config.options}
-                                height={400}
-                            />
-                            {frameImage && (
-                                <div className="mt-2 absolute top-5 right-5 bg-white p-1 border border-gray-300 rounded">
-                                    <img width={300} height={300} src={frameImage} alt={`Frame`} />
-                                </div>
-                            )}
-                            {loadingFrame && (
-                                <div className="mt-2 absolute top-5 right-5 bg-white p-2 border border-gray-300 rounded flex items-center justify-center" style={{ width: '300px', height: '300px' }}>
-                                       <Typography variant="body1" color="textSecondary">
-                                        Loading frame...
-                                    </Typography>
-                                </div>
-                            )}
-                        </div>
-                        
-                        <div className="min-h-10 w-full flex flex-col justify-center items-center gap-4">
-                            {totalCounts && Object.keys(totalCounts).length > 0 ? (
-                                Object.entries(
-                                    Object.entries(totalCounts).reduce((acc, [key, value]) => {
-                                        const groupKey = key.split(' ')[0]; // Get prefix like 'Auto', 'Manual', 'ISS'
-                                        if (!acc[groupKey]) acc[groupKey] = [];
-                                        acc[groupKey].push([key, value]);
-                                        return acc;
-                                    }, {})
-                                ).map(([group, items]) => (
-                                    <div key={group} className="flex flex-wrap justify-center items-center gap-2 w-full">
-                                        {items
-                                            .sort((a, b) => a[0].localeCompare(b[0])) // Sort by key alphabetically
-                                            .map(([key, value], index) => {
-                                                let chipStyle = {};
-                                                const lowerKey = key.toLowerCase();
-                                                if (lowerKey.includes('auto')) {
-                                                    chipStyle = { backgroundColor: COLOR_AUTO };
-                                                } else if (lowerKey.includes('manual')) {
-                                                    chipStyle = { backgroundColor: COLOR_MANUAL };
-                                                } else if (lowerKey.includes('iss')) {
-                                                    chipStyle = { backgroundColor: COLOR_ISS };
-                                                }
+
+            {loadingData ? (
+                <div className="glass rounded-xl flex items-center justify-center h-64 text-main-200">
+                    Loading data…
+                </div>
+            ) : (
+                <>
+                    {/* Stat summary cards */}
+                    {Object.keys(groupedCounts).length > 0 && (
+                        <div className="grid gap-3" style={{ gridTemplateColumns: `repeat(${Math.min(Object.keys(groupedCounts).length, 3)}, 1fr)` }}>
+                            {Object.entries(groupedCounts).map(([group, items]) => {
+                                const c = sourceColor(group);
+                                return (
+                                    <div
+                                        key={group}
+                                        className="rounded-xl p-4 flex flex-col gap-3"
+                                        style={{ background: c.bg, border: `1px solid ${c.border}` }}
+                                    >
+                                        <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: c.text }}>{group}</p>
+                                        <div className="flex flex-wrap gap-x-6 gap-y-2">
+                                            {items.sort((a, b) => a[0].localeCompare(b[0])).map(([key, value]) => {
+                                                const label = key.replace(`${group} `, '');
                                                 return (
-                                                    <Chip
-                                                        key={`${group}-${index}`}
-                                                        label={`${key}: ${value}`}
-                                                        className="m-1"
-                                                        style={chipStyle}
-                                                    />
+                                                    <div key={key}>
+                                                        <p className="text-main-200 text-xs">{label}</p>
+                                                        <p className="text-white text-2xl font-bold leading-tight">{value}</p>
+                                                    </div>
                                                 );
                                             })}
+                                        </div>
                                     </div>
-                                ))
-                            ) : (
-                                <Chip label="No counts available" className="m-1" />
-                            )}
+                                );
+                            })}
+                        </div>
+                    )}
+
+                    {/* Chart card */}
+                    <div className="glass rounded-xl p-5 flex flex-col gap-4 flex-1 relative">
+                        <div className="flex-1 min-h-0" style={{ minHeight: 320 }}>
+                            <Scatter
+                                ref={ref}
+                                datasetIdKey="id"
+                                data={data}
+                                options={config.options}
+                                height={320}
+                            />
                         </div>
 
-                        <Box sx={{ mt: 2, mx: 2 }}>
+                        {frameImage && (
+                            <div className="absolute top-4 right-4 glass rounded-lg p-1">
+                                <img width={240} height={240} src={frameImage} alt="Frame" className="rounded" />
+                            </div>
+                        )}
+                        {loadingFrame && (
+                            <div className="absolute top-4 right-4 glass rounded-lg flex items-center justify-center" style={{ width: 240, height: 240 }}>
+                                <Typography variant="body2" className="!text-main-200">Loading frame…</Typography>
+                            </div>
+                        )}
+
+                        {/* Time range slider */}
+                        <Box sx={{ mx: 1 }}>
+                            <p className="text-main-200 text-xs mb-1">Time Range (seconds)</p>
                             <Slider
-                                className="mt-2"
                                 aria-label="Time Range"
                                 value={[minTime, maxTime]}
-                                onChange={(event, newValue) => {
-                                    setMinTime(newValue[0]);
-                                    setMaxTime(newValue[1]);
-                                }}
+                                onChange={(_, newValue) => { setMinTime(newValue[0]); setMaxTime(newValue[1]); }}
                                 valueLabelDisplay="auto"
-                                valueLabelFormat={value => `${value}s`}
+                                valueLabelFormat={(v) => `${v}s`}
                                 min={0}
                                 max={Math.ceil(totalTime)}
                                 step={1}
+                                sx={{ color: '#5c83b7' }}
                             />
-                            <div className="flex justify-between text-xs">
+                            <div className="flex justify-between text-main-200 text-xs">
                                 <span>0s</span>
                                 <span>{Math.ceil(maxTime)}s</span>
                             </div>
                         </Box>
                     </div>
-                )}
-            </div>
+                </>
+            )}
         </div>
     );
 }
