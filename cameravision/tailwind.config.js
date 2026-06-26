@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 
-module.exports =  {
+module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx,html}",
     "./src/renderer/**/*.{js,jsx,ts,tsx,html}",
@@ -8,30 +8,35 @@ module.exports =  {
   theme: {
     extend: {
       colors: {
+        // Slate-based neutrals — replaces old flat navy blues
         main: {
-          100: '#e6ecf3',
-          200: '#b8c9df',
-          300: '#8aa6cb',
-          400: '#5c83b7',
-          500: '#2e60a3',
-          600: '#20497e',
-          700: '#18375e',
-          800: '#122846',
-          900: '#0c1e35',
+          100: '#f1f5f9', // slate-100  — lightest text / labels
+          200: '#cbd5e1', // slate-300  — secondary text
+          300: '#94a3b8', // slate-400  — muted text
+          400: '#475569', // slate-600  — input backgrounds
+          500: '#334155', // slate-700  — cards / surfaces
+          600: '#1e293b', // slate-800  — sidebar / panels
+          700: '#0f172a', // slate-900  — deep background
+          800: '#080f1e', // near-black
+          900: '#040810', // deepest
         },
+        // Vivid accent palette
         accent: {
-          blue:   '#3b82f6',
-          green:  '#22c55e',
-          yellow: '#f59e0b',
-          red:    '#ef4444',
+          indigo:  '#6366f1', // indigo-500
+          violet:  '#8b5cf6', // violet-500
+          cyan:    '#22d3ee', // cyan-400
+          emerald: '#10b981', // emerald-500
+          amber:   '#f59e0b', // amber-500
+          rose:    '#f43f5e', // rose-500
         },
       },
       backdropBlur: {
         xs: '2px',
       },
       boxShadow: {
-        glass: '0 8px 32px 0 rgba(0,0,0,0.37)',
-        card:  '0 4px 24px rgba(0,0,0,0.3)',
+        glass:  '0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06)',
+        glow:   '0 0 20px rgba(99,102,241,0.3)',
+        card:   '0 4px 24px rgba(0,0,0,0.4)',
       },
     },
   },

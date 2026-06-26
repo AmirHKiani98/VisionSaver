@@ -432,9 +432,10 @@ export default function CounterResults() {
 
     const sourceColor = (group) => {
         const g = group.toLowerCase();
-        if (g.includes('auto')) return { bg: 'rgba(75,192,192,0.15)', border: 'rgba(75,192,192,0.6)', text: '#4bc0c0' };
-        if (g.includes('manual')) return { bg: 'rgba(255,99,132,0.15)', border: 'rgba(255,99,132,0.6)', text: '#ff6384' };
-        return { bg: 'rgba(75,192,75,0.15)', border: 'rgba(75,192,75,0.6)', text: '#4bc04b' };
+        // Auto → vivid indigo, Manual → rose, ISS/other → cyan
+        if (g.includes('auto'))   return { bg: 'rgba(99,102,241,0.15)', border: 'rgba(99,102,241,0.50)', text: '#818cf8' };
+        if (g.includes('manual')) return { bg: 'rgba(244,63,94,0.15)',  border: 'rgba(244,63,94,0.50)',  text: '#fb7185' };
+        return { bg: 'rgba(34,211,238,0.12)', border: 'rgba(34,211,238,0.45)', text: '#22d3ee' };
     };
 
     return (

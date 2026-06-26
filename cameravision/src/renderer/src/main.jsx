@@ -6,16 +6,17 @@ import { HashRouter, Routes, Route } from 'react-router-dom'
 
 const theme = createTheme({
   palette: {
+    mode: 'dark',
     primary: {
-      light: '#a6ecf3', // main-100
-      main: '#b8c9df', // main-200
-      dark: '#18375e', // main-700
-      contrastText: '#000'
+      light: '#a5b4fc', // indigo-300
+      main:  '#6366f1', // indigo-500
+      dark:  '#4338ca', // indigo-700
+      contrastText: '#fff'
     },
     secondary: {
-      light: '#ffffff', // white
-      main: '#f5f5f5', // very light gray
-      dark: '#cccccc', // lower white (gray)
+      light: '#67e8f9', // cyan-300
+      main:  '#22d3ee', // cyan-400
+      dark:  '#0891b2', // cyan-600
       contrastText: '#000'
     },
     white: {
@@ -33,7 +34,7 @@ import CounterResults from "./CounterResults"
 
 // Assign Tailwind and custom CSS classes to the body
 const rootElement = document.getElementById('root')
-rootElement.className = 'min-h-screen min-w-screen bg-main-600'
+rootElement.className = 'min-h-screen min-w-screen bg-main-700'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
