@@ -3,68 +3,67 @@
 @tailwind utilities;
 
 @layer base {
-    :root {
-        --teal:    #2dd4bf;
-        --emerald: #10b981;
-        --amber:   #f59e0b;
-        --rose:    #f43f5e;
-    }
-
     * {
         scrollbar-width: thin;
-        scrollbar-color: rgba(45,212,191,0.35) transparent;
+        scrollbar-color: #99f6e4 #f1f5f9;
     }
     *::-webkit-scrollbar { width: 5px; height: 5px; }
-    *::-webkit-scrollbar-track { background: transparent; }
+    *::-webkit-scrollbar-track { background: #f1f5f9; }
     *::-webkit-scrollbar-thumb {
-        background: rgba(45,212,191,0.35);
+        background: #99f6e4;
         border-radius: 9999px;
     }
-    *::-webkit-scrollbar-thumb:hover {
-        background: rgba(45,212,191,0.65);
-    }
+    *::-webkit-scrollbar-thumb:hover { background: #2dd4bf; }
 }
 
 @layer components {
 
-    /* ── Page background ──────────────────────── */
+    /* ── Page background ──────────────────────────── */
     .page-bg {
         min-height: 100vh;
-        background:
-            radial-gradient(ellipse 65% 50% at 10% -5%,  rgba(45,212,191,0.18) 0%, transparent 55%),
-            radial-gradient(ellipse 55% 40% at 90% 105%, rgba(16,185,129,0.14) 0%, transparent 55%),
-            linear-gradient(180deg, #0d1117 0%, #0a1212 100%);
+        background: #f1f5f9; /* slate-100 */
     }
 
-    /* ── Glass card ───────────────────────────── */
+    /* ── Teal top header ──────────────────────────── */
+    .teal-header {
+        background: linear-gradient(90deg, #0d9488 0%, #0f766e 100%); /* teal-600 → teal-700 */
+        box-shadow: 0 2px 8px rgba(13,148,136,0.25), 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+    /* ── White card ───────────────────────────────── */
     .glass {
-        background: rgba(10, 20, 20, 0.72);
-        backdrop-filter: blur(18px);
-        -webkit-backdrop-filter: blur(18px);
-        border: 1px solid rgba(45,212,191,0.22);
-        box-shadow: 0 8px 32px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.04);
+        background: #ffffff;
+        border: 1px solid #e2e8f0; /* slate-200 */
+        box-shadow: 0 1px 3px rgba(0,0,0,0.07), 0 4px 20px rgba(0,0,0,0.05);
+        /* Light-theme default text so inherited white text becomes readable */
+        color: #1e293b;
+    }
+
+    /* Override any explicit text-white inside white cards */
+    .glass .text-white,
+    .glass-light .text-white {
+        color: #1e293b !important;
     }
 
     /* Lighter nested card */
     .glass-light {
-        background: rgba(15, 30, 30, 0.55);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        border: 1px solid rgba(45,212,191,0.15);
+        background: #f8fafc; /* slate-50 */
+        border: 1px solid #e2e8f0;
+        color: #1e293b;
     }
 
-    /* ── Section divider chip ─────────────────── */
+    /* ── Section divider chip ─────────────────────── */
     .section-chip {
-        background: rgba(45,212,191,0.12) !important;
-        color: #2dd4bf !important;
-        border: 1px solid rgba(45,212,191,0.30) !important;
+        background: #f0fdfa !important; /* teal-50 */
+        color: #0f766e !important;       /* teal-700 */
+        border: 1px solid #99f6e4 !important; /* teal-200 */
         font-weight: 600 !important;
         letter-spacing: 0.07em !important;
         font-size: 0.7rem !important;
         text-transform: uppercase !important;
     }
 
-    /* ── Status pill ──────────────────────────── */
+    /* ── Status pill ──────────────────────────────── */
     .status-pill {
         display: inline-flex;
         align-items: center;
@@ -76,7 +75,8 @@
         letter-spacing: 0.04em;
     }
 
-    /* ── Icon / action button ─────────────────── */
+    /* ── Icon / action button ─────────────────────── */
+    /* Default: inside white cards */
     .icon-btn {
         display: flex;
         align-items: center;
@@ -85,21 +85,33 @@
         height: 2rem;
         padding: 0 0.5rem;
         border-radius: 0.5rem;
-        border: 1px solid rgba(45,212,191,0.25);
-        background: rgba(45,212,191,0.08);
-        color: #e2e8f0;
+        border: 1px solid #d1fae5; /* emerald-100 */
+        background: #f0fdfa;       /* teal-50 */
+        color: #0f766e;            /* teal-700 */
         cursor: pointer;
         transition: all 0.15s ease;
     }
     .icon-btn:hover {
-        background: rgba(45,212,191,0.22);
-        border-color: rgba(45,212,191,0.55);
-        color: #2dd4bf;
+        background: #ccfbf1;       /* teal-100 */
+        border-color: #5eead4;     /* teal-300 */
+        color: #0d9488;            /* teal-600 */
     }
 
-    /* ── Teal glow ring (active/selected) ──────── */
+    /* Icon buttons inside the teal header stay white */
+    .teal-header .icon-btn {
+        background: rgba(255,255,255,0.15);
+        border-color: rgba(255,255,255,0.30);
+        color: #ffffff;
+    }
+    .teal-header .icon-btn:hover {
+        background: rgba(255,255,255,0.28);
+        border-color: rgba(255,255,255,0.55);
+        color: #ffffff;
+    }
+
+    /* ── Teal glow ring (active/selected) ─────────── */
     .glow-border {
-        border: 1px solid rgba(45,212,191,0.50);
-        box-shadow: 0 0 0 3px rgba(45,212,191,0.10);
+        border: 1px solid #5eead4; /* teal-300 */
+        box-shadow: 0 0 0 3px rgba(45,212,191,0.15);
     }
 }

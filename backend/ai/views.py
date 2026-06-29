@@ -140,13 +140,16 @@ def run_car_detection(request):
         if not detection_lines.exists():
             return JsonResponse({'error': 'No detection lines found for this record. Please add lines before running detection.'}, status=400)
         detection_lines = detection_lines.first() # type: ignore
-        # Step 1: Create the algorithm instance
-        algo = DetectionAlgorithm(record_id=record_id, divide_time=divide_time, version=version, lines=detection_lines)
-        
+        # Step 1: Create the algorithm instance — validate video file before spawning the thread
+        try:
+            algo = DetectionAlgorithm(record_id=record_id, divide_time=divide_time, version=version, lines=detection_lines)
+        except (FileNotFoundError, ValueError) as e:
+            return JsonResponse({'error': str(e)}, status=400)
+
         t = threading.Thread(target=algo.run)
         t.daemon = True
         t.start()
-        
+
         return JsonResponse({'status': 'success', 'message': 'Car detection started'}, status=200)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)

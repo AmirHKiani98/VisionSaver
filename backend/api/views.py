@@ -799,8 +799,8 @@ def get_counter_manual_auto_results(request):
                         "id": len(datasets) + 1,
                         "label": f"ISS {direction_name}",
                         "data": [{"x": float(row['time']), "y": int(row['count'])} for _, row in line_data.iterrows()],
-                        "borderColor": "rgba(75, 192, 75, 1)",  # Green for ISS data
-                        "backgroundColor": "rgba(75, 192, 75, 0.2)"
+                        "borderColor": "rgba(5,150,105,1)",    # emerald-600
+                        "backgroundColor": "rgba(5,150,105,0.15)"
                     }
                     datasets.append(new_dataset)
 

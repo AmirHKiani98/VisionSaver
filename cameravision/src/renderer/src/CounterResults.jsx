@@ -36,9 +36,9 @@ export default function CounterResults() {
             },
         ],
     });
-    const COLOR_AUTO = 'rgba(75,192,192,0.8)';      // Teal
-    const COLOR_MANUAL = 'rgba(255,99,132,0.8)';    // Red
-    const COLOR_ISS = 'rgba(75,192,75,0.9)';        // Green
+    const COLOR_AUTO   = 'rgba(20,184,166,0.85)';   // teal-500
+    const COLOR_MANUAL = 'rgba(225,29,72,0.85)';    // rose-600
+    const COLOR_ISS    = 'rgba(5,150,105,0.85)';    // emerald-600
     const [loadingData, setLoadingData] = React.useState(true);
 
     // Update minMaxTime when maxTime changes
@@ -442,16 +442,16 @@ export default function CounterResults() {
         <div className="page-bg p-5 flex flex-col min-h-screen gap-4 overflow-auto">
             {/* Header */}
             <div className="flex items-center gap-3">
-                <button className="icon-btn text-white" onClick={() => window.history.back()}>
+                <button className="icon-btn" onClick={() => window.history.back()}>
                     ←
                 </button>
                 <div>
-                    <h1 className="text-white font-bold text-lg leading-tight">Detection Results</h1>
+                    <h1 className="text-slate-900 font-bold text-lg leading-tight">Detection Results</h1>
                     <p className="text-main-200 text-xs">Record #{recordId} · {version} · {divideTime}s intervals</p>
                 </div>
                 <div className="ml-auto">
                     <button
-                        className="icon-btn text-white px-3 text-xs flex items-center gap-1.5"
+                        className="icon-btn px-3 text-xs flex items-center gap-1.5"
                         onClick={downloadAutoISSExcels}
                     >
                         <DownloadIcon sx={{ fontSize: 14 }} /> Export Excel

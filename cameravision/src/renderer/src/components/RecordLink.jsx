@@ -83,15 +83,15 @@ const RecordLink = (props) => {
   const accentColor = isRecording ? '#ef4444' : isDone ? '#22c55e' : '#f59e0b'
 
   const statusBadge = isRecording ? (
-    <span className="status-pill bg-red-500/20 text-red-300 border border-red-500/30">
+    <span className="status-pill bg-red-50 text-red-600 border border-red-200">
       <RadioButtonCheckedIcon sx={{ fontSize: 10 }} className="animate-pulse" /> Recording
     </span>
   ) : isDone ? (
-    <span className="status-pill bg-green-500/20 text-green-300 border border-green-500/30">
+    <span className="status-pill bg-teal-50 text-teal-700 border border-teal-200">
       <CheckCircleOutlineIcon sx={{ fontSize: 10 }} /> {props.finishedDetectingAll ? 'Detected' : 'Done'}
     </span>
   ) : (
-    <span className="status-pill bg-yellow-500/20 text-yellow-300 border border-yellow-500/30">
+    <span className="status-pill bg-amber-50 text-amber-700 border border-amber-200">
       <AccessAlarmIcon sx={{ fontSize: 10 }} /> Scheduled
     </span>
   )
@@ -99,7 +99,7 @@ const RecordLink = (props) => {
   return (
     <ContextMenu menuItems={recordLinkContextMenuItems} contextMenuId={`record-link-${props.token}`}>
       <div
-        className="relative flex flex-col gap-2 px-4 py-3 border-b border-white/10 hover:bg-white/5 transition-colors duration-150"
+        className="relative flex flex-col gap-2 px-4 py-3 border-b border-slate-100 hover:bg-slate-50 transition-colors duration-150"
         style={{ borderLeft: `3px solid ${accentColor}` }}
       >
         {/* Status + actions row */}

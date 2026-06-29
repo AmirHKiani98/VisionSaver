@@ -588,7 +588,7 @@ function App() {
   return (
     <div className='page-bg flex flex-col justify-between min-h-screen min-w-full'>
       {/* ── Header ── */}
-      <header className="glass sticky top-0 z-50 w-full flex items-center justify-between px-5 py-3">
+      <header className="teal-header sticky top-0 z-50 w-full flex items-center justify-between px-5 py-3">
         <div className="flex items-center gap-2.5">
           <Tooltip title="Download all results">
             <button className="icon-btn text-white" onClick={() => setIsGetAllAvailableResultsExcelOpen(true)}>
@@ -599,7 +599,7 @@ function App() {
 
         <div className="flex flex-col items-center leading-tight">
           <span className="text-white font-bold text-xl tracking-wide">VisionSaver</span>
-          <span className="text-main-200 text-xs tracking-widest uppercase">Turning Movement Counts</span>
+          <span className="text-teal-100 text-xs tracking-widest uppercase">Turning Movement Counts</span>
         </div>
 
         <div className="flex items-center gap-2.5">
@@ -793,8 +793,8 @@ function App() {
               </div>
               {/* ── Record Links ── */}
               <div className="glass rounded-xl overflow-hidden">
-                <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
-                  <span className="text-white font-semibold text-sm tracking-wide uppercase">Scheduled Recordings</span>
+                <div className="flex items-center justify-between px-4 py-3 border-b border-slate-200">
+                  <span className="font-semibold text-sm tracking-wide uppercase text-slate-700">Scheduled Recordings</span>
                   <span className="text-main-200 text-xs">{recordLinks.length} total</span>
                 </div>
 
@@ -838,7 +838,7 @@ function App() {
                 )}
 
                 {recordLinks.length > recordLinksPerPage && (
-                  <div className="flex justify-center py-3 border-t border-white/10">
+                  <div className="flex justify-center py-3 border-t border-slate-200">
                     <Pagination
                       count={Math.ceil(recordLinks.length / recordLinksPerPage)}
                       page={currentPage}
@@ -851,9 +851,9 @@ function App() {
                       color="primary"
                       size="small"
                       sx={{
-                        '& .MuiPaginationItem-root': { color: '#fff' },
+                        '& .MuiPaginationItem-root': { color: '#1e293b' },
                         '& .Mui-selected': { color: '#fff', backgroundColor: 'primary.main' },
-                        '& .MuiPaginationItem-ellipsis': { color: '#fff' },
+                        '& .MuiPaginationItem-ellipsis': { color: '#64748b' },
                       }}
                     />
                   </div>
@@ -876,7 +876,7 @@ function App() {
                 </div>
               ) : (
                 <div className="glass rounded-xl w-full h-72 flex flex-col items-center justify-center gap-3">
-                  <FontAwesomeIcon icon={faVideo} className="text-main-400 text-3xl" />
+                  <FontAwesomeIcon icon={faVideo} className="text-teal-300 text-3xl" />
                   <p className="text-main-200 text-sm">No camera stream selected</p>
                 </div>
               )}

@@ -40,14 +40,36 @@ class DetectionAlgorithm:
         self.file_name = f"{settings.MEDIA_ROOT}/{record_id}_{divide_time}_{version}.csv"
         self.detection_time = detection_time
         self.cars = {}
-        if not os.path.exists(f"{settings.MEDIA_ROOT}/{self.record_id}.mp4"):
-            if not os.path.exists(f"{settings.MEDIA_ROOT}/{self.record_id}.mkv"):
-                raise FileNotFoundError(f"Video file for record ID {self.record_id} not found.")
-            else:
-                self.video = cv2.VideoCapture(f"{settings.MEDIA_ROOT}/{self.record_id}.mkv")
-        else:
-            self.video = cv2.VideoCapture(f"{settings.MEDIA_ROOT}/{self.record_id}.mp4")
-        self.duration = self.video.get(cv2.CAP_PROP_FRAME_COUNT) / self.video.get(cv2.CAP_PROP_FPS)
+        mp4_path = f"{settings.MEDIA_ROOT}/{self.record_id}.mp4"
+        mkv_path = f"{settings.MEDIA_ROOT}/{self.record_id}.mkv"
+
+        def _try_open(path):
+            cap = cv2.VideoCapture(path)
+            if cap.isOpened() and cap.get(cv2.CAP_PROP_FPS) > 0:
+                return cap
+            cap.release()
+            return None
+
+        self.video = None
+        if os.path.exists(mp4_path):
+            self.video = _try_open(mp4_path)
+        if self.video is None and os.path.exists(mkv_path):
+            self.video = _try_open(mkv_path)
+
+        if self.video is None:
+            if os.path.exists(mp4_path) or os.path.exists(mkv_path):
+                raise ValueError(
+                    f"Video file for record {self.record_id} is corrupted (FPS=0). "
+                    f"The transcoding was likely interrupted. Please delete the record and re-record."
+                )
+            raise FileNotFoundError(
+                f"No video file found for record {self.record_id}. "
+                f"Expected {mp4_path} or {mkv_path}."
+            )
+
+        fps = self.video.get(cv2.CAP_PROP_FPS)
+        frame_count = self.video.get(cv2.CAP_PROP_FRAME_COUNT)
+        self.duration = frame_count / fps
         self.video_width = int(self.video.get(cv2.CAP_PROP_FRAME_WIDTH))
         self.video_height = int(self.video.get(cv2.CAP_PROP_FRAME_HEIGHT))
         self.detection_results = pd.DataFrame(columns=['car_id', 'last_time_in_zone', 'line_index'])
