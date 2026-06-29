@@ -586,7 +586,7 @@ function App() {
   }, [time, shouldAddCronJob]);
 
   return (
-    <div className='page-bg flex flex-col justify-between min-h-screen min-w-full'>
+    <div className='page-bg flex flex-col min-h-screen min-w-full'>
       {/* ── Header ── */}
       <header className="teal-header sticky top-0 z-50 w-full flex items-center justify-between px-5 py-3">
         <div className="flex items-center gap-2.5">
@@ -616,7 +616,7 @@ function App() {
         </div>
       </header>
 
-      <div className="min-h-full min-w-full flex px-5 py-4">
+      <div className="flex-1 min-w-full flex px-5 py-4">
         <div className="text-white flex flex-col w-full items-center gap-4">
           <div className="flex-col md:flex md:flex-row w-full gap-6">
             <div className="flex flex-col w-full lg:w-2/3 gap-4">

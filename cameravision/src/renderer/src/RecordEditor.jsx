@@ -386,7 +386,7 @@ const RecordEditor = (props) => {
                                 borderColor: "secondary.light",
                             },
                         }}>
-                            <Chip label="Record Logs" className="!bg-main-400 !text-white !font-bold" />
+                            <Chip label="Record Logs" className="section-chip" />
                         </Divider>
                     </div>
 
@@ -550,7 +550,7 @@ const RecordEditor = (props) => {
                                     borderColor: "secondary.light",
                                 },
                             }}>
-                                <Chip label="Notes" className="!bg-main-400 !text-white !font-bold" />
+                                <Chip label="Notes" className="section-chip" />
                             </Divider>
                             <div className="w-full p-5 gap-5 flex flex-col">
                                 { notes && notes.length > 0 ? (
@@ -567,11 +567,11 @@ const RecordEditor = (props) => {
                                     variant="outlined"
                                     value={newNote}
                                     onChange={(e) => setNewNote(e.target.value)}
-                                    className="w-full bg-main-400 rounded-lg text-white"
+                                    className="w-full bg-main-400 rounded-lg"
                                     multiline
                                     focused
                                     rows={3}
-                                    label={<Typography className="text-white">Duration (minutes)</Typography>}
+                                    label="Add note"
                                     
                                 />
                                 <div className="flex justify-between items-center">
@@ -588,7 +588,7 @@ const RecordEditor = (props) => {
                                         
                                         <AddIcon />
                                     </Button>
-                                    <Button variant="contained" className='!bg-main-400 !text-white !font-bold hover:!bg-main-500 active:!bg-main-600 !shadow-none' onClick={downloadManualCountExcel}>
+                                    <Button variant="contained" color="primary" onClick={downloadManualCountExcel}>
                                         <DownloadIcon />
                                     </Button>
                                     <Button className="!bg-green-500 !text-white !font-bold hover:!bg-main-500 active:!bg-main-600"
@@ -610,15 +610,13 @@ const RecordEditor = (props) => {
                                     borderColor: "secondary.light",
                                 },
                             }}>
-                                <Chip label="Configuration" className="!bg-main-400 !text-white !font-bold" />
+                                <Chip label="Configuration" className="section-chip" />
                             </Divider>
                         </div>
                         <div className="p-2.5">
                             <FormControl className="w-full m-2">
                                 <InputLabel id="drawing-type-select-label" >
-                                    <Typography variant="body1" className='text-white'>
-                                        Direction
-                                    </Typography>
+                                    Direction
                                 </InputLabel>
                                 <Select
                                     labelId="drawing-type-select-label"

@@ -734,12 +734,12 @@ const AutoDetection = () => {
     return (
         <div className='page-bg w-screen h-screen flex items-center justify-center'>
             <div className='absolute top-4 left-4 z-10'>
-                <button className="icon-btn text-white px-3 text-sm" onClick={() => window.history.back()}>
+                <button className="icon-btn px-3 text-sm font-medium" onClick={() => window.history.back()}>
                     ← Back
                 </button>
             </div>
             <div className='w-2/3 p-5'>
-                <div className="relative rounded-xl shadow-glass overflow-hidden border border-white/10" ref={containerRef}>
+                <div className="relative rounded-xl shadow-glass overflow-hidden border border-slate-200" ref={containerRef}>
                     {videoSrc ? (
                         <Video
                         ref={videoRef}
@@ -883,7 +883,7 @@ const AutoDetection = () => {
                     
                         {detectingStarted && (
                             <div className='w-full'>
-                            <h1 className='text-white text-xl font-bold mb-2'>
+                            <h1 className='text-teal-700 text-xl font-bold mb-2'>
                                 Detection Progress
                             </h1>
                         
@@ -893,7 +893,7 @@ const AutoDetection = () => {
                         )}
                     {modifiedProgress !== 100 && modifyingDetectionStarted  && (
                         <div className='w-full'>
-                            <h1 className='text-white text-xl font-bold mb-2'>
+                            <h1 className='text-teal-700 text-xl font-bold mb-2'>
                                 Modified Detection Progress
                             </h1>
                             <LinearProgressWithLabel value={modifiedProgress} variant="determinate" className='w-full' />
@@ -901,12 +901,12 @@ const AutoDetection = () => {
                     )}
                 </div>
             </div>
-            <div className="flex-1 flex flex-col h-full bg-main-900 justify-between border-l border-white/10">
+            <div className="flex-1 flex flex-col h-full bg-main-900 justify-between border-l border-slate-200">
                 <div className="flex flex-col gap-3 p-3">
                     <div>
                         <Divider
                             textAlign="left"
-                            sx={{ '&::before, &::after': { borderColor: 'rgba(255,255,255,0.15)' } }}
+                            sx={{ '&::before, &::after': { borderColor: 'rgba(0,0,0,0.12)' } }}
                         >
                             <Chip label="Detection Zone" className="section-chip" />
                         </Divider>
@@ -925,11 +925,7 @@ const AutoDetection = () => {
                     )}
                     <div className="grid grid-cols-1 gap-5">
                         <FormControl className="w-full">
-                            <InputLabel id="drawing-type-select-label" >
-                                <Typography variant="body1" className='text-white'>
-                                    Drawer
-                                </Typography>
-                            </InputLabel>
+                            <InputLabel id="drawing-type-select-label">Drawer</InputLabel>
                             <Select
                                 labelId="drawing-type-select-label"
                                 id="demo-simple-select"
@@ -1003,11 +999,7 @@ const AutoDetection = () => {
                         </FormControl>
                         <FormControl className="w-full !flex !flex-row items-center justify-between gap-2.5">
                             <TextField
-                                label={
-                                    <Typography variant="body1" className='text-white'>
-                                    Portal Name
-                                    </Typography>
-                                }
+                                label="Portal Name"
                                 focused
                                 variant="outlined"
                                 value={portalInput}
@@ -1036,11 +1028,7 @@ const AutoDetection = () => {
                             </Button>
                         </FormControl>
                         <FormControl className="w-full">
-                            <InputLabel id="demo-simple-select-label">
-                            <Typography variant="body1" className='text-white'>
-                                    Portal
-                            </Typography>
-                            </InputLabel>
+                            <InputLabel id="demo-simple-select-label">Portal</InputLabel>
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
@@ -1126,11 +1114,7 @@ const AutoDetection = () => {
                     <div className='flex flex-col items-center gap-2.5 p-2.5'>
                         <div className='w-full grid'>
                             <FormControl className="w-full">
-                                <InputLabel id="counter-version-select-label">
-                                    <Typography variant="body1" className='text-white'>
-                                        Detection Version
-                                    </Typography>
-                                </InputLabel>
+                                <InputLabel id="counter-version-select-label">Detection Version</InputLabel>
                                 <Select
                                     labelId="counter-version-select-label"
                                     id="counter-version-select"

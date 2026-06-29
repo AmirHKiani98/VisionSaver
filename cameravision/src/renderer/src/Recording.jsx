@@ -128,29 +128,26 @@ function Recording() {
         <>
         <div className='relative w-full h-full flex flex-col items-center'>
             <div className="absolute flex justify-center items-center gap-5 top-5 left-5 z-10">
-                <Button onClick={() =>{
-                    navigate(-1);
-                }}>
+                <Button variant="contained" color="primary" onClick={() => navigate(-1)}>
                     Back
                 </Button>
                 <Tooltip title="Download All Results" placement="top">
                     <Button
-                        className={`shadow-lg hover:!bg-main-400 !text-black h-full !bg-main-100`}
+                        variant="contained"
+                        color="primary"
                         onClick={downloadAllmanualCountExcels}
-                        >
-                            {isDownloading ? (
-                                <CircularProgress size={24} className="text-center color-main-500" />
-                            ) : (
-                                <DownloadIcon className='text-center' />
-                            )}
+                    >
+                        {isDownloading ? (
+                            <CircularProgress size={24} className="text-center" sx={{ color: '#fff' }} />
+                        ) : (
+                            <DownloadIcon />
+                        )}
                     </Button>
                 </Tooltip>
             </div>
             <div className='flex items-center p-2.5 gap-2.5'>
-                
-                <h1 className='text-white text-2xl font-bold'>
+                <h1 className='text-slate-800 text-2xl font-bold'>
                     {visions.map(vision => vision.id).join(', ')}
-
                 </h1>
             </div>
             <VisionContainer>                {visions && visions.length > 0 ? (
