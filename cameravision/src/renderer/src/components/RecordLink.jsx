@@ -8,6 +8,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm'
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
 import ContextMenu from './ContextMenu'
 import dayjs from 'dayjs'
 
@@ -80,7 +81,8 @@ const RecordLink = (props) => {
 
   const isRecording = props.inProcess
   const isDone = props.done
-  const accentColor = isRecording ? '#ef4444' : isDone ? '#22c55e' : '#f59e0b'
+  const hasFailed = !isDone && !isRecording && props.error
+  const accentColor = isRecording ? '#ef4444' : isDone ? '#22c55e' : hasFailed ? '#dc2626' : '#f59e0b'
 
   const statusBadge = isRecording ? (
     <span className="status-pill bg-red-50 text-red-600 border border-red-200">
@@ -89,6 +91,10 @@ const RecordLink = (props) => {
   ) : isDone ? (
     <span className="status-pill bg-teal-50 text-teal-700 border border-teal-200">
       <CheckCircleOutlineIcon sx={{ fontSize: 10 }} /> {props.finishedDetectingAll ? 'Detected' : 'Done'}
+    </span>
+  ) : hasFailed ? (
+    <span className="status-pill bg-red-50 text-red-700 border border-red-200" title={props.error}>
+      <ErrorOutlineIcon sx={{ fontSize: 10 }} /> Failed
     </span>
   ) : (
     <span className="status-pill bg-amber-50 text-amber-700 border border-amber-200">

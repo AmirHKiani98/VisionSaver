@@ -13,8 +13,12 @@ from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 import re
 
+import threading
 from record.models import FFMPEGLog
 progress_re = re.compile(r'time=(\d{2}:\d{2}:\d{2}\.\d{2})')
+# One transcode at a time — concurrent re-encodes on a 15-min quad intersection
+# saturate the CPU and cause FFmpeg to be killed mid-write (moov atom not written).
+_transcode_lock = threading.Lock()
 # ----------------------------------------------------------------------
 dotenv.load_dotenv(settings.ENV_PATH)
 logger = settings.APP_LOGGER
@@ -270,8 +274,10 @@ class RTSPObject:
             
             if os.path.exists(abs_output_path):
                 logger.debug(f"Output file created: {abs_output_path}")
-                # Record.objects.filter(id=record_id).update(record_finished_at=timezone.now())
-                output_path = self.transcode_to_mp4(abs_output_path, record_id, duration_minutes)
+                logger.info(f"Record {record_id}: waiting for transcode slot (serialized to avoid CPU contention on multi-camera intersections)")
+                with _transcode_lock:
+                    logger.info(f"Record {record_id}: transcode started")
+                    output_path = self.transcode_to_mp4(abs_output_path, record_id, duration_minutes)
                 logger.debug(f"Transcoded output path: {output_path}")
                 if os.path.exists(output_path):
                     logger.debug("Recording and transcoding successful.")

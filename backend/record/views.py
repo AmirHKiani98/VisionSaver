@@ -76,8 +76,11 @@ def record_rtsp_task(record_id, camera_url, duration, output_file, start_time=No
         rtsp_obj = RTSPObject(camera_url)
         record.update(in_process=True, done=False, error=None, finished_detecting=False)
         # vpn_ready=True when start_time was provided: VPN was pre-warmed in _wait_until_start
-        rtsp_obj.record(duration, output_file, record_id, vpn_ready=bool(start_time))
-        record.update(in_process=False, done=True, error=None)
+        success = rtsp_obj.record(duration, output_file, record_id, vpn_ready=bool(start_time))
+        if success:
+            record.update(in_process=False, done=True, error=None)
+        else:
+            record.update(in_process=False, done=False, error="Recording or transcoding failed. The file may be missing or corrupted. Check FFmpeg logs for details.")
 
     except Exception as e:
         import traceback

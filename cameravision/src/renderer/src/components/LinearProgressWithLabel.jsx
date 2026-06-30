@@ -4,15 +4,28 @@ function LinearProgressWithLabel(props) {
   return (
     <Box sx={{ display: 'flex', alignItems: 'center' }} className={`${props.className || ''}`}>
       <Box sx={{ width: '100%', mr: 1 }}>
-        <LinearProgress variant="determinate" {...props} />
+        <LinearProgress
+          variant="determinate"
+          {...props}
+          sx={{
+            height: 8,
+            borderRadius: 4,
+            backgroundColor: '#ccfbf1',
+            '& .MuiLinearProgress-bar': {
+              backgroundColor: '#0d9488',
+              borderRadius: 4,
+            },
+            ...props.sx,
+          }}
+        />
       </Box>
-      <Box sx={{ minWidth: 35 }} className="flex items-center justify-between">
-        <Typography variant="body2" className="text-white" >
+      <Box sx={{ minWidth: 35 }} className="flex items-center justify-between gap-1">
+        <Typography variant="body2" className="!text-teal-700 !font-medium">
           {`${Math.round(props.value * (10 ** (props.roundNumber || 2))) / (10 ** (props.roundNumber || 2))}%`}
         </Typography>
-        <Typography variant="body2" className="text-white" >
-          {props.recording ? <Typography variant="caption">Recording</Typography> : null}
-          {props.converting ? <Typography variant="caption">Converting</Typography> : null}
+        <Typography variant="caption" className="!text-slate-500">
+          {props.recording ? 'Recording' : null}
+          {props.converting ? 'Converting' : null}
         </Typography>
       </Box>
     </Box>

@@ -143,7 +143,8 @@ def get_record_schedule(request):
             record_max_id=("id", lambda x: max(list(x))),
             intersection=('intersection', lambda x: sorted(list(set(x))) if not pd.isnull(x).all() else []),
             finished_detecting_all=('finished_detecting', lambda x: all(x) if len(x) > 0 else False),
-            records_id=('id', lambda x: sorted(list(x)))
+            records_id=('id', lambda x: sorted(list(x))),
+            error=('error', lambda x: next((e for e in x if e and str(e).strip()), None)),
         ).reset_index(drop=True)
 
         records = grouped_records.to_dict(orient='records')

@@ -260,6 +260,7 @@ function App() {
               finishedDetectingAll: record.finished_detecting_all || record.finishedDetectingAll,
               ip: record.ip || [], // Bad naming. It should have been ips
               recordsId: record.records_id || [], // Ensure recordsId is set correctly
+              error: record.error || null,
               }))
               .sort((a, b) => new Date(b.startTime) - new Date(a.startTime))
             console.log('Fetched records:', records)
@@ -825,6 +826,7 @@ function App() {
                           recordMinId={record.recordMinId}
                           recordMaxId={record.recordMaxId}
                           done={record.done}
+                          error={record.error}
                           ip={record.ip}
                           isInMainPage
                           modalHandler={recordLinkEditModalHandler}
