@@ -18,8 +18,7 @@ const RecordLink = (props) => {
   const [progresses, setProgresses] = React.useState({})
   const [env, setEnv] = React.useState(null)
   const [sockets, setSockets] = React.useState({})
-  const [webhookRunning, setWebhookRunning] = React.useState(false)
-  const [webhook, setWebhook] = React.useState(null)
+  const webhookRunningRef = React.useRef(false)
   const [intersectionsNames] = React.useState(props.intersectionsNames || [])
 
   const recordLinkContextMenuItems = [
@@ -68,8 +67,13 @@ const RecordLink = (props) => {
 
   React.useEffect(() => {
     if (!env?.BACKEND_SERVER_DOMAIN || !env?.BACKEND_SERVER_PORT || !env?.WEBSOCKET_RECORD_PROGRESS || !props.inProcess) return
-    setInterval(() => { if (!webhookRunning) { runWebhook(); setWebhookRunning(true) } }, 3000)
-    return () => { if (webhook) Object.values(sockets).forEach((ws) => { if (ws.readyState === WebSocket.OPEN) ws.close() }) }
+    if (webhookRunningRef.current) return
+    webhookRunningRef.current = true
+    runWebhook()
+    return () => {
+      webhookRunningRef.current = false
+      Object.values(sockets).forEach((ws) => { if (ws.readyState === WebSocket.OPEN) ws.close() })
+    }
   }, [env, props.inProcess, recordsId])
 
   const formatDateTime = (dateString) => {
