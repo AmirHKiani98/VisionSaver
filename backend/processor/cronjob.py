@@ -21,7 +21,7 @@ dotenv.load_dotenv(ENV_PATH)
 
 # --- DJANGO SETUP ---
 import django
-# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.processor.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "processor.settings")
 django.setup()
 from django.conf import settings
 logger = settings.APP_LOGGER
@@ -36,7 +36,7 @@ def job_checker():
     from django.db.utils import OperationalError, ProgrammingError
 
     if settings.JOB_CHECKER_ENABLED:
-        #logger.info("Job checker is already running. Exiting.")
+        logger.info("Job checker is already running. Exiting.")
         return
     settings.JOB_CHECKER_ENABLED = True
 
@@ -54,7 +54,7 @@ def job_checker():
                 )
 
                 for record in records:
-                    #logger.info(f"Processing record: {record.id} from {record.camera_url}")
+                    logger.info(f"Cronjob: triggering record {record.id} (camera: {record.camera_url})")
                     record.in_process = True
                     record.save()
 
@@ -68,23 +68,20 @@ def job_checker():
                     }
 
                     post_url = f"http://{os.getenv('BACKEND_SERVER_DOMAIN')}:{os.getenv('BACKEND_SERVER_PORT')}/{os.getenv('RECORD_FUNCTION_NAME')}/"
-                    #logger.info(f"Making POST request to: {post_url}")
+                    logger.info(f"Cronjob: POST {post_url} for record {record.id}")
                     response = requests.post(post_url, json=post_data)
                     if response.status_code == 200:
-                        #logger.info(f"Record {record.id} started successfully.")
-                        pass
+                        logger.info(f"Cronjob: record {record.id} started successfully.")
                     else:
-                        #logger.error(f"Failed to start record {record.id}: Status {response.status_code}, Response: {response.text}")
+                        logger.error(f"Cronjob: failed to start record {record.id}: status={response.status_code} body={response.text}")
                         record.in_process = False
                         record.save()
                         continue
 
             except (OperationalError, ProgrammingError) as db_exc:
-                #logger.warning(f"DB not ready: {db_exc}")
-                pass
+                logger.warning(f"Cronjob DB not ready: {db_exc}")
             except Exception as e:
-                #logger.error(f"Unhandled error in job loop: {e}")
-                pass
+                logger.error(f"Cronjob unhandled error: {e}", exc_info=True)
 
             time.sleep(2)
 

@@ -468,9 +468,13 @@ if (!is.dev) {
   // Dev cronjob
   cronJobProcess = spawn('python', ['-m', 'processor.cronjob'], {
     cwd: join(__dirname, '../../../backend'),
-    stdio: 'ignore',
+    stdio: ['ignore', 'pipe', 'pipe'],
     windowsHide: true
   })
+  cronJobProcess?.stdout?.on('data', d => logToFile(`[cronjob] ${d.toString().trim()}`))
+  cronJobProcess?.stderr?.on('data', d => logToFile(`[cronjob] ${d.toString().trim()}`))
+  cronJobProcess?.on('exit', code => logToFile(`[cronjob] exited with code ${code}`))
+  cronJobProcess?.on('error', e => logToFile(`[cronjob] spawn error: ${e.message}`))
 }
 
 // --- Apache config (already handled above) ---
